@@ -2,62 +2,67 @@
 
 ## 0.2.1
 
-Hardening release after two adversarial lifecycle/code passes and a final release pass.
+Hardening release for the backend-state architecture. The current `main` includes additional multi-pass lifecycle/branch hardening after the initial 0.2.1 review.
 
-### State and branch recovery
-- Reworked branch recovery around compact chat-lineage checkpoints.
-- Fixed middle-message deletion so downstream inventory revisions from the deleted timeline are invalidated.
-- User-message deletion now invalidates assistant inventory state generated after that user action.
-- Manual branch-head state can follow later user messages while the story lineage remains unchanged.
-- Swipe-specific revision metadata is stored in `swipe_info`, creating the array when SillyTavern has swipes but no `swipe_info` yet.
-- Continuations can advance through descendant inventory revisions without breaking the message's original base revision.
-- Swipe/regeneration prompt injection uses the inventory state from before the response being replaced.
-- Added a mutation serial so branch-pointer changes cannot be mistaken for a concurrent manual inventory edit.
-- Manual edits made during generation are preserved; conflicting generated writes are discarded.
-- Branch-head metadata is compact and capped; manual/restore/import/reset heads are protected from ordinary pruning.
+### Portable branch and swipe recovery
+- Added portable full-state checkpoints in message/swipe metadata. They consume zero LLM tokens and allow SillyTavern Branch/Checkpoint chats to rebuild inventory even though SillyTavern creates new branch chat metadata.
+- Manual/restore/import/reset changes attach a portable checkpoint to the current timeline tail so a branch created after an OOC/manual edit carries that state.
+- Added lazy materialization for alternate swipes copied into a metadata-less branch.
+- Added lineage-v2 assistant identities based on stable inventory UIDs + swipe identity instead of hashing complete assistant prose.
+- Assistant prose edits no longer rewind inventory; user/system content remains causally fingerprinted so edited/deleted user actions invalidate downstream state.
+- Rolling prefix lineage hashes remove repeated full-prefix hashing.
+- Branch-head pruning is now a hard cap even when many heads are manual/sticky.
+- Blindly copied multi-swipe metadata cannot leak an active swipe's inventory into a different swipe; copied duplicate metadata is also cleaned after generation.
+
+### Generation lifecycle and concurrency
+- Inventory generation setup now uses `GENERATION_AFTER_COMMANDS` when available, with `GENERATION_STARTED` as compatibility fallback. A generation cancelled by slash-command processing therefore does not leave a phantom Inventory transaction.
+- Normal generations no longer treat the previous assistant message as their target.
+- Swipe/regenerate/continue/append-style generations bind to the assistant message they actually replace/extend.
+- The current composer text is used when recognizing broad OOC inventory administration, because SillyTavern emits its generation-preparation event before appending the new user message.
+- Quiet/impersonate generations are isolated from RP inventory state. Dry runs create no background generation bookkeeping.
+- Added a bounded generation watchdog for requests that fail before SillyTavern reaches its generating UI state.
+- Manual editor/history writes are blocked while a tracked response is committing, avoiding rejected-branch inventory leaking through a concurrent manual edit.
+- Cross-chat editor/history/deferred-save checks reject writes if the active chat changes underneath an operation.
+- Complete update blocks are not stripped/applied from `MESSAGE_UPDATED` while the tracked response can still be streaming.
+- Existing generated swipe candidates with hidden patch controls are processed when selected.
+- Untracked extension/command assistant messages cannot mutate backend inventory merely by containing machine-control syntax.
 
 ### Validation and protocol
-- Added strict validation for blank/duplicate category and item names.
-- Canonicalized `General` and `Uncategorized` into one root category.
-- Normalized `×1` / `x1` quantity prefixes on input while keeping `×` as display-only UI.
-- `set_item` preserves omitted fields on existing items.
-- Move and rename collisions are rejected atomically.
-- Non-positive numeric `add_item` operations are rejected.
-- `adjust_item` rejects semantic/non-numeric quantities.
-- Multiple update records in one response are rejected rather than double-applied.
-- Malformed/truncated update records are stripped and rejected without changing state.
+- Full replacement now requires a one-time per-generation capability that is exposed only when the user's current request is recognized as broad inventory administration.
+- Full replacement is rejected at parser level without the exact capability.
+- Non-empty `delete_category` requires explicit `confirm:"delete-items"`.
+- Category/item/control/patch sizes have hard safety ceilings.
+- Object/array/boolean values cannot be silently coerced into item/category text.
+- Numeric quantities cannot persist at zero or below; set/edit to zero removes an existing item.
+- `normalizeQuantity` strips `x`/`×` only when it is clearly a numeric count prefix, preserving values such as `XL` and `X-grade`.
+- Machine control must be the final non-whitespace content of the response.
+- Multiple first-message `<Inventory>` seed blocks are stripped and rejected.
+- `Copy block` now escapes pipes, backslashes, and closing brackets so the seed representation round-trips losslessly.
+
+### Editor/UI
+- Invalid editor saves use SillyTavern Popup `onClosing` validation and keep the popup open for correction.
+- Per-chat section-open UI cache is bounded.
+- Existing Megumin tab-state, standalone-root isolation, and latest-message ownership fixes remain in place.
+
+### Tests and hard passes
+- `npm test` now runs both deterministic tests and the hard-pass fuzz script.
+- 33 deterministic tests currently pass.
+- 1,000 seed serialization/parser round-trips pass, including escaped delimiters.
+- 300 randomized timeline deletion/recovery runs pass.
+- 200 portable branch reconstruction runs pass, including manual checkpoints.
+- Branch-head hard-cap stress and selected-swipe branch portability pass.
+- A 4,000-message / 512-branch-head performance probe resolved active inventory in about 5 ms per pass in the review environment.
+- `npm run check` passes for every runtime module, including the new lifecycle module.
+
+### Earlier 0.2.1 hardening retained
+- Strict blank/duplicate validation and collision rejection.
+- `General` / `Uncategorized` root canonicalization.
+- Atomic malformed/truncated/duplicate update rejection.
 - Later accidental `<Inventory>` snapshots are stripped and cannot overwrite backend state.
-- Historical machine-control text is stripped without applying it to current inventory.
-- Invalid JSON import/replacement cannot normalize into an accidental empty inventory.
-- Unknown backend state versions fail visibly instead of silently resetting data.
-- Tightened prompt instructions: full replacement is reserved for explicit user-requested broad administration.
-
-### First-message seed
-- `<Inventory>...</Inventory>` remains a one-time starting-inventory authoring format.
-- Supports root rows, `[Category]`, Markdown-style rows, and old-style `-- CATEGORY --` markers.
-- Alternate first-message swipes can carry separate seeds.
-- Invalid/truncated seeds are stripped and rejected safely.
-- `Copy block` round-trips through the same seed parser.
-
-### SillyTavern lifecycle
-- Removed blocking `await saveChat()` behavior from `MESSAGE_RECEIVED`; persistence is deferred outside the awaited event chain.
-- Added safe handling for `MESSAGE_UPDATED`, `MESSAGE_EDITED`, generation start/stop/end, swipe deletion, and first-message selection.
-- Startup/menu/Megumin mounting retry when DOM/context is not ready yet.
-- Prompt injection is explicitly cleared when no chat is active.
-- Historical inserted assistant messages no longer inherit the current tail inventory revision.
-
-### Megumin/UI
-- Fixed Megumin internal tab-state desynchronization when Inventory takes focus.
-- Standalone fallback no longer claims Megumin's `.meg-blocks` root class.
-- Only the current/latest assistant mount owns the Inventory UI; old message mounts are cleaned up efficiently.
-- Category open/closed UI state persists across pane/card redraws, including the all-closed state.
-
-### Tests
-- Added Node test harness (`npm test`, `npm run check`).
-- 22 deterministic state/protocol tests.
-- 1,000 starting-inventory serialization round-trips in hard-pass fuzzing.
-- 200 randomized timeline deletion/recovery runs.
-- Syntax checks across every runtime module.
+- Middle assistant/user deletion invalidates downstream inventory revisions.
+- Mutation serial distinguishes real state writes from branch-pointer restoration.
+- Non-blocking message persistence and prompt clearing on no active chat.
+- Megumin tab-state synchronization and standalone fallback isolation.
 
 ## 0.2.0
 - Initial backend-state architecture.

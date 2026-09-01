@@ -1,4 +1,4 @@
-import { ROOT_CATEGORY } from './constants.js';
+import { LIMITS, ROOT_CATEGORY } from './constants.js';
 import { normalizeInventory, validateAndNormalizeInventory } from './state.js';
 import { isRootCategoryName } from './protocol.js';
 
@@ -53,8 +53,19 @@ function appendItemRows(container, items) {
 
 function sectionUiState(uiKey) {
     const key = String(uiKey ?? 'default');
-    if (!sectionStateByChat.has(key)) sectionStateByChat.set(key, { initialized: false, open: new Set() });
-    return sectionStateByChat.get(key);
+    if (sectionStateByChat.has(key)) {
+        const value = sectionStateByChat.get(key);
+        sectionStateByChat.delete(key);
+        sectionStateByChat.set(key, value);
+        return value;
+    }
+    const value = { initialized: false, open: new Set() };
+    sectionStateByChat.set(key, value);
+    while (sectionStateByChat.size > LIMITS.uiChats) {
+        const oldest = sectionStateByChat.keys().next().value;
+        sectionStateByChat.delete(oldest);
+    }
+    return value;
 }
 
 export function renderInventoryPane(pane, state, { uiKey = 'default', onEdit, onCopy, onHistory } = {}) {
@@ -152,10 +163,6 @@ function downloadJson(filename, data) {
     anchor.click();
     anchor.remove();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
-}
-
-function isAffirmative(context, result) {
-    return result === true || result === 1 || result === context.POPUP_RESULT?.AFFIRMATIVE;
 }
 
 function toastError(error) {
@@ -260,19 +267,28 @@ export async function openInventoryEditor(context, currentState, { onSave } = {}
     clearButton.addEventListener('click', () => { draft = { categories: [] }; renderDraft(); });
     renderDraft();
 
+    let saved = false;
     const popup = new context.Popup(root, context.POPUP_TYPE.CONFIRM, '', {
-        okButton: 'Save Inventory', cancelButton: 'Cancel', wide: true, large: true, allowVerticalScrolling: true,
+        okButton: 'Save Inventory',
+        cancelButton: 'Cancel',
+        wide: true,
+        large: true,
+        allowVerticalScrolling: true,
+        onClosing: async closingPopup => {
+            if (closingPopup.result !== context.POPUP_RESULT?.AFFIRMATIVE) return true;
+            try {
+                const normalized = validateAndNormalizeInventory(draft);
+                if (onSave) await onSave(normalized);
+                saved = true;
+                return true;
+            } catch (error) {
+                toastError(error);
+                return false;
+            }
+        },
     });
-    const result = await popup.show();
-    if (!isAffirmative(context, result)) return false;
-    try {
-        const normalized = validateAndNormalizeInventory(draft);
-        if (onSave) await onSave(normalized);
-        return true;
-    } catch (error) {
-        toastError(error);
-        return false;
-    }
+    await popup.show();
+    return saved;
 }
 
 export async function openInventoryHistory(context, revisions, activeRevision, { onRestore } = {}) {
