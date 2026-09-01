@@ -2,12 +2,17 @@ import { normalizeInventory } from './state.js';
 import { UPDATE_COMMENT_MARKER, UPDATE_TAG } from './constants.js';
 
 const clone = value => structuredClone(value);
+const ROOT_CATEGORY_NAMES = new Set(['general', 'uncategorized']);
 
 function oneLine(value) {
     return String(value ?? '')
         .replace(/\r?\n/g, ' ')
         .replace(/\|/g, '∣')
         .trim();
+}
+
+export function isRootCategoryName(name) {
+    return ROOT_CATEGORY_NAMES.has(String(name ?? '').trim().toLocaleLowerCase());
 }
 
 export function formatInventoryState(state) {
@@ -26,6 +31,139 @@ export function formatInventoryState(state) {
         }
     }
     return lines.join('\n');
+}
+
+export function formatInventorySeedBlock(state) {
+    const inventory = normalizeInventory(state);
+    const lines = ['<Inventory>'];
+    const rootCategories = inventory.categories.filter(category => isRootCategoryName(category.name));
+    const sections = inventory.categories.filter(category => !isRootCategoryName(category.name));
+
+    for (const category of rootCategories) {
+        for (const item of category.items) {
+            lines.push(`${oneLine(item.name)} | ${oneLine(item.quantity)} | ${oneLine(item.remark)}`);
+        }
+    }
+
+    sections.forEach((category, index) => {
+        if (lines.length > 1 && lines[lines.length - 1] !== '') lines.push('');
+        lines.push(`[${oneLine(category.name)}]`);
+        for (const item of category.items) {
+            lines.push(`${oneLine(item.name)} | ${oneLine(item.quantity)} | ${oneLine(item.remark)}`);
+        }
+        if (index < sections.length - 1) lines.push('');
+    });
+
+    lines.push('</Inventory>');
+    return lines.join('\n');
+}
+
+function trimMarkdownRow(line) {
+    let text = String(line ?? '').trim();
+    if (text.startsWith('|')) text = text.slice(1);
+    if (text.endsWith('|')) text = text.slice(0, -1);
+    return text.trim();
+}
+
+function rowCells(line) {
+    return trimMarkdownRow(line).split('|').map(cell => cell.trim());
+}
+
+function seedCategoryMarker(line) {
+    const bracket = String(line ?? '').trim().match(/^\[([^\]]+)\]$/);
+    if (bracket) return bracket[1].trim();
+
+    const bare = String(line ?? '').trim().match(/^--\s*(.+?)\s*--$/);
+    if (bare) return bare[1].trim();
+
+    const cells = rowCells(line);
+    if (!cells.length) return null;
+    const tableMarker = cells[0].match(/^--\s*(.+?)\s*--$/);
+    if (tableMarker && cells.slice(1).every(cell => !cell)) return tableMarker[1].trim();
+    return null;
+}
+
+function isSeedTableSeparator(cells) {
+    return cells.length > 1 && cells.every(cell => !cell || /^:?-{2,}:?$/.test(cell));
+}
+
+function isSeedTableHeader(cells) {
+    if (cells.length < 2) return false;
+    const first = cells[0].toLocaleLowerCase();
+    const second = cells[1].toLocaleLowerCase();
+    const third = String(cells[2] ?? '').toLocaleLowerCase();
+    return ['item', 'name'].includes(first)
+        && ['qty', 'quantity'].includes(second)
+        && (!third || ['notes', 'note', 'remark', 'remarks'].includes(third));
+}
+
+function ensureSeedCategory(categories, name) {
+    const clean = String(name ?? '').trim() || 'General';
+    let category = categories.find(entry => entry.name.toLocaleLowerCase() === clean.toLocaleLowerCase());
+    if (!category) {
+        category = { name: clean, items: [] };
+        categories.push(category);
+    }
+    return category;
+}
+
+export function consumeInventorySeed(messageText) {
+    const source = String(messageText ?? '');
+    const match = source.match(/<Inventory\b[^>]*>([\s\S]*?)<\/Inventory\s*>/i);
+    if (!match) {
+        return {
+            found: false,
+            cleanedText: source,
+            state: null,
+            errors: [],
+        };
+    }
+
+    const categories = [];
+    let current = null;
+    const body = String(match[1] ?? '');
+    const meaningfulLines = body.split(/\r?\n/).map(line => line.trim()).filter(Boolean);
+
+    for (const rawLine of meaningfulLines) {
+        const marker = seedCategoryMarker(rawLine);
+        if (marker) {
+            current = ensureSeedCategory(categories, marker);
+            continue;
+        }
+
+        const cells = rowCells(rawLine);
+        if (isSeedTableSeparator(cells) || isSeedTableHeader(cells)) continue;
+        if (cells.length < 2) continue;
+
+        const name = String(cells[0] ?? '').trim();
+        if (!name) continue;
+        const quantity = String(cells[1] ?? '').trim();
+        const remark = cells.slice(2).join(' | ').trim();
+        if (!current) current = ensureSeedCategory(categories, 'General');
+        current.items.push({ name, quantity, remark });
+    }
+
+    const state = normalizeInventory({ categories });
+    if (meaningfulLines.length && !state.categories.some(category => category.items.length)) {
+        return {
+            found: true,
+            cleanedText: source,
+            state: null,
+            errors: ['The <Inventory> seed was found, but no valid Name | Quantity | Remark rows could be parsed.'],
+        };
+    }
+
+    const cleanedText = `${source.slice(0, match.index)}${source.slice((match.index ?? 0) + match[0].length)}`
+        .replace(/[ \t]+\n/g, '\n')
+        .replace(/\n{3,}/g, '\n\n')
+        .trimEnd();
+
+    return {
+        found: true,
+        cleanedText,
+        state,
+        errors: [],
+    };
 }
 
 export function buildInventoryPrompt(state) {
