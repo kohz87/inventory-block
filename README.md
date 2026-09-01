@@ -1,97 +1,55 @@
-# Inventory Block v0.2.0
+# Inventory Block v0.2.1
 
-A lightweight SillyTavern RPG inventory extension built around **real per-chat backend state** instead of repeating inventory snapshots in assistant messages.
+A lightweight SillyTavern RPG inventory extension built around **real per-chat backend state** instead of repeating complete inventory snapshots in assistant messages.
 
-This is a clean v0.2.0 architecture. It intentionally has **no legacy Inventory Ledger migration/scanning path**. The only chat-side inventory input is a small one-time first-message seed format.
+v0.2.x is a clean architecture. It intentionally has **no v1.x ledger migration/scanning path**.
 
-## Design
+## Core model
 
-Inventory Block owns one authoritative inventory per chat:
+Inventory Block owns the authoritative current inventory for each chat:
 
 - free-form categories;
-- items contain only **Name**, **Quantity**, and **Remark**;
-- manual edits change the actual stored inventory state;
+- each item has only **Name**, **Quantity**, and **Remark**;
+- manual edits change the real backend state;
 - the complete current inventory is injected into the LLM for awareness;
-- the LLM does **not** reproduce the inventory every reply;
-- inventory changes are returned through an invisible machine control comment, applied atomically, then removed from the stored assistant message;
-- full backend revisions support branch recovery for swipes, regeneration, and message deletion;
-- manual edits and restores create revisions without adding anything to LLM context.
+- the LLM does not reproduce the full inventory every reply;
+- LLM changes arrive through one invisible machine control record, are validated atomically, applied to backend state, then physically stripped from stored chat text;
+- complete backend revisions support swipe, regeneration, deletion, and manual restore;
+- old story references cannot resurrect items missing from the current backend inventory.
 
-## First-message starting inventory
+## Starting inventory from the first message
 
-A fresh/pristine chat can initialize its inventory directly from the character's first assistant message with one simple tag:
+Use one simple `<Inventory>` block in the character's first assistant message:
 
 ```text
 <narration>
-Your opening narration goes here.
+Your opening scene here.
 </narration>
 
 <Inventory>
 Coin Pouch | 1 | 100 Gold
-Guild Token | 1 | F-Rank registration
 Food | 1 | About 7 days
 
 [Equipped / Carried]
 Travelling Coat | 1 | Worn
 Utility Knife | 1 | Belt
 
-[Astra Belongings]
+[Astra]
 Linen Smock | 1 | Worn
 </Inventory>
 ```
 
-Rows before the first `[Category]` are stored under the root **General** category and remain always visible in the ledger UI.
+Rows before the first category become the root `General` inventory. Categories use `[Category Name]`.
 
-On initialization Inventory Block:
+The extension consumes the seed once for that first-message swipe, stores it as backend state, removes `<Inventory>...</Inventory>` from the actual message, and saves the cleaned story text. Alternate first-message swipes can carry their own seed.
 
-1. parses the seed once;
-2. creates the first backend inventory revision;
-3. removes the `<Inventory>...</Inventory>` seed from the actual first message/swipe;
-4. saves the clean story message;
-5. uses backend state from then on.
+After initialization, `<Inventory>` is reserved. If a model later emits another full `<Inventory>` snapshot, it is stripped and does **not** overwrite backend state.
 
-The seed is accepted only while the inventory backend is pristine. Later `<Inventory>` tags do not replace established inventory state.
+`Copy block` outputs the same seed format, so a current backend inventory can be copied into another fresh character/card if wanted.
 
-For convenience the seed parser also tolerates Markdown-table rows and `-- CATEGORY --` section markers, but it is a **seed parser only**, not a legacy chat-ledger scanner.
+## Natural-language/OOC management
 
-## Megumin Suite integration
-
-When a Megumin Suite block card exists on the newest assistant message, Inventory Block joins it as an **Inventory** tab and uses Megumin's block classes/styles.
-
-The visible pane keeps the compact ledger layout: root items first, collapsible section bars with item counts, then `Name / Quantity / Remark` rows. The first real section opens by default and the rest stay folded until opened.
-
-The inventory itself still lives in Inventory Block's backend state. It is not a generated Megumin text block and is not stored in the assistant message.
-
-If Megumin Suite is unavailable, a small standalone fallback card is shown so inventory remains accessible.
-
-## Inventory format
-
-Each row contains only three fields:
-
-```text
-Name | Quantity | Remark
-```
-
-Categories are deliberately free-form. They can represent owners, storage, purpose, or any organization useful to the current game.
-
-## Copy block
-
-The Inventory pane includes **Copy block**. It serializes the current backend inventory back into the same compact seed format:
-
-```text
-<Inventory>
-Gold | 1 | 412 Gold
-
-[Equipped]
-Soul Blade | 1 | Manifested weapon
-</Inventory>
-```
-
-This is useful for character first messages, manual backups, debugging, or moving a starting inventory to another fresh chat. Copying does not change backend state.
-
-## Natural-language management
-
-Because the full current inventory is injected into the model, ordinary OOC instructions can administer the backend inventory semantically, for example:
+Because the complete current inventory is injected into the model, ordinary OOC instructions can reorganize the real backend state:
 
 ```text
 [OOC: create category for each party member]
@@ -101,11 +59,15 @@ Because the full current inventory is injected into the model, ordinary OOC inst
 [OOC: compact all food related items into one Food item and remark the quantity in duration]
 ```
 
-Broad reorganizations use an atomic full-state replacement. Small gameplay changes use compact patch operations.
+```text
+[OOC: merge duplicate monster materials and shorten the remarks]
+```
+
+Small gameplay changes use compact patch operations. Broad cleanup/reorganization requested by the user can use one atomic full-state replacement.
 
 ## Hidden update protocol
 
-The model is instructed to append a machine-only HTML comment **only when inventory changes**:
+Ordinary gameplay changes are returned as one machine-only comment at the end of the assistant response:
 
 ```html
 <!-- INVENTORY_BLOCK_UPDATE
@@ -113,7 +75,19 @@ The model is instructed to append a machine-only HTML comment **only when invent
 -->
 ```
 
-For broad cleanup/reorganization:
+Supported patch operations:
+
+- `add_category`
+- `rename_category`
+- `delete_category`
+- `add_item`
+- `set_item`
+- `adjust_item`
+- `edit_item`
+- `delete_item`
+- `move_item`
+
+For broad user-requested semantic cleanup:
 
 ```html
 <!-- INVENTORY_BLOCK_UPDATE
@@ -121,42 +95,90 @@ For broad cleanup/reorganization:
 -->
 ```
 
-The extension consumes this record, validates it, creates a backend revision if the state changed, removes the control record from the actual assistant message/swipe, and saves the clean story text.
+The control record is removed from the raw assistant message after processing. If malformed, duplicated, truncated, ambiguous, or invalid, the entire update is rejected and the previous inventory remains intact.
 
-If an update is malformed, the update is rejected and the previous authoritative inventory state remains intact.
+`adjust_item` is only for plain numeric Quantity values. Semantic quantities such as `Food | 1 | 8 days` or `Coin Pouch | 1 | 400 Gold` should be changed with `edit_item` so the meaningful amount in Remark is preserved.
 
-## Revisions and branch recovery
+## Validation and safety
 
-Every accepted inventory state change is stored as a complete backend snapshot. Revisions are not injected into the model.
+v0.2.1 validates backend writes strictly:
 
-Assistant swipes carry only tiny revision metadata in SillyTavern's message/swipe `extra` object. When a swipe changes or messages are deleted, Inventory Block resolves the inventory revision belonging to the surviving active story branch.
+- category names cannot be blank;
+- item names cannot be blank;
+- category names are case-insensitively unique;
+- item names are case-insensitively unique within their category;
+- `General` and `Uncategorized` canonicalize to one root `General` category;
+- a leading display prefix such as `×1`/`x1` is normalized to stored quantity `1`;
+- move/rename collisions are rejected;
+- malformed JSON import/replacement cannot silently clear inventory;
+- multiple machine update records in one reply are rejected instead of double-applied;
+- unknown backend state versions fail visibly instead of silently resetting inventory.
 
-Manual edits are associated with the current branch through backend branch-head metadata, so they remain real edits without requiring a fake assistant inventory message.
+## Revisions, swipes, regeneration, and deletion
+
+Every accepted state change stores a complete backend snapshot. Revision history itself is never injected into the LLM.
+
+Assistant swipes carry only small revision metadata in SillyTavern's `extra` / `swipe_info`. Inventory Block also records compact chat-lineage checkpoints so it can distinguish the active story branch.
+
+This allows:
+
+- switching swipes to restore the inventory belonging to that swipe;
+- regenerating a response from the inventory state that existed before the replaced response;
+- continuing an existing response without double-applying earlier changes;
+- deleting a middle assistant **or user** message to invalidate downstream inventory state from the divergent timeline;
+- preserving manual inventory edits while the same story lineage continues;
+- restoring old revisions through Inventory History;
+- recovering a previous swipe/branch without replaying transaction deltas.
+
+A dedicated mutation serial distinguishes real inventory writes from harmless branch-pointer movement, preventing swipe/regeneration restoration from being mistaken for a concurrent manual edit.
+
+## Megumin Suite integration
+
+When the newest assistant message contains a Megumin Suite block card, Inventory Block joins it as an **Inventory** tab and uses the Megumin visual language.
+
+The visible inventory still resembles the v1.x ledger:
+
+- `Inventory Ledger` title;
+- total item + section count;
+- `Edit inventory`;
+- `Copy block`;
+- root items always visible;
+- compact `Name / ×Quantity / Remark` rows;
+- collapsible free-form categories with item counts.
+
+The inventory tab is only a renderer over backend state. Inventory is not stored in the Megumin/assistant text block.
+
+Inventory neutralizes Megumin's own selected-tab state before taking focus so switching back to World State/Choices/etc. behaves normally. The standalone fallback uses its own root class so Megumin's block cleanup cannot delete it.
 
 ## Editor
 
-Open **Extensions → Inventory** or click **Edit inventory** inside the Inventory block.
+Open **Extensions → Inventory** or click `Edit inventory` in the Inventory tab.
 
 The editor supports:
 
 - add/delete/edit items;
 - add/delete/rename/reorder categories;
-- JSON export/import for v0.2.0 state;
+- JSON export/import;
 - clear inventory;
 - revision history and restore.
 
-There is intentionally **no inventory search** and no weight/equipment/rarity subsystem.
+There is intentionally no inventory search, weight engine, rarity system, or equipment-slot simulator.
 
 ## Installation
 
-Install as a third-party SillyTavern extension using:
+Install as a third-party SillyTavern extension from:
 
 ```text
 https://github.com/kohz87/inventory-block
 ```
 
-Then enable the extension and start a fresh chat/game.
+Then start a fresh chat/game.
 
-## State ownership
+## Development checks
 
-Inventory Block is intended to own exact current possessions/resources. Other memory, lore, world-state, or NPC-state systems should treat it as the authoritative inventory rather than duplicating exact item quantities.
+```text
+npm test
+npm run check
+```
+
+v0.2.1 includes automated protocol/state tests plus an adversarial hard-pass fuzz script. See `TEST-REPORT.md` for the release review.
