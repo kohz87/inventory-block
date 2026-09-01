@@ -11,6 +11,7 @@ export const UPDATE_TAG = 'InventoryUpdate';
 
 export const SOURCE = Object.freeze({
     INIT: 'init',
+    SEED: 'seed',
     LLM: 'llm',
     MANUAL: 'manual',
     RESTORE: 'restore',
