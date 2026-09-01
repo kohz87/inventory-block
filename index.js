@@ -8,12 +8,18 @@ import {
     getCurrentInventory,
     getInventoryAt,
     getRevision,
+    inventoryEquals,
     listRevisions,
     rememberBranchHead,
     resolveActiveRevision,
     restoreRevisionAsNew,
 } from './src/state.js';
-import { buildInventoryPrompt, consumeInventoryUpdates } from './src/protocol.js';
+import {
+    buildInventoryPrompt,
+    consumeInventorySeed,
+    consumeInventoryUpdates,
+    formatInventorySeedBlock,
+} from './src/protocol.js';
 import { openInventoryEditor, openInventoryHistory, renderInventoryPane } from './src/ui.js';
 import { initializeMeguminBridge, scheduleInventoryMount } from './src/megumin.js';
 
@@ -49,11 +55,44 @@ function refreshPrompt(ctx = context()) {
     ctx.setExtensionPrompt(PROMPT_KEY, buildInventoryPrompt(inventory), 1, 0, false, 0);
 }
 
+async function copyText(text) {
+    if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(text);
+        return;
+    }
+
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    textarea.remove();
+}
+
+async function copyInventoryBlock() {
+    const ctx = context();
+    if (!ctx || !hasActiveChat(ctx)) {
+        notify('warning', 'Open a chat before copying inventory.');
+        return;
+    }
+
+    try {
+        await copyText(formatInventorySeedBlock(getCurrentInventory(ctx)));
+        notify('success', 'Inventory block copied.');
+    } catch (error) {
+        console.error('[Inventory Block] Could not copy inventory block.', error);
+        notify('error', 'Could not copy inventory block.');
+    }
+}
+
 function renderCurrentPane(pane) {
     const ctx = context();
     if (!ctx || !hasActiveChat(ctx)) return;
     renderInventoryPane(pane, getCurrentInventory(ctx), {
         onEdit: openEditor,
+        onCopy: copyInventoryBlock,
         onHistory: openHistory,
     });
 }
@@ -148,6 +187,34 @@ function currentMessageNeedsNewUid(message, type) {
     return type === 'swipe' || type === 'normal' || type === 'group' || type === 'first_message';
 }
 
+function firstAssistantMessageId(ctx) {
+    const chat = Array.isArray(ctx?.chat) ? ctx.chat : [];
+    for (let index = 0; index < chat.length; index++) {
+        const message = chat[index];
+        if (message && !message.is_user && !message.is_system) return index;
+    }
+    return -1;
+}
+
+function isFirstAssistantMessage(ctx, messageId) {
+    return firstAssistantMessageId(ctx) === Number(messageId);
+}
+
+function isPristineRoot(root) {
+    const initial = getRevision(root, 0);
+    const revisionIds = Object.keys(root?.revisions ?? {});
+    return root?.activeRevision === 0
+        && root?.nextRevision === 1
+        && revisionIds.length === 1
+        && revisionIds[0] === '0'
+        && Array.isArray(initial?.state?.categories)
+        && initial.state.categories.length === 0;
+}
+
+function hasSeedTag(text) {
+    return /<Inventory\b[^>]*>[\s\S]*?<\/Inventory\s*>/i.test(String(text ?? ''));
+}
+
 async function processAssistantMessage(messageId, type = '') {
     if (processingMessage) return;
     const ctx = context();
@@ -160,17 +227,37 @@ async function processAssistantMessage(messageId, type = '') {
         const root = ensureRoot(ctx);
         const baseRevision = generationBase(ctx);
         const baseState = getInventoryAt(root, baseRevision);
-        const result = consumeInventoryUpdates(message.mes, baseState);
 
+        let workingText = String(message.mes ?? '');
+        let workingState = baseState;
+        let seeded = false;
+        let seedErrors = [];
+
+        if (isPristineRoot(root) && isFirstAssistantMessage(ctx, messageId) && hasSeedTag(workingText)) {
+            const seed = consumeInventorySeed(workingText);
+            seedErrors = seed.errors;
+            if (seed.found && !seed.errors.length && seed.state) {
+                workingText = seed.cleanedText;
+                workingState = seed.state;
+                seeded = true;
+            }
+        }
+
+        const result = consumeInventoryUpdates(workingText, workingState);
+        const warnings = [...seedErrors, ...result.errors];
         const textChanged = String(message.mes ?? '') !== result.cleanedText;
         if (textChanged) message.mes = result.cleanedText;
 
         let revision = baseRevision;
-        if (result.changed && result.errors.length === 0) {
+        const stateChanged = seedErrors.length === 0 && !inventoryEquals(baseState, result.state);
+        if (stateChanged) {
+            const note = seeded
+                ? (result.changed ? 'First-message inventory seed + LLM update' : 'First-message inventory seed')
+                : result.note;
             revision = createRevision(ctx, result.state, {
                 parent: baseRevision,
-                source: SOURCE.LLM,
-                note: result.note,
+                source: seeded ? SOURCE.SEED : SOURCE.LLM,
+                note,
             });
         } else {
             root.activeRevision = baseRevision;
@@ -188,9 +275,11 @@ async function processAssistantMessage(messageId, type = '') {
         await ctx.saveChat?.();
         ctx.saveMetadataDebounced?.();
 
-        if (result.errors.length) {
-            notify('warning', `Inventory update rejected: ${result.errors.join(' ')}`);
-            console.warn('[Inventory Block] Rejected inventory control record.', result.errors);
+        if (warnings.length) {
+            notify('warning', `Inventory update rejected: ${warnings.join(' ')}`);
+            console.warn('[Inventory Block] Rejected inventory control/seed record.', warnings);
+        } else if (seeded) {
+            notify('success', 'Starting inventory loaded.');
         }
 
         refreshAll(ctx);
@@ -204,11 +293,25 @@ async function processAssistantMessage(messageId, type = '') {
     }
 }
 
+async function seedFirstMessageIfNeeded(ctx) {
+    const root = ensureRoot(ctx);
+    if (!isPristineRoot(root)) return false;
+
+    const messageId = firstAssistantMessageId(ctx);
+    if (messageId < 0) return false;
+    const message = ctx.chat?.[messageId];
+    if (!hasSeedTag(message?.mes)) return false;
+
+    await processAssistantMessage(messageId, 'seed');
+    return true;
+}
+
 async function resolveBranchAndRefresh() {
     const ctx = context();
     if (!ctx || !hasActiveChat(ctx)) return;
     try {
         ensureRoot(ctx);
+        await seedFirstMessageIfNeeded(ctx);
         resolveActiveRevision(ctx);
         rememberBranchHead(ctx);
         ctx.saveMetadataDebounced?.();
@@ -244,11 +347,11 @@ function registerEvents() {
     ctx.eventSource.on(events.MESSAGE_RECEIVED, processAssistantMessage);
 
     for (const event of [events.MESSAGE_SWIPED, events.MESSAGE_DELETED, events.MESSAGE_SWIPE_DELETED]) {
-        if (event) ctx.eventSource.on(event, () => setTimeout(resolveBranchAndRefresh, 30));
+        if (event) ctx.eventSource.on(event, () => setTimeout(() => void resolveBranchAndRefresh(), 30));
     }
 
-    if (events.CHAT_CHANGED) ctx.eventSource.on(events.CHAT_CHANGED, () => setTimeout(resolveBranchAndRefresh, 0));
-    if (events.CHAT_LOADED) ctx.eventSource.on(events.CHAT_LOADED, () => setTimeout(resolveBranchAndRefresh, 0));
+    if (events.CHAT_CHANGED) ctx.eventSource.on(events.CHAT_CHANGED, () => setTimeout(() => void resolveBranchAndRefresh(), 0));
+    if (events.CHAT_LOADED) ctx.eventSource.on(events.CHAT_LOADED, () => setTimeout(() => void resolveBranchAndRefresh(), 0));
 
     for (const event of [events.CHARACTER_MESSAGE_RENDERED, events.MESSAGE_UPDATED, events.MESSAGE_EDITED, events.MORE_MESSAGES_LOADED]) {
         if (event) ctx.eventSource.on(event, () => scheduleInventoryMount(70));
@@ -272,6 +375,7 @@ export async function init() {
     const ctx = context();
     if (ctx && hasActiveChat(ctx)) {
         ensureRoot(ctx);
+        await seedFirstMessageIfNeeded(ctx);
         resolveActiveRevision(ctx);
         rememberBranchHead(ctx);
         ctx.saveMetadataDebounced?.();
