@@ -1,0 +1,250 @@
+/* Inventory Block v0.2.0
+ * The inventory joins Megumin Suite's existing .meg-blocks card when present.
+ * These rules only style the inventory pane/editor and provide a restrained
+ * fallback if Megumin is not loaded.
+ */
+
+.inventory-block-pane {
+    min-width: 0;
+}
+
+.inventory-pane-toolbar,
+.inventory-editor-toolbar,
+.inventory-editor-category-head,
+.inventory-history-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.inventory-pane-toolbar {
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.inventory-pane-summary,
+.inventory-history-meta,
+.inventory-category-count {
+    opacity: 0.68;
+    font-size: 0.88em;
+}
+
+.inventory-pane-actions {
+    display: flex;
+    gap: 6px;
+}
+
+.inventory-icon-button {
+    border: 1px solid color-mix(in srgb, currentColor 20%, transparent);
+    background: color-mix(in srgb, currentColor 5%, transparent);
+    color: inherit;
+    border-radius: 7px;
+    min-width: 30px;
+    min-height: 28px;
+    cursor: pointer;
+}
+
+.inventory-icon-button:hover {
+    background: color-mix(in srgb, currentColor 10%, transparent);
+}
+
+.inventory-icon-button:disabled {
+    opacity: 0.35;
+    cursor: default;
+}
+
+.inventory-danger-button:hover {
+    color: var(--SmartThemeQuoteColor, #d46a6a);
+}
+
+.inventory-category {
+    border: 1px solid color-mix(in srgb, currentColor 13%, transparent);
+    border-radius: 8px;
+    margin: 8px 0;
+    overflow: hidden;
+}
+
+.inventory-category-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    cursor: pointer;
+    font-weight: 650;
+    background: color-mix(in srgb, currentColor 4%, transparent);
+}
+
+.inventory-category-count {
+    margin-left: auto;
+}
+
+.inventory-table {
+    width: 100%;
+}
+
+.inventory-row,
+.inventory-editor-row {
+    display: grid;
+    grid-template-columns: minmax(130px, 1.15fr) minmax(74px, 0.42fr) minmax(160px, 1.7fr);
+    gap: 8px;
+    align-items: start;
+}
+
+.inventory-row {
+    padding: 7px 10px;
+    border-top: 1px solid color-mix(in srgb, currentColor 8%, transparent);
+}
+
+.inventory-header-row {
+    font-size: 0.78em;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    opacity: 0.6;
+}
+
+.inventory-quantity {
+    text-align: center;
+}
+
+.inventory-remark {
+    opacity: 0.82;
+    overflow-wrap: anywhere;
+}
+
+.inventory-empty-state,
+.inventory-category-empty {
+    padding: 12px;
+    opacity: 0.65;
+    text-align: center;
+}
+
+.inventory-editor {
+    min-width: min(900px, 90vw);
+}
+
+.inventory-editor-toolbar {
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+}
+
+.inventory-editor-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.inventory-editor-category {
+    border: 1px solid color-mix(in srgb, currentColor 16%, transparent);
+    border-radius: 9px;
+    padding: 10px;
+}
+
+.inventory-editor-category-head {
+    margin-bottom: 8px;
+}
+
+.inventory-category-input {
+    flex: 1 1 auto;
+    font-weight: 650;
+}
+
+.inventory-editor-row {
+    grid-template-columns: minmax(160px, 1.15fr) minmax(90px, 0.45fr) minmax(180px, 1.7fr) 34px;
+    margin: 6px 0;
+}
+
+.inventory-editor-header {
+    opacity: 0.62;
+    font-size: 0.8em;
+    padding: 0 4px;
+}
+
+.inventory-editor-row input {
+    width: 100%;
+    min-width: 0;
+}
+
+.inventory-add-item {
+    margin-top: 4px;
+}
+
+.inventory-history-intro {
+    margin-bottom: 10px;
+    opacity: 0.75;
+}
+
+.inventory-history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.inventory-history-row {
+    justify-content: space-between;
+    border: 1px solid color-mix(in srgb, currentColor 12%, transparent);
+    border-radius: 8px;
+    padding: 8px 10px;
+}
+
+.inventory-history-row.active {
+    border-color: color-mix(in srgb, var(--SmartThemeQuoteColor, currentColor) 60%, transparent);
+}
+
+.inventory-history-title {
+    font-weight: 620;
+}
+
+.inventory-block-standalone {
+    margin-top: 10px;
+    border: 1px solid color-mix(in srgb, currentColor 14%, transparent);
+    border-radius: 9px;
+    overflow: hidden;
+}
+
+.inventory-block-standalone .meg-blocks-tabs {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 5px;
+    background: color-mix(in srgb, currentColor 4%, transparent);
+}
+
+.inventory-block-standalone .meg-blocks-tab,
+.inventory-block-standalone .meg-blocks-collapse {
+    border: 0;
+    border-radius: 7px;
+    background: transparent;
+    color: inherit;
+    padding: 6px 9px;
+    cursor: pointer;
+}
+
+.inventory-block-standalone .meg-blocks-tab.active {
+    background: color-mix(in srgb, currentColor 10%, transparent);
+}
+
+.inventory-block-standalone .meg-blocks-collapse {
+    margin-left: auto;
+}
+
+.inventory-block-standalone .meg-blocks-panel {
+    padding: 10px;
+}
+
+@media (max-width: 700px) {
+    .inventory-row {
+        grid-template-columns: minmax(100px, 1fr) minmax(58px, 0.35fr) minmax(110px, 1.25fr);
+        gap: 5px;
+        padding-inline: 7px;
+    }
+
+    .inventory-editor {
+        min-width: 0;
+    }
+
+    .inventory-editor-row {
+        grid-template-columns: 1fr 80px 1.15fr 34px;
+        gap: 5px;
+    }
+}
