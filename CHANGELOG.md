@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.2.2
+
+Extensions-panel UI hotfix.
+
+- Added a standard SillyTavern **Extensions settings** drawer under `#extensions_settings` with `#extensions_settings2` fallback.
+- Added `Edit Inventory`, `History`, and `Copy Block` actions to the settings drawer.
+- Kept the existing wand-menu Inventory shortcut as a convenience rather than using it as the only entry point.
+- Settings-panel and wand-menu mounting now share one retry path so both appear reliably when SillyTavern finishes building the UI.
+- Added a regression test that verifies both settings hosts and all three settings actions remain wired.
+
 ## 0.2.1
 
 Hardening release for the backend-state architecture. The current `main` includes additional multi-pass lifecycle/branch hardening after the initial 0.2.1 review.
