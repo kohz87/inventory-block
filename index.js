@@ -276,13 +276,55 @@ function addExtensionMenuButton() {
     return true;
 }
 
-function ensureMenuButton() {
-    if (addExtensionMenuButton()) {
+function addExtensionSettingsPanel() {
+    if (document.querySelector('#inventory_block_settings')) return true;
+    const host = document.querySelector('#extensions_settings') ?? document.querySelector('#extensions_settings2');
+    if (!host) return false;
+
+    const wrapper = document.createElement('div');
+    wrapper.id = 'inventory_block_settings';
+    wrapper.className = 'inventory-block-settings';
+    wrapper.innerHTML = `
+        <div class="inline-drawer">
+            <div class="inline-drawer-toggle inline-drawer-header">
+                <b>Inventory Block</b>
+                <div class="inline-drawer-icon fa-solid fa-circle-chevron-down down"></div>
+            </div>
+            <div class="inline-drawer-content">
+                <div class="inventory-block-settings-version">v${VERSION} · per-chat backend inventory</div>
+                <div class="inventory-block-settings-actions">
+                    <button id="inventory_block_settings_edit" type="button" class="menu_button">
+                        <i class="fa-solid fa-pen-to-square"></i> Edit Inventory
+                    </button>
+                    <button id="inventory_block_settings_history" type="button" class="menu_button">
+                        <i class="fa-solid fa-clock-rotate-left"></i> History
+                    </button>
+                    <button id="inventory_block_settings_copy" type="button" class="menu_button">
+                        <i class="fa-solid fa-copy"></i> Copy Block
+                    </button>
+                </div>
+                <div class="inventory-block-settings-note">
+                    Inventory state is stored per chat and injected into the LLM automatically.
+                </div>
+            </div>
+        </div>`;
+
+    wrapper.querySelector('#inventory_block_settings_edit')?.addEventListener('click', openEditor);
+    wrapper.querySelector('#inventory_block_settings_history')?.addEventListener('click', openHistory);
+    wrapper.querySelector('#inventory_block_settings_copy')?.addEventListener('click', copyInventoryBlock);
+    host.appendChild(wrapper);
+    return true;
+}
+
+function ensureExtensionUiEntries() {
+    const menuReady = addExtensionMenuButton();
+    const settingsReady = addExtensionSettingsPanel();
+    if (menuReady && settingsReady) {
         if (menuRetry) clearTimeout(menuRetry);
         menuRetry = null;
         return;
     }
-    if (!menuRetry) menuRetry = setTimeout(() => { menuRetry = null; ensureMenuButton(); }, 250);
+    if (!menuRetry) menuRetry = setTimeout(() => { menuRetry = null; ensureExtensionUiEntries(); }, 250);
 }
 
 function firstAssistantMessageId(ctx) {
@@ -654,7 +696,7 @@ function registerEvents() {
     }
     for (const event of [events.APP_READY, events.APP_INITIALIZED, events.EXTENSIONS_FIRST_LOAD]) {
         if (event) ctx.eventSource.on(event, () => {
-            ensureMenuButton();
+            ensureExtensionUiEntries();
             initializeMeguminBridge(renderCurrentPane);
             setTimeout(() => void resolveBranchAndRefresh(), 0);
         });
@@ -671,7 +713,7 @@ export async function init() {
         return;
     }
     initialized = true;
-    ensureMenuButton();
+    ensureExtensionUiEntries();
     initializeMeguminBridge(renderCurrentPane);
     registerEvents();
     await resolveBranchAndRefresh();

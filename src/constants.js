@@ -1,5 +1,5 @@
 export const EXTENSION_ID = 'inventory-block';
-export const VERSION = '0.2.1';
+export const VERSION = '0.2.2';
 export const STATE_VERSION = 2;
 export const LINEAGE_VERSION = 2;
 

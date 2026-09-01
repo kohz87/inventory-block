@@ -1,4 +1,4 @@
-# Inventory Block v0.2.1
+# Inventory Block v0.2.2
 
 A lightweight SillyTavern RPG inventory extension built around **real per-chat backend state** instead of repeating complete inventory snapshots in assistant messages.
 
@@ -161,9 +161,11 @@ The inventory tab is only a renderer over backend state. Inventory is not stored
 
 Inventory neutralizes Megumin's selected-tab state before taking focus so switching back to World State/Choices/etc. behaves normally. The standalone fallback uses its own root class so Megumin's block cleanup cannot delete it.
 
-## Editor
+## Extensions settings and editor
 
-Open **Extensions → Inventory** or click `Edit inventory` in the Inventory tab.
+Inventory Block registers a standard SillyTavern settings drawer in the **Extensions** panel. The drawer provides `Edit Inventory`, `History`, and `Copy Block`. The existing wand-menu **Inventory** shortcut remains available as a quick entry point.
+
+You can also click `Edit inventory` directly in the Inventory tab.
 
 The editor supports:
 
