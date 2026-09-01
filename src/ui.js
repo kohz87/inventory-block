@@ -1,4 +1,4 @@
-import { LIMITS, ROOT_CATEGORY } from './constants.js';
+import { LIMITS, ROOT_CATEGORY, VERSION } from './constants.js';
 import { normalizeInventory, validateAndNormalizeInventory } from './state.js';
 import { isRootCategoryName } from './protocol.js';
 
@@ -78,7 +78,6 @@ export function renderInventoryPane(pane, state, { uiKey = 'default', onEdit, on
 
     pane.replaceChildren();
     pane.classList.add('inventory-block-pane');
-
     const heading = el('div', 'inventory-ledger-heading');
     heading.appendChild(el('div', 'inventory-ledger-title', 'Inventory Ledger'));
     heading.appendChild(el('div', 'inventory-pane-summary', `${totalItems} item${totalItems === 1 ? '' : 's'} · ${sections.length} section${sections.length === 1 ? '' : 's'}`));
@@ -108,13 +107,11 @@ export function renderInventoryPane(pane, state, { uiKey = 'default', onEdit, on
         pane.appendChild(el('div', 'inventory-empty-state', 'Inventory is empty.'));
         return;
     }
-
     if (root?.items.length) {
         const rootTable = el('div', 'inventory-table inventory-root-table');
         appendItemRows(rootTable, root.items);
         pane.appendChild(rootTable);
     }
-
     sections.forEach((category, index) => {
         const section = el('details', 'inventory-category');
         const categoryKey = category.name.toLocaleLowerCase();
@@ -134,7 +131,6 @@ export function renderInventoryPane(pane, state, { uiKey = 'default', onEdit, on
             if (section.open) remembered.add(categoryKey);
             else remembered.delete(categoryKey);
         });
-
         const table = el('div', 'inventory-table');
         if (category.items.length) appendItemRows(table, category.items);
         else table.appendChild(el('div', 'inventory-category-empty', 'No items'));
@@ -245,7 +241,7 @@ export async function openInventoryEditor(context, currentState, { onSave } = {}
         renderDraft();
     });
     exportButton.addEventListener('click', () => {
-        try { downloadJson('inventory-block-v0.2.1.json', validateAndNormalizeInventory(draft)); }
+        try { downloadJson(`inventory-block-v${VERSION}.json`, validateAndNormalizeInventory(draft)); }
         catch (error) { toastError(error); }
     });
     importButton.addEventListener('click', () => {
@@ -293,7 +289,7 @@ export async function openInventoryEditor(context, currentState, { onSave } = {}
 
 export async function openInventoryHistory(context, revisions, activeRevision, { onRestore } = {}) {
     const root = el('div', 'inventory-history');
-    root.appendChild(el('div', 'inventory-history-intro', 'Backend revisions do not enter LLM context. Restore creates a new current revision and keeps history.'));
+    root.appendChild(el('div', 'inventory-history-intro', 'Backend revisions do not enter LLM context. Restore creates a new current revision and keeps bounded recent history.'));
     const list = el('div', 'inventory-history-list');
     root.appendChild(list);
     if (!revisions.length) list.appendChild(el('div', 'inventory-empty-state', 'No revisions.'));

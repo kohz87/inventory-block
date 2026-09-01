@@ -52,12 +52,8 @@ export function normalizeQuantity(value) {
 
 export function validateInventory(input) {
     const errors = [];
-    if (!input || typeof input !== 'object' || Array.isArray(input)) {
-        return ['Inventory must be an object.'];
-    }
-    if (!Array.isArray(input.categories)) {
-        return ['Inventory requires a categories array.'];
-    }
+    if (!input || typeof input !== 'object' || Array.isArray(input)) return ['Inventory must be an object.'];
+    if (!Array.isArray(input.categories)) return ['Inventory requires a categories array.'];
     if (input.categories.length > LIMITS.categories) {
         errors.push(`Inventory has too many categories (${input.categories.length}; maximum ${LIMITS.categories}).`);
     }
@@ -92,11 +88,8 @@ export function validateInventory(input) {
         const canonical = canonicalCategoryName(rawName);
         const categoryKey = keyOf(canonical);
         const isRoot = categoryKey === keyOf(ROOT_CATEGORY);
-        if (!isRoot && categoryKeys.has(categoryKey)) {
-            errors.push(`Duplicate category name: ${rawName}.`);
-        } else if (!isRoot) {
-            categoryKeys.set(categoryKey, categoryIndex);
-        }
+        if (!isRoot && categoryKeys.has(categoryKey)) errors.push(`Duplicate category name: ${rawName}.`);
+        else if (!isRoot) categoryKeys.set(categoryKey, categoryIndex);
 
         const localItems = isRoot ? rootItems : new Set();
         category.items.forEach((item, itemIndex) => {
@@ -132,21 +125,15 @@ export function validateInventory(input) {
             }
 
             const itemKey = keyOf(name);
-            if (localItems.has(itemKey)) {
-                errors.push(`Duplicate item "${name}" in category "${canonical}".`);
-            } else {
-                localItems.add(itemKey);
-            }
+            if (localItems.has(itemKey)) errors.push(`Duplicate item "${name}" in category "${canonical}".`);
+            else localItems.add(itemKey);
         });
     });
 
-    if (totalItems > LIMITS.items) {
-        errors.push(`Inventory has too many items (${totalItems}; maximum ${LIMITS.items}).`);
-    }
+    if (totalItems > LIMITS.items) errors.push(`Inventory has too many items (${totalItems}; maximum ${LIMITS.items}).`);
     if (serializedLength(input) > LIMITS.serializedChars) {
         errors.push(`Inventory exceeds the ${LIMITS.serializedChars.toLocaleString()} character safety limit.`);
     }
-
     return errors;
 }
 
@@ -154,7 +141,6 @@ export function normalizeInventory(input) {
     const result = emptyInventory();
     const categories = Array.isArray(input?.categories) ? input.categories : [];
     let root = null;
-
     for (const category of categories) {
         const canonicalName = canonicalCategoryName(category?.name) || ROOT_CATEGORY;
         const items = Array.isArray(category?.items) ? category.items : [];
@@ -168,7 +154,6 @@ export function normalizeInventory(input) {
                 remark: cleanText(item?.remark),
             });
         }
-
         if (canonicalName === ROOT_CATEGORY) {
             if (!root) {
                 root = { name: ROOT_CATEGORY, items: [] };
@@ -179,7 +164,6 @@ export function normalizeInventory(input) {
             result.categories.push({ name: canonicalName, items: normalizedItems });
         }
     }
-
     return result;
 }
 
@@ -262,12 +246,8 @@ function messageFingerprintV2(message = {}) {
     const meta = activeMessageMeta(message);
     const swipe = Number.isInteger(message.swipe_id) ? message.swipe_id : 0;
     if (!message.is_user && !message.is_system && meta?.uid) return `a:${meta.uid}:${swipe}`;
-    if (message.is_user) {
-        return `u:${hashString(JSON.stringify({ name: String(message.name ?? ''), text: String(message.mes ?? '') }))}`;
-    }
-    if (message.is_system) {
-        return `s:${hashString(JSON.stringify({ name: String(message.name ?? ''), text: String(message.mes ?? '') }))}`;
-    }
+    if (message.is_user) return `u:${hashString(JSON.stringify({ name: String(message.name ?? ''), text: String(message.mes ?? '') }))}`;
+    if (message.is_system) return `s:${hashString(JSON.stringify({ name: String(message.name ?? ''), text: String(message.mes ?? '') }))}`;
     return `a0:${hashString(JSON.stringify({ name: String(message.name ?? ''), text: String(message.mes ?? ''), swipe }))}`;
 }
 
@@ -313,19 +293,20 @@ function legacyHashLineage(list) {
     return values.length ? `${values.length}:${hashString(values.join('\u241f'))}` : 'root';
 }
 
-function legacyLineageHashThrough(context, messageId) {
+function legacyLineageHashThrough(context, messageId, fingerprints = null) {
     const chat = Array.isArray(context?.chat) ? context.chat : [];
+    const values = fingerprints ?? chat.map(messageFingerprintLegacy);
     const last = Math.min(Number(messageId), chat.length - 1);
     if (last < 0) return 'root';
-    return legacyHashLineage(chat.slice(0, last + 1).map(messageFingerprintLegacy));
+    return legacyHashLineage(values.slice(0, last + 1));
 }
 
 export function chatLineage(context) {
     return lineageData(context).fingerprints;
 }
 
-export function lineageHashThrough(context, messageId = null) {
-    const data = lineageData(context);
+export function lineageHashThrough(context, messageId = null, prepared = null) {
+    const data = prepared ?? lineageData(context);
     const last = messageId === null ? data.fingerprints.length - 1 : Math.min(Number(messageId), data.fingerprints.length - 1);
     return data.prefixKeys[Math.max(0, last + 1)] ?? 'root';
 }
@@ -335,13 +316,55 @@ export function getBranchKey(context) {
     return data.prefixKeys.at(-1) ?? 'root';
 }
 
-function checkpointValidForMessage(context, messageId, checkpoint) {
+function checkpointExpectedHash(context, messageId, checkpoint, prepared = null, legacyFingerprints = null) {
+    const version = checkpoint?.lineageVersion ?? 1;
+    return version === LINEAGE_VERSION
+        ? lineageHashThrough(context, messageId, prepared)
+        : legacyLineageHashThrough(context, messageId, legacyFingerprints);
+}
+
+function checkpointValidForMessage(context, messageId, checkpoint, prepared = null, legacyFingerprints = null) {
     if (!checkpoint?.state) return false;
-    const version = checkpoint.lineageVersion ?? 1;
-    const expected = version === LINEAGE_VERSION
-        ? lineageHashThrough(context, messageId)
-        : legacyLineageHashThrough(context, messageId);
+    const expected = checkpointExpectedHash(context, messageId, checkpoint, prepared, legacyFingerprints);
     return !checkpoint.lineageHash || checkpoint.lineageHash === expected;
+}
+
+function compactRevisions(root) {
+    const allIds = Object.keys(root.revisions).map(Number).filter(Number.isInteger).sort((a, b) => a - b);
+    if (allIds.length <= LIMITS.revisions) return;
+
+    const keep = new Set([0, root.activeRevision]);
+    for (const head of Object.values(root.branchHeads ?? {})) {
+        if (Number.isInteger(head?.revision) && getRevision(root, head.revision)) keep.add(head.revision);
+    }
+    const newest = [...allIds].sort((a, b) => b - a);
+    for (const id of newest) {
+        if (keep.size >= LIMITS.revisions) break;
+        keep.add(id);
+    }
+
+    const original = root.revisions;
+    const nearestKeptParent = id => {
+        let cursor = original[String(id)]?.parent;
+        const seen = new Set();
+        while (Number.isInteger(cursor) && !seen.has(cursor)) {
+            if (keep.has(cursor)) return cursor;
+            seen.add(cursor);
+            cursor = original[String(cursor)]?.parent;
+        }
+        return 0;
+    };
+
+    const next = {};
+    for (const id of [...keep].sort((a, b) => a - b)) {
+        const revision = original[String(id)];
+        if (!revision) continue;
+        next[String(id)] = {
+            ...revision,
+            parent: id === 0 ? null : nearestKeptParent(id),
+        };
+    }
+    root.revisions = next;
 }
 
 function appendRevisionToRoot(root, state, { parent, source, note, portable = false, countMutation = true } = {}) {
@@ -358,6 +381,7 @@ function appendRevisionToRoot(root, state, { parent, source, note, portable = fa
     };
     root.activeRevision = id;
     if (countMutation) root.mutationSerial += 1;
+    compactRevisions(root);
     return id;
 }
 
@@ -372,9 +396,24 @@ function ensureSwipeInfo(message) {
     message.swipes[swipeId] = String(message.mes ?? '');
 }
 
+function stabilizeAssistantUids(context) {
+    const chat = Array.isArray(context?.chat) ? context.chat : [];
+    for (const message of chat) {
+        if (!message || message.is_user || message.is_system) continue;
+        const meta = activeMessageMeta(message);
+        if (!meta || meta.uid) continue;
+        message.extra ??= {};
+        message.extra[EXTRA_KEY] = { ...meta, uid: randomUid() };
+        ensureSwipeInfo(message);
+    }
+}
+
 function hydratePortableTimeline(context, root) {
     const chat = Array.isArray(context?.chat) ? context.chat : [];
     if (!chat.length) return false;
+    stabilizeAssistantUids(context);
+    const data = lineageData(context);
+    const legacyFingerprints = chat.map(messageFingerprintLegacy);
 
     let currentRevision = 0;
     let currentState = getInventoryAt(root, 0);
@@ -386,7 +425,7 @@ function hydratePortableTimeline(context, root) {
         const beforeRevision = currentRevision;
         const checkpoint = meta?.checkpoint;
 
-        if (checkpoint && checkpointValidForMessage(context, index, checkpoint)) {
+        if (checkpoint && checkpointValidForMessage(context, index, checkpoint, data, legacyFingerprints)) {
             try {
                 const checkpointState = validateAndNormalizeInventory(checkpoint.state);
                 if (!inventoryEquals(currentState, checkpointState)) {
@@ -401,22 +440,22 @@ function hydratePortableTimeline(context, root) {
                 }
                 foundCheckpoint = true;
                 checkpoint.revision = currentRevision;
-                checkpoint.lineageHash = lineageHashThrough(context, index);
+                checkpoint.lineageHash = data.prefixKeys[index + 1] ?? 'root';
                 checkpoint.lineageVersion = LINEAGE_VERSION;
             } catch {
-                // Ignore damaged portable checkpoints and keep searching later messages.
+                // Damaged portable checkpoints are ignored without resetting stored state.
             }
         }
 
         if (message && !message.is_user && !message.is_system && meta) {
-            const uid = meta.uid || randomUid();
+            const liveMeta = activeMessageMeta(message) ?? meta;
             message.extra ??= {};
             message.extra[EXTRA_KEY] = {
-                ...meta,
-                uid,
+                ...liveMeta,
+                uid: liveMeta.uid || randomUid(),
                 baseRevision: beforeRevision,
                 revision: currentRevision,
-                lineageHash: lineageHashThrough(context, index),
+                lineageHash: data.prefixKeys[index + 1] ?? 'root',
                 lineageVersion: LINEAGE_VERSION,
             };
             ensureSwipeInfo(message);
@@ -425,7 +464,6 @@ function hydratePortableTimeline(context, root) {
 
     if (foundCheckpoint) {
         root.activeRevision = currentRevision;
-        const data = lineageData(context);
         const key = data.prefixKeys.at(-1) ?? 'root';
         root.branchHeads[key] = {
             revision: currentRevision,
@@ -434,13 +472,13 @@ function hydratePortableTimeline(context, root) {
             touchedAt: Date.now(),
             lineageVersion: LINEAGE_VERSION,
         };
+        compactRevisions(root);
     }
     return foundCheckpoint;
 }
 
 export function ensureRoot(context) {
     if (!context?.chatMetadata) throw new Error('No active SillyTavern chat metadata.');
-
     let root = context.chatMetadata[META_KEY];
     if (!root) {
         root = makeRoot();
@@ -458,6 +496,8 @@ export function ensureRoot(context) {
     }
     if (!Number.isInteger(root.mutationSerial) || root.mutationSerial < 0) root.mutationSerial = Math.max(0, root.nextRevision - 1);
     if (!root.branchHeads || typeof root.branchHeads !== 'object' || Array.isArray(root.branchHeads)) root.branchHeads = {};
+    pruneBranchHeads(root);
+    compactRevisions(root);
     return root;
 }
 
@@ -476,7 +516,6 @@ export function createRevision(context, state, { parent = null, source = SOURCE.
 function pruneBranchHeads(root) {
     const entries = Object.entries(root.branchHeads);
     if (entries.length <= LIMITS.branchHeads) return;
-
     const sortRecent = list => list.sort((a, b) => Number(b[1]?.touchedAt ?? 0) - Number(a[1]?.touchedAt ?? 0));
     const sticky = sortRecent(entries.filter(([, head]) => head?.sticky)).slice(0, LIMITS.stickyBranchHeads);
     const stickyKeys = new Set(sticky.map(([key]) => key));
@@ -500,6 +539,7 @@ export function rememberBranchHead(context, revisionId = null) {
         lineageVersion: LINEAGE_VERSION,
     };
     pruneBranchHeads(root);
+    compactRevisions(root);
 }
 
 function revisionDescendsFrom(root, revisionId, baseRevision) {
@@ -516,10 +556,10 @@ function revisionDescendsFrom(root, revisionId, baseRevision) {
     return false;
 }
 
-function expectedMetaHash(context, index, meta, v2Data) {
+function expectedMetaHash(context, index, meta, data, legacyFingerprints) {
     return (meta?.lineageVersion ?? 1) === LINEAGE_VERSION
-        ? v2Data.prefixKeys[index + 1]
-        : legacyLineageHashThrough(context, index);
+        ? data.prefixKeys[index + 1]
+        : legacyLineageHashThrough(context, index, legacyFingerprints);
 }
 
 function validMessageRevision(root, meta, currentRevision, expectedLineageHash) {
@@ -530,42 +570,52 @@ function validMessageRevision(root, meta, currentRevision, expectedLineageHash) 
     return revisionDescendsFrom(root, meta.revision, meta.baseRevision);
 }
 
-function materializePortableAssistant(context, root, index, currentRevision, meta) {
+function updateCheckpointReference(context, index, checkpoint, revision, data) {
+    checkpoint.revision = revision;
+    checkpoint.lineageHash = data.prefixKeys[index + 1] ?? 'root';
+    checkpoint.lineageVersion = LINEAGE_VERSION;
+}
+
+function materializeCheckpoint(context, root, index, currentRevision, checkpoint, data, legacyFingerprints) {
+    if (!checkpointValidForMessage(context, index, checkpoint, data, legacyFingerprints)) return null;
+    try {
+        const state = validateAndNormalizeInventory(checkpoint.state);
+        const currentState = getInventoryAt(root, currentRevision);
+        const revision = inventoryEquals(currentState, state)
+            ? currentRevision
+            : appendRevisionToRoot(root, state, {
+                parent: currentRevision,
+                source: checkpoint.source || SOURCE.PORTABLE,
+                note: checkpoint.note || 'Recovered portable inventory checkpoint',
+                portable: true,
+                countMutation: false,
+            });
+        updateCheckpointReference(context, index, checkpoint, revision, data);
+        return revision;
+    } catch {
+        return null;
+    }
+}
+
+function materializePortableAssistant(context, root, index, currentRevision, meta, data, legacyFingerprints) {
     const message = context?.chat?.[index];
     if (!message || message.is_user || message.is_system || !meta) return null;
     const checkpoint = meta.checkpoint;
-    if (checkpoint && checkpointValidForMessage(context, index, checkpoint)) {
-        try {
-            const state = validateAndNormalizeInventory(checkpoint.state);
-            const currentState = getInventoryAt(root, currentRevision);
-            const revision = inventoryEquals(currentState, state)
-                ? currentRevision
-                : appendRevisionToRoot(root, state, {
-                    parent: currentRevision,
-                    source: checkpoint.source || SOURCE.PORTABLE,
-                    note: checkpoint.note || 'Recovered portable swipe checkpoint',
-                    portable: true,
-                    countMutation: false,
-                });
+    if (checkpoint) {
+        const revision = materializeCheckpoint(context, root, index, currentRevision, checkpoint, data, legacyFingerprints);
+        if (revision !== null) {
             message.extra ??= {};
             message.extra[EXTRA_KEY] = {
                 ...meta,
+                uid: meta.uid || randomUid(),
                 baseRevision: currentRevision,
                 revision,
-                lineageHash: lineageHashThrough(context, index),
+                lineageHash: data.prefixKeys[index + 1] ?? 'root',
                 lineageVersion: LINEAGE_VERSION,
-                checkpoint: {
-                    ...checkpoint,
-                    state: clone(state),
-                    revision,
-                    lineageHash: lineageHashThrough(context, index),
-                    lineageVersion: LINEAGE_VERSION,
-                },
+                checkpoint,
             };
             ensureSwipeInfo(message);
             return revision;
-        } catch {
-            return null;
         }
     }
 
@@ -573,9 +623,10 @@ function materializePortableAssistant(context, root, index, currentRevision, met
         message.extra ??= {};
         message.extra[EXTRA_KEY] = {
             ...meta,
+            uid: meta.uid || randomUid(),
             baseRevision: currentRevision,
             revision: currentRevision,
-            lineageHash: lineageHashThrough(context, index),
+            lineageHash: data.prefixKeys[index + 1] ?? 'root',
             lineageVersion: LINEAGE_VERSION,
         };
         ensureSwipeInfo(message);
@@ -584,67 +635,68 @@ function materializePortableAssistant(context, root, index, currentRevision, met
     return null;
 }
 
-function checkpointRevisionIfValid(context, root, index, currentRevision, afterAssistant = false) {
+function checkpointRevisionIfValid(context, root, index, currentRevision, afterAssistant, data, legacyFingerprints) {
     const message = context?.chat?.[index];
     const checkpoint = activeMessageMeta(message)?.checkpoint;
-    if (!checkpoint || !checkpointValidForMessage(context, index, checkpoint)) return currentRevision;
+    if (!checkpoint) return currentRevision;
+    if (!checkpointValidForMessage(context, index, checkpoint, data, legacyFingerprints)) return currentRevision;
     const id = checkpoint.revision;
-    if (!Number.isInteger(id) || !getRevision(root, id)) return currentRevision;
-    if (id === currentRevision) return currentRevision;
-    if (!revisionDescendsFrom(root, id, currentRevision)) return currentRevision;
-    if (afterAssistant || message?.is_user || message?.is_system) return id;
-    return currentRevision;
+    if (Number.isInteger(id) && getRevision(root, id) && (id === currentRevision || revisionDescendsFrom(root, id, currentRevision))) {
+        if (afterAssistant || message?.is_user || message?.is_system) return id;
+        return currentRevision;
+    }
+    if (!(afterAssistant || message?.is_user || message?.is_system)) return currentRevision;
+    const recovered = materializeCheckpoint(context, root, index, currentRevision, checkpoint, data, legacyFingerprints);
+    return recovered === null ? currentRevision : recovered;
 }
 
 export function resolveActiveRevision(context) {
     const root = ensureRoot(context);
+    stabilizeAssistantUids(context);
     const data = lineageData(context);
     const chat = Array.isArray(context?.chat) ? context.chat : [];
-    let legacyFingerprints = null;
-    const legacyPrefix = length => {
-        if (!legacyFingerprints) legacyFingerprints = chat.map(messageFingerprintLegacy);
-        return legacyHashLineage(legacyFingerprints.slice(0, length));
-    };
+    const legacyFingerprints = chat.map(messageFingerprintLegacy);
+    const legacyPrefix = length => legacyHashLineage(legacyFingerprints.slice(0, length));
 
     let bestHead = null;
     let bestLength = -1;
-    for (const [key, head] of Object.entries(root.branchHeads)) {
+    for (const [branchKey, head] of Object.entries(root.branchHeads)) {
         if (!Number.isInteger(head?.revision) || !getRevision(root, head.revision)) continue;
-        const length = Number.isInteger(head.length) ? head.length : Number.parseInt(String(key).split(':', 1)[0], 10);
+        const length = Number.isInteger(head.length) ? head.length : Number.parseInt(String(branchKey).split(':', 1)[0], 10);
         if (!Number.isInteger(length) || length < 0 || length > data.fingerprints.length || length <= bestLength) continue;
         const expectedKey = (head.lineageVersion ?? 1) === LINEAGE_VERSION ? data.prefixKeys[length] : legacyPrefix(length);
-        if (expectedKey !== key) continue;
+        if (expectedKey !== branchKey) continue;
         bestHead = head;
         bestLength = length;
     }
 
     let revision = bestHead?.revision ?? 0;
-    let startIndex = bestLength >= 0 ? bestLength : 0;
+    const startIndex = bestLength >= 0 ? bestLength : 0;
     if (bestHead) bestHead.touchedAt = Date.now();
 
     for (let index = startIndex; index < chat.length; index++) {
         const message = chat[index];
         if (!message) continue;
-
         if (message.is_user || message.is_system) {
-            revision = checkpointRevisionIfValid(context, root, index, revision, true);
+            revision = checkpointRevisionIfValid(context, root, index, revision, true, data, legacyFingerprints);
             continue;
         }
 
         const meta = activeMessageMeta(message);
         if (!meta) continue;
-        const expectedLineageHash = expectedMetaHash(context, index, meta, data);
+        const expectedLineageHash = expectedMetaHash(context, index, meta, data, legacyFingerprints);
         if (!validMessageRevision(root, meta, revision, expectedLineageHash)) {
-            const recovered = materializePortableAssistant(context, root, index, revision, meta);
+            const recovered = materializePortableAssistant(context, root, index, revision, meta, data, legacyFingerprints);
             if (recovered === null) break;
             revision = recovered;
             continue;
         }
         revision = meta.revision;
-        revision = checkpointRevisionIfValid(context, root, index, revision, true);
+        revision = checkpointRevisionIfValid(context, root, index, revision, true, data, legacyFingerprints);
     }
 
     root.activeRevision = revision;
+    compactRevisions(root);
     return revision;
 }
 
@@ -654,13 +706,18 @@ export function attachPortableCheckpoint(context, messageId, revisionId, { sourc
     const revision = getRevision(root, revisionId);
     if (!message || !revision) return null;
     message.extra ??= {};
-    const current = message.extra[EXTRA_KEY] ?? {};
+    let current = message.extra[EXTRA_KEY] ?? {};
+    if (!message.is_user && !message.is_system && !current.uid) {
+        current = { ...current, uid: randomUid() };
+        message.extra[EXTRA_KEY] = current;
+    }
+    const data = lineageData(context);
     const checkpoint = {
         state: clone(revision.state),
         revision: revisionId,
         source: source || revision.source || SOURCE.PORTABLE,
         note: cleanText(note || revision.note),
-        lineageHash: lineageHashThrough(context, messageId),
+        lineageHash: data.prefixKeys[Math.min(messageId + 1, data.prefixKeys.length - 1)] ?? 'root',
         lineageVersion: LINEAGE_VERSION,
     };
     message.extra[EXTRA_KEY] = { ...current, checkpoint };
@@ -684,7 +741,8 @@ export function attachMessageRevision(context, messageId, { baseRevision, revisi
         revision: Number.isInteger(revision) ? revision : 0,
         lineageVersion: LINEAGE_VERSION,
     };
-    message.extra[EXTRA_KEY].lineageHash = lineageHashThrough(context, messageId);
+    const data = lineageData(context);
+    message.extra[EXTRA_KEY].lineageHash = data.prefixKeys[Math.min(messageId + 1, data.prefixKeys.length - 1)] ?? 'root';
     if (portable) attachPortableCheckpoint(context, messageId, revision, { source: getRevision(ensureRoot(context), revision)?.source });
     ensureSwipeInfo(message);
     return message.extra[EXTRA_KEY];
@@ -714,12 +772,13 @@ export function restoreRevisionAsNew(context, revisionId) {
     return commitManualState(context, target.state, { source: SOURCE.RESTORE, note: `Restored revision ${revisionId}` });
 }
 
-export function listRevisions(context, limit = 200) {
+export function listRevisions(context, limit = LIMITS.history) {
     const root = ensureRoot(context);
+    const capped = Math.min(LIMITS.history, Math.max(1, Number(limit) || LIMITS.history));
     return Object.values(root.revisions)
         .filter(revision => revision && Number.isInteger(revision.id))
         .sort((a, b) => b.id - a.id)
-        .slice(0, Math.max(1, Number(limit) || 200))
+        .slice(0, capped)
         .map(revision => ({
             id: revision.id,
             parent: revision.parent,
@@ -727,4 +786,8 @@ export function listRevisions(context, limit = 200) {
             note: revision.note,
             createdAt: revision.createdAt,
         }));
+}
+
+export function revisionCount(context) {
+    return Object.keys(ensureRoot(context).revisions).length;
 }

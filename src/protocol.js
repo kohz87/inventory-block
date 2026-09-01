@@ -8,13 +8,22 @@ import {
 
 const clone = value => structuredClone(value);
 const NUMERIC_QUANTITY = /^[+-]?(?:\d+(?:\.\d+)?|\.\d+)$/;
+const CONTROL_SENTINEL = '.';
 
 function oneLine(value) {
     return String(value ?? '').replace(/\r?\n/g, ' ').trim();
 }
 
 function promptCell(value) {
-    return oneLine(value).replace(/\|/g, '∣');
+    return oneLine(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/\{/g, '&#123;')
+        .replace(/\}/g, '&#125;')
+        .replace(/\[/g, '&#91;')
+        .replace(/\]/g, '&#93;')
+        .replace(/\|/g, '∣');
 }
 
 function sameName(a, b) {
@@ -32,63 +41,108 @@ function assertScalarText(value, label, { optional = true } = {}) {
     }
 }
 
+function stringArgument(value, label) {
+    if (typeof value !== 'string') throw new Error(`${label} must be a string.`);
+    const clean = value.trim();
+    if (!clean) throw new Error(`${label} is required.`);
+    return clean;
+}
+
 function numericQuantity(value) {
     const text = normalizeQuantity(value);
     return NUMERIC_QUANTITY.test(text) ? Number(text) : null;
 }
 
+function numericDelta(value, label = 'Quantity adjustment') {
+    if (typeof value === 'number') {
+        if (!Number.isFinite(value)) throw new Error(`${label} must be a finite number.`);
+        return value;
+    }
+    if (typeof value !== 'string') throw new Error(`${label} must be a number or numeric string.`);
+    const clean = value.trim();
+    if (!NUMERIC_QUANTITY.test(clean)) throw new Error(`${label} must be a plain number.`);
+    const number = Number(clean);
+    if (!Number.isFinite(number)) throw new Error(`${label} must be a finite number.`);
+    return number;
+}
+
 function categoryArgument(value, label = 'Inventory category') {
-    if (typeof value !== 'string') throw new Error(`${label} must be a string.`);
-    const clean = canonicalCategoryName(value);
+    const clean = canonicalCategoryName(stringArgument(value, label));
     if (!clean) throw new Error(`${label} is required.`);
     return clean;
 }
 
 function seedEscape(value, { bracket = false } = {}) {
-    let text = oneLine(value).replace(/\\/g, '\\\\').replace(/\|/g, '\\|');
+    let text = oneLine(value)
+        .replace(/\\/g, '\\\\')
+        .replace(/</g, '\\u003C')
+        .replace(/>/g, '\\u003E')
+        .replace(/\|/g, '\\|');
     if (bracket) text = text.replace(/\]/g, '\\]');
     return text;
 }
 
 function seedUnescape(value) {
+    const source = String(value ?? '');
     let result = '';
-    let escaped = false;
-    for (const char of String(value ?? '')) {
-        if (escaped) {
+    for (let i = 0; i < source.length; i++) {
+        const char = source[i];
+        if (char !== '\\') {
             result += char;
-            escaped = false;
-        } else if (char === '\\') {
-            escaped = true;
-        } else {
-            result += char;
+            continue;
         }
+        const next = source[i + 1];
+        if (next === undefined) {
+            result += '\\';
+            continue;
+        }
+        if (next === 'u') {
+            const code = source.slice(i + 2, i + 6).toLocaleUpperCase();
+            if (code === '003C' || code === '003E') {
+                result += String.fromCharCode(Number.parseInt(code, 16));
+                i += 5;
+                continue;
+            }
+        }
+        if (['\\', '|', ']'].includes(next)) {
+            result += next;
+            i += 1;
+            continue;
+        }
+        // Unknown manual escapes are literal. Serializer-produced backslashes are
+        // doubled, so preserving the slash here is both safe and lossless.
+        result += '\\';
     }
-    if (escaped) result += '\\';
     return result;
 }
 
 function splitSeedCells(line) {
     let text = String(line ?? '').trim();
     if (text.startsWith('|')) text = text.slice(1);
-    if (text.endsWith('|') && !text.endsWith('\\|')) text = text.slice(0, -1);
     const cells = [];
     let current = '';
     let escaped = false;
-    for (const char of text) {
+    for (let i = 0; i < text.length; i++) {
+        const char = text[i];
         if (escaped) {
             current += char;
             escaped = false;
-        } else if (char === '\\') {
-            escaped = true;
-        } else if (char === '|') {
-            cells.push(current.trim());
-            current = '';
-        } else {
-            current += char;
+            continue;
         }
+        if (char === '\\') {
+            current += char;
+            escaped = true;
+            continue;
+        }
+        if (char === '|') {
+            cells.push(seedUnescape(current.trim()));
+            current = '';
+            continue;
+        }
+        current += char;
     }
-    if (escaped) current += '\\';
-    cells.push(current.trim());
+    cells.push(seedUnescape(current.trim()));
+    if (cells.length > 1 && cells.at(-1) === '' && !text.endsWith('\\|')) cells.pop();
     return cells;
 }
 
@@ -102,7 +156,9 @@ export function formatInventoryState(state) {
     const lines = [];
     for (const category of inventory.categories) {
         lines.push(`[${promptCell(category.name)}]`);
-        for (const item of category.items) lines.push(`${promptCell(item.name)} | ${promptCell(item.quantity)} | ${promptCell(item.remark)}`);
+        for (const item of category.items) {
+            lines.push(`${promptCell(item.name)} | ${promptCell(item.quantity)} | ${promptCell(item.remark)}`);
+        }
     }
     return lines.join('\n');
 }
@@ -112,11 +168,15 @@ export function formatInventorySeedBlock(state) {
     const lines = [`<${SEED_TAG}>`];
     const root = inventory.categories.find(category => isRootCategoryName(category.name));
     const sections = inventory.categories.filter(category => !isRootCategoryName(category.name));
-    for (const item of root?.items ?? []) lines.push(`${seedEscape(item.name)} | ${seedEscape(item.quantity)} | ${seedEscape(item.remark)}`);
+    for (const item of root?.items ?? []) {
+        lines.push(`${seedEscape(item.name)} | ${seedEscape(item.quantity)} | ${seedEscape(item.remark)}`);
+    }
     sections.forEach(category => {
         if (lines.length > 1 && lines.at(-1) !== '') lines.push('');
         lines.push(`[${seedEscape(category.name, { bracket: true })}]`);
-        for (const item of category.items) lines.push(`${seedEscape(item.name)} | ${seedEscape(item.quantity)} | ${seedEscape(item.remark)}`);
+        for (const item of category.items) {
+            lines.push(`${seedEscape(item.name)} | ${seedEscape(item.quantity)} | ${seedEscape(item.remark)}`);
+        }
     });
     lines.push(`</${SEED_TAG}>`);
     return lines.join('\n');
@@ -130,8 +190,9 @@ export function buildInventoryPrompt(state, { replaceCapability = null } = {}) {
 `InventoryState is the sole authoritative current possession record. Earlier story mentions are historical and never restore absent items, old quantities, categories, or remarks.\n` +
 `Entries are Name | Quantity | Remark under free-form categories. Follow explicit OOC inventory administration such as creating party-member categories or consolidating supplies.\n` +
 `Never print <Inventory> or a visible inventory list. If nothing changes, emit no inventory control.\n` +
-`For ordinary gameplay changes append exactly one machine-only comment at the very end of the reply, with no prose after it:\n` +
-`<!-- ${UPDATE_COMMENT_MARKER}\n{"mode":"patch","ops":[...]}\n-->\n` +
+`For an inventory change, append exactly one machine-only control as the final content of the reply. Put it after a single space on the final line so single-line generation modes can still emit it. The terminal period is mandatory:\n` +
+`<!-- ${UPDATE_COMMENT_MARKER} {"mode":"patch","ops":[...]} -->${CONTROL_SENTINEL}\n` +
+`If a JSON string would contain the literal sequence -->, encode the > as \\u003e inside that JSON string.\n` +
 `Ops: add_category{name}; rename_category{category,name}; delete_category{category,confirm?}; add_item{category,name,quantity,remark}; set_item{category,name,quantity?,remark?}; adjust_item{category,name,by}; edit_item{category,name,newName?,quantity?,remark?}; delete_item{category,name}; move_item{fromCategory,toCategory,name}.\n` +
 `Deleting a non-empty category requires confirm:"delete-items" and should only be used when the user's intent clearly includes deleting its contents.\n` +
 `Numeric quantities must stay above zero; when they reach zero the item is deleted. Use adjust_item only when Quantity itself is a plain number. If the meaningful amount is in Remark (for example Food | 1 | 8 days or Coin Pouch | 1 | 400 Gold), use edit_item instead.\n` +
@@ -141,32 +202,21 @@ replaceRule +
 
 function seedCategoryMarker(line) {
     const text = String(line ?? '').trim();
-    if (text.startsWith('[') && text.endsWith(']')) {
-        const inner = text.slice(1, -1);
-        let escaped = false;
-        for (let i = 0; i < inner.length; i++) {
-            if (escaped) escaped = false;
-            else if (inner[i] === '\\') escaped = true;
-            else if (inner[i] === ']') return null;
+    if (!text.startsWith('[') || !text.endsWith(']')) return null;
+    const inner = text.slice(1, -1);
+    let escaped = false;
+    for (let i = 0; i < inner.length; i++) {
+        if (escaped) {
+            escaped = false;
+            continue;
         }
-        return seedUnescape(inner).trim();
+        if (inner[i] === '\\') {
+            escaped = true;
+            continue;
+        }
+        if (inner[i] === ']') return null;
     }
-    const bare = text.match(/^--\s*(.+?)\s*--$/);
-    if (bare) return bare[1].trim();
-    const cells = splitSeedCells(line);
-    const tableMarker = String(cells[0] ?? '').match(/^--\s*(.+?)\s*--$/);
-    if (tableMarker && cells.slice(1).every(cell => !cell)) return tableMarker[1].trim();
-    return null;
-}
-
-function isSeedTableSeparator(cells) {
-    return cells.length > 1 && cells.every(cell => !cell || /^:?-{2,}:?$/.test(cell));
-}
-
-function isSeedTableHeader(cells) {
-    if (cells.length < 2) return false;
-    const [first, second, third = ''] = cells.map(cell => cell.toLocaleLowerCase());
-    return ['item', 'name'].includes(first) && ['qty', 'quantity'].includes(second) && (!third || ['notes', 'note', 'remark', 'remarks'].includes(third));
+    return seedUnescape(inner).trim();
 }
 
 function ensureSeedCategory(categories, name) {
@@ -179,12 +229,18 @@ function ensureSeedCategory(categories, name) {
     return category;
 }
 
-function tidyMessage(text) {
-    return String(text ?? '').replace(/[ \t]+\n/g, '\n').replace(/\n{3,}/g, '\n\n').trimEnd();
-}
-
 function seedMatches(source) {
     return [...String(source ?? '').matchAll(/<Inventory\b[^>]*>([\s\S]*?)<\/Inventory\s*>/gi)];
+}
+
+function removeSpans(source, spans) {
+    if (!spans.length) return source;
+    let result = source;
+    const ordered = [...spans].sort((a, b) => b.index - a.index);
+    for (const span of ordered) {
+        result = `${result.slice(0, span.index)}${result.slice(span.index + span.length)}`;
+    }
+    return result;
 }
 
 export function consumeInventorySeed(messageText) {
@@ -196,7 +252,7 @@ export function consumeInventorySeed(messageText) {
         if (open < 0) return { found: false, cleanedText: source, state: null, errors: [] };
         return {
             found: true,
-            cleanedText: tidyMessage(source.slice(0, open)),
+            cleanedText: source.slice(0, open),
             state: null,
             errors: ['The <Inventory> seed was truncated and was discarded.'],
         };
@@ -207,7 +263,7 @@ export function consumeInventorySeed(messageText) {
             found: true,
             cleanedText: stripped.cleanedText,
             state: null,
-            errors: ['Exactly one <Inventory> seed block is allowed in the first message; all seed blocks were discarded.'],
+            errors: ['Exactly one <Inventory> seed block is allowed for one seed message; all seed blocks were discarded.'],
         };
     }
 
@@ -217,20 +273,31 @@ export function consumeInventorySeed(messageText) {
     const meaningfulLines = String(closed[1] ?? '').split(/\r?\n/).map(line => line.trim()).filter(Boolean);
     for (const rawLine of meaningfulLines) {
         const marker = seedCategoryMarker(rawLine);
-        if (marker) {
+        if (marker !== null) {
+            if (!marker) {
+                return {
+                    found: true,
+                    cleanedText: removeSpans(source, [{ index: closed.index ?? 0, length: closed[0].length }]),
+                    state: null,
+                    errors: ['Inventory category names cannot be blank.'],
+                };
+            }
             current = ensureSeedCategory(categories, marker);
             continue;
         }
         const cells = splitSeedCells(rawLine);
-        if (isSeedTableSeparator(cells) || isSeedTableHeader(cells) || cells.length < 2) continue;
+        if (cells.length < 2) continue;
         const name = String(cells[0] ?? '').trim();
         if (!name) continue;
         if (!current) current = ensureSeedCategory(categories, ROOT_CATEGORY);
-        current.items.push({ name, quantity: normalizeQuantity(cells[1]), remark: cells.slice(2).join(' | ').trim() });
+        current.items.push({
+            name,
+            quantity: normalizeQuantity(cells[1]),
+            remark: cells.slice(2).join(' | ').trim(),
+        });
     }
 
-    const start = closed.index ?? 0;
-    const cleanedText = tidyMessage(`${source.slice(0, start)}${source.slice(start + closed[0].length)}`);
+    const cleanedText = removeSpans(source, [{ index: closed.index ?? 0, length: closed[0].length }]);
     let state;
     try {
         state = validateAndNormalizeInventory({ categories });
@@ -242,17 +309,41 @@ export function consumeInventorySeed(messageText) {
 
 export function stripReservedInventorySeed(messageText) {
     const source = String(messageText ?? '');
-    const closedRe = /<Inventory\b[^>]*>[\s\S]*?<\/Inventory\s*>/gi;
-    let found = false;
-    let cleaned = source.replace(closedRe, () => { found = true; return ''; });
-    const open = cleaned.search(/<Inventory\b[^>]*>/i);
+    const matches = seedMatches(source);
+    const spans = matches.map(match => ({ index: match.index ?? 0, length: match[0].length }));
+    let cleaned = removeSpans(source, spans);
+    let found = spans.length > 0;
     let truncated = false;
+    const open = cleaned.search(/<Inventory\b[^>]*>/i);
     if (open >= 0) {
         found = true;
         truncated = true;
         cleaned = cleaned.slice(0, open);
     }
-    return { found, truncated, cleanedText: tidyMessage(cleaned) };
+    return { found, truncated, cleanedText: found ? cleaned : source };
+}
+
+export function mergeInventoryStates(baseState, addedState) {
+    const merged = normalizeInventory(clone(baseState));
+    const incoming = validateAndNormalizeInventory(addedState);
+    for (const incomingCategory of incoming.categories) {
+        let target = merged.categories.find(category => sameName(category.name, incomingCategory.name));
+        if (!target) {
+            target = { name: incomingCategory.name, items: [] };
+            merged.categories.push(target);
+        }
+        for (const incomingItem of incomingCategory.items) {
+            const existing = target.items.find(item => sameName(item.name, incomingItem.name));
+            if (!existing) {
+                target.items.push(clone(incomingItem));
+                continue;
+            }
+            if (JSON.stringify(existing) !== JSON.stringify(incomingItem)) {
+                throw new Error(`Seed merge collision for "${incomingItem.name}" in "${target.name}".`);
+            }
+        }
+    }
+    return validateAndNormalizeInventory(merged);
 }
 
 function findCategory(state, name) {
@@ -277,21 +368,25 @@ function ensureCategory(state, name) {
     return category;
 }
 
+function itemArgument(value) {
+    return stringArgument(value, 'Inventory item name');
+}
+
 function findItemIndex(category, name) {
-    return category.items.findIndex(item => sameName(item.name, name));
+    const clean = itemArgument(name);
+    return category.items.findIndex(item => sameName(item.name, clean));
 }
 
 function assertNoItemCollision(category, name, exceptIndex = -1) {
-    const index = findItemIndex(category, name);
-    if (index >= 0 && index !== exceptIndex) throw new Error(`Item already exists in "${category.name}": ${name}`);
+    const clean = itemArgument(name);
+    const index = category.items.findIndex(item => sameName(item.name, clean));
+    if (index >= 0 && index !== exceptIndex) throw new Error(`Item already exists in "${category.name}": ${clean}`);
 }
 
 function normalizedItemFromOp(op) {
-    if (typeof op?.name !== 'string') throw new Error('Inventory item name must be a string.');
+    const name = itemArgument(op?.name);
     assertScalarText(op?.quantity, 'Inventory quantity');
     assertScalarText(op?.remark, 'Inventory remark');
-    const name = op.name.trim();
-    if (!name) throw new Error('Inventory item name is required.');
     return { name, quantity: normalizeQuantity(op?.quantity), remark: cleanRemark(op?.remark) };
 }
 
@@ -302,20 +397,17 @@ function quantityWouldDelete(value) {
 
 function applyPatchOperation(state, op) {
     if (!op || typeof op !== 'object' || Array.isArray(op)) throw new Error('Inventory operation must be an object.');
+    if (typeof op.op !== 'string' || !op.op.trim()) throw new Error('Inventory operation requires a string op field.');
     switch (op.op) {
         case 'add_category': {
-            if (typeof op.name !== 'string') throw new Error('Category name must be a string.');
-            const name = canonicalCategoryName(op.name);
-            if (!name) throw new Error('Category name is required.');
+            const name = categoryArgument(op.name, 'Category name');
             if (findCategory(state, name)) throw new Error(`Category already exists: ${name}`);
             state.categories.push({ name, items: [] });
             return;
         }
         case 'rename_category': {
             const category = requireCategory(state, op.category);
-            if (typeof op.name !== 'string') throw new Error('New category name must be a string.');
-            const name = canonicalCategoryName(op.name);
-            if (!name) throw new Error('New category name is required.');
+            const name = categoryArgument(op.name, 'New category name');
             const duplicate = findCategory(state, name);
             if (duplicate && duplicate !== category) throw new Error(`Category already exists: ${name}`);
             category.name = name;
@@ -350,9 +442,7 @@ function applyPatchOperation(state, op) {
         }
         case 'set_item': {
             const category = ensureCategory(state, op.category);
-            if (typeof op?.name !== 'string') throw new Error('Inventory item name must be a string.');
-            const name = op.name.trim();
-            if (!name) throw new Error('Inventory item name is required.');
+            const name = itemArgument(op.name);
             const index = findItemIndex(category, name);
             if (Object.hasOwn(op, 'quantity')) assertScalarText(op.quantity, 'Inventory quantity');
             if (Object.hasOwn(op, 'remark')) assertScalarText(op.remark, 'Inventory remark');
@@ -380,29 +470,27 @@ function applyPatchOperation(state, op) {
         }
         case 'adjust_item': {
             const category = requireCategory(state, op.category);
-            const index = findItemIndex(category, op.name);
-            if (index < 0) throw new Error(`Unknown inventory item: ${op.name}`);
+            const name = itemArgument(op.name);
+            const index = findItemIndex(category, name);
+            if (index < 0) throw new Error(`Unknown inventory item: ${name}`);
             const existing = category.items[index];
             const current = numericQuantity(existing.quantity);
             if (current === null) throw new Error(`Cannot numerically adjust non-numeric quantity for ${existing.name}.`);
-            const delta = Number(op.by);
-            if (!Number.isFinite(delta)) throw new Error(`Invalid quantity adjustment for ${existing.name}.`);
-            const result = current + delta;
+            const result = current + numericDelta(op.by);
             if (result <= 0) category.items.splice(index, 1);
             else existing.quantity = String(result);
             return;
         }
         case 'edit_item': {
             const category = requireCategory(state, op.category);
-            const index = findItemIndex(category, op.name);
-            if (index < 0) throw new Error(`Unknown inventory item: ${op.name}`);
+            const name = itemArgument(op.name);
+            const index = findItemIndex(category, name);
+            if (index < 0) throw new Error(`Unknown inventory item: ${name}`);
             const item = category.items[index];
             if (Object.hasOwn(op, 'quantity')) assertScalarText(op.quantity, 'Inventory quantity');
             if (Object.hasOwn(op, 'remark')) assertScalarText(op.remark, 'Inventory remark');
             if (Object.hasOwn(op, 'newName')) {
-                if (typeof op.newName !== 'string') throw new Error('New item name must be a string.');
-                const newName = op.newName.trim();
-                if (!newName) throw new Error('New item name cannot be blank.');
+                const newName = itemArgument(op.newName);
                 assertNoItemCollision(category, newName, index);
                 item.name = newName;
             }
@@ -419,15 +507,17 @@ function applyPatchOperation(state, op) {
         }
         case 'delete_item': {
             const category = requireCategory(state, op.category);
-            const index = findItemIndex(category, op.name);
-            if (index < 0) throw new Error(`Unknown inventory item: ${op.name}`);
+            const name = itemArgument(op.name);
+            const index = findItemIndex(category, name);
+            if (index < 0) throw new Error(`Unknown inventory item: ${name}`);
             category.items.splice(index, 1);
             return;
         }
         case 'move_item': {
             const from = requireCategory(state, op.fromCategory);
-            const index = findItemIndex(from, op.name);
-            if (index < 0) throw new Error(`Unknown inventory item: ${op.name}`);
+            const name = itemArgument(op.name);
+            const index = findItemIndex(from, name);
+            if (index < 0) throw new Error(`Unknown inventory item: ${name}`);
             const to = ensureCategory(state, op.toCategory);
             if (to === from) return;
             assertNoItemCollision(to, from.items[index].name);
@@ -443,7 +533,7 @@ function applyPatchOperation(state, op) {
 function applyPayload(baseState, payload, { replaceCapability = null } = {}) {
     if (!payload || typeof payload !== 'object' || Array.isArray(payload)) throw new Error('Inventory update payload must be a JSON object.');
     if (payload.mode === 'replace') {
-        if (!replaceCapability || payload.replaceToken !== replaceCapability) {
+        if (!replaceCapability || typeof payload.replaceToken !== 'string' || payload.replaceToken !== replaceCapability) {
             throw new Error('Full inventory replacement was not authorized for this generation.');
         }
         return validateAndNormalizeInventory({ categories: payload.categories });
@@ -466,53 +556,147 @@ export function hasInventoryControl(text) {
 
 export function hasCompleteInventoryUpdate(text) {
     const source = String(text ?? '');
-    const comment = new RegExp(`<!--\\s*${UPDATE_COMMENT_MARKER}\\s*[\\s\\S]*?-->`, 'i');
-    const tag = new RegExp(`<${UPDATE_TAG}\\b[^>]*>[\\s\\S]*?<\\/${UPDATE_TAG}\\s*>`, 'i');
-    return comment.test(source) || tag.test(source);
+    const commentStart = new RegExp(`<!--\\s*${UPDATE_COMMENT_MARKER}\\b`, 'i').exec(source);
+    if (commentStart && source.lastIndexOf('-->') > (commentStart.index ?? -1)) return true;
+    const tag = new RegExp(`<${UPDATE_TAG}\\b[^>]*>[\\s\\S]*<\\/${UPDATE_TAG}\\s*>`, 'i');
+    return tag.test(source);
 }
 
-function collectControls(source) {
-    const controls = [];
-    const commentRe = new RegExp(`<!--\\s*${UPDATE_COMMENT_MARKER}\\s*([\\s\\S]*?)-->`, 'gi');
-    const tagRe = new RegExp(`<${UPDATE_TAG}\\b[^>]*>([\\s\\S]*?)<\\/${UPDATE_TAG}\\s*>`, 'gi');
-    for (const match of source.matchAll(commentRe)) controls.push({ body: match[1], index: match.index ?? 0, length: match[0].length });
-    for (const match of source.matchAll(tagRe)) controls.push({ body: match[1], index: match.index ?? 0, length: match[0].length });
-    return controls.sort((a, b) => a.index - b.index);
+function consumeCommentControl(source) {
+    const markerRe = new RegExp(`<!--\\s*${UPDATE_COMMENT_MARKER}\\b`, 'gi');
+    const starts = [...source.matchAll(markerRe)];
+    if (!starts.length) return null;
+    const first = starts[0];
+    const start = first.index ?? 0;
+    if (starts.length > 1) {
+        return {
+            cleanedText: source.slice(0, start),
+            body: null,
+            hadControl: true,
+            errors: ['Multiple inventory control records were emitted; all were discarded.'],
+        };
+    }
+    const openMatch = new RegExp(`<!--\\s*${UPDATE_COMMENT_MARKER}\\b\\s*`, 'i').exec(source.slice(start));
+    const bodyStart = start + (openMatch?.[0].length ?? first[0].length);
+    const close = source.lastIndexOf('-->');
+    if (close < bodyStart) {
+        return {
+            cleanedText: source.slice(0, start),
+            body: null,
+            hadControl: true,
+            errors: ['Inventory control record was truncated and discarded.'],
+        };
+    }
+    const trailing = source.slice(close + 3);
+    if (!/^\s*\.?\s*$/.test(trailing)) {
+        return {
+            cleanedText: source.slice(0, start),
+            body: null,
+            hadControl: true,
+            errors: ['Inventory control must be the final non-whitespace content in the response.'],
+        };
+    }
+    let cleanStart = start;
+    if (cleanStart > 0 && source[cleanStart - 1] === ' ') cleanStart -= 1;
+    return {
+        cleanedText: source.slice(0, cleanStart),
+        body: source.slice(bodyStart, close).trim(),
+        hadControl: true,
+        errors: trailing.includes(CONTROL_SENTINEL) ? [] : ['Inventory control is missing its required terminal period.'],
+    };
+}
+
+function consumeTagControl(source) {
+    const openRe = new RegExp(`<${UPDATE_TAG}\\b[^>]*>`, 'gi');
+    const starts = [...source.matchAll(openRe)];
+    if (!starts.length) return null;
+    const start = starts[0].index ?? 0;
+    if (starts.length > 1) {
+        return {
+            cleanedText: source.slice(0, start),
+            body: null,
+            hadControl: true,
+            errors: ['Multiple inventory control records were emitted; all were discarded.'],
+        };
+    }
+    const openLength = starts[0][0].length;
+    const closeText = `</${UPDATE_TAG}>`;
+    const lower = source.toLocaleLowerCase();
+    const close = lower.lastIndexOf(closeText.toLocaleLowerCase());
+    if (close < start + openLength) {
+        return {
+            cleanedText: source.slice(0, start),
+            body: null,
+            hadControl: true,
+            errors: ['Inventory control record was truncated and discarded.'],
+        };
+    }
+    const trailing = source.slice(close + closeText.length);
+    if (trailing.trim()) {
+        return {
+            cleanedText: source.slice(0, start),
+            body: null,
+            hadControl: true,
+            errors: ['Inventory control must be the final non-whitespace content in the response.'],
+        };
+    }
+    return {
+        cleanedText: source.slice(0, start),
+        body: source.slice(start + openLength, close).trim(),
+        hadControl: true,
+        errors: [],
+    };
 }
 
 export function consumeInventoryUpdates(messageText, baseState, { replaceCapability = null } = {}) {
     const source = String(messageText ?? '');
-    const controls = collectControls(source);
-    let cleaned = source;
-    for (let i = controls.length - 1; i >= 0; i--) {
-        const control = controls[i];
-        cleaned = `${cleaned.slice(0, control.index)}${cleaned.slice(control.index + control.length)}`;
+    const comment = consumeCommentControl(source);
+    const tag = consumeTagControl(source);
+    if (comment && tag) {
+        const firstStart = Math.min(
+            source.search(new RegExp(`<!--\\s*${UPDATE_COMMENT_MARKER}\\b`, 'i')),
+            source.search(new RegExp(`<${UPDATE_TAG}\\b`, 'i')),
+        );
+        return {
+            cleanedText: source.slice(0, Math.max(0, firstStart)),
+            state: normalizeInventory(baseState),
+            changed: false,
+            hadControl: true,
+            errors: ['Multiple inventory control formats were emitted; all were discarded.'],
+            note: '',
+            mode: null,
+        };
     }
-
-    let truncated = false;
-    const commentCut = new RegExp(`<!--\\s*${UPDATE_COMMENT_MARKER}[\\s\\S]*$`, 'i');
-    if (commentCut.test(cleaned)) { cleaned = cleaned.replace(commentCut, ''); truncated = true; }
-    const tagCut = new RegExp(`<${UPDATE_TAG}\\b[^>]*>[\\s\\S]*$`, 'i');
-    if (tagCut.test(cleaned)) { cleaned = cleaned.replace(tagCut, ''); truncated = true; }
-    cleaned = tidyMessage(cleaned);
+    const control = comment ?? tag;
+    if (!control) {
+        return {
+            cleanedText: source,
+            state: normalizeInventory(baseState),
+            changed: false,
+            hadControl: false,
+            errors: [],
+            note: '',
+            mode: null,
+        };
+    }
+    if (control.errors.length || control.body === null) {
+        return {
+            cleanedText: control.cleanedText,
+            state: normalizeInventory(baseState),
+            changed: false,
+            hadControl: true,
+            errors: control.errors,
+            note: '',
+            mode: null,
+        };
+    }
 
     const errors = [];
-    if (truncated) errors.push('Inventory control record was truncated and discarded.');
-    if (controls.length > 1) errors.push('Multiple inventory control records were emitted; all were discarded.');
-    if (controls.length === 1) {
-        const control = controls[0];
-        const trailing = source.slice(control.index + control.length);
-        if (trailing.trim()) errors.push('Inventory control must be the final non-whitespace content in the response.');
-    }
-    if (controls.length === 0 || errors.length) {
-        return { cleanedText: cleaned, state: normalizeInventory(baseState), changed: false, hadControl: controls.length > 0 || truncated, errors, note: '' };
-    }
-
     let working = normalizeInventory(baseState);
     let payload = null;
     try {
-        if (String(controls[0].body ?? '').length > LIMITS.controlChars) throw new Error(`Inventory control exceeds ${LIMITS.controlChars.toLocaleString()} characters.`);
-        payload = JSON.parse(stripFence(controls[0].body));
+        if (control.body.length > LIMITS.controlChars) throw new Error(`Inventory control exceeds ${LIMITS.controlChars.toLocaleString()} characters.`);
+        payload = JSON.parse(stripFence(control.body));
         working = applyPayload(working, payload, { replaceCapability });
     } catch (error) {
         errors.push(...(error.validationErrors ?? [error instanceof Error ? error.message : String(error)]));
@@ -520,6 +704,16 @@ export function consumeInventoryUpdates(messageText, baseState, { replaceCapabil
     }
 
     const changed = errors.length === 0 && JSON.stringify(working) !== JSON.stringify(normalizeInventory(baseState));
-    const note = payload?.mode === 'replace' ? 'LLM inventory replacement' : `LLM inventory update (${Array.isArray(payload?.ops) ? payload.ops.length : 0} operations)`;
-    return { cleanedText: cleaned, state: working, changed, hadControl: true, errors, note, mode: payload?.mode ?? null };
+    const note = payload?.mode === 'replace'
+        ? 'LLM inventory replacement'
+        : `LLM inventory update (${Array.isArray(payload?.ops) ? payload.ops.length : 0} operations)`;
+    return {
+        cleanedText: control.cleanedText,
+        state: working,
+        changed,
+        hadControl: true,
+        errors,
+        note,
+        mode: payload?.mode ?? null,
+    };
 }

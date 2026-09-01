@@ -25,6 +25,16 @@ export function targetMessageForGeneration(type, latestAssistantMessageId) {
         : null;
 }
 
+export function generationTypeMatches(expected, actual) {
+    const want = normalizeGenerationType(expected);
+    const got = normalizeGenerationType(actual);
+    if (want === got) return true;
+    if (want === 'continue' && ['append', 'appendfinal', 'continue'].includes(got)) return true;
+    if (want === 'regenerate' && ['regenerate', 'normal'].includes(got)) return true;
+    if (want === 'group' && got === 'normal') return true;
+    return false;
+}
+
 export function isBroadInventoryAdministration(text) {
     const source = String(text ?? '');
     if (!source.trim()) return false;
@@ -43,12 +53,17 @@ export function latestUserMessageText(chat) {
     return '';
 }
 
-
 export function userInstructionForGeneration(type, chat, composerText = '') {
     const lower = normalizeGenerationType(type);
     const composer = String(composerText ?? '').trim();
     if ((lower === 'normal' || lower === 'group') && composer) return composer;
     return latestUserMessageText(chat);
+}
+
+export function generationGuardLength(type, startChatLength, targetMessageId = null) {
+    const lower = normalizeGenerationType(type);
+    if (isReplacementGeneration(lower) && Number.isInteger(targetMessageId)) return Math.max(0, targetMessageId);
+    return Math.max(0, Number.isInteger(startChatLength) ? startChatLength : 0);
 }
 
 export function createReplaceCapability() {

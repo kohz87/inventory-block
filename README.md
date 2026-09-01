@@ -1,4 +1,4 @@
-# Inventory Block v0.2.2
+# Inventory Block v0.2.3
 
 A lightweight SillyTavern RPG inventory extension built around **real per-chat backend state** instead of repeating complete inventory snapshots in assistant messages.
 
@@ -6,21 +6,21 @@ v0.2.x is a clean architecture. It intentionally has **no v1.x ledger migration/
 
 ## Core model
 
-Inventory Block owns the authoritative current inventory for each chat:
+Inventory Block owns the authoritative inventory for each chat:
 
 - free-form categories;
 - each item has only **Name**, **Quantity**, and **Remark**;
-- manual edits change the real backend state;
-- the complete current inventory is injected into the LLM for awareness;
-- the LLM does not reproduce the full inventory every reply;
-- LLM changes arrive through one invisible machine control record, are validated atomically, applied to backend state, then physically stripped from stored chat text;
-- complete backend revisions support swipe, regeneration, deletion, and manual restore;
-- portable message-metadata checkpoints let SillyTavern Branch/Checkpoint chats rebuild their own backend without visible inventory snapshots;
-- old story references cannot resurrect items missing from the current backend inventory.
+- manual edits write directly to backend state;
+- the complete current inventory is injected into foreground assistant generations;
+- quiet/impersonate/background generations do not receive Inventory context;
+- the LLM emits a small hidden mutation only when inventory changes;
+- mutations are validated atomically, applied to backend state, then physically removed from stored assistant text;
+- backend revisions support swipe, regeneration, deletion, restore, and SillyTavern Branch/Checkpoint recovery;
+- old story references never override the current backend inventory.
 
-## Starting inventory from the first message
+## Starting inventory
 
-Use one simple `<Inventory>` block in the character's first assistant message:
+A fresh character/game can seed inventory from an assistant greeting:
 
 ```text
 <narration>
@@ -40,17 +40,17 @@ Linen Smock | 1 | Worn
 </Inventory>
 ```
 
-Rows before the first category become the root `General` inventory. Categories use `[Category Name]`.
+Rows before the first category become root `General` items. Categories use only `[Category Name]`; v0.2.3 deliberately no longer interprets Markdown table headers or `-- Category --` as special seed syntax.
 
-The extension consumes the seed once for that first-message swipe, stores it as backend state, removes `<Inventory>...</Inventory>` from the actual message, and saves the cleaned story text. Alternate first-message swipes can carry their own seed.
+The extension consumes the seed, stores it as backend state, removes the `<Inventory>...</Inventory>` block from the actual assistant message, and saves only the story text. Consecutive first-message greetings in a fresh SillyTavern group chat can contribute additional non-conflicting seed categories/items.
 
-After initialization, `<Inventory>` is reserved. If a model later emits another full `<Inventory>` snapshot, it is stripped and does **not** overwrite backend state.
+`Copy Block` emits the same strict seed format. Pipes, backslashes, closing brackets, and reserved `<Inventory>` delimiters are escaped losslessly.
 
-`Copy block` outputs the same seed format. Literal `|`, `\\`, and `]` characters are escaped so copied blocks round-trip through the seed parser.
+After greeting initialization, `<Inventory>` is reserved. Later accidental full snapshots are stripped and do not overwrite backend state.
 
-## Natural-language/OOC management
+## Natural-language / OOC management
 
-Because the complete current inventory is injected into the model, ordinary OOC instructions can reorganize the real backend state:
+Because the model receives the complete authoritative state, ordinary instructions can reorganize the real inventory:
 
 ```text
 [OOC: create category for each party member]
@@ -64,17 +64,17 @@ Because the complete current inventory is injected into the model, ordinary OOC 
 [OOC: merge duplicate monster materials and shorten the remarks]
 ```
 
-Small gameplay changes use compact patch operations. When the current user request clearly asks for broad inventory administration, Inventory Block gives that generation a one-time internal replacement capability. The model may then atomically replace the full inventory. A replacement without the exact capability is rejected.
+Small changes use patch operations. Broad inventory-administration turns receive a one-generation replacement capability, allowing an atomic complete rewrite without granting unrestricted replacement on ordinary turns.
 
 ## Hidden update protocol
 
-Ordinary gameplay changes are returned as one machine-only comment at the end of the assistant response:
+A normal gameplay change is emitted at the very end of the assistant response:
 
 ```html
-<!-- INVENTORY_BLOCK_UPDATE
-{"mode":"patch","ops":[{"op":"adjust_item","category":"Supplies","name":"Rations","by":-1}]}
--->
+<!-- INVENTORY_BLOCK_UPDATE {"mode":"patch","ops":[{"op":"adjust_item","category":"Supplies","name":"Rations","by":-1}]} -->.
 ```
+
+The final period is intentional. It keeps the control intact when SillyTavern's **Trim Incomplete Sentences** option is enabled. The entire comment plus period is removed before the message is retained as story text.
 
 Supported patch operations:
 
@@ -88,94 +88,84 @@ Supported patch operations:
 - `delete_item`
 - `move_item`
 
-Full replacement is an internal model protocol only for an explicitly recognized broad inventory-management turn. Inventory Block injects the one-time capability automatically; users do not need to write or manage it.
+`adjust_item` accepts only a finite number or plain numeric string. Semantic quantities such as `Food | 1 | About 8 days` should use `edit_item` instead. Deleting a non-empty category requires `confirm:"delete-items"`.
 
-The control record must be the final non-whitespace response content and is removed from the raw assistant message after processing. If malformed, duplicated, truncated, misplaced, unauthorized, ambiguous, or invalid, the entire update is rejected and the previous inventory remains intact.
+Malformed, duplicated, truncated, misplaced, unauthorized, or invalid controls are rejected atomically. A literal `-->` inside JSON cannot leak machine text into the stored assistant reply; the parser owns the complete final control suffix.
 
-`adjust_item` is only for plain numeric Quantity values. Semantic quantities such as `Food | 1 | 8 days` or `Coin Pouch | 1 | 400 Gold` should be changed with `edit_item` so the meaningful amount in Remark is preserved.
+## Prompt isolation and safety
 
-Deleting a non-empty category requires the explicit machine confirmation `confirm:"delete-items"`; ordinary category deletion cannot silently throw away its contents.
+v0.2.3 uses SillyTavern's `generate_interceptor` for live generations. A generation-local opaque prompt slot is inserted into that generation's private working chat, then replaced with Inventory context at the final prompt-ready event.
 
-## Validation and safety
+This gives two useful properties:
 
-v0.2.1 validates backend writes strictly:
+1. quiet/impersonate/background generations never inherit the foreground Inventory prompt, even under overlap;
+2. Inventory text is not exposed to World Info scanning while the prompt is being assembled.
+
+The opaque slot carries a base64 reservation roughly proportional to the final Inventory prompt so prompt budgeting does not treat the slot as a tiny placeholder and then unexpectedly expand it after truncation.
+
+Inventory values are escaped before prompt insertion. XML delimiters, macro braces, category brackets, ampersands, and pipe delimiters cannot break out of `<InventoryState>` or become SillyTavern macros.
+
+Dry-run token assembly uses a prompt-ready accounting injection because SillyTavern intentionally skips generate interceptors for dry runs; this keeps token estimates aware of Inventory without creating a global live prompt.
+
+## Validation
+
+Backend writes are strict:
 
 - category and item names cannot be blank;
-- category names are case-insensitively unique;
+- categories are case-insensitively unique;
 - item names are case-insensitively unique within their category;
-- `General` and `Uncategorized` canonicalize to one root `General` category;
-- names must be strings, while Quantity/Remark accept only scalar text or finite numbers;
-- object/array values are rejected rather than becoming `[object Object]`;
-- numeric quantities cannot persist at zero or below; setting/editing a numeric quantity to zero deletes the item;
-- leading `×`/`x` is normalized only when it is clearly a numeric count prefix, so values such as `XL` remain intact;
+- `General` and `Uncategorized` canonicalize to root `General`;
+- names must be strings;
+- Quantity/Remark accept only text or finite numbers;
+- booleans, objects, and arrays are not silently coerced;
+- numeric quantities cannot persist at zero or below;
 - move/rename collisions are rejected;
 - inventory/category/item/control/patch sizes have safety ceilings;
-- invalid JSON import/replacement cannot silently clear inventory;
-- multiple machine update records in one reply are rejected instead of double-applied;
-- unknown backend state versions fail visibly instead of silently resetting inventory.
+- invalid imports and replacements cannot silently clear state;
+- unknown backend state versions fail visibly rather than resetting data.
 
 ## Revisions, swipes, regeneration, deletion, and branches
 
-Every accepted state change stores a complete backend snapshot. Revision history itself is never injected into the LLM.
+Accepted state changes create complete backend snapshots. Backend revision storage is hard-capped at **768** records and the History UI shows at most the newest **200** records. Branch heads are separately bounded.
 
-Assistant swipes carry lightweight revision metadata in SillyTavern's `extra` / `swipe_info`. State-changing checkpoints also carry a complete portable snapshot in message metadata. This is not assistant text and costs zero LLM tokens.
+State-changing messages also carry portable checkpoints in SillyTavern message/swipe metadata. These are not assistant text and cost zero LLM tokens. They are intentionally retained with the state-changing message because exact metadata-less Branch/Checkpoint recovery requires state to travel with the branch.
 
-This allows:
+This supports:
 
-- switching swipes to restore the inventory belonging to that swipe;
-- regenerating a response from the inventory state that existed before the replaced response;
-- continuing/appending an existing response without double-applying earlier changes;
-- deleting a middle assistant **or user** message to invalidate downstream inventory state from the divergent timeline;
-- editing assistant prose without rewinding inventory, while editing a user action still invalidates downstream causal state;
-- preserving manual inventory edits on the current timeline;
-- restoring old revisions through Inventory History;
-- opening a SillyTavern Branch/Checkpoint chat with no copied chat-level Inventory metadata and rebuilding the new branch from portable message checkpoints;
-- lazily materializing an alternate swipe's portable checkpoint inside a newly branched chat;
-- preventing blindly copied multi-swipe metadata from leaking one swipe's inventory into another.
+- switching swipes to the inventory belonging to that swipe;
+- regeneration from the inventory state before the replaced response;
+- continuation without double-applying earlier changes;
+- deletion of middle user/assistant messages with causal rollback;
+- assistant prose editing without inventory rewind;
+- user-action editing with downstream invalidation;
+- manual History restore;
+- metadata-less SillyTavern branch reconstruction;
+- recovery from backend revision compaction through portable checkpoints;
+- prevention of copied multi-swipe metadata leaking one swipe's state into another.
 
-Branch lineage uses stable assistant inventory UIDs plus content-sensitive user/system fingerprints and rolling prefix hashes. This avoids repeatedly hashing full assistant prose while retaining causal invalidation when user history changes.
-
-## Generation lifecycle
-
-Inventory Block prepares its generation transaction on SillyTavern's `GENERATION_AFTER_COMMANDS` event when available, falling back to `GENERATION_STARTED` on older builds. This avoids creating a phantom inventory transaction when slash-command processing cancels generation.
-
-`quiet`, `impersonate`, and dry-run generations are not treated as RP inventory responses. This is important with Megumin Suite features that use quiet/background generations.
-
-Normal generation has no pre-existing assistant target. Swipe/regenerate/continue/append-style generations are tied to the assistant message they actually modify. Manual editor/history writes are blocked while a tracked response is being committed rather than trying to merge two competing inventory timelines.
+Generation transactions also capture a causal timeline prefix. If the underlying timeline or inventory changes while a foreground model request is running, its generated inventory write is discarded instead of being applied to the wrong branch.
 
 ## Megumin Suite integration
 
-When the newest assistant message contains a Megumin Suite block card, Inventory Block joins it as an **Inventory** tab and uses the Megumin visual language.
+On the newest assistant message, Inventory Block joins an existing Megumin block card as an **Inventory** tab. If Megumin is absent, it renders a standalone card using the same compact visual language.
 
-The visible inventory retains the compact ledger layout:
+The visible tab is only a renderer over backend state. Inventory is not stored as a generated Megumin/assistant text block.
 
-- `Inventory Ledger` title;
-- total item + section count;
-- `Edit inventory`;
-- `Copy block`;
-- root items always visible;
+The tab provides:
+
+- item and section totals;
 - compact `Name / ×Quantity / Remark` rows;
-- collapsible free-form categories with item counts.
-
-The inventory tab is only a renderer over backend state. Inventory is not stored in the Megumin/assistant text block.
-
-Inventory neutralizes Megumin's selected-tab state before taking focus so switching back to World State/Choices/etc. behaves normally. The standalone fallback uses its own root class so Megumin's block cleanup cannot delete it.
+- root items;
+- collapsible categories;
+- `Edit inventory`;
+- `Copy Block`;
+- History.
 
 ## Extensions settings and editor
 
-Inventory Block registers a standard SillyTavern settings drawer in the **Extensions** panel. The drawer provides `Edit Inventory`, `History`, and `Copy Block`. The existing wand-menu **Inventory** shortcut remains available as a quick entry point.
+Inventory Block registers a normal SillyTavern **Extensions** settings drawer with `Edit Inventory`, `History`, and `Copy Block`. The wand-menu Inventory shortcut remains available.
 
-You can also click `Edit inventory` directly in the Inventory tab.
-
-The editor supports:
-
-- add/delete/edit items;
-- add/delete/rename/reorder categories;
-- JSON export/import;
-- clear inventory;
-- revision history and restore.
-
-Invalid saves keep the editor open so the draft can be corrected instead of being lost.
+The editor supports add/delete/edit items, add/delete/rename/reorder categories, JSON import/export, clear, and revision restore. Invalid saves keep the popup open for correction.
 
 There is intentionally no inventory search, weight engine, rarity system, or equipment-slot simulator.
 
@@ -196,4 +186,4 @@ npm test
 npm run check
 ```
 
-`npm test` includes deterministic state/protocol/lifecycle tests and the adversarial fuzz suite. See `TEST-REPORT.md` for the latest hard-pass review.
+`npm test` runs deterministic lifecycle/state/protocol/UI/injection tests plus adversarial seed/control/prompt fuzz and long-branch performance checks. See `TEST-REPORT.md` for the release hard pass.

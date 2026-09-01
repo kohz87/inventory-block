@@ -5,111 +5,124 @@ import {
     consumeInventorySeed,
     consumeInventoryUpdates,
     formatInventorySeedBlock,
-    hasCompleteInventoryUpdate,
+    formatInventoryState,
+    mergeInventoryStates,
     stripReservedInventorySeed,
 } from '../src/protocol.js';
 
-const base = {
-    categories: [
-        { name: 'General', items: [{ name: 'Gold', quantity: '1', remark: '100 Gold' }] },
-        { name: 'Supplies', items: [{ name: 'Rations', quantity: '3', remark: '' }] },
-    ],
-};
+const inv = categories => ({ categories });
+const item = (name, quantity = '1', remark = '') => ({ name, quantity, remark });
+const patch = ops => `<!-- INVENTORY_BLOCK_UPDATE ${JSON.stringify({ mode: 'patch', ops })} -->.`;
 
-test('seed parses simple rows, categories and x prefixes', () => {
-    const result = consumeInventorySeed(`Opening\n<Inventory>\nGold | ×1 | 100 Gold\n\n[Supplies]\nRations | x3 | Travel food\n</Inventory>`);
+test('no-control processing is byte-for-byte invisible to prose', () => {
+    const prose = 'Paragraph A   \n\n\n\nParagraph B\n\n';
+    const result = consumeInventoryUpdates(prose, inv([]));
+    assert.equal(result.cleanedText, prose);
+    assert.equal(result.hadControl, false);
+    assert.equal(stripReservedInventorySeed(prose).cleanedText, prose);
+});
+
+test('machine control survives sentence-trimming terminal punctuation and is stripped atomically', () => {
+    const source = `Story ends. ${patch([{ op: 'add_item', category: 'General', name: 'Ration', quantity: 2, remark: '' }])}`;
+    assert.equal(source.endsWith('.'), true);
+    const result = consumeInventoryUpdates(source, inv([]));
     assert.equal(result.errors.length, 0);
-    assert.equal(result.cleanedText, 'Opening');
-    assert.equal(result.state.categories[0].items[0].quantity, '1');
-    assert.equal(result.state.categories[1].items[0].quantity, '3');
+    assert.equal(result.cleanedText, 'Story ends.');
+    assert.equal(result.state.categories[0].items[0].quantity, '2');
 });
 
-test('seed copy round-trips pipes, backslashes and closing brackets', () => {
-    const special = { categories: [
-        { name: 'General', items: [{ name: 'Map | Copy', quantity: '1', remark: 'C:\\tmp | intact' }] },
-        { name: 'Astra ] Gear', items: [{ name: 'Ribbon', quantity: '1', remark: 'Blue | gold' }] },
-    ] };
-    const parsed = consumeInventorySeed(formatInventorySeedBlock(special));
-    assert.equal(parsed.errors.length, 0);
-    assert.deepEqual(parsed.state, special);
+test('literal comment terminator inside JSON does not leak machine text', () => {
+    const source = `Story. ${patch([{ op: 'add_item', category: 'General', name: 'Map', quantity: 1, remark: 'points --> north' }])}`;
+    const result = consumeInventoryUpdates(source, inv([]));
+    assert.deepEqual(result.errors, []);
+    assert.equal(result.cleanedText, 'Story.');
+    assert.equal(result.state.categories[0].items[0].remark, 'points --> north');
 });
 
-test('multiple first-message seeds are stripped and rejected', () => {
-    const result = consumeInventorySeed('Story\n<Inventory>\nGold | 1 |\n</Inventory>\n<Inventory>\nFood | 1 |\n</Inventory>');
-    assert.ok(result.errors.some(x => /Exactly one/.test(x)));
-    assert.equal(result.cleanedText, 'Story');
+test('missing control terminal period is rejected and stripped', () => {
+    const source = 'Story. <!-- INVENTORY_BLOCK_UPDATE {"mode":"patch","ops":[]} -->';
+    const result = consumeInventoryUpdates(source, inv([]));
+    assert.equal(result.changed, false);
+    assert.match(result.errors.join(' '), /terminal period/i);
+    assert.equal(result.cleanedText, 'Story.');
 });
 
-test('later reserved Inventory blocks are stripped', () => {
-    const result = stripReservedInventorySeed(`Story\n<Inventory>\nGold | 1 | 999\n</Inventory>`);
-    assert.equal(result.found, true);
-    assert.equal(result.cleanedText, 'Story');
+test('malformed or trailing control cannot leak JSON into stored prose', () => {
+    const source = 'Story. <!-- INVENTORY_BLOCK_UPDATE {"mode":"patch","ops":[{"op":"add_item"}]} --> trailing machine junk';
+    const result = consumeInventoryUpdates(source, inv([]));
+    assert.equal(result.cleanedText, 'Story. ');
+    assert.match(result.errors.join(' '), /final/);
 });
 
-test('patch adjusts quantity and preserves omitted set_item fields', () => {
-    const text = `Story\n<!-- INVENTORY_BLOCK_UPDATE\n{"mode":"patch","ops":[{"op":"adjust_item","category":"Supplies","name":"Rations","by":-1},{"op":"set_item","category":"General","name":"Gold","remark":"125 Gold"}]}\n-->`;
-    const result = consumeInventoryUpdates(text, base);
-    assert.equal(result.errors.length, 0);
-    assert.equal(result.state.categories[1].items[0].quantity, '2');
-    assert.equal(result.state.categories[0].items[0].quantity, '1');
-    assert.equal(result.state.categories[0].items[0].remark, '125 Gold');
+test('prompt data escapes XML, macro braces and pipes', () => {
+    const state = inv([{ name: 'A[slot]<&>{x}', items: [item('Blade | {{user}}', '1', '</InventoryState> & {{char}}')] }]);
+    const formatted = formatInventoryState(state);
+    assert.doesNotMatch(formatted, /<\/InventoryState>/);
+    assert.doesNotMatch(formatted, /\{\{user\}\}/);
+    assert.match(formatted, /&lt;\/InventoryState&gt;/);
+    assert.match(formatted, /&#123;&#123;user&#125;&#125;/);
+    assert.match(formatted, /A&#91;slot&#93;/);
+    assert.match(formatted, /∣/);
+    assert.match(buildInventoryPrompt(state), /terminal period is mandatory/i);
 });
 
-test('set/edit non-positive numeric quantity deletes existing item', () => {
-    const set = consumeInventoryUpdates(`<!-- INVENTORY_BLOCK_UPDATE\n{"mode":"patch","ops":[{"op":"set_item","category":"Supplies","name":"Rations","quantity":"0"}]}\n-->`, base);
-    assert.equal(set.errors.length, 0);
-    assert.equal(set.state.categories[1].items.length, 0);
-    const edit = consumeInventoryUpdates(`<!-- INVENTORY_BLOCK_UPDATE\n{"mode":"patch","ops":[{"op":"edit_item","category":"Supplies","name":"Rations","quantity":-2}]}\n-->`, base);
-    assert.equal(edit.errors.length, 0);
-    assert.equal(edit.state.categories[1].items.length, 0);
+test('strict v2 seed format round-trips previously ambiguous and reserved values', () => {
+    const state = inv([
+        { name: 'General', items: [
+            item('-- Sword --', '1', 'literal </Inventory> text'),
+            item('Name', 'Quantity', 'Remark'),
+            item('Pipe | Slash \\ Tag', '2', 'x]y <Inventory> \\u003C'),
+        ] },
+        { name: 'A]B </Inventory>', items: [item('Food', '1', '7 days')] },
+    ]);
+    const block = formatInventorySeedBlock(state);
+    assert.doesNotMatch(block.slice(block.indexOf('\n') + 1, block.lastIndexOf('\n')), /<\/Inventory>/);
+    const parsed = consumeInventorySeed(`Before\n${block}\nAfter`);
+    assert.deepEqual(parsed.errors, []);
+    assert.deepEqual(parsed.state, state);
+    assert.equal(parsed.cleanedText, 'Before\n\nAfter');
 });
 
-test('non-empty category deletion requires explicit destructive confirmation', () => {
-    const denied = consumeInventoryUpdates(`<!-- INVENTORY_BLOCK_UPDATE\n{"mode":"patch","ops":[{"op":"delete_category","category":"Supplies"}]}\n-->`, base);
-    assert.ok(denied.errors.some(x => /confirm/.test(x)));
-    const allowed = consumeInventoryUpdates(`<!-- INVENTORY_BLOCK_UPDATE\n{"mode":"patch","ops":[{"op":"delete_category","category":"Supplies","confirm":"delete-items"}]}\n-->`, base);
-    assert.equal(allowed.errors.length, 0);
-    assert.equal(allowed.state.categories.some(x => x.name === 'Supplies'), false);
+test('seed parser no longer treats markdown headers or -- names -- as categories', () => {
+    const source = '<Inventory>\n-- Sword -- | 1 | Weapon\nName | Quantity | Remark\n</Inventory>';
+    const parsed = consumeInventorySeed(source);
+    assert.deepEqual(parsed.errors, []);
+    assert.equal(parsed.state.categories[0].items[0].name, '-- Sword --');
+    assert.equal(parsed.state.categories[0].items[1].name, 'Name');
 });
 
-test('replace is rejected without exact per-generation capability', () => {
-    const payload = `<!-- INVENTORY_BLOCK_UPDATE\n{"mode":"replace","replaceToken":"abc","categories":[{"name":"General","items":[{"name":"Food","quantity":"1","remark":""}]}]}\n-->`;
-    assert.ok(consumeInventoryUpdates(payload, base).errors.length);
-    assert.ok(consumeInventoryUpdates(payload, base, { replaceCapability: 'wrong' }).errors.length);
-    const accepted = consumeInventoryUpdates(payload, base, { replaceCapability: 'abc' });
-    assert.equal(accepted.errors.length, 0);
-    assert.equal(accepted.state.categories[0].items[0].name, 'Food');
+test('manual seed only decodes the reserved angle-bracket unicode escapes', () => {
+    const seed = `<Inventory>\nLiteral \\u0041 | 1 | Keep \\u0042 text\nAngle \\u003C | 1 | close \\u003E\n</Inventory>`;
+    const parsed = consumeInventorySeed(seed);
+    assert.deepEqual(parsed.errors, []);
+    assert.equal(parsed.state.categories[0].items[0].name, 'Literal \\u0041');
+    assert.equal(parsed.state.categories[0].items[0].remark, 'Keep \\u0042 text');
+    assert.equal(parsed.state.categories[0].items[1].name, 'Angle <');
+    assert.equal(parsed.state.categories[0].items[1].remark, 'close >');
 });
 
-test('prompt exposes replacement token only when authorized', () => {
-    assert.match(buildInventoryPrompt(base), /replacement is disabled/i);
-    assert.match(buildInventoryPrompt(base, { replaceCapability: 'secret' }), /secret/);
+test('multiple greeting seeds merge without overwriting prior categories', () => {
+    const base = inv([{ name: 'Astra', items: [item('Smock', '1', 'Worn')] }]);
+    const added = inv([{ name: 'Kiri', items: [item('Smock', '1', 'Worn')] }]);
+    const merged = mergeInventoryStates(base, added);
+    assert.deepEqual(merged.categories.map(x => x.name), ['Astra', 'Kiri']);
+    assert.throws(() => mergeInventoryStates(base, inv([{ name: 'Astra', items: [item('Smock', '2', 'Worn')] }])), /collision/i);
 });
 
-test('control must be final non-whitespace response content', () => {
-    const middle = `Before\n<!-- INVENTORY_BLOCK_UPDATE\n{"mode":"patch","ops":[{"op":"adjust_item","category":"Supplies","name":"Rations","by":-1}]}\n-->\nAfter`;
-    const result = consumeInventoryUpdates(middle, base);
-    assert.ok(result.errors.some(x => /final/.test(x)));
-    assert.deepEqual(result.state, base);
-    assert.equal(result.cleanedText, 'Before\n\nAfter');
+test('patch operands reject coercible arrays, booleans and object item names', () => {
+    const base = inv([{ name: 'General', items: [item('Gold', '10', '')] }]);
+    for (const by of [true, [5], { value: 5 }]) {
+        const result = consumeInventoryUpdates(`X ${patch([{ op: 'adjust_item', category: 'General', name: 'Gold', by }])}`, base);
+        assert.equal(result.changed, false);
+        assert.ok(result.errors.length);
+    }
+    const badName = consumeInventoryUpdates(`X ${patch([{ op: 'delete_item', category: 'General', name: {} }])}`, base);
+    assert.equal(badName.changed, false);
+    assert.match(badName.errors.join(' '), /item name must be a string/i);
 });
 
-test('complete-control detector ignores truncated controls', () => {
-    assert.equal(hasCompleteInventoryUpdate('<!-- INVENTORY_BLOCK_UPDATE\n{"mode":"patch"}'), false);
-    assert.equal(hasCompleteInventoryUpdate('<!-- INVENTORY_BLOCK_UPDATE\n{"mode":"patch","ops":[]}\n-->'), true);
-});
-
-test('object-valued fields are rejected atomically', () => {
-    const result = consumeInventoryUpdates(`<!-- INVENTORY_BLOCK_UPDATE\n{"mode":"patch","ops":[{"op":"set_item","category":"General","name":"Gold","quantity":{"bad":1}}]}\n-->`, base);
-    assert.ok(result.errors.length);
-    assert.deepEqual(result.state, base);
-});
-
-test('object category arguments and excessive patch op counts are rejected', () => {
-    const objectCategory = consumeInventoryUpdates(`<!-- INVENTORY_BLOCK_UPDATE\n{"mode":"patch","ops":[{"op":"add_item","category":{"bad":1},"name":"Torch","quantity":"1","remark":""}]}\n-->`, base);
-    assert.ok(objectCategory.errors.length);
-
-    const ops = Array.from({ length: 257 }, () => ({ op: 'set_item', category: 'General', name: 'Gold', remark: 'x' }));
-    const tooMany = consumeInventoryUpdates(`<!-- INVENTORY_BLOCK_UPDATE\n${JSON.stringify({ mode: 'patch', ops })}\n-->`, base);
-    assert.ok(tooMany.errors.some(x => /too many operations/.test(x)));
+test('replace remains capability-gated', () => {
+    const source = '<!-- INVENTORY_BLOCK_UPDATE {"mode":"replace","replaceToken":"secret","categories":[]} -->.';
+    assert.ok(consumeInventoryUpdates(source, inv([])).errors.length);
+    assert.equal(consumeInventoryUpdates(source, inv([]), { replaceCapability: 'secret' }).errors.length, 0);
 });

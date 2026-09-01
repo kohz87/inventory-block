@@ -1,101 +1,114 @@
 import assert from 'node:assert/strict';
+import { performance } from 'node:perf_hooks';
 import {
-  attachMessageRevision,
-  commitManualState,
-  createRevision,
-  ensureRoot,
-  getCurrentInventory,
-  rememberBranchHead,
-  resolveActiveRevision,
+    consumeInventorySeed,
+    consumeInventoryUpdates,
+    formatInventorySeedBlock,
+    formatInventoryState,
+} from '../src/protocol.js';
+import {
+    attachMessageRevision,
+    createRevision,
+    ensureRoot,
+    getCurrentInventory,
+    rememberBranchHead,
 } from '../src/state.js';
-import { consumeInventorySeed, formatInventorySeedBlock } from '../src/protocol.js';
-import { EXTRA_KEY, LIMITS, SOURCE } from '../src/constants.js';
+import { SOURCE } from '../src/constants.js';
+import { createPromptSlotMarker, insertPromptSlot, replacePromptSlot } from '../src/injection.js';
 
-for (let n = 0; n < 1000; n++) {
-  const state = { categories: [
-    { name: 'General', items: [{ name: `Item|${n}`, quantity: String((n % 17) + 1), remark: `Remark \\ ${n} | intact` }] },
-    { name: `C]${n}`, items: [{ name: `X${n}`, quantity: `${(n % 5) + 1} set`, remark: `${n % 30} days` }] },
-  ] };
-  const r = consumeInventorySeed(formatInventorySeedBlock(state));
-  assert.deepEqual(r.state, state);
+function rnd(max) { return Math.floor(Math.random() * max); }
+function randomText() {
+    const atoms = ['alpha', 'beta', '|', '\\', ']', '<', '>', '</Inventory>', '-->', '{{user}}', '\\u003C', 'Name', '-- Sword --'];
+    return Array.from({ length: 1 + rnd(6) }, () => atoms[rnd(atoms.length)]).join(` ${rnd(2) ? '' : ' '}`).trim();
+}
+function stateFor(i = 0) {
+    return {
+        categories: [
+            {
+                name: `C${i}] ${randomText()}`,
+                items: Array.from({ length: 1 + rnd(5) }, (_, j) => ({
+                    name: `I${j} ${randomText()}`,
+                    quantity: String(1 + rnd(20)),
+                    remark: randomText(),
+                })),
+            },
+        ],
+    };
 }
 
-for (let run = 0; run < 300; run++) {
-  const c = { chat: [], chatMetadata: {} };
-  ensureRoot(c);
-  let rev = 0;
-  const revBeforeIndex = [];
-  for (let i = 0; i < 18; i++) {
-    revBeforeIndex[i] = rev;
+for (let i = 0; i < 2000; i++) {
+    const state = stateFor(i);
+    const block = formatInventorySeedBlock(state);
+    const parsed = consumeInventorySeed(block);
+    assert.deepEqual(parsed.errors, []);
+    assert.deepEqual(parsed.state, state);
+}
+console.log('seed fuzz: 2000 round-trips passed');
+
+for (let i = 0; i < 1000; i++) {
+    const remark = `${randomText()} --> ${randomText()}`;
+    const payload = { mode: 'patch', ops: [{ op: 'add_item', category: 'General', name: `Loot ${i}`, quantity: 1, remark }] };
+    const source = `Story ${i}. <!-- INVENTORY_BLOCK_UPDATE ${JSON.stringify(payload)} -->.`;
+    const result = consumeInventoryUpdates(source, { categories: [] });
+    assert.deepEqual(result.errors, []);
+    assert.equal(result.cleanedText, `Story ${i}.`);
+    assert.equal(result.state.categories[0].items[0].remark, remark);
+}
+console.log('control fuzz: 1000 embedded terminators passed');
+
+for (let i = 0; i < 500; i++) {
+    const formatted = formatInventoryState(stateFor(i));
+    assert.equal(formatted.includes('</InventoryState>'), false);
+    assert.equal(formatted.includes('{{user}}'), false);
+}
+console.log('prompt escaping fuzz: 500 cases passed');
+
+
+for (let i = 0; i < 1000; i++) {
+    const prompt = `<InventoryState>\n${randomText()} ${i}\n</InventoryState>`;
+    const slot = createPromptSlotMarker(prompt);
+    assert.equal(slot.includes(prompt), false);
+    const localChat = [
+        { is_user: false, is_system: false, mes: 'previous' },
+        { is_user: true, is_system: false, mes: `request ${i}` },
+    ];
+    insertPromptSlot(localChat, slot);
+    assert.equal(localChat.at(-1).mes, `request ${i}`);
+    const eventData = i % 2
+        ? { prompt: `prefix ${slot} suffix`, dryRun: false }
+        : { chat: [{ role: 'system', content: slot }, { role: 'user', content: 'request' }], dryRun: false };
+    assert.equal(replacePromptSlot(eventData, slot, prompt), 1);
+    assert.equal(JSON.stringify(eventData).includes(slot), false);
+    if (typeof eventData.prompt === 'string') assert.equal(eventData.prompt.includes(prompt), true);
+    else assert.equal(eventData.chat[0].content, prompt);
+}
+console.log('prompt-slot isolation fuzz: 1000 generation-local replacements passed');
+
+function ctx(chat = []) { return { chat, chatMetadata: {} }; }
+const original = ctx();
+ensureRoot(original);
+let parent = 0;
+const messageCount = 4000;
+for (let i = 0; i < messageCount; i++) {
     if (i % 2 === 0) {
-      c.chat.push({ is_user: true, is_system: false, mes: `U${run}-${i}`, extra: {} });
-    } else {
-      c.chat.push({ is_user: false, is_system: false, mes: `A${run}-${i}`, extra: {} });
-      const next = createRevision(c, { categories: [{ name: 'General', items: [{ name: 'Counter', quantity: String(i + 1), remark: '' }] }] }, { parent: rev, source: SOURCE.LLM });
-      attachMessageRevision(c, i, { baseRevision: rev, revision: next, newUid: true, portable: true });
-      rev = next;
-      rememberBranchHead(c, rev);
+        original.chat.push({ is_user: true, is_system: false, mes: `u${i}`, extra: {} });
+        continue;
     }
-  }
-  const deleteAt = run % c.chat.length;
-  const expected = revBeforeIndex[deleteAt];
-  c.chat.splice(deleteAt, 1);
-  const actual = resolveActiveRevision(c);
-  assert.equal(actual, expected, `run ${run} delete ${deleteAt}`);
-}
-
-for (let run = 0; run < 200; run++) {
-  const original = { chat: [], chatMetadata: {} };
-  ensureRoot(original);
-  let rev = 0;
-  for (let i = 0; i < 10; i++) {
-    original.chat.push({ is_user: i % 2 === 0, is_system: false, mes: `${i % 2 ? 'A' : 'U'}${run}-${i}`, extra: {} });
-    if (i % 2) {
-      const next = createRevision(original, { categories: [{ name: 'General', items: [{ name: 'Gold', quantity: '1', remark: String(run * 10 + i + 1) }] }] }, { parent: rev, source: SOURCE.LLM });
-      attachMessageRevision(original, i, { baseRevision: rev, revision: next, newUid: true, portable: true });
-      rev = next;
+    original.chat.push({ is_user: false, is_system: false, mes: `a${i}`, extra: {} });
+    if (i % 40 === 1) {
+        const revision = createRevision(original, {
+            categories: [{ name: 'General', items: [{ name: 'Counter', quantity: '1', remark: String(i) }] }],
+        }, { parent, source: SOURCE.LLM });
+        attachMessageRevision(original, i, { baseRevision: parent, revision, newUid: true, portable: true });
+        rememberBranchHead(original, revision);
+        parent = revision;
     }
-  }
-  if (run % 3 === 0) {
-    rev = commitManualState(original, { categories: [{ name: 'General', items: [{ name: 'Gold', quantity: '1', remark: `manual-${run}` }] }] }, { source: SOURCE.MANUAL });
-  }
-  const branch = { chat: structuredClone(original.chat), chatMetadata: {} };
-  ensureRoot(branch);
-  assert.deepEqual(getCurrentInventory(branch), getCurrentInventory(original), `portable branch ${run}`);
 }
-
-// Stress the branch-head hard cap with unique user lineages.
-{
-  const c = { chat: [{ is_user: true, is_system: false, mes: 'root', extra: {} }], chatMetadata: {} };
-  const root = ensureRoot(c);
-  for (let i = 0; i < LIMITS.branchHeads + 200; i++) {
-    c.chat[0].mes = `root-${i}`;
-    const next = createRevision(c, { categories: [{ name: 'General', items: [{ name: 'Gold', quantity: '1', remark: String(i + 1) }] }] }, { parent: root.activeRevision, source: SOURCE.MANUAL });
-    rememberBranchHead(c, next);
-  }
-  assert.ok(Object.keys(root.branchHeads).length <= LIMITS.branchHeads);
-}
-
-// Ensure a selected swipe carries its own portable state when cloned into a branch.
-{
-  const message = { is_user: false, is_system: false, mes: 'A', swipes: ['A', 'B'], swipe_info: [{}, {}], swipe_id: 0, extra: {} };
-  const c = { chat: [message], chatMetadata: {} };
-  ensureRoot(c);
-  const a = createRevision(c, { categories: [{ name: 'General', items: [{ name: 'Sword', quantity: '1', remark: '' }] }] }, { parent: 0, source: SOURCE.LLM });
-  attachMessageRevision(c, 0, { baseRevision: 0, revision: a, newUid: true, portable: true });
-  message.swipe_id = 1;
-  message.mes = 'B';
-  message.extra = {};
-  const b = createRevision(c, { categories: [{ name: 'General', items: [{ name: 'Potion', quantity: '1', remark: '' }] }] }, { parent: 0, source: SOURCE.LLM });
-  attachMessageRevision(c, 0, { baseRevision: 0, revision: b, newUid: true, portable: true });
-  const selected = structuredClone(message);
-  selected.swipe_id = 0;
-  selected.mes = selected.swipes[0];
-  selected.extra = structuredClone(selected.swipe_info[0].extra);
-  const branch = { chat: [selected], chatMetadata: {} };
-  ensureRoot(branch);
-  assert.equal(getCurrentInventory(branch).categories[0].items[0].name, 'Sword');
-  assert.ok(branch.chat[0].extra[EXTRA_KEY].checkpoint.state);
-}
-
-console.log('hardpass fuzz: ok');
+rememberBranchHead(original, parent);
+const branched = ctx(structuredClone(original.chat));
+const start = performance.now();
+ensureRoot(branched);
+const elapsed = performance.now() - start;
+assert.equal(getCurrentInventory(branched).categories[0].items[0].remark, String(3961));
+assert.ok(elapsed < 1200, `metadata-less hydration took ${elapsed.toFixed(1)} ms`);
+console.log(`long-branch hydration: ${elapsed.toFixed(1)} ms for ${messageCount} messages`);

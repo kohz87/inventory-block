@@ -1,110 +1,144 @@
-# Inventory Block v0.2.1 Hard-Pass Test Report
+# Inventory Block v0.2.3 Hard-Pass Test Report
 
-Date: 2026-09-01
+Date: 2026-09-02
 
 ## Scope
 
-This review re-ran the extension adversarially after the earlier 0.2.1 hardening and expanded the scope beyond pure state/protocol behavior:
+v0.2.3 was reviewed as a release candidate against both Inventory Block's own state/protocol code and the current SillyTavern release generation lifecycle. The pass covered:
 
-- SillyTavern Branch/Checkpoint portability;
-- alternate swipe recovery inside a newly branched chat;
-- generation-event ordering;
-- quiet/impersonate/dry-run isolation;
-- normal vs replacement/continuation target selection;
-- broad OOC administration detection before SillyTavern appends the new user message;
-- manual-edit/generation concurrency;
-- message deletion and edited lineage;
-- hidden update placement/authorization;
-- destructive category operations;
-- strict scalar validation and size ceilings;
-- first-message seed escaping/multiplicity;
-- long-chat lineage performance;
-- Megumin-owned vs standalone block boundaries.
+- foreground/background prompt isolation;
+- SillyTavern generation interceptor and prompt-ready ordering;
+- streaming/end-event ordering;
+- no-control prose preservation;
+- hidden control truncation, embedded terminators, and sentence trimming;
+- first-message/group seed parsing and round-trip safety;
+- strict patch operand validation;
+- manual editor/history concurrency;
+- swipe, regenerate, continue, deletion, and branch recovery;
+- portable metadata checkpoints after revision compaction;
+- bounded backend revision/branch-head storage;
+- metadata-less branch hydration performance;
+- Extensions settings mounting and action wiring;
+- Megumin/standalone ownership boundaries.
+
+## Implementation pass
+
+The original v0.2.2 findings were addressed before the first hard pass:
+
+- unrelated assistant prose is no longer normalized or rewritten when Inventory has nothing to strip;
+- machine comments end in a required period so SillyTavern's Trim Incomplete Sentences cannot cut the closing `-->`;
+- malformed/truncated machine suffixes are stripped atomically and cannot leak JSON into visible story text;
+- literal `-->` inside JSON is handled without prematurely terminating the parser;
+- prompt values escape XML delimiters, macro braces, ampersands, category brackets, and pipe delimiters;
+- patch names/numeric adjustments reject JavaScript-coercible arrays, objects, and booleans;
+- the v2 seed parser uses only `[Category]` plus `Name | Quantity | Remark` and no longer guesses Markdown/legacy headers;
+- seed serialization safely round-trips reserved Inventory delimiters and escapes;
+- multiple fresh group greetings can merge non-conflicting seeds;
+- assistant manual checkpoints gain stable UIDs;
+- lineage data is prepared once during branch hydration/resolution;
+- backend revisions and History output are bounded;
+- generation transactions include causal timeline-prefix guards;
+- broad recent-generation matching and background-depth bookkeeping were removed;
+- settings UI was moved into testable DOM helpers;
+- export/version residue was corrected.
 
 ## Hard pass 1
 
-The first implementation pass addressed all findings from the fresh v0.2.1 review:
+The first adversarial review found additional issues in the intermediate implementation:
 
-- portable state checkpoints in message metadata;
-- metadata-less SillyTavern branch hydration;
-- quiet/background generation isolation;
-- correct normal-generation targeting;
-- manual writes blocked during generation commit;
-- lineage-v2 stable assistant identities and rolling prefix hashes;
-- hard branch-head cap;
-- one-time capability-gated full replacement;
-- destructive-category confirmation;
-- strict primitive validation and inventory/control limits;
-- lossless seed escaping;
-- popup validation that can prevent close;
-- integrated fuzz script in `npm test`.
+1. A global live `setExtensionPrompt` could still leak Inventory into a truly overlapping quiet/background request.
+2. A damaged metadata root with excessive branch heads could cause the revision keep-set to exceed the intended cap.
+3. Prompt category brackets were still structurally ambiguous inside `[Category]` rendering.
+4. Manual seed `\\uXXXX` text was over-decoded even when it was not one of the extension's reserved angle-bracket escapes.
+5. A generation-local prompt slot needed to reserve realistic prompt budget rather than replacing a tiny marker with a much larger Inventory prompt after truncation.
+6. Prompt slots should survive chat switches / delayed prompt-ready delivery long enough to finish an already in-flight request.
 
-The first hard pass caught additional implementation defects before commit:
+### Corrective pass
 
-- escaped seed values could double-unescape literal backslashes;
-- an overly strict cleanup test treated an intentional paragraph break as corruption;
-- object-valued patch fields could still reach JavaScript string coercion.
-
-All were corrected.
+- Registered `inventoryBlockGenerationInterceptor` through the extension manifest.
+- Live generations now receive an opaque generation-local slot inserted into SillyTavern's private working chat; quiet/impersonate generations receive no slot.
+- The slot carries an opaque base64 reservation proportional to the final Inventory prompt and is replaced only in that generation's final prompt-ready payload.
+- The slot is inserted before the final conversational message, preserving normal/swipe/continue tail semantics.
+- The synthetic slot matches SillyTavern's narrator/system extension-message shape.
+- Prompt slots are keyed independently, tolerate overlapping unrelated prompt events, and are retained across chat switches until replaced or aged out.
+- Dry-run accounting uses a prompt-ready-only injection rather than a global live extension prompt.
+- `ensureRoot` now prunes branch heads before revision compaction.
+- Old pruned revisions are rematerialized from portable checkpoints when an older timeline becomes active.
+- Category brackets are escaped in injected state.
+- Seed unescaping decodes only the extension-reserved `\\u003C` / `\\u003E`; unknown manual escapes remain literal.
 
 ## Hard pass 2
 
-The next review found integration cases that direct state tests had not covered:
+The final tree was rerun through deterministic tests, fuzz, syntax checks, release-version parity checks, and static scans.
 
-- post-reply prompt refresh could briefly remain pinned to the pre-generation revision if the pending session was cleared too late;
-- alternate swipes copied into a metadata-less branch needed lazy local revision materialization;
-- a newly generated swipe had to drop any portable checkpoint inherited from the rejected swipe;
-- SillyTavern's non-streaming multi-swipe path can copy active `message.extra` to additional candidates after `MESSAGE_RECEIVED`, so duplicate Inventory metadata needed cleanup and independent lineage protection;
-- the current broad OOC instruction is still in `#send_textarea` at generation preparation time and is not yet the latest chat user message;
-- dry-run generation must not increment background-generation bookkeeping.
+### Deterministic suite
 
-All were corrected and new regression tests were added.
+**38/38 passed.**
 
-## Final SillyTavern source cross-check
+Coverage includes:
 
-Current SillyTavern `release` source was checked directly during the final pass:
+- generation-local prompt slot placement/replacement;
+- text-completion and chat-completion prompt-ready payloads;
+- dry-run-only accounting injection;
+- manifest interceptor registration;
+- release CSS version-banner parity;
+- background/replacement/continuation classification;
+- timeline guard length selection;
+- broad OOC detection;
+- byte-for-byte no-control prose preservation;
+- control terminal punctuation and atomic stripping;
+- embedded comment terminators;
+- malformed/trailing control rejection;
+- prompt escaping;
+- strict seed grammar and reserved escape handling;
+- group seed merge/collision behavior;
+- strict patch operands and replace capability gating;
+- real DOM helper mounting/action wiring;
+- state validation/version failure behavior;
+- assistant/user lineage editing rules;
+- metadata-less portable recovery;
+- middle-message deletion rollback;
+- revision hard cap;
+- damaged branch-head pruning;
+- recovery of a compacted old revision from its portable checkpoint.
 
-- `GENERATION_STARTED` is emitted before slash-command processing;
-- `GENERATION_AFTER_COMMANDS` is emitted only after commands permit the generation to proceed and before the composer text is cleared;
-- streaming completion can emit `GENERATION_ENDED` before the final `MESSAGE_RECEIVED` callback;
-- `MESSAGE_SWIPED` identifies the swiped message;
-- SillyTavern Branch/Checkpoint creation clones message/swipe data but constructs separate branch chat metadata;
-- quiet and impersonate are real generation types used by background features.
+### Adversarial/fuzz checks
 
-Inventory Block therefore prepares tracked transactions on `GENERATION_AFTER_COMMANDS` when available, retains a short end-to-message bridge for streaming ordering, and falls back to `GENERATION_STARTED` only for older SillyTavern builds.
+- **2,000** seed serializer/parser round-trips passed with pipes, slashes, brackets, `<`, `>`, `<Inventory>`, `</Inventory>`, `-->`, macro braces, literal unicode escapes, and formerly ambiguous header-like item names.
+- **1,000** hidden-control cases with embedded `-->` passed without machine-text leakage.
+- **500** hostile prompt-state escaping cases passed.
+- **1,000** generation-local prompt-slot isolation/replacement cases passed across text- and chat-completion-shaped payloads.
+- A metadata-less **4,000-message** branch with periodic portable checkpoints hydrated in roughly **10-12 ms** in the review container (the prior quadratic path was about 1.6 seconds in the earlier adversarial probe).
 
-## Final results
+### Static/release checks
 
-Deterministic suite: **33/33 passed**.
+- `npm run check` passes for `index.js` and every runtime source module.
+- Runtime/test source contains no `recentGeneration`, `backgroundGenerationDepth`, `tidyMessage`, legacy seed-header helpers, `Number(op.by)` coercion, or live `setExtensionPrompt` path.
+- `src/constants.js`, `package.json`, `manifest.json`, and the CSS release banner all report **0.2.3**.
+- Manifest registers `generate_interceptor: "inventoryBlockGenerationInterceptor"`.
+- No `GENERATION_ENDED` listener is used to commit or consume Inventory transactions.
 
-Adversarial/fuzz checks:
+## SillyTavern release-source cross-check
 
-- **1,000** first-message seed serializer/parser round-trips passed, including pipes, backslashes, and `]` in names/categories/remarks.
-- **300** randomized timeline deletion/recovery runs passed.
-- **200** metadata-less branch reconstruction runs passed, including periodic manual edits.
-- Branch-head hard-cap stress passed.
-- Selected-swipe branch portability passed.
-- Alternate swipe lazy materialization passed.
-- Blindly copied active-swipe metadata was confirmed not to leak that swipe's inventory into another candidate.
-- Unknown backend state versions still throw without resetting stored state.
-- Static scan found no legacy latest-ledger chat scan, no fallback-snapshot architecture, and no blocking `await ctx.saveChat()` inside the message event path.
-- Standalone Inventory still does not claim Megumin's `.meg-blocks` root.
-- `node --check` passed for `index.js` and every source module.
+Current SillyTavern release source was checked during the pass:
 
-Performance probe:
+- `GENERATION_AFTER_COMMANDS` runs after slash-command cancellation checks and before prompt assembly;
+- extension `generate_interceptor` callbacks receive the working chat and generation type;
+- normal generate interceptors are skipped for dry runs;
+- text completion exposes `GENERATE_AFTER_COMBINE_PROMPTS` with mutable final prompt data;
+- chat completion exposes `CHAT_COMPLETION_PROMPT_READY` with mutable final chat data;
+- streaming can finish/unblock and emit terminal events before Inventory receives the final assistant `MESSAGE_RECEIVED`;
+- stopping can produce both end/stop terminal events;
+- `syncMesToSwipe` copies active message extras into swipe metadata.
 
-- 4,000 chat messages;
-- 512 retained branch heads;
-- 201 inventory revisions;
-- 50 active-revision resolutions completed in ~234 ms in the review container, roughly **4.7 ms per resolve**.
+The v0.2.3 transaction therefore commits on the assistant message event, not on terminal generation events, while prompt injection is generation-local through the interceptor/final-prompt slot.
 
-## Known design choices
+## Final result
 
-- Complete backend revision snapshots are intentionally retained for reliable History/Restore behavior. Portable message checkpoints duplicate state only on state-changing/manual checkpoints so SillyTavern branches remain self-recovering without visible inventory text.
-- The full current inventory remains intentionally injected each generation because the schema is compact and complete possession awareness is preferred over retrieval heuristics.
-- Full replacement is available only for a recognized broad inventory-administration request and requires an exact one-time capability generated by the extension.
-- There is intentionally no v1.x chat-ledger migration/scanning path.
+No remaining reproducible state-corruption or machine-text-leak defect was found in the second hard pass.
 
-## Remaining environment verification
+A live smoke test in the user's exact SillyTavern + Megumin Suite Beta build is still worthwhile for browser-only visual timing (tab mounting, drawer animation, streaming repaint), because Node tests cannot reproduce every DOM scheduler detail.
 
-No further state-corruption defect was identified in the final source/test pass. A live browser smoke test in the user's exact SillyTavern + Megumin Suite Beta build is still recommended for visual/event-order confirmation because repository tests cannot reproduce every browser DOM timing detail.
+### Intentional storage tradeoff
+
+The chat-level backend revision table is bounded. Portable full-state checkpoints remain attached to **state-changing messages** because exact SillyTavern metadata-less Branch/Checkpoint recovery requires state to travel with the branch. Their total storage therefore grows with the number of actual inventory-changing messages; this is intentional and consumes no LLM context tokens.

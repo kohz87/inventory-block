@@ -1,4 +1,4 @@
-import { EXTRA_KEY, PROMPT_KEY, SOURCE, VERSION } from './src/constants.js';
+import { EXTRA_KEY, SOURCE, VERSION } from './src/constants.js';
 import {
     attachMessageRevision,
     commitManualState,
@@ -21,10 +21,13 @@ import {
     formatInventorySeedBlock,
     hasCompleteInventoryUpdate,
     hasInventoryControl,
+    mergeInventoryStates,
     stripReservedInventorySeed,
 } from './src/protocol.js';
 import {
     createReplaceCapability,
+    generationGuardLength,
+    generationTypeMatches,
     isBackgroundGeneration,
     isBroadInventoryAdministration,
     isReplacementGeneration,
@@ -35,17 +38,20 @@ import {
 } from './src/lifecycle.js';
 import { openInventoryEditor, openInventoryHistory, renderInventoryPane } from './src/ui.js';
 import { initializeMeguminBridge, scheduleInventoryMount } from './src/megumin.js';
+import { mountExtensionUi } from './src/settings.js';
+import { createPromptSlotMarker, injectDryRunPrompt, insertPromptSlot, replacePromptSlot } from './src/injection.js';
 
 let pendingGeneration = null;
-let recentGeneration = null;
 let processingMessages = new Set();
 let initialized = false;
 let eventsRegistered = false;
 let menuRetry = null;
-let backgroundGenerationDepth = 0;
 let pendingWatchdog = null;
+let ephemeralDryRunPrompt = null;
+const promptSlots = new Map();
 const PENDING_MAX_AGE_MS = 10 * 60 * 1000;
-const RECENT_GENERATION_MS = 3000;
+const WATCHDOG_INTERVAL_MS = 15000;
+const PROMPT_SLOT_MAX_AGE_MS = 30 * 60 * 1000;
 
 function context() {
     return globalThis.SillyTavern?.getContext?.() ?? null;
@@ -76,25 +82,8 @@ function pendingFor(ctx) {
     return pendingGeneration;
 }
 
-function recentFor(ctx) {
-    if (!recentGeneration || recentGeneration.chatId !== chatIdOf(ctx)) return null;
-    if (Date.now() - recentGeneration.completedAt > RECENT_GENERATION_MS) {
-        recentGeneration = null;
-        return null;
-    }
-    return recentGeneration;
-}
-
-function generationForMessage(ctx, messageId) {
-    const pending = pendingFor(ctx);
-    if (pending && pendingAppliesToMessage(pending, messageId)) return pending;
-    const recent = recentFor(ctx);
-    if (recent && pendingAppliesToMessage(recent, messageId)) return recent;
-    return null;
-}
-
 function generationLockFor(ctx) {
-    return pendingFor(ctx) ?? recentFor(ctx);
+    return pendingFor(ctx);
 }
 
 function pendingAppliesToMessage(pending, messageId) {
@@ -105,12 +94,30 @@ function pendingAppliesToMessage(pending, messageId) {
     return id >= pending.startChatLength;
 }
 
+function generationForMessage(ctx, messageId, eventType = '') {
+    const pending = pendingFor(ctx);
+    if (!pending || !pendingAppliesToMessage(pending, messageId)) return null;
+    if (eventType && !generationTypeMatches(pending.type, eventType)) return null;
+    return pending;
+}
+
 function generationComposerText() {
     return document.querySelector('#send_textarea')?.value ?? '';
 }
 
 function isTrustedUntrackedControl(type) {
     return ['edited', 'existing_swipe'].includes(normalizeGenerationType(type));
+}
+
+function prefixLineageHash(ctx, length) {
+    if (!Number.isInteger(length) || length <= 0) return 'root';
+    if (!Array.isArray(ctx?.chat) || ctx.chat.length < length) return null;
+    return lineageHashThrough(ctx, length - 1);
+}
+
+function generationTimelineChanged(ctx, generation) {
+    const current = prefixLineageHash(ctx, generation.guardLength);
+    return current === null || current !== generation.guardLineageHash;
 }
 
 function scheduleAlternateSwipeMetadataCleanup(expectedChatId, messageId, activeSwipeId, activeUid) {
@@ -134,22 +141,6 @@ function scheduleAlternateSwipeMetadataCleanup(expectedChatId, messageId, active
     }, 0);
 }
 
-function refreshPrompt(ctx = context(), revisionId = null, { replaceCapability = null } = {}) {
-    if (!ctx?.setExtensionPrompt) return;
-    if (!hasActiveChat(ctx)) {
-        ctx.setExtensionPrompt(PROMPT_KEY, '', 1, 0, false, 0);
-        return;
-    }
-    try {
-        const root = ensureRoot(ctx);
-        const state = revisionId === null ? getCurrentInventory(ctx) : getInventoryAt(root, revisionId);
-        ctx.setExtensionPrompt(PROMPT_KEY, buildInventoryPrompt(state, { replaceCapability }), 1, 0, false, 0);
-    } catch (error) {
-        console.error('[Inventory Block] Could not refresh inventory prompt.', error);
-        ctx.setExtensionPrompt(PROMPT_KEY, '', 1, 0, false, 0);
-    }
-}
-
 function renderCurrentPane(pane) {
     const ctx = context();
     if (!ctx || !hasActiveChat(ctx)) return;
@@ -161,10 +152,7 @@ function renderCurrentPane(pane) {
     });
 }
 
-function refreshAll(ctx = context()) {
-    const pending = ctx ? pendingFor(ctx) : null;
-    if (pending) refreshPrompt(ctx, pending.baseRevision, { replaceCapability: pending.replaceCapability });
-    else refreshPrompt(ctx);
+function refreshAll(_ctx = context()) {
     scheduleInventoryMount(30);
 }
 
@@ -225,7 +213,9 @@ async function commitManual(state, options = {}, expectedChatId = null) {
     const ctx = context();
     const actualChatId = chatIdOf(ctx);
     if (!ctx || !hasActiveChat(ctx)) throw new Error('Open a chat before editing inventory.');
-    if (expectedChatId !== null && actualChatId !== expectedChatId) throw new Error('The active chat changed while the inventory editor was open. Nothing was saved.');
+    if (expectedChatId !== null && actualChatId !== expectedChatId) {
+        throw new Error('The active chat changed while the inventory editor was open. Nothing was saved.');
+    }
     if (generationLockFor(ctx)) throw new Error('Wait for the current generation response to finish committing before changing inventory manually.');
     ensureRoot(ctx);
     commitManualState(ctx, state, options);
@@ -262,69 +252,22 @@ async function openHistory() {
     });
 }
 
-function addExtensionMenuButton() {
-    if (document.querySelector('#inventory_block_menu')) return true;
-    const menu = document.querySelector('#extensionsMenu');
-    if (!menu) return false;
-    const item = document.createElement('div');
-    item.id = 'inventory_block_menu';
-    item.className = 'list-group-item flex-container flexGap5';
-    item.title = `Inventory Block v${VERSION}`;
-    item.innerHTML = '<div class="fa-solid fa-box-open extensionsMenuExtensionButton"></div><span>Inventory</span>';
-    item.addEventListener('click', openEditor);
-    menu.appendChild(item);
-    return true;
-}
-
-function addExtensionSettingsPanel() {
-    if (document.querySelector('#inventory_block_settings')) return true;
-    const host = document.querySelector('#extensions_settings') ?? document.querySelector('#extensions_settings2');
-    if (!host) return false;
-
-    const wrapper = document.createElement('div');
-    wrapper.id = 'inventory_block_settings';
-    wrapper.className = 'inventory-block-settings';
-    wrapper.innerHTML = `
-        <div class="inline-drawer">
-            <div class="inline-drawer-toggle inline-drawer-header">
-                <b>Inventory Block</b>
-                <div class="inline-drawer-icon fa-solid fa-circle-chevron-down down"></div>
-            </div>
-            <div class="inline-drawer-content">
-                <div class="inventory-block-settings-version">v${VERSION} · per-chat backend inventory</div>
-                <div class="inventory-block-settings-actions">
-                    <button id="inventory_block_settings_edit" type="button" class="menu_button">
-                        <i class="fa-solid fa-pen-to-square"></i> Edit Inventory
-                    </button>
-                    <button id="inventory_block_settings_history" type="button" class="menu_button">
-                        <i class="fa-solid fa-clock-rotate-left"></i> History
-                    </button>
-                    <button id="inventory_block_settings_copy" type="button" class="menu_button">
-                        <i class="fa-solid fa-copy"></i> Copy Block
-                    </button>
-                </div>
-                <div class="inventory-block-settings-note">
-                    Inventory state is stored per chat and injected into the LLM automatically.
-                </div>
-            </div>
-        </div>`;
-
-    wrapper.querySelector('#inventory_block_settings_edit')?.addEventListener('click', openEditor);
-    wrapper.querySelector('#inventory_block_settings_history')?.addEventListener('click', openHistory);
-    wrapper.querySelector('#inventory_block_settings_copy')?.addEventListener('click', copyInventoryBlock);
-    host.appendChild(wrapper);
-    return true;
-}
-
 function ensureExtensionUiEntries() {
-    const menuReady = addExtensionMenuButton();
-    const settingsReady = addExtensionSettingsPanel();
+    const { menuReady, settingsReady } = mountExtensionUi(document, {
+        version: VERSION,
+        onEdit: openEditor,
+        onHistory: openHistory,
+        onCopy: copyInventoryBlock,
+    });
     if (menuReady && settingsReady) {
         if (menuRetry) clearTimeout(menuRetry);
         menuRetry = null;
         return;
     }
-    if (!menuRetry) menuRetry = setTimeout(() => { menuRetry = null; ensureExtensionUiEntries(); }, 250);
+    if (!menuRetry) menuRetry = setTimeout(() => {
+        menuRetry = null;
+        ensureExtensionUiEntries();
+    }, 250);
 }
 
 function firstAssistantMessageId(ctx) {
@@ -363,15 +306,36 @@ function currentMessageNeedsNewUid(message, type) {
 function acceptExistingMessageBase(message, type, fallbackBase, pending = null) {
     const existing = activeMessageMeta(message);
     const lower = normalizeGenerationType(type);
-    if (existing && (lower === 'continue' || lower === 'append' || lower === 'appendfinal' || lower === 'updated' || lower === 'message_updated' || lower === 'edited')) return existing.baseRevision;
+    if (existing && ['continue', 'append', 'appendfinal', 'updated', 'message_updated', 'edited'].includes(lower)) return existing.baseRevision;
     if (existing && pending?.type === 'continue') return existing.baseRevision;
     return fallbackBase;
+}
+
+function initialGreetingSeedEligible(ctx, id, type) {
+    if (normalizeGenerationType(type) !== 'first_message') return false;
+    if (ctx.chat.length > id + 1) return false;
+    for (let i = 0; i <= id; i++) {
+        const message = ctx.chat[i];
+        if (!message || message.is_user || message.is_system) return false;
+    }
+    return true;
 }
 
 function reportWarnings(warnings) {
     if (!warnings.length) return;
     notify('warning', `Inventory update rejected: ${warnings.join(' ')}`);
     console.warn('[Inventory Block] Inventory control/seed rejected.', warnings);
+}
+
+function clearPendingIfMatches(generation, chatId) {
+    if (pendingGeneration === generation && pendingGeneration?.chatId === chatId) {
+        if (generation?.promptSlot) promptSlots.delete(generation.promptSlot);
+        pendingGeneration = null;
+        if (pendingWatchdog) {
+            clearTimeout(pendingWatchdog);
+            pendingWatchdog = null;
+        }
+    }
 }
 
 async function processAssistantMessage(messageId, type = '') {
@@ -385,22 +349,23 @@ async function processAssistantMessage(messageId, type = '') {
     if (!message || message.is_user || message.is_system) return;
 
     processingMessages.add(processingKey);
-    let usedPending = false;
+    let generation = null;
     try {
         const root = ensureRoot(ctx);
         const existingMeta = activeMessageMeta(message);
         const firstMessage = isFirstAssistantMessage(ctx, id);
         const hasSeed = /<Inventory\b/i.test(String(message.mes ?? ''));
-        const generation = generationForMessage(ctx, id);
+        generation = generationForMessage(ctx, id, type);
         const pendingApplies = Boolean(generation);
-        const wasActivePending = generation === pendingGeneration;
-        usedPending = pendingApplies;
         const currentLineageHash = lineageHashThrough(ctx, id);
-        const seedAllowed = firstMessage && hasSeed && (
+        const greetingSeed = hasSeed && initialGreetingSeedEligible(ctx, id, type);
+        const firstSeed = firstMessage && hasSeed && (
             (pendingApplies && isReplacementGeneration(generation.type) && generation.baseRevision === 0) ||
             (ctx.chat.length <= id + 1 && (!existingMeta || existingMeta.lineageHash !== currentLineageHash))
         );
+        const seedAllowed = greetingSeed || firstSeed;
         const latestAssistant = latestAssistantMessageId(ctx) === id;
+
         if (!latestAssistant && !seedAllowed) {
             let cleaned = String(message.mes ?? '');
             const reserved = stripReservedInventorySeed(cleaned);
@@ -409,14 +374,16 @@ async function processAssistantMessage(messageId, type = '') {
             cleaned = stripped.cleanedText;
             const hadMachineSyntax = reserved.found || stripped.hadControl;
             if (hadMachineSyntax) notify('warning', 'Historical inventory control text was stripped without changing inventory state.');
-            message.mes = cleaned;
-            refreshRenderedMessageIfPresent(ctx, id, message);
-            persistChatSoon(ctx, chatId);
+            if (cleaned !== message.mes) {
+                message.mes = cleaned;
+                refreshRenderedMessageIfPresent(ctx, id, message);
+                persistChatSoon(ctx, chatId);
+            }
             setTimeout(() => void resolveBranchAndRefresh(), 0);
             return;
         }
 
-        let baseRevision = seedAllowed ? 0 : generationBase(ctx, pendingApplies ? generation : null);
+        let baseRevision = seedAllowed && firstMessage ? 0 : generationBase(ctx, pendingApplies ? generation : null);
         if (!getRevision(root, baseRevision)) baseRevision = resolveActiveRevision(ctx);
         const baseState = getInventoryAt(root, baseRevision);
         let workingText = String(message.mes ?? '');
@@ -429,16 +396,20 @@ async function processAssistantMessage(messageId, type = '') {
             warnings.push(...seed.errors);
             workingText = seed.cleanedText;
             if (seed.found && !seed.errors.length && seed.state) {
-                workingState = seed.state;
-                seeded = true;
+                try {
+                    workingState = firstMessage && baseRevision === 0 ? seed.state : mergeInventoryStates(baseState, seed.state);
+                    seeded = true;
+                } catch (error) {
+                    warnings.push(error instanceof Error ? error.message : String(error));
+                }
             }
         } else {
             const reserved = stripReservedInventorySeed(workingText);
             if (reserved.found) {
                 workingText = reserved.cleanedText;
                 warnings.push(reserved.truncated
-                    ? 'A later/truncated <Inventory> block was stripped. Starting inventory tags are first-message-only.'
-                    : 'A later <Inventory> block was stripped. Starting inventory tags are first-message-only.');
+                    ? 'A later/truncated <Inventory> block was stripped. Starting inventory tags are greeting-only.'
+                    : 'A later <Inventory> block was stripped. Starting inventory tags are greeting-only.');
             }
         }
 
@@ -452,24 +423,25 @@ async function processAssistantMessage(messageId, type = '') {
             result.state = workingState;
             result.changed = false;
         }
-        const controlChangedState = result.changed && result.errors.length === 0;
-        const concurrentConflict = Boolean(pendingApplies && root.mutationSerial !== generation.mutationSerial);
-        if (concurrentConflict) warnings.push(controlChangedState
-            ? 'Inventory changed while generation was running; the generated inventory write was discarded.'
-            : 'Inventory changed while generation was running; the generated branch state was not allowed to override it.');
+
+        const mutationConflict = Boolean(pendingApplies && root.mutationSerial !== generation.mutationSerial);
+        const timelineConflict = Boolean(pendingApplies && generationTimelineChanged(ctx, generation));
+        if (mutationConflict) warnings.push('Inventory changed while generation was running; the generated inventory write was discarded.');
+        if (timelineConflict) warnings.push('The chat timeline changed while generation was running; the generated inventory write was discarded.');
+        const concurrentConflict = mutationConflict || timelineConflict;
 
         let acceptedState = result.state;
         let acceptedRevision = baseRevision;
         const source = seeded ? SOURCE.SEED : SOURCE.LLM;
-        let note = seeded ? 'First-message inventory seed' : result.note;
+        let note = seeded ? (greetingSeed && !firstMessage ? 'Merged group greeting inventory seed' : 'First-message inventory seed') : result.note;
 
         if (concurrentConflict) {
-            acceptedRevision = isReplacementGeneration(generation.type) ? baseRevision : root.activeRevision;
+            acceptedRevision = resolveActiveRevision(ctx);
             acceptedState = getInventoryAt(root, acceptedRevision);
         } else {
             const changedFromBase = warnings.length === 0 && !inventoryEquals(baseState, acceptedState);
             if (changedFromBase) {
-                if (seeded && result.changed) note = 'First-message inventory seed + LLM update';
+                if (seeded && result.changed) note += ' + LLM update';
                 acceptedRevision = createRevision(ctx, acceptedState, { parent: baseRevision, source, note });
             } else {
                 acceptedRevision = baseRevision;
@@ -478,11 +450,14 @@ async function processAssistantMessage(messageId, type = '') {
         }
 
         message.mes = result.cleanedText;
-        const messageBaseRevision = acceptExistingMessageBase(message, type, baseRevision, pendingApplies ? generation : null);
+        const effectiveBase = concurrentConflict ? acceptedRevision : baseRevision;
+        const messageBaseRevision = concurrentConflict
+            ? acceptedRevision
+            : acceptExistingMessageBase(message, type, effectiveBase, pendingApplies ? generation : null);
         const revisionRecord = getRevision(root, acceptedRevision);
-        const shouldPortable = acceptedRevision !== baseRevision || revisionRecord?.portable !== true;
+        const shouldPortable = acceptedRevision !== messageBaseRevision || revisionRecord?.portable !== true;
         const attachedMeta = attachMessageRevision(ctx, id, {
-            baseRevision: Number.isInteger(messageBaseRevision) ? messageBaseRevision : baseRevision,
+            baseRevision: Number.isInteger(messageBaseRevision) ? messageBaseRevision : acceptedRevision,
             revision: acceptedRevision,
             newUid: currentMessageNeedsNewUid(message, type),
             portable: shouldPortable,
@@ -495,20 +470,13 @@ async function processAssistantMessage(messageId, type = '') {
         refreshRenderedMessageIfPresent(ctx, id, message);
         persistChatSoon(ctx, chatId);
         reportWarnings(warnings);
-        if (seeded && !warnings.length) notify('success', 'Starting inventory loaded.');
-        if (usedPending) {
-            if (wasActivePending && pendingGeneration?.chatId === chatId) {
-                pendingGeneration = null;
-                if (pendingWatchdog) { clearTimeout(pendingWatchdog); pendingWatchdog = null; }
-            }
-            if (generation === recentGeneration) recentGeneration = null;
-        }
+        if (seeded && !warnings.length) notify('success', greetingSeed && !firstMessage ? 'Greeting inventory merged.' : 'Starting inventory loaded.');
+        if (pendingApplies) clearPendingIfMatches(generation, chatId);
         refreshAll(ctx);
     } catch (error) {
         console.error('[Inventory Block] Failed to process assistant inventory state.', error);
         notify('error', error instanceof Error ? error.message : String(error));
     } finally {
-        if (usedPending && pendingGeneration?.chatId === chatId && generationForMessage(ctx, id) === pendingGeneration) pendingGeneration = null;
         processingMessages.delete(processingKey);
     }
 }
@@ -528,7 +496,6 @@ async function seedFirstMessageIfNeeded(ctx) {
 async function resolveBranchAndRefresh() {
     const ctx = context();
     if (!ctx || !hasActiveChat(ctx)) {
-        refreshPrompt(ctx);
         scheduleInventoryMount(20);
         return;
     }
@@ -545,20 +512,43 @@ async function resolveBranchAndRefresh() {
     }
 }
 
+function armPendingWatchdog(snapshot) {
+    if (pendingWatchdog) clearTimeout(pendingWatchdog);
+    const tick = () => {
+        pendingWatchdog = null;
+        if (pendingGeneration !== snapshot) return;
+        const live = context();
+        const age = Date.now() - snapshot.startedAt;
+        const generating = document.body?.dataset?.generating === 'true';
+        if (age >= PENDING_MAX_AGE_MS || (!generating && age >= WATCHDOG_INTERVAL_MS)) {
+            pendingGeneration = null;
+            refreshAll(live);
+            return;
+        }
+        pendingWatchdog = setTimeout(tick, WATCHDOG_INTERVAL_MS);
+    };
+    pendingWatchdog = setTimeout(tick, WATCHDOG_INTERVAL_MS);
+}
+
 function onGenerationPrepared(type = 'normal', _params = null, isDryRun = false) {
-    if (isDryRun) return;
-    if (isBackgroundGeneration(type)) {
-        backgroundGenerationDepth += 1;
-        setTimeout(() => {
-            if (backgroundGenerationDepth > 0 && document.body?.dataset?.generating !== 'true') backgroundGenerationDepth -= 1;
-        }, 30000);
+    const ctx = context();
+    if (!ctx || !hasActiveChat(ctx)) return;
+    if (isBackgroundGeneration(type)) return;
+    if (isDryRun) {
+        try {
+            ephemeralDryRunPrompt = {
+                chatId: chatIdOf(ctx),
+                prompt: buildInventoryPrompt(getCurrentInventory(ctx)),
+                startedAt: Date.now(),
+            };
+        } catch (error) {
+            console.warn('[Inventory Block] Could not prepare dry-run inventory context.', error);
+            ephemeralDryRunPrompt = null;
+        }
         return;
     }
     if (!isTrackedGeneration(type, false)) return;
-    const ctx = context();
-    if (!ctx || !hasActiveChat(ctx)) return;
     try {
-        recentGeneration = null;
         const root = ensureRoot(ctx);
         const previousActiveRevision = resolveActiveRevision(ctx);
         const latestAssistant = latestAssistantMessageId(ctx);
@@ -572,6 +562,8 @@ function onGenerationPrepared(type = 'normal', _params = null, isDryRun = false)
         const userInstruction = userInstructionForGeneration(lower, ctx.chat, generationComposerText());
         const broadAdmin = isBroadInventoryAdministration(userInstruction);
         const replaceCapability = broadAdmin ? createReplaceCapability() : null;
+        const startChatLength = Array.isArray(ctx.chat) ? ctx.chat.length : 0;
+        const guardLength = generationGuardLength(lower, startChatLength, targetMessageId);
         pendingGeneration = {
             chatId: chatIdOf(ctx),
             type: lower,
@@ -579,45 +571,77 @@ function onGenerationPrepared(type = 'normal', _params = null, isDryRun = false)
             previousActiveRevision,
             mutationSerial: root.mutationSerial,
             targetMessageId,
-            startChatLength: Array.isArray(ctx.chat) ? ctx.chat.length : 0,
+            startChatLength,
+            guardLength,
+            guardLineageHash: prefixLineageHash(ctx, guardLength),
             replaceCapability,
+            promptReadySeen: false,
             startedAt: Date.now(),
         };
-        const snapshot = pendingGeneration;
-        if (pendingWatchdog) clearTimeout(pendingWatchdog);
-        pendingWatchdog = setTimeout(() => {
-            pendingWatchdog = null;
-            if (pendingGeneration !== snapshot) return;
-            if (document.body?.dataset?.generating === 'true') return;
-            pendingGeneration = null;
-            refreshAll(context());
-        }, 30000);
-        refreshPrompt(ctx, baseRevision, { replaceCapability });
+        armPendingWatchdog(pendingGeneration);
     } catch (error) {
         console.warn('[Inventory Block] Could not prepare generation inventory state.', error);
     }
 }
 
-function finishGenerationEvent() {
-    if (backgroundGenerationDepth > 0) {
-        backgroundGenerationDepth -= 1;
-        return;
+function prunePromptSlots() {
+    const cutoff = Date.now() - PROMPT_SLOT_MAX_AGE_MS;
+    for (const [marker, slot] of promptSlots) {
+        if (pendingGeneration?.promptSlot === marker) continue;
+        if (!slot || slot.createdAt < cutoff) promptSlots.delete(marker);
     }
-    const ctx = context();
-    const pending = pendingFor(ctx);
-    if (!pending) return;
-    recentGeneration = { ...pending, completedAt: Date.now() };
-    pendingGeneration = null;
-    if (pendingWatchdog) { clearTimeout(pendingWatchdog); pendingWatchdog = null; }
-    refreshAll(ctx);
 }
+
+function onPromptReady(eventData = null) {
+    const ctx = context();
+    prunePromptSlots();
+    for (const [marker, slot] of [...promptSlots]) {
+        const replaced = replacePromptSlot(eventData, marker, slot.prompt);
+        if (!replaced) continue;
+        promptSlots.delete(marker);
+        if (pendingGeneration?.promptSlot === marker) pendingGeneration.promptReadySeen = true;
+    }
+    if (ephemeralDryRunPrompt && ephemeralDryRunPrompt.chatId === chatIdOf(ctx) && eventData?.dryRun === true) {
+        injectDryRunPrompt(eventData, ephemeralDryRunPrompt.prompt);
+        ephemeralDryRunPrompt = null;
+    }
+}
+
+function onGenerationInterceptor(chat, _contextSize, _abort, type = 'normal') {
+    if (isBackgroundGeneration(type)) return;
+    const ctx = context();
+    if (!ctx || !hasActiveChat(ctx) || !Array.isArray(chat)) return;
+    try {
+        const pending = pendingFor(ctx);
+        const matching = pending && generationTypeMatches(pending.type, type) ? pending : null;
+        const root = ensureRoot(ctx);
+        const revision = matching && getRevision(root, matching.baseRevision)
+            ? matching.baseRevision
+            : resolveActiveRevision(ctx);
+        const prompt = buildInventoryPrompt(getInventoryAt(root, revision), {
+            replaceCapability: matching?.replaceCapability ?? null,
+        });
+        // Reserve prompt budget with an opaque base64 payload. It is generation-local,
+        // invisible to the model after replacement, and does not expose inventory text to WI scans.
+        const marker = createPromptSlotMarker(prompt);
+        if (!insertPromptSlot(chat, marker)) return;
+        promptSlots.set(marker, {
+            prompt,
+            chatId: chatIdOf(ctx),
+            createdAt: Date.now(),
+        });
+        if (matching) matching.promptSlot = marker;
+        prunePromptSlots();
+    } catch (error) {
+        console.warn('[Inventory Block] Could not inject generation-local inventory prompt.', error);
+    }
+}
+
+globalThis.inventoryBlockGenerationInterceptor = onGenerationInterceptor;
 
 function onGenerationStopped() {
-    finishGenerationEvent();
-}
-
-function onGenerationEnded() {
-    finishGenerationEvent();
+    // Do not consume the transaction here. SillyTavern can emit terminal events before
+    // MESSAGE_RECEIVED; the watchdog clears abandoned sessions once the UI is idle.
 }
 
 function onMessageUpdated(messageId, type = 'updated', manualEdit = false) {
@@ -625,10 +649,7 @@ function onMessageUpdated(messageId, type = 'updated', manualEdit = false) {
     const message = ctx?.chat?.[Number(messageId)];
     if (!message || message.is_user || message.is_system) return;
     const activePending = pendingFor(ctx);
-    if (!manualEdit && activePending && pendingAppliesToMessage(activePending, messageId)) {
-        // Do not mutate/strip a response while SillyTavern may still be streaming it.
-        return;
-    }
+    if (!manualEdit && activePending && pendingAppliesToMessage(activePending, messageId)) return;
     if (hasCompleteInventoryUpdate(message.mes) || (manualEdit && hasInventoryControl(message.mes))) {
         void processAssistantMessage(messageId, type);
     } else {
@@ -665,9 +686,14 @@ function onMessageSwiped(messageId) {
 
 function onChatChanged() {
     pendingGeneration = null;
-    recentGeneration = null;
-    backgroundGenerationDepth = 0;
-    if (pendingWatchdog) { clearTimeout(pendingWatchdog); pendingWatchdog = null; }
+    ephemeralDryRunPrompt = null;
+    // Do not clear generation-local slots here: an in-flight request from the
+    // previous chat may still reach its prompt-ready event after the UI switches.
+    prunePromptSlots();
+    if (pendingWatchdog) {
+        clearTimeout(pendingWatchdog);
+        pendingWatchdog = null;
+    }
     processingMessages.clear();
     setTimeout(() => void resolveBranchAndRefresh(), 0);
 }
@@ -682,11 +708,12 @@ function registerEvents() {
     const generationPrepareEvent = events.GENERATION_AFTER_COMMANDS || events.GENERATION_STARTED;
     if (generationPrepareEvent) ctx.eventSource.on(generationPrepareEvent, onGenerationPrepared);
     if (events.GENERATION_STOPPED) ctx.eventSource.on(events.GENERATION_STOPPED, onGenerationStopped);
-    if (events.GENERATION_ENDED) ctx.eventSource.on(events.GENERATION_ENDED, onGenerationEnded);
+    for (const event of [events.CHAT_COMPLETION_PROMPT_READY, events.GENERATE_AFTER_COMBINE_PROMPTS]) {
+        if (event) ctx.eventSource.on(event, onPromptReady);
+    }
     if (events.MESSAGE_RECEIVED) ctx.eventSource.on(events.MESSAGE_RECEIVED, processAssistantMessage);
     if (events.MESSAGE_UPDATED) ctx.eventSource.on(events.MESSAGE_UPDATED, id => onMessageUpdated(id, 'updated', false));
     if (events.MESSAGE_EDITED) ctx.eventSource.on(events.MESSAGE_EDITED, id => onMessageUpdated(id, 'edited', true));
-
     if (events.MESSAGE_SWIPED) ctx.eventSource.on(events.MESSAGE_SWIPED, onMessageSwiped);
     for (const event of [events.MESSAGE_DELETED, events.MESSAGE_SWIPE_DELETED, events.CHARACTER_FIRST_MESSAGE_SELECTED]) {
         if (event) ctx.eventSource.on(event, () => setTimeout(() => void resolveBranchAndRefresh(), 20));
@@ -694,7 +721,7 @@ function registerEvents() {
     for (const event of [events.CHAT_CHANGED, events.CHAT_LOADED]) {
         if (event) ctx.eventSource.on(event, onChatChanged);
     }
-    for (const event of [events.APP_READY, events.APP_INITIALIZED, events.EXTENSIONS_FIRST_LOAD]) {
+    for (const event of [events.APP_READY, events.APP_INITIALIZED, events.EXTENSIONS_FIRST_LOAD, events.EXTENSION_SETTINGS_LOADED]) {
         if (event) ctx.eventSource.on(event, () => {
             ensureExtensionUiEntries();
             initializeMeguminBridge(renderCurrentPane);
