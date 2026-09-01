@@ -1,0 +1,11 @@
+{
+  "display_name": "Inventory Block",
+  "loading_order": 25,
+  "requires": [],
+  "optional": [],
+  "js": "index.js",
+  "css": "style.css",
+  "author": "kohz87",
+  "version": "0.2.0",
+  "homePage": "https://github.com/kohz87/inventory-block"
+}
