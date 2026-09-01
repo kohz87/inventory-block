@@ -1,4 +1,5 @@
 import { normalizeInventory } from './state.js';
+import { isRootCategoryName } from './protocol.js';
 
 const clone = value => structuredClone(value);
 
@@ -18,74 +19,130 @@ function iconButton(icon, title, className = '') {
     return button;
 }
 
+function textButton(icon, label, className = '') {
+    const button = el('button', `inventory-text-button ${className}`.trim());
+    button.type = 'button';
+    button.innerHTML = `<i class="fa-solid ${icon}"></i><span>${label}</span>`;
+    return button;
+}
+
 function itemCount(state) {
     return normalizeInventory(state).categories.reduce((sum, category) => sum + category.items.length, 0);
 }
 
-export function renderInventoryPane(pane, state, { onEdit, onHistory } = {}) {
+function displayQuantity(value) {
+    const text = String(value ?? '').trim();
+    if (!text) return '';
+    return text.startsWith('×') ? text : `×${text}`;
+}
+
+function appendItemRows(container, items) {
+    for (const item of items) {
+        const row = el('div', 'inventory-row');
+        const name = el('div', 'inventory-cell inventory-name', item.name);
+        const quantity = el('div', 'inventory-cell inventory-quantity', displayQuantity(item.quantity));
+        const remark = el('div', 'inventory-cell inventory-remark', item.remark);
+        name.title = item.name;
+        quantity.title = String(item.quantity ?? '');
+        remark.title = item.remark;
+        row.append(name, quantity, remark);
+        container.appendChild(row);
+    }
+}
+
+export function renderInventoryPane(pane, state, { onEdit, onCopy, onHistory } = {}) {
     const inventory = normalizeInventory(state);
+    const wasRendered = pane.dataset.inventoryRendered === '1';
+    const openSections = new Set(
+        Array.from(pane.querySelectorAll('details.inventory-category[open]'))
+            .map(section => section.dataset.categoryName)
+            .filter(Boolean),
+    );
+
     pane.replaceChildren();
     pane.classList.add('inventory-block-pane');
+    pane.dataset.inventoryRendered = '1';
 
-    const top = el('div', 'inventory-pane-toolbar');
-    const summary = el('div', 'inventory-pane-summary', `${itemCount(inventory)} entr${itemCount(inventory) === 1 ? 'y' : 'ies'} · ${inventory.categories.length} categor${inventory.categories.length === 1 ? 'y' : 'ies'}`);
-    top.appendChild(summary);
+    const rootCategories = inventory.categories.filter(category => isRootCategoryName(category.name));
+    const sections = inventory.categories.filter(category => !isRootCategoryName(category.name));
+    const totalItems = itemCount(inventory);
 
-    const actions = el('div', 'inventory-pane-actions');
+    const heading = el('div', 'inventory-ledger-heading');
+    heading.appendChild(el('div', 'inventory-ledger-title', 'Inventory Ledger'));
+    heading.appendChild(el('div', 'inventory-pane-summary', `${totalItems} item${totalItems === 1 ? '' : 's'} · ${sections.length} section${sections.length === 1 ? '' : 's'}`));
+    pane.appendChild(heading);
+
+    const toolbar = el('div', 'inventory-pane-toolbar');
+    const primaryActions = el('div', 'inventory-pane-actions');
+
+    if (onEdit) {
+        const edit = textButton('fa-pen-to-square', 'Edit inventory');
+        edit.addEventListener('click', event => {
+            event.stopPropagation();
+            onEdit();
+        });
+        primaryActions.appendChild(edit);
+    }
+    if (onCopy) {
+        const copy = textButton('fa-copy', 'Copy block');
+        copy.addEventListener('click', event => {
+            event.stopPropagation();
+            onCopy();
+        });
+        primaryActions.appendChild(copy);
+    }
+    toolbar.appendChild(primaryActions);
+
     if (onHistory) {
         const history = iconButton('fa-clock-rotate-left', 'Inventory history');
         history.addEventListener('click', event => {
             event.stopPropagation();
             onHistory();
         });
-        actions.appendChild(history);
+        toolbar.appendChild(history);
     }
-    if (onEdit) {
-        const edit = iconButton('fa-pen-to-square', 'Edit inventory');
-        edit.addEventListener('click', event => {
-            event.stopPropagation();
-            onEdit();
-        });
-        actions.appendChild(edit);
-    }
-    top.appendChild(actions);
-    pane.appendChild(top);
+    pane.appendChild(toolbar);
 
-    if (!inventory.categories.length) {
+    if (!inventory.categories.length || totalItems === 0) {
         pane.appendChild(el('div', 'inventory-empty-state', 'Inventory is empty.'));
         return;
     }
 
-    for (const category of inventory.categories) {
+    const rootItems = rootCategories.flatMap(category => category.items);
+    if (rootItems.length) {
+        const rootTable = el('div', 'inventory-table inventory-root-table');
+        appendItemRows(rootTable, rootItems);
+        pane.appendChild(rootTable);
+    }
+
+    sections.forEach((category, sectionIndex) => {
         const section = el('details', 'inventory-category');
-        section.open = true;
-        const heading = el('summary', 'inventory-category-title');
-        heading.appendChild(el('span', 'inventory-category-name', category.name));
-        heading.appendChild(el('span', 'inventory-category-count', String(category.items.length)));
-        section.appendChild(heading);
+        section.dataset.categoryName = category.name;
+        section.open = wasRendered ? openSections.has(category.name) : sectionIndex === 0;
+
+        const title = el('summary', 'inventory-category-title');
+        title.appendChild(el('span', 'inventory-category-name', category.name));
+
+        const count = el('span', 'inventory-category-count');
+        count.appendChild(el('span', 'inventory-category-count-number', String(category.items.length)));
+        count.appendChild(el('span', 'inventory-category-count-label', category.items.length === 1 ? 'ITEM' : 'ITEMS'));
+        title.appendChild(count);
+
+        const chevron = el('span', 'inventory-category-chevron');
+        chevron.innerHTML = '<i class="fa-solid fa-chevron-down"></i>';
+        title.appendChild(chevron);
+        section.appendChild(title);
 
         const table = el('div', 'inventory-table');
-        const header = el('div', 'inventory-row inventory-header-row');
-        header.appendChild(el('div', 'inventory-cell inventory-name', 'Name'));
-        header.appendChild(el('div', 'inventory-cell inventory-quantity', 'Quantity'));
-        header.appendChild(el('div', 'inventory-cell inventory-remark', 'Remark'));
-        table.appendChild(header);
-
         if (!category.items.length) {
             table.appendChild(el('div', 'inventory-category-empty', 'No items'));
         } else {
-            for (const item of category.items) {
-                const row = el('div', 'inventory-row');
-                row.appendChild(el('div', 'inventory-cell inventory-name', item.name));
-                row.appendChild(el('div', 'inventory-cell inventory-quantity', item.quantity));
-                row.appendChild(el('div', 'inventory-cell inventory-remark', item.remark));
-                table.appendChild(row);
-            }
+            appendItemRows(table, category.items);
         }
 
         section.appendChild(table);
         pane.appendChild(section);
-    }
+    });
 }
 
 function makeInput(value, placeholder, className = '') {
