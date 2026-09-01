@@ -1,61 +1,62 @@
-import { normalizeInventory } from './state.js';
-import { UPDATE_COMMENT_MARKER, UPDATE_TAG } from './constants.js';
+import { ROOT_CATEGORY, SEED_TAG, UPDATE_COMMENT_MARKER, UPDATE_TAG } from './constants.js';
+import {
+    canonicalCategoryName,
+    normalizeInventory,
+    normalizeQuantity,
+    validateAndNormalizeInventory,
+} from './state.js';
 
 const clone = value => structuredClone(value);
-const ROOT_CATEGORY_NAMES = new Set(['general', 'uncategorized']);
 
 function oneLine(value) {
-    return String(value ?? '')
-        .replace(/\r?\n/g, ' ')
-        .replace(/\|/g, '∣')
-        .trim();
+    return String(value ?? '').replace(/\r?\n/g, ' ').replace(/\|/g, '∣').trim();
+}
+
+function sameName(a, b) {
+    return String(a ?? '').trim().toLocaleLowerCase() === String(b ?? '').trim().toLocaleLowerCase();
 }
 
 export function isRootCategoryName(name) {
-    return ROOT_CATEGORY_NAMES.has(String(name ?? '').trim().toLocaleLowerCase());
+    return canonicalCategoryName(name) === ROOT_CATEGORY;
 }
 
 export function formatInventoryState(state) {
     const inventory = normalizeInventory(state);
     if (!inventory.categories.length) return '(empty)';
-
     const lines = [];
     for (const category of inventory.categories) {
         lines.push(`[${oneLine(category.name)}]`);
-        if (!category.items.length) {
-            lines.push('(empty)');
-        } else {
-            for (const item of category.items) {
-                lines.push(`${oneLine(item.name)} | ${oneLine(item.quantity)} | ${oneLine(item.remark)}`);
-            }
-        }
+        for (const item of category.items) lines.push(`${oneLine(item.name)} | ${oneLine(item.quantity)} | ${oneLine(item.remark)}`);
     }
     return lines.join('\n');
 }
 
 export function formatInventorySeedBlock(state) {
     const inventory = normalizeInventory(state);
-    const lines = ['<Inventory>'];
-    const rootCategories = inventory.categories.filter(category => isRootCategoryName(category.name));
+    const lines = [`<${SEED_TAG}>`];
+    const root = inventory.categories.find(category => isRootCategoryName(category.name));
     const sections = inventory.categories.filter(category => !isRootCategoryName(category.name));
-
-    for (const category of rootCategories) {
-        for (const item of category.items) {
-            lines.push(`${oneLine(item.name)} | ${oneLine(item.quantity)} | ${oneLine(item.remark)}`);
-        }
-    }
-
-    sections.forEach((category, index) => {
-        if (lines.length > 1 && lines[lines.length - 1] !== '') lines.push('');
+    for (const item of root?.items ?? []) lines.push(`${oneLine(item.name)} | ${oneLine(item.quantity)} | ${oneLine(item.remark)}`);
+    sections.forEach(category => {
+        if (lines.length > 1 && lines.at(-1) !== '') lines.push('');
         lines.push(`[${oneLine(category.name)}]`);
-        for (const item of category.items) {
-            lines.push(`${oneLine(item.name)} | ${oneLine(item.quantity)} | ${oneLine(item.remark)}`);
-        }
-        if (index < sections.length - 1) lines.push('');
+        for (const item of category.items) lines.push(`${oneLine(item.name)} | ${oneLine(item.quantity)} | ${oneLine(item.remark)}`);
     });
-
-    lines.push('</Inventory>');
+    lines.push(`</${SEED_TAG}>`);
     return lines.join('\n');
+}
+
+export function buildInventoryPrompt(state) {
+    return `<InventoryState>\n${formatInventoryState(state)}\n</InventoryState>\n\n` +
+`InventoryState is the sole authoritative current possession record. Earlier story mentions are historical and never restore absent items, old quantities, categories, or remarks.\n` +
+`Entries are Name | Quantity | Remark under free-form categories. Follow explicit OOC inventory administration such as creating party-member categories or consolidating supplies.\n` +
+`Never print <Inventory> or a visible inventory list. If nothing changes, emit no inventory control.\n` +
+`For ordinary gameplay changes append exactly one machine-only comment at the very end:\n` +
+`<!-- ${UPDATE_COMMENT_MARKER}\n{"mode":"patch","ops":[...]}\n-->\n` +
+`Ops: add_category{name}; rename_category{category,name}; delete_category{category}; add_item{category,name,quantity,remark}; set_item{category,name,quantity?,remark?}; adjust_item{category,name,by}; edit_item{category,name,newName?,quantity?,remark?}; delete_item{category,name}; move_item{fromCategory,toCategory,name}.\n` +
+`Use adjust_item only when Quantity itself is a plain number. If the meaningful amount is in Remark (for example Food | 1 | 8 days or Coin Pouch | 1 | 400 Gold), use edit_item instead.\n` +
+`Use mode:"replace" only when the user explicitly asks for broad inventory cleanup/reorganization/consolidation. A replacement must contain the complete intended inventory: {"mode":"replace","categories":[{"name":"...","items":[{"name":"...","quantity":"...","remark":"..."}]}]}.\n` +
+`Do not mention the machine control in prose.`;
 }
 
 function trimMarkdownRow(line) {
@@ -72,13 +73,10 @@ function rowCells(line) {
 function seedCategoryMarker(line) {
     const bracket = String(line ?? '').trim().match(/^\[([^\]]+)\]$/);
     if (bracket) return bracket[1].trim();
-
     const bare = String(line ?? '').trim().match(/^--\s*(.+?)\s*--$/);
     if (bare) return bare[1].trim();
-
     const cells = rowCells(line);
-    if (!cells.length) return null;
-    const tableMarker = cells[0].match(/^--\s*(.+?)\s*--$/);
+    const tableMarker = String(cells[0] ?? '').match(/^--\s*(.+?)\s*--$/);
     if (tableMarker && cells.slice(1).every(cell => !cell)) return tableMarker[1].trim();
     return null;
 }
@@ -89,17 +87,13 @@ function isSeedTableSeparator(cells) {
 
 function isSeedTableHeader(cells) {
     if (cells.length < 2) return false;
-    const first = cells[0].toLocaleLowerCase();
-    const second = cells[1].toLocaleLowerCase();
-    const third = String(cells[2] ?? '').toLocaleLowerCase();
-    return ['item', 'name'].includes(first)
-        && ['qty', 'quantity'].includes(second)
-        && (!third || ['notes', 'note', 'remark', 'remarks'].includes(third));
+    const [first, second, third = ''] = cells.map(cell => cell.toLocaleLowerCase());
+    return ['item', 'name'].includes(first) && ['qty', 'quantity'].includes(second) && (!third || ['notes', 'note', 'remark', 'remarks'].includes(third));
 }
 
 function ensureSeedCategory(categories, name) {
-    const clean = String(name ?? '').trim() || 'General';
-    let category = categories.find(entry => entry.name.toLocaleLowerCase() === clean.toLocaleLowerCase());
+    const clean = canonicalCategoryName(name || ROOT_CATEGORY) || ROOT_CATEGORY;
+    let category = categories.find(entry => sameName(entry.name, clean));
     if (!category) {
         category = { name: clean, items: [] };
         categories.push(category);
@@ -109,87 +103,66 @@ function ensureSeedCategory(categories, name) {
 
 export function consumeInventorySeed(messageText) {
     const source = String(messageText ?? '');
-    const match = source.match(/<Inventory\b[^>]*>([\s\S]*?)<\/Inventory\s*>/i);
-    if (!match) {
+    const closed = source.match(/<Inventory\b[^>]*>([\s\S]*?)<\/Inventory\s*>/i);
+    const open = source.search(/<Inventory\b[^>]*>/i);
+    if (!closed) {
+        if (open < 0) return { found: false, cleanedText: source, state: null, errors: [] };
         return {
-            found: false,
-            cleanedText: source,
+            found: true,
+            cleanedText: source.slice(0, open).replace(/[ \t]+\n/g, '\n').replace(/\n{3,}/g, '\n\n').trimEnd(),
             state: null,
-            errors: [],
+            errors: ['The <Inventory> seed was truncated and was discarded.'],
         };
     }
 
     const categories = [];
     let current = null;
-    const body = String(match[1] ?? '');
-    const meaningfulLines = body.split(/\r?\n/).map(line => line.trim()).filter(Boolean);
-
+    const meaningfulLines = String(closed[1] ?? '').split(/\r?\n/).map(line => line.trim()).filter(Boolean);
     for (const rawLine of meaningfulLines) {
         const marker = seedCategoryMarker(rawLine);
         if (marker) {
             current = ensureSeedCategory(categories, marker);
             continue;
         }
-
         const cells = rowCells(rawLine);
-        if (isSeedTableSeparator(cells) || isSeedTableHeader(cells)) continue;
-        if (cells.length < 2) continue;
-
+        if (isSeedTableSeparator(cells) || isSeedTableHeader(cells) || cells.length < 2) continue;
         const name = String(cells[0] ?? '').trim();
         if (!name) continue;
-        const quantity = String(cells[1] ?? '').trim();
-        const remark = cells.slice(2).join(' | ').trim();
-        if (!current) current = ensureSeedCategory(categories, 'General');
-        current.items.push({ name, quantity, remark });
+        if (!current) current = ensureSeedCategory(categories, ROOT_CATEGORY);
+        current.items.push({ name, quantity: normalizeQuantity(cells[1]), remark: cells.slice(2).join(' | ').trim() });
     }
 
-    const state = normalizeInventory({ categories });
-    if (meaningfulLines.length && !state.categories.some(category => category.items.length)) {
-        return {
-            found: true,
-            cleanedText: source,
-            state: null,
-            errors: ['The <Inventory> seed was found, but no valid Name | Quantity | Remark rows could be parsed.'],
-        };
+    const cleanedText = `${source.slice(0, closed.index)}${source.slice((closed.index ?? 0) + closed[0].length)}`
+        .replace(/[ \t]+\n/g, '\n').replace(/\n{3,}/g, '\n\n').trimEnd();
+
+    let state;
+    try {
+        state = validateAndNormalizeInventory({ categories });
+    } catch (error) {
+        return { found: true, cleanedText, state: null, errors: error.validationErrors ?? [error.message] };
     }
-
-    const cleanedText = `${source.slice(0, match.index)}${source.slice((match.index ?? 0) + match[0].length)}`
-        .replace(/[ \t]+\n/g, '\n')
-        .replace(/\n{3,}/g, '\n\n')
-        .trimEnd();
-
-    return {
-        found: true,
-        cleanedText,
-        state,
-        errors: [],
-    };
+    return { found: true, cleanedText, state, errors: [] };
 }
 
-export function buildInventoryPrompt(state) {
-    return `<InventoryState>\n${formatInventoryState(state)}\n</InventoryState>\n\n` +
-`The InventoryState above is the sole authoritative record of current possession. Earlier inventory references in chat are historical and must not restore absent items, old quantities, old categories, or old remarks. Manual edits may intentionally supersede earlier narration.\n\n` +
-`Inventory entries use only Name | Quantity | Remark under free-form categories. You may create, rename, merge, remove, or reorganize categories when the user's instruction calls for it. You may consolidate related entries into an aggregate entry and preserve useful composition, remaining uses, duration, ownership, or condition in Remark.\n\n` +
-`Do not print a visible inventory list. If inventory genuinely changes during this response, or the user explicitly asks you to administer/reorganize inventory, append exactly one hidden control comment at the very end of the response:\n` +
-`<!-- ${UPDATE_COMMENT_MARKER}\n{\"mode\":\"patch\",\"ops\":[...]}\n-->\n\n` +
-`Patch operations:\n` +
-`{\"op\":\"add_category\",\"name\":\"...\"}\n` +
-`{\"op\":\"rename_category\",\"category\":\"old\",\"name\":\"new\"}\n` +
-`{\"op\":\"delete_category\",\"category\":\"...\"}\n` +
-`{\"op\":\"add_item\",\"category\":\"...\",\"name\":\"...\",\"quantity\":\"...\",\"remark\":\"...\"}\n` +
-`{\"op\":\"set_item\",\"category\":\"...\",\"name\":\"...\",\"quantity\":\"...\",\"remark\":\"...\"}\n` +
-`{\"op\":\"adjust_item\",\"category\":\"...\",\"name\":\"...\",\"by\":-1}\n` +
-`{\"op\":\"edit_item\",\"category\":\"...\",\"name\":\"...\",\"newName\":\"...\",\"quantity\":\"...\",\"remark\":\"...\"}\n` +
-`{\"op\":\"delete_item\",\"category\":\"...\",\"name\":\"...\"}\n` +
-`{\"op\":\"move_item\",\"fromCategory\":\"...\",\"toCategory\":\"...\",\"name\":\"...\"}\n\n` +
-`For broad semantic cleanup or reorganization, prefer one atomic replacement instead of many small operations:\n` +
-`<!-- ${UPDATE_COMMENT_MARKER}\n{\"mode\":\"replace\",\"categories\":[{\"name\":\"Category\",\"items\":[{\"name\":\"Item\",\"quantity\":\"1\",\"remark\":\"...\"}]}]}\n-->\n\n` +
-`The control comment is machine-only. Do not mention it in prose. If nothing changes, emit no inventory control comment.`;
+export function stripReservedInventorySeed(messageText) {
+    const source = String(messageText ?? '');
+    const closedRe = /<Inventory\b[^>]*>[\s\S]*?<\/Inventory\s*>/gi;
+    let found = false;
+    let cleaned = source.replace(closedRe, () => { found = true; return ''; });
+    const open = cleaned.search(/<Inventory\b[^>]*>/i);
+    let truncated = false;
+    if (open >= 0) {
+        found = true;
+        truncated = true;
+        cleaned = cleaned.slice(0, open);
+    }
+    cleaned = cleaned.replace(/[ \t]+\n/g, '\n').replace(/\n{3,}/g, '\n\n').trimEnd();
+    return { found, truncated, cleanedText: cleaned };
 }
 
 function findCategory(state, name) {
-    const needle = String(name ?? '').trim().toLocaleLowerCase();
-    return state.categories.find(category => category.name.toLocaleLowerCase() === needle) ?? null;
+    const canonical = canonicalCategoryName(name);
+    return state.categories.find(category => sameName(category.name, canonical)) ?? null;
 }
 
 function requireCategory(state, name) {
@@ -199,7 +172,7 @@ function requireCategory(state, name) {
 }
 
 function ensureCategory(state, name) {
-    const clean = String(name ?? '').trim() || 'Uncategorized';
+    const clean = canonicalCategoryName(name) || ROOT_CATEGORY;
     let category = findCategory(state, clean);
     if (!category) {
         category = { name: clean, items: [] };
@@ -209,35 +182,37 @@ function ensureCategory(state, name) {
 }
 
 function findItemIndex(category, name) {
-    const needle = String(name ?? '').trim().toLocaleLowerCase();
-    return category.items.findIndex(item => item.name.toLocaleLowerCase() === needle);
+    return category.items.findIndex(item => sameName(item.name, name));
 }
 
-function normalizeItemFromOp(op) {
+function assertNoItemCollision(category, name, exceptIndex = -1) {
+    const index = findItemIndex(category, name);
+    if (index >= 0 && index !== exceptIndex) throw new Error(`Item already exists in "${category.name}": ${name}`);
+}
+
+function normalizedItemFromOp(op) {
     const name = String(op?.name ?? '').trim();
     if (!name) throw new Error('Inventory item name is required.');
-    return {
-        name,
-        quantity: String(op?.quantity ?? '').replace(/\r?\n/g, ' ').trim(),
-        remark: String(op?.remark ?? '').replace(/\r?\n/g, ' ').trim(),
-    };
+    return { name, quantity: normalizeQuantity(op?.quantity), remark: String(op?.remark ?? '').replace(/\r?\n/g, ' ').trim() };
 }
 
 function applyPatchOperation(state, op) {
-    if (!op || typeof op !== 'object') throw new Error('Inventory operation must be an object.');
-
+    if (!op || typeof op !== 'object' || Array.isArray(op)) throw new Error('Inventory operation must be an object.');
     switch (op.op) {
         case 'add_category': {
-            ensureCategory(state, op.name);
+            const name = canonicalCategoryName(op.name);
+            if (!name) throw new Error('Category name is required.');
+            if (findCategory(state, name)) throw new Error(`Category already exists: ${name}`);
+            state.categories.push({ name, items: [] });
             return;
         }
         case 'rename_category': {
             const category = requireCategory(state, op.category);
-            const nextName = String(op.name ?? '').trim();
-            if (!nextName) throw new Error('New category name is required.');
-            const duplicate = findCategory(state, nextName);
-            if (duplicate && duplicate !== category) throw new Error(`Category already exists: ${nextName}`);
-            category.name = nextName;
+            const name = canonicalCategoryName(op.name);
+            if (!name) throw new Error('New category name is required.');
+            const duplicate = findCategory(state, name);
+            if (duplicate && duplicate !== category) throw new Error(`Category already exists: ${name}`);
+            category.name = name;
             return;
         }
         case 'delete_category': {
@@ -247,29 +222,41 @@ function applyPatchOperation(state, op) {
         }
         case 'add_item': {
             const category = ensureCategory(state, op.category);
-            const item = normalizeItemFromOp(op);
+            const item = normalizedItemFromOp(op);
             const index = findItemIndex(category, item.name);
             if (index < 0) {
+                if (/^[+-]?(?:\d+(?:\.\d+)?|\.\d+)$/.test(item.quantity) && Number(item.quantity) <= 0) {
+                    throw new Error(`Cannot add ${item.name} with a non-positive numeric quantity.`);
+                }
                 category.items.push(item);
                 return;
             }
-
             const existing = category.items[index];
             const current = Number(existing.quantity);
             const added = Number(item.quantity);
-            if (Number.isFinite(current) && Number.isFinite(added) && String(existing.quantity).trim() !== '' && String(item.quantity).trim() !== '') {
-                existing.quantity = String(current + added);
-                if (item.remark) existing.remark = item.remark;
-                return;
+            if (!Number.isFinite(current) || !Number.isFinite(added) || existing.quantity === '' || item.quantity === '' || added <= 0) {
+                throw new Error(`Item already exists and quantity is not safely additive: ${item.name}`);
             }
-            throw new Error(`Item already exists and quantity is not safely additive: ${item.name}`);
+            existing.quantity = String(current + added);
+            if (Object.hasOwn(op, 'remark') && item.remark) existing.remark = item.remark;
+            return;
         }
         case 'set_item': {
             const category = ensureCategory(state, op.category);
-            const item = normalizeItemFromOp(op);
-            const index = findItemIndex(category, item.name);
-            if (index < 0) category.items.push(item);
-            else category.items[index] = item;
+            const name = String(op?.name ?? '').trim();
+            if (!name) throw new Error('Inventory item name is required.');
+            const index = findItemIndex(category, name);
+            if (index < 0) {
+                category.items.push({
+                    name,
+                    quantity: Object.hasOwn(op, 'quantity') ? normalizeQuantity(op.quantity) : '',
+                    remark: Object.hasOwn(op, 'remark') ? String(op.remark ?? '').replace(/\r?\n/g, ' ').trim() : '',
+                });
+            } else {
+                const existing = category.items[index];
+                if (Object.hasOwn(op, 'quantity')) existing.quantity = normalizeQuantity(op.quantity);
+                if (Object.hasOwn(op, 'remark')) existing.remark = String(op.remark ?? '').replace(/\r?\n/g, ' ').trim();
+            }
             return;
         }
         case 'adjust_item': {
@@ -277,12 +264,10 @@ function applyPatchOperation(state, op) {
             const index = findItemIndex(category, op.name);
             if (index < 0) throw new Error(`Unknown inventory item: ${op.name}`);
             const existing = category.items[index];
-            const current = Number(existing.quantity);
+            if (!/^[+-]?(?:\d+(?:\.\d+)?|\.\d+)$/.test(existing.quantity)) throw new Error(`Cannot numerically adjust non-numeric quantity for ${existing.name}.`);
             const delta = Number(op.by);
-            if (!Number.isFinite(current) || String(existing.quantity).trim() === '' || !Number.isFinite(delta)) {
-                throw new Error(`Cannot numerically adjust quantity for ${existing.name}.`);
-            }
-            const result = current + delta;
+            if (!Number.isFinite(delta)) throw new Error(`Invalid quantity adjustment for ${existing.name}.`);
+            const result = Number(existing.quantity) + delta;
             if (result <= 0) category.items.splice(index, 1);
             else existing.quantity = String(result);
             return;
@@ -295,9 +280,10 @@ function applyPatchOperation(state, op) {
             if (Object.hasOwn(op, 'newName')) {
                 const newName = String(op.newName ?? '').trim();
                 if (!newName) throw new Error('New item name cannot be blank.');
+                assertNoItemCollision(category, newName, index);
                 item.name = newName;
             }
-            if (Object.hasOwn(op, 'quantity')) item.quantity = String(op.quantity ?? '').replace(/\r?\n/g, ' ').trim();
+            if (Object.hasOwn(op, 'quantity')) item.quantity = normalizeQuantity(op.quantity);
             if (Object.hasOwn(op, 'remark')) item.remark = String(op.remark ?? '').replace(/\r?\n/g, ' ').trim();
             return;
         }
@@ -312,8 +298,11 @@ function applyPatchOperation(state, op) {
             const from = requireCategory(state, op.fromCategory);
             const index = findItemIndex(from, op.name);
             if (index < 0) throw new Error(`Unknown inventory item: ${op.name}`);
+            const to = ensureCategory(state, op.toCategory);
+            if (to === from) return;
+            assertNoItemCollision(to, from.items[index].name);
             const [item] = from.items.splice(index, 1);
-            ensureCategory(state, op.toCategory).items.push(item);
+            to.items.push(item);
             return;
         }
         default:
@@ -322,105 +311,56 @@ function applyPatchOperation(state, op) {
 }
 
 function applyPayload(baseState, payload) {
-    if (!payload || typeof payload !== 'object' || Array.isArray(payload)) {
-        throw new Error('Inventory update payload must be a JSON object.');
-    }
-
-    if (payload.mode === 'replace') {
-        return normalizeInventory({ categories: payload.categories });
-    }
-
-    if (payload.mode === 'patch') {
-        if (!Array.isArray(payload.ops)) throw new Error('Patch update requires an ops array.');
-        const state = normalizeInventory(clone(baseState));
-        for (const op of payload.ops) applyPatchOperation(state, op);
-        return normalizeInventory(state);
-    }
-
-    throw new Error(`Unsupported inventory update mode: ${payload.mode}`);
+    if (!payload || typeof payload !== 'object' || Array.isArray(payload)) throw new Error('Inventory update payload must be a JSON object.');
+    if (payload.mode === 'replace') return validateAndNormalizeInventory({ categories: payload.categories });
+    if (payload.mode !== 'patch') throw new Error(`Unsupported inventory update mode: ${payload.mode}`);
+    if (!Array.isArray(payload.ops)) throw new Error('Patch update requires an ops array.');
+    const state = normalizeInventory(clone(baseState));
+    for (const op of payload.ops) applyPatchOperation(state, op);
+    return validateAndNormalizeInventory(state);
 }
 
 function stripFence(text) {
-    return String(text ?? '')
-        .trim()
-        .replace(/^```(?:json)?\s*/i, '')
-        .replace(/\s*```$/, '')
-        .trim();
+    return String(text ?? '').trim().replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '').trim();
+}
+
+export function hasInventoryControl(text) {
+    return new RegExp(`${UPDATE_COMMENT_MARKER}|<${UPDATE_TAG}\\b|<Inventory\\b`, 'i').test(String(text ?? ''));
 }
 
 export function consumeInventoryUpdates(messageText, baseState) {
     let cleaned = String(messageText ?? '');
     const payloadTexts = [];
-
     const commentRe = new RegExp(`<!--\\s*${UPDATE_COMMENT_MARKER}\\s*([\\s\\S]*?)-->`, 'gi');
-    cleaned = cleaned.replace(commentRe, (_whole, body) => {
-        payloadTexts.push(body);
-        return '';
-    });
-
+    cleaned = cleaned.replace(commentRe, (_whole, body) => { payloadTexts.push(body); return ''; });
     const tagRe = new RegExp(`<${UPDATE_TAG}\\b[^>]*>([\\s\\S]*?)<\\/${UPDATE_TAG}\\s*>`, 'gi');
-    cleaned = cleaned.replace(tagRe, (_whole, body) => {
-        payloadTexts.push(body);
-        return '';
-    });
+    cleaned = cleaned.replace(tagRe, (_whole, body) => { payloadTexts.push(body); return ''; });
 
     let truncated = false;
     const commentCut = new RegExp(`<!--\\s*${UPDATE_COMMENT_MARKER}[\\s\\S]*$`, 'i');
-    if (commentCut.test(cleaned)) {
-        cleaned = cleaned.replace(commentCut, '');
-        truncated = true;
-    }
+    if (commentCut.test(cleaned)) { cleaned = cleaned.replace(commentCut, ''); truncated = true; }
     const tagCut = new RegExp(`<${UPDATE_TAG}\\b[^>]*>[\\s\\S]*$`, 'i');
-    if (tagCut.test(cleaned)) {
-        cleaned = cleaned.replace(tagCut, '');
-        truncated = true;
-    }
-
+    if (tagCut.test(cleaned)) { cleaned = cleaned.replace(tagCut, ''); truncated = true; }
     cleaned = cleaned.replace(/[ \t]+\n/g, '\n').replace(/\n{3,}/g, '\n\n').trimEnd();
 
-    if (!payloadTexts.length) {
-        return {
-            cleanedText: cleaned,
-            state: normalizeInventory(baseState),
-            changed: false,
-            hadControl: truncated,
-            errors: truncated ? ['Inventory control record was truncated and was discarded.'] : [],
-            note: '',
-        };
+    const errors = [];
+    if (truncated) errors.push('Inventory control record was truncated and discarded.');
+    if (payloadTexts.length > 1) errors.push('Multiple inventory control records were emitted; all were discarded.');
+    if (payloadTexts.length === 0 || errors.length) {
+        return { cleanedText: cleaned, state: normalizeInventory(baseState), changed: false, hadControl: payloadTexts.length > 0 || truncated, errors, note: '' };
     }
 
-    const errors = [];
     let working = normalizeInventory(baseState);
-    let operationCount = 0;
-    let replaceCount = 0;
-
+    let payload = null;
     try {
-        for (const payloadText of payloadTexts) {
-            const payload = JSON.parse(stripFence(payloadText));
-            if (payload.mode === 'replace') replaceCount++;
-            if (Array.isArray(payload.ops)) operationCount += payload.ops.length;
-            working = applyPayload(working, payload);
-        }
+        payload = JSON.parse(stripFence(payloadTexts[0]));
+        working = applyPayload(working, payload);
     } catch (error) {
-        errors.push(error instanceof Error ? error.message : String(error));
+        errors.push(...(error.validationErrors ?? [error instanceof Error ? error.message : String(error)]));
         working = normalizeInventory(baseState);
     }
 
-    if (truncated) errors.push('A second/trailing inventory control record was truncated and discarded.');
-
     const changed = errors.length === 0 && JSON.stringify(working) !== JSON.stringify(normalizeInventory(baseState));
-    const note = replaceCount
-        ? 'LLM inventory replacement'
-        : operationCount
-            ? `LLM inventory update (${operationCount} operation${operationCount === 1 ? '' : 's'})`
-            : 'LLM inventory update';
-
-    return {
-        cleanedText: cleaned,
-        state: working,
-        changed,
-        hadControl: true,
-        errors,
-        note,
-    };
+    const note = payload?.mode === 'replace' ? 'LLM inventory replacement' : `LLM inventory update (${Array.isArray(payload?.ops) ? payload.ops.length : 0} operations)`;
+    return { cleanedText: cleaned, state: working, changed, hadControl: true, errors, note, mode: payload?.mode ?? null };
 }
