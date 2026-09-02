@@ -1,4 +1,4 @@
-# Inventory Block v0.2.7
+# Inventory Block v0.2.8
 
 Inventory Block is a lightweight SillyTavern RPG inventory extension with a **per-chat canonical backend**. The chat remains story history; inventory state is stored separately and rendered as an Inventory block compatible with Megumin Suite's block area.
 
@@ -28,6 +28,8 @@ Linen Smock | 1 | Worn
 
 `<Inventory>` is a **one-time starting-inventory seed** for initial character/group greetings. After seeding, the backend is authoritative and later `<Inventory>` blocks are stripped rather than becoming a new source of truth.
 
+For resource containers such as `Coin Pouch | 1 | 100 Gold`, the item quantity is the number of pouches while the spendable balance lives in Remark. v0.2.8 explicitly instructs the model to update that Remark whenever a transaction completes, while preserving the container quantity. A 15 Gold purchase therefore changes `100 Gold` to `85 Gold`, not the pouch quantity from `1` to `0`.
+
 ## LLM integration
 
 For normal foreground assistant generations, Inventory Block snapshots the current backend state and injects it only at SillyTavern's **final prompt-ready stage**. It does not insert a fake chat message, does not participate in World Info scanning, and does not shift chat-depth positions.
@@ -46,6 +48,8 @@ If inventory changes, the model appends one machine-only suffix:
 ```
 
 The extension validates the complete update atomically, applies it to backend state, creates a revision, strips the machine comment, and stores only normal story prose. If nothing changes, there is no inventory output.
+
+Completed purchases, payments, fees, tips, sales, rewards, refunds, theft, and other currency changes are treated as Inventory changes. When money is stored in Remark, the existing `edit_item` operation rewrites the calculated balance. A zero balance keeps the container item; negative balances are forbidden, and item changes from the same transaction are emitted in the same atomic patch.
 
 Quiet/background and impersonation generations do not receive Inventory state and cannot mutate Inventory.
 

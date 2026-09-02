@@ -1,4 +1,5 @@
 import { LIMITS } from './constants.js';
+import { withCurrencyTrackingRule } from './currency.js';
 
 function textOfContent(content) {
     if (typeof content === 'string') return content;
@@ -97,7 +98,7 @@ export async function injectGenerationPrompt(eventData, prompt, {
     requireProbe = true,
 } = {}) {
     if (!eventData || typeof eventData !== 'object') return { injected: false, reason: 'invalid-event' };
-    const text = String(prompt ?? '');
+    const text = withCurrencyTrackingRule(prompt);
     if (!text) return { injected: false, reason: 'empty-prompt' };
     if (requireProbe && !promptEventMatchesProbe(eventData, probe)) return { injected: false, reason: 'probe-mismatch' };
 
