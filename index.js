@@ -66,6 +66,7 @@ let eventsRegistered = false;
 let menuRetry = null;
 let watchdog = null;
 let rawReconciliationActive = 0;
+let slashCommandsRegistered = false;
 const terminalCleanupTimers = new Map();
 const sessions = new GenerationSessionStore({ maxAgeMs: PENDING_MAX_AGE_MS, limit: LIMITS.promptSessions });
 const dryRunSessions = [];
@@ -269,6 +270,10 @@ function ensureExtensionUiEntries() {
         onEdit: openEditor,
         onHistory: openHistory,
         onCopy: copyInventoryBlock,
+        onReconcile: async () => {
+            try { await reconcileLatestResponse({ notifyResult: true }); }
+            catch (error) { notify('error', error instanceof Error ? error.message : String(error)); }
+        },
     });
     if (menuReady && settingsReady) {
         if (menuRetry) clearTimeout(menuRetry);
@@ -300,6 +305,53 @@ function isFirstAssistantMessage(ctx, messageId) {
 
 function activeMessageMeta(message) {
     return message?.extra?.[EXTRA_KEY] ?? null;
+}
+
+function reconciliationTextHash(text) {
+    let hash = 2166136261;
+    const source = String(text ?? '');
+    for (let i = 0; i < source.length; i++) {
+        hash ^= source.charCodeAt(i);
+        hash = Math.imul(hash, 16777619);
+    }
+    return (hash >>> 0).toString(36);
+}
+
+function reconciliationStampMatches(message, stamp = activeMessageMeta(message)?.reconcile) {
+    const text = String(message?.mes ?? '');
+    return Boolean(stamp && Number.isInteger(stamp.textLength) && stamp.textLength === text.length && stamp.textHash === reconciliationTextHash(text));
+}
+
+function stampReconciliation(context, messageId, revisionId) {
+    const message = context?.chat?.[messageId];
+    if (!message) return null;
+    message.extra ??= {};
+    const current = message.extra[EXTRA_KEY] ?? {};
+    message.extra[EXTRA_KEY] = {
+        ...current,
+        reconcile: {
+            version: 1,
+            textLength: String(message.mes ?? '').length,
+            textHash: reconciliationTextHash(message.mes),
+            revision: revisionId,
+            at: Date.now(),
+        },
+    };
+    const swipeId = Number.isInteger(message.swipe_id) ? message.swipe_id : 0;
+    const swipe = Array.isArray(message.swipe_info) ? message.swipe_info[swipeId] : null;
+    if (swipe) {
+        swipe.extra ??= {};
+        swipe.extra[EXTRA_KEY] = structuredClone(message.extra[EXTRA_KEY]);
+    }
+    return message.extra[EXTRA_KEY].reconcile;
+}
+
+function latestUserTextBefore(ctx, messageId) {
+    for (let i = Number(messageId) - 1; i >= 0; i--) {
+        const message = ctx?.chat?.[i];
+        if (message?.is_user && !message.is_system) return String(message.mes ?? '');
+    }
+    return '';
 }
 
 function generationBase(ctx, session = null) {
@@ -459,6 +511,7 @@ async function reconcileCompletedSession(session) {
         }
 
         attachReconciledRevision(live, session, message, id, acceptedRevision, baseRevision);
+        if (!warnings.length) stampReconciliation(live, id, acceptedRevision);
         liveRoot.activeRevision = acceptedRevision;
         rememberBranchHead(live, acceptedRevision);
         persistChatSoon(live, session.chatId);
@@ -470,6 +523,130 @@ async function reconcileCompletedSession(session) {
     } finally {
         session.finished = true;
         removeSession(session);
+    }
+}
+
+async function reconcileLatestResponse({ notifyResult = true } = {}) {
+    const ctx = context();
+    if (!ctx || !hasActiveChat(ctx)) throw new Error('Open a chat before reconciling inventory.');
+    const expectedChatId = chatIdOf(ctx);
+    if (generationLockFor(ctx)) throw new Error('Wait for the current generation response to finish before reconciling inventory manually.');
+    if (rawReconciliationActive > 0) throw new Error('Inventory reconciliation is already running.');
+
+    const id = latestAssistantMessageId(ctx);
+    const message = ctx.chat?.[id];
+    if (!Number.isInteger(id) || !message || message.is_user || message.is_system) throw new Error('No completed assistant response is available to reconcile.');
+
+    invalidateLineageCache(ctx);
+    const root = ensureRoot(ctx);
+    const currentRevision = resolveActiveRevision(ctx);
+    const meta = activeMessageMeta(message);
+    const stamp = meta?.reconcile;
+    const text = String(message.mes ?? '');
+
+    if (reconciliationStampMatches(message, stamp)) {
+        if (notifyResult) notify('info', 'This response has already been reconciled.');
+        return 'already-reconciled';
+    }
+
+    let eventText = text;
+    let baseRevision = currentRevision;
+    if (stamp && Number.isInteger(stamp.textLength) && stamp.textLength >= 0 && stamp.textLength < text.length) {
+        const prefix = text.slice(0, stamp.textLength);
+        if (reconciliationTextHash(prefix) !== stamp.textHash) throw new Error('The latest response changed before its previous reconciliation boundary. Manual reconciliation was refused to avoid double-counting.');
+        if (!Number.isInteger(stamp.revision) || !getRevision(root, stamp.revision) || currentRevision !== stamp.revision) throw new Error('Inventory changed after the last reconciliation. Manual suffix reconciliation was refused to avoid applying the response against stale state.');
+        eventText = text.slice(stamp.textLength);
+        baseRevision = stamp.revision;
+        if (!eventText.trim()) {
+            if (notifyResult) notify('info', 'This response has already been reconciled.');
+            return 'already-reconciled';
+        }
+    } else if (!stamp && meta && Number.isInteger(meta.baseRevision) && Number.isInteger(meta.revision) && meta.revision !== meta.baseRevision) {
+        throw new Error('This legacy response already carries an Inventory state change but has no v0.3.5 reconciliation stamp. Manual retry was refused to avoid double-counting it.');
+    }
+
+    const mutationSerial = root.mutationSerial;
+    const lineageHash = lineageHashThrough(ctx, id);
+    const baseState = getInventoryAt(root, baseRevision);
+    const generateRaw = ctx.generateRaw;
+    if (typeof generateRaw !== 'function') throw new Error('SillyTavern generateRaw is unavailable; manual inventory reconciliation cannot run.');
+
+    const userText = stamp ? '' : latestUserTextBefore(ctx, id);
+    const replaceCapability = !stamp && isBroadInventoryAdministration(userText) ? createReplaceCapability() : null;
+    const reconciliationPrompt = buildReconciliationPrompt(baseState, {
+        userText,
+        assistantText: eventText,
+        type: stamp ? 'continue' : 'manual_reconcile',
+        replaceCapability,
+    });
+
+    let reply;
+    rawReconciliationActive += 1;
+    try {
+        reply = await generateRaw({ prompt: reconciliationPrompt });
+    } finally {
+        rawReconciliationActive = Math.max(0, rawReconciliationActive - 1);
+    }
+
+    const live = context();
+    if (!live || chatIdOf(live) !== expectedChatId) throw new Error('The active chat changed while manual inventory reconciliation was running. Its result was discarded.');
+    invalidateLineageCache(live);
+    const liveRoot = ensureRoot(live);
+    if (liveRoot.mutationSerial !== mutationSerial || lineageHashThrough(live, id) !== lineageHash) throw new Error('Inventory or chat history changed while manual reconciliation was running. Its result was discarded.');
+
+    const result = parseReconciliationReply(reply, baseState, { replaceCapability });
+    if (result.errors.length) throw new Error(result.errors.join(' '));
+
+    let acceptedRevision = baseRevision;
+    if (!inventoryEquals(baseState, result.state)) {
+        acceptedRevision = createRevision(live, result.state, {
+            parent: baseRevision,
+            source: SOURCE.LLM,
+            note: result.note || 'Manual post-response inventory reconciliation',
+        });
+    } else {
+        liveRoot.activeRevision = baseRevision;
+    }
+
+    const pseudoSession = { chatId: expectedChatId, type: stamp ? 'continue' : 'manual_reconcile' };
+    attachReconciledRevision(live, pseudoSession, message, id, acceptedRevision, baseRevision);
+    stampReconciliation(live, id, acceptedRevision);
+    liveRoot.activeRevision = acceptedRevision;
+    rememberBranchHead(live, acceptedRevision);
+    persistChatSoon(live, expectedChatId);
+    refreshAll();
+    if (notifyResult) notify('success', inventoryEquals(baseState, result.state) ? 'Latest response reconciled; no inventory change was needed.' : 'Latest response reconciled and inventory updated.');
+    return inventoryEquals(baseState, result.state) ? 'no-change' : 'updated';
+}
+
+function registerSlashCommands() {
+    if (slashCommandsRegistered) return;
+    const ctx = context();
+    const Parser = ctx?.SlashCommandParser;
+    const Command = ctx?.SlashCommand;
+    if (!Parser?.addCommandObject || !Command?.fromProps) return;
+    if (Parser.commands && Object.hasOwn(Parser.commands, 'inventory-reconcile')) {
+        slashCommandsRegistered = true;
+        return;
+    }
+    try {
+        Parser.addCommandObject(Command.fromProps({
+            name: 'inventory-reconcile',
+            aliases: ['inv-reconcile'],
+            callback: async () => {
+                try { return await reconcileLatestResponse({ notifyResult: true }); }
+                catch (error) {
+                    const message = error instanceof Error ? error.message : String(error);
+                    notify('error', message);
+                    return `error: ${message}`;
+                }
+            },
+            returns: 'inventory reconciliation status',
+            helpString: '<div>Retries Inventory Block reconciliation for the latest completed assistant response. Already reconciled text is never scanned twice.</div>',
+        }));
+        slashCommandsRegistered = true;
+    } catch (error) {
+        console.warn('[Inventory Block] Could not register /inventory-reconcile.', error);
     }
 }
 
@@ -982,6 +1159,7 @@ export async function init() {
     ensureExtensionUiEntries();
     initializeMeguminBridge(renderCurrentPane);
     registerEvents();
+    registerSlashCommands();
     await resolveBranchAndRefresh();
     console.info(`[Inventory Block] v${VERSION} loaded.`);
 }

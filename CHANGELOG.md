@@ -1,3 +1,12 @@
+## 0.3.5
+
+- Added **Reconcile Latest Response** under Extensions → Inventory Block for manual recovery after a failed post-response API scan.
+- Added `/inventory-reconcile` (alias `/inv-reconcile`) for the same safe manual retry path.
+- Successful reconciliations now stamp the exact assistant text/revision, preventing duplicate charges and allowing future Continue suffixes to be reconciled without rescanning older events.
+- Manual reconciliation fails closed if chat/inventory state changes while the raw scan is running or if a legacy changed response cannot be proven safe to rescan.
+- The UI disables the manual button and shows `Reconciling…` while a retry is active.
+- Continue/append reconciliation no longer replays the prior user/OOC admin directive; only the new assistant suffix is considered.
+
 ## 0.3.4
 
 Gemini/API compatibility hotfix for post-response reconciliation.

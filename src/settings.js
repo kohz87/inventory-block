@@ -47,6 +47,9 @@ export function settingsMarkup(version, retention = getHistoryRetention()) {
                     <button id="inventory_block_settings_copy" type="button" class="menu_button">
                         <i class="fa-solid fa-copy"></i> Copy Block
                     </button>
+                    <button id="inventory_block_settings_reconcile" type="button" class="menu_button">
+                        <i class="fa-solid fa-rotate"></i> Reconcile Latest Response
+                    </button>
                 </div>
                 <div class="inventory-block-history-settings">
                     <label for="inventory_block_history_retention">History retention</label>
@@ -124,7 +127,7 @@ function wireHistorySettings(wrapper) {
     });
 }
 
-export function addExtensionSettingsPanel(documentRef, { version, onEdit, onHistory, onCopy } = {}) {
+export function addExtensionSettingsPanel(documentRef, { version, onEdit, onHistory, onCopy, onReconcile } = {}) {
     if (documentRef.querySelector('#inventory_block_settings')) return true;
     const host = documentRef.querySelector('#extensions_settings') ?? documentRef.querySelector('#extensions_settings2');
     if (!host) return false;
@@ -135,6 +138,20 @@ export function addExtensionSettingsPanel(documentRef, { version, onEdit, onHist
     if (onEdit) wrapper.querySelector('#inventory_block_settings_edit')?.addEventListener('click', onEdit);
     if (onHistory) wrapper.querySelector('#inventory_block_settings_history')?.addEventListener('click', onHistory);
     if (onCopy) wrapper.querySelector('#inventory_block_settings_copy')?.addEventListener('click', onCopy);
+    if (onReconcile) {
+        const reconcile = wrapper.querySelector('#inventory_block_settings_reconcile');
+        reconcile?.addEventListener('click', async () => {
+            if (reconcile.disabled) return;
+            const original = reconcile.innerHTML;
+            reconcile.disabled = true;
+            reconcile.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Reconciling…';
+            try { await onReconcile(); }
+            finally {
+                reconcile.disabled = false;
+                reconcile.innerHTML = original;
+            }
+        });
+    }
     wireHistorySettings(wrapper);
     host.appendChild(wrapper);
     return true;

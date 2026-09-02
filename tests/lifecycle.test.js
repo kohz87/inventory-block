@@ -30,6 +30,8 @@ test('composer is used only for normal/group instruction', () => {
   const chat=[{is_user:true,mes:'old'}];
   assert.equal(userInstructionForGeneration('normal',chat,'[OOC: organize inventory]'),'[OOC: organize inventory]');
   assert.equal(userInstructionForGeneration('swipe',chat,'ignored'),'old');
+  assert.equal(userInstructionForGeneration('continue',chat,'ignored'),'');
+  assert.equal(userInstructionForGeneration('appendFinal',chat,'ignored'),'');
 });
 
 test('bracketed narrative prose does not grant replace capability', () => {
