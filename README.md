@@ -1,4 +1,4 @@
-# Inventory Block v0.3.4
+# Inventory Block v0.3.5
 
 Inventory Block is a lightweight SillyTavern RPG inventory extension with a **per-chat canonical backend**. The chat remains story history; inventory state is stored separately and rendered as an Inventory block compatible with Megumin Suite's block area.
 
@@ -91,7 +91,7 @@ Inventory remains a compact Megumin-style RPG block:
 - Copy Block;
 - revision History with View / Compare / Restore.
 
-The same controls plus retention/cleanup settings are available under **Extensions → Inventory Block**. No search, encumbrance, rarity, equipment-slot, or other heavyweight subsystem is added.
+The same controls plus retention/cleanup settings are available under **Extensions → Inventory Block**. v0.3.5 also adds **Reconcile Latest Response** for retrying a failed post-response scan; already-reconciled text is stamped and will not be charged twice. The same recovery action is available as `/inventory-reconcile` (alias `/inv-reconcile`). No search, encumbrance, rarity, equipment-slot, or other heavyweight subsystem is added.
 
 ## Installation
 

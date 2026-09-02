@@ -1,6 +1,10 @@
-# Inventory Block v0.3.4 Raw Reconciliation Compatibility Report
+# Inventory Block v0.3.5 Raw Reconciliation Compatibility Report
 
 Date: 2026-09-02
+
+## v0.3.5 manual reconciliation recovery
+
+v0.3.5 adds a guarded manual retry for the latest completed assistant response through both the settings UI and `/inventory-reconcile`. Reconciliation stamps bind successful scans to exact assistant text and revision state so repeated clicks cannot double-charge resources; later Continue suffixes can be scanned without replaying older events.
 
 ## v0.3.4 raw reconciliation compatibility
 

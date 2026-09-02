@@ -72,6 +72,7 @@ export function userInstructionForGeneration(type, chat, composerText = '') {
     const lower = normalizeGenerationType(type);
     const composer = String(composerText ?? '').trim();
     if ((lower === 'normal' || lower === 'group') && composer) return composer;
+    if (['continue', 'append', 'appendfinal'].includes(lower)) return '';
     return latestUserMessageText(chat);
 }
 

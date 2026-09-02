@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import fs from 'node:fs';
 import { mountExtensionUi, settingsMarkup } from '../src/settings.js';
 
 class FakeNode {
@@ -15,7 +16,7 @@ class FakeNode {
     }
     set innerHTML(value) {
         this._innerHTML = String(value);
-        for (const id of ['inventory_block_settings_edit', 'inventory_block_settings_history', 'inventory_block_settings_copy', 'inventory_block_history_retention', 'inventory_block_history_trim', 'inventory_block_history_clear']) {
+        for (const id of ['inventory_block_settings_edit', 'inventory_block_settings_history', 'inventory_block_settings_copy', 'inventory_block_settings_reconcile', 'inventory_block_history_retention', 'inventory_block_history_trim', 'inventory_block_history_clear']) {
             if (this._innerHTML.includes(`id="${id}"`)) {
                 const node = new FakeNode(id === 'inventory_block_history_retention' ? 'select' : 'button');
                 node.id = id;
@@ -65,7 +66,8 @@ test('menu/settings DOM mount is idempotent and buttons are actually wired', () 
     let edit = 0;
     let history = 0;
     let copy = 0;
-    const options = { version: '0.2.3', onEdit: () => edit++, onHistory: () => history++, onCopy: () => copy++ };
+    let reconcile = 0;
+    const options = { version: '0.2.3', onEdit: () => edit++, onHistory: () => history++, onCopy: () => copy++, onReconcile: async () => reconcile++ };
     const first = mountExtensionUi(documentRef, options);
     const second = mountExtensionUi(documentRef, options);
     assert.deepEqual(first, { menuReady: true, settingsReady: true });
@@ -77,11 +79,21 @@ test('menu/settings DOM mount is idempotent and buttons are actually wired', () 
     settings.querySelector('#inventory_block_settings_edit').click();
     settings.querySelector('#inventory_block_settings_history').click();
     settings.querySelector('#inventory_block_settings_copy').click();
-    assert.deepEqual({ edit, history, copy }, { edit: 2, history: 1, copy: 1 });
+    settings.querySelector('#inventory_block_settings_reconcile').click();
+    assert.deepEqual({ edit, history, copy, reconcile }, { edit: 2, history: 1, copy: 1, reconcile: 1 });
     assert.ok(settings.querySelector('#inventory_block_history_retention').listeners.has('change'));
     assert.ok(settings.querySelector('#inventory_block_history_trim').listeners.has('click'));
     assert.ok(settings.querySelector('#inventory_block_history_clear').listeners.has('click'));
     assert.ok(settings.querySelector('#inventory_block_history_retention').listeners.has('change'));
     assert.ok(settings.querySelector('#inventory_block_history_trim').listeners.has('click'));
     assert.ok(settings.querySelector('#inventory_block_history_clear').listeners.has('click'));
+});
+
+
+test('settings expose manual latest-response reconciliation', () => {
+  const source = fs.readFileSync(new URL('../src/settings.js', import.meta.url), 'utf8');
+  assert.match(source, /inventory_block_settings_reconcile/);
+  assert.match(source, /Reconcile Latest Response/);
+  assert.match(source, /onReconcile/);
+  assert.match(source, /Reconciling…/);
 });
