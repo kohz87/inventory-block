@@ -26,6 +26,7 @@ test('hidden reconciliation prompt contains protocol, completed event, and resou
   assert.match(prompt, /completedAssistantEvent/);
   assert.match(prompt, /You pay 15 Gold/);
   assert.match(prompt, /Return exactly NO_CHANGE/);
+  assert.match(prompt, /bracketed OOC\/admin inventory directive/i);
 });
 
 test('Continue reconciliation scans only newly appended text', () => {
@@ -95,4 +96,6 @@ test('runtime keeps machine writes out of foreground generation and does not re-
   assert.match(index, /MESSAGE_RECEIVED[^\n]*onMessageReceived/);
   assert.match(index, /GENERATION_ENDED[^\n]*onGenerationEnded/);
   assert.match(index, /COMPLETION_FALLBACK_MS/);
+  assert.match(index, /quietReconciliationActive/);
+  assert.match(index, /if \(quietReconciliationActive > 0\) return/);
 });

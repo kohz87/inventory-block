@@ -6,7 +6,7 @@ Post-response reconciliation architecture.
 - Injects only a compact read-only possession reference into the main generation.
 - Runs inventory accounting after the completed assistant message through SillyTavern's hidden `generateQuietPrompt` path.
 - Uses a MESSAGE_RECEIVED + GENERATION_ENDED completion latch, with MESSAGE_RECEIVED as a delayed fail-safe completion edge for providers that omit/delay the terminal event.
-- Keeps quiet/background generations excluded from Inventory session tracking so reconciliation cannot recursively trigger itself.
+- Keeps quiet/background generations excluded from Inventory session tracking and suppresses Inventory's own prompt-ready injection while its quiet reconciler is active, so reconciliation cannot recursively contaminate itself.
 - Scans only the newly appended suffix for Continue/append generations, preventing old events in the same message from being charged twice.
 - Reconciles Swipe/Regenerate against their captured pre-response base revision.
 - Commits hidden patches through the existing atomic validator/resource safeguards and refreshes the Inventory pane once without rewriting/re-rendering the story message.

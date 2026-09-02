@@ -65,6 +65,7 @@ let initialized = false;
 let eventsRegistered = false;
 let menuRetry = null;
 let watchdog = null;
+let quietReconciliationActive = 0;
 const terminalCleanupTimers = new Map();
 const sessions = new GenerationSessionStore({ maxAgeMs: PENDING_MAX_AGE_MS, limit: LIMITS.promptSessions });
 const dryRunSessions = [];
@@ -390,12 +391,21 @@ async function reconcileCompletedSession(session) {
             if (mutationConflictBefore) warnings.push('Inventory changed before post-response reconciliation could start; this message was not allowed to overwrite the newer inventory.');
             if (timelineConflictBefore) warnings.push('The chat timeline changed before post-response reconciliation could start; this message was not allowed to write inventory.');
             reportWarnings(warnings);
+            const currentRevision = resolveActiveRevision(ctx);
+            attachReconciledRevision(ctx, session, message, id, currentRevision, currentRevision);
+            rememberBranchHead(ctx, currentRevision);
+            persistChatSoon(ctx, session.chatId);
+            refreshAll();
             return;
         }
 
         const generateQuietPrompt = ctx.generateQuietPrompt;
         if (typeof generateQuietPrompt !== 'function') {
             reportWarnings(['SillyTavern generateQuietPrompt is unavailable; post-response inventory reconciliation was skipped.']);
+            attachReconciledRevision(ctx, session, message, id, baseRevision, baseRevision);
+            rememberBranchHead(ctx, baseRevision);
+            persistChatSoon(ctx, session.chatId);
+            refreshAll();
             return;
         }
 
@@ -405,7 +415,13 @@ async function reconcileCompletedSession(session) {
             type: session.type,
             replaceCapability: session.replaceCapability,
         });
-        const reply = await generateQuietPrompt({ quietPrompt, skipWIAN: true, trimToSentence: false });
+        let reply;
+        quietReconciliationActive += 1;
+        try {
+            reply = await generateQuietPrompt({ quietPrompt, skipWIAN: true, trimToSentence: false });
+        } finally {
+            quietReconciliationActive = Math.max(0, quietReconciliationActive - 1);
+        }
 
         const live = context();
         if (!live || chatIdOf(live) !== session.chatId) {
@@ -421,6 +437,11 @@ async function reconcileCompletedSession(session) {
             if (mutationConflict) warnings.push('Inventory changed while the hidden reconciliation scan was running; its result was discarded.');
             if (timelineConflict) warnings.push('The chat timeline changed while the hidden reconciliation scan was running; its result was discarded.');
             reportWarnings(warnings);
+            const currentRevision = resolveActiveRevision(live);
+            attachReconciledRevision(live, session, message, id, currentRevision, currentRevision);
+            rememberBranchHead(live, currentRevision);
+            persistChatSoon(live, session.chatId);
+            refreshAll();
             return;
         }
 
@@ -810,6 +831,7 @@ async function onPromptReady(eventData = null) {
         await injectDryRunPrompt(eventData, selected.entry.prompt, { getTokenCountAsync: selected.entry.tokenCounter });
         return;
     }
+    if (quietReconciliationActive > 0) return;
 
     const session = sessions.chooseForPromptEvent(eventData, { maxReadyAgeMs: PROMPT_READY_MAX_AGE_MS });
     if (!session) return;
