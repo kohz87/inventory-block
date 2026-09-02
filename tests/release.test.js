@@ -15,7 +15,7 @@ test('changelog retains prior hardening and documents v0.3.0 history inspection'
   const changelog=read('CHANGELOG.md');
   assert.match(changelog,/## 0\.3\.0/);
   assert.match(changelog,/View/i);
-  assert.match(changelog,/Compare/i);
+  assert.match(changelog,/compar/i);
   assert.match(changelog,/Trim History Now/i);
   assert.match(changelog,/Clear History/i);
   assert.match(changelog,/## 0\.2\.9/);
