@@ -39,7 +39,7 @@ text = read(path)
 text = text.replace("test('changelog documents v0.3.5 raw reconciliation compatibility and retains prior hardening', () => {", "test('changelog documents v0.3.5 manual reconciliation recovery and retains prior hardening', () => {")
 text = once(text,
 """  assert.match(changelog,/## 0\\.3\\.5/);\n  assert.match(changelog,/generateRaw/);\n  assert.match(changelog,/minimal raw generation path/i);\n""",
-"""  assert.match(changelog,/## 0\\.3\\.5/);\n  assert.match(changelog,/Reconcile Latest Response/i);\n  assert.match(changelog,/inventory-reconcile/i);\n  assert.match(changelog,/reconciliation stamp/i);\n  assert.match(changelog,/## 0\\.3\\.4/);\n  assert.match(changelog,/generateRaw/);\n  assert.match(changelog,/minimal raw generation path/i);\n""", 'release changelog assertions')
+"""  assert.match(changelog,/## 0\\.3\\.5/);\n  assert.match(changelog,/Reconcile Latest Response/i);\n  assert.match(changelog,/inventory-reconcile/i);\n  assert.match(changelog,/stamp the exact assistant text\\/revision/i);\n  assert.match(changelog,/## 0\\.3\\.4/);\n  assert.match(changelog,/generateRaw/);\n  assert.match(changelog,/minimal raw generation path/i);\n""", 'release changelog assertions')
 write(path, text)
 
 print('v0.3.5 post-review patch complete')
