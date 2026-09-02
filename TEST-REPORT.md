@@ -1,6 +1,10 @@
-# Inventory Block v0.3.2 Deep Hardening Report
+# Inventory Block v0.3.3 Post-Response Reconciliation Report
 
 Date: 2026-09-02
+
+## v0.3.3 post-response reconciliation
+
+v0.3.3 moves inventory writes out of the visible RP generation. The foreground model receives only read-only possession context; after the final assistant message completes, a hidden quiet reconciliation pass emits the validated machine patch internally. Continue scans are suffix-only, Swipe/Regenerate keep their captured base revision, stopped generations do not reconcile, and the visible message is never rewritten by the hidden scan.
 
 ## v0.3.2 deep hardening
 
