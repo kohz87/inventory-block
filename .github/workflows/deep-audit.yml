@@ -5,6 +5,9 @@ on:
     branches:
       - feature/history-inspection-v0.3.0
 
+permissions:
+  contents: write
+
 jobs:
   audit:
     runs-on: ubuntu-latest
@@ -13,5 +16,28 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: npm test
-      - run: npm run check
+      - name: Apply v0.3.1 fixes in working tree
+        run: python3 scripts/apply-v031-hardening.py
+      - name: Ten repeated hard-pass cycles
+        shell: bash
+        run: |
+          set -euo pipefail
+          for pass in $(seq 1 10); do
+            echo "========== HARD PASS ${pass}/10 =========="
+            npm test
+            npm run check
+            git diff --check
+          done
+      - name: Commit only after all ten passes succeed
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "kohz87"
+          git config user.email "83744063+kohz87@users.noreply.github.com"
+          git add CHANGELOG.md README.md TEST-REPORT.md manifest.json package.json style.css src tests
+          if git diff --cached --quiet; then
+            echo "No hardening changes to commit."
+            exit 0
+          fi
+          git commit -m "Inventory Block v0.3.1 deep hardening"
+          git push origin HEAD:feature/history-inspection-v0.3.0
