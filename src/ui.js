@@ -323,7 +323,14 @@ export function compareInventoryStates(beforeState, afterState) {
     const afterEmpty = new Set(afterInventory.categories.filter(category => !category.items.length).map(category => category.name));
     const categoriesAdded = [...afterEmpty].filter(name => !beforeEmpty.has(name));
     const categoriesRemoved = [...beforeEmpty].filter(name => !afterEmpty.has(name));
-    return { added, removed, changed, categoriesAdded, categoriesRemoved };
+    const categoryOrderBefore = beforeInventory.categories.map(category => category.name);
+    const categoryOrderAfter = afterInventory.categories.map(category => category.name);
+    const beforeKeys = categoryOrderBefore.map(identityKey);
+    const afterKeys = categoryOrderAfter.map(identityKey);
+    const sameMembers = beforeKeys.length === afterKeys.length
+        && [...beforeKeys].sort().every((key, index) => key === [...afterKeys].sort()[index]);
+    const categoryOrderChanged = sameMembers && beforeKeys.some((key, index) => key !== afterKeys[index]);
+    return { added, removed, changed, categoriesAdded, categoriesRemoved, categoryOrderChanged, categoryOrderBefore, categoryOrderAfter };
 }
 
 function appendInventorySnapshot(container, state) {
@@ -360,13 +367,19 @@ function renderComparison(container, fromRevision, toRevision, beforeState, afte
     container.replaceChildren();
     container.appendChild(el('div', 'inventory-history-inspector-title', `Revision ${fromRevision.id} → Revision ${toRevision.id}`));
     const diff = compareInventoryStates(beforeState, afterState);
-    const total = diff.changed.length + diff.added.length + diff.removed.length + diff.categoriesAdded.length + diff.categoriesRemoved.length;
+    const total = diff.changed.length + diff.added.length + diff.removed.length + diff.categoriesAdded.length + diff.categoriesRemoved.length + (diff.categoryOrderChanged ? 1 : 0);
     if (!total) {
         container.appendChild(el('div', 'inventory-empty-state', 'No inventory differences between these revisions.'));
         return;
     }
-    const summary = el('div', 'inventory-history-diff-summary', `${diff.changed.length} changed · ${diff.added.length} items added · ${diff.removed.length} items removed · ${diff.categoriesAdded.length} empty categories added · ${diff.categoriesRemoved.length} empty categories removed`);
+    const orderSummary = diff.categoryOrderChanged ? ' · category order changed' : '';
+    const summary = el('div', 'inventory-history-diff-summary', `${diff.changed.length} changed · ${diff.added.length} items added · ${diff.removed.length} items removed · ${diff.categoriesAdded.length} empty categories added · ${diff.categoriesRemoved.length} empty categories removed${orderSummary}`);
     container.appendChild(summary);
+
+    if (diff.categoryOrderChanged) {
+        container.appendChild(el('div', 'inventory-history-diff-heading', 'Category order'));
+        appendDiffEntry(container, 'Reordered categories', `Before: ${diff.categoryOrderBefore.join(' > ')} | After: ${diff.categoryOrderAfter.join(' > ')}`);
+    }
 
     if (diff.changed.length) {
         container.appendChild(el('div', 'inventory-history-diff-heading', 'Changed'));

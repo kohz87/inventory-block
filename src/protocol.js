@@ -55,40 +55,50 @@ function numericDelta(value, label = 'Quantity adjustment') {
     return number;
 }
 
-const RESOURCE_NUMBER_TOKEN = /[+-]?(?:\d+(?:\.\d+)?|\.\d+)/g;
+const RESOURCE_NUMBER_TOKEN = /[+-]?(?:\d{1,3}(?:,\d{3})+(?:\.\d+)?|\d+(?:\.\d+)?|\.\d+)/g;
+const RESOURCE_TEXT_HINT = /\b(?:gold|silver|copper|coins?|gp|sp|cp|days?|meals?|liters?|litres?|ml|rounds?|arrows?|bolts?|shots?|doses?|uses?|charges?|rations?|ammunition|ammo|fuel|medicine|medical|supplies|materials?)\b/i;
+const RESOURCE_ITEM_HINT = /\b(?:coin pouch|pouch|wallet|food|ration|rations|water|waterskin|ammo|ammunition|fuel|medicine|medical supplies|supplies|charges|materials|magazine|quiver|flask|bottle|tank|currency|gold)\b/i;
 
 function resourceRemarkParts(value) {
     const text = cleanRemark(value);
     const matches = [...text.matchAll(RESOURCE_NUMBER_TOKEN)];
     if (matches.length !== 1) return null;
     const token = matches[0][0];
-    const amount = Number(token);
+    const amount = Number(token.replace(/,/g, ''));
     if (!Number.isFinite(amount)) return null;
     const index = matches[0].index ?? 0;
-    return { text, amount, before: text.slice(0, index), after: text.slice(index + token.length) };
-}
-
-function resourceShape(parts) {
-    return `${parts.before.trim().toLowerCase()}\u241f${parts.after.trim().toLowerCase()}`;
+    return {
+        text,
+        token,
+        amount,
+        grouped: token.includes(','),
+        before: text.slice(0, index),
+        after: text.slice(index + token.length),
+    };
 }
 
 function looksLikeTrackedResource(parts, itemName = '') {
-    return /[A-Za-z]/.test(parts.after)
-        || /^\s*about\b/i.test(parts.before)
-        || /\b(?:coin|pouch|wallet|food|ration|water|ammo|ammunition|fuel|medicine|medical|suppl|charge|material)\b/i.test(String(itemName ?? ''));
+    const surrounding = `${parts?.before ?? ''} ${parts?.after ?? ''}`;
+    return RESOURCE_TEXT_HINT.test(surrounding) || RESOURCE_ITEM_HINT.test(String(itemName ?? ''));
 }
 
 function assertNoNegativeResourceTransition(currentRemark, nextRemark, itemName) {
     const current = resourceRemarkParts(currentRemark);
     const next = resourceRemarkParts(nextRemark);
     if (!current || !next || current.amount < 0 || next.amount >= 0) return;
-    if (resourceShape(current) !== resourceShape(next) || !looksLikeTrackedResource(current, itemName)) return;
+    if (!looksLikeTrackedResource(current, itemName) && !looksLikeTrackedResource(next, itemName)) return;
     throw new Error(`Tracked resource remark for ${itemName} cannot become negative. Use adjust_resource so insufficient balances reject atomically.`);
 }
 
-function formatResourceNumber(value) {
+function formatResourceNumber(value, parts = null) {
     const rounded = Math.abs(value) < 1e-12 ? 0 : Number(value.toFixed(12));
-    return String(rounded);
+    const raw = String(rounded);
+    if (!parts?.grouped || /e/i.test(raw)) return raw;
+    const [wholePart, fraction] = raw.split('.');
+    const sign = wholePart.startsWith('-') ? '-' : '';
+    const digits = sign ? wholePart.slice(1) : wholePart;
+    const groupedWhole = digits.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return sign + groupedWhole + (fraction === undefined ? '' : '.' + fraction);
 }
 
 function categoryArgument(value, label = 'Inventory category') {
@@ -214,10 +224,10 @@ export function buildInventoryPrompt(state, { replaceCapability = null } = {}) {
 `<!-- ${UPDATE_COMMENT_MARKER} {"mode":"patch","ops":[...]} -->${CONTROL_SENTINEL}\n` +
 `If a JSON string would contain the literal sequence -->, encode the > as \u003e inside that JSON string.\n` +
 `Every object in "ops" MUST contain a string "op" field. Canonical example: {"mode":"patch","ops":[{"op":"add_item","category":"General","name":"Potion","quantity":"1","remark":""}]}.\n` +
-`Use these exact "op" values: add_category, rename_category, delete_category, add_item, set_item, adjust_item, edit_item, delete_item, move_item.\n` +
-`Fields by op: add_category{name}; rename_category{category,name}; delete_category{category,confirm?}; add_item{category,name,quantity,remark}; set_item{category,name,quantity?,remark?}; adjust_item{category,name,by}; edit_item{category,name,newName?,quantity?,remark?}; delete_item{category,name}; move_item{fromCategory,toCategory,name}.\n` +
+`Use these exact "op" values: add_category, rename_category, delete_category, add_item, set_item, adjust_item, adjust_resource, edit_item, delete_item, move_item.\n` +
+`Fields by op: add_category{name}; rename_category{category,name}; delete_category{category,confirm?}; add_item{category,name,quantity,remark}; set_item{category,name,quantity?,remark?}; adjust_item{category,name,by}; adjust_resource{category,name,by,deleteAtZero?}; edit_item{category,name,newName?,quantity?,remark?}; delete_item{category,name}; move_item{fromCategory,toCategory,name}.\n` +
 `Deleting a non-empty category requires confirm:"delete-items" and should only be used when the user's intent clearly includes deleting its contents.\n` +
-`Numeric quantities must stay above zero; when they reach zero the item is deleted. Use adjust_item only when Quantity itself is a plain number. If the meaningful amount is in Remark (for example Food quantity 1 with remark "8 days"), use edit_item instead.\n` +
+`Numeric quantities must never go below zero; exact zero deletes depleted stock. Use adjust_item when Quantity itself is a plain number. If the meaningful remaining amount is a single numeric value inside Remark (for example Food quantity 1 with remark "8 days" or Coin Pouch quantity 1 with remark "100 Gold"), use adjust_resource. Use edit_item for non-numeric or semantic Remark states such as Full, Half full, or Empty.\n` +
 replaceRule +
 `Do not mention the machine control in prose.`;
 }
@@ -263,6 +273,33 @@ function removeSpans(source, spans) {
     return result;
 }
 
+function truncatedSeedEnd(source, openIndex, openLength) {
+    const bodyStart = openIndex + openLength;
+    const rest = source.slice(bodyStart);
+    let consumed = 0;
+    let sawSeedSyntax = false;
+    const lines = rest.match(/.*(?:\r?\n|$)/g) ?? [];
+    for (const fullLine of lines) {
+        if (!fullLine) continue;
+        const line = fullLine.replace(/\r?\n$/, '');
+        const trimmed = line.trim();
+        if (!trimmed) {
+            consumed += fullLine.length;
+            continue;
+        }
+        const marker = seedCategoryMarker(trimmed);
+        const cells = splitSeedCells(trimmed);
+        const rowLike = cells.length >= 2 && cells.length <= 3 && String(cells[0] ?? '').trim() !== '';
+        if (marker !== null || rowLike) {
+            sawSeedSyntax = true;
+            consumed += fullLine.length;
+            continue;
+        }
+        break;
+    }
+    return bodyStart + (sawSeedSyntax ? consumed : 0);
+}
+
 export function consumeInventorySeed(messageText) {
     const source = String(messageText ?? '');
     const matches = seedMatches(source);
@@ -270,9 +307,12 @@ export function consumeInventorySeed(messageText) {
     if (!matches.length) {
         const open = source.search(/<Inventory\b[^>]*>/i);
         if (open < 0) return { found: false, cleanedText: source, state: null, errors: [] };
+        const openMatch = /<Inventory\b[^>]*>/i.exec(source.slice(open));
+        const openLength = openMatch?.[0]?.length ?? 0;
+        const end = truncatedSeedEnd(source, open, openLength);
         return {
             found: true,
-            cleanedText: source.slice(0, open),
+            cleanedText: source.slice(0, open) + source.slice(end),
             state: null,
             errors: ['The <Inventory> seed was truncated and was discarded.'],
         };
@@ -336,11 +376,13 @@ export function stripReservedInventorySeed(messageText) {
     let cleaned = removeSpans(source, spans);
     let found = spans.length > 0;
     let truncated = false;
-    const open = cleaned.search(/<Inventory\b[^>]*>/i);
-    if (open >= 0) {
+    const openMatch = /<Inventory\b[^>]*>/i.exec(cleaned);
+    if (openMatch) {
+        const open = openMatch.index ?? 0;
         found = true;
         truncated = true;
-        cleaned = cleaned.slice(0, open);
+        const end = truncatedSeedEnd(cleaned, open, openMatch[0].length);
+        cleaned = cleaned.slice(0, open) + cleaned.slice(end);
     }
     return { found, truncated, cleanedText: found ? cleaned : source };
 }
@@ -414,7 +456,8 @@ function normalizedItemFromOp(op) {
 
 function quantityWouldDelete(value) {
     const number = numericQuantity(value);
-    return number !== null && number <= 0;
+    if (number !== null && number < 0) throw new Error('Numeric quantity cannot be negative; use zero to delete depleted items.');
+    return number === 0;
 }
 
 const PATCH_OPERATION_NAMES = new Set([
@@ -592,7 +635,7 @@ function applyPatchOperation(state, op) {
                 category.items.splice(index, 1);
                 return;
             }
-            item.remark = `${current.before}${formatResourceNumber(result)}${current.after}`;
+            item.remark = `${current.before}${formatResourceNumber(result, current)}${current.after}`;
             return;
         }
         case 'edit_item': {
