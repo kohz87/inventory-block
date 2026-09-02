@@ -3,7 +3,7 @@ const REPLACEMENT_GENERATION_TYPES = new Set(['swipe', 'regenerate']);
 const EXISTING_MESSAGE_GENERATION_TYPES = new Set(['swipe', 'regenerate', 'continue', 'append', 'appendfinal']);
 
 export function normalizeGenerationType(type) {
-    return String(type || 'normal').trim().toLocaleLowerCase();
+    return String(type || 'normal').trim().toLowerCase();
 }
 
 export function isBackgroundGeneration(type) {
@@ -35,13 +35,28 @@ export function generationTypeMatches(expected, actual) {
     return false;
 }
 
+function bracketDirectives(text) {
+    const source = String(text ?? '');
+    const matches = [];
+    const re = /\[([^\]]{1,2000})\]/g;
+    for (const match of source.matchAll(re)) matches.push(match[1]);
+    return matches;
+}
+
 export function isBroadInventoryAdministration(text) {
     const source = String(text ?? '');
     if (!source.trim()) return false;
-    const ooc = /\[\s*OOC\s*:/i.test(source);
-    const inventoryNoun = /\b(inventory|inventories|item|items|category|categories|belongings|supplies|equipment|food|rations|materials|storage)\b/i.test(source);
-    const adminVerb = /\b(compact|consolidat(?:e|ed|ion)|organ(?:ize|ise|ized|ised|ization|isation)|reorgan(?:ize|ise)|merge|split|categor(?:ize|ise)|group|rename|move|clean\s*up|restructure|combine|separate|create\s+(?:a\s+)?categor)/i.test(source);
-    return (ooc && adminVerb) || (inventoryNoun && adminVerb);
+    const inventoryNoun = /\b(inventory|inventories|item|items|category|categories|belongings|supplies|equipment|food|rations|materials|storage|possessions|gear)\b/i;
+    const adminVerb = /\b(compact|consolidat(?:e|ed|ion)|organ(?:ize|ise|ized|ised|ization|isation)|reorgan(?:ize|ise)|merge|split|categor(?:ize|ise)|group|rename|move|clean\s*up|restructure|combine|separate|create\s+(?:a\s+)?categor(?:y|ies)|delete\s+(?:a\s+)?categor(?:y|ies)|rebuild|rewrite)\b/i;
+    const adminStart = /^\s*(?:compact|consolidat(?:e|ed)|organ(?:ize|ise)|reorgan(?:ize|ise)|merge|split|categor(?:ize|ise)|group|rename|move|clean\s*up|restructure|combine|separate|create\s+(?:a\s+)?categor(?:y|ies)|delete\s+(?:a\s+)?categor(?:y|ies)|rebuild|rewrite)\b/i;
+    for (const directive of bracketDirectives(source)) {
+        const isOoc = /^\s*OOC\s*:/i.test(directive);
+        let body = directive.replace(/^\s*OOC\s*:\s*/i, '').trim();
+        if (!isOoc) body = body.replace(/^\s*Inventory\s*:\s*/i, '').trim();
+        if (!inventoryNoun.test(body)) continue;
+        if (isOoc ? adminVerb.test(body) : adminStart.test(body)) return true;
+    }
+    return false;
 }
 
 export function latestUserMessageText(chat) {

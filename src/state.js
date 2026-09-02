@@ -19,8 +19,8 @@ function cleanText(value) {
     return String(value ?? '').replace(/\r?\n/g, ' ').trim();
 }
 
-function keyOf(value) {
-    return cleanText(value).toLocaleLowerCase();
+export function identityKey(value) {
+    return cleanText(value).normalize('NFKC').toLowerCase();
 }
 
 function isTextPrimitive(value, { allowNumber = false, optional = false } = {}) {
@@ -29,11 +29,8 @@ function isTextPrimitive(value, { allowNumber = false, optional = false } = {}) 
 }
 
 function serializedLength(input) {
-    try {
-        return JSON.stringify(input).length;
-    } catch {
-        return Number.POSITIVE_INFINITY;
-    }
+    try { return JSON.stringify(input).length; }
+    catch { return Number.POSITIVE_INFINITY; }
 }
 
 function isNumericQuantity(value) {
@@ -42,7 +39,7 @@ function isNumericQuantity(value) {
 
 export function canonicalCategoryName(value) {
     const clean = cleanText(value);
-    return ROOT_ALIASES.has(clean.toLocaleLowerCase()) ? ROOT_CATEGORY : clean;
+    return ROOT_ALIASES.has(identityKey(clean)) ? ROOT_CATEGORY : clean;
 }
 
 export function normalizeQuantity(value) {
@@ -54,9 +51,7 @@ export function validateInventory(input) {
     const errors = [];
     if (!input || typeof input !== 'object' || Array.isArray(input)) return ['Inventory must be an object.'];
     if (!Array.isArray(input.categories)) return ['Inventory requires a categories array.'];
-    if (input.categories.length > LIMITS.categories) {
-        errors.push(`Inventory has too many categories (${input.categories.length}; maximum ${LIMITS.categories}).`);
-    }
+    if (input.categories.length > LIMITS.categories) errors.push(`Inventory has too many categories (${input.categories.length}; maximum ${LIMITS.categories}).`);
 
     const categoryKeys = new Map();
     const rootItems = new Set();
@@ -76,9 +71,7 @@ export function validateInventory(input) {
             errors.push(`Category ${categoryIndex + 1} has a blank name.`);
             return;
         }
-        if (rawName.length > LIMITS.categoryName) {
-            errors.push(`Category "${rawName.slice(0, 40)}" exceeds ${LIMITS.categoryName} characters.`);
-        }
+        if (rawName.length > LIMITS.categoryName) errors.push(`Category "${rawName.slice(0, 40)}" exceeds ${LIMITS.categoryName} characters.`);
         if (!Array.isArray(category.items)) {
             errors.push(`Category "${rawName}" requires an items array.`);
             return;
@@ -86,8 +79,8 @@ export function validateInventory(input) {
 
         totalItems += category.items.length;
         const canonical = canonicalCategoryName(rawName);
-        const categoryKey = keyOf(canonical);
-        const isRoot = categoryKey === keyOf(ROOT_CATEGORY);
+        const categoryKey = identityKey(canonical);
+        const isRoot = categoryKey === identityKey(ROOT_CATEGORY);
         if (!isRoot && categoryKeys.has(categoryKey)) errors.push(`Duplicate category name: ${rawName}.`);
         else if (!isRoot) categoryKeys.set(categoryKey, categoryIndex);
 
@@ -120,20 +113,16 @@ export function validateInventory(input) {
             if (name.length > LIMITS.itemName) errors.push(`Item "${name.slice(0, 40)}" exceeds ${LIMITS.itemName} name characters.`);
             if (quantity.length > LIMITS.quantity) errors.push(`Quantity for "${name}" exceeds ${LIMITS.quantity} characters.`);
             if (remark.length > LIMITS.remark) errors.push(`Remark for "${name}" exceeds ${LIMITS.remark} characters.`);
-            if (isNumericQuantity(quantity) && Number(quantity) <= 0) {
-                errors.push(`Numeric quantity for "${name}" must be greater than zero; delete depleted items instead.`);
-            }
+            if (isNumericQuantity(quantity) && Number(quantity) <= 0) errors.push(`Numeric quantity for "${name}" must be greater than zero; delete depleted items instead.`);
 
-            const itemKey = keyOf(name);
+            const itemKey = identityKey(name);
             if (localItems.has(itemKey)) errors.push(`Duplicate item "${name}" in category "${canonical}".`);
             else localItems.add(itemKey);
         });
     });
 
     if (totalItems > LIMITS.items) errors.push(`Inventory has too many items (${totalItems}; maximum ${LIMITS.items}).`);
-    if (serializedLength(input) > LIMITS.serializedChars) {
-        errors.push(`Inventory exceeds the ${LIMITS.serializedChars.toLocaleString()} character safety limit.`);
-    }
+    if (serializedLength(input) > LIMITS.serializedChars) errors.push(`Inventory exceeds the ${LIMITS.serializedChars.toLocaleString()} character safety limit.`);
     return errors;
 }
 
@@ -148,11 +137,7 @@ export function normalizeInventory(input) {
         for (const item of items) {
             const name = cleanText(item?.name);
             if (!name) continue;
-            normalizedItems.push({
-                name,
-                quantity: normalizeQuantity(item?.quantity),
-                remark: cleanText(item?.remark),
-            });
+            normalizedItems.push({ name, quantity: normalizeQuantity(item?.quantity), remark: cleanText(item?.remark) });
         }
         if (canonicalName === ROOT_CATEGORY) {
             if (!root) {
@@ -186,6 +171,27 @@ export function validateAndNormalizeInventory(input) {
 
 export function inventoryEquals(a, b) {
     return JSON.stringify(normalizeInventory(a)) === JSON.stringify(normalizeInventory(b));
+}
+
+function packInventory(state) {
+    const inventory = normalizeInventory(state);
+    return inventory.categories.map(category => [
+        category.name,
+        category.items.map(item => [item.name, item.quantity, item.remark]),
+    ]);
+}
+
+function unpackInventory(checkpoint) {
+    if (checkpoint?.state) return validateAndNormalizeInventory(checkpoint.state);
+    if (!Array.isArray(checkpoint?.packed)) throw new Error('Portable checkpoint has no state.');
+    return validateAndNormalizeInventory({
+        categories: checkpoint.packed.map(category => ({
+            name: category?.[0],
+            items: Array.isArray(category?.[1]) ? category[1].map(item => ({
+                name: item?.[0], quantity: item?.[1], remark: item?.[2],
+            })) : [],
+        })),
+    });
 }
 
 function makeRoot() {
@@ -253,11 +259,8 @@ function messageFingerprintV2(message = {}) {
 
 function messageFingerprintLegacy(message = {}) {
     return hashString(JSON.stringify({
-        user: Boolean(message.is_user),
-        system: Boolean(message.is_system),
-        name: String(message.name ?? ''),
-        text: String(message.mes ?? ''),
-        swipe: Number.isInteger(message.swipe_id) ? message.swipe_id : 0,
+        user: Boolean(message.is_user), system: Boolean(message.is_system), name: String(message.name ?? ''),
+        text: String(message.mes ?? ''), swipe: Number.isInteger(message.swipe_id) ? message.swipe_id : 0,
     }));
 }
 
@@ -324,7 +327,7 @@ function checkpointExpectedHash(context, messageId, checkpoint, prepared = null,
 }
 
 function checkpointValidForMessage(context, messageId, checkpoint, prepared = null, legacyFingerprints = null) {
-    if (!checkpoint?.state) return false;
+    if (!checkpoint || (!checkpoint.state && !checkpoint.packed)) return false;
     const expected = checkpointExpectedHash(context, messageId, checkpoint, prepared, legacyFingerprints);
     return !checkpoint.lineageHash || checkpoint.lineageHash === expected;
 }
@@ -332,17 +335,14 @@ function checkpointValidForMessage(context, messageId, checkpoint, prepared = nu
 function compactRevisions(root) {
     const allIds = Object.keys(root.revisions).map(Number).filter(Number.isInteger).sort((a, b) => a - b);
     if (allIds.length <= LIMITS.revisions) return;
-
     const keep = new Set([0, root.activeRevision]);
     for (const head of Object.values(root.branchHeads ?? {})) {
         if (Number.isInteger(head?.revision) && getRevision(root, head.revision)) keep.add(head.revision);
     }
-    const newest = [...allIds].sort((a, b) => b - a);
-    for (const id of newest) {
+    for (const id of [...allIds].sort((a, b) => b - a)) {
         if (keep.size >= LIMITS.revisions) break;
         keep.add(id);
     }
-
     const original = root.revisions;
     const nearestKeptParent = id => {
         let cursor = original[String(id)]?.parent;
@@ -354,15 +354,11 @@ function compactRevisions(root) {
         }
         return 0;
     };
-
     const next = {};
     for (const id of [...keep].sort((a, b) => a - b)) {
         const revision = original[String(id)];
         if (!revision) continue;
-        next[String(id)] = {
-            ...revision,
-            parent: id === 0 ? null : nearestKeptParent(id),
-        };
+        next[String(id)] = { ...revision, parent: id === 0 ? null : nearestKeptParent(id) };
     }
     root.revisions = next;
 }
@@ -371,13 +367,8 @@ function appendRevisionToRoot(root, state, { parent, source, note, portable = fa
     const normalized = validateAndNormalizeInventory(state);
     const id = root.nextRevision++;
     root.revisions[String(id)] = {
-        id,
-        parent,
-        source: source || SOURCE.PORTABLE,
-        note: cleanText(note),
-        createdAt: new Date().toISOString(),
-        state: normalized,
-        portable: Boolean(portable),
+        id, parent, source: source || SOURCE.PORTABLE, note: cleanText(note),
+        createdAt: new Date().toISOString(), state: normalized, portable: Boolean(portable),
     };
     root.activeRevision = id;
     if (countMutation) root.mutationSerial += 1;
@@ -408,13 +399,22 @@ function stabilizeAssistantUids(context) {
     }
 }
 
+function pruneBranchHeads(root) {
+    const entries = Object.entries(root.branchHeads ?? {});
+    if (entries.length <= LIMITS.branchHeads) return;
+    const sortRecent = list => list.sort((a, b) => Number(b[1]?.touchedAt ?? 0) - Number(a[1]?.touchedAt ?? 0));
+    const sticky = sortRecent(entries.filter(([, head]) => head?.sticky)).slice(0, LIMITS.stickyBranchHeads);
+    const stickyKeys = new Set(sticky.map(([key]) => key));
+    const others = sortRecent(entries.filter(([key]) => !stickyKeys.has(key))).slice(0, Math.max(0, LIMITS.branchHeads - sticky.length));
+    root.branchHeads = Object.fromEntries([...sticky, ...others].slice(0, LIMITS.branchHeads));
+}
+
 function hydratePortableTimeline(context, root) {
     const chat = Array.isArray(context?.chat) ? context.chat : [];
     if (!chat.length) return false;
     stabilizeAssistantUids(context);
     const data = lineageData(context);
     const legacyFingerprints = chat.map(messageFingerprintLegacy);
-
     let currentRevision = 0;
     let currentState = getInventoryAt(root, 0);
     let foundCheckpoint = false;
@@ -424,17 +424,13 @@ function hydratePortableTimeline(context, root) {
         const meta = activeMessageMeta(message);
         const beforeRevision = currentRevision;
         const checkpoint = meta?.checkpoint;
-
         if (checkpoint && checkpointValidForMessage(context, index, checkpoint, data, legacyFingerprints)) {
             try {
-                const checkpointState = validateAndNormalizeInventory(checkpoint.state);
+                const checkpointState = unpackInventory(checkpoint);
                 if (!inventoryEquals(currentState, checkpointState)) {
                     currentRevision = appendRevisionToRoot(root, checkpointState, {
-                        parent: currentRevision,
-                        source: checkpoint.source || SOURCE.PORTABLE,
-                        note: checkpoint.note || 'Recovered portable inventory checkpoint',
-                        portable: true,
-                        countMutation: false,
+                        parent: currentRevision, source: checkpoint.source || SOURCE.PORTABLE,
+                        note: checkpoint.note || 'Recovered portable inventory checkpoint', portable: true, countMutation: false,
                     });
                     currentState = checkpointState;
                 }
@@ -442,36 +438,23 @@ function hydratePortableTimeline(context, root) {
                 checkpoint.revision = currentRevision;
                 checkpoint.lineageHash = data.prefixKeys[index + 1] ?? 'root';
                 checkpoint.lineageVersion = LINEAGE_VERSION;
-            } catch {
-                // Damaged portable checkpoints are ignored without resetting stored state.
-            }
+            } catch { /* damaged checkpoint ignored */ }
         }
-
         if (message && !message.is_user && !message.is_system && meta) {
             const liveMeta = activeMessageMeta(message) ?? meta;
             message.extra ??= {};
             message.extra[EXTRA_KEY] = {
-                ...liveMeta,
-                uid: liveMeta.uid || randomUid(),
-                baseRevision: beforeRevision,
-                revision: currentRevision,
-                lineageHash: data.prefixKeys[index + 1] ?? 'root',
-                lineageVersion: LINEAGE_VERSION,
+                ...liveMeta, uid: liveMeta.uid || randomUid(), baseRevision: beforeRevision,
+                revision: currentRevision, lineageHash: data.prefixKeys[index + 1] ?? 'root', lineageVersion: LINEAGE_VERSION,
             };
             ensureSwipeInfo(message);
         }
     }
-
     if (foundCheckpoint) {
         root.activeRevision = currentRevision;
         const key = data.prefixKeys.at(-1) ?? 'root';
-        root.branchHeads[key] = {
-            revision: currentRevision,
-            length: chat.length,
-            sticky: true,
-            touchedAt: Date.now(),
-            lineageVersion: LINEAGE_VERSION,
-        };
+        root.branchHeads[key] = { revision: currentRevision, length: chat.length, sticky: true, touchedAt: Date.now(), lineageVersion: LINEAGE_VERSION };
+        pruneBranchHeads(root);
         compactRevisions(root);
     }
     return foundCheckpoint;
@@ -489,11 +472,8 @@ export function ensureRoot(context) {
     } else if (!root.revisions || !root.revisions['0']) {
         throw new Error('Inventory Block state is damaged: initial revision is missing. State was not reset.');
     }
-
     if (!Number.isInteger(root.activeRevision) || !root.revisions[String(root.activeRevision)]) root.activeRevision = 0;
-    if (!Number.isInteger(root.nextRevision) || root.nextRevision < 1) {
-        root.nextRevision = Math.max(0, ...Object.keys(root.revisions).map(Number).filter(Number.isFinite)) + 1;
-    }
+    if (!Number.isInteger(root.nextRevision) || root.nextRevision < 1) root.nextRevision = Math.max(0, ...Object.keys(root.revisions).map(Number).filter(Number.isFinite)) + 1;
     if (!Number.isInteger(root.mutationSerial) || root.mutationSerial < 0) root.mutationSerial = Math.max(0, root.nextRevision - 1);
     if (!root.branchHeads || typeof root.branchHeads !== 'object' || Array.isArray(root.branchHeads)) root.branchHeads = {};
     pruneBranchHeads(root);
@@ -513,16 +493,6 @@ export function createRevision(context, state, { parent = null, source = SOURCE.
     return appendRevisionToRoot(root, state, { parent: parentId, source, note, portable: false });
 }
 
-function pruneBranchHeads(root) {
-    const entries = Object.entries(root.branchHeads);
-    if (entries.length <= LIMITS.branchHeads) return;
-    const sortRecent = list => list.sort((a, b) => Number(b[1]?.touchedAt ?? 0) - Number(a[1]?.touchedAt ?? 0));
-    const sticky = sortRecent(entries.filter(([, head]) => head?.sticky)).slice(0, LIMITS.stickyBranchHeads);
-    const stickyKeys = new Set(sticky.map(([key]) => key));
-    const others = sortRecent(entries.filter(([key]) => !stickyKeys.has(key))).slice(0, Math.max(0, LIMITS.branchHeads - sticky.length));
-    root.branchHeads = Object.fromEntries([...sticky, ...others].slice(0, LIMITS.branchHeads));
-}
-
 export function rememberBranchHead(context, revisionId = null) {
     const root = ensureRoot(context);
     const id = revisionId === null ? root.activeRevision : revisionId;
@@ -531,13 +501,7 @@ export function rememberBranchHead(context, revisionId = null) {
     const key = data.prefixKeys.at(-1) ?? 'root';
     const revision = getRevision(root, id);
     const sticky = [SOURCE.MANUAL, SOURCE.RESTORE, SOURCE.IMPORT, SOURCE.RESET].includes(revision?.source);
-    root.branchHeads[key] = {
-        revision: id,
-        length: data.fingerprints.length,
-        sticky,
-        touchedAt: Date.now(),
-        lineageVersion: LINEAGE_VERSION,
-    };
+    root.branchHeads[key] = { revision: id, length: data.fingerprints.length, sticky, touchedAt: Date.now(), lineageVersion: LINEAGE_VERSION };
     pruneBranchHeads(root);
     compactRevisions(root);
 }
@@ -570,7 +534,7 @@ function validMessageRevision(root, meta, currentRevision, expectedLineageHash) 
     return revisionDescendsFrom(root, meta.revision, meta.baseRevision);
 }
 
-function updateCheckpointReference(context, index, checkpoint, revision, data) {
+function updateCheckpointReference(checkpoint, revision, data, index) {
     checkpoint.revision = revision;
     checkpoint.lineageHash = data.prefixKeys[index + 1] ?? 'root';
     checkpoint.lineageVersion = LINEAGE_VERSION;
@@ -579,22 +543,17 @@ function updateCheckpointReference(context, index, checkpoint, revision, data) {
 function materializeCheckpoint(context, root, index, currentRevision, checkpoint, data, legacyFingerprints) {
     if (!checkpointValidForMessage(context, index, checkpoint, data, legacyFingerprints)) return null;
     try {
-        const state = validateAndNormalizeInventory(checkpoint.state);
+        const state = unpackInventory(checkpoint);
         const currentState = getInventoryAt(root, currentRevision);
         const revision = inventoryEquals(currentState, state)
             ? currentRevision
             : appendRevisionToRoot(root, state, {
-                parent: currentRevision,
-                source: checkpoint.source || SOURCE.PORTABLE,
-                note: checkpoint.note || 'Recovered portable inventory checkpoint',
-                portable: true,
-                countMutation: false,
+                parent: currentRevision, source: checkpoint.source || SOURCE.PORTABLE,
+                note: checkpoint.note || 'Recovered portable inventory checkpoint', portable: true, countMutation: false,
             });
-        updateCheckpointReference(context, index, checkpoint, revision, data);
+        updateCheckpointReference(checkpoint, revision, data, index);
         return revision;
-    } catch {
-        return null;
-    }
+    } catch { return null; }
 }
 
 function materializePortableAssistant(context, root, index, currentRevision, meta, data, legacyFingerprints) {
@@ -606,28 +565,18 @@ function materializePortableAssistant(context, root, index, currentRevision, met
         if (revision !== null) {
             message.extra ??= {};
             message.extra[EXTRA_KEY] = {
-                ...meta,
-                uid: meta.uid || randomUid(),
-                baseRevision: currentRevision,
-                revision,
-                lineageHash: data.prefixKeys[index + 1] ?? 'root',
-                lineageVersion: LINEAGE_VERSION,
-                checkpoint,
+                ...meta, uid: meta.uid || randomUid(), baseRevision: currentRevision, revision,
+                lineageHash: data.prefixKeys[index + 1] ?? 'root', lineageVersion: LINEAGE_VERSION, checkpoint,
             };
             ensureSwipeInfo(message);
             return revision;
         }
     }
-
     if ((meta.lineageVersion ?? 1) === LINEAGE_VERSION && meta.revision === meta.baseRevision) {
         message.extra ??= {};
         message.extra[EXTRA_KEY] = {
-            ...meta,
-            uid: meta.uid || randomUid(),
-            baseRevision: currentRevision,
-            revision: currentRevision,
-            lineageHash: data.prefixKeys[index + 1] ?? 'root',
-            lineageVersion: LINEAGE_VERSION,
+            ...meta, uid: meta.uid || randomUid(), baseRevision: currentRevision, revision: currentRevision,
+            lineageHash: data.prefixKeys[index + 1] ?? 'root', lineageVersion: LINEAGE_VERSION,
         };
         ensureSwipeInfo(message);
         return currentRevision;
@@ -638,8 +587,7 @@ function materializePortableAssistant(context, root, index, currentRevision, met
 function checkpointRevisionIfValid(context, root, index, currentRevision, afterAssistant, data, legacyFingerprints) {
     const message = context?.chat?.[index];
     const checkpoint = activeMessageMeta(message)?.checkpoint;
-    if (!checkpoint) return currentRevision;
-    if (!checkpointValidForMessage(context, index, checkpoint, data, legacyFingerprints)) return currentRevision;
+    if (!checkpoint || !checkpointValidForMessage(context, index, checkpoint, data, legacyFingerprints)) return currentRevision;
     const id = checkpoint.revision;
     if (Number.isInteger(id) && getRevision(root, id) && (id === currentRevision || revisionDescendsFrom(root, id, currentRevision))) {
         if (afterAssistant || message?.is_user || message?.is_system) return id;
@@ -673,7 +621,6 @@ export function resolveActiveRevision(context) {
     let revision = bestHead?.revision ?? 0;
     const startIndex = bestLength >= 0 ? bestLength : 0;
     if (bestHead) bestHead.touchedAt = Date.now();
-
     for (let index = startIndex; index < chat.length; index++) {
         const message = chat[index];
         if (!message) continue;
@@ -681,7 +628,6 @@ export function resolveActiveRevision(context) {
             revision = checkpointRevisionIfValid(context, root, index, revision, true, data, legacyFingerprints);
             continue;
         }
-
         const meta = activeMessageMeta(message);
         if (!meta) continue;
         const expectedLineageHash = expectedMetaHash(context, index, meta, data, legacyFingerprints);
@@ -694,7 +640,6 @@ export function resolveActiveRevision(context) {
         revision = meta.revision;
         revision = checkpointRevisionIfValid(context, root, index, revision, true, data, legacyFingerprints);
     }
-
     root.activeRevision = revision;
     compactRevisions(root);
     return revision;
@@ -713,7 +658,7 @@ export function attachPortableCheckpoint(context, messageId, revisionId, { sourc
     }
     const data = lineageData(context);
     const checkpoint = {
-        state: clone(revision.state),
+        packed: packInventory(revision.state),
         revision: revisionId,
         source: source || revision.source || SOURCE.PORTABLE,
         note: cleanText(note || revision.note),
@@ -735,8 +680,7 @@ export function attachMessageRevision(context, messageId, { baseRevision, revisi
     if (newUid) delete preserved.checkpoint;
     const uid = newUid || !current.uid ? randomUid() : current.uid;
     message.extra[EXTRA_KEY] = {
-        ...preserved,
-        uid,
+        ...preserved, uid,
         baseRevision: Number.isInteger(baseRevision) ? baseRevision : 0,
         revision: Number.isInteger(revision) ? revision : 0,
         lineageVersion: LINEAGE_VERSION,
@@ -779,13 +723,7 @@ export function listRevisions(context, limit = LIMITS.history) {
         .filter(revision => revision && Number.isInteger(revision.id))
         .sort((a, b) => b.id - a.id)
         .slice(0, capped)
-        .map(revision => ({
-            id: revision.id,
-            parent: revision.parent,
-            source: revision.source,
-            note: revision.note,
-            createdAt: revision.createdAt,
-        }));
+        .map(revision => ({ id: revision.id, parent: revision.parent, source: revision.source, note: revision.note, createdAt: revision.createdAt }));
 }
 
 export function revisionCount(context) {

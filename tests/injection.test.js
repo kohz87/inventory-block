@@ -1,62 +1,47 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { createPromptSlotMarker, injectDryRunPrompt, insertPromptSlot, replacePromptSlot } from '../src/injection.js';
+import { createPromptProbe, injectGenerationPrompt, promptEventMatchesProbe } from '../src/injection.js';
 
-test('generation-local prompt slot preserves the final conversational message', () => {
-    const chat = [
-        { is_user: false, is_system: false, mes: 'greeting' },
-        { is_user: true, is_system: false, mes: 'buy food' },
-    ];
-    const marker = createPromptSlotMarker('<InventoryState>secret sword</InventoryState>');
-    assert.equal(marker.includes('secret sword'), false);
-    assert.ok(marker.length > 40);
-    assert.equal(insertPromptSlot(chat, marker), true);
-    assert.equal(chat.length, 3);
-    assert.equal(chat[1].is_system, false);
-    assert.equal(chat[1].extra.type, 'narrator');
-    assert.equal(chat[1].mes, marker);
-    assert.equal(chat[2].mes, 'buy food');
+const tok = async text => Math.ceil(String(text).length / 4);
+
+
+
+test('probe binds a final prompt to retained conversation', () => {
+  const core=[{mes:'a long enough older line'},{mes:'unique final user request 7391'}];
+  const probe=createPromptProbe(core);
+  assert.equal(promptEventMatchesProbe({chat:[{role:'user',content:'unique final user request 7391'}]},probe), true);
+  assert.equal(promptEventMatchesProbe({chat:[{role:'user',content:'other chat request'}]},probe), false);
 });
 
-test('prompt slot replacement works for text-completion prompt data', () => {
-    const marker = createPromptSlotMarker();
-    const data = { prompt: `System: ${marker}\nUser: continue` };
-    assert.equal(replacePromptSlot(data, marker, '<InventoryState>safe</InventoryState>'), 1);
-    assert.equal(data.prompt.includes(marker), false);
-    assert.match(data.prompt, /<InventoryState>safe<\/InventoryState>/);
+test('chat completion injection is final-only and does not need synthetic core message', async () => {
+  const event={chat:[{role:'system',content:'sys'},{role:'user',content:'unique request'}]};
+  const probe=['unique request'];
+  const result=await injectGenerationPrompt(event,'INVENTORY',{contextSize:1000,getTokenCountAsync:tok,probe});
+  assert.equal(result.injected,true);
+  assert.deepEqual(event.chat.map(x=>x.content),['sys','INVENTORY','unique request']);
 });
 
-test('prompt slot replacement works recursively for chat-completion multimodal data', () => {
-    const marker = createPromptSlotMarker();
-    const data = {
-        chat: [
-            { role: 'system', content: [{ type: 'text', text: `prefix ${marker} suffix` }] },
-            { role: 'user', content: 'hello' },
-        ],
-    };
-    assert.equal(replacePromptSlot(data, marker, 'STATE'), 1);
-    assert.equal(data.chat[0].content[0].text, 'prefix STATE suffix');
-});
-
-test('unrelated prompt events are untouched', () => {
-    const marker = createPromptSlotMarker();
-    const data = { chat: [{ role: 'user', content: 'background task' }] };
-    const before = structuredClone(data);
-    assert.equal(replacePromptSlot(data, marker, 'STATE'), 0);
-    assert.deepEqual(data, before);
+test('probe mismatch leaves unrelated raw/background prompt untouched', async () => {
+  const event={chat:[{role:'user',content:'background JSON task'}]};
+  const before=structuredClone(event);
+  const result=await injectGenerationPrompt(event,'INVENTORY',{probe:['foreground unique'],getTokenCountAsync:tok});
+  assert.equal(result.injected,false);
+  assert.equal(result.reason,'probe-mismatch');
+  assert.deepEqual(event,before);
 });
 
 
-test('dry-run prompt accounting injects only into dry-run prompt-ready data', () => {
-    const tc = { prompt: 'base', dryRun: true };
-    assert.equal(injectDryRunPrompt(tc, 'INVENTORY'), true);
-    assert.equal(tc.prompt, 'base\nINVENTORY');
 
-    const cc = { chat: [{ role: 'user', content: 'base' }], dryRun: true };
-    assert.equal(injectDryRunPrompt(cc, 'INVENTORY'), true);
-    assert.deepEqual(cc.chat.at(-1), { role: 'system', content: 'INVENTORY' });
 
-    const live = { prompt: 'base', dryRun: false };
-    assert.equal(injectDryRunPrompt(live, 'INVENTORY'), false);
-    assert.equal(live.prompt, 'base');
+test('overflow never prunes tool or conversational messages at prompt-ready stage', async () => {
+  const event={chat:[
+    {role:'assistant',content:'call',tool_calls:[{id:'x'}]},
+    {role:'tool',content:'tool result',tool_call_id:'x'},
+    {role:'user',content:'latest request'},
+  ]};
+  const before=structuredClone(event.chat);
+  const result=await injectGenerationPrompt(event,'INVENTORY '.repeat(200),{contextSize:20,getTokenCountAsync:tok,probe:['latest request']});
+  assert.equal(result.injected,false);
+  assert.equal(result.reason,'context-overflow');
+  assert.deepEqual(event.chat,before);
 });

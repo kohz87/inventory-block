@@ -1,4 +1,4 @@
-/* Inventory Block v0.2.3 */
+/* Inventory Block v0.2.4 */
 .inventory-block-pane{min-width:0}
 .inventory-ledger-heading{padding:9px 10px;background:color-mix(in srgb,currentColor 5%,transparent)}
 .inventory-ledger-title{font-weight:700;line-height:1.2}
@@ -54,7 +54,6 @@
 .inventory-block-standalone .meg-blocks-collapse{margin-left:auto}
 .inventory-block-standalone .meg-blocks-panel{padding:0}
 @media(max-width:700px){.inventory-row{grid-template-columns:minmax(105px,.9fr) minmax(56px,.22fr) minmax(120px,1.2fr);gap:5px;padding-inline:7px}.inventory-editor{min-width:0}.inventory-editor-row{grid-template-columns:1fr 80px 1.15fr 34px;gap:5px}}
-
 .inventory-block-settings .inline-drawer-content{padding:8px 10px 12px}
 .inventory-block-settings-version{margin-bottom:8px;opacity:.72;font-size:.9em}
 .inventory-block-settings-actions{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}

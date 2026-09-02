@@ -1,5 +1,5 @@
 export const EXTENSION_ID = 'inventory-block';
-export const VERSION = '0.2.3';
+export const VERSION = '0.2.4';
 export const STATE_VERSION = 2;
 export const LINEAGE_VERSION = 2;
 
@@ -7,7 +7,6 @@ export const META_KEY = 'inventoryBlockV2';
 export const EXTRA_KEY = 'inventoryBlockV2';
 
 export const UPDATE_COMMENT_MARKER = 'INVENTORY_BLOCK_UPDATE';
-export const UPDATE_TAG = 'InventoryUpdate';
 export const SEED_TAG = 'Inventory';
 export const ROOT_CATEGORY = 'General';
 
@@ -26,6 +25,9 @@ export const LIMITS = Object.freeze({
     branchHeads: 512,
     stickyBranchHeads: 192,
     uiChats: 64,
+    dryRunChats: 8,
+    promptProbeChars: 160,
+    promptSessions: 8,
 });
 
 export const SOURCE = Object.freeze({

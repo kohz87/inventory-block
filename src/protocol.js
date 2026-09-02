@@ -1,6 +1,7 @@
-import { LIMITS, ROOT_CATEGORY, SEED_TAG, UPDATE_COMMENT_MARKER, UPDATE_TAG } from './constants.js';
+import { LIMITS, ROOT_CATEGORY, SEED_TAG, UPDATE_COMMENT_MARKER } from './constants.js';
 import {
     canonicalCategoryName,
+    identityKey,
     normalizeInventory,
     normalizeQuantity,
     validateAndNormalizeInventory,
@@ -14,24 +15,12 @@ function oneLine(value) {
     return String(value ?? '').replace(/\r?\n/g, ' ').trim();
 }
 
-function promptCell(value) {
-    return oneLine(value)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/\{/g, '&#123;')
-        .replace(/\}/g, '&#125;')
-        .replace(/\[/g, '&#91;')
-        .replace(/\]/g, '&#93;')
-        .replace(/\|/g, '∣');
-}
-
 function sameName(a, b) {
-    return String(a ?? '').trim().toLocaleLowerCase() === String(b ?? '').trim().toLocaleLowerCase();
+    return identityKey(a) === identityKey(b);
 }
 
 function cleanRemark(value) {
-    return String(value ?? '').replace(/\r?\n/g, ' ').trim();
+    return oneLine(value);
 }
 
 function assertScalarText(value, label, { optional = true } = {}) {
@@ -97,7 +86,7 @@ function seedUnescape(value) {
             continue;
         }
         if (next === 'u') {
-            const code = source.slice(i + 2, i + 6).toLocaleUpperCase();
+            const code = source.slice(i + 2, i + 6).toUpperCase();
             if (code === '003C' || code === '003E') {
                 result += String.fromCharCode(Number.parseInt(code, 16));
                 i += 5;
@@ -109,8 +98,6 @@ function seedUnescape(value) {
             i += 1;
             continue;
         }
-        // Unknown manual escapes are literal. Serializer-produced backslashes are
-        // doubled, so preserving the slash here is both safe and lossless.
         result += '\\';
     }
     return result;
@@ -150,17 +137,14 @@ export function isRootCategoryName(name) {
     return canonicalCategoryName(name) === ROOT_CATEGORY;
 }
 
+function safeJson(state) {
+    // Injection occurs after SillyTavern macro/WI processing, so raw JSON strings are safe
+    // and let weaker models copy exact item/category identifiers without translation.
+    return JSON.stringify(normalizeInventory(state));
+}
+
 export function formatInventoryState(state) {
-    const inventory = normalizeInventory(state);
-    if (!inventory.categories.length) return '(empty)';
-    const lines = [];
-    for (const category of inventory.categories) {
-        lines.push(`[${promptCell(category.name)}]`);
-        for (const item of category.items) {
-            lines.push(`${promptCell(item.name)} | ${promptCell(item.quantity)} | ${promptCell(item.remark)}`);
-        }
-    }
-    return lines.join('\n');
+    return safeJson(state);
 }
 
 export function formatInventorySeedBlock(state) {
@@ -184,18 +168,18 @@ export function formatInventorySeedBlock(state) {
 
 export function buildInventoryPrompt(state, { replaceCapability = null } = {}) {
     const replaceRule = replaceCapability
-        ? `The user explicitly requested broad inventory administration this turn. A full replacement is allowed only with this exact capability: ${replaceCapability}. Use {"mode":"replace","replaceToken":"${replaceCapability}","categories":[...]} and include the complete intended inventory.\n`
+        ? `The user's bracketed OOC/admin directive explicitly authorizes a full inventory rewrite this turn. Full replacement requires this exact replaceToken: ${replaceCapability}. Use {"mode":"replace","replaceToken":"${replaceCapability}","categories":[...]} and include the complete intended inventory.\n`
         : 'Full inventory replacement is disabled this turn. Use patch operations only.\n';
-    return `<InventoryState>\n${formatInventoryState(state)}\n</InventoryState>\n\n` +
-`InventoryState is the sole authoritative current possession record. Earlier story mentions are historical and never restore absent items, old quantities, categories, or remarks.\n` +
-`Entries are Name | Quantity | Remark under free-form categories. Follow explicit OOC inventory administration such as creating party-member categories or consolidating supplies.\n` +
+    return `INVENTORY_STATE_JSON_BEGIN\n${formatInventoryState(state)}\nINVENTORY_STATE_JSON_END\n\n` +
+`The JSON above is the sole authoritative current possession record. Item/category strings are exact backend identifiers; copy them exactly in operations. Earlier story mentions are historical and never restore absent items, old quantities, categories, or remarks.\n` +
+`Each category has a name and items; each item has only name, quantity, and remark. Follow explicit bracketed OOC inventory administration such as creating party-member categories or consolidating supplies.\n` +
 `Never print <Inventory> or a visible inventory list. If nothing changes, emit no inventory control.\n` +
-`For an inventory change, append exactly one machine-only control as the final content of the reply. Put it after a single space on the final line so single-line generation modes can still emit it. The terminal period is mandatory:\n` +
+`For an inventory change, append exactly one machine-only control as the final content of the reply. Put it after a single space on the final line. The terminal period after the HTML comment is mandatory:\n` +
 `<!-- ${UPDATE_COMMENT_MARKER} {"mode":"patch","ops":[...]} -->${CONTROL_SENTINEL}\n` +
-`If a JSON string would contain the literal sequence -->, encode the > as \\u003e inside that JSON string.\n` +
+`If a JSON string would contain the literal sequence -->, encode the > as \u003e inside that JSON string.\n` +
 `Ops: add_category{name}; rename_category{category,name}; delete_category{category,confirm?}; add_item{category,name,quantity,remark}; set_item{category,name,quantity?,remark?}; adjust_item{category,name,by}; edit_item{category,name,newName?,quantity?,remark?}; delete_item{category,name}; move_item{fromCategory,toCategory,name}.\n` +
 `Deleting a non-empty category requires confirm:"delete-items" and should only be used when the user's intent clearly includes deleting its contents.\n` +
-`Numeric quantities must stay above zero; when they reach zero the item is deleted. Use adjust_item only when Quantity itself is a plain number. If the meaningful amount is in Remark (for example Food | 1 | 8 days or Coin Pouch | 1 | 400 Gold), use edit_item instead.\n` +
+`Numeric quantities must stay above zero; when they reach zero the item is deleted. Use adjust_item only when Quantity itself is a plain number. If the meaningful amount is in Remark (for example Food quantity 1 with remark "8 days"), use edit_item instead.\n` +
 replaceRule +
 `Do not mention the machine control in prose.`;
 }
@@ -237,9 +221,7 @@ function removeSpans(source, spans) {
     if (!spans.length) return source;
     let result = source;
     const ordered = [...spans].sort((a, b) => b.index - a.index);
-    for (const span of ordered) {
-        result = `${result.slice(0, span.index)}${result.slice(span.index + span.length)}`;
-    }
+    for (const span of ordered) result = `${result.slice(0, span.index)}${result.slice(span.index + span.length)}`;
     return result;
 }
 
@@ -270,41 +252,43 @@ export function consumeInventorySeed(messageText) {
     const closed = matches[0];
     const categories = [];
     let current = null;
-    const meaningfulLines = String(closed[1] ?? '').split(/\r?\n/).map(line => line.trim()).filter(Boolean);
-    for (const rawLine of meaningfulLines) {
+    const errors = [];
+    const lines = String(closed[1] ?? '').split(/\r?\n/);
+    for (let lineIndex = 0; lineIndex < lines.length; lineIndex++) {
+        const rawLine = lines[lineIndex].trim();
+        if (!rawLine) continue;
         const marker = seedCategoryMarker(rawLine);
         if (marker !== null) {
-            if (!marker) {
-                return {
-                    found: true,
-                    cleanedText: removeSpans(source, [{ index: closed.index ?? 0, length: closed[0].length }]),
-                    state: null,
-                    errors: ['Inventory category names cannot be blank.'],
-                };
-            }
-            current = ensureSeedCategory(categories, marker);
+            if (!marker) errors.push(`Inventory category on seed line ${lineIndex + 1} is blank.`);
+            else current = ensureSeedCategory(categories, marker);
             continue;
         }
         const cells = splitSeedCells(rawLine);
-        if (cells.length < 2) continue;
+        if (cells.length < 2 || cells.length > 3) {
+            errors.push(`Inventory seed row ${lineIndex + 1} must be Name | Quantity | Remark (Remark may be omitted).`);
+            continue;
+        }
         const name = String(cells[0] ?? '').trim();
-        if (!name) continue;
+        if (!name) {
+            errors.push(`Inventory seed row ${lineIndex + 1} has a blank item name.`);
+            continue;
+        }
         if (!current) current = ensureSeedCategory(categories, ROOT_CATEGORY);
         current.items.push({
             name,
             quantity: normalizeQuantity(cells[1]),
-            remark: cells.slice(2).join(' | ').trim(),
+            remark: String(cells[2] ?? '').trim(),
         });
     }
 
     const cleanedText = removeSpans(source, [{ index: closed.index ?? 0, length: closed[0].length }]);
-    let state;
+    if (errors.length) return { found: true, cleanedText, state: null, errors };
     try {
-        state = validateAndNormalizeInventory({ categories });
+        const state = validateAndNormalizeInventory({ categories });
+        return { found: true, cleanedText, state, errors: [] };
     } catch (error) {
         return { found: true, cleanedText, state: null, errors: error.validationErrors ?? [error.message] };
     }
-    return { found: true, cleanedText, state, errors: [] };
 }
 
 export function stripReservedInventorySeed(messageText) {
@@ -449,11 +433,7 @@ function applyPatchOperation(state, op) {
             if (index < 0) {
                 const quantity = Object.hasOwn(op, 'quantity') ? normalizeQuantity(op.quantity) : '';
                 if (quantityWouldDelete(quantity)) throw new Error(`Cannot create ${name} with a non-positive numeric quantity.`);
-                category.items.push({
-                    name,
-                    quantity,
-                    remark: Object.hasOwn(op, 'remark') ? cleanRemark(op.remark) : '',
-                });
+                category.items.push({ name, quantity, remark: Object.hasOwn(op, 'remark') ? cleanRemark(op.remark) : '' });
             } else {
                 const existing = category.items[index];
                 if (Object.hasOwn(op, 'quantity')) {
@@ -551,123 +531,167 @@ function stripFence(text) {
 }
 
 export function hasInventoryControl(text) {
-    return new RegExp(`${UPDATE_COMMENT_MARKER}|<${UPDATE_TAG}\\b|<Inventory\\b`, 'i').test(String(text ?? ''));
+    return new RegExp(`${UPDATE_COMMENT_MARKER}|<Inventory\\b`, 'i').test(String(text ?? ''));
 }
 
 export function hasCompleteInventoryUpdate(text) {
     const source = String(text ?? '');
-    const commentStart = new RegExp(`<!--\\s*${UPDATE_COMMENT_MARKER}\\b`, 'i').exec(source);
-    if (commentStart && source.lastIndexOf('-->') > (commentStart.index ?? -1)) return true;
-    const tag = new RegExp(`<${UPDATE_TAG}\\b[^>]*>[\\s\\S]*<\\/${UPDATE_TAG}\\s*>`, 'i');
-    return tag.test(source);
+    const start = new RegExp(`<!--\\s*${UPDATE_COMMENT_MARKER}\\b`, 'i').exec(source);
+    if (!start) return false;
+    return source.indexOf('-->', start.index + start[0].length) >= 0;
+}
+
+function commentStarts(source) {
+    return [...String(source ?? '').matchAll(new RegExp(`<!--\\s*${UPDATE_COMMENT_MARKER}\\b`, 'gi'))];
+}
+
+function closeCandidates(source, bodyStart, boundary) {
+    const list = [];
+    let cursor = bodyStart;
+    while (cursor < boundary) {
+        const close = source.indexOf('-->', cursor);
+        if (close < 0 || close >= boundary) break;
+        list.push(close);
+        cursor = close + 3;
+    }
+    return list;
+}
+
+function balancedJsonEnd(source, bodyStart, boundary) {
+    const open = source.indexOf('{', bodyStart);
+    if (open < 0 || open >= boundary) return -1;
+    let depth = 0;
+    let inString = false;
+    let escaped = false;
+    for (let i = open; i < boundary; i++) {
+        const char = source[i];
+        if (inString) {
+            if (escaped) escaped = false;
+            else if (char === '\\') escaped = true;
+            else if (char === '"') inString = false;
+            continue;
+        }
+        if (char === '"') {
+            inString = true;
+            continue;
+        }
+        if (char === '{' || char === '[') depth += 1;
+        else if (char === '}' || char === ']') {
+            depth -= 1;
+            if (depth === 0) return i + 1;
+            if (depth < 0) return -1;
+        }
+    }
+    return -1;
+}
+
+function truncatedControlEnd(source, bodyStart, boundary) {
+    const jsonEnd = balancedJsonEnd(source, bodyStart, boundary);
+    if (jsonEnd > 0) {
+        const tail = source.slice(jsonEnd, boundary);
+        const close = /^\s*-->\s*\.?/.exec(tail);
+        if (close) return jsonEnd + close[0].length;
+        return jsonEnd;
+    }
+    const paragraph = source.indexOf('\n\n', bodyStart);
+    if (paragraph >= 0 && paragraph < boundary) return paragraph;
+    const line = source.indexOf('\n', bodyStart);
+    if (line >= 0 && line < boundary) return line;
+    return boundary;
+}
+
+function commentSpan(source, start, nextStart = source.length) {
+    const open = new RegExp(`<!--\\s*${UPDATE_COMMENT_MARKER}\\b\\s*`, 'i').exec(source.slice(start));
+    const bodyStart = start + (open?.[0].length ?? 0);
+    const candidates = closeCandidates(source, bodyStart, nextStart);
+    if (!candidates.length) {
+        return { start, end: truncatedControlEnd(source, bodyStart, nextStart), bodyStart, close: -1, hasSentinel: false, body: null, truncated: true };
+    }
+
+    let chosen = null;
+    for (const close of candidates) {
+        const body = source.slice(bodyStart, close).trim();
+        try {
+            JSON.parse(stripFence(body));
+            chosen = close;
+            break;
+        } catch {
+            // Keep looking; a literal --> may be inside a JSON string.
+        }
+    }
+    if (chosen === null) {
+        chosen = candidates.find(close => /^\s*\./.test(source.slice(close + 3, nextStart))) ?? null;
+    }
+    if (chosen === null) {
+        const last = candidates.at(-1);
+        if (last !== undefined && !source.slice(last + 3, nextStart).trim()) chosen = last;
+    }
+    if (chosen === null) {
+        return { start, end: truncatedControlEnd(source, bodyStart, nextStart), bodyStart, close: -1, hasSentinel: false, body: null, truncated: true };
+    }
+
+    const afterClose = source.slice(chosen + 3, nextStart);
+    const sentinelMatch = /^\s*\./.exec(afterClose);
+    const end = chosen + 3 + (sentinelMatch?.[0].length ?? 0);
+    return {
+        start,
+        end,
+        bodyStart,
+        close: chosen,
+        hasSentinel: Boolean(sentinelMatch),
+        body: source.slice(bodyStart, chosen).trim(),
+        truncated: false,
+    };
+}
+function removeControlSpans(source, spans, { trimProtocolSpace = false } = {}) {
+    let result = source;
+    for (const original of [...spans].sort((a, b) => b.start - a.start)) {
+        let start = original.start;
+        if (trimProtocolSpace && start > 0 && result[start - 1] === ' ') start -= 1;
+        result = `${result.slice(0, start)}${result.slice(original.end)}`;
+    }
+    return result;
 }
 
 function consumeCommentControl(source) {
-    const markerRe = new RegExp(`<!--\\s*${UPDATE_COMMENT_MARKER}\\b`, 'gi');
-    const starts = [...source.matchAll(markerRe)];
+    const starts = commentStarts(source);
     if (!starts.length) return null;
-    const first = starts[0];
-    const start = first.index ?? 0;
-    if (starts.length > 1) {
+    const spans = starts.map((entry, index) => commentSpan(source, entry.index ?? 0, starts[index + 1]?.index ?? source.length));
+    if (spans.length > 1) {
         return {
-            cleanedText: source.slice(0, start),
+            cleanedText: removeControlSpans(source, spans),
             body: null,
             hadControl: true,
             errors: ['Multiple inventory control records were emitted; all were discarded.'],
         };
     }
-    const openMatch = new RegExp(`<!--\\s*${UPDATE_COMMENT_MARKER}\\b\\s*`, 'i').exec(source.slice(start));
-    const bodyStart = start + (openMatch?.[0].length ?? first[0].length);
-    const close = source.lastIndexOf('-->');
-    if (close < bodyStart) {
-        return {
-            cleanedText: source.slice(0, start),
-            body: null,
-            hadControl: true,
-            errors: ['Inventory control record was truncated and discarded.'],
-        };
-    }
-    const trailing = source.slice(close + 3);
-    if (!/^\s*\.?\s*$/.test(trailing)) {
-        return {
-            cleanedText: source.slice(0, start),
-            body: null,
-            hadControl: true,
-            errors: ['Inventory control must be the final non-whitespace content in the response.'],
-        };
-    }
-    let cleanStart = start;
-    if (cleanStart > 0 && source[cleanStart - 1] === ' ') cleanStart -= 1;
-    return {
-        cleanedText: source.slice(0, cleanStart),
-        body: source.slice(bodyStart, close).trim(),
-        hadControl: true,
-        errors: trailing.includes(CONTROL_SENTINEL) ? [] : ['Inventory control is missing its required terminal period.'],
-    };
-}
 
-function consumeTagControl(source) {
-    const openRe = new RegExp(`<${UPDATE_TAG}\\b[^>]*>`, 'gi');
-    const starts = [...source.matchAll(openRe)];
-    if (!starts.length) return null;
-    const start = starts[0].index ?? 0;
-    if (starts.length > 1) {
+    const span = spans[0];
+    if (span.truncated || span.close < 0) {
         return {
-            cleanedText: source.slice(0, start),
-            body: null,
-            hadControl: true,
-            errors: ['Multiple inventory control records were emitted; all were discarded.'],
-        };
-    }
-    const openLength = starts[0][0].length;
-    const closeText = `</${UPDATE_TAG}>`;
-    const lower = source.toLocaleLowerCase();
-    const close = lower.lastIndexOf(closeText.toLocaleLowerCase());
-    if (close < start + openLength) {
-        return {
-            cleanedText: source.slice(0, start),
+            cleanedText: removeControlSpans(source, [span]),
             body: null,
             hadControl: true,
             errors: ['Inventory control record was truncated and discarded.'],
         };
     }
-    const trailing = source.slice(close + closeText.length);
-    if (trailing.trim()) {
-        return {
-            cleanedText: source.slice(0, start),
-            body: null,
-            hadControl: true,
-            errors: ['Inventory control must be the final non-whitespace content in the response.'],
-        };
-    }
+
+    const trailing = source.slice(span.end);
+    const errors = [];
+    if (!span.hasSentinel) errors.push('Inventory control is missing its required terminal period.');
+    if (trailing.trim()) errors.push('Inventory control must be the final non-whitespace content in the response.');
+    const validEnvelope = errors.length === 0;
     return {
-        cleanedText: source.slice(0, start),
-        body: source.slice(start + openLength, close).trim(),
+        cleanedText: removeControlSpans(source, [span], { trimProtocolSpace: validEnvelope }),
+        body: span.body,
         hadControl: true,
-        errors: [],
+        errors,
     };
 }
 
 export function consumeInventoryUpdates(messageText, baseState, { replaceCapability = null } = {}) {
     const source = String(messageText ?? '');
-    const comment = consumeCommentControl(source);
-    const tag = consumeTagControl(source);
-    if (comment && tag) {
-        const firstStart = Math.min(
-            source.search(new RegExp(`<!--\\s*${UPDATE_COMMENT_MARKER}\\b`, 'i')),
-            source.search(new RegExp(`<${UPDATE_TAG}\\b`, 'i')),
-        );
-        return {
-            cleanedText: source.slice(0, Math.max(0, firstStart)),
-            state: normalizeInventory(baseState),
-            changed: false,
-            hadControl: true,
-            errors: ['Multiple inventory control formats were emitted; all were discarded.'],
-            note: '',
-            mode: null,
-        };
-    }
-    const control = comment ?? tag;
+    const control = consumeCommentControl(source);
     if (!control) {
         return {
             cleanedText: source,

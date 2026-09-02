@@ -1,85 +1,132 @@
-const SLOT_PREFIX = '__IB_SLOT_';
-const SLOT_SUFFIX = '__';
+import { LIMITS } from './constants.js';
 
-function randomToken() {
-    if (globalThis.crypto?.randomUUID) return globalThis.crypto.randomUUID().replace(/-/g, '');
-    return `${Date.now().toString(36)}${Math.random().toString(36).slice(2, 18)}`;
+function textOfContent(content) {
+    if (typeof content === 'string') return content;
+    if (!Array.isArray(content)) return '';
+    return content.map(part => typeof part === 'string' ? part : (typeof part?.text === 'string' ? part.text : '')).join('\n');
 }
 
-function encodeReservation(text) {
-    const bytes = new TextEncoder().encode(String(text ?? ''));
-    let binary = '';
-    const chunk = 0x8000;
-    for (let i = 0; i < bytes.length; i += chunk) {
-        binary += String.fromCharCode(...bytes.subarray(i, i + chunk));
+function normalizedProbeText(value) {
+    return String(value ?? '').replace(/\s+/g, ' ').trim();
+}
+
+export function createPromptProbe(chat, maxChars = LIMITS.promptProbeChars) {
+    const list = Array.isArray(chat) ? chat : [];
+    const probes = [];
+    for (let i = list.length - 1; i >= 0 && probes.length < 3; i--) {
+        const text = normalizedProbeText(list[i]?.mes ?? list[i]?.content ?? '');
+        if (text.length < 6) continue;
+        const width = Math.max(24, Math.floor(maxChars / 2));
+        const candidate = text.length <= maxChars
+            ? text
+            : `${text.slice(0, width)}\u241f${text.slice(-width)}`;
+        if (!probes.includes(candidate)) probes.push(candidate);
     }
-    return btoa(binary);
+    return probes;
 }
 
-export function createPromptSlotMarker(reserveFor = '') {
-    const token = randomToken();
-    const encoded = reserveFor ? encodeReservation(reserveFor) : '';
-    return `${SLOT_PREFIX}${token}${SLOT_SUFFIX}${encoded}${SLOT_PREFIX}END_${token}${SLOT_SUFFIX}`;
-}
-
-export function insertPromptSlot(chat, marker) {
-    if (!Array.isArray(chat) || typeof marker !== 'string' || !marker) return false;
-    const index = Math.max(0, chat.length - 1);
-    chat.splice(index, 0, {
-        name: '',
-        is_user: false,
-        // Match SillyTavern's own in-chat SYSTEM extension-prompt shape.
-        is_system: false,
-        mes: marker,
-        extra: { type: 'narrator', inventoryBlockSlot: true },
-    });
-    return true;
-}
-
-function replaceInValue(value, marker, replacement, seen) {
+function eventTextValues(value, output, seen) {
     if (typeof value === 'string') {
-        if (!value.includes(marker)) return { value, count: 0 };
-        const count = value.split(marker).length - 1;
-        return { value: value.split(marker).join(replacement), count };
+        output.push(normalizedProbeText(value));
+        return;
     }
-    if (!value || typeof value !== 'object') return { value, count: 0 };
-    if (seen.has(value)) return { value, count: 0 };
+    if (!value || typeof value !== 'object' || seen.has(value)) return;
     seen.add(value);
-
-    let count = 0;
     if (Array.isArray(value)) {
-        for (let i = 0; i < value.length; i++) {
-            const result = replaceInValue(value[i], marker, replacement, seen);
-            if (result.count) value[i] = result.value;
-            count += result.count;
+        for (const item of value) eventTextValues(item, output, seen);
+        return;
+    }
+    for (const item of Object.values(value)) eventTextValues(item, output, seen);
+}
+
+function probeMatchesText(probe, haystack) {
+    if (!probe || !haystack) return false;
+    if (!probe.includes('\u241f')) return haystack.includes(probe);
+    const [start, end] = probe.split('\u241f');
+    return haystack.includes(start) && haystack.includes(end);
+}
+
+export function promptEventMatchesProbe(eventData, probe) {
+    const probes = Array.isArray(probe) ? probe.filter(Boolean) : [];
+    if (!probes.length) return true;
+    const values = [];
+    eventTextValues(eventData, values, new WeakSet());
+    return probes.some(candidate => values.some(value => probeMatchesText(candidate, value)));
+}
+
+async function tokenCount(getTokenCountAsync, text) {
+    const source = String(text ?? '');
+    if (typeof getTokenCountAsync === 'function') {
+        try {
+            const count = await getTokenCountAsync(source);
+            if (Number.isFinite(count) && count >= 0) return count;
+        } catch {
+            // Fall through to a conservative character estimate.
         }
-        return { value, count };
     }
-
-    for (const key of Object.keys(value)) {
-        const result = replaceInValue(value[key], marker, replacement, seen);
-        if (result.count) value[key] = result.value;
-        count += result.count;
-    }
-    return { value, count };
+    return source.length;
 }
 
-export function replacePromptSlot(eventData, marker, replacement) {
-    if (!eventData || typeof eventData !== 'object' || typeof marker !== 'string' || !marker) return 0;
-    return replaceInValue(eventData, marker, String(replacement ?? ''), new WeakSet()).count;
+
+async function chatTokenEstimate(chat, getTokenCountAsync) {
+    let total = 0;
+    for (const message of chat) {
+        total += await tokenCount(getTokenCountAsync, textOfContent(message?.content));
+        total += 8;
+    }
+    return total;
 }
 
-export function injectDryRunPrompt(eventData, prompt) {
-    if (!eventData || typeof eventData !== 'object' || eventData.dryRun !== true) return false;
+function insertSystemPrompt(chat, prompt) {
+    const message = { role: 'system', content: String(prompt ?? '') };
+    let index = 0;
+    while (index < chat.length && chat[index]?.role === 'system') index += 1;
+    chat.splice(index, 0, message);
+}
+
+async function fitChatAfterInjection(chat, contextSize, getTokenCountAsync) {
+    const budget = Number(contextSize);
+    if (!Number.isFinite(budget) || budget <= 0) return true;
+    return await chatTokenEstimate(chat, getTokenCountAsync) <= budget;
+}
+
+export async function injectGenerationPrompt(eventData, prompt, {
+    contextSize = null,
+    getTokenCountAsync = null,
+    probe = null,
+    requireProbe = true,
+} = {}) {
+    if (!eventData || typeof eventData !== 'object') return { injected: false, reason: 'invalid-event' };
     const text = String(prompt ?? '');
-    if (!text) return false;
-    if (typeof eventData.prompt === 'string') {
-        eventData.prompt = `${eventData.prompt}\n${text}`;
-        return true;
-    }
+    if (!text) return { injected: false, reason: 'empty-prompt' };
+    if (requireProbe && !promptEventMatchesProbe(eventData, probe)) return { injected: false, reason: 'probe-mismatch' };
+
     if (Array.isArray(eventData.chat)) {
-        eventData.chat.push({ role: 'system', content: text });
-        return true;
+        insertSystemPrompt(eventData.chat, text);
+        const fits = await fitChatAfterInjection(eventData.chat, contextSize, getTokenCountAsync);
+        if (!fits) {
+            const index = eventData.chat.findIndex(message => message?.role === 'system' && message?.content === text);
+            if (index >= 0) eventData.chat.splice(index, 1);
+            return { injected: false, reason: 'context-overflow' };
+        }
+        return { injected: true, kind: 'chat' };
     }
-    return false;
+
+    if (typeof eventData.prompt === 'string') {
+        const combined = `${text}\n${eventData.prompt}`;
+        const budget = Number(contextSize);
+        if (Number.isFinite(budget) && budget > 0) {
+            const combinedTokens = await tokenCount(getTokenCountAsync, combined);
+            if (combinedTokens > budget) return { injected: false, reason: 'context-overflow' };
+        }
+        eventData.prompt = combined;
+        return { injected: true, kind: 'text' };
+    }
+
+    return { injected: false, reason: 'unsupported-event' };
+}
+
+export async function injectDryRunPrompt(eventData, prompt, options = {}) {
+    if (!eventData || eventData.dryRun !== true) return { injected: false, reason: 'not-dry-run' };
+    return injectGenerationPrompt(eventData, prompt, { ...options, requireProbe: false });
 }
