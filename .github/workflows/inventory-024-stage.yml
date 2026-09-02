@@ -1,0 +1,37 @@
+name: Inventory 0.2.4 staging
+
+on:
+  push:
+    branches:
+      - inventory-0.2.4-stage
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Restore reviewed release
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat .inventory024/part* > /tmp/inventory024-release.b64
+          base64 -d < /tmp/inventory024-release.b64 > /tmp/inventory024-release.tgz
+          echo '46ab95936666fd5360c6b88d5f81f4f42dfad497c62d41dda13cf57038b308f7  /tmp/inventory024-release.tgz' | sha256sum -c -
+          tar -xzf /tmp/inventory024-release.tgz
+          rm -rf .inventory024
+          rm -f .github/workflows/inventory-024-stage.yml
+          npm test
+          npm run check
+          git config user.name 'kohz87'
+          git config user.email '83744063+kohz87@users.noreply.github.com'
+          git add -A
+          git commit -m 'Stage Inventory Block v0.2.4 reviewed tree'
+          git push origin HEAD:inventory-0.2.4-stage
