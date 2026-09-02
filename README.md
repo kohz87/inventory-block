@@ -1,4 +1,4 @@
-# Inventory Block v0.2.9
+# Inventory Block v0.3.0
 
 Inventory Block is a lightweight SillyTavern RPG inventory extension with a **per-chat canonical backend**. The chat remains story history; inventory state is stored separately and rendered as an Inventory block compatible with Megumin Suite's block area.
 
@@ -28,7 +28,7 @@ Linen Smock | 1 | Worn
 
 `<Inventory>` is a **one-time starting-inventory seed** for initial character/group greetings. After seeding, the backend is authoritative and later `<Inventory>` blocks are stripped rather than becoming a new source of truth.
 
-For resource containers such as `Coin Pouch | 1 | 100 Gold` or `Food | 1 | About 7 days`, Quantity may identify the container/stock row while the meaningful remaining amount lives in Remark. v0.2.9 explicitly instructs the model to update either field according to where the tracked amount actually lives. A 15 Gold purchase therefore changes `100 Gold` to `85 Gold`, while one established day of food consumption can change `About 7 days` to `About 6 days` without changing the row Quantity.
+For resource containers such as `Coin Pouch | 1 | 100 Gold` or `Food | 1 | About 7 days`, Quantity may identify the container/stock row while the meaningful remaining amount lives in Remark. The resource-accounting rule updates either field according to where the tracked amount actually lives. A 15 Gold purchase therefore changes `100 Gold` to `85 Gold`, while one established day of food consumption can change `About 7 days` to `About 6 days` without changing the row Quantity.
 
 ## LLM integration
 
@@ -55,9 +55,24 @@ Only completed changes count. Planned, attempted, negotiated, interrupted, or fa
 
 Quiet/background and impersonation generations do not receive Inventory state and cannot mutate Inventory.
 
+## History, comparison and retention
+
+Each accepted state change creates a complete backend revision. History data never enters LLM context.
+
+The History window can:
+
+- **View** the complete read-only inventory at any retained revision;
+- **Compare** any two retained revisions and show only changed, added, and removed inventory rows;
+- compare a selected revision directly against the current revision;
+- **Restore** an older revision as a new current revision without destroying the retained trail.
+
+Under **Extensions → Inventory Block**, History retention can be set to **50, 100, 200, 500, or 768 revisions**. The default is **200**. The selected value is an extension-wide cap; changing it immediately trims the active chat, while other chats use the new cap when they are next opened or changed. Old branch-head references are pruned with the same cap before revision compaction so retained branch/swipe metadata cannot silently exceed the selected history budget.
+
+**Trim History Now** enforces the current cap on the active chat. **Clear History** is destructive only to the history trail: it preserves the exact current inventory, removes older backend revisions and stale chat/swipe checkpoints, then records the current inventory as a new baseline so deleted history cannot be reconstructed later from portable metadata.
+
 ## Branch, swipe, regenerate and deletion recovery
 
-Accepted state changes use complete backend revisions. State-changing messages also carry compact portable checkpoints in message metadata so SillyTavern Branch/Checkpoint chats can reconstruct Inventory even when chat-level metadata is not copied.
+State-changing messages carry compact portable checkpoints in message metadata so SillyTavern Branch/Checkpoint chats can reconstruct Inventory even when chat-level metadata is not copied.
 
 This supports:
 
@@ -78,9 +93,9 @@ Inventory remains a compact Megumin-style RPG block:
 - Name / Quantity / Remark rows;
 - Edit Inventory;
 - Copy Block;
-- revision History.
+- revision History with View / Compare / Restore.
 
-The same controls are available under **Extensions → Inventory Block**. No search, encumbrance, rarity, equipment-slot, or other heavyweight subsystem is added.
+The same controls plus retention/cleanup settings are available under **Extensions → Inventory Block**. No search, encumbrance, rarity, equipment-slot, or other heavyweight subsystem is added.
 
 ## Installation
 
