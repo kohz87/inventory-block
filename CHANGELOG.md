@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.3.0
+
+History inspection, comparison, and retention controls.
+
+- Adds read-only **View** for any retained inventory revision.
+- Adds comparison between any two retained revisions, showing only changed, added, and removed inventory rows.
+- Adds one-click comparison of a historical revision against the current revision while keeping Restore separate and explicit.
+- Adds extension-wide history retention choices of 50, 100, 200, 500, or 768 revisions, with 200 as the default.
+- Makes revision, branch-head, and sticky-branch-head compaction honor the selected retention budget so old branch metadata cannot silently grow beyond the configured cap.
+- Adds **Trim History Now** for immediate compaction of the active chat.
+- Adds **Clear History** while preserving the exact current inventory as a new baseline.
+- Clear History scrubs stale Inventory Block metadata from current and alternate swipe records before writing the new baseline checkpoint, preventing deleted history from being reconstructed later.
+- Bumps mutation serial on history clearing so any in-flight generation using the old history cannot commit stale inventory state afterward.
+- History viewing/comparison remains backend-only and consumes no LLM context tokens.
+
 ## 0.2.9
 
 Generalized finite-resource accounting hardening.
