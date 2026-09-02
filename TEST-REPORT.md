@@ -1,4 +1,4 @@
-# Inventory Block v0.2.6 Hotfix Report
+# Inventory Block v0.2.7 Hotfix Report
 
 Date: 2026-09-02
 
@@ -9,6 +9,10 @@ The Inventory machine control no longer has to be the final non-whitespace bytes
 ## v0.2.6 operation-shape resilience
 
 The canonical machine format now explicitly requires a string `"op"` field in every patch operation. The parser safely normalizes unambiguous weak-model variants using `"operation"`, `"action"`, or a single recognized nested operation key, while conflicting or malformed selectors remain atomic rejections. Runtime and release version stamps are synchronized.
+
+## v0.2.7 optional terminal sentinel
+
+The HTML-comment control remains the canonical machine envelope and the prompt still prefers a trailing period for SillyTavern sentence-trimming compatibility. A complete comment with valid JSON is now accepted even if the model omits that extra period; truly truncated or malformed controls remain atomic rejections.
 
 ## Scope
 

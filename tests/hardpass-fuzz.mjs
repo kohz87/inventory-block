@@ -42,6 +42,14 @@ for(let i=0;i<600;i++){
   assert.equal(r.state.categories[0].items[0].name,`Alias${i}`);
 }
 
+for(let i=0;i<800;i++){
+  const payload={mode:'patch',ops:[{op:'add_item',category:'General',name:`NoDot${i}`,quantity:'1',remark:''}]};
+  const c=`<!-- INVENTORY_BLOCK_UPDATE ${JSON.stringify(payload)} -->`;
+  const r=consumeInventoryUpdates(c,{categories:[]});
+  assert.deepEqual(r.errors,[]);
+  assert.equal(r.state.categories[0].items[0].name,`NoDot${i}`);
+}
+
 for(let i=0;i<500;i++){
   const state={categories:[{name:`${pick(i)}-${i}`,items:[{name:`${pick(i+1)}|${i}`,quantity:'1',remark:`${pick(i+2)}<&>${i}`}]}]};
   const serialized=formatInventoryState(state);

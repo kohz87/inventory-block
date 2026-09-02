@@ -156,3 +156,31 @@ test('canonical non-string op is not rescued by an alias', () => {
   assert.equal(result.changed, false);
   assert.match(result.errors.join(' '), /requires a non-empty string "op" field/i);
 });
+
+
+test('complete Inventory control without terminal period is accepted', () => {
+  const source = '<!-- INVENTORY_BLOCK_UPDATE {"mode":"patch","ops":[{"op":"add_item","category":"General","name":"Torch","quantity":"1","remark":""}]} -->';
+  const result = consumeInventoryUpdates(source, inv([]));
+  assert.deepEqual(result.errors, []);
+  assert.equal(result.changed, true);
+  assert.equal(result.state.categories[0].items[0].name, 'Torch');
+  assert.equal(result.cleanedText, '');
+});
+
+test('periodless complete control may be followed by Megumin blocks', () => {
+  const world = '<WorldState>\nDay 5 | Night\n</WorldState>';
+  const source = '<!-- INVENTORY_BLOCK_UPDATE {"mode":"patch","ops":[{"op":"add_item","category":"General","name":"Rope","quantity":"1","remark":""}]} -->\n\n' + world;
+  const result = consumeInventoryUpdates(source, inv([]));
+  assert.deepEqual(result.errors, []);
+  assert.equal(result.changed, true);
+  assert.equal(result.state.categories[0].items[0].name, 'Rope');
+  assert.equal(result.cleanedText, '\n\n' + world);
+});
+
+test('truncated control is still rejected when no comment close exists', () => {
+  const source = '<!-- INVENTORY_BLOCK_UPDATE {"mode":"patch","ops":[{"op":"add_item","category":"General","name":"Torch","quantity":"1","remark":""}]}' + '\n\nAfter.';
+  const result = consumeInventoryUpdates(source, inv([]));
+  assert.equal(result.changed, false);
+  assert.match(result.errors.join(' '), /truncated/i);
+  assert.match(result.cleanedText, /After\.$/);
+});
