@@ -39,7 +39,9 @@ export class GenerationSessionStore {
     }
 
     activeForChat(chatId) {
-        return this.prune().find(session => session.chatId === chatId) ?? null;
+        return this.prune()
+            .filter(session => session.chatId === chatId)
+            .sort((a, b) => b.startedAt - a.startedAt)[0] ?? null;
     }
 
     forMessage(chatId, messageId, eventType = '') {
@@ -70,6 +72,24 @@ export class GenerationSessionStore {
         if (matched.length === 1) return matched[0];
         if (matched.length > 1 || candidates.length > 1) return null;
         return candidates.length === 1 && !candidates[0].promptProbe?.length ? candidates[0] : null;
+    }
+
+    chooseForTerminal(chatId, chatLength = null) {
+        const candidates = this.prune()
+            .filter(session => session.chatId === chatId)
+            .sort((a, b) => b.startedAt - a.startedAt);
+        const length = Number(chatLength);
+        const plausible = Number.isInteger(length)
+            ? candidates.filter(session => {
+                const start = Number(session.startChatLength);
+                if (!Number.isInteger(start)) return false;
+                if (Number.isInteger(session.targetMessageId)) {
+                    return [session.targetMessageId + 1, session.targetMessageId + 2, start, start + 1].includes(length);
+                }
+                return length >= start && length <= start + 2;
+            })
+            : candidates;
+        return plausible.length === 1 ? plausible[0] : null;
     }
 
     snapshot() {

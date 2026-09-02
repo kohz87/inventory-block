@@ -1,4 +1,4 @@
-# Inventory Block v0.3.1
+# Inventory Block v0.3.2
 
 Inventory Block is a lightweight SillyTavern RPG inventory extension with a **per-chat canonical backend**. The chat remains story history; inventory state is stored separately and rendered as an Inventory block compatible with Megumin Suite's block area.
 
@@ -28,7 +28,7 @@ Linen Smock | 1 | Worn
 
 `<Inventory>` is a **one-time starting-inventory seed** for initial character/group greetings. After seeding, the backend is authoritative and later `<Inventory>` blocks are stripped rather than becoming a new source of truth.
 
-For resource containers such as `Coin Pouch | 1 | 100 Gold` or `Food | 1 | About 7 days`, Quantity may identify the container/stock row while the meaningful remaining amount lives in Remark. v0.3.1 adds backend-enforced `adjust_resource` arithmetic for Remark values containing one numeric amount. A 15 Gold purchase applies `-15` to `100 Gold` and deterministically produces `85 Gold`; one established day of food consumption applies `-1` to `About 7 days` and preserves the wording as `About 6 days`. Numeric overdraws reject the entire patch instead of silently deleting or creating negative stock. Semantic states such as `Waterskin | 1 | Full` still use `edit_item`.
+For resource containers such as `Coin Pouch | 1 | 100 Gold` or `Food | 1 | About 7 days`, Quantity may identify the container/stock row while the meaningful remaining amount lives in Remark. v0.3.2 uses backend-enforced `adjust_resource` arithmetic for Remark values containing one numeric amount, including comma-grouped values such as `1,200 Gold`. A 15 Gold purchase applies `-15` to `100 Gold` and deterministically produces `85 Gold`; one established day of food consumption applies `-1` to `About 7 days` and preserves the wording as `About 6 days`. Numeric overdraws reject the entire patch instead of silently deleting or creating negative stock. Semantic states such as `Waterskin | 1 | Full` still use `edit_item`.
 
 ## LLM integration
 
@@ -49,7 +49,7 @@ If inventory changes, the model appends one machine-only suffix:
 
 The extension validates the complete update atomically, applies it to backend state, creates a revision, strips the machine comment, and stores only normal story prose. If nothing changes, there is no inventory output.
 
-Completed gains and losses of tracked finite resources are treated as Inventory changes. This includes money, food, water, ammunition, fuel, medicine, crafting supplies, charges, and ordinary possessions. Plain numeric Quantity values use `adjust_item`; amounts or states stored in Remark use `edit_item`. Approximate descriptions such as `About 7 days` remain approximate rather than being converted into invented exact units.
+Completed gains and losses of tracked finite resources are treated as Inventory changes. This includes money, food, water, ammunition, fuel, medicine, crafting supplies, charges, and ordinary possessions. Plain numeric Quantity values use `adjust_item`; a single numeric amount stored in Remark uses `adjust_resource`; non-numeric semantic states stored in Remark use `edit_item`. Approximate descriptions such as `About 7 days` remain approximate rather than being converted into invented exact units.
 
 Only completed changes count. Planned, attempted, negotiated, interrupted, or failed actions do not spend or grant resources unless the response establishes that they actually happened. Durable containers can remain when empty, such as `Coin Pouch | 1 | 0 Gold` or `Waterskin | 1 | Empty`; exhausted rows that represent the consumable stock itself are removed instead of becoming ghost stock. Negative resource balances are forbidden, and related changes from the same event are emitted in one atomic patch.
 
@@ -66,7 +66,7 @@ The History window can:
 - compare a selected revision directly against the current revision;
 - **Restore** an older revision as a new current revision without destroying the retained trail.
 
-Under **Extensions → Inventory Block**, History retention can be set to **50, 100, 200, 500, or 768 revisions**. The default is **200**. The same budget also bounds logical portable checkpoint groups stored on message/swipe metadata, preventing long campaigns from accumulating an unbounded second history trail. The selected value is an extension-wide cap; changing it immediately trims the active chat, while other chats use the new cap when they are next opened or changed. Old branch-head references are pruned with the same cap before revision compaction so retained branch/swipe metadata cannot silently exceed the selected history budget.
+Under **Extensions → Inventory Block**, History retention can be set to **50, 100, 200, 500, or 768 revisions**. The default is **200**. The same count budget also bounds logical portable checkpoint groups stored on message/swipe metadata. In addition, separate **4 MiB safety ceilings** bound retained backend revision snapshots and portable checkpoint payloads, so unusually large inventories may retain fewer historical snapshots than the selected count while the current state remains protected. The selected value is an extension-wide cap; changing it immediately trims the active chat, while other chats use the new cap when they are next opened or changed. Old branch-head references are pruned with the same cap before revision compaction so retained branch/swipe metadata cannot silently exceed the selected history budget.
 
 **Trim History Now** enforces the current cap on the active chat. **Clear History** is destructive only to the history trail: it preserves the exact current inventory, removes older backend revisions and stale chat/swipe checkpoints, then records the current inventory as a new baseline so deleted history cannot be reconstructed later from portable metadata.
 

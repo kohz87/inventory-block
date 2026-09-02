@@ -8,6 +8,7 @@ import {
     getInventoryAt,
     getRevision,
     inventoryEquals,
+    invalidateLineageCache,
     lineageHashThrough,
     listRevisions,
     rememberBranchHead,
@@ -58,7 +59,7 @@ let initialized = false;
 let eventsRegistered = false;
 let menuRetry = null;
 let watchdog = null;
-let stopCleanup = null;
+const terminalCleanupTimers = new Map();
 const sessions = new GenerationSessionStore({ maxAgeMs: PENDING_MAX_AGE_MS, limit: LIMITS.promptSessions });
 const dryRunSessions = [];
 
@@ -83,6 +84,9 @@ function notify(level, message) {
 }
 
 function removeSession(session) {
+    const terminalTimer = terminalCleanupTimers.get(session);
+    if (terminalTimer) clearTimeout(terminalTimer);
+    terminalCleanupTimers.delete(session);
     sessions.remove(session);
     if (!sessions.size && watchdog) {
         clearTimeout(watchdog);
@@ -206,14 +210,14 @@ async function copyInventoryBlock() {
     }
 }
 
-async function commitManual(state, options = {}, expectedChatId = null) {
+async function commitManual(state, options = {}, expectedChatId = null, expectedRevision = null, expectedMutationSerial = null) {
     const ctx = context();
     const actualChatId = chatIdOf(ctx);
     if (!ctx || !hasActiveChat(ctx)) throw new Error('Open a chat before editing inventory.');
     if (expectedChatId !== null && actualChatId !== expectedChatId) throw new Error('The active chat changed while the inventory editor was open. Nothing was saved.');
     if (generationLockFor(ctx)) throw new Error('Wait for the current generation response to finish committing before changing inventory manually.');
     ensureRoot(ctx);
-    commitManualState(ctx, state, options);
+    commitManualState(ctx, state, { ...options, expectedRevision, expectedMutationSerial });
     await saveMetadata(ctx, actualChatId);
     refreshAll();
 }
@@ -222,9 +226,12 @@ async function openEditor() {
     const ctx = context();
     if (!ctx || !hasActiveChat(ctx)) return notify('warning', 'Open a chat before editing inventory.');
     const expectedChatId = chatIdOf(ctx);
-    await openInventoryEditor(ctx, getCurrentInventory(ctx), {
+    const root = ensureRoot(ctx);
+    const expectedRevision = resolveActiveRevision(ctx);
+    const expectedMutationSerial = root.mutationSerial;
+    await openInventoryEditor(ctx, getInventoryAt(root, expectedRevision), {
         onSave: async state => {
-            await commitManual(state, { source: SOURCE.MANUAL, note: 'Manual inventory edit' }, expectedChatId);
+            await commitManual(state, { source: SOURCE.MANUAL, note: 'Manual inventory edit' }, expectedChatId, expectedRevision, expectedMutationSerial);
             notify('success', 'Inventory saved.');
         },
     });
@@ -329,6 +336,7 @@ async function processAssistantMessage(messageId, type = '') {
     const processingKey = `${chatId}:${id}`;
     if (!Number.isInteger(id) || processingMessages.has(processingKey)) return;
     if (!ctx || !hasActiveChat(ctx)) return;
+    invalidateLineageCache(ctx);
     const message = ctx.chat?.[id];
     if (!message || message.is_user || message.is_system) return;
 
@@ -505,12 +513,11 @@ function armWatchdog() {
     if (watchdog) return;
     const tick = () => {
         watchdog = null;
-        sessions.prune();
-        if (!sessions.size) return;
-        const generating = document.body?.dataset?.generating === 'true';
-        const now = Date.now();
-        for (const session of sessions.snapshot()) {
-            if (now - session.startedAt >= PENDING_MAX_AGE_MS || (!generating && now - session.startedAt >= WATCHDOG_INTERVAL_MS)) removeSession(session);
+        const liveSessions = new Set(sessions.prune());
+        for (const [session, timer] of terminalCleanupTimers) {
+            if (liveSessions.has(session)) continue;
+            clearTimeout(timer);
+            terminalCleanupTimers.delete(session);
         }
         if (sessions.size) watchdog = setTimeout(tick, WATCHDOG_INTERVAL_MS);
     };
@@ -649,32 +656,41 @@ async function onPromptReady(eventData = null) {
     }
 }
 
-function scheduleTerminalCleanup(graceMs) {
-    const snapshots = sessions.snapshot().filter(session => !session.finished);
-    if (!snapshots.length) return;
-    if (stopCleanup) clearTimeout(stopCleanup);
-    stopCleanup = setTimeout(() => {
-        stopCleanup = null;
-        const live = new Set(sessions.snapshot());
-        for (const session of snapshots) if (live.has(session)) removeSession(session);
+function scheduleTerminalCleanup(graceMs, chatLength = null) {
+    const ctx = context();
+    const chatId = chatIdOf(ctx);
+    if (!chatId) return;
+    const session = sessions.chooseForTerminal(chatId, chatLength);
+    if (!session) return;
+    const previous = terminalCleanupTimers.get(session);
+    if (previous) clearTimeout(previous);
+    const timer = setTimeout(() => {
+        terminalCleanupTimers.delete(session);
+        if (sessions.snapshot().includes(session)) removeSession(session);
         refreshAll();
     }, graceMs);
+    terminalCleanupTimers.set(session, timer);
 }
 
 function onGenerationStopped() {
     scheduleTerminalCleanup(STOP_GRACE_MS);
 }
 
-function onGenerationEnded() {
+function onGenerationEnded(chatLength = null) {
     // SillyTavern may emit this before MESSAGE_RECEIVED while streaming finalizes.
-    // A grace window unlocks genuine early failures without consuming a valid transaction.
-    scheduleTerminalCleanup(END_GRACE_MS);
+    // Scope the grace cleanup to one uniquely identified session instead of expiring unrelated chats.
+    scheduleTerminalCleanup(END_GRACE_MS, chatLength);
 }
 
 function onMessageUpdated(messageId, type = 'updated', manualEdit = false) {
     const ctx = context();
+    if (ctx) invalidateLineageCache(ctx);
     const message = ctx?.chat?.[Number(messageId)];
-    if (!message || message.is_user || message.is_system) return;
+    if (!message) return;
+    if (message.is_user || message.is_system) {
+        setTimeout(() => void resolveBranchAndRefresh(), 0);
+        return;
+    }
     const active = generationForMessage(ctx, messageId, type);
     if (!manualEdit && active) return;
     if (hasCompleteInventoryUpdate(message.mes) || (manualEdit && hasInventoryControl(message.mes))) void processAssistantMessage(messageId, type);
@@ -687,6 +703,7 @@ function onMessageSwiped(messageId) {
         const id = Number(messageId);
         if (!ctx || !hasActiveChat(ctx) || !Number.isInteger(id)) return;
         try {
+            invalidateLineageCache(ctx);
             const revision = resolveActiveRevision(ctx);
             const message = ctx.chat?.[id];
             if (message && !message.is_user && !message.is_system && hasInventoryControl(message.mes)) {
@@ -730,7 +747,11 @@ function registerEvents() {
     if (events.MESSAGE_EDITED) ctx.eventSource.on(events.MESSAGE_EDITED, id => onMessageUpdated(id, 'edited', true));
     if (events.MESSAGE_SWIPED) ctx.eventSource.on(events.MESSAGE_SWIPED, onMessageSwiped);
     for (const event of [events.MESSAGE_DELETED, events.MESSAGE_SWIPE_DELETED, events.CHARACTER_FIRST_MESSAGE_SELECTED]) {
-        if (event) ctx.eventSource.on(event, () => setTimeout(() => void resolveBranchAndRefresh(), 20));
+        if (event) ctx.eventSource.on(event, () => {
+            const live = context();
+            if (live) invalidateLineageCache(live);
+            setTimeout(() => void resolveBranchAndRefresh(), 20);
+        });
     }
     for (const event of [events.CHAT_CHANGED, events.CHAT_LOADED]) if (event) ctx.eventSource.on(event, onChatChanged);
     for (const event of [events.APP_READY, events.APP_INITIALIZED, events.EXTENSIONS_FIRST_LOAD, events.EXTENSION_SETTINGS_LOADED]) {

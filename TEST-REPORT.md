@@ -1,6 +1,12 @@
-# Inventory Block v0.3.1 Deep Hardening Report
+# Inventory Block v0.3.2 Deep Hardening Report
 
 Date: 2026-09-02
+
+## v0.3.2 deep hardening
+
+The post-v0.3.1 audit targeted contradictions between prompt instructions and backend capabilities, stale manual-editor writes, alternate negative-balance paths, grouped numeric resources, generation-terminal cleanup isolation, storage-bytes pressure, repeated lineage rescans, category-order comparison, damaged revision counters, and truncated seed recovery.
+
+The release gate repeats the complete deterministic suite, adversarial fuzz suite, syntax checks, and `git diff --check` ten times without interruption. Any corrective change resets the count to pass 1 before a source commit is allowed.
 
 ## v0.3.1 deep hardening
 
@@ -91,4 +97,4 @@ The remaining unavoidable validation is a live browser smoke test in the user's 
 
 ## Storage note
 
-Chat-level revisions are bounded. Portable checkpoints still grow with actual inventory-changing messages because exact metadata-less SillyTavern Branch/Checkpoint recovery requires state to travel with cloned messages. v0.2.4 reduces that cost by storing tuple-packed checkpoints rather than repeated object-key-heavy state snapshots; this metadata never enters LLM context.
+History is bounded by both count and bytes. The selected 50/100/200/500/768 retention value limits backend revisions and logical portable checkpoint groups, while separate 4 MiB ceilings cap the serialized backend revision trail and portable checkpoint payloads. Exact current-state anchors are protected, so unusually large inventories may retain fewer historical snapshots rather than allowing chat metadata to grow without a byte ceiling. This metadata never enters LLM context.

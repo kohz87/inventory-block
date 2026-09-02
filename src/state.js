@@ -33,6 +33,23 @@ function serializedLength(input) {
     catch { return Number.POSITIVE_INFINITY; }
 }
 
+function serializedBytes(input) {
+    try {
+        const json = JSON.stringify(input);
+        if (typeof TextEncoder === 'function') return new TextEncoder().encode(json).length;
+        return unescape(encodeURIComponent(json)).length;
+    } catch {
+        return Number.POSITIVE_INFINITY;
+    }
+}
+
+const lineageCache = new WeakMap();
+
+export function invalidateLineageCache(context) {
+    const chat = context?.chat;
+    if (Array.isArray(chat)) lineageCache.delete(chat);
+}
+
 function isNumericQuantity(value) {
     return /^[+-]?(?:\d+(?:\.\d+)?|\.\d+)$/.test(String(value ?? '').trim());
 }
@@ -278,8 +295,33 @@ function rollHash(h1, h2, text) {
     return [a, b];
 }
 
+function lineageCacheToken(message = {}) {
+    return {
+        ref: message,
+        user: Boolean(message.is_user),
+        system: Boolean(message.is_system),
+        name: String(message.name ?? ''),
+        text: String(message.mes ?? ''),
+        swipe: Number.isInteger(message.swipe_id) ? message.swipe_id : 0,
+        uid: activeMessageMeta(message)?.uid ?? null,
+    };
+}
+
+function lineageTokenMatches(message, token) {
+    if (!token || token.ref !== message) return false;
+    const meta = activeMessageMeta(message);
+    return token.user === Boolean(message.is_user)
+        && token.system === Boolean(message.is_system)
+        && token.name === String(message.name ?? '')
+        && token.text === String(message.mes ?? '')
+        && token.swipe === (Number.isInteger(message.swipe_id) ? message.swipe_id : 0)
+        && token.uid === (meta?.uid ?? null);
+}
+
 function lineageData(context) {
     const chat = Array.isArray(context?.chat) ? context.chat : [];
+    const cached = lineageCache.get(chat);
+    if (cached?.length === chat.length && cached.tokens.every((token, index) => lineageTokenMatches(chat[index], token))) return cached.data;
     const fingerprints = chat.map(messageFingerprintV2);
     const prefixKeys = ['root'];
     let h1 = 0x811c9dc5;
@@ -288,7 +330,9 @@ function lineageData(context) {
         [h1, h2] = rollHash(h1, h2, fingerprints[i]);
         prefixKeys.push(`${i + 1}:${(h1 >>> 0).toString(36)}${(h2 >>> 0).toString(36)}`);
     }
-    return { fingerprints, prefixKeys };
+    const data = { fingerprints, prefixKeys };
+    lineageCache.set(chat, { length: chat.length, tokens: chat.map(lineageCacheToken), data });
+    return data;
 }
 
 function legacyHashLineage(list) {
@@ -334,16 +378,31 @@ function checkpointValidForMessage(context, messageId, checkpoint, prepared = nu
 
 function compactRevisions(root) {
     const allIds = Object.keys(root.revisions).map(Number).filter(Number.isInteger).sort((a, b) => a - b);
-    if (allIds.length <= LIMITS.revisions) return;
-    const keep = new Set([0, root.activeRevision]);
-    for (const head of Object.values(root.branchHeads ?? {})) {
-        if (Number.isInteger(head?.revision) && getRevision(root, head.revision)) keep.add(head.revision);
-    }
-    for (const id of [...allIds].sort((a, b) => b - a)) {
-        if (keep.size >= LIMITS.revisions) break;
-        keep.add(id);
-    }
     const original = root.revisions;
+    const totalBytes = allIds.reduce((sum, id) => sum + serializedBytes(original[String(id)]), 0);
+    if (allIds.length <= LIMITS.revisions && totalBytes <= LIMITS.historyBytes) return;
+
+    const keep = new Set();
+    let usedBytes = 0;
+    const tryKeep = (id, force = false) => {
+        if (!Number.isInteger(id) || keep.has(id)) return false;
+        const revision = original[String(id)];
+        if (!revision) return false;
+        const bytes = serializedBytes(revision);
+        if (!force && (keep.size >= LIMITS.revisions || usedBytes + bytes > LIMITS.historyBytes)) return false;
+        keep.add(id);
+        usedBytes += bytes;
+        return true;
+    };
+
+    tryKeep(0, true);
+    tryKeep(root.activeRevision, true);
+    const heads = Object.values(root.branchHeads ?? {})
+        .filter(head => Number.isInteger(head?.revision) && original[String(head.revision)])
+        .sort((a, b) => Number(Boolean(b?.sticky)) - Number(Boolean(a?.sticky)) || Number(b?.touchedAt ?? 0) - Number(a?.touchedAt ?? 0));
+    for (const head of heads) tryKeep(head.revision);
+    for (const id of [...allIds].sort((a, b) => b - a)) tryKeep(id);
+
     const nearestKeptParent = id => {
         let cursor = original[String(id)]?.parent;
         const seen = new Set();
@@ -361,6 +420,7 @@ function compactRevisions(root) {
         next[String(id)] = { ...revision, parent: id === 0 ? null : nearestKeptParent(id) };
     }
     root.revisions = next;
+    root.branchHeads = Object.fromEntries(Object.entries(root.branchHeads ?? {}).filter(([, head]) => keep.has(head?.revision)));
 }
 
 function appendRevisionToRoot(root, state, { parent, source, note, portable = false, countMutation = true } = {}) {
@@ -394,10 +454,11 @@ function checkpointGroups(context) {
         if (!checkpoint) return;
         let group = groups.get(key);
         if (!group) {
-            group = { key, holders: [], checkpoint, revision: checkpoint.revision, messageIndex, swipeIndex };
+            group = { key, holders: [], checkpoint, revision: checkpoint.revision, messageIndex, swipeIndex, bytes: 0 };
             groups.set(key, group);
         }
         group.holders.push(holder);
+        group.bytes += serializedBytes(checkpoint);
         if (Number.isInteger(checkpoint.revision)) group.revision = checkpoint.revision;
     };
     for (let messageIndex = 0; messageIndex < chat.length; messageIndex++) {
@@ -433,29 +494,35 @@ function removeCheckpointFromHolder(holder) {
 function compactPortableCheckpointsWithRoot(context, root, limit = LIMITS.portableCheckpoints) {
     const groups = checkpointGroups(context);
     const before = groups.length;
+    const beforeBytes = groups.reduce((sum, group) => sum + group.bytes, 0);
     const cap = Math.max(1, Number(limit) || LIMITS.portableCheckpoints);
-    if (!before) return { before: 0, after: 0, limit: cap };
+    const byteCap = LIMITS.portableCheckpointBytes;
+    if (!before) return { before: 0, after: 0, limit: cap, beforeBytes: 0, afterBytes: 0, byteLimit: byteCap };
 
     const newest = [...groups].sort((a, b) =>
         b.messageIndex - a.messageIndex || b.swipeIndex - a.swipeIndex || Number(b.revision ?? -1) - Number(a.revision ?? -1));
     const keep = new Set();
-    const protectLatestRevision = (revision, length = null) => {
-        if (!Number.isInteger(revision) || keep.size >= cap) return;
+    let usedBytes = 0;
+    const tryKeep = (group, force = false) => {
+        if (!group || keep.has(group.key)) return false;
+        if (!force && (keep.size >= cap || usedBytes + group.bytes > byteCap)) return false;
+        keep.add(group.key);
+        usedBytes += group.bytes;
+        return true;
+    };
+    const protectLatestRevision = (revision, length = null, force = false) => {
+        if (!Number.isInteger(revision)) return;
         const candidates = newest.filter(group => group.revision === revision);
         const exact = Number.isInteger(length) ? candidates.find(group => group.messageIndex + 1 === length) : null;
-        const chosen = exact ?? candidates[0];
-        if (chosen) keep.add(chosen.key);
+        tryKeep(exact ?? candidates[0], force);
     };
 
-    protectLatestRevision(root.activeRevision);
+    protectLatestRevision(root.activeRevision, null, true);
     const heads = Object.values(root.branchHeads ?? {})
         .filter(head => Number.isInteger(head?.revision))
-        .sort((a, b) => Number(b?.touchedAt ?? 0) - Number(a?.touchedAt ?? 0));
+        .sort((a, b) => Number(Boolean(b?.sticky)) - Number(Boolean(a?.sticky)) || Number(b?.touchedAt ?? 0) - Number(a?.touchedAt ?? 0));
     for (const head of heads) protectLatestRevision(head.revision, head.length);
-    for (const group of newest) {
-        if (keep.size >= cap) break;
-        keep.add(group.key);
-    }
+    for (const group of newest) tryKeep(group);
 
     for (const group of groups) {
         if (keep.has(group.key)) continue;
@@ -466,11 +533,16 @@ function compactPortableCheckpointsWithRoot(context, root, limit = LIMITS.portab
     for (const revision of Object.values(root.revisions ?? {})) {
         if (revision && Number.isInteger(revision.id)) revision.portable = portableRevisions.has(revision.id);
     }
-    return { before, after: Math.min(before, keep.size), limit: cap };
+    const afterBytes = groups.filter(group => keep.has(group.key)).reduce((sum, group) => sum + group.bytes, 0);
+    return { before, after: keep.size, limit: cap, beforeBytes, afterBytes, byteLimit: byteCap };
 }
 
 export function portableCheckpointCount(context) {
     return checkpointGroups(context).length;
+}
+
+export function portableCheckpointBytes(context) {
+    return checkpointGroups(context).reduce((sum, group) => sum + group.bytes, 0);
 }
 
 export function compactPortableCheckpoints(context, limit = LIMITS.portableCheckpoints) {
@@ -480,6 +552,7 @@ export function compactPortableCheckpoints(context, limit = LIMITS.portableCheck
 
 function stabilizeAssistantUids(context) {
     const chat = Array.isArray(context?.chat) ? context.chat : [];
+    let changed = false;
     for (const message of chat) {
         if (!message || message.is_user || message.is_system) continue;
         const meta = activeMessageMeta(message);
@@ -487,7 +560,9 @@ function stabilizeAssistantUids(context) {
         message.extra ??= {};
         message.extra[EXTRA_KEY] = { ...meta, uid: randomUid() };
         ensureSwipeInfo(message);
+        changed = true;
     }
+    if (changed) invalidateLineageCache(context);
 }
 
 function pruneBranchHeads(root) {
@@ -564,7 +639,8 @@ export function ensureRoot(context) {
         throw new Error('Inventory Block state is damaged: initial revision is missing. State was not reset.');
     }
     if (!Number.isInteger(root.activeRevision) || !root.revisions[String(root.activeRevision)]) root.activeRevision = 0;
-    if (!Number.isInteger(root.nextRevision) || root.nextRevision < 1) root.nextRevision = Math.max(0, ...Object.keys(root.revisions).map(Number).filter(Number.isFinite)) + 1;
+    const maxRevisionId = Math.max(0, ...Object.keys(root.revisions).map(Number).filter(Number.isInteger));
+    if (!Number.isInteger(root.nextRevision) || root.nextRevision <= maxRevisionId) root.nextRevision = maxRevisionId + 1;
     if (!Number.isInteger(root.mutationSerial) || root.mutationSerial < 0) root.mutationSerial = Math.max(0, root.nextRevision - 1);
     if (!root.branchHeads || typeof root.branchHeads !== 'object' || Array.isArray(root.branchHeads)) root.branchHeads = {};
     pruneBranchHeads(root);
@@ -747,6 +823,7 @@ export function attachPortableCheckpoint(context, messageId, revisionId, { sourc
     if (!message.is_user && !message.is_system && !current.uid) {
         current = { ...current, uid: randomUid() };
         message.extra[EXTRA_KEY] = current;
+        invalidateLineageCache(context);
     }
     const data = lineageData(context);
     const checkpoint = {
@@ -778,6 +855,7 @@ export function attachMessageRevision(context, messageId, { baseRevision, revisi
         revision: Number.isInteger(revision) ? revision : 0,
         lineageVersion: LINEAGE_VERSION,
     };
+    if (uid !== current.uid) invalidateLineageCache(context);
     const data = lineageData(context);
     message.extra[EXTRA_KEY].lineageHash = data.prefixKeys[Math.min(messageId + 1, data.prefixKeys.length - 1)] ?? 'root';
     if (portable) attachPortableCheckpoint(context, messageId, revision, { source: getRevision(ensureRoot(context), revision)?.source });
@@ -791,8 +869,19 @@ function attachCurrentRevisionToTail(context, revisionId, source, note) {
     attachPortableCheckpoint(context, chat.length - 1, revisionId, { source, note });
 }
 
-export function commitManualState(context, state, { source = SOURCE.MANUAL, note = 'Manual inventory edit' } = {}) {
+export function commitManualState(context, state, {
+    source = SOURCE.MANUAL,
+    note = 'Manual inventory edit',
+    expectedRevision = null,
+    expectedMutationSerial = null,
+} = {}) {
     const root = ensureRoot(context);
+    if (expectedRevision !== null && root.activeRevision !== expectedRevision) {
+        throw new Error('Inventory changed while the editor was open. Reopen the editor to avoid overwriting newer state.');
+    }
+    if (expectedMutationSerial !== null && root.mutationSerial !== expectedMutationSerial) {
+        throw new Error('Inventory changed while the editor was open. Reopen the editor to avoid overwriting newer state.');
+    }
     const normalized = validateAndNormalizeInventory(state);
     const previous = getInventoryAt(root, root.activeRevision);
     if (inventoryEquals(previous, normalized)) return root.activeRevision;
@@ -821,4 +910,9 @@ export function listRevisions(context, limit = LIMITS.history) {
 
 export function revisionCount(context) {
     return Object.keys(ensureRoot(context).revisions).length;
+}
+
+export function revisionHistoryBytes(context) {
+    const root = ensureRoot(context);
+    return Object.values(root.revisions).reduce((sum, revision) => sum + serializedBytes(revision), 0);
 }

@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.3.2
+
+Second deep hardening pass focused on prompt consistency, stale-write safety, resource validation, long-session storage, and lineage performance.
+
+- Aligns the canonical LLM protocol with `adjust_resource`, removing the contradictory instruction that previously told models to use `edit_item` for numeric Remark balances.
+- Rejects negative tracked-resource Remarks even when an edit changes surrounding wording, while leaving unrelated semantic negative values alone.
+- Rejects negative absolute Quantity assignments; exact zero remains the explicit depletion/delete value.
+- Supports comma-grouped resource values such as `1,200 Gold` in deterministic `adjust_resource` arithmetic.
+- Adds optimistic concurrency to the manual editor so a stale full-state draft cannot overwrite Inventory changes committed while the editor was open.
+- Scopes terminal generation cleanup to one uniquely identified chat/session and removes the global UI-generation watchdog assumption.
+- Adds independent 4 MiB byte ceilings for backend revision snapshots and portable checkpoint payloads, in addition to user-selected count retention.
+- Caches lineage prefix hashes with explicit invalidation on message edits/swipes/deletions and Inventory UID changes to reduce repeated full-chat rescans.
+- Makes History comparison report pure category-order changes.
+- Repairs damaged `nextRevision` counters that point at an already-existing revision ID.
+- Preserves ordinary prose after a truncated `<Inventory>` seed instead of deleting the entire message tail.
+- Expands permanent regression coverage for every v0.3.2 audit finding and completes ten uninterrupted full hard-pass cycles before the release commit.
+
 ## 0.3.1
 
 Deep hardening pass for resource integrity, history storage, and concurrent generation isolation.

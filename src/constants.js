@@ -1,5 +1,5 @@
 export const EXTENSION_ID = 'inventory-block';
-export const VERSION = '0.3.1';
+export const VERSION = '0.3.2';
 export const STATE_VERSION = 2;
 export const LINEAGE_VERSION = 2;
 
@@ -73,6 +73,8 @@ export const LIMITS = Object.freeze({
     quantity: 96,
     remark: 2000,
     serializedChars: 120000,
+    historyBytes: 4 * 1024 * 1024,
+    portableCheckpointBytes: 4 * 1024 * 1024,
     controlChars: 150000,
     patchOps: 256,
     get revisions() { return getHistoryRetention(); },

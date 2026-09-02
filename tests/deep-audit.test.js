@@ -187,6 +187,6 @@ test('history snapshot source keeps empty categories visible', () => {
 
 test('README history-retention sentence appears exactly once', () => {
   const readme = fs.readFileSync(new URL('../README.md', import.meta.url), 'utf8');
-  const sentence = 'The same budget also bounds logical portable checkpoint groups stored on message/swipe metadata, preventing long campaigns from accumulating an unbounded second history trail.';
+  const sentence = 'The same count budget also bounds logical portable checkpoint groups stored on message/swipe metadata.';
   assert.equal(readme.split(sentence).length - 1, 1);
 });
