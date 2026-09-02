@@ -83,4 +83,6 @@ test('inventory comparison classifies changed, added and removed rows', () => {
   assert.equal(diff.added[0].item.name, 'Healing Salve');
   assert.equal(diff.removed.length, 1);
   assert.equal(diff.removed[0].item.name, 'Torch');
+  assert.deepEqual(diff.categoriesAdded, []);
+  assert.deepEqual(diff.categoriesRemoved, []);
 });

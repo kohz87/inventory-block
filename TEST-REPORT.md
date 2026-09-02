@@ -1,6 +1,12 @@
-# Inventory Block v0.2.7 Hotfix Report
+# Inventory Block v0.3.1 Deep Hardening Report
 
 Date: 2026-09-02
+
+## v0.3.1 deep hardening
+
+Post-v0.3.0 audit added deterministic Remark-resource arithmetic, overdraw rejection, fail-closed overlapping-generation selection, portable checkpoint retention, single-save history clearing, resilient retention storage, empty-category comparison, and in-place History refresh after restore.
+
+The release candidate was exercised through ten repeated full cycles of `npm test`, the hardpass fuzz suite, syntax checks, `git diff --check`, and focused invariant review. The permanent deep-audit tests include 600 sequential mutations under a 50-revision cap, portable checkpoint pressure, alternate-swipe history clearing, resource overdraws, blocked storage, and ambiguous concurrent sessions.
 
 ## v0.2.5 Megumin control-position hotfix
 
