@@ -16,6 +16,7 @@ import {
   resolveActiveRevision,
   revisionCount,
 } from '../src/state.js';
+import { consumeInventoryUpdates } from '../src/protocol.js';
 import { compareInventoryStates } from '../src/ui.js';
 
 class MemoryStorage {
@@ -26,6 +27,7 @@ class MemoryStorage {
 
 const inv = (n) => ({ categories: [{ name: 'General', items: [{ name: 'Coin Pouch', quantity: '1', remark: `${n} Gold` }] }] });
 const ctx = (chat = []) => ({ chat, chatMetadata: {} });
+const control = payload => `<!-- INVENTORY_BLOCK_UPDATE ${JSON.stringify(payload)} -->.`;
 
 function assertRevisionGraphClosed(root) {
   for (const revision of Object.values(root.revisions)) {
@@ -115,4 +117,20 @@ test('storage write failure exposes a retention cap mismatch', () => {
   assert.equal(result.retention, 50);
   assert.ok(result.after > result.retention, `reported cap ${result.retention} unexpectedly applied; after=${result.after}`);
   assert.equal(c.chatMetadata[META_KEY].activeRevision, 260);
+});
+
+test('numeric adjust overspend currently deletes stock instead of rejecting impossible consumption', () => {
+  const base = { categories: [{ name: 'General', items: [{ name: 'Arrows', quantity: '5', remark: '' }] }] };
+  const result = consumeInventoryUpdates(control({ mode: 'patch', ops: [{ op: 'adjust_item', category: 'General', name: 'Arrows', by: -10 }] }), base);
+  assert.deepEqual(result.errors, []);
+  assert.equal(result.changed, true);
+  assert.equal(result.state.categories[0].items.length, 0);
+});
+
+test('remark-stored negative balance is currently accepted by backend validation', () => {
+  const base = inv(5);
+  const result = consumeInventoryUpdates(control({ mode: 'patch', ops: [{ op: 'edit_item', category: 'General', name: 'Coin Pouch', remark: '-5 Gold' }] }), base);
+  assert.deepEqual(result.errors, []);
+  assert.equal(result.changed, true);
+  assert.equal(result.state.categories[0].items[0].remark, '-5 Gold');
 });
