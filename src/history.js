@@ -1,6 +1,7 @@
 import {
     EXTRA_KEY,
     LINEAGE_VERSION,
+    META_KEY,
     SOURCE,
     getHistoryRetention,
     setHistoryRetention,
@@ -26,10 +27,15 @@ function scrubInventoryMetadata(context) {
     }
 }
 
+function rawRevisionCount(context) {
+    const revisions = context?.chatMetadata?.[META_KEY]?.revisions;
+    return revisions && typeof revisions === 'object' ? Object.keys(revisions).length : 0;
+}
+
 export function applyHistoryRetention(context, value = getHistoryRetention()) {
+    const before = rawRevisionCount(context);
     const retention = setHistoryRetention(value);
     if (!context?.chatMetadata) return { retention, before: 0, after: 0 };
-    const before = revisionCount(context);
     ensureRoot(context);
     const after = revisionCount(context);
     return { retention, before, after };
