@@ -81,4 +81,7 @@ test('menu/settings DOM mount is idempotent and buttons are actually wired', () 
     assert.ok(settings.querySelector('#inventory_block_history_retention').listeners.has('change'));
     assert.ok(settings.querySelector('#inventory_block_history_trim').listeners.has('click'));
     assert.ok(settings.querySelector('#inventory_block_history_clear').listeners.has('click'));
+    assert.ok(settings.querySelector('#inventory_block_history_retention').listeners.has('change'));
+    assert.ok(settings.querySelector('#inventory_block_history_trim').listeners.has('click'));
+    assert.ok(settings.querySelector('#inventory_block_history_clear').listeners.has('click'));
 });

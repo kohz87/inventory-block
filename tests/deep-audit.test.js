@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import fs from 'node:fs';
 import { EXTRA_KEY, LIMITS, META_KEY, getHistoryRetention, setHistoryRetention } from '../src/constants.js';
 import { applyHistoryRetention, clearInventoryHistory } from '../src/history.js';
 import {
@@ -165,4 +166,20 @@ test('Clear History persistence uses exactly one full save when saveChat exists'
   await persistContext({ saveChat: async () => { chat++; }, saveMetadata: async () => { metadata++; } }, { saveChat: true });
   assert.equal(chat, 1);
   assert.equal(metadata, 0);
+});
+
+
+test('empty-category comparison detects case-only rename', () => {
+  const before = { categories: [{ name: 'Pack', items: [] }] };
+  const after = { categories: [{ name: 'pack', items: [] }] };
+  const diff = compareInventoryStates(before, after);
+  assert.deepEqual(diff.categoriesRemoved, ['Pack']);
+  assert.deepEqual(diff.categoriesAdded, ['pack']);
+});
+
+
+test('history snapshot source keeps empty categories visible', () => {
+  const source = fs.readFileSync(new URL('../src/ui.js', import.meta.url), 'utf8');
+  assert.match(source, /if \(!inventory\.categories\.length\)/);
+  assert.doesNotMatch(source, /const total = itemCount\(inventory\);\s*if \(!total\)/);
 });

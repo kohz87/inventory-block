@@ -319,17 +319,16 @@ export function compareInventoryStates(beforeState, afterState) {
         }
     }
     for (const [key, entry] of after) if (!before.has(key)) added.push(entry);
-    const beforeEmpty = new Map(beforeInventory.categories.filter(category => !category.items.length).map(category => [identityKey(category.name), category.name]));
-    const afterEmpty = new Map(afterInventory.categories.filter(category => !category.items.length).map(category => [identityKey(category.name), category.name]));
-    const categoriesAdded = [...afterEmpty].filter(([key]) => !beforeEmpty.has(key)).map(([, name]) => name);
-    const categoriesRemoved = [...beforeEmpty].filter(([key]) => !afterEmpty.has(key)).map(([, name]) => name);
+    const beforeEmpty = new Set(beforeInventory.categories.filter(category => !category.items.length).map(category => category.name));
+    const afterEmpty = new Set(afterInventory.categories.filter(category => !category.items.length).map(category => category.name));
+    const categoriesAdded = [...afterEmpty].filter(name => !beforeEmpty.has(name));
+    const categoriesRemoved = [...beforeEmpty].filter(name => !afterEmpty.has(name));
     return { added, removed, changed, categoriesAdded, categoriesRemoved };
 }
 
 function appendInventorySnapshot(container, state) {
     const inventory = normalizeInventory(state);
-    const total = itemCount(inventory);
-    if (!total) {
+    if (!inventory.categories.length) {
         container.appendChild(el('div', 'inventory-empty-state', 'Inventory is empty.'));
         return;
     }
