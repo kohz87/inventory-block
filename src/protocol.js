@@ -174,7 +174,7 @@ export function buildInventoryPrompt(state, { replaceCapability = null } = {}) {
 `The JSON above is the sole authoritative current possession record. Item/category strings are exact backend identifiers; copy them exactly in operations. Earlier story mentions are historical and never restore absent items, old quantities, categories, or remarks.\n` +
 `Each category has a name and items; each item has only name, quantity, and remark. Follow explicit bracketed OOC inventory administration such as creating party-member categories or consolidating supplies.\n` +
 `Never print <Inventory> or a visible inventory list. If nothing changes, emit no inventory control.\n` +
-`For an inventory change, emit exactly one standalone machine-only control outside all other XML/structured blocks. Other required response blocks may appear before or after it. The terminal period after the HTML comment is mandatory:\n` +
+`For an inventory change, emit exactly one standalone machine-only control outside all other XML/structured blocks. Other required response blocks may appear before or after it. A terminal period after the HTML comment is preferred for SillyTavern sentence-trimming compatibility, but a complete comment without it is accepted:\n` +
 `<!-- ${UPDATE_COMMENT_MARKER} {"mode":"patch","ops":[...]} -->${CONTROL_SENTINEL}\n` +
 `If a JSON string would contain the literal sequence -->, encode the > as \u003e inside that JSON string.\n` +
 `Every object in "ops" MUST contain a string "op" field. Canonical example: {"mode":"patch","ops":[{"op":"add_item","category":"General","name":"Potion","quantity":"1","remark":""}]}.\n` +
@@ -748,14 +748,11 @@ function consumeCommentControl(source) {
         };
     }
 
-    const errors = [];
-    if (!span.hasSentinel) errors.push('Inventory control is missing its required terminal period.');
-    const validEnvelope = errors.length === 0;
     return {
-        cleanedText: removeControlSpans(source, [span], { trimProtocolSpace: validEnvelope }),
+        cleanedText: removeControlSpans(source, [span], { trimProtocolSpace: true }),
         body: span.body,
         hadControl: true,
-        errors,
+        errors: [],
     };
 }
 

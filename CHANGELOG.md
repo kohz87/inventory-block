@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.2.7
+
+Terminal-sentinel resilience hotfix.
+
+- Accepts a complete valid `<!-- INVENTORY_BLOCK_UPDATE ... -->` control even when the model omits the trailing period.
+- Keeps the trailing period in the prompt as the preferred form for SillyTavern sentence-trimming compatibility.
+- Truncated comments, malformed JSON, and multiple controls remain rejected atomically.
+- Adds deterministic and fuzz regression coverage for periodless controls, including Megumin blocks after the control.
+
 ## 0.2.6
 
 Operation-shape resilience hotfix.
