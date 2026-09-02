@@ -1,4 +1,4 @@
-# Inventory Block v0.2.8
+# Inventory Block v0.2.9
 
 Inventory Block is a lightweight SillyTavern RPG inventory extension with a **per-chat canonical backend**. The chat remains story history; inventory state is stored separately and rendered as an Inventory block compatible with Megumin Suite's block area.
 
@@ -28,7 +28,7 @@ Linen Smock | 1 | Worn
 
 `<Inventory>` is a **one-time starting-inventory seed** for initial character/group greetings. After seeding, the backend is authoritative and later `<Inventory>` blocks are stripped rather than becoming a new source of truth.
 
-For resource containers such as `Coin Pouch | 1 | 100 Gold`, the item quantity is the number of pouches while the spendable balance lives in Remark. v0.2.8 explicitly instructs the model to update that Remark whenever a transaction completes, while preserving the container quantity. A 15 Gold purchase therefore changes `100 Gold` to `85 Gold`, not the pouch quantity from `1` to `0`.
+For resource containers such as `Coin Pouch | 1 | 100 Gold` or `Food | 1 | About 7 days`, Quantity may identify the container/stock row while the meaningful remaining amount lives in Remark. v0.2.9 explicitly instructs the model to update either field according to where the tracked amount actually lives. A 15 Gold purchase therefore changes `100 Gold` to `85 Gold`, while one established day of food consumption can change `About 7 days` to `About 6 days` without changing the row Quantity.
 
 ## LLM integration
 
@@ -49,7 +49,9 @@ If inventory changes, the model appends one machine-only suffix:
 
 The extension validates the complete update atomically, applies it to backend state, creates a revision, strips the machine comment, and stores only normal story prose. If nothing changes, there is no inventory output.
 
-Completed purchases, payments, fees, tips, sales, rewards, refunds, theft, and other currency changes are treated as Inventory changes. When money is stored in Remark, the existing `edit_item` operation rewrites the calculated balance. A zero balance keeps the container item; negative balances are forbidden, and item changes from the same transaction are emitted in the same atomic patch.
+Completed gains and losses of tracked finite resources are treated as Inventory changes. This includes money, food, water, ammunition, fuel, medicine, crafting supplies, charges, and ordinary possessions. Plain numeric Quantity values use `adjust_item`; amounts or states stored in Remark use `edit_item`. Approximate descriptions such as `About 7 days` remain approximate rather than being converted into invented exact units.
+
+Only completed changes count. Planned, attempted, negotiated, interrupted, or failed actions do not spend or grant resources unless the response establishes that they actually happened. Durable containers can remain when empty, such as `Coin Pouch | 1 | 0 Gold` or `Waterskin | 1 | Empty`; exhausted rows that represent the consumable stock itself are removed instead of becoming ghost stock. Negative resource balances are forbidden, and related changes from the same event are emitted in one atomic patch.
 
 Quiet/background and impersonation generations do not receive Inventory state and cannot mutate Inventory.
 
