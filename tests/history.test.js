@@ -17,11 +17,17 @@ class MemoryStorage {
   removeItem(key) { this.map.delete(key); }
 }
 
+function freshStorage() {
+  const storage = new MemoryStorage();
+  Object.defineProperty(globalThis, 'localStorage', { value: storage, configurable: true, writable: true });
+  return storage;
+}
+
 const inv = (gold, extras = []) => ({ categories: [{ name: 'General', items: [{ name: 'Coin Pouch', quantity: '1', remark: `${gold} Gold` }, ...extras] }] });
 const ctx = (chat = []) => ({ chat, chatMetadata: {} });
 
 test('history retention is configurable and drives backend revision/history caps', () => {
-  globalThis.localStorage = new MemoryStorage();
+  freshStorage();
   assert.equal(getHistoryRetention(), 200);
   assert.equal(setHistoryRetention(50), 50);
   assert.equal(LIMITS.revisions, 50);
@@ -31,7 +37,7 @@ test('history retention is configurable and drives backend revision/history caps
 });
 
 test('revision creation respects the selected retention cap', () => {
-  globalThis.localStorage = new MemoryStorage();
+  freshStorage();
   setHistoryRetention(50);
   const c = ctx();
   ensureRoot(c);
@@ -42,7 +48,7 @@ test('revision creation respects the selected retention cap', () => {
 });
 
 test('clear history preserves current inventory and removes old swipe/checkpoint history', () => {
-  globalThis.localStorage = new MemoryStorage();
+  freshStorage();
   const message = { is_user: false, is_system: false, mes: 'inventory turn', extra: {}, swipes: ['inventory turn', 'alternate'], swipe_info: [{}, { extra: { [EXTRA_KEY]: { checkpoint: { packed: [['General', [['Old', '1', '']]]] } } } }], swipe_id: 0 };
   const c = ctx([message]);
   ensureRoot(c);
