@@ -49,7 +49,7 @@ import {
     promptEventMatchesProbe,
 } from './src/injection.js';
 import { openInventoryEditor, openInventoryHistory, renderInventoryPane } from './src/ui.js';
-import { initializeMeguminBridge, scheduleInventoryMount } from './src/megumin.js';
+import { initializeMeguminBridge, scheduleInventoryMount, setInventoryMountSuspended } from './src/megumin.js';
 import { mountExtensionUi } from './src/settings.js';
 import { GenerationSessionStore } from './src/session.js';
 
@@ -98,6 +98,7 @@ function removeSession(session) {
     if (terminalTimer) clearTimeout(terminalTimer);
     terminalCleanupTimers.delete(session);
     sessions.remove(session);
+    syncInventoryMountSuspension();
     if (!sessions.size && watchdog) {
         clearTimeout(watchdog);
         watchdog = null;
@@ -106,6 +107,12 @@ function removeSession(session) {
 
 function generationLockFor(ctx) {
     return sessions.activeForChat(chatIdOf(ctx));
+}
+
+function syncInventoryMountSuspension() {
+    const ctx = context();
+    const chatId = chatIdOf(ctx);
+    setInventoryMountSuspended(Boolean(chatId && sessions.activeForChat(chatId)));
 }
 
 function generationForMessage(ctx, messageId, eventType = '') {
@@ -164,7 +171,7 @@ function renderCurrentPane(pane) {
 }
 
 function refreshAll() {
-    scheduleInventoryMount(30);
+    scheduleInventoryMount(30, { force: true });
 }
 
 function persistChatSoon(ctx, expectedChatId = chatIdOf(ctx)) {
@@ -957,8 +964,10 @@ function onGenerationPrepared(type = 'normal', _params = null, isDryRun = false)
             stopped: false,
             startedAt: Date.now(),
         });
+        syncInventoryMountSuspension();
         armWatchdog();
     } catch (error) {
+        syncInventoryMountSuspension();
         console.warn('[Inventory Block] Could not prepare generation inventory state.', error);
     }
 }
@@ -1069,15 +1078,19 @@ function onGenerationEnded(chatLength = null) {
 
 function onMessageUpdated(messageId, type = 'updated', manualEdit = false) {
     const ctx = context();
-    if (ctx) invalidateLineageCache(ctx);
     const message = ctx?.chat?.[Number(messageId)];
     if (!message) return;
+
+    // SillyTavern emits MESSAGE_UPDATED repeatedly while a response streams. Match
+    // by message identity only here: the event label "updated" is not the original
+    // generation type (normal/continue/swipe/etc.). Streaming updates must be inert.
+    if (!manualEdit && !message.is_user && !message.is_system && generationForMessage(ctx, messageId)) return;
+
+    if (ctx) invalidateLineageCache(ctx);
     if (message.is_user || message.is_system) {
         setTimeout(() => void resolveBranchAndRefresh(), 0);
         return;
     }
-    const active = generationForMessage(ctx, messageId, type);
-    if (!manualEdit && active) return;
     if (hasCompleteInventoryUpdate(message.mes) || (manualEdit && hasInventoryControl(message.mes))) void processAssistantMessage(messageId, type);
     else setTimeout(() => void resolveBranchAndRefresh(), 0);
 }
@@ -1112,6 +1125,7 @@ function onChatChanged() {
     // Generation sessions deliberately survive UI chat switches; each carries its own
     // chat id, state snapshot, token counter, and prompt. This prevents cross-chat bleed.
     processingMessages.clear();
+    syncInventoryMountSuspension();
     setTimeout(() => void resolveBranchAndRefresh(), 0);
 }
 

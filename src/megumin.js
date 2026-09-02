@@ -6,6 +6,8 @@ let timer = null;
 let observerRetry = null;
 let renderCurrent = null;
 let mountedMessageElement = null;
+let mountSuspended = false;
+let forceRender = false;
 
 function latestAssistantMessageElement(context) {
     const messages = Array.from(document.querySelectorAll('#chat .mes')).reverse();
@@ -151,13 +153,18 @@ function attachStandalone(messageElement, renderPane) {
 }
 
 function mountNow() {
-    if (!renderCurrent || !globalThis.SillyTavern?.getContext) return;
+    if (!renderCurrent || !globalThis.SillyTavern?.getContext || mountSuspended) return;
     const context = SillyTavern.getContext();
     const messageElement = latestAssistantMessageElement(context);
     if (!messageElement) {
         cleanupPreviousMount(null);
+        forceRender = false;
         return;
     }
+
+    const hasExistingMount = Boolean(messageElement.querySelector('.inventory-block-pane, .inventory-block-card'));
+    if (!forceRender && mountedMessageElement === messageElement && hasExistingMount) return;
+    forceRender = false;
     cleanupPreviousMount(messageElement);
 
     const meguminCard = messageElement.querySelector('.meg-blocks');
@@ -190,8 +197,10 @@ function ensureObserver() {
     observer.observe(chat, { childList: true, subtree: true });
 }
 
-export function scheduleInventoryMount(delay = 60) {
+export function scheduleInventoryMount(delay = 60, { force = false } = {}) {
     ensureObserver();
+    if (force) forceRender = true;
+    if (mountSuspended) return;
     if (timer) clearTimeout(timer);
     timer = setTimeout(() => {
         timer = null;
@@ -199,8 +208,21 @@ export function scheduleInventoryMount(delay = 60) {
     }, delay);
 }
 
+export function setInventoryMountSuspended(value) {
+    const next = Boolean(value);
+    if (mountSuspended === next) return;
+    mountSuspended = next;
+    if (mountSuspended) {
+        if (timer) clearTimeout(timer);
+        timer = null;
+        return;
+    }
+    forceRender = true;
+    scheduleInventoryMount(0, { force: true });
+}
+
 export function initializeMeguminBridge(renderPane) {
     renderCurrent = renderPane;
     ensureObserver();
-    scheduleInventoryMount(0);
+    scheduleInventoryMount(0, { force: true });
 }

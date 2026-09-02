@@ -3,12 +3,12 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 const read = p => fs.readFileSync(new URL(`../${p}`, import.meta.url), 'utf8');
 
-test('all release metadata and runtime VERSION say 0.3.5', () => {
-  assert.equal(JSON.parse(read('manifest.json')).version, '0.3.5');
-  assert.equal(JSON.parse(read('package.json')).version, '0.3.5');
-  assert.match(read('src/constants.js'), /VERSION = '0\.3\.5'/);
-  assert.match(read('style.css'), /^\/\* Inventory Block v0\.3\.5 \*\//);
-  assert.match(read('README.md'), /Inventory Block v0\.3\.5/);
+test('all release metadata and runtime VERSION say 0.3.6', () => {
+  assert.equal(JSON.parse(read('manifest.json')).version, '0.3.6');
+  assert.equal(JSON.parse(read('package.json')).version, '0.3.6');
+  assert.match(read('src/constants.js'), /VERSION = '0\.3\.6'/);
+  assert.match(read('style.css'), /^\/\* Inventory Block v0\.3\.6 \*\//);
+  assert.match(read('README.md'), /Inventory Block v0\.3\.6/);
 });
 
 test('changelog documents v0.3.5 manual reconciliation recovery and retains prior hardening', () => {
