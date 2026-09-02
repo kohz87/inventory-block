@@ -32,6 +32,16 @@ for(let i=0;i<1000;i++){
   if(i%2!==0) assert.match(r.cleanedText,new RegExp(`After ${i}\\.$`));
 }
 
+for(let i=0;i<600;i++){
+  const common={category:'General',name:`Alias${i}`,quantity:'1',remark:`variant ${i}`};
+  const op=i%3===0?{operation:'add_item',...common}:i%3===1?{action:'add_item',...common}:{add_item:common};
+  const payload={mode:'patch',ops:[op]};
+  const c=`<!-- INVENTORY_BLOCK_UPDATE ${JSON.stringify(payload)} -->.`;
+  const r=consumeInventoryUpdates(c,{categories:[]});
+  assert.deepEqual(r.errors,[]);
+  assert.equal(r.state.categories[0].items[0].name,`Alias${i}`);
+}
+
 for(let i=0;i<500;i++){
   const state={categories:[{name:`${pick(i)}-${i}`,items:[{name:`${pick(i+1)}|${i}`,quantity:'1',remark:`${pick(i+2)}<&>${i}`}]}]};
   const serialized=formatInventoryState(state);

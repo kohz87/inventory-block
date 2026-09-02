@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.2.6
+
+Operation-shape resilience hotfix.
+
+- The prompt now explicitly requires a string `"op"` field in every patch operation and includes a canonical add-item example.
+- Safely normalizes unambiguous weak-model aliases: `"operation"`, `"action"`, and `{ "add_item": { ... } }`-style single-key wrappers.
+- Conflicting aliases, malformed canonical `op` values, and ambiguous wrappers remain rejected atomically.
+- Missing-operation errors now identify the failing operation index and show the expected canonical shape.
+- Synchronizes the runtime VERSION constant with release metadata.
+
 ## 0.2.5
 
 Megumin multi-block compatibility hotfix.

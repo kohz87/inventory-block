@@ -99,3 +99,60 @@ test('literal comment terminator without a real closing comment cannot leak mach
   assert.doesNotMatch(result.cleanedText, /INVENTORY_BLOCK_UPDATE|\"ops\"/);
   assert.match(result.cleanedText, /After\.$/);
 });
+
+
+test('prompt explicitly requires the canonical string op field', () => {
+  const prompt = buildInventoryPrompt(inv([]));
+  assert.match(prompt, /Every object in "ops" MUST contain a string "op" field/);
+  assert.match(prompt, /"op":"add_item"/);
+});
+
+test('weak-model operation and action aliases normalize safely', () => {
+  const variants = [
+    {operation:'add_item',category:'General',name:'Potion',quantity:'1',remark:'alias operation'},
+    {action:'add_item',category:'General',name:'Potion',quantity:'1',remark:'alias action'},
+    {add_item:{category:'General',name:'Potion',quantity:'1',remark:'nested alias'}},
+  ];
+  for (const op of variants) {
+    const result = consumeInventoryUpdates(control({mode:'patch',ops:[op]}), inv([]));
+    assert.deepEqual(result.errors, []);
+    assert.equal(result.changed, true);
+    assert.equal(result.state.categories[0].items[0].name, 'Potion');
+  }
+});
+
+test('matching operation aliases may coexist but conflicting aliases reject atomically', () => {
+  const matching = consumeInventoryUpdates(control({mode:'patch',ops:[{
+    operation:'add_item',action:'add_item',category:'General',name:'Potion',quantity:'1',remark:''
+  }]}), inv([]));
+  assert.deepEqual(matching.errors, []);
+  assert.equal(matching.changed, true);
+
+  const base = inv([{name:'General',items:[item('Coin','1','keep')]}]);
+  const conflicting = consumeInventoryUpdates(control({mode:'patch',ops:[{
+    operation:'add_item',action:'delete_item',category:'General',name:'Potion',quantity:'1',remark:''
+  }]}), base);
+  assert.equal(conflicting.changed, false);
+  assert.match(conflicting.errors.join(' '), /conflicting operation aliases/i);
+  assert.deepEqual(conflicting.state, base);
+});
+
+test('missing op error identifies the failing operation and shows canonical shape', () => {
+  const base = inv([{name:'General',items:[item('Coin','1','keep')]}]);
+  const result = consumeInventoryUpdates(control({mode:'patch',ops:[
+    {op:'add_category',name:'Supplies'},
+    {category:'General',name:'Potion',quantity:'1'}
+  ]}), base);
+  assert.equal(result.changed, false);
+  assert.match(result.errors.join(' '), /operation #2 is missing "op"/i);
+  assert.match(result.errors.join(' '), /"op":"add_item"/i);
+  assert.deepEqual(result.state, base);
+});
+
+test('canonical non-string op is not rescued by an alias', () => {
+  const result = consumeInventoryUpdates(control({mode:'patch',ops:[{
+    op:{name:'add_item'},operation:'add_item',category:'General',name:'Potion',quantity:'1'
+  }]}), inv([]));
+  assert.equal(result.changed, false);
+  assert.match(result.errors.join(' '), /requires a non-empty string "op" field/i);
+});

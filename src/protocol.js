@@ -177,7 +177,9 @@ export function buildInventoryPrompt(state, { replaceCapability = null } = {}) {
 `For an inventory change, emit exactly one standalone machine-only control outside all other XML/structured blocks. Other required response blocks may appear before or after it. The terminal period after the HTML comment is mandatory:\n` +
 `<!-- ${UPDATE_COMMENT_MARKER} {"mode":"patch","ops":[...]} -->${CONTROL_SENTINEL}\n` +
 `If a JSON string would contain the literal sequence -->, encode the > as \u003e inside that JSON string.\n` +
-`Ops: add_category{name}; rename_category{category,name}; delete_category{category,confirm?}; add_item{category,name,quantity,remark}; set_item{category,name,quantity?,remark?}; adjust_item{category,name,by}; edit_item{category,name,newName?,quantity?,remark?}; delete_item{category,name}; move_item{fromCategory,toCategory,name}.\n` +
+`Every object in "ops" MUST contain a string "op" field. Canonical example: {"mode":"patch","ops":[{"op":"add_item","category":"General","name":"Potion","quantity":"1","remark":""}]}.\n` +
+`Use these exact "op" values: add_category, rename_category, delete_category, add_item, set_item, adjust_item, edit_item, delete_item, move_item.\n` +
+`Fields by op: add_category{name}; rename_category{category,name}; delete_category{category,confirm?}; add_item{category,name,quantity,remark}; set_item{category,name,quantity?,remark?}; adjust_item{category,name,by}; edit_item{category,name,newName?,quantity?,remark?}; delete_item{category,name}; move_item{fromCategory,toCategory,name}.\n` +
 `Deleting a non-empty category requires confirm:"delete-items" and should only be used when the user's intent clearly includes deleting its contents.\n` +
 `Numeric quantities must stay above zero; when they reach zero the item is deleted. Use adjust_item only when Quantity itself is a plain number. If the meaningful amount is in Remark (for example Food quantity 1 with remark "8 days"), use edit_item instead.\n` +
 replaceRule +
@@ -379,9 +381,77 @@ function quantityWouldDelete(value) {
     return number !== null && number <= 0;
 }
 
+const PATCH_OPERATION_NAMES = new Set([
+    'add_category',
+    'rename_category',
+    'delete_category',
+    'add_item',
+    'set_item',
+    'adjust_item',
+    'edit_item',
+    'delete_item',
+    'move_item',
+]);
+
+function normalizePatchOperation(raw, index) {
+    const label = `Inventory operation #${index + 1}`;
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw)) {
+        throw new Error(`${label} must be an object.`);
+    }
+
+    const has = key => Object.hasOwn(raw, key);
+    if (has('op')) {
+        if (typeof raw.op !== 'string' || !raw.op.trim()) {
+            throw new Error(`${label} requires a non-empty string "op" field. Expected e.g. {"op":"add_item",...}.`);
+        }
+        const name = raw.op.trim();
+        for (const alias of ['operation', 'action']) {
+            if (!has(alias)) continue;
+            if (typeof raw[alias] !== 'string' || !raw[alias].trim()) {
+                throw new Error(`${label} has an invalid "${alias}" alias.`);
+            }
+            if (raw[alias].trim() !== name) {
+                throw new Error(`${label} has conflicting operation names in "op" and "${alias}".`);
+            }
+        }
+        return { ...raw, op: name };
+    }
+
+    const aliases = [];
+    for (const alias of ['operation', 'action']) {
+        if (!has(alias)) continue;
+        if (typeof raw[alias] !== 'string' || !raw[alias].trim()) {
+            throw new Error(`${label} has an invalid "${alias}" alias.`);
+        }
+        aliases.push(raw[alias].trim());
+    }
+    if (aliases.length) {
+        const unique = [...new Set(aliases)];
+        if (unique.length !== 1) {
+            throw new Error(`${label} has conflicting operation aliases.`);
+        }
+        return { ...raw, op: unique[0] };
+    }
+
+    const keys = Object.keys(raw);
+    if (keys.length === 1 && PATCH_OPERATION_NAMES.has(keys[0])) {
+        const nestedName = keys[0];
+        const nested = raw[nestedName];
+        if (!nested || typeof nested !== 'object' || Array.isArray(nested)) {
+            throw new Error(`${label} nested "${nestedName}" value must be an object.`);
+        }
+        if (Object.hasOwn(nested, 'op') || Object.hasOwn(nested, 'operation') || Object.hasOwn(nested, 'action')) {
+            throw new Error(`${label} nested "${nestedName}" form must not contain another operation selector.`);
+        }
+        return { ...nested, op: nestedName };
+    }
+
+    throw new Error(`${label} is missing "op". Expected e.g. {"op":"add_item",...}.`);
+}
+
 function applyPatchOperation(state, op) {
     if (!op || typeof op !== 'object' || Array.isArray(op)) throw new Error('Inventory operation must be an object.');
-    if (typeof op.op !== 'string' || !op.op.trim()) throw new Error('Inventory operation requires a string op field.');
+    if (typeof op.op !== 'string' || !op.op.trim()) throw new Error('Inventory operation requires a non-empty string "op" field.');
     switch (op.op) {
         case 'add_category': {
             const name = categoryArgument(op.name, 'Category name');
@@ -522,7 +592,9 @@ function applyPayload(baseState, payload, { replaceCapability = null } = {}) {
     if (!Array.isArray(payload.ops)) throw new Error('Patch update requires an ops array.');
     if (payload.ops.length > LIMITS.patchOps) throw new Error(`Patch update has too many operations (${payload.ops.length}; maximum ${LIMITS.patchOps}).`);
     const state = normalizeInventory(clone(baseState));
-    for (const op of payload.ops) applyPatchOperation(state, op);
+    for (let index = 0; index < payload.ops.length; index++) {
+        applyPatchOperation(state, normalizePatchOperation(payload.ops[index], index));
+    }
     return validateAndNormalizeInventory(state);
 }
 
