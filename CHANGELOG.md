@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.2.8
+
+Currency balance tracking hotfix.
+
+- Treats completed purchases, payments, fees, tips, sales, rewards, refunds, theft, and other money changes as Inventory mutations.
+- Correctly handles the existing `Coin Pouch | 1 | 100 Gold` model: the pouch count remains `1` while the balance in Remark is recalculated and written with `edit_item`.
+- Explicitly demonstrates `100 Gold` minus a `15 Gold` purchase becoming `85 Gold`, which removes the previous ambiguity between container Quantity and spendable Remark.
+- Keeps a zero balance as `0 Gold` instead of deleting the pouch and forbids negative balances.
+- Requires item changes and their payment/reward change to be emitted in the same atomic Inventory patch.
+- Adds focused currency prompt and final-injection regression tests.
+
 ## 0.2.7
 
 Terminal-sentinel resilience hotfix.
