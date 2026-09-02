@@ -51,6 +51,13 @@ while category_assertions + category_assertions in text:
     text = text.replace(category_assertions + category_assertions, category_assertions)
 write(history_path, text)
 
+readme_path = 'README.md'
+text = read(readme_path)
+checkpoint_sentence = 'The same budget also bounds logical portable checkpoint groups stored on message/swipe metadata, preventing long campaigns from accumulating an unbounded second history trail.'
+while f'{checkpoint_sentence} {checkpoint_sentence}' in text:
+    text = text.replace(f'{checkpoint_sentence} {checkpoint_sentence}', checkpoint_sentence)
+write(readme_path, text)
+
 deep_path = 'tests/deep-audit.test.js'
 text = read(deep_path)
 if "import fs from 'node:fs';" not in text:
@@ -73,6 +80,15 @@ test('history snapshot source keeps empty categories visible', () => {
   const source = fs.readFileSync(new URL('../src/ui.js', import.meta.url), 'utf8');
   assert.match(source, /if \(!inventory\.categories\.length\)/);
   assert.doesNotMatch(source, /const total = itemCount\(inventory\);\s*if \(!total\)/);
+});
+'''
+if "README history-retention sentence appears exactly once" not in text:
+    text += r'''
+
+test('README history-retention sentence appears exactly once', () => {
+  const readme = fs.readFileSync(new URL('../README.md', import.meta.url), 'utf8');
+  const sentence = 'The same budget also bounds logical portable checkpoint groups stored on message/swipe metadata, preventing long campaigns from accumulating an unbounded second history trail.';
+  assert.equal(readme.split(sentence).length - 1, 1);
 });
 '''
 write(deep_path, text)
