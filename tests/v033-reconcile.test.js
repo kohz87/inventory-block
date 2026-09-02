@@ -89,13 +89,15 @@ test('runtime keeps machine writes out of foreground generation and does not re-
   const reconcileEnd = index.indexOf('function maybeStartReconciliation', reconcileStart);
   const block = index.slice(reconcileStart, reconcileEnd);
   assert.match(index, /const prompt = buildInventoryReferencePrompt/);
-  assert.match(block, /generateQuietPrompt/);
+  assert.match(block, /generateRaw/);
+  assert.match(block, /generateRaw\(\{ prompt: reconciliationPrompt \}\)/);
+  assert.doesNotMatch(block, /generateQuietPrompt/);
   assert.match(block, /parseReconciliationReply/);
   assert.doesNotMatch(block, /message\.mes\s*=/);
   assert.doesNotMatch(block, /refreshRenderedMessageIfPresent/);
   assert.match(index, /MESSAGE_RECEIVED[^\n]*onMessageReceived/);
   assert.match(index, /GENERATION_ENDED[^\n]*onGenerationEnded/);
   assert.match(index, /COMPLETION_FALLBACK_MS/);
-  assert.match(index, /quietReconciliationActive/);
-  assert.match(index, /if \(quietReconciliationActive > 0\) return/);
+  assert.match(index, /rawReconciliationActive/);
+  assert.match(index, /if \(rawReconciliationActive > 0\) return/);
 });

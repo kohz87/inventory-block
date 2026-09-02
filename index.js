@@ -65,7 +65,7 @@ let initialized = false;
 let eventsRegistered = false;
 let menuRetry = null;
 let watchdog = null;
-let quietReconciliationActive = 0;
+let rawReconciliationActive = 0;
 const terminalCleanupTimers = new Map();
 const sessions = new GenerationSessionStore({ maxAgeMs: PENDING_MAX_AGE_MS, limit: LIMITS.promptSessions });
 const dryRunSessions = [];
@@ -399,9 +399,9 @@ async function reconcileCompletedSession(session) {
             return;
         }
 
-        const generateQuietPrompt = ctx.generateQuietPrompt;
-        if (typeof generateQuietPrompt !== 'function') {
-            reportWarnings(['SillyTavern generateQuietPrompt is unavailable; post-response inventory reconciliation was skipped.']);
+        const generateRaw = ctx.generateRaw;
+        if (typeof generateRaw !== 'function') {
+            reportWarnings(['SillyTavern generateRaw is unavailable; post-response inventory reconciliation was skipped.']);
             attachReconciledRevision(ctx, session, message, id, baseRevision, baseRevision);
             rememberBranchHead(ctx, baseRevision);
             persistChatSoon(ctx, session.chatId);
@@ -409,18 +409,18 @@ async function reconcileCompletedSession(session) {
             return;
         }
 
-        const quietPrompt = buildReconciliationPrompt(baseState, {
+        const reconciliationPrompt = buildReconciliationPrompt(baseState, {
             userText: session.userInstruction,
             assistantText: event.text,
             type: session.type,
             replaceCapability: session.replaceCapability,
         });
         let reply;
-        quietReconciliationActive += 1;
+        rawReconciliationActive += 1;
         try {
-            reply = await generateQuietPrompt({ quietPrompt, skipWIAN: true, trimToSentence: false });
+            reply = await generateRaw({ prompt: reconciliationPrompt });
         } finally {
-            quietReconciliationActive = Math.max(0, quietReconciliationActive - 1);
+            rawReconciliationActive = Math.max(0, rawReconciliationActive - 1);
         }
 
         const live = context();
@@ -831,7 +831,7 @@ async function onPromptReady(eventData = null) {
         await injectDryRunPrompt(eventData, selected.entry.prompt, { getTokenCountAsync: selected.entry.tokenCounter });
         return;
     }
-    if (quietReconciliationActive > 0) return;
+    if (rawReconciliationActive > 0) return;
 
     const session = sessions.chooseForPromptEvent(eventData, { maxReadyAgeMs: PROMPT_READY_MAX_AGE_MS });
     if (!session) return;
