@@ -35,6 +35,7 @@ test('final Inventory injection includes generalized accounting while generic in
   assert.match(inventoryEvent.chat[0].content, /Food quantity "1"/);
   assert.match(inventoryEvent.chat[0].content, /adjust_resource/);
   assert.match(inventoryEvent.chat[0].content, /adjust_resource/);
+  assert.match(inventoryEvent.chat[0].content, /adjust_resource/);
 
   const genericEvent = { chat: [{ role: 'user', content: 'ordinary request' }] };
   await injectGenerationPrompt(genericEvent, 'INVENTORY', { probe: ['ordinary request'] });
