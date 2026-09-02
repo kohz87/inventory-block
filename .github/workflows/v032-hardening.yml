@@ -1,4 +1,4 @@
-# restart after pass-1 findings
+# verified-chunk restart after pass-1 findings
 name: v0.3.2 hardening gate
 
 on:
@@ -25,10 +25,14 @@ jobs:
         with:
           node-version: 22
 
-      - name: Decode and apply v0.3.2 candidate
+      - name: Reassemble, verify, and apply v0.3.2 candidate
         shell: bash
         run: |
-          base64 -d scripts/apply-v032.py.gz.b64 | gzip -d > /tmp/apply-v032.py
+          set -euo pipefail
+          cat scripts/v032-part-* > /tmp/apply-v032.py.gz.b64
+          test "$(wc -c < /tmp/apply-v032.py.gz.b64)" -eq 19228
+          test "$(git hash-object /tmp/apply-v032.py.gz.b64)" = "381126850795573126032ba91f8b677dbf727bbc"
+          base64 -d /tmp/apply-v032.py.gz.b64 | gzip -d > /tmp/apply-v032.py
           python -m py_compile /tmp/apply-v032.py
           python /tmp/apply-v032.py
           git diff --check
@@ -48,7 +52,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          rm -f .github/workflows/v032-hardening.yml scripts/apply-v032.py.gz.b64
+          rm -f .github/workflows/v032-hardening.yml scripts/apply-v032.py.gz.b64 scripts/v032-part-*
           rmdir .github/workflows 2>/dev/null || true
           rmdir .github 2>/dev/null || true
           rmdir scripts 2>/dev/null || true
