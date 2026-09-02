@@ -23,6 +23,12 @@ jobs:
         run: |
           set -euo pipefail
           python .github/scripts/inventory_027_patch.py
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('tests/integration-static.test.js')
+          text = p.read_text().replace("0\\.2\\.6", "0\\.2\\.7")
+          p.write_text(text)
+          PY
           npm test
           npm run check
           git config user.name 'kohz87'
