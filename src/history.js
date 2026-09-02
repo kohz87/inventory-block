@@ -64,6 +64,12 @@ export function clearInventoryHistory(context) {
     root.branchHeads = {};
 
     const chat = Array.isArray(context.chat) ? context.chat : [];
+    if (chat.length) {
+        attachPortableCheckpoint(context, chat.length - 1, 0, {
+            source: SOURCE.RESET,
+            note: 'Current inventory baseline after history clear',
+        });
+    }
     const branchKey = getBranchKey(context);
     root.branchHeads[branchKey] = {
         revision: 0,
@@ -72,11 +78,5 @@ export function clearInventoryHistory(context) {
         touchedAt: Date.now(),
         lineageVersion: LINEAGE_VERSION,
     };
-    if (chat.length) {
-        attachPortableCheckpoint(context, chat.length - 1, 0, {
-            source: SOURCE.RESET,
-            note: 'Current inventory baseline after history clear',
-        });
-    }
     return { before, after: 1, retention: getHistoryRetention() };
 }
