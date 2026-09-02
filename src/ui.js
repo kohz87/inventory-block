@@ -1,5 +1,5 @@
 import { LIMITS, ROOT_CATEGORY, VERSION } from './constants.js';
-import { normalizeInventory, validateAndNormalizeInventory } from './state.js';
+import { ensureRoot, getInventoryAt, identityKey, normalizeInventory, validateAndNormalizeInventory } from './state.js';
 import { isRootCategoryName } from './protocol.js';
 
 const clone = value => structuredClone(value);
@@ -287,12 +287,161 @@ export async function openInventoryEditor(context, currentState, { onSave } = {}
     return saved;
 }
 
+function flattenInventory(state) {
+    const flat = new Map();
+    for (const category of normalizeInventory(state).categories) {
+        for (const item of category.items) {
+            flat.set(`${identityKey(category.name)}\u0000${identityKey(item.name)}`, {
+                category: category.name,
+                item: clone(item),
+            });
+        }
+    }
+    return flat;
+}
+
+export function compareInventoryStates(beforeState, afterState) {
+    const before = flattenInventory(beforeState);
+    const after = flattenInventory(afterState);
+    const added = [];
+    const removed = [];
+    const changed = [];
+    for (const [key, entry] of before) {
+        const next = after.get(key);
+        if (!next) {
+            removed.push(entry);
+            continue;
+        }
+        if (entry.category !== next.category || entry.item.name !== next.item.name || entry.item.quantity !== next.item.quantity || entry.item.remark !== next.item.remark) {
+            changed.push({ before: entry, after: next });
+        }
+    }
+    for (const [key, entry] of after) if (!before.has(key)) added.push(entry);
+    return { added, removed, changed };
+}
+
+function appendInventorySnapshot(container, state) {
+    const inventory = normalizeInventory(state);
+    const total = itemCount(inventory);
+    if (!total) {
+        container.appendChild(el('div', 'inventory-empty-state', 'Inventory is empty.'));
+        return;
+    }
+    for (const category of inventory.categories) {
+        const section = el('div', 'inventory-history-snapshot-section');
+        section.appendChild(el('div', 'inventory-history-snapshot-category', category.name));
+        const table = el('div', 'inventory-table');
+        if (category.items.length) appendItemRows(table, category.items);
+        else table.appendChild(el('div', 'inventory-category-empty', 'No items'));
+        section.appendChild(table);
+        container.appendChild(section);
+    }
+}
+
+function itemSummary(entry) {
+    const quantity = String(entry.item.quantity ?? '').trim();
+    const remark = String(entry.item.remark ?? '').trim();
+    return [entry.item.name, quantity ? `×${quantity}` : '', remark].filter(Boolean).join(' · ');
+}
+
+function appendDiffEntry(container, title, detail, className = '') {
+    const row = el('div', `inventory-history-diff-entry ${className}`.trim());
+    row.appendChild(el('div', 'inventory-history-diff-title', title));
+    if (detail) row.appendChild(el('div', 'inventory-history-diff-detail', detail));
+    container.appendChild(row);
+}
+
+function renderComparison(container, fromRevision, toRevision, beforeState, afterState) {
+    container.replaceChildren();
+    container.appendChild(el('div', 'inventory-history-inspector-title', `Revision ${fromRevision.id} → Revision ${toRevision.id}`));
+    const diff = compareInventoryStates(beforeState, afterState);
+    const total = diff.changed.length + diff.added.length + diff.removed.length;
+    if (!total) {
+        container.appendChild(el('div', 'inventory-empty-state', 'No inventory differences between these revisions.'));
+        return;
+    }
+    const summary = el('div', 'inventory-history-diff-summary', `${diff.changed.length} changed · ${diff.added.length} added · ${diff.removed.length} removed`);
+    container.appendChild(summary);
+
+    if (diff.changed.length) {
+        container.appendChild(el('div', 'inventory-history-diff-heading', 'Changed'));
+        for (const change of diff.changed) {
+            appendDiffEntry(
+                container,
+                `${change.after.category} · ${change.after.item.name}`,
+                `${itemSummary(change.before)} → ${itemSummary(change.after)}`,
+                'changed',
+            );
+        }
+    }
+    if (diff.added.length) {
+        container.appendChild(el('div', 'inventory-history-diff-heading', 'Added'));
+        for (const entry of diff.added) appendDiffEntry(container, `${entry.category} · ${entry.item.name}`, `+ ${itemSummary(entry)}`, 'added');
+    }
+    if (diff.removed.length) {
+        container.appendChild(el('div', 'inventory-history-diff-heading', 'Removed'));
+        for (const entry of diff.removed) appendDiffEntry(container, `${entry.category} · ${entry.item.name}`, `− ${itemSummary(entry)}`, 'removed');
+    }
+}
+
+function renderRevisionSnapshot(container, revision, state) {
+    container.replaceChildren();
+    const date = revision.createdAt ? new Date(revision.createdAt).toLocaleString() : '';
+    container.appendChild(el('div', 'inventory-history-inspector-title', `Revision ${revision.id} · ${revision.source}`));
+    container.appendChild(el('div', 'inventory-history-meta', [revision.note, date].filter(Boolean).join(' · ')));
+    const snapshot = el('div', 'inventory-history-snapshot');
+    appendInventorySnapshot(snapshot, state);
+    container.appendChild(snapshot);
+}
+
+function revisionSelect(revisions, selectedId) {
+    const select = el('select', 'text_pole inventory-history-select');
+    for (const revision of revisions) {
+        const option = document.createElement('option');
+        option.value = String(revision.id);
+        option.textContent = `Revision ${revision.id} · ${revision.source}`;
+        if (revision.id === selectedId) option.selected = true;
+        select.appendChild(option);
+    }
+    return select;
+}
+
 export async function openInventoryHistory(context, revisions, activeRevision, { onRestore } = {}) {
     const root = el('div', 'inventory-history');
-    root.appendChild(el('div', 'inventory-history-intro', 'Backend revisions do not enter LLM context. Restore creates a new current revision and keeps bounded recent history.'));
+    root.appendChild(el('div', 'inventory-history-intro', 'Backend revisions do not enter LLM context. View and Compare are read-only; Restore creates a new current revision.'));
+    const backendRoot = ensureRoot(context);
+    const revisionById = new Map(revisions.map(revision => [revision.id, revision]));
+    const stateFor = revision => getInventoryAt(backendRoot, revision.id);
+
+    const inspector = el('div', 'inventory-history-inspector');
+    const compareControls = el('div', 'inventory-history-compare-controls');
+    const defaultRight = revisionById.has(activeRevision) ? activeRevision : revisions[0]?.id;
+    const defaultLeft = revisions.find(revision => revision.id !== defaultRight)?.id ?? defaultRight;
+    const fromSelect = revisionSelect(revisions, defaultLeft);
+    const toSelect = revisionSelect(revisions, defaultRight);
+    const compareButton = el('button', 'menu_button', 'Compare');
+    compareButton.type = 'button';
+    compareControls.append(el('span', '', 'Compare'), fromSelect, el('span', '', '→'), toSelect, compareButton);
+    inspector.appendChild(compareControls);
+    const inspectorOutput = el('div', 'inventory-history-inspector-output');
+    inspector.appendChild(inspectorOutput);
+    root.appendChild(inspector);
+
+    const showComparison = (fromId, toId) => {
+        const from = revisionById.get(Number(fromId));
+        const to = revisionById.get(Number(toId));
+        if (!from || !to) return;
+        fromSelect.value = String(from.id);
+        toSelect.value = String(to.id);
+        renderComparison(inspectorOutput, from, to, stateFor(from), stateFor(to));
+    };
+    compareButton.addEventListener('click', () => showComparison(fromSelect.value, toSelect.value));
+
     const list = el('div', 'inventory-history-list');
     root.appendChild(list);
-    if (!revisions.length) list.appendChild(el('div', 'inventory-empty-state', 'No revisions.'));
+    if (!revisions.length) {
+        list.appendChild(el('div', 'inventory-empty-state', 'No revisions.'));
+    }
     for (const revision of revisions) {
         const row = el('div', `inventory-history-row${revision.id === activeRevision ? ' active' : ''}`);
         const info = el('div', 'inventory-history-info');
@@ -300,6 +449,23 @@ export async function openInventoryHistory(context, revisions, activeRevision, {
         const date = revision.createdAt ? new Date(revision.createdAt).toLocaleString() : '';
         info.appendChild(el('div', 'inventory-history-meta', [revision.note, date].filter(Boolean).join(' · ')));
         row.appendChild(info);
+
+        const actions = el('div', 'inventory-history-actions');
+        const view = el('button', 'menu_button', 'View');
+        view.type = 'button';
+        view.addEventListener('click', () => renderRevisionSnapshot(inspectorOutput, revision, stateFor(revision)));
+        actions.appendChild(view);
+
+        const compare = el('button', 'menu_button', 'Compare');
+        compare.type = 'button';
+        compare.addEventListener('click', () => {
+            const target = revision.id === activeRevision
+                ? revisions.find(candidate => candidate.id !== revision.id)?.id ?? revision.id
+                : activeRevision;
+            showComparison(revision.id, target);
+        });
+        actions.appendChild(compare);
+
         if (revision.id !== activeRevision && onRestore) {
             const restore = el('button', 'menu_button', 'Restore');
             restore.type = 'button';
@@ -307,9 +473,14 @@ export async function openInventoryHistory(context, revisions, activeRevision, {
                 try { await onRestore(revision.id); globalThis.toastr?.success(`Restored inventory revision ${revision.id}.`, 'Inventory Block'); }
                 catch (error) { toastError(error); }
             });
-            row.appendChild(restore);
+            actions.appendChild(restore);
         }
+        row.appendChild(actions);
         list.appendChild(row);
+    }
+    if (revisions.length) {
+        const active = revisionById.get(activeRevision) ?? revisions[0];
+        renderRevisionSnapshot(inspectorOutput, active, stateFor(active));
     }
     const popup = new context.Popup(root, context.POPUP_TYPE.TEXT, '', { okButton: 'Close', wide: true, large: true, allowVerticalScrolling: true });
     await popup.show();
