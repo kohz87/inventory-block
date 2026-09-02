@@ -1,4 +1,4 @@
-/* Inventory Block v0.2.9 */
+/* Inventory Block v0.3.0 */
 .inventory-block-pane{min-width:0}
 .inventory-ledger-heading{padding:9px 10px;background:color-mix(in srgb,currentColor 5%,transparent)}
 .inventory-ledger-title{font-weight:700;line-height:1.2}
@@ -47,14 +47,31 @@
 .inventory-history-row{justify-content:space-between;border:1px solid color-mix(in srgb,currentColor 12%,transparent);border-radius:8px;padding:8px 10px}
 .inventory-history-row.active{border-color:color-mix(in srgb,var(--SmartThemeQuoteColor,currentColor) 60%,transparent)}
 .inventory-history-title{font-weight:620}
+.inventory-history-actions{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.inventory-history-inspector{margin:0 0 12px;border:1px solid color-mix(in srgb,currentColor 14%,transparent);border-radius:9px;overflow:hidden}
+.inventory-history-compare-controls{display:flex;align-items:center;gap:7px;flex-wrap:wrap;padding:8px 10px;background:color-mix(in srgb,currentColor 5%,transparent)}
+.inventory-history-select{min-width:150px;width:auto}
+.inventory-history-inspector-output{min-height:64px;padding:10px}
+.inventory-history-inspector-title{font-weight:700;margin-bottom:3px}
+.inventory-history-snapshot{margin-top:8px;border:1px solid color-mix(in srgb,currentColor 10%,transparent);border-radius:7px;overflow:hidden}
+.inventory-history-snapshot-section+.inventory-history-snapshot-section{border-top:1px solid color-mix(in srgb,currentColor 10%,transparent)}
+.inventory-history-snapshot-category{padding:6px 10px;font-size:.82em;font-weight:760;letter-spacing:.04em;text-transform:uppercase;background:color-mix(in srgb,currentColor 5%,transparent)}
+.inventory-history-diff-summary{margin:5px 0 10px;opacity:.72}
+.inventory-history-diff-heading{margin-top:10px;font-size:.82em;font-weight:760;letter-spacing:.04em;text-transform:uppercase}
+.inventory-history-diff-entry{padding:7px 9px;margin-top:4px;border:1px solid color-mix(in srgb,currentColor 10%,transparent);border-radius:7px}
+.inventory-history-diff-title{font-weight:650}
+.inventory-history-diff-detail{margin-top:2px;font-size:.9em;opacity:.76;overflow-wrap:anywhere}
 .inventory-block-standalone{margin-top:10px;border:1px solid color-mix(in srgb,currentColor 14%,transparent);border-radius:9px;overflow:hidden}
 .inventory-block-standalone .meg-blocks-tabs{display:flex;align-items:center;gap:4px;padding:5px;background:color-mix(in srgb,currentColor 4%,transparent)}
 .inventory-block-standalone .meg-blocks-tab,.inventory-block-standalone .meg-blocks-collapse{border:0;border-radius:7px;background:transparent;color:inherit;padding:6px 9px;cursor:pointer}
 .inventory-block-standalone .meg-blocks-tab.active{background:color-mix(in srgb,currentColor 10%,transparent)}
 .inventory-block-standalone .meg-blocks-collapse{margin-left:auto}
 .inventory-block-standalone .meg-blocks-panel{padding:0}
-@media(max-width:700px){.inventory-row{grid-template-columns:minmax(105px,.9fr) minmax(56px,.22fr) minmax(120px,1.2fr);gap:5px;padding-inline:7px}.inventory-editor{min-width:0}.inventory-editor-row{grid-template-columns:1fr 80px 1.15fr 34px;gap:5px}}
+@media(max-width:700px){.inventory-row{grid-template-columns:minmax(105px,.9fr) minmax(56px,.22fr) minmax(120px,1.2fr);gap:5px;padding-inline:7px}.inventory-editor{min-width:0}.inventory-editor-row{grid-template-columns:1fr 80px 1.15fr 34px;gap:5px}.inventory-history-row{align-items:flex-start;flex-direction:column}.inventory-history-actions{justify-content:flex-start}.inventory-history-select{min-width:120px;max-width:100%}}
 .inventory-block-settings .inline-drawer-content{padding:8px 10px 12px}
 .inventory-block-settings-version{margin-bottom:8px;opacity:.72;font-size:.9em}
 .inventory-block-settings-actions{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.inventory-block-history-settings{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin:8px 0}
+.inventory-block-history-settings label{font-weight:650}
+.inventory-block-history-settings select{width:auto;min-width:85px}
 .inventory-block-settings-note{opacity:.65;font-size:.86em;line-height:1.35}
