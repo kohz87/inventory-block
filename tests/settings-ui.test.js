@@ -15,9 +15,9 @@ class FakeNode {
     }
     set innerHTML(value) {
         this._innerHTML = String(value);
-        for (const id of ['inventory_block_settings_edit', 'inventory_block_settings_history', 'inventory_block_settings_copy']) {
+        for (const id of ['inventory_block_settings_edit', 'inventory_block_settings_history', 'inventory_block_settings_copy', 'inventory_block_history_retention', 'inventory_block_history_trim', 'inventory_block_history_clear']) {
             if (this._innerHTML.includes(`id="${id}"`)) {
-                const node = new FakeNode('button');
+                const node = new FakeNode(id === 'inventory_block_history_retention' ? 'select' : 'button');
                 node.id = id;
                 this.virtual.set(`#${id}`, node);
             }
@@ -78,4 +78,7 @@ test('menu/settings DOM mount is idempotent and buttons are actually wired', () 
     settings.querySelector('#inventory_block_settings_history').click();
     settings.querySelector('#inventory_block_settings_copy').click();
     assert.deepEqual({ edit, history, copy }, { edit: 2, history: 1, copy: 1 });
+    assert.ok(settings.querySelector('#inventory_block_history_retention').listeners.has('change'));
+    assert.ok(settings.querySelector('#inventory_block_history_trim').listeners.has('click'));
+    assert.ok(settings.querySelector('#inventory_block_history_clear').listeners.has('click'));
 });

@@ -55,6 +55,42 @@ function numericDelta(value, label = 'Quantity adjustment') {
     return number;
 }
 
+const RESOURCE_NUMBER_TOKEN = /[+-]?(?:\d+(?:\.\d+)?|\.\d+)/g;
+
+function resourceRemarkParts(value) {
+    const text = cleanRemark(value);
+    const matches = [...text.matchAll(RESOURCE_NUMBER_TOKEN)];
+    if (matches.length !== 1) return null;
+    const token = matches[0][0];
+    const amount = Number(token);
+    if (!Number.isFinite(amount)) return null;
+    const index = matches[0].index ?? 0;
+    return { text, amount, before: text.slice(0, index), after: text.slice(index + token.length) };
+}
+
+function resourceShape(parts) {
+    return `${parts.before.trim().toLowerCase()}\u241f${parts.after.trim().toLowerCase()}`;
+}
+
+function looksLikeTrackedResource(parts, itemName = '') {
+    return /[A-Za-z]/.test(parts.after)
+        || /^\s*about\b/i.test(parts.before)
+        || /\b(?:coin|pouch|wallet|food|ration|water|ammo|ammunition|fuel|medicine|medical|suppl|charge|material)\b/i.test(String(itemName ?? ''));
+}
+
+function assertNoNegativeResourceTransition(currentRemark, nextRemark, itemName) {
+    const current = resourceRemarkParts(currentRemark);
+    const next = resourceRemarkParts(nextRemark);
+    if (!current || !next || current.amount < 0 || next.amount >= 0) return;
+    if (resourceShape(current) !== resourceShape(next) || !looksLikeTrackedResource(current, itemName)) return;
+    throw new Error(`Tracked resource remark for ${itemName} cannot become negative. Use adjust_resource so insufficient balances reject atomically.`);
+}
+
+function formatResourceNumber(value) {
+    const rounded = Math.abs(value) < 1e-12 ? 0 : Number(value.toFixed(12));
+    return String(rounded);
+}
+
 function categoryArgument(value, label = 'Inventory category') {
     const clean = canonicalCategoryName(stringArgument(value, label));
     if (!clean) throw new Error(`${label} is required.`);
@@ -388,6 +424,7 @@ const PATCH_OPERATION_NAMES = new Set([
     'add_item',
     'set_item',
     'adjust_item',
+    'adjust_resource',
     'edit_item',
     'delete_item',
     'move_item',
@@ -514,7 +551,11 @@ function applyPatchOperation(state, op) {
                     }
                     existing.quantity = quantity;
                 }
-                if (Object.hasOwn(op, 'remark')) existing.remark = cleanRemark(op.remark);
+                if (Object.hasOwn(op, 'remark')) {
+                    const nextRemark = cleanRemark(op.remark);
+                    assertNoNegativeResourceTransition(existing.remark, nextRemark, existing.name);
+                    existing.remark = nextRemark;
+                }
             }
             return;
         }
@@ -527,8 +568,31 @@ function applyPatchOperation(state, op) {
             const current = numericQuantity(existing.quantity);
             if (current === null) throw new Error(`Cannot numerically adjust non-numeric quantity for ${existing.name}.`);
             const result = current + numericDelta(op.by);
-            if (result <= 0) category.items.splice(index, 1);
-            else existing.quantity = String(result);
+            if (result < 0) throw new Error(`Cannot adjust ${existing.name} below zero (${current} + ${op.by}).`);
+            if (result === 0) category.items.splice(index, 1);
+            else existing.quantity = formatResourceNumber(result);
+            return;
+        }
+        case 'adjust_resource': {
+            const category = requireCategory(state, op.category);
+            const name = itemArgument(op.name);
+            const index = findItemIndex(category, name);
+            if (index < 0) throw new Error(`Unknown inventory item: ${name}`);
+            if (Object.hasOwn(op, 'deleteAtZero') && typeof op.deleteAtZero !== 'boolean') {
+                throw new Error('adjust_resource deleteAtZero must be true or false when provided.');
+            }
+            const item = category.items[index];
+            const current = resourceRemarkParts(item.remark);
+            if (!current) throw new Error(`Cannot adjust Remark resource for ${item.name}: Remark must contain exactly one numeric amount.`);
+            if (current.amount < 0) throw new Error(`Cannot adjust ${item.name}: existing resource balance is negative.`);
+            const delta = numericDelta(op.by, 'Resource adjustment');
+            const result = current.amount + delta;
+            if (result < 0) throw new Error(`Cannot adjust ${item.name} resource below zero (${current.amount} + ${delta}).`);
+            if (result === 0 && op.deleteAtZero === true) {
+                category.items.splice(index, 1);
+                return;
+            }
+            item.remark = `${current.before}${formatResourceNumber(result)}${current.after}`;
             return;
         }
         case 'edit_item': {
@@ -552,7 +616,11 @@ function applyPatchOperation(state, op) {
                 }
                 item.quantity = quantity;
             }
-            if (Object.hasOwn(op, 'remark')) item.remark = cleanRemark(op.remark);
+            if (Object.hasOwn(op, 'remark')) {
+                const nextRemark = cleanRemark(op.remark);
+                assertNoNegativeResourceTransition(item.remark, nextRemark, item.name);
+                item.remark = nextRemark;
+            }
             return;
         }
         case 'delete_item': {

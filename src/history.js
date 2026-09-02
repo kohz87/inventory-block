@@ -9,6 +9,7 @@ import {
 import {
     attachPortableCheckpoint,
     ensureRoot,
+    compactPortableCheckpoints,
     getBranchKey,
     getCurrentInventory,
     revisionCount,
@@ -37,8 +38,9 @@ export function applyHistoryRetention(context, value = getHistoryRetention()) {
     const retention = setHistoryRetention(value);
     if (!context?.chatMetadata) return { retention, before: 0, after: 0 };
     ensureRoot(context);
+    const portable = compactPortableCheckpoints(context, retention);
     const after = revisionCount(context);
-    return { retention, before, after };
+    return { retention, before, after, portableBefore: portable.before, portableAfter: portable.after };
 }
 
 export function trimInventoryHistory(context) {

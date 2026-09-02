@@ -1,5 +1,5 @@
 export const EXTENSION_ID = 'inventory-block';
-export const VERSION = '0.3.0';
+export const VERSION = '0.3.1';
 export const STATE_VERSION = 2;
 export const LINEAGE_VERSION = 2;
 
@@ -20,18 +20,40 @@ export function normalizeHistoryRetention(value) {
     return HISTORY_RETENTION_OPTIONS.includes(number) ? number : HISTORY_RETENTION_DEFAULT;
 }
 
-export function getHistoryRetention() {
-    try {
-        return normalizeHistoryRetention(globalThis.localStorage?.getItem(HISTORY_RETENTION_STORAGE_KEY));
-    } catch {
-        return HISTORY_RETENTION_DEFAULT;
+let historyRetentionStorageRef = undefined;
+let historyRetentionMemory = HISTORY_RETENTION_DEFAULT;
+let historyRetentionInitialized = false;
+
+function retentionStorage() {
+    try { return globalThis.localStorage ?? null; }
+    catch { return null; }
+}
+
+function syncRetentionStorage() {
+    const storage = retentionStorage();
+    if (storage !== historyRetentionStorageRef) {
+        historyRetentionStorageRef = storage;
+        historyRetentionInitialized = false;
     }
+    return storage;
+}
+
+export function getHistoryRetention() {
+    const storage = syncRetentionStorage();
+    if (historyRetentionInitialized) return historyRetentionMemory;
+    try { historyRetentionMemory = normalizeHistoryRetention(storage?.getItem(HISTORY_RETENTION_STORAGE_KEY)); }
+    catch { historyRetentionMemory = HISTORY_RETENTION_DEFAULT; }
+    historyRetentionInitialized = true;
+    return historyRetentionMemory;
 }
 
 export function setHistoryRetention(value) {
     const normalized = normalizeHistoryRetention(value);
-    try { globalThis.localStorage?.setItem(HISTORY_RETENTION_STORAGE_KEY, String(normalized)); }
-    catch { /* storage unavailable; use normalized value for this call */ }
+    const storage = syncRetentionStorage();
+    historyRetentionMemory = normalized;
+    historyRetentionInitialized = true;
+    try { storage?.setItem(HISTORY_RETENTION_STORAGE_KEY, String(normalized)); }
+    catch { /* retain the in-memory value when persistent storage is unavailable */ }
     return normalized;
 }
 
@@ -55,6 +77,7 @@ export const LIMITS = Object.freeze({
     patchOps: 256,
     get revisions() { return getHistoryRetention(); },
     get history() { return getHistoryRetention(); },
+    get portableCheckpoints() { return getHistoryRetention(); },
     get branchHeads() { return retainedBranchHeads(); },
     get stickyBranchHeads() { return retainedStickyBranchHeads(); },
     uiChats: 64,
