@@ -2,17 +2,19 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 const index=fs.readFileSync(new URL('../index.js',import.meta.url),'utf8');
+const constants=fs.readFileSync(new URL('../src/constants.js',import.meta.url),'utf8');
 const manifest=JSON.parse(fs.readFileSync(new URL('../manifest.json',import.meta.url),'utf8'));
 const pkg=JSON.parse(fs.readFileSync(new URL('../package.json',import.meta.url),'utf8'));
 
-test('release metadata and interceptor are v0.2.5',()=>{
-  assert.equal(manifest.version,'0.2.5');
-  assert.equal(pkg.version,'0.2.5');
+test('release metadata, runtime version, and interceptor are v0.2.6',()=>{
+  assert.equal(manifest.version,'0.2.6');
+  assert.equal(pkg.version,'0.2.6');
+  assert.match(constants,/VERSION = '0\.2\.6'/);
   assert.equal(manifest.generate_interceptor,'inventoryBlockGenerationInterceptor');
   assert.match(index,/globalThis\.inventoryBlockGenerationInterceptor\s*=\s*onGenerationInterceptor/);
 });
 
-test('v0.2.5 has no fake prompt slot or global live extension prompt',()=>{
+test('v0.2.6 has no fake prompt slot or global live extension prompt',()=>{
   assert.doesNotMatch(index,/promptSlots|createPromptSlotMarker|insertPromptSlot|setExtensionPrompt/);
   assert.doesNotMatch(index,/inventoryBlockSlot|base64/i);
 });

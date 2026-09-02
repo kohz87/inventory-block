@@ -1,10 +1,14 @@
-# Inventory Block v0.2.5 Hotfix Report
+# Inventory Block v0.2.6 Hotfix Report
 
 Date: 2026-09-02
 
 ## v0.2.5 Megumin control-position hotfix
 
 The Inventory machine control no longer has to be the final non-whitespace bytes of an assistant reply. Exactly one complete control with the mandatory terminal period may appear before or after other Megumin/structured blocks. The parser removes only the Inventory control span and preserves all surrounding prose/blocks.
+
+## v0.2.6 operation-shape resilience
+
+The canonical machine format now explicitly requires a string `"op"` field in every patch operation. The parser safely normalizes unambiguous weak-model variants using `"operation"`, `"action"`, or a single recognized nested operation key, while conflicting or malformed selectors remain atomic rejections. Runtime and release version stamps are synchronized.
 
 ## Scope
 

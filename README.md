@@ -1,4 +1,4 @@
-# Inventory Block v0.2.5
+# Inventory Block v0.2.6
 
 Inventory Block is a lightweight SillyTavern RPG inventory extension with a **per-chat canonical backend**. The chat remains story history; inventory state is stored separately and rendered as an Inventory block compatible with Megumin Suite's block area.
 
