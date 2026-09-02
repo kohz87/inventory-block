@@ -16,7 +16,7 @@ test('resource rule is appended only to Inventory prompts', () => {
   assert.match(prompt, /Waterskin/);
   assert.match(prompt, /Half full/);
   assert.match(prompt, /planned, attempted, negotiated, interrupted, or failed actions/);
-  assert.match(prompt, /Never produce a negative resource balance/);
+  assert.match(prompt, /Never produce or request a negative resource balance/);
 });
 
 test('resource rule is idempotent', () => {
