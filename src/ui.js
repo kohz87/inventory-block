@@ -1,5 +1,5 @@
 import { LIMITS, ROOT_CATEGORY, VERSION } from './constants.js';
-import { ensureRoot, getInventoryAt, identityKey, normalizeInventory, validateAndNormalizeInventory } from './state.js';
+import { ensureRoot, getInventoryAt, identityKey, listRevisions, normalizeInventory, validateAndNormalizeInventory } from './state.js';
 import { isRootCategoryName } from './protocol.js';
 
 const clone = value => structuredClone(value);
@@ -301,8 +301,10 @@ function flattenInventory(state) {
 }
 
 export function compareInventoryStates(beforeState, afterState) {
-    const before = flattenInventory(beforeState);
-    const after = flattenInventory(afterState);
+    const beforeInventory = normalizeInventory(beforeState);
+    const afterInventory = normalizeInventory(afterState);
+    const before = flattenInventory(beforeInventory);
+    const after = flattenInventory(afterInventory);
     const added = [];
     const removed = [];
     const changed = [];
@@ -317,13 +319,16 @@ export function compareInventoryStates(beforeState, afterState) {
         }
     }
     for (const [key, entry] of after) if (!before.has(key)) added.push(entry);
-    return { added, removed, changed };
+    const beforeEmpty = new Set(beforeInventory.categories.filter(category => !category.items.length).map(category => category.name));
+    const afterEmpty = new Set(afterInventory.categories.filter(category => !category.items.length).map(category => category.name));
+    const categoriesAdded = [...afterEmpty].filter(name => !beforeEmpty.has(name));
+    const categoriesRemoved = [...beforeEmpty].filter(name => !afterEmpty.has(name));
+    return { added, removed, changed, categoriesAdded, categoriesRemoved };
 }
 
 function appendInventorySnapshot(container, state) {
     const inventory = normalizeInventory(state);
-    const total = itemCount(inventory);
-    if (!total) {
+    if (!inventory.categories.length) {
         container.appendChild(el('div', 'inventory-empty-state', 'Inventory is empty.'));
         return;
     }
@@ -355,12 +360,12 @@ function renderComparison(container, fromRevision, toRevision, beforeState, afte
     container.replaceChildren();
     container.appendChild(el('div', 'inventory-history-inspector-title', `Revision ${fromRevision.id} → Revision ${toRevision.id}`));
     const diff = compareInventoryStates(beforeState, afterState);
-    const total = diff.changed.length + diff.added.length + diff.removed.length;
+    const total = diff.changed.length + diff.added.length + diff.removed.length + diff.categoriesAdded.length + diff.categoriesRemoved.length;
     if (!total) {
         container.appendChild(el('div', 'inventory-empty-state', 'No inventory differences between these revisions.'));
         return;
     }
-    const summary = el('div', 'inventory-history-diff-summary', `${diff.changed.length} changed · ${diff.added.length} added · ${diff.removed.length} removed`);
+    const summary = el('div', 'inventory-history-diff-summary', `${diff.changed.length} changed · ${diff.added.length} items added · ${diff.removed.length} items removed · ${diff.categoriesAdded.length} empty categories added · ${diff.categoriesRemoved.length} empty categories removed`);
     container.appendChild(summary);
 
     if (diff.changed.length) {
@@ -381,6 +386,14 @@ function renderComparison(container, fromRevision, toRevision, beforeState, afte
     if (diff.removed.length) {
         container.appendChild(el('div', 'inventory-history-diff-heading', 'Removed'));
         for (const entry of diff.removed) appendDiffEntry(container, `${entry.category} · ${entry.item.name}`, `− ${itemSummary(entry)}`, 'removed');
+    }
+    if (diff.categoriesAdded.length) {
+        container.appendChild(el('div', 'inventory-history-diff-heading', 'Empty Categories Added'));
+        for (const name of diff.categoriesAdded) appendDiffEntry(container, name, '+ empty category', 'added');
+    }
+    if (diff.categoriesRemoved.length) {
+        container.appendChild(el('div', 'inventory-history-diff-heading', 'Empty Categories Removed'));
+        for (const name of diff.categoriesRemoved) appendDiffEntry(container, name, '− empty category', 'removed');
     }
 }
 
@@ -408,80 +421,91 @@ function revisionSelect(revisions, selectedId) {
 
 export async function openInventoryHistory(context, revisions, activeRevision, { onRestore } = {}) {
     const root = el('div', 'inventory-history');
-    root.appendChild(el('div', 'inventory-history-intro', 'Backend revisions do not enter LLM context. View and Compare are read-only; Restore creates a new current revision.'));
-    const backendRoot = ensureRoot(context);
-    const revisionById = new Map(revisions.map(revision => [revision.id, revision]));
-    const stateFor = revision => getInventoryAt(backendRoot, revision.id);
+    let currentRevisions = [...revisions];
+    let currentActiveRevision = activeRevision;
 
-    const inspector = el('div', 'inventory-history-inspector');
-    const compareControls = el('div', 'inventory-history-compare-controls');
-    const defaultRight = revisionById.has(activeRevision) ? activeRevision : revisions[0]?.id;
-    const defaultLeft = revisions.find(revision => revision.id !== defaultRight)?.id ?? defaultRight;
-    const fromSelect = revisionSelect(revisions, defaultLeft);
-    const toSelect = revisionSelect(revisions, defaultRight);
-    const compareButton = el('button', 'menu_button', 'Compare');
-    compareButton.type = 'button';
-    compareControls.append(el('span', '', 'Compare'), fromSelect, el('span', '', '→'), toSelect, compareButton);
-    inspector.appendChild(compareControls);
-    const inspectorOutput = el('div', 'inventory-history-inspector-output');
-    inspector.appendChild(inspectorOutput);
-    root.appendChild(inspector);
+    const renderHistory = () => {
+        root.replaceChildren();
+        root.appendChild(el('div', 'inventory-history-intro', 'Backend revisions do not enter LLM context. View and Compare are read-only; Restore creates a new current revision.'));
+        const backendRoot = ensureRoot(context);
+        const revisionById = new Map(currentRevisions.map(revision => [revision.id, revision]));
+        const stateFor = revision => getInventoryAt(backendRoot, revision.id);
 
-    const showComparison = (fromId, toId) => {
-        const from = revisionById.get(Number(fromId));
-        const to = revisionById.get(Number(toId));
-        if (!from || !to) return;
-        fromSelect.value = String(from.id);
-        toSelect.value = String(to.id);
-        renderComparison(inspectorOutput, from, to, stateFor(from), stateFor(to));
-    };
-    compareButton.addEventListener('click', () => showComparison(fromSelect.value, toSelect.value));
+        const inspector = el('div', 'inventory-history-inspector');
+        const compareControls = el('div', 'inventory-history-compare-controls');
+        const defaultRight = revisionById.has(currentActiveRevision) ? currentActiveRevision : currentRevisions[0]?.id;
+        const defaultLeft = currentRevisions.find(revision => revision.id !== defaultRight)?.id ?? defaultRight;
+        const fromSelect = revisionSelect(currentRevisions, defaultLeft);
+        const toSelect = revisionSelect(currentRevisions, defaultRight);
+        const compareButton = el('button', 'menu_button', 'Compare');
+        compareButton.type = 'button';
+        compareControls.append(el('span', '', 'Compare'), fromSelect, el('span', '', '→'), toSelect, compareButton);
+        inspector.appendChild(compareControls);
+        const inspectorOutput = el('div', 'inventory-history-inspector-output');
+        inspector.appendChild(inspectorOutput);
+        root.appendChild(inspector);
 
-    const list = el('div', 'inventory-history-list');
-    root.appendChild(list);
-    if (!revisions.length) {
-        list.appendChild(el('div', 'inventory-empty-state', 'No revisions.'));
-    }
-    for (const revision of revisions) {
-        const row = el('div', `inventory-history-row${revision.id === activeRevision ? ' active' : ''}`);
-        const info = el('div', 'inventory-history-info');
-        info.appendChild(el('div', 'inventory-history-title', `Revision ${revision.id} · ${revision.source}`));
-        const date = revision.createdAt ? new Date(revision.createdAt).toLocaleString() : '';
-        info.appendChild(el('div', 'inventory-history-meta', [revision.note, date].filter(Boolean).join(' · ')));
-        row.appendChild(info);
+        const showComparison = (fromId, toId) => {
+            const from = revisionById.get(Number(fromId));
+            const to = revisionById.get(Number(toId));
+            if (!from || !to) return;
+            fromSelect.value = String(from.id);
+            toSelect.value = String(to.id);
+            renderComparison(inspectorOutput, from, to, stateFor(from), stateFor(to));
+        };
+        compareButton.addEventListener('click', () => showComparison(fromSelect.value, toSelect.value));
 
-        const actions = el('div', 'inventory-history-actions');
-        const view = el('button', 'menu_button', 'View');
-        view.type = 'button';
-        view.addEventListener('click', () => renderRevisionSnapshot(inspectorOutput, revision, stateFor(revision)));
-        actions.appendChild(view);
+        const list = el('div', 'inventory-history-list');
+        root.appendChild(list);
+        if (!currentRevisions.length) list.appendChild(el('div', 'inventory-empty-state', 'No revisions.'));
+        for (const revision of currentRevisions) {
+            const row = el('div', `inventory-history-row${revision.id === currentActiveRevision ? ' active' : ''}`);
+            const info = el('div', 'inventory-history-info');
+            info.appendChild(el('div', 'inventory-history-title', `Revision ${revision.id} · ${revision.source}`));
+            const date = revision.createdAt ? new Date(revision.createdAt).toLocaleString() : '';
+            info.appendChild(el('div', 'inventory-history-meta', [revision.note, date].filter(Boolean).join(' · ')));
+            row.appendChild(info);
 
-        const compare = el('button', 'menu_button', 'Compare');
-        compare.type = 'button';
-        compare.addEventListener('click', () => {
-            const target = revision.id === activeRevision
-                ? revisions.find(candidate => candidate.id !== revision.id)?.id ?? revision.id
-                : activeRevision;
-            showComparison(revision.id, target);
-        });
-        actions.appendChild(compare);
+            const actions = el('div', 'inventory-history-actions');
+            const view = el('button', 'menu_button', 'View');
+            view.type = 'button';
+            view.addEventListener('click', () => renderRevisionSnapshot(inspectorOutput, revision, stateFor(revision)));
+            actions.appendChild(view);
 
-        if (revision.id !== activeRevision && onRestore) {
-            const restore = el('button', 'menu_button', 'Restore');
-            restore.type = 'button';
-            restore.addEventListener('click', async () => {
-                try { await onRestore(revision.id); globalThis.toastr?.success(`Restored inventory revision ${revision.id}.`, 'Inventory Block'); }
-                catch (error) { toastError(error); }
+            const compare = el('button', 'menu_button', 'Compare');
+            compare.type = 'button';
+            compare.addEventListener('click', () => {
+                const target = revision.id === currentActiveRevision
+                    ? currentRevisions.find(candidate => candidate.id !== revision.id)?.id ?? revision.id
+                    : currentActiveRevision;
+                showComparison(revision.id, target);
             });
-            actions.appendChild(restore);
+            actions.appendChild(compare);
+
+            if (revision.id !== currentActiveRevision && onRestore) {
+                const restore = el('button', 'menu_button', 'Restore');
+                restore.type = 'button';
+                restore.addEventListener('click', async () => {
+                    try {
+                        await onRestore(revision.id);
+                        currentRevisions = listRevisions(context);
+                        currentActiveRevision = ensureRoot(context).activeRevision;
+                        renderHistory();
+                        globalThis.toastr?.success(`Restored inventory revision ${revision.id}.`, 'Inventory Block');
+                    } catch (error) { toastError(error); }
+                });
+                actions.appendChild(restore);
+            }
+            row.appendChild(actions);
+            list.appendChild(row);
         }
-        row.appendChild(actions);
-        list.appendChild(row);
-    }
-    if (revisions.length) {
-        const active = revisionById.get(activeRevision) ?? revisions[0];
-        renderRevisionSnapshot(inspectorOutput, active, stateFor(active));
-    }
+        if (currentRevisions.length) {
+            const active = revisionById.get(currentActiveRevision) ?? currentRevisions[0];
+            renderRevisionSnapshot(inspectorOutput, active, stateFor(active));
+        }
+    };
+
+    renderHistory();
     const popup = new context.Popup(root, context.POPUP_TYPE.TEXT, '', { okButton: 'Close', wide: true, large: true, allowVerticalScrolling: true });
     await popup.show();
 }

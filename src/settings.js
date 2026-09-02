@@ -9,15 +9,17 @@ function notify(level, message) {
     globalThis.toastr?.[level]?.(message, 'Inventory Block');
 }
 
-async function persistContext(context, { saveChat = false } = {}) {
+export async function persistContext(context, { saveChat = false } = {}) {
+    if (saveChat && typeof context?.saveChat === 'function') {
+        try {
+            await context.saveChat();
+            return;
+        } catch {
+            // Fall back to the metadata path, which is also a full save on current SillyTavern.
+        }
+    }
     try {
         await context?.saveMetadata?.();
-    } catch {
-        context?.saveMetadataDebounced?.();
-    }
-    if (!saveChat) return;
-    try {
-        await context?.saveChat?.();
     } catch {
         context?.saveMetadataDebounced?.();
     }

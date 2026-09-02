@@ -57,7 +57,8 @@ export class GenerationSessionStore {
             .filter(session => !session.interceptorSeen && generationTypeMatches(session.type, type))
             .sort((a, b) => b.startedAt - a.startedAt);
         if (candidates.length <= 1) return candidates[0] ?? null;
-        return candidates.find(session => !session.preProbe?.length || promptEventMatchesProbe({ chat }, session.preProbe)) ?? null;
+        const matched = candidates.filter(session => session.preProbe?.length && promptEventMatchesProbe({ chat }, session.preProbe));
+        return matched.length === 1 ? matched[0] : null;
     }
 
     chooseForPromptEvent(eventData, { maxReadyAgeMs = 60 * 1000, now = Date.now() } = {}) {
@@ -65,10 +66,10 @@ export class GenerationSessionStore {
             .filter(session => session.interceptorSeen && !session.promptInjected && !session.promptInjectionFailed)
             .filter(session => now - (session.interceptorAt ?? session.startedAt) < maxReadyAgeMs)
             .sort((a, b) => (b.interceptorAt ?? b.startedAt) - (a.interceptorAt ?? a.startedAt));
-        const matched = candidates.find(session => session.promptProbe?.length && promptEventMatchesProbe(eventData, session.promptProbe));
-        if (matched) return matched;
-        const emptyProbe = candidates.filter(session => !session.promptProbe?.length);
-        return emptyProbe.length === 1 ? emptyProbe[0] : null;
+        const matched = candidates.filter(session => session.promptProbe?.length && promptEventMatchesProbe(eventData, session.promptProbe));
+        if (matched.length === 1) return matched[0];
+        if (matched.length > 1 || candidates.length > 1) return null;
+        return candidates.length === 1 && !candidates[0].promptProbe?.length ? candidates[0] : null;
     }
 
     snapshot() {

@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.3.1
+
+Deep hardening pass for resource integrity, history storage, and concurrent generation isolation.
+
+- Adds backend-enforced `adjust_resource` arithmetic for single-number Remark balances such as `100 Gold` and `About 7 days`, preserving surrounding unit/approximation text.
+- Rejects Quantity and Remark resource adjustments that would go below zero; exact Quantity depletion still removes the item, while `adjust_resource` can explicitly delete exhausted stock with `deleteAtZero:true`.
+- Makes concurrent generation session matching fail closed whenever multiple candidates cannot be uniquely identified, including empty/short prompt probes.
+- Bounds logical portable message/swipe checkpoint groups with the selected History retention budget while preserving current/recent branch anchors.
+- Makes History retention survive localStorage write failures through an in-memory authoritative fallback.
+- Removes the duplicate full-chat save from Clear History.
+- Makes revision comparison report empty-category additions/removals.
+- Refreshes the open History inspector immediately after Restore so active state/buttons cannot go stale.
+- Extends settings, resource, history, concurrency, persistence, and long-session regression coverage.
+- Completed ten repeated full hard-pass cycles before release commit.
+
 ## 0.3.0
 
 History inspection, comparison, and retention controls.

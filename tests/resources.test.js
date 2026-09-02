@@ -10,13 +10,14 @@ test('resource rule is appended only to Inventory prompts', () => {
   const prompt = withResourceTrackingRule(inventoryPrompt);
   assert.match(prompt, /money, food, water, ammunition, fuel, medicine, crafting supplies/);
   assert.match(prompt, /100 Gold/);
+  assert.match(prompt, /adjust_resource/);
   assert.match(prompt, /85 Gold/);
   assert.match(prompt, /About 7 days/);
   assert.match(prompt, /About 6 days/);
   assert.match(prompt, /Waterskin/);
   assert.match(prompt, /Half full/);
   assert.match(prompt, /planned, attempted, negotiated, interrupted, or failed actions/);
-  assert.match(prompt, /Never produce a negative resource balance/);
+  assert.match(prompt, /Never produce or request a negative resource balance/);
 });
 
 test('resource rule is idempotent', () => {
@@ -32,6 +33,8 @@ test('final Inventory injection includes generalized accounting while generic in
   assert.equal(result.injected, true);
   assert.match(inventoryEvent.chat[0].content, /Finite-resource and possession accounting/);
   assert.match(inventoryEvent.chat[0].content, /Food quantity "1"/);
+  assert.match(inventoryEvent.chat[0].content, /adjust_resource/);
+  assert.match(inventoryEvent.chat[0].content, /adjust_resource/);
 
   const genericEvent = { chat: [{ role: 'user', content: 'ordinary request' }] };
   await injectGenerationPrompt(genericEvent, 'INVENTORY', { probe: ['ordinary request'] });

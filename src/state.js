@@ -387,6 +387,97 @@ function ensureSwipeInfo(message) {
     message.swipes[swipeId] = String(message.mes ?? '');
 }
 
+function checkpointGroups(context) {
+    const chat = Array.isArray(context?.chat) ? context.chat : [];
+    const groups = new Map();
+    const add = (key, holder, checkpoint, messageIndex, swipeIndex) => {
+        if (!checkpoint) return;
+        let group = groups.get(key);
+        if (!group) {
+            group = { key, holders: [], checkpoint, revision: checkpoint.revision, messageIndex, swipeIndex };
+            groups.set(key, group);
+        }
+        group.holders.push(holder);
+        if (Number.isInteger(checkpoint.revision)) group.revision = checkpoint.revision;
+    };
+    for (let messageIndex = 0; messageIndex < chat.length; messageIndex++) {
+        const message = chat[messageIndex];
+        if (!message) continue;
+        const activeSwipe = Number.isInteger(message.swipe_id) ? message.swipe_id : 0;
+        const messageCheckpoint = message.extra?.[EXTRA_KEY]?.checkpoint;
+        if (messageCheckpoint) {
+            const key = Array.isArray(message.swipes) && activeSwipe >= 0 && activeSwipe < message.swipes.length
+                ? `m:${messageIndex}:s:${activeSwipe}`
+                : `m:${messageIndex}:main`;
+            add(key, message, messageCheckpoint, messageIndex, activeSwipe);
+        }
+        if (!Array.isArray(message.swipe_info)) continue;
+        for (let swipeIndex = 0; swipeIndex < message.swipe_info.length; swipeIndex++) {
+            const info = message.swipe_info[swipeIndex];
+            const checkpoint = info?.extra?.[EXTRA_KEY]?.checkpoint;
+            if (checkpoint) add(`m:${messageIndex}:s:${swipeIndex}`, info, checkpoint, messageIndex, swipeIndex);
+        }
+    }
+    return [...groups.values()];
+}
+
+function removeCheckpointFromHolder(holder) {
+    const meta = holder?.extra?.[EXTRA_KEY];
+    if (!meta?.checkpoint) return;
+    const next = { ...meta };
+    delete next.checkpoint;
+    if (Object.keys(next).length) holder.extra[EXTRA_KEY] = next;
+    else delete holder.extra[EXTRA_KEY];
+}
+
+function compactPortableCheckpointsWithRoot(context, root, limit = LIMITS.portableCheckpoints) {
+    const groups = checkpointGroups(context);
+    const before = groups.length;
+    const cap = Math.max(1, Number(limit) || LIMITS.portableCheckpoints);
+    if (!before) return { before: 0, after: 0, limit: cap };
+
+    const newest = [...groups].sort((a, b) =>
+        b.messageIndex - a.messageIndex || b.swipeIndex - a.swipeIndex || Number(b.revision ?? -1) - Number(a.revision ?? -1));
+    const keep = new Set();
+    const protectLatestRevision = (revision, length = null) => {
+        if (!Number.isInteger(revision) || keep.size >= cap) return;
+        const candidates = newest.filter(group => group.revision === revision);
+        const exact = Number.isInteger(length) ? candidates.find(group => group.messageIndex + 1 === length) : null;
+        const chosen = exact ?? candidates[0];
+        if (chosen) keep.add(chosen.key);
+    };
+
+    protectLatestRevision(root.activeRevision);
+    const heads = Object.values(root.branchHeads ?? {})
+        .filter(head => Number.isInteger(head?.revision))
+        .sort((a, b) => Number(b?.touchedAt ?? 0) - Number(a?.touchedAt ?? 0));
+    for (const head of heads) protectLatestRevision(head.revision, head.length);
+    for (const group of newest) {
+        if (keep.size >= cap) break;
+        keep.add(group.key);
+    }
+
+    for (const group of groups) {
+        if (keep.has(group.key)) continue;
+        for (const holder of group.holders) removeCheckpointFromHolder(holder);
+    }
+
+    const portableRevisions = new Set(groups.filter(group => keep.has(group.key) && Number.isInteger(group.revision)).map(group => group.revision));
+    for (const revision of Object.values(root.revisions ?? {})) {
+        if (revision && Number.isInteger(revision.id)) revision.portable = portableRevisions.has(revision.id);
+    }
+    return { before, after: Math.min(before, keep.size), limit: cap };
+}
+
+export function portableCheckpointCount(context) {
+    return checkpointGroups(context).length;
+}
+
+export function compactPortableCheckpoints(context, limit = LIMITS.portableCheckpoints) {
+    const root = ensureRoot(context);
+    return compactPortableCheckpointsWithRoot(context, root, limit);
+}
+
 function stabilizeAssistantUids(context) {
     const chat = Array.isArray(context?.chat) ? context.chat : [];
     for (const message of chat) {
@@ -642,6 +733,7 @@ export function resolveActiveRevision(context) {
     }
     root.activeRevision = revision;
     compactRevisions(root);
+    compactPortableCheckpointsWithRoot(context, root);
     return revision;
 }
 
@@ -668,6 +760,7 @@ export function attachPortableCheckpoint(context, messageId, revisionId, { sourc
     message.extra[EXTRA_KEY] = { ...current, checkpoint };
     revision.portable = true;
     ensureSwipeInfo(message);
+    compactPortableCheckpointsWithRoot(context, root);
     return checkpoint;
 }
 
