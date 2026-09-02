@@ -18,7 +18,7 @@ jobs:
         with:
           node-version: '20'
       - name: Apply guarded v0.3.3 transform
-        run: python scripts/v033_transform.py
+        run: python scripts/v033_transform2.py
       - name: Full deterministic and fuzz suite
         run: npm test
       - name: Syntax checks
