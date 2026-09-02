@@ -1,3 +1,14 @@
+## 0.3.6
+
+Streaming/UI hardening for post-response reconciliation.
+
+- Freezes Inventory Block mounting and rendering while a tracked foreground assistant generation is active.
+- Treats token-by-token `MESSAGE_UPDATED` events as inert when they belong to any active Inventory generation, regardless of the original generation type.
+- Stops streaming updates from repeatedly resolving branch state, invalidating lineage caches, scheduling metadata saves, and rebuilding the Inventory pane.
+- Makes Megumin/standalone mounts render-aware so ordinary chat DOM mutations do not rebuild an unchanged Inventory pane.
+- Performs one forced Inventory remount after the generation/reconciliation session settles.
+- Keeps chat-switch handling scoped to the active chat so background sessions cannot freeze an unrelated chat UI.
+
 ## 0.3.5
 
 - Added **Reconcile Latest Response** under Extensions → Inventory Block for manual recovery after a failed post-response API scan.
