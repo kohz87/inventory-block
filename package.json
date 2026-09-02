@@ -1,10 +1,10 @@
 {
   "name": "inventory-block",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "private": true,
   "type": "module",
   "scripts": {
     "test": "node --test tests/*.test.js && node tests/hardpass-fuzz.mjs",
-    "check": "node --check index.js && node --check src/constants.js && node --check src/lifecycle.js && node --check src/state.js && node --check src/protocol.js && node --check src/injection.js && node --check src/session.js"
+    "check": "node --check index.js && node --check src/constants.js && node --check src/lifecycle.js && node --check src/state.js && node --check src/protocol.js && node --check src/currency.js && node --check src/injection.js && node --check src/session.js"
   }
 }
