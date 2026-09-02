@@ -1,4 +1,4 @@
-# Inventory Block v0.3.2
+# Inventory Block v0.3.3
 
 Inventory Block is a lightweight SillyTavern RPG inventory extension with a **per-chat canonical backend**. The chat remains story history; inventory state is stored separately and rendered as an Inventory block compatible with Megumin Suite's block area.
 
@@ -32,24 +32,20 @@ For resource containers such as `Coin Pouch | 1 | 100 Gold` or `Food | 1 | About
 
 ## LLM integration
 
-For normal foreground assistant generations, Inventory Block snapshots the current backend state and injects it only at SillyTavern's **final prompt-ready stage**. It does not insert a fake chat message, does not participate in World Info scanning, and does not shift chat-depth positions.
+For normal foreground assistant generations, Inventory Block snapshots the current backend state and injects only a compact **read-only possession reference** at SillyTavern's final prompt-ready stage. The visible RP model is never asked to calculate inventory changes or emit machine controls, so inventory bookkeeping cannot compete with streamed prose or briefly flicker into the rendered response. The extension does not insert a fake chat message, does not participate in World Info scanning, and does not shift chat-depth positions.
 
-The model receives the complete current inventory as lossless JSON. Ordinary turns use compact patch operations. Full replacement is available only for an explicit bracketed OOC/admin inventory directive such as:
+After the assistant message is complete, Inventory Block runs one hidden `generateQuietPrompt` reconciliation pass. That quiet scan receives the authoritative pre-response inventory plus the completed user/assistant event, returns either `NO_CHANGE` or one machine patch internally, and then the existing atomic backend validator commits the result. The visible assistant message is not rewritten or re-rendered by reconciliation. Continue/append scans receive only newly appended text so earlier purchases or consumption cannot be counted twice; Swipe/Regenerate reconcile the complete replacement response against their captured pre-response base revision.
+
+Full replacement remains available only for an explicit bracketed OOC/admin inventory directive such as:
 
 ```text
 [OOC: create category for each party member]
 [Compact all food related items into 1 food item and remark the quantity in duration]
 ```
 
-If inventory changes, the model appends one machine-only suffix:
+The hidden reconciler uses the existing machine protocol internally. Machine syntax is never appended to the visible RP response. The extension validates the complete hidden update atomically, applies it to backend state, and creates a revision; if nothing changed, the quiet scan returns `NO_CHANGE` and no revision is created.
 
-```html
-<!-- INVENTORY_BLOCK_UPDATE {"mode":"patch","ops":[...]} -->.
-```
-
-The extension validates the complete update atomically, applies it to backend state, creates a revision, strips the machine comment, and stores only normal story prose. If nothing changes, there is no inventory output.
-
-Completed gains and losses of tracked finite resources are treated as Inventory changes. This includes money, food, water, ammunition, fuel, medicine, crafting supplies, charges, and ordinary possessions. Plain numeric Quantity values use `adjust_item`; a single numeric amount stored in Remark uses `adjust_resource`; non-numeric semantic states stored in Remark use `edit_item`. Approximate descriptions such as `About 7 days` remain approximate rather than being converted into invented exact units.
+Completed gains and losses of tracked finite resources are treated as Inventory changes. This includes money, food, water, ammunition, fuel, medicine, crafting supplies, charges, and ordinary possessions. Plain numeric Quantity values use `adjust_item`; single numeric balances stored in Remark use backend-enforced `adjust_resource`; semantic Remark states such as Full/Half full/Empty use `edit_item`. Approximate descriptions such as `About 7 days` remain approximate rather than being converted into invented exact units.
 
 Only completed changes count. Planned, attempted, negotiated, interrupted, or failed actions do not spend or grant resources unless the response establishes that they actually happened. Durable containers can remain when empty, such as `Coin Pouch | 1 | 0 Gold` or `Waterskin | 1 | Empty`; exhausted rows that represent the consumable stock itself are removed instead of becoming ghost stock. Negative resource balances are forbidden, and related changes from the same event are emitted in one atomic patch.
 
