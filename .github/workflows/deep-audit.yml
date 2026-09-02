@@ -18,6 +18,81 @@ jobs:
           node-version: '22'
       - name: Apply v0.3.1 fixes in working tree
         run: python3 scripts/apply-v031-hardening.py
+      - name: Apply post-gate review corrections
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+
+          ui = Path('src/ui.js')
+          text = ui.read_text(encoding='utf-8')
+          old_compare = """    const beforeEmpty = new Map(beforeInventory.categories.filter(category => !category.items.length).map(category => [identityKey(category.name), category.name]));
+              const afterEmpty = new Map(afterInventory.categories.filter(category => !category.items.length).map(category => [identityKey(category.name), category.name]));
+              const categoriesAdded = [...afterEmpty].filter(([key]) => !beforeEmpty.has(key)).map(([, name]) => name);
+              const categoriesRemoved = [...beforeEmpty].filter(([key]) => !afterEmpty.has(key)).map(([, name]) => name);
+          """.replace('              ', '    ')
+          new_compare = """    const beforeEmpty = new Set(beforeInventory.categories.filter(category => !category.items.length).map(category => category.name));
+              const afterEmpty = new Set(afterInventory.categories.filter(category => !category.items.length).map(category => category.name));
+              const categoriesAdded = [...afterEmpty].filter(name => !beforeEmpty.has(name));
+              const categoriesRemoved = [...beforeEmpty].filter(name => !afterEmpty.has(name));
+          """.replace('              ', '    ')
+          if old_compare in text:
+              text = text.replace(old_compare, new_compare, 1)
+          elif new_compare not in text:
+              raise SystemExit('empty-category comparison anchor missing')
+
+          old_snapshot = """    const total = itemCount(inventory);
+              if (!total) {
+          """.replace('              ', '    ')
+          new_snapshot = """    if (!inventory.categories.length) {
+          """
+          if old_snapshot in text:
+              text = text.replace(old_snapshot, new_snapshot, 1)
+          elif new_snapshot not in text:
+              raise SystemExit('history snapshot empty-category anchor missing')
+          ui.write_text(text, encoding='utf-8')
+
+          resources = Path('tests/resources.test.js')
+          resource_text = resources.read_text(encoding='utf-8')
+          duplicate = "  assert.match(prompt, /adjust_resource/);\n  assert.match(prompt, /adjust_resource/);\n"
+          while duplicate in resource_text:
+              resource_text = resource_text.replace(duplicate, "  assert.match(prompt, /adjust_resource/);\n")
+          resources.write_text(resource_text, encoding='utf-8')
+
+          history = Path('tests/history.test.js')
+          history_text = history.read_text(encoding='utf-8')
+          category_assertions = "  assert.deepEqual(diff.categoriesAdded, []);\n  assert.deepEqual(diff.categoriesRemoved, []);\n"
+          while category_assertions + category_assertions in history_text:
+              history_text = history_text.replace(category_assertions + category_assertions, category_assertions)
+          history.write_text(history_text, encoding='utf-8')
+
+          deep = Path('tests/deep-audit.test.js')
+          deep_text = deep.read_text(encoding='utf-8')
+          if "import fs from 'node:fs';" not in deep_text:
+              deep_text = deep_text.replace("import assert from 'node:assert/strict';\n", "import assert from 'node:assert/strict';\nimport fs from 'node:fs';\n", 1)
+          if "empty-category comparison detects case-only rename" not in deep_text:
+              deep_text += r'''
+
+test('empty-category comparison detects case-only rename', () => {
+  const before = { categories: [{ name: 'Pack', items: [] }] };
+  const after = { categories: [{ name: 'pack', items: [] }] };
+  const diff = compareInventoryStates(before, after);
+  assert.deepEqual(diff.categoriesRemoved, ['Pack']);
+  assert.deepEqual(diff.categoriesAdded, ['pack']);
+});
+'''
+          if "history snapshot source keeps empty categories visible" not in deep_text:
+              deep_text += r'''
+
+test('history snapshot source keeps empty categories visible', () => {
+  const source = fs.readFileSync(new URL('../src/ui.js', import.meta.url), 'utf8');
+  assert.match(source, /if \(!inventory\.categories\.length\)/);
+  assert.doesNotMatch(source, /const total = itemCount\(inventory\);\s*if \(!total\)/);
+});
+'''
+          deep.write_text(deep_text, encoding='utf-8')
+          PY
       - name: Ten repeated hard-pass cycles
         shell: bash
         run: |
@@ -39,5 +114,5 @@ jobs:
             echo "No hardening changes to commit."
             exit 0
           fi
-          git commit -m "Inventory Block v0.3.1 deep hardening"
+          git commit -m "Inventory Block v0.3.1 post-review hardening"
           git push origin HEAD:feature/history-inspection-v0.3.0
