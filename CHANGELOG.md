@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.2.5
+
+Megumin multi-block compatibility hotfix.
+
+- Inventory controls no longer need to be the absolute final non-whitespace content of a reply.
+- One complete Inventory control with the mandatory terminal period may appear before or after other structured/Megumin blocks.
+- The parser still accepts only one Inventory control and removes only that machine span, preserving all other prose and blocks byte-for-byte.
+- Updated the model prompt so Inventory no longer competes with World State, Dice, or other blocks for tail position.
+
 ## 0.2.4
 
 Prompt-pipeline and failure-safety hardening.

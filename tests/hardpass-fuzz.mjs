@@ -27,8 +27,9 @@ for(let i=0;i<1000;i++){
   const source=i%2===0?`Story ${i}. ${c}`:`Before ${i}. ${c}\n\nAfter ${i}.`;
   const r=consumeInventoryUpdates(source,{categories:[]});
   assert.doesNotMatch(r.cleanedText,/INVENTORY_BLOCK_UPDATE/);
-  if(i%2===0){assert.deepEqual(r.errors,[]);assert.equal(r.state.categories[0].items[0].remark,remark);}
-  else {assert.ok(r.errors.length);assert.match(r.cleanedText,new RegExp(`After ${i}\\.$`));}
+  assert.deepEqual(r.errors,[]);
+  assert.equal(r.state.categories[0].items[0].remark,remark);
+  if(i%2!==0) assert.match(r.cleanedText,new RegExp(`After ${i}\\.$`));
 }
 
 for(let i=0;i<500;i++){

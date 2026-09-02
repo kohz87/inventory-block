@@ -18,12 +18,23 @@ test('inventory prompt state is lossless JSON for delimiter-like names', () => {
   assert.match(buildInventoryPrompt(state), /INVENTORY_STATE_JSON_BEGIN/);
 });
 
-test('misplaced valid control preserves all non-machine prose and rejects mutation', () => {
-  const source = `Before. ${control({mode:'patch',ops:[{op:'add_item',category:'General',name:'Sword',quantity:1,remark:''}]})}\n\nAfter.`;
+test('valid control may be followed by Megumin blocks and preserves them byte-for-byte', () => {
+  const world = '<WorldState>\nDay 4 | Evening\n</WorldState>';
+  const source = `Before.\n\n${control({mode:'patch',ops:[{op:'add_item',category:'General',name:'Sword',quantity:1,remark:''}]})}\n\n${world}`;
   const result = consumeInventoryUpdates(source, inv([]));
-  assert.equal(result.changed, false);
-  assert.ok(result.errors.some(x => /final/i.test(x)));
-  assert.equal(result.cleanedText, 'Before. \n\nAfter.');
+  assert.deepEqual(result.errors, []);
+  assert.equal(result.changed, true);
+  assert.equal(result.state.categories[0].items[0].name, 'Sword');
+  assert.equal(result.cleanedText, `Before.\n\n\n\n${world}`);
+});
+
+test('valid control may appear after another structured block', () => {
+  const dice = '<Dice>\nRoll: 12\n</Dice>';
+  const source = `${dice}\n\n${control({mode:'patch',ops:[{op:'add_item',category:'General',name:'Potion',quantity:1,remark:''}]})}`;
+  const result = consumeInventoryUpdates(source, inv([]));
+  assert.deepEqual(result.errors, []);
+  assert.equal(result.changed, true);
+  assert.equal(result.cleanedText, dice + '\n\n');
 });
 
 test('valid final control mutates and removes only protocol suffix', () => {

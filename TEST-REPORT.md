@@ -1,6 +1,10 @@
-# Inventory Block v0.2.4 Hard-Pass Report
+# Inventory Block v0.2.5 Hotfix Report
 
 Date: 2026-09-02
+
+## v0.2.5 Megumin control-position hotfix
+
+The Inventory machine control no longer has to be the final non-whitespace bytes of an assistant reply. Exactly one complete control with the mandatory terminal period may appear before or after other Megumin/structured blocks. The parser removes only the Inventory control span and preserves all surrounding prose/blocks.
 
 ## Scope
 
