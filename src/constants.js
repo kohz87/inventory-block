@@ -35,6 +35,14 @@ export function setHistoryRetention(value) {
     return normalized;
 }
 
+function retainedBranchHeads() {
+    return Math.min(512, Math.max(8, getHistoryRetention() - 2));
+}
+
+function retainedStickyBranchHeads() {
+    return Math.min(192, Math.max(4, Math.floor(retainedBranchHeads() / 2)));
+}
+
 export const LIMITS = Object.freeze({
     categories: 64,
     items: 512,
@@ -47,8 +55,8 @@ export const LIMITS = Object.freeze({
     patchOps: 256,
     get revisions() { return getHistoryRetention(); },
     get history() { return getHistoryRetention(); },
-    branchHeads: 512,
-    stickyBranchHeads: 192,
+    get branchHeads() { return retainedBranchHeads(); },
+    get stickyBranchHeads() { return retainedStickyBranchHeads(); },
     uiChats: 64,
     dryRunChats: 8,
     promptProbeChars: 160,
