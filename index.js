@@ -529,6 +529,7 @@ async function reconcileCompletedSession(session) {
 async function reconcileLatestResponse({ notifyResult = true } = {}) {
     const ctx = context();
     if (!ctx || !hasActiveChat(ctx)) throw new Error('Open a chat before reconciling inventory.');
+    const expectedChatId = chatIdOf(ctx);
     if (generationLockFor(ctx)) throw new Error('Wait for the current generation response to finish before reconciling inventory manually.');
     if (rawReconciliationActive > 0) throw new Error('Inventory reconciliation is already running.');
 
@@ -588,7 +589,7 @@ async function reconcileLatestResponse({ notifyResult = true } = {}) {
     }
 
     const live = context();
-    if (!live || chatIdOf(live) !== chatIdOf(ctx)) throw new Error('The active chat changed while manual inventory reconciliation was running. Its result was discarded.');
+    if (!live || chatIdOf(live) !== expectedChatId) throw new Error('The active chat changed while manual inventory reconciliation was running. Its result was discarded.');
     invalidateLineageCache(live);
     const liveRoot = ensureRoot(live);
     if (liveRoot.mutationSerial !== mutationSerial || lineageHashThrough(live, id) !== lineageHash) throw new Error('Inventory or chat history changed while manual reconciliation was running. Its result was discarded.');
@@ -607,12 +608,12 @@ async function reconcileLatestResponse({ notifyResult = true } = {}) {
         liveRoot.activeRevision = baseRevision;
     }
 
-    const pseudoSession = { chatId: chatIdOf(live), type: stamp ? 'continue' : 'manual_reconcile' };
+    const pseudoSession = { chatId: expectedChatId, type: stamp ? 'continue' : 'manual_reconcile' };
     attachReconciledRevision(live, pseudoSession, message, id, acceptedRevision, baseRevision);
     stampReconciliation(live, id, acceptedRevision);
     liveRoot.activeRevision = acceptedRevision;
     rememberBranchHead(live, acceptedRevision);
-    persistChatSoon(live, chatIdOf(live));
+    persistChatSoon(live, expectedChatId);
     refreshAll();
     if (notifyResult) notify('success', inventoryEquals(baseState, result.state) ? 'Latest response reconciled; no inventory change was needed.' : 'Latest response reconciled and inventory updated.');
     return inventoryEquals(baseState, result.state) ? 'no-change' : 'updated';
@@ -624,6 +625,10 @@ function registerSlashCommands() {
     const Parser = ctx?.SlashCommandParser;
     const Command = ctx?.SlashCommand;
     if (!Parser?.addCommandObject || !Command?.fromProps) return;
+    if (Parser.commands && Object.hasOwn(Parser.commands, 'inventory-reconcile')) {
+        slashCommandsRegistered = true;
+        return;
+    }
     try {
         Parser.addCommandObject(Command.fromProps({
             name: 'inventory-reconcile',

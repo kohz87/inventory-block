@@ -11,9 +11,13 @@ test('all release metadata and runtime VERSION say 0.3.5', () => {
   assert.match(read('README.md'), /Inventory Block v0\.3\.5/);
 });
 
-test('changelog documents v0.3.5 raw reconciliation compatibility and retains prior hardening', () => {
+test('changelog documents v0.3.5 manual reconciliation recovery and retains prior hardening', () => {
   const changelog=read('CHANGELOG.md');
   assert.match(changelog,/## 0\.3\.5/);
+  assert.match(changelog,/Reconcile Latest Response/i);
+  assert.match(changelog,/inventory-reconcile/i);
+  assert.match(changelog,/stamp the exact assistant text\/revision/i);
+  assert.match(changelog,/## 0\.3\.4/);
   assert.match(changelog,/generateRaw/);
   assert.match(changelog,/minimal raw generation path/i);
   assert.match(changelog,/## 0\.3\.3/);

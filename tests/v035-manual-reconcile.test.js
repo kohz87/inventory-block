@@ -38,6 +38,8 @@ test('manual reconciliation fails closed on unsafe legacy or concurrent state', 
   assert.match(index, /previous reconciliation boundary/i);
   assert.match(index, /generationLockFor\(ctx\)/);
   assert.match(index, /rawReconciliationActive > 0/);
+  assert.match(index, /const expectedChatId = chatIdOf\(ctx\)/);
+  assert.doesNotMatch(index, /chatIdOf\(live\) !== chatIdOf\(ctx\)/);
 });
 
 test('manual Continue retry scans only text after the stamped boundary', () => {
