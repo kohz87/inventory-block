@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.2.9
+
+Generalized finite-resource accounting hardening.
+
+- Extends automatic Inventory accounting beyond currency to food, water, ammunition, fuel, medicine, crafting supplies, charges, and other tracked possessions.
+- Uses `adjust_item` when the meaningful amount is a plain numeric Quantity and `edit_item` when the remaining amount/state lives in Remark.
+- Supports compact duration/state rows such as `Food | 1 | About 7 days` and `Waterskin | 1 | Full` without changing the container/stock-row Quantity.
+- Preserves approximate wording instead of inventing false precision.
+- Counts only completed changes; planned, attempted, negotiated, interrupted, or failed actions do not consume or grant resources unless completion is established.
+- Preserves durable empty containers such as `Coin Pouch | 1 | 0 Gold` or `Waterskin | 1 | Empty`, while removing exhausted rows that represent the consumable stock itself.
+- Keeps resource balances non-negative and groups all related changes from one event into the same atomic patch.
+- Replaces the currency-only prompt module and tests with a single generalized resource-accounting rule and regression suite.
+
 ## 0.2.8
 
 Currency balance tracking hotfix.
