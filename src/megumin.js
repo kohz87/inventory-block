@@ -18,6 +18,29 @@ function latestAssistantMessageElement(context) {
     }) ?? null;
 }
 
+/**
+ * Return a complete native Megumin host only after both its tab and panel roots
+ * exist. A partially rendered card is not ready to receive extension panes yet.
+ */
+export function inventoryMeguminHost(messageElement) {
+    const card = messageElement?.querySelector?.('.meg-blocks') ?? null;
+    if (!card?.querySelector?.('.meg-blocks-tabs') || !card?.querySelector?.('.meg-blocks-panel')) return null;
+    return card;
+}
+
+/**
+ * The v0.3.6 dedupe may skip a render only when Inventory is already mounted in
+ * the host mode that is currently available. In particular, a standalone mount
+ * must not block migration when Megumin finishes rendering later.
+ */
+export function inventoryMountMatchesHost(messageElement) {
+    const card = inventoryMeguminHost(messageElement);
+    if (card) {
+        return Boolean(card.querySelector?.('.inventory-block-tab') && card.querySelector?.('.inventory-block-pane'));
+    }
+    return Boolean(messageElement?.querySelector?.('.inventory-block-card'));
+}
+
 function removeInventoryFromMessage(messageElement) {
     messageElement.querySelectorAll('.inventory-block-tab').forEach(node => node.remove());
     messageElement.querySelectorAll('.inventory-block-pane').forEach(node => node.remove());
@@ -83,8 +106,8 @@ function bindExistingCard(card) {
     }, true);
 }
 
-function attachToMeguminCard(messageElement, renderPane) {
-    const card = messageElement.querySelector('.meg-blocks');
+function attachToMeguminCard(messageElement, renderPane, readyCard = inventoryMeguminHost(messageElement)) {
+    const card = readyCard;
     if (!card) return false;
     bindExistingCard(card);
     const tabs = card.querySelector('.meg-blocks-tabs');
@@ -162,15 +185,14 @@ function mountNow() {
         return;
     }
 
-    const hasExistingMount = Boolean(messageElement.querySelector('.inventory-block-pane, .inventory-block-card'));
-    if (!forceRender && mountedMessageElement === messageElement && hasExistingMount) return;
+    const meguminCard = inventoryMeguminHost(messageElement);
+    if (!forceRender && mountedMessageElement === messageElement && inventoryMountMatchesHost(messageElement)) return;
     forceRender = false;
     cleanupPreviousMount(messageElement);
 
-    const meguminCard = messageElement.querySelector('.meg-blocks');
     if (meguminCard) {
         messageElement.querySelector('.inventory-block-card')?.remove();
-        attachToMeguminCard(messageElement, renderCurrent);
+        attachToMeguminCard(messageElement, renderCurrent, meguminCard);
     } else {
         attachStandalone(messageElement, renderCurrent);
     }
