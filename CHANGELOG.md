@@ -1,3 +1,13 @@
+## 0.3.4
+
+Gemini/API compatibility hotfix for post-response reconciliation.
+
+- Replaces the hidden `generateQuietPrompt` reconciliation call with SillyTavern `generateRaw({ prompt })`.
+- Sends the reconciler through the minimal raw generation path instead of rebuilding a second full character/chat generation.
+- Keeps the visible RP generation, read-only inventory reference, completion latch, Continue suffix accounting, Swipe/Regenerate base semantics, and atomic backend validation unchanged.
+- Fails closed when `generateRaw` is unavailable and preserves the message's inventory revision metadata.
+- Adds regression coverage that forbids `generateQuietPrompt` in the reconciliation runtime.
+
 ## 0.3.3
 
 Post-response reconciliation architecture.

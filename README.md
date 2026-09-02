@@ -1,4 +1,4 @@
-# Inventory Block v0.3.3
+# Inventory Block v0.3.4
 
 Inventory Block is a lightweight SillyTavern RPG inventory extension with a **per-chat canonical backend**. The chat remains story history; inventory state is stored separately and rendered as an Inventory block compatible with Megumin Suite's block area.
 
@@ -34,7 +34,7 @@ For resource containers such as `Coin Pouch | 1 | 100 Gold` or `Food | 1 | About
 
 For normal foreground assistant generations, Inventory Block snapshots the current backend state and injects only a compact **read-only possession reference** at SillyTavern's final prompt-ready stage. The visible RP model is never asked to calculate inventory changes or emit machine controls, so inventory bookkeeping cannot compete with streamed prose or briefly flicker into the rendered response. The extension does not insert a fake chat message, does not participate in World Info scanning, and does not shift chat-depth positions.
 
-After the assistant message is complete, Inventory Block runs one hidden `generateQuietPrompt` reconciliation pass. That quiet scan receives the authoritative pre-response inventory plus the completed user/assistant event, returns either `NO_CHANGE` or one machine patch internally, and then the existing atomic backend validator commits the result. The visible assistant message is not rewritten or re-rendered by reconciliation. Continue/append scans receive only newly appended text so earlier purchases or consumption cannot be counted twice; Swipe/Regenerate reconcile the complete replacement response against their captured pre-response base revision.
+After the assistant message is complete, Inventory Block runs one hidden `generateRaw` reconciliation pass. That minimal raw scan receives only the authoritative pre-response inventory plus the completed user/assistant event, returns either `NO_CHANGE` or one machine patch internally, and then the existing atomic backend validator commits the result. It does not rebuild a second full character/chat generation context. The visible assistant message is not rewritten or re-rendered by reconciliation. Continue/append scans receive only newly appended text so earlier purchases or consumption cannot be counted twice; Swipe/Regenerate reconcile the complete replacement response against their captured pre-response base revision.
 
 Full replacement remains available only for an explicit bracketed OOC/admin inventory directive such as:
 

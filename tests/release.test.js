@@ -3,16 +3,19 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 const read = p => fs.readFileSync(new URL(`../${p}`, import.meta.url), 'utf8');
 
-test('all release metadata and runtime VERSION say 0.3.3', () => {
-  assert.equal(JSON.parse(read('manifest.json')).version, '0.3.3');
-  assert.equal(JSON.parse(read('package.json')).version, '0.3.3');
-  assert.match(read('src/constants.js'), /VERSION = '0\.3\.3'/);
-  assert.match(read('style.css'), /^\/\* Inventory Block v0\.3\.3 \*\//);
-  assert.match(read('README.md'), /Inventory Block v0\.3\.3/);
+test('all release metadata and runtime VERSION say 0.3.4', () => {
+  assert.equal(JSON.parse(read('manifest.json')).version, '0.3.4');
+  assert.equal(JSON.parse(read('package.json')).version, '0.3.4');
+  assert.match(read('src/constants.js'), /VERSION = '0\.3\.4'/);
+  assert.match(read('style.css'), /^\/\* Inventory Block v0\.3\.4 \*\//);
+  assert.match(read('README.md'), /Inventory Block v0\.3\.4/);
 });
 
-test('changelog documents v0.3.3 post-response reconciliation and retains prior hardening', () => {
+test('changelog documents v0.3.4 raw reconciliation compatibility and retains prior hardening', () => {
   const changelog=read('CHANGELOG.md');
+  assert.match(changelog,/## 0\.3\.4/);
+  assert.match(changelog,/generateRaw/);
+  assert.match(changelog,/minimal raw generation path/i);
   assert.match(changelog,/## 0\.3\.3/);
   assert.match(changelog,/generateQuietPrompt/);
   assert.match(changelog,/read-only possession reference/i);
@@ -28,7 +31,7 @@ test('changelog documents v0.3.3 post-response reconciliation and retains prior 
   assert.match(changelog,/Operation-shape resilience/i);
 });
 
-test('v0.3.3 keeps resource/history hardening behind post-response reconciliation', () => {
+test('v0.3.4 keeps resource/history hardening behind raw post-response reconciliation', () => {
   const protocol=read('src/protocol.js');
   const injection=read('src/injection.js');
   const resources=read('src/resources.js');

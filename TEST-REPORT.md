@@ -1,6 +1,10 @@
-# Inventory Block v0.3.3 Post-Response Reconciliation Report
+# Inventory Block v0.3.4 Raw Reconciliation Compatibility Report
 
 Date: 2026-09-02
+
+## v0.3.4 raw reconciliation compatibility
+
+v0.3.4 keeps the post-response architecture but routes its hidden scanner through SillyTavern `generateRaw({ prompt })` instead of `generateQuietPrompt`. This avoids rebuilding a second full chat-generation context for bookkeeping and improves compatibility with strict providers such as Gemini while preserving the same validated patch protocol.
 
 ## v0.3.3 post-response reconciliation
 

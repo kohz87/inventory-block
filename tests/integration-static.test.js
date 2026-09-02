@@ -6,15 +6,15 @@ const constants=fs.readFileSync(new URL('../src/constants.js',import.meta.url),'
 const manifest=JSON.parse(fs.readFileSync(new URL('../manifest.json',import.meta.url),'utf8'));
 const pkg=JSON.parse(fs.readFileSync(new URL('../package.json',import.meta.url),'utf8'));
 
-test('release metadata, runtime version, and interceptor are v0.3.3',()=>{
-  assert.equal(manifest.version,'0.3.3');
-  assert.equal(pkg.version,'0.3.3');
-  assert.match(constants,/VERSION = '0\.3\.3'/);
+test('release metadata, runtime version, and interceptor are v0.3.4',()=>{
+  assert.equal(manifest.version,'0.3.4');
+  assert.equal(pkg.version,'0.3.4');
+  assert.match(constants,/VERSION = '0\.3\.4'/);
   assert.equal(manifest.generate_interceptor,'inventoryBlockGenerationInterceptor');
   assert.match(index,/globalThis\.inventoryBlockGenerationInterceptor\s*=\s*onGenerationInterceptor/);
 });
 
-test('v0.3.3 has no fake prompt slot or global live extension prompt',()=>{
+test('v0.3.4 has no fake prompt slot or global live extension prompt',()=>{
   assert.doesNotMatch(index,/promptSlots|createPromptSlotMarker|insertPromptSlot|setExtensionPrompt/);
   assert.doesNotMatch(index,/inventoryBlockSlot|base64/i);
 });
@@ -22,7 +22,8 @@ test('v0.3.3 has no fake prompt slot or global live extension prompt',()=>{
 test('completed foreground messages reconcile only after completion signals',()=>{
   assert.match(index,/GENERATION_ENDED[^\n]*onGenerationEnded/);
   assert.match(index,/MESSAGE_RECEIVED[^\n]*onMessageReceived/);
-  assert.match(index,/generateQuietPrompt/);
+  assert.match(index,/generateRaw/);
+  assert.doesNotMatch(index,/generateQuietPrompt/);
   assert.match(index,/maybeStartReconciliation/);
   assert.match(index,/buildInventoryReferencePrompt/);
   assert.doesNotMatch(index,/const prompt = buildInventoryPrompt\(/);
