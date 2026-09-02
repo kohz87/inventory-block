@@ -17,6 +17,7 @@ import {
   revisionCount,
 } from '../src/state.js';
 import { consumeInventoryUpdates } from '../src/protocol.js';
+import { GenerationSessionStore } from '../src/session.js';
 import { compareInventoryStates } from '../src/ui.js';
 
 class MemoryStorage {
@@ -133,4 +134,18 @@ test('remark-stored negative balance is currently accepted by backend validation
   assert.deepEqual(result.errors, []);
   assert.equal(result.changed, true);
   assert.equal(result.state.categories[0].items[0].remark, '-5 Gold');
+});
+
+test('interceptor selection currently guesses when multiple candidates have empty probes', () => {
+  const store = new GenerationSessionStore({ limit: 8, maxAgeMs: 60000 });
+  const a = store.add({ chatId: 'A', type: 'normal', preProbe: [], interceptorSeen: false, startChatLength: 1 });
+  store.add({ chatId: 'B', type: 'normal', preProbe: [], interceptorSeen: false, startChatLength: 1 }, { supersedeUnarmed: false });
+  assert.equal(store.chooseForInterceptor([{ mes: 'Yo' }], 'normal'), a);
+});
+
+test('prompt-ready selection currently guesses a lone empty probe while another candidate exists', () => {
+  const store = new GenerationSessionStore({ limit: 8, maxAgeMs: 60000 });
+  const a = store.add({ chatId: 'A', type: 'normal', preProbe: [], promptProbe: [], interceptorSeen: true, interceptorAt: Date.now(), startChatLength: 1 });
+  store.add({ chatId: 'B', type: 'normal', preProbe: [], promptProbe: ['B unique request'], interceptorSeen: true, interceptorAt: Date.now() + 1, startChatLength: 1 }, { supersedeUnarmed: false });
+  assert.equal(store.chooseForPromptEvent({ chat: [{ role: 'user', content: 'unrelated raw task' }] }), a);
 });
