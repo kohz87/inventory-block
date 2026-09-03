@@ -19,20 +19,20 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Apply post-review one-pass hardening
-        run: python3 scripts/v040_postreview.py
+      - name: Apply final one-pass durability hardening
+        run: python3 scripts/v040_postreview2.py
       - name: Ten repeated hard-pass cycles
         run: |
           for i in $(seq 1 10); do
-            echo "=== v0.4.0 post-review hard pass $i/10 ==="
+            echo "=== v0.4.0 final hard pass $i/10 ==="
             npm test
             npm run check
             git diff --check
           done
-      - name: Commit reviewed v0.4.0 source
+      - name: Commit final reviewed v0.4.0 source
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add CHANGELOG.md index.js src/state.js tests/v040-one-pass.test.js
-          git commit -m "v0.4.0: harden foreground reconciliation boundaries"
+          git add CHANGELOG.md index.js tests/v037-runtime-static.test.js tests/v040-one-pass.test.js
+          git commit -m "v0.4.0: gate admin durability on accepted control"
           git push origin HEAD:feature/v0.4.0-one-pass
