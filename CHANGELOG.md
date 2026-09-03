@@ -1,3 +1,14 @@
+## 0.4.2
+
+Manual message edit event-order hardening.
+
+- Stops generic `MESSAGE_UPDATED` notifications from consuming untracked Inventory machine controls.
+- Keeps active streaming `MESSAGE_UPDATED` events inert as before, while non-streaming generic updates only refresh branch/interoperability state.
+- Leaves Inventory control ownership to the explicit completion/edit/swipe paths: `MESSAGE_RECEIVED`, `MESSAGE_EDITED`, and `MESSAGE_SWIPED`.
+- Fixes SillyTavern edit sequences that emit `MESSAGE_UPDATED` immediately before `MESSAGE_EDITED`, which could previously reject and strip a control as untracked before the trusted edit handler ran.
+- Prevents the paired warning `Unsupported inventory update mode: undefined` / `Inventory control was emitted outside a tracked assistant generation` from being triggered by that event-order race.
+- Keeps v0.4.1 shared-generation interoperability, one-pass accounting, foreign-payload cleanup boundaries, and backend state format unchanged. No migration is required.
+
 ## 0.4.1
 
 Shared-generation interoperability hardening for one-pass extensions.
