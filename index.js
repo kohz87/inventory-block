@@ -991,17 +991,23 @@ function onMessageUpdated(messageId, type = 'updated', manualEdit = false) {
     const message = ctx?.chat?.[Number(messageId)];
     if (!message) return;
 
-    // SillyTavern emits MESSAGE_UPDATED repeatedly while a response streams. Match
-    // by message identity only here: the event label "updated" is not the original
-    // generation type (normal/continue/swipe/etc.). Streaming updates must be inert.
-    if (!manualEdit && !message.is_user && !message.is_system && generationForMessage(ctx, messageId)) return;
+    // SillyTavern emits MESSAGE_UPDATED repeatedly while a response streams, and may
+    // also emit it immediately before MESSAGE_EDITED for a manual edit. The generic
+    // event therefore owns no Inventory machine transport. It may refresh branch state,
+    // but only MESSAGE_RECEIVED, MESSAGE_EDITED, and MESSAGE_SWIPED may consume controls.
+    if (!manualEdit) {
+        if (!message.is_user && !message.is_system && generationForMessage(ctx, messageId)) return;
+        if (ctx) invalidateLineageCache(ctx);
+        setTimeout(() => void resolveBranchAndRefresh(), 0);
+        return;
+    }
 
     if (ctx) invalidateLineageCache(ctx);
     if (message.is_user || message.is_system) {
         setTimeout(() => void resolveBranchAndRefresh(), 0);
         return;
     }
-    if (hasCompleteInventoryUpdate(message.mes) || (manualEdit && hasInventoryControl(message.mes))) void processAssistantMessage(messageId, type);
+    if (hasInventoryControl(message.mes)) void processAssistantMessage(messageId, type);
     else setTimeout(() => void resolveBranchAndRefresh(), 0);
 }
 
