@@ -1,0 +1,55 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import { consumeInventoryUpdates } from '../src/protocol.js';
+import { buildForegroundInventoryPrompt } from '../src/reconcile.js';
+
+const base = { categories: [{ name: 'General', items: [{ name: 'Coin Pouch', quantity: '1', remark: '100 Gold' }] }] };
+
+test('one-pass prompt authorizes a terminal hidden patch in the same foreground response', () => {
+  const prompt = buildForegroundInventoryPrompt(base);
+  assert.match(prompt, /INVENTORY_STATE_JSON_BEGIN/);
+  assert.match(prompt, /INVENTORY_BLOCK_UPDATE/);
+  assert.match(prompt, /write the visible response normally first/i);
+  assert.match(prompt, /final non-whitespace output/i);
+  assert.match(prompt, /If nothing changes, emit no Inventory control/i);
+});
+
+test('foreground machine transport persists state while stripping itself from story text', () => {
+  const story = 'Lucien pays twenty gold and takes the parcel.';
+  const machine = '<!-- INVENTORY_BLOCK_UPDATE {"mode":"patch","ops":[{"op":"adjust_resource","category":"General","name":"Coin Pouch","by":-20}]} -->.';
+  const result = consumeInventoryUpdates(`${story}\n\n${machine}`, base);
+  assert.deepEqual(result.errors, []);
+  assert.equal(result.changed, true);
+  assert.equal(result.state.categories[0].items[0].remark, '80 Gold');
+  assert.equal(result.cleanedText.trim(), story);
+  assert.doesNotMatch(result.cleanedText, /INVENTORY_BLOCK_UPDATE/);
+});
+
+test('no foreground control means no synthetic Inventory mutation', () => {
+  const story = 'Lucien studies the parcel without touching his coin pouch.';
+  const result = consumeInventoryUpdates(story, base);
+  assert.deepEqual(result.errors, []);
+  assert.equal(result.hadControl, false);
+  assert.equal(result.changed, false);
+  assert.deepEqual(result.state, base);
+  assert.equal(result.cleanedText, story);
+});
+
+test('automatic completion path never starts a second model session', () => {
+  const index = fs.readFileSync(new URL('../index.js', import.meta.url), 'utf8');
+  const autoStart = index.indexOf('async function commitCompletedSession');
+  const manualStart = index.indexOf('async function reconcileLatestResponse');
+  assert.ok(autoStart >= 0 && manualStart > autoStart);
+  const automatic = index.slice(autoStart, manualStart);
+  assert.match(automatic, /processAssistantMessage/);
+  assert.doesNotMatch(automatic, /generateRaw|generateQuietPrompt/);
+  assert.match(index, /message\.mes = result\.cleanedText/);
+  assert.match(index, /persistChatSoon\(ctx, chatId\)/);
+});
+
+test('foreground generation gets replace capability in the same injected prompt when admin-authorized', () => {
+  const index = fs.readFileSync(new URL('../index.js', import.meta.url), 'utf8');
+  assert.match(index, /buildForegroundInventoryPrompt\(getInventoryAt\(root, baseRevision\), \{ replaceCapability \}\)/);
+  assert.match(index, /session\?\.replaceCapability/);
+});

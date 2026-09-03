@@ -27,9 +27,8 @@ import {
     stripReservedInventorySeed,
 } from './src/protocol.js';
 import {
-    buildInventoryReferencePrompt,
+    buildForegroundInventoryPrompt,
     buildReconciliationPrompt,
-    deriveAssistantEventText,
     parseReconciliationReply,
 } from './src/reconcile.js';
 import {
@@ -413,11 +412,11 @@ function attachReconciledRevision(ctx, session, message, messageId, revisionId, 
     scheduleAlternateSwipeMetadataCleanup(session.chatId, messageId, activeSwipeId, attachedMeta?.uid);
 }
 
-async function reconcileCompletedSession(session) {
+async function commitCompletedSession(session) {
     if (!session || session.finished || session.stopped) return;
     const ctx = context();
     if (!ctx || chatIdOf(ctx) !== session.chatId) {
-        console.warn('[Inventory Block] Post-response reconciliation was skipped because the active chat changed.');
+        console.warn('[Inventory Block] Completed foreground Inventory commit was skipped because the active chat changed.');
         removeSession(session);
         return;
     }
@@ -428,109 +427,11 @@ async function reconcileCompletedSession(session) {
         return;
     }
 
-    try {
-        invalidateLineageCache(ctx);
-        const root = ensureRoot(ctx);
-        let baseRevision = session.baseRevision;
-        if (!getRevision(root, baseRevision)) baseRevision = resolveActiveRevision(ctx);
-        const baseState = getInventoryAt(root, baseRevision);
-        const event = deriveAssistantEventText(session.type, session.targetInitialText, message.mes);
-        if (event.error) {
-            reportWarnings([event.error]);
-            attachReconciledRevision(ctx, session, message, id, baseRevision, baseRevision);
-            root.activeRevision = baseRevision;
-            rememberBranchHead(ctx, baseRevision);
-            persistChatSoon(ctx, session.chatId);
-            refreshAll();
-            return;
-        }
-
-        const mutationConflictBefore = root.mutationSerial !== session.mutationSerial;
-        const timelineConflictBefore = generationTimelineChanged(ctx, session);
-        if (mutationConflictBefore || timelineConflictBefore) {
-            const warnings = [];
-            if (mutationConflictBefore) warnings.push('Inventory changed before post-response reconciliation could start; this message was not allowed to overwrite the newer inventory.');
-            if (timelineConflictBefore) warnings.push('The chat timeline changed before post-response reconciliation could start; this message was not allowed to write inventory.');
-            reportWarnings(warnings);
-            const currentRevision = resolveActiveRevision(ctx);
-            attachReconciledRevision(ctx, session, message, id, currentRevision, currentRevision);
-            rememberBranchHead(ctx, currentRevision);
-            persistChatSoon(ctx, session.chatId);
-            refreshAll();
-            return;
-        }
-
-        const generateRaw = ctx.generateRaw;
-        if (typeof generateRaw !== 'function') {
-            reportWarnings(['SillyTavern generateRaw is unavailable; post-response inventory reconciliation was skipped.']);
-            attachReconciledRevision(ctx, session, message, id, baseRevision, baseRevision);
-            rememberBranchHead(ctx, baseRevision);
-            persistChatSoon(ctx, session.chatId);
-            refreshAll();
-            return;
-        }
-
-        const reconciliationPrompt = buildReconciliationPrompt(baseState, {
-            userText: session.userInstruction,
-            assistantText: event.text,
-            type: session.type,
-            replaceCapability: session.replaceCapability,
-        });
-        let reply;
-        rawReconciliationActive += 1;
-        try {
-            reply = await generateRaw({ prompt: reconciliationPrompt });
-        } finally {
-            rawReconciliationActive = Math.max(0, rawReconciliationActive - 1);
-        }
-
-        const live = context();
-        if (!live || chatIdOf(live) !== session.chatId) {
-            console.warn('[Inventory Block] Post-response reconciliation finished after the user changed chats; its result was discarded.');
-            return;
-        }
-        invalidateLineageCache(live);
-        const liveRoot = ensureRoot(live);
-        const mutationConflict = liveRoot.mutationSerial !== session.mutationSerial;
-        const timelineConflict = generationTimelineChanged(live, session);
-        if (mutationConflict || timelineConflict) {
-            const warnings = [];
-            if (mutationConflict) warnings.push('Inventory changed while the hidden reconciliation scan was running; its result was discarded.');
-            if (timelineConflict) warnings.push('The chat timeline changed while the hidden reconciliation scan was running; its result was discarded.');
-            reportWarnings(warnings);
-            const currentRevision = resolveActiveRevision(live);
-            attachReconciledRevision(live, session, message, id, currentRevision, currentRevision);
-            rememberBranchHead(live, currentRevision);
-            persistChatSoon(live, session.chatId);
-            refreshAll();
-            return;
-        }
-
-        const result = parseReconciliationReply(reply, baseState, { replaceCapability: session.replaceCapability });
-        const warnings = [...result.errors];
-        let acceptedRevision = baseRevision;
-        if (!warnings.length && !inventoryEquals(baseState, result.state)) {
-            acceptedRevision = createRevision(live, result.state, {
-                parent: baseRevision,
-                source: SOURCE.LLM,
-                note: result.note || 'Post-response inventory reconciliation',
-            });
-        } else {
-            liveRoot.activeRevision = baseRevision;
-        }
-
-        if (!warnings.length && session.replaceCapability) markDurableRevision(live, acceptedRevision);
-        attachReconciledRevision(live, session, message, id, acceptedRevision, baseRevision);
-        if (!warnings.length) stampReconciliation(live, id, acceptedRevision);
-        liveRoot.activeRevision = acceptedRevision;
-        rememberBranchHead(live, acceptedRevision);
-        persistChatSoon(live, session.chatId);
-        reportWarnings(warnings);
-        refreshAll();
-    } catch (error) {
-        console.error('[Inventory Block] Post-response inventory reconciliation failed.', error);
-        notify('error', error instanceof Error ? error.message : String(error));
-    } finally {
+    // The foreground model already made the accounting decision in the same inference
+    // that wrote the story. At completion we only parse, validate, persist and strip the
+    // machine control. No second LLM request is started here.
+    await processAssistantMessage(id, session.type);
+    if (sessions.snapshot().includes(session)) {
         session.finished = true;
         removeSession(session);
     }
@@ -572,7 +473,7 @@ async function reconcileLatestResponse({ notifyResult = true } = {}) {
             return 'already-reconciled';
         }
     } else if (!stamp && meta && Number.isInteger(meta.baseRevision) && Number.isInteger(meta.revision) && meta.revision !== meta.baseRevision) {
-        throw new Error('This legacy response already carries an Inventory state change but has no v0.3.5 reconciliation stamp. Manual retry was refused to avoid double-counting it.');
+        throw new Error('This response already carries an Inventory state change but has no manual-reconciliation boundary. Manual retry was refused to avoid double-counting it.');
     }
 
     const mutationSerial = root.mutationSerial;
@@ -661,16 +562,16 @@ function registerSlashCommands() {
     }
 }
 
-function maybeStartReconciliation(session, { messageReceivedIsFinal = false } = {}) {
-    if (!session || session.finished || session.stopped || session.reconciliationStarted || !session.messageReceived) return;
+function maybeStartForegroundCommit(session, { messageReceivedIsFinal = false } = {}) {
+    if (!session || session.finished || session.stopped || session.commitStarted || !session.messageReceived) return;
     if (!session.generationEnded && !messageReceivedIsFinal) return;
-    session.reconciliationStarted = true;
+    session.commitStarted = true;
     if (session.completionFallbackTimer) clearTimeout(session.completionFallbackTimer);
     session.completionFallbackTimer = null;
     const terminalTimer = terminalCleanupTimers.get(session);
     if (terminalTimer) clearTimeout(terminalTimer);
     terminalCleanupTimers.delete(session);
-    void reconcileCompletedSession(session);
+    void commitCompletedSession(session);
 }
 
 async function onMessageReceived(messageId, type = 'normal') {
@@ -701,10 +602,10 @@ async function onMessageReceived(messageId, type = 'normal') {
     if (!session.completionFallbackTimer) {
         session.completionFallbackTimer = setTimeout(() => {
             session.completionFallbackTimer = null;
-            maybeStartReconciliation(session, { messageReceivedIsFinal: true });
+            maybeStartForegroundCommit(session, { messageReceivedIsFinal: true });
         }, COMPLETION_FALLBACK_MS);
     }
-    maybeStartReconciliation(session);
+    maybeStartForegroundCommit(session);
 }
 
 async function processAssistantMessage(messageId, type = '') {
@@ -920,7 +821,7 @@ function onGenerationPrepared(type = 'normal', _params = null, isDryRun = false)
     const chatId = chatIdOf(ctx);
 
     if (isDryRun) {
-        try { rememberDryRun(chatId, buildInventoryReferencePrompt(getCurrentInventory(ctx)), ctx); }
+        try { rememberDryRun(chatId, buildForegroundInventoryPrompt(getCurrentInventory(ctx)), ctx); }
         catch (error) { console.warn('[Inventory Block] Could not prepare dry-run inventory context.', error); }
         return;
     }
@@ -941,7 +842,7 @@ function onGenerationPrepared(type = 'normal', _params = null, isDryRun = false)
         const replaceCapability = broadAdmin ? createReplaceCapability() : null;
         const startChatLength = Array.isArray(ctx.chat) ? ctx.chat.length : 0;
         const guardLength = generationGuardLength(lower, startChatLength, targetMessageId);
-        const prompt = buildInventoryReferencePrompt(getInventoryAt(root, baseRevision));
+        const prompt = buildForegroundInventoryPrompt(getInventoryAt(root, baseRevision), { replaceCapability });
         const targetInitialText = Number.isInteger(targetMessageId) ? String(ctx.chat?.[targetMessageId]?.mes ?? '') : '';
 
         sessions.add({
@@ -965,7 +866,7 @@ function onGenerationPrepared(type = 'normal', _params = null, isDryRun = false)
             promptInjectionFailed: false,
             generationEnded: false,
             messageReceived: false,
-            reconciliationStarted: false,
+            commitStarted: false,
             stopped: false,
             startedAt: Date.now(),
         });
@@ -1041,7 +942,7 @@ async function onPromptReady(eventData = null) {
     if (result.reason !== 'probe-mismatch') {
         session.promptInjectionFailed = true;
         console.warn(`[Inventory Block] Foreground inventory prompt was not injected: ${result.reason}.`);
-        console.warn('[Inventory Block] Read-only inventory reference was unavailable to the visible response; hidden post-response reconciliation can still run.');
+        console.warn('[Inventory Block] Foreground Inventory tracking was unavailable to this response; automatic Inventory writes are disabled for it. Use Reconcile Latest Response only if recovery is needed.');
     }
 }
 
@@ -1064,7 +965,7 @@ function scheduleTerminalCleanup(graceMs, chatLength = null) {
 function onGenerationStopped(chatLength = null) {
     const ctx = context();
     const session = sessions.chooseForTerminal(chatIdOf(ctx), chatLength);
-    if (!session || session.reconciliationStarted) return;
+    if (!session || session.commitStarted) return;
     session.stopped = true;
     if (session.completionFallbackTimer) clearTimeout(session.completionFallbackTimer);
     session.completionFallbackTimer = null;
@@ -1074,11 +975,11 @@ function onGenerationStopped(chatLength = null) {
 function onGenerationEnded(chatLength = null) {
     const ctx = context();
     const session = sessions.chooseForTerminal(chatIdOf(ctx), chatLength);
-    if (!session || session.reconciliationStarted) return;
+    if (!session || session.commitStarted) return;
     session.generationEnded = true;
     session.generationEndedAt = Date.now();
-    maybeStartReconciliation(session);
-    if (!session.reconciliationStarted) scheduleTerminalCleanup(END_GRACE_MS, chatLength);
+    maybeStartForegroundCommit(session);
+    if (!session.commitStarted) scheduleTerminalCleanup(END_GRACE_MS, chatLength);
 }
 
 function onMessageUpdated(messageId, type = 'updated', manualEdit = false) {

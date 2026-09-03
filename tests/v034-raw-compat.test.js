@@ -4,18 +4,21 @@ import fs from 'node:fs';
 
 const index = fs.readFileSync(new URL('../index.js', import.meta.url), 'utf8');
 
-test('post-response reconciler uses the minimal generateRaw API', () => {
-  const start = index.indexOf('async function reconcileCompletedSession');
-  const end = index.indexOf('function maybeStartReconciliation', start);
-  assert.ok(start >= 0 && end > start);
-  const block = index.slice(start, end);
-  assert.match(block, /const generateRaw = ctx\.generateRaw/);
-  assert.match(block, /await generateRaw\(\{ prompt: reconciliationPrompt \}\)/);
-  assert.doesNotMatch(block, /generateQuietPrompt/);
-  assert.doesNotMatch(block, /skipWIAN|trimToSentence|quietPrompt/);
+test('generateRaw is retained only for explicit manual recovery', () => {
+  const autoStart = index.indexOf('async function commitCompletedSession');
+  const manualStart = index.indexOf('async function reconcileLatestResponse');
+  const manualEnd = index.indexOf('function registerSlashCommands', manualStart);
+  assert.ok(autoStart >= 0 && manualStart > autoStart && manualEnd > manualStart);
+  assert.doesNotMatch(index.slice(autoStart, manualStart), /generateRaw/);
+  const manual = index.slice(manualStart, manualEnd);
+  assert.match(manual, /const generateRaw = ctx\.generateRaw/);
+  assert.match(manual, /await generateRaw\(\{ prompt: reconciliationPrompt \}\)/);
+  assert.match(manual, /buildReconciliationPrompt/);
+  assert.match(manual, /parseReconciliationReply/);
+  assert.doesNotMatch(manual, /generateQuietPrompt/);
 });
 
-test('raw reconciliation remains isolated from foreground prompt-ready injection', () => {
+test('manual raw recovery remains isolated from foreground prompt-ready injection', () => {
   assert.match(index, /let rawReconciliationActive = 0/);
   assert.match(index, /rawReconciliationActive \+= 1/);
   assert.match(index, /rawReconciliationActive = Math\.max\(0, rawReconciliationActive - 1\)/);

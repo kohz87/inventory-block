@@ -1,4 +1,4 @@
-# Inventory Block v0.3.7
+# Inventory Block v0.4.0
 
 Inventory Block is a lightweight SillyTavern RPG inventory extension with a **per-chat canonical backend**. The chat remains story history; inventory state is stored separately and rendered as an Inventory block compatible with Megumin Suite's block area.
 
@@ -32,9 +32,11 @@ For resource containers such as `Coin Pouch | 1 | 100 Gold` or `Food | 1 | About
 
 ## LLM integration
 
-For normal foreground assistant generations, Inventory Block snapshots the current backend state and injects only a compact **read-only possession reference** at SillyTavern's final prompt-ready stage. The visible RP model is never asked to calculate inventory changes or emit machine controls, so inventory bookkeeping cannot compete with streamed prose or briefly flicker into the rendered response. The extension does not insert a fake chat message, does not participate in World Info scanning, and does not shift chat-depth positions.
+Inventory Block v0.4.0 uses a **one-pass foreground accounting architecture**. At SillyTavern's final prompt-ready stage, the extension injects the current canonical Inventory JSON plus the compact validated patch protocol into the same assistant generation that writes the RP response. The model writes the visible story first and, only when that response establishes completed possession/resource changes, emits one hidden `INVENTORY_BLOCK_UPDATE` machine control as the final output.
 
-After the assistant message is complete, Inventory Block runs one hidden `generateRaw` reconciliation pass. That minimal raw scan receives only the authoritative pre-response inventory plus the completed user/assistant event, returns either `NO_CHANGE` or one machine patch internally, and then the existing atomic backend validator commits the result. It does not rebuild a second full character/chat generation context. The visible assistant message is not rewritten or re-rendered by reconciliation. Continue/append scans receive only newly appended text so earlier purchases or consumption cannot be counted twice; Swipe/Regenerate reconcile the complete replacement response against their captured pre-response base revision.
+When generation is complete, Inventory Block does **not** start another model session. It parses that foreground control, validates the complete patch atomically, commits the resulting canonical backend revision, attaches branch/swipe metadata, and strips the machine control from the stored/displayed assistant message. The temporary Inventory prompt is never added to chat history, and the machine control is transport rather than storage. Future prompts receive only the latest canonical backend state.
+
+If the foreground response emits no Inventory control, Inventory remains unchanged. If a model forgets or mangles a required update, **Reconcile Latest Response** (or `/inventory-reconcile`) remains available as an explicit recovery action; only that manual fallback uses the separate `generateRaw` scanner. Normal RP turns therefore require one LLM request rather than a story request plus an automatic reconciliation request.
 
 Full replacement remains available only for an explicit bracketed OOC/admin inventory directive such as:
 
@@ -42,8 +44,6 @@ Full replacement remains available only for an explicit bracketed OOC/admin inve
 [OOC: create category for each party member]
 [Compact all food related items into 1 food item and remark the quantity in duration]
 ```
-
-The hidden reconciler uses the existing machine protocol internally. Machine syntax is never appended to the visible RP response. The extension validates the complete hidden update atomically, applies it to backend state, and creates a revision; if nothing changed, the quiet scan returns `NO_CHANGE` and no revision is created.
 
 Completed gains and losses of tracked finite resources are treated as Inventory changes. This includes money, food, water, ammunition, fuel, medicine, crafting supplies, charges, and ordinary possessions. Plain numeric Quantity values use `adjust_item`; single numeric balances stored in Remark use backend-enforced `adjust_resource`; semantic Remark states such as Full/Half full/Empty use `edit_item`. Approximate descriptions such as `About 7 days` remain approximate rather than being converted into invented exact units.
 
@@ -91,7 +91,7 @@ Inventory remains a compact Megumin-style RPG block:
 - Copy Block;
 - revision History with View / Compare / Restore.
 
-The same controls plus retention/cleanup settings are available under **Extensions → Inventory Block**. v0.3.5 also adds **Reconcile Latest Response** for retrying a failed post-response scan; already-reconciled text is stamped and will not be charged twice. The same recovery action is available as `/inventory-reconcile` (alias `/inv-reconcile`). No search, encumbrance, rarity, equipment-slot, or other heavyweight subsystem is added.
+The same controls plus retention/cleanup settings are available under **Extensions → Inventory Block**. The settings UI includes **Reconcile Latest Response** as an explicit fallback when a foreground response omitted or failed its Inventory control; successfully manual-reconciled text is stamped and will not be charged twice. The same recovery action is available as `/inventory-reconcile` (alias `/inv-reconcile`). No search, encumbrance, rarity, equipment-slot, or other heavyweight subsystem is added.
 
 ## Installation
 
