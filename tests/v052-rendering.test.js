@@ -54,6 +54,16 @@ test('manual replace upgrades a legacy plain block to hidden transport', () => {
   assert.doesNotMatch(stripInventoryBlocks(replaced), /500 Gold|Coin Pouch/);
 });
 
+test('manual replace removes a hidden truncated transport as one unit', () => {
+  const hiddenTruncated = normalizeInventoryTransports('Story\n<Inventory>\npartial').text;
+  const replaced = replaceOrAppendInventory(hiddenTruncated, state);
+  assert.equal((replaced.match(new RegExp(TRANSPORT_MARKER, 'g')) ?? []).length, 1);
+  assert.match(replaced, /Story/);
+  assert.match(replaced, /100 Gold/);
+  assert.doesNotMatch(replaced, /partial/);
+  assert.equal(latestValidInventoryInText(replaced).state.categories[0].items[0].remark, '100 Gold');
+});
+
 test('active UI uses native details/summary categories and runtime normalizes received/rendered messages', () => {
   const ui = read('src/ui.js');
   const index = read('index.js');
