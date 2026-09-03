@@ -4,10 +4,10 @@ import fs from 'node:fs';
 
 const read = path => fs.readFileSync(new URL(`../${path}`, import.meta.url), 'utf8');
 
-test('release metadata is v0.5.1', () => {
-  assert.equal(JSON.parse(read('manifest.json')).version, '0.5.1');
-  assert.equal(JSON.parse(read('package.json')).version, '0.5.1');
-  assert.match(read('index.js'), /VERSION = '0\.5\.1'/);
+test('release metadata is v0.5.2', () => {
+  assert.equal(JSON.parse(read('manifest.json')).version, '0.5.2');
+  assert.equal(JSON.parse(read('package.json')).version, '0.5.2');
+  assert.match(read('index.js'), /VERSION = '0\.5\.2'/);
 });
 
 test('active v0.5 runtime contains no legacy backend/reconciliation architecture', () => {

@@ -1,5 +1,7 @@
 import { emptyInventory, formatInventoryBlock, normalizeInventory, parseInventoryBlock } from './snapshot.js';
 
+const sectionStateByKey = new Map();
+
 function el(tag, className = '', text = '') {
     const node = document.createElement(tag);
     if (className) node.className = className;
@@ -11,8 +13,15 @@ function itemCount(state) {
     return normalizeInventory(state).categories.reduce((sum, category) => sum + category.items.length, 0);
 }
 
-export function renderInventoryPane(pane, state, { onEdit, onCopy, hasSnapshot = true } = {}) {
+function sectionState(uiKey) {
+    const key = String(uiKey ?? 'default');
+    if (!sectionStateByKey.has(key)) sectionStateByKey.set(key, { initialized: false, open: new Set() });
+    return sectionStateByKey.get(key);
+}
+
+export function renderInventoryPane(pane, state, { onEdit, onCopy, hasSnapshot = true, uiKey = 'default' } = {}) {
     const inventory = normalizeInventory(state ?? emptyInventory());
+    const remembered = sectionState(uiKey);
     pane.replaceChildren();
     pane.classList.add('inventory-block-pane');
 
@@ -45,9 +54,22 @@ export function renderInventoryPane(pane, state, { onEdit, onCopy, hasSnapshot =
         return;
     }
 
-    for (const category of inventory.categories) {
-        const section = el('div', 'inventory-category');
-        if (category.name !== 'General') section.appendChild(el('div', 'inventory-category-title', category.name));
+    inventory.categories.forEach((category, index) => {
+        const section = el('details', 'inventory-category');
+        const categoryKey = category.name.normalize('NFKC').toLowerCase();
+        section.open = remembered.open.has(categoryKey) || (!remembered.initialized && index === 0);
+        if (section.open) remembered.open.add(categoryKey);
+
+        const summary = el('summary', 'inventory-category-title');
+        summary.appendChild(el('span', 'inventory-category-name', category.name));
+        summary.appendChild(el('span', 'inventory-category-count', `${category.items.length} ${category.items.length === 1 ? 'item' : 'items'}`));
+        section.appendChild(summary);
+
+        section.addEventListener('toggle', () => {
+            if (section.open) remembered.open.add(categoryKey);
+            else remembered.open.delete(categoryKey);
+        });
+
         const table = el('div', 'inventory-table');
         for (const item of category.items) {
             const row = el('div', 'inventory-row');
@@ -58,9 +80,11 @@ export function renderInventoryPane(pane, state, { onEdit, onCopy, hasSnapshot =
             );
             table.appendChild(row);
         }
+        if (!category.items.length) table.appendChild(el('div', 'inventory-empty-state', 'No items'));
         section.appendChild(table);
         pane.appendChild(section);
-    }
+    });
+    remembered.initialized = true;
 }
 
 function toastError(error) {
