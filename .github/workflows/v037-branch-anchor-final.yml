@@ -19,23 +19,20 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Apply guarded v0.3.7 transform
-        run: |
-          python3 scripts/v037_branch_anchor.py
-          python3 scripts/v037_branch_anchor_fix.py
-          python3 scripts/v037_branch_anchor_review.py
+      - name: Apply post-review durable-length correction
+        run: python3 scripts/v037_durable_length.py
       - name: Ten repeated hard-pass cycles
         run: |
           for i in $(seq 1 10); do
-            echo "=== v0.3.7 hard pass $i/10 ==="
+            echo "=== v0.3.7 post-review hard pass $i/10 ==="
             npm test
             npm run check
             git diff --check
           done
-      - name: Commit tested v0.3.7 source
+      - name: Commit reviewed v0.3.7 source
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add CHANGELOG.md README.md TEST-REPORT.md index.js manifest.json package.json src/constants.js src/history.js src/state.js style.css tests/integration-static.test.js tests/release.test.js tests/v037-branch-anchor.test.js tests/v037-history-anchor.test.js tests/v037-runtime-static.test.js
-          git commit -m "Inventory Block v0.3.7: harden branch anchors"
+          git add CHANGELOG.md src/history.js src/state.js tests/v037-branch-anchor.test.js tests/v037-history-anchor.test.js tests/v037-runtime-static.test.js
+          git commit -m "v0.3.7: preserve durable admin anchors across deletion"
           git push origin HEAD:audit/v0.3.7-branch-anchor-final
