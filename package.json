@@ -5,6 +5,6 @@
   "type": "module",
   "scripts": {
     "test": "node --test tests/*.test.js && node tests/hardpass-fuzz.mjs",
-    "check": "node --check index.js && node --check src/constants.js && node --check src/lifecycle.js && node --check src/state.js && node --check src/protocol.js && node --check src/resources.js && node --check src/reconcile.js && node --check src/history.js && node --check src/injection.js && node --check src/session.js && node --check src/settings.js && node --check src/ui.js && node --check src/megumin.js && node --check src/shared-generation-queue.js"
+    "check": "node --check index.js && node --check src/constants.js && node --check src/lifecycle.js && node --check src/state.js && node --check src/protocol.js && node --check src/resources.js && node --check src/reconcile.js && node --check src/history.js && node --check src/injection.js && node --check src/interoperability.js && node --check src/session.js && node --check src/settings.js && node --check src/ui.js && node --check src/megumin.js && node --check src/shared-generation-queue.js"
   }
 }
