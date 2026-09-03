@@ -13,7 +13,7 @@ test('all release metadata and runtime VERSION say 0.4.3', () => {
 test('changelog documents v0.4.3 semantic resource hardening while retaining edit-event and interoperability history', () => {
   const changelog=read('CHANGELOG.md');
   assert.match(changelog,/## 0\.4\.3/);
-  assert.match(changelog,/one and only one numeric amount/i);
+  assert.match(changelog,/exactly one numeric amount|one-and-only-one-number/i);
   assert.match(changelog,/semantic|range|multi-number/i);
   assert.match(changelog,/## 0\.4\.2/);
   assert.match(changelog,/MESSAGE_UPDATED/);
