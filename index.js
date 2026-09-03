@@ -5,7 +5,6 @@ import {
     inventoryForGeneration,
     latestAssistantIndex,
     latestInventorySnapshot,
-    latestValidInventoryInText,
     replaceOrAppendInventory,
     syncActiveSwipeText,
 } from './src/snapshot.js';
@@ -302,7 +301,10 @@ function onTimelineChanged() {
 }
 
 function onChatChanged() {
-    for (const chatId of [...pending.keys()]) clearSession(chatId);
+    // Pending sessions are chat-scoped and intentionally survive UI chat switches.
+    // A generation that was already prepared may still reach prompt-ready after the user
+    // views another chat; dropping it here would silently omit Inventory from that request.
+    syncMountSuspension();
     refreshAll(0);
 }
 
