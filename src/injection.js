@@ -1,6 +1,8 @@
 import { LIMITS } from './constants.js';
 import { withResourceTrackingRule } from './resources.js';
 
+const TEXT_PROMPT_CAS_RETRIES = 4;
+
 function textOfContent(content) {
     if (typeof content === 'string') return content;
     if (!Array.isArray(content)) return '';
@@ -68,7 +70,6 @@ async function tokenCount(getTokenCountAsync, text) {
     return source.length;
 }
 
-
 async function chatTokenEstimate(chat, getTokenCountAsync) {
     let total = 0;
     for (const message of chat) {
@@ -89,6 +90,29 @@ async function fitChatAfterInjection(chat, contextSize, getTokenCountAsync) {
     const budget = Number(contextSize);
     if (!Number.isFinite(budget) || budget <= 0) return true;
     return await chatTokenEstimate(chat, getTokenCountAsync) <= budget;
+}
+
+async function injectTextPromptCooperatively(eventData, text, contextSize, getTokenCountAsync) {
+    const budget = Number(contextSize);
+    for (let attempt = 0; attempt < TEXT_PROMPT_CAS_RETRIES; attempt++) {
+        if (typeof eventData.prompt !== 'string') return { injected: false, reason: 'unsupported-event' };
+        const current = eventData.prompt;
+        if (current.includes(text)) return { injected: true, kind: 'text', reused: true, retries: attempt };
+        const combined = `${text}\n${current}`;
+
+        if (Number.isFinite(budget) && budget > 0) {
+            const combinedTokens = await tokenCount(getTokenCountAsync, combined);
+            // Another extension may have changed the shared text prompt while token
+            // counting was awaited. Never overwrite that newer prompt with our stale copy.
+            if (eventData.prompt !== current) continue;
+            if (combinedTokens > budget) return { injected: false, reason: 'context-overflow' };
+        }
+
+        if (eventData.prompt !== current) continue;
+        eventData.prompt = combined;
+        return { injected: true, kind: 'text', retries: attempt };
+    }
+    return { injected: false, reason: 'concurrent-prompt-mutation' };
 }
 
 export async function injectGenerationPrompt(eventData, prompt, {
@@ -114,14 +138,7 @@ export async function injectGenerationPrompt(eventData, prompt, {
     }
 
     if (typeof eventData.prompt === 'string') {
-        const combined = `${text}\n${eventData.prompt}`;
-        const budget = Number(contextSize);
-        if (Number.isFinite(budget) && budget > 0) {
-            const combinedTokens = await tokenCount(getTokenCountAsync, combined);
-            if (combinedTokens > budget) return { injected: false, reason: 'context-overflow' };
-        }
-        eventData.prompt = combined;
-        return { injected: true, kind: 'text' };
+        return injectTextPromptCooperatively(eventData, text, contextSize, getTokenCountAsync);
     }
 
     return { injected: false, reason: 'unsupported-event' };
