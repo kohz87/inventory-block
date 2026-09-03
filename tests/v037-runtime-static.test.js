@@ -14,7 +14,8 @@ test('swipe handler resolves the prefix before resolving the changed branch', ()
 
 test('durable fallback is wired into branch resolution and administrative reconciliation', () => {
   assert.match(state, /durableRevision/);
-  assert.match(state, /revision === 0 && allowDurableFallback/);
+  assert.match(state, /durableLength <= end/);
+  assert.match(state, /end < durableLength/);
   assert.match(index, /session\.replaceCapability\) markDurableRevision/);
   assert.match(index, /if \(replaceCapability\) markDurableRevision/);
 });

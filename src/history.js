@@ -73,6 +73,7 @@ export function clearInventoryHistory(context) {
     root.branchHeads = {};
 
     const chat = Array.isArray(context.chat) ? context.chat : [];
+    root.durableLength = chat.length;
     if (chat.length) {
         attachPortableCheckpoint(context, chat.length - 1, 0, {
             source: SOURCE.RESET,

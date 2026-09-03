@@ -222,6 +222,7 @@ function makeRoot() {
         version: STATE_VERSION,
         activeRevision: 0,
         durableRevision: 0,
+        durableLength: 0,
         nextRevision: 1,
         mutationSerial: 0,
         revisions: {
@@ -655,6 +656,9 @@ export function ensureRoot(context) {
             .sort((a, b) => a - b);
         root.durableRevision = durableIds.at(-1) ?? 0;
     }
+    if (!Number.isInteger(root.durableLength) || root.durableLength < 0) {
+        root.durableLength = root.durableRevision === 0 ? 0 : (Array.isArray(context.chat) ? context.chat.length : 0);
+    }
     const maxRevisionId = Math.max(0, ...Object.keys(root.revisions).map(Number).filter(Number.isInteger));
     if (!Number.isInteger(root.nextRevision) || root.nextRevision <= maxRevisionId) root.nextRevision = maxRevisionId + 1;
     if (!Number.isInteger(root.mutationSerial) || root.mutationSerial < 0) root.mutationSerial = Math.max(0, root.nextRevision - 1);
@@ -674,6 +678,7 @@ export function markDurableRevision(context, revisionId = null) {
     const id = revisionId === null ? root.activeRevision : Number(revisionId);
     if (!Number.isInteger(id) || !getRevision(root, id)) throw new Error(`Cannot mark missing inventory revision ${revisionId} as durable.`);
     root.durableRevision = id;
+    root.durableLength = Array.isArray(context?.chat) ? context.chat.length : 0;
     compactRevisions(root);
     return id;
 }
@@ -682,7 +687,9 @@ export function createRevision(context, state, { parent = null, source = SOURCE.
     const root = ensureRoot(context);
     const parentId = parent === null ? root.activeRevision : parent;
     if (!getRevision(root, parentId)) throw new Error(`Cannot create inventory revision from missing parent ${parentId}.`);
-    return appendRevisionToRoot(root, state, { parent: parentId, source, note, portable: false });
+    const revision = appendRevisionToRoot(root, state, { parent: parentId, source, note, portable: false });
+    if (isDurableSource(source)) root.durableLength = Array.isArray(context?.chat) ? context.chat.length : 0;
+    return revision;
 }
 
 export function rememberBranchHead(context, revisionId = null) {
@@ -835,10 +842,21 @@ function resolveRevisionThrough(context, maxLength, { commitActive = false, allo
         revision = checkpointRevisionIfValid(context, root, index, revision, true, data, legacyFingerprints);
     }
 
-    // A resolution that collapses to revision 0 can mean the branch lost all Inventory anchors.
-    // Once an explicit seed/admin revision exists, use it only as an anti-empty fallback.
-    if (revision === 0 && allowDurableFallback && Number.isInteger(root.durableRevision) && getRevision(root, root.durableRevision)) {
-        revision = root.durableRevision;
+    const durableRevision = Number.isInteger(root.durableRevision) && getRevision(root, root.durableRevision)
+        ? root.durableRevision
+        : null;
+    const durableLength = Number.isInteger(root.durableLength) && root.durableLength >= 0 ? root.durableLength : 0;
+    if (allowDurableFallback && durableRevision !== null) {
+        // Prefix reconstruction may use a durable state only if that state already existed
+        // by the requested boundary. This prevents a later manual edit leaking backward.
+        const missingKnownBaseline = revision === 0 && durableLength <= end;
+        // Full active-branch resolution may carry a later durable admin state across
+        // deletion(s), but only when the surviving revision is its ancestor. Same-length
+        // swipe changes therefore remain branch-local.
+        const deletedDurableAnchor = commitActive
+            && end < durableLength
+            && (revision === 0 || revisionDescendsFrom(root, durableRevision, revision));
+        if (missingKnownBaseline || deletedDurableAnchor) revision = durableRevision;
     }
 
     if (commitActive) {
@@ -935,6 +953,7 @@ export function commitManualState(context, state, {
     const previous = getInventoryAt(root, root.activeRevision);
     if (inventoryEquals(previous, normalized)) {
         root.durableRevision = root.activeRevision;
+        root.durableLength = Array.isArray(context?.chat) ? context.chat.length : 0;
         compactRevisions(root);
         return root.activeRevision;
     }

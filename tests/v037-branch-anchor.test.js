@@ -107,3 +107,31 @@ test('explicit administrative reconciliation can promote an LLM revision to dura
   c.chat.length = 0;
   assert.equal(resolveActiveRevision(c), revision);
 });
+
+
+test('manual durable edit survives tail deletion even when an older non-empty revision survives', () => {
+  const c = ctx([assistant('start'), user('find loot'), assistant('loot found'), user('note inventory'), assistant('tail')]);
+  const root = ensureRoot(c);
+  const seed = createRevision(c, inv([item('Coin Pouch', '1', '100 Gold')]), { parent: 0, source: SOURCE.SEED });
+  attachMessageRevision(c, 0, { baseRevision: 0, revision: seed, newUid: true, portable: true });
+  const loot = createRevision(c, inv([item('Coin Pouch', '1', '100 Gold'), item('Gem')]), { parent: seed, source: SOURCE.LLM });
+  attachMessageRevision(c, 2, { baseRevision: seed, revision: loot, newUid: true, portable: true });
+  const manual = commitManualState(c, inv([item('Coin Pouch', '1', '100 Gold'), item('Gem'), item('Map')]), { source: SOURCE.MANUAL });
+  assert.equal(root.durableRevision, manual);
+  assert.equal(root.durableLength, 5);
+  c.chat.pop();
+  invalidateLineageCache(c);
+  assert.equal(resolveActiveRevision(c), manual);
+  assert.ok(getCurrentInventory(c).categories[0].items.some(x => x.name === 'Map'));
+});
+
+test('prefix resolution never pulls a later durable manual edit backward', () => {
+  const c = ctx([assistant('start'), user('question'), assistant('answer')]);
+  const root = ensureRoot(c);
+  const seed = createRevision(c, inv([item('Torch', '2')]), { parent: 0, source: SOURCE.SEED });
+  attachMessageRevision(c, 0, { baseRevision: 0, revision: seed, newUid: true, portable: true });
+  const manual = commitManualState(c, inv([item('Torch', '2'), item('Late Map')]), { source: SOURCE.MANUAL });
+  assert.equal(root.durableRevision, manual);
+  assert.equal(root.durableLength, 3);
+  assert.equal(resolveRevisionBeforeMessage(c, 2), seed);
+});

@@ -3,8 +3,8 @@
 Branch-anchor hardening for swipe and message deletion.
 
 - Adds a chat-level durable inventory revision for starting seeds and explicit administrative state (manual edits, imports, restores, resets, and broad OOC inventory administration).
-- Uses the durable revision only as an anti-empty fallback, so valid swipe branches keep their own state while missing/deleted anchors can no longer collapse an established inventory to revision 0.
-- Keeps ordinary LLM inventory changes above that floor branch-sensitive, so deleting a purchase/loot response still rolls that narrative change back.
+- Tracks the durable revision with its chat-length boundary: valid swipe branches keep their own state, later manual edits never leak backward, and deleting an admin anchor carries that state forward instead of silently rolling it away.
+- Keeps ordinary LLM inventory changes branch-sensitive, so deleting a purchase/loot response still rolls that narrative change back.
 - Migrates existing v0.3.6 metadata by recovering the newest durable-source revision already present in history.
 - Forces history compaction to retain the durable revision and its portable checkpoint when available.
 - Adds prefix resolution for swipes: an untracked/new swipe inherits inventory from immediately before that assistant response instead of first resolving an incomplete branch.
