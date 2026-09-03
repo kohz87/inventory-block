@@ -1,18 +1,19 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { formatInventoryBlock } from '../src/snapshot.js';
+import { formatInventoryBlock, TRANSPORT_MARKER } from '../src/snapshot.js';
 import { buildInventoryGenerationPrompt, CONTEXT_BEGIN, injectInventorySnapshot } from '../src/prompt.js';
 
 const oldState = { categories: [{ name: 'General', items: [{ name: 'Coin Pouch', quantity: '1', remark: '10 Gold' }] }] };
 const currentState = { categories: [{ name: 'General', items: [{ name: 'Coin Pouch', quantity: '1', remark: '500 Gold' }, { name: 'Key', quantity: '1', remark: 'Pocket' }] }] };
 
-test('generation prompt declares one full authoritative snapshot', () => {
+test('generation prompt declares one hidden full authoritative snapshot', () => {
   const prompt = buildInventoryGenerationPrompt(currentState);
   assert.match(prompt, /sole authoritative current possession state/);
   assert.match(prompt, /EVERY assistant response/);
-  assert.match(prompt, /full snapshot, never a patch/);
+  assert.match(prompt, /never a patch/);
   assert.match(prompt, /500 Gold/);
   assert.match(prompt, /Preserve every unchanged item and category exactly/);
+  assert.match(prompt, new RegExp(TRANSPORT_MARKER));
   assert.equal((prompt.match(/<Inventory>/g) ?? []).length, 1);
 });
 
@@ -29,6 +30,7 @@ test('chat prompt removes historical snapshots and injects only current state', 
   const serialized = JSON.stringify(event.chat);
   assert.doesNotMatch(serialized, /10 Gold/);
   assert.match(serialized, /500 Gold/);
+  assert.match(serialized, new RegExp(TRANSPORT_MARKER));
   assert.equal((serialized.match(/<Inventory>/g) ?? []).length, 1);
 });
 
