@@ -20,7 +20,9 @@ jobs:
         with:
           node-version: 22
       - name: Apply v0.4.0 one-pass transform
-        run: python3 scripts/v040_one_pass.py
+        run: |
+          python3 scripts/v040_one_pass.py
+          python3 scripts/v040_assertion_fix.py
       - name: Ten repeated hard-pass cycles
         run: |
           for i in $(seq 1 10); do
@@ -33,6 +35,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add CHANGELOG.md README.md TEST-REPORT.md index.js manifest.json package.json src/constants.js src/protocol.js src/reconcile.js style.css tests/integration-static.test.js tests/release.test.js tests/v033-reconcile.test.js tests/v034-raw-compat.test.js tests/v035-manual-reconcile.test.js tests/v040-one-pass.test.js
+          git add CHANGELOG.md README.md TEST-REPORT.md index.js manifest.json package.json src/constants.js src/protocol.js src/reconcile.js style.css tests/integration-static.test.js tests/release.test.js tests/v033-reconcile.test.js tests/v034-raw-compat.test.js tests/v035-manual-reconcile.test.js tests/v037-runtime-static.test.js tests/v040-one-pass.test.js
           git commit -m "Inventory Block v0.4.0: one-pass foreground accounting"
           git push origin HEAD:feature/v0.4.0-one-pass
