@@ -241,7 +241,9 @@ function trailingTruncatedInventoryStart(text) {
 function removeTrailingTruncatedInventory(text) {
     const source = String(text ?? '');
     const open = trailingTruncatedInventoryStart(source);
-    return open >= 0 ? source.slice(0, open).trimEnd() : source;
+    if (open < 0) return source;
+    const transport = transportRanges(source).find(range => range.start <= open && range.end > open) ?? null;
+    return source.slice(0, transport?.start ?? open).trimEnd();
 }
 
 export function stripInventoryBlocks(text, { stripTrailingTruncated = true } = {}) {
