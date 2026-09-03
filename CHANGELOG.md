@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.5.2
+
+Narration-hiding and category interaction hotfix.
+
+- Stores canonical message-native Inventory snapshots inside a marked HTML-comment envelope so the raw `<Inventory>` source remains in SillyTavern history without leaking into rendered narration.
+- Normalizes plain v0.5.0/v0.5.1 or weak-model `<Inventory>` output into the hidden envelope after receipt and when edited/swiped/rendered messages are encountered.
+- Keeps plain historical snapshots fully readable by the parser; the transport change does not introduce a backend migration or second state store.
+- Removes the complete Inventory-owned transport from temporary generation prompts while preserving foreign extension payloads.
+- Restores per-category expand/collapse with native `<details>/<summary>` controls and remembers open sections per chat.
+- Handles truncated hidden snapshots atomically during later manual replacement so an unterminated comment cannot be left behind.
+- Keeps v0.5.1 Megumin tab migration and the v0.5 message-native source-of-truth semantics unchanged.
+
 ## 0.5.1
 
 Megumin tab-host integration hotfix.
