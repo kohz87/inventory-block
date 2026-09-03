@@ -1,3 +1,14 @@
+## 0.4.3
+
+Semantic/range resource operation hardening.
+
+- Makes `adjust_resource` an explicit one-and-only-one-number operation: the exact authoritative Remark must contain exactly one numeric amount and the completed event must establish a numeric signed change in that same unit.
+- Explicitly forbids `adjust_resource` for zero-number semantic Remarks, numeric ranges, and multi-number Remarks such as `Several days`, `About a week`, `5-7 days`, `5–7 days`, and `2 meals / 3 days`.
+- Directs the foreground model to use `edit_item` only when the completed event establishes the complete intended replacement Remark; otherwise it must emit no operation for that row rather than guess or invent precision.
+- Preserves backend fail-closed validation for ambiguous Remark arithmetic, so malformed `adjust_resource` attempts remain atomic no-ops instead of silently choosing a number.
+- Adds regression coverage for semantic, range, and multi-number Travel Provisions Remarks plus the deterministic `edit_item` fallback.
+- Keeps v0.4.2 edit-event ordering, v0.4.1 shared-generation interoperability, one-pass foreground accounting, and `STATE_VERSION` 2 unchanged. No migration is required.
+
 ## 0.4.2
 
 Manual message edit event-order hardening.
@@ -133,7 +144,7 @@ History inspection, comparison, and retention controls.
 - Makes revision, branch-head, and sticky-branch-head compaction honor the selected retention budget so old branch metadata cannot silently grow beyond the configured cap.
 - Adds **Trim History Now** for immediate compaction of the active chat.
 - Adds **Clear History** while preserving the exact current inventory as a new baseline.
-- Clear History scrubs stale Inventory Block metadata from current and alternate swipe records before writing the new baseline checkpoint, preventing deleted history from being reconstructed later.
+- Clear History scrubs stale Inventory Block metadata from current and alternate swipe records before writing the new baseline checkpoint, preventing deleted history from being reconstructed later from portable metadata.
 - Bumps mutation serial on history clearing so any in-flight generation using the old history cannot commit stale inventory state afterward.
 - History viewing/comparison remains backend-only and consumes no LLM context tokens.
 

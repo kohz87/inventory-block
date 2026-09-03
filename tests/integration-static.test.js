@@ -6,10 +6,10 @@ const constants=fs.readFileSync(new URL('../src/constants.js',import.meta.url),'
 const manifest=JSON.parse(fs.readFileSync(new URL('../manifest.json',import.meta.url),'utf8'));
 const pkg=JSON.parse(fs.readFileSync(new URL('../package.json',import.meta.url),'utf8'));
 
-test('release metadata, runtime version, and interceptor are v0.4.2',()=>{
-  assert.equal(manifest.version,'0.4.2');
-  assert.equal(pkg.version,'0.4.2');
-  assert.match(constants,/VERSION = '0\.4\.2'/);
+test('release metadata, runtime version, and interceptor are v0.4.3',()=>{
+  assert.equal(manifest.version,'0.4.3');
+  assert.equal(pkg.version,'0.4.3');
+  assert.match(constants,/VERSION = '0\.4\.3'/);
   assert.equal(manifest.generate_interceptor,'inventoryBlockGenerationInterceptor');
   assert.match(index,/globalThis\.inventoryBlockGenerationInterceptor\s*=\s*onGenerationInterceptor/);
 });
