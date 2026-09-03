@@ -4,6 +4,7 @@ const BLOCK_ID = 'inventory';
 let renderCurrent = null;
 let mountedMessage = null;
 let observer = null;
+let observerRetry = null;
 let timer = null;
 let suspended = false;
 let force = false;
@@ -27,13 +28,40 @@ function hideRawInventoryElements() {
     });
 }
 
-function meguminHost(messageElement) {
+/**
+ * Return Megumin's native card only after both of the attachment roots exist.
+ * A partially rendered card is not yet a valid host.
+ */
+export function inventoryMeguminHost(messageElement) {
     const card = messageElement?.querySelector?.('.meg-blocks') ?? null;
-    return card?.querySelector?.('.meg-blocks-tabs') && card?.querySelector?.('.meg-blocks-panel') ? card : null;
+    if (!card?.querySelector?.('.meg-blocks-tabs') || !card?.querySelector?.('.meg-blocks-panel')) return null;
+    return card;
 }
 
-function removeOldMount(messageElement) {
-    messageElement?.querySelectorAll?.('.inventory-block-tab,.inventory-block-pane,.inventory-block-card').forEach(node => node.remove());
+/**
+ * Rendering may be skipped only when Inventory is already mounted in the host
+ * mode that is available right now. A standalone mount must never block later
+ * migration when Megumin finishes constructing its tab card.
+ */
+export function inventoryMountMatchesHost(messageElement) {
+    const card = inventoryMeguminHost(messageElement);
+    if (card) {
+        return Boolean(card.querySelector?.('.inventory-block-tab') && card.querySelector?.('.inventory-block-pane'));
+    }
+    return Boolean(messageElement?.querySelector?.('.inventory-block-card'));
+}
+
+function removeInventoryFromMessage(messageElement) {
+    messageElement?.querySelectorAll?.('.inventory-block-tab').forEach(node => node.remove());
+    messageElement?.querySelectorAll?.('.inventory-block-pane').forEach(node => node.remove());
+    messageElement?.querySelectorAll?.('.inventory-block-card').forEach(node => node.remove());
+}
+
+function cleanupPreviousMount(keep = null) {
+    if (mountedMessage && mountedMessage !== keep && mountedMessage.isConnected) {
+        removeInventoryFromMessage(mountedMessage);
+    }
+    mountedMessage = keep;
 }
 
 function makeTab() {
@@ -42,6 +70,8 @@ function makeTab() {
     tab.className = 'meg-blocks-tab inventory-block-tab';
     tab.dataset.key = TAB_KEY;
     tab.dataset.blockId = BLOCK_ID;
+    tab.title = 'Inventory';
+    tab.setAttribute('aria-label', 'Inventory');
     tab.innerHTML = '<span class="meg-blocks-tab-emoji">🎒</span><span class="meg-blocks-tab-label">Inventory</span>';
     return tab;
 }
@@ -55,35 +85,75 @@ function makePane() {
     return pane;
 }
 
-function attachMegumin(messageElement, card) {
+function deactivateInventory(card) {
+    card.querySelector('.inventory-block-tab')?.classList.remove('active');
+    const pane = card.querySelector('.inventory-block-pane');
+    if (pane) pane.style.display = 'none';
+}
+
+function neutralizeMeguminSelection(card) {
+    const active = card.querySelector('.meg-blocks-tab.active:not(.inventory-block-tab)');
+    active?.click?.();
+}
+
+function activateInventory(card) {
+    neutralizeMeguminSelection(card);
+    card.querySelectorAll('.meg-blocks-tab.active').forEach(tab => tab.classList.remove('active'));
+    card.querySelectorAll('.meg-block-body').forEach(pane => { pane.style.display = 'none'; });
+    card.querySelector('.inventory-block-tab')?.classList.add('active');
+    const pane = card.querySelector('.inventory-block-pane');
+    if (pane) pane.style.display = '';
+    card.classList.remove('meg-blocks-shut');
+}
+
+function bindExistingCard(card) {
+    if (card.dataset.inventoryBlockBound === '1') return;
+    card.dataset.inventoryBlockBound = '1';
+    card.addEventListener('click', event => {
+        const target = event.target?.closest?.('button');
+        if (!target || !card.contains(target) || target.classList.contains('inventory-block-tab')) return;
+        if (target.classList.contains('meg-blocks-tab') || target.classList.contains('meg-blocks-collapse')) {
+            deactivateInventory(card);
+        }
+    }, true);
+}
+
+function attachMegumin(messageElement, readyCard = inventoryMeguminHost(messageElement)) {
+    const card = readyCard;
+    if (!card) return false;
+    bindExistingCard(card);
+
     const tabs = card.querySelector('.meg-blocks-tabs');
     const panel = card.querySelector('.meg-blocks-panel');
     if (!tabs || !panel) return false;
+
     let tab = card.querySelector('.inventory-block-tab');
     let pane = card.querySelector('.inventory-block-pane');
+
     if (!tab) {
         tab = makeTab();
-        tabs.insertBefore(tab, tabs.querySelector('.meg-blocks-collapse'));
+        const collapse = tabs.querySelector('.meg-blocks-collapse');
+        if (collapse) tabs.insertBefore(tab, collapse);
+        else tabs.appendChild(tab);
+
+        tab.addEventListener('click', event => {
+            event.preventDefault();
+            event.stopPropagation();
+            const isOpen = tab.classList.contains('active') && pane?.style.display !== 'none';
+            if (isOpen) {
+                deactivateInventory(card);
+                card.classList.add('meg-blocks-shut');
+            } else {
+                activateInventory(card);
+            }
+        });
     }
+
     if (!pane) {
         pane = makePane();
         panel.appendChild(pane);
     }
-    if (tab.dataset.inventoryBound !== '1') {
-        tab.dataset.inventoryBound = '1';
-        tab.addEventListener('click', event => {
-            event.preventDefault();
-            event.stopPropagation();
-            const opening = pane.style.display === 'none';
-            card.querySelectorAll('.meg-blocks-tab.active').forEach(node => node.classList.remove('active'));
-            card.querySelectorAll('.meg-block-body').forEach(node => { node.style.display = 'none'; });
-            if (opening) {
-                tab.classList.add('active');
-                pane.style.display = '';
-                card.classList.remove('meg-blocks-shut');
-            }
-        });
-    }
+
     renderCurrent?.(pane);
     return true;
 }
@@ -91,36 +161,60 @@ function attachMegumin(messageElement, card) {
 function attachStandalone(messageElement) {
     const body = messageElement.querySelector('.mes_text');
     if (!body) return false;
+
     let card = body.querySelector(':scope > .inventory-block-card');
     if (!card) {
         card = document.createElement('div');
-        card.className = 'inventory-block-card';
-        card.innerHTML = '<div class="inventory-block-card-head">🎒 Inventory</div><div class="inventory-block-pane"></div>';
+        card.className = 'inventory-block-card inventory-block-standalone';
+        card.innerHTML = `
+            <div class="meg-blocks-tabs">
+                <button type="button" class="meg-blocks-tab inventory-block-tab active" data-key="${TAB_KEY}" data-block-id="${BLOCK_ID}" aria-label="Inventory" title="Inventory">
+                    <span class="meg-blocks-tab-emoji">🎒</span><span class="meg-blocks-tab-label">Inventory</span>
+                </button>
+                <button type="button" class="meg-blocks-collapse" title="Fold"><i class="fa-solid fa-chevron-down"></i></button>
+            </div>
+            <div class="meg-blocks-panel"><div class="meg-block-body inventory-block-pane" data-key="${TAB_KEY}" data-block-id="${BLOCK_ID}"></div></div>`;
         body.appendChild(card);
+
+        const tab = card.querySelector('.inventory-block-tab');
+        const pane = card.querySelector('.inventory-block-pane');
+        const toggle = event => {
+            event.stopPropagation();
+            if (!pane || !tab) return;
+            const open = pane.style.display !== 'none';
+            pane.style.display = open ? 'none' : '';
+            tab.classList.toggle('active', !open);
+            card.classList.toggle('meg-blocks-shut', open);
+        };
+        tab?.addEventListener('click', toggle);
+        card.querySelector('.meg-blocks-collapse')?.addEventListener('click', toggle);
     }
+
     const pane = card.querySelector('.inventory-block-pane');
     if (pane) renderCurrent?.(pane);
     return true;
 }
 
 function mountNow() {
-    if (suspended || !renderCurrent) return;
+    if (suspended || !renderCurrent || !globalThis.SillyTavern?.getContext) return;
     hideRawInventoryElements();
+
     const ctx = context();
     const messageElement = latestAssistantElement(ctx);
     if (!messageElement) {
-        if (mountedMessage?.isConnected) removeOldMount(mountedMessage);
-        mountedMessage = null;
+        cleanupPreviousMount(null);
+        force = false;
         return;
     }
-    if (!force && mountedMessage === messageElement && messageElement.querySelector('.inventory-block-pane')) return;
+
+    const meguminCard = inventoryMeguminHost(messageElement);
+    if (!force && mountedMessage === messageElement && inventoryMountMatchesHost(messageElement)) return;
     force = false;
-    if (mountedMessage && mountedMessage !== messageElement && mountedMessage.isConnected) removeOldMount(mountedMessage);
-    mountedMessage = messageElement;
-    const host = meguminHost(messageElement);
-    if (host) {
+    cleanupPreviousMount(messageElement);
+
+    if (meguminCard) {
         messageElement.querySelector('.inventory-block-card')?.remove();
-        attachMegumin(messageElement, host);
+        attachMegumin(messageElement, meguminCard);
     } else {
         attachStandalone(messageElement);
     }
@@ -128,12 +222,25 @@ function mountNow() {
 
 function ensureObserver() {
     const chat = document.querySelector('#chat');
-    if (!chat || observer?.__inventoryChat === chat) return;
+    if (!chat) {
+        if (!observerRetry) {
+            observerRetry = setTimeout(() => {
+                observerRetry = null;
+                ensureObserver();
+                scheduleInventoryMount(0, { forceRender: true });
+            }, 250);
+        }
+        return;
+    }
+
+    if (observer?.__inventoryChat === chat) return;
     observer?.disconnect();
     observer = new MutationObserver(mutations => {
         const relevant = mutations.some(mutation => {
             const target = mutation.target instanceof Element ? mutation.target : mutation.target?.parentElement;
-            return !target?.closest?.('.inventory-block-pane,.inventory-block-card');
+            if (!target) return true;
+            if (target.closest('.inventory-block-pane') || target.closest('.inventory-block-card')) return false;
+            return true;
         });
         if (relevant) scheduleInventoryMount(60);
     });
@@ -153,8 +260,16 @@ export function scheduleInventoryMount(delay = 30, { forceRender = false } = {})
 }
 
 export function setInventoryMountSuspended(value) {
-    suspended = Boolean(value);
-    if (!suspended) scheduleInventoryMount(0, { forceRender: true });
+    const next = Boolean(value);
+    if (suspended === next) return;
+    suspended = next;
+    if (suspended) {
+        if (timer) clearTimeout(timer);
+        timer = null;
+        return;
+    }
+    force = true;
+    scheduleInventoryMount(0, { forceRender: true });
 }
 
 export function initializeMeguminBridge(renderer) {

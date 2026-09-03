@@ -12,7 +12,7 @@ import { injectInventorySnapshot } from './src/prompt.js';
 import { copyText, openInventoryEditor, renderInventoryPane } from './src/ui.js';
 import { initializeMeguminBridge, scheduleInventoryMount, setInventoryMountSuspended } from './src/megumin.js';
 
-const VERSION = '0.5.0';
+const VERSION = '0.5.1';
 const SESSION_MAX_AGE_MS = 2 * 60 * 1000;
 
 let initialized = false;
