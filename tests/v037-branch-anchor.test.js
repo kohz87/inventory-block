@@ -102,9 +102,13 @@ test('explicit administrative reconciliation can promote an LLM revision to dura
   const root = ensureRoot(c);
   const revision = createRevision(c, inv([item('Admin Set')]), { parent: 0, source: SOURCE.LLM });
   assert.equal(root.durableRevision, 0);
+  root.resolvedLength = 0;
   markDurableRevision(c, revision);
   assert.equal(root.durableRevision, revision);
+  assert.equal(root.resolvedLength, 1);
   assert.equal(getRevision(root, revision).durable, true);
+  rememberBranchHead(c, revision);
+  assert.ok(Object.values(root.branchHeads).some(head => head.revision === revision && head.sticky === true));
   c.chat.length = 0;
   assert.equal(resolveActiveRevision(c), revision);
 });
@@ -195,4 +199,21 @@ test('deletion preserves an explicitly promoted LLM durable revision on the sele
   c.chat.pop();
   invalidateLineageCache(c);
   assert.equal(resolveActiveRevision(c), branch0);
+});
+
+
+test('durable portable checkpoint preserves promoted LLM durability during metadata rebuild', () => {
+  const original = ctx([assistant('admin state')]);
+  const root = ensureRoot(original);
+  const revision = createRevision(original, inv([item('Promoted Portable')]), { parent: 0, source: SOURCE.LLM });
+  markDurableRevision(original, revision);
+  attachMessageRevision(original, 0, { baseRevision: 0, revision, newUid: true, portable: true });
+  assert.equal(original.chat[0].extra[EXTRA_KEY].checkpoint.durable, true);
+
+  const rebuilt = ctx(structuredClone(original.chat));
+  ensureRoot(rebuilt);
+  const rebuiltRoot = ensureRoot(rebuilt);
+  assert.notEqual(rebuiltRoot.durableRevision, 0);
+  assert.equal(getRevision(rebuiltRoot, rebuiltRoot.durableRevision).durable, true);
+  assert.equal(getCurrentInventory(rebuilt).categories[0].items[0].name, 'Promoted Portable');
 });

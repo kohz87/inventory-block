@@ -6,7 +6,7 @@ Branch-anchor hardening for swipe and message deletion.
 - Tracks durable state boundaries and the last resolved branch length: valid swipe branches keep their own state, later manual edits never leak backward, and deletion carries forward the nearest seed/admin ancestor of the branch that was actually active.
 - Keeps ordinary LLM inventory changes branch-sensitive, so deleting a purchase/loot response still rolls that narrative change back.
 - Migrates existing v0.3.6 metadata by recovering the newest durable-source revision already present in history.
-- Forces history compaction to retain the durable revision and its portable checkpoint when available.
+- Forces history compaction to retain durable revisions/checkpoints, keeps promoted admin branch heads sticky, and preserves durability when portable metadata is rebuilt.
 - Adds prefix resolution for swipes: an untracked/new swipe inherits inventory from immediately before that assistant response instead of first resolving an incomplete branch.
 - Keeps processed swipes independent while preventing missing swipe metadata from being stamped with an accidental empty fallback.
 

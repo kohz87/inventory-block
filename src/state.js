@@ -612,6 +612,12 @@ function hydratePortableTimeline(context, root) {
                     });
                     currentState = checkpointState;
                 }
+                if (checkpoint.durable === true) {
+                    const recovered = getRevision(root, currentRevision);
+                    if (recovered) recovered.durable = true;
+                    root.durableRevision = currentRevision;
+                    root.durableLength = index + 1;
+                }
                 foundCheckpoint = true;
                 checkpoint.revision = currentRevision;
                 checkpoint.lineageHash = data.prefixKeys[index + 1] ?? 'root';
@@ -690,6 +696,7 @@ export function markDurableRevision(context, revisionId = null) {
     revision.durable = true;
     root.durableRevision = id;
     root.durableLength = Array.isArray(context?.chat) ? context.chat.length : 0;
+    root.resolvedLength = root.durableLength;
     compactRevisions(root);
     return id;
 }
@@ -711,7 +718,8 @@ export function rememberBranchHead(context, revisionId = null) {
     const data = lineageData(context);
     const key = data.prefixKeys.at(-1) ?? 'root';
     const revision = getRevision(root, id);
-    const sticky = [SOURCE.MANUAL, SOURCE.RESTORE, SOURCE.IMPORT, SOURCE.RESET].includes(revision?.source);
+    const sticky = revision?.durable === true
+        || [SOURCE.MANUAL, SOURCE.RESTORE, SOURCE.IMPORT, SOURCE.RESET].includes(revision?.source);
     root.branchHeads[key] = { revision: id, length: data.fingerprints.length, sticky, touchedAt: Date.now(), lineageVersion: LINEAGE_VERSION };
     pruneBranchHeads(root);
     compactRevisions(root);

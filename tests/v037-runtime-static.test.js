@@ -16,6 +16,8 @@ test('durable fallback is wired into branch resolution and administrative reconc
   assert.match(state, /durableRevision/);
   assert.match(state, /nearestDurableAncestor/);
   assert.match(state, /revision\.durable === true/);
+  assert.match(state, /root\.resolvedLength = root\.durableLength/);
+  assert.match(state, /revision\?\.durable === true/);
   assert.match(state, /end < previousLength/);
   assert.match(state, /durableLength <= end/);
   assert.match(index, /session\.replaceCapability\) markDurableRevision/);
