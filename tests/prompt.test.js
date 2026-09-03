@@ -13,6 +13,7 @@ test('generation prompt declares one full authoritative snapshot', () => {
   assert.match(prompt, /full snapshot, never a patch/);
   assert.match(prompt, /500 Gold/);
   assert.match(prompt, /Preserve every unchanged item and category exactly/);
+  assert.equal((prompt.match(/<Inventory>/g) ?? []).length, 1);
 });
 
 test('chat prompt removes historical snapshots and injects only current state', () => {
@@ -21,8 +22,10 @@ test('chat prompt removes historical snapshots and injects only current state', 
     { role: 'assistant', content: `old story\n${formatInventoryBlock(oldState)}` },
     { role: 'user', content: 'continue' },
   ] };
+  const originalArray = event.chat;
   const result = injectInventorySnapshot(event, currentState);
   assert.equal(result.injected, true);
+  assert.equal(event.chat, originalArray, 'shared chat-array identity must be preserved for other extensions');
   const serialized = JSON.stringify(event.chat);
   assert.doesNotMatch(serialized, /10 Gold/);
   assert.match(serialized, /500 Gold/);
@@ -46,4 +49,17 @@ test('reinjection is idempotent and refreshes the authoritative snapshot', () =>
   assert.equal((event.prompt.match(new RegExp(CONTEXT_BEGIN, 'g')) ?? []).length, 1);
   assert.doesNotMatch(event.prompt, /10 Gold/);
   assert.match(event.prompt, /500 Gold/);
+});
+
+test('reinjection removes only Inventory-owned context and preserves foreign additions in the same system message', () => {
+  const oldPrompt = buildInventoryGenerationPrompt(oldState);
+  const event = { chat: [{ role: 'system', content: `${oldPrompt}\nFOREIGN_EXTENSION_KEEP` }] };
+  const originalArray = event.chat;
+  injectInventorySnapshot(event, currentState);
+  assert.equal(event.chat, originalArray);
+  const serialized = JSON.stringify(event.chat);
+  assert.match(serialized, /FOREIGN_EXTENSION_KEEP/);
+  assert.doesNotMatch(serialized, /10 Gold/);
+  assert.match(serialized, /500 Gold/);
+  assert.equal((serialized.match(new RegExp(CONTEXT_BEGIN, 'g')) ?? []).length, 1);
 });
