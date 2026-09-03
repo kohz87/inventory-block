@@ -1,4 +1,4 @@
-# Inventory Block v0.4.2
+# Inventory Block v0.4.3
 
 Inventory Block is a lightweight SillyTavern RPG inventory extension with a **per-chat canonical backend**. The chat remains story history; inventory state is stored separately and rendered as an Inventory block compatible with Megumin Suite's block area.
 
@@ -28,11 +28,13 @@ Linen Smock | 1 | Worn
 
 `<Inventory>` is a **one-time starting-inventory seed** for initial character/group greetings. After seeding, the backend is authoritative and later `<Inventory>` blocks are stripped rather than becoming a new source of truth.
 
-For resource containers such as `Coin Pouch | 1 | 100 Gold` or `Food | 1 | About 7 days`, Quantity may identify the container/stock row while the meaningful remaining amount lives in Remark. v0.3.2 uses backend-enforced `adjust_resource` arithmetic for Remark values containing one numeric amount, including comma-grouped values such as `1,200 Gold`. A 15 Gold purchase applies `-15` to `100 Gold` and deterministically produces `85 Gold`; one established day of food consumption applies `-1` to `About 7 days` and preserves the wording as `About 6 days`. Numeric overdraws reject the entire patch instead of silently deleting or creating negative stock. Semantic states such as `Waterskin | 1 | Full` still use `edit_item`.
+For resource containers such as `Coin Pouch | 1 | 100 Gold` or `Food | 1 | About 7 days`, Quantity may identify the container/stock row while the meaningful remaining amount lives in Remark. Backend-enforced `adjust_resource` arithmetic is used only when the exact authoritative Remark contains **one and only one numeric amount**, including comma-grouped values such as `1,200 Gold`. A 15 Gold purchase applies `-15` to `100 Gold` and deterministically produces `85 Gold`; one established day of food consumption applies `-1` to `About 7 days` and preserves the wording as `About 6 days`.
+
+Semantic, range, and multi-number Remarks do not use `adjust_resource`. Examples include `Several days`, `About a week`, `5-7 days`, `5–7 days`, and `2 meals / 3 days`. When a completed event establishes the complete new wording, the model uses `edit_item`; otherwise it emits no operation for that row rather than inventing a numeric interpretation. Numeric overdraws still reject the entire patch instead of silently deleting or creating negative stock. Semantic states such as `Waterskin | 1 | Full` likewise use `edit_item`.
 
 ## LLM integration
 
-Inventory Block v0.4.2 uses a **one-pass foreground accounting architecture**. At SillyTavern's final prompt-ready stage, the extension injects the current canonical Inventory JSON plus the compact validated patch protocol into the same assistant generation that writes the RP response. The model writes visible story/structured content first and, only when that response establishes completed possession/resource changes, emits one hidden `INVENTORY_BLOCK_UPDATE` machine control in the machine-output trailer.
+Inventory Block v0.4.3 uses a **one-pass foreground accounting architecture**. At SillyTavern's final prompt-ready stage, the extension injects the current canonical Inventory JSON plus the compact validated patch protocol into the same assistant generation that writes the RP response. The model writes visible story/structured content first and, only when that response establishes completed possession/resource changes, emits one hidden `INVENTORY_BLOCK_UPDATE` machine control in the machine-output trailer.
 
 Inventory no longer claims the absolute final response position. Other extensions may emit their own independently namespaced machine payloads before or after the Inventory control. Each payload must remain standalone; Inventory Block extracts and strips only `INVENTORY_BLOCK_UPDATE` and preserves unrelated prose/structured payloads byte-for-byte for their owning extensions.
 
@@ -51,7 +53,7 @@ Full replacement remains available only for an explicit bracketed OOC/admin inve
 [Compact all food related items into 1 food item and remark the quantity in duration]
 ```
 
-Completed gains and losses of tracked finite resources are treated as Inventory changes. This includes money, food, water, ammunition, fuel, medicine, crafting supplies, charges, and ordinary possessions. Plain numeric Quantity values use `adjust_item`; single numeric balances stored in Remark use backend-enforced `adjust_resource`; semantic Remark states such as Full/Half full/Empty use `edit_item`. Approximate descriptions such as `About 7 days` remain approximate rather than being converted into invented exact units.
+Completed gains and losses of tracked finite resources are treated as Inventory changes. This includes money, food, water, ammunition, fuel, medicine, crafting supplies, charges, and ordinary possessions. Plain numeric Quantity values use `adjust_item`. Remarks with exactly one numeric amount use backend-enforced `adjust_resource`; semantic, range, or multi-number Remarks use `edit_item` only when the complete replacement Remark is actually established. Approximate descriptions such as `About 7 days` remain approximate rather than being converted into invented exact units.
 
 Only completed changes count. Planned, attempted, negotiated, interrupted, or failed actions do not spend or grant resources unless the response establishes that they actually happened. Durable containers can remain when empty, such as `Coin Pouch | 1 | 0 Gold` or `Waterskin | 1 | Empty`; exhausted rows that represent the consumable stock itself are removed instead of becoming ghost stock. Negative resource balances are forbidden, and related changes from the same event are emitted in one atomic patch.
 
