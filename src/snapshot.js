@@ -1,7 +1,9 @@
 export const INVENTORY_TAG = 'Inventory';
 export const ROOT_CATEGORY = 'General';
+export const TRANSPORT_MARKER = 'INVENTORY_BLOCK_V05';
 
 const COMPLETE_BLOCK = /<Inventory\b[^>]*>([\s\S]*?)<\/Inventory\s*>/gi;
+const TRANSPORT_BLOCK = /<!--\s*INVENTORY_BLOCK_V05\b[\s\S]*?-->/gi;
 
 function clean(value) {
     return String(value ?? '').replace(/\r?\n/g, ' ').trim();
@@ -149,17 +151,42 @@ export function formatInventoryBlock(state) {
     return lines.join('\n');
 }
 
+export function formatInventoryTransport(state) {
+    return `<!-- ${TRANSPORT_MARKER}\n${formatInventoryBlock(state)}\n-->`;
+}
+
+function transportRanges(source) {
+    const ranges = [];
+    for (const match of String(source ?? '').matchAll(TRANSPORT_BLOCK)) {
+        const start = match.index ?? 0;
+        ranges.push({ start, end: start + match[0].length, raw: match[0] });
+    }
+    return ranges;
+}
+
 export function inventoryBlocks(text) {
     const source = String(text ?? '');
+    const transports = transportRanges(source);
     const blocks = [];
     for (const match of source.matchAll(COMPLETE_BLOCK)) {
         const raw = match[0];
         const start = match.index ?? 0;
+        const end = start + raw.length;
+        const transport = transports.find(range => range.start <= start && range.end >= end) ?? null;
         let state = null;
         let error = null;
         try { state = parseInventoryBody(match[1]); }
         catch (caught) { error = caught instanceof Error ? caught : new Error(String(caught)); }
-        blocks.push({ start, end: start + raw.length, raw, state, error });
+        blocks.push({
+            start,
+            end,
+            raw,
+            state,
+            error,
+            hidden: Boolean(transport),
+            transportStart: transport?.start ?? null,
+            transportEnd: transport?.end ?? null,
+        });
     }
     return blocks;
 }
@@ -203,31 +230,62 @@ export function inventoryForGeneration(chat, type = 'normal') {
     return normalizeInventory(latestInventorySnapshot(chat)?.state ?? emptyInventory());
 }
 
-function removeTrailingTruncatedInventory(text) {
+function trailingTruncatedInventoryStart(text) {
     const source = String(text ?? '');
     const lower = source.toLowerCase();
     const open = lower.lastIndexOf('<inventory');
     const close = lower.lastIndexOf('</inventory');
-    if (open >= 0 && open > close) return source.slice(0, open).trimEnd();
-    return source;
+    return open >= 0 && open > close ? open : -1;
+}
+
+function removeTrailingTruncatedInventory(text) {
+    const source = String(text ?? '');
+    const open = trailingTruncatedInventoryStart(source);
+    return open >= 0 ? source.slice(0, open).trimEnd() : source;
 }
 
 export function stripInventoryBlocks(text, { stripTrailingTruncated = true } = {}) {
-    let source = String(text ?? '').replace(COMPLETE_BLOCK, '');
+    let source = String(text ?? '').replace(TRANSPORT_BLOCK, '').replace(COMPLETE_BLOCK, '');
     if (stripTrailingTruncated) source = removeTrailingTruncatedInventory(source);
     return source;
 }
 
+export function normalizeInventoryTransports(text) {
+    const original = String(text ?? '');
+    let source = original;
+    const blocks = inventoryBlocks(source);
+    const plain = blocks.filter(block => !block.hidden);
+    for (let i = plain.length - 1; i >= 0; i--) {
+        const block = plain[i];
+        const wrapped = `<!-- ${TRANSPORT_MARKER}\n${block.raw}\n-->`;
+        source = `${source.slice(0, block.start)}${wrapped}${source.slice(block.end)}`;
+    }
+
+    const truncatedStart = trailingTruncatedInventoryStart(source);
+    if (truncatedStart >= 0) {
+        const transports = transportRanges(source);
+        const alreadyHidden = transports.some(range => range.start <= truncatedStart && range.end > truncatedStart);
+        if (!alreadyHidden) {
+            const truncated = source.slice(truncatedStart);
+            source = `${source.slice(0, truncatedStart)}<!-- ${TRANSPORT_MARKER}\n${truncated}\n-->`;
+        }
+    }
+
+    return { text: source, changed: source !== original };
+}
+
 export function replaceOrAppendInventory(text, state) {
-    const block = formatInventoryBlock(state);
+    const transport = formatInventoryTransport(state);
     let source = removeTrailingTruncatedInventory(text);
     const blocks = inventoryBlocks(source);
     if (blocks.length) {
         const target = blocks.at(-1);
-        return `${source.slice(0, target.start)}${block}${source.slice(target.end)}`;
+        const start = target.transportStart ?? target.start;
+        const end = target.transportEnd ?? target.end;
+        return `${source.slice(0, start)}${transport}${source.slice(end)}`;
     }
     source = source.trimEnd();
-    return source ? `${source}\n\n${block}` : block;
+    return source ? `${source}\n\n${transport}` : transport;
 }
 
 export function syncActiveSwipeText(message) {
