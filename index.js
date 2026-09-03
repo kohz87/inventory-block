@@ -11,8 +11,10 @@ import {
     invalidateLineageCache,
     lineageHashThrough,
     listRevisions,
+    markDurableRevision,
     rememberBranchHead,
     resolveActiveRevision,
+    resolveRevisionBeforeMessage,
     restoreRevisionAsNew,
 } from './src/state.js';
 import {
@@ -517,6 +519,7 @@ async function reconcileCompletedSession(session) {
             liveRoot.activeRevision = baseRevision;
         }
 
+        if (!warnings.length && session.replaceCapability) markDurableRevision(live, acceptedRevision);
         attachReconciledRevision(live, session, message, id, acceptedRevision, baseRevision);
         if (!warnings.length) stampReconciliation(live, id, acceptedRevision);
         liveRoot.activeRevision = acceptedRevision;
@@ -615,6 +618,7 @@ async function reconcileLatestResponse({ notifyResult = true } = {}) {
         liveRoot.activeRevision = baseRevision;
     }
 
+    if (replaceCapability) markDurableRevision(live, acceptedRevision);
     const pseudoSession = { chatId: expectedChatId, type: stamp ? 'continue' : 'manual_reconcile' };
     attachReconciledRevision(live, pseudoSession, message, id, acceptedRevision, baseRevision);
     stampReconciliation(live, id, acceptedRevision);
@@ -813,6 +817,7 @@ async function processAssistantMessage(messageId, type = '') {
             }
         }
 
+        if (!concurrentConflict && warnings.length === 0 && pendingApplies && session?.replaceCapability) markDurableRevision(ctx, acceptedRevision);
         message.mes = result.cleanedText;
         const effectiveBase = concurrentConflict ? acceptedRevision : baseRevision;
         const messageBaseRevision = concurrentConflict
@@ -1095,6 +1100,20 @@ function onMessageUpdated(messageId, type = 'updated', manualEdit = false) {
     else setTimeout(() => void resolveBranchAndRefresh(), 0);
 }
 
+function swipeBaseRevision(ctx, message, messageId) {
+    const root = ensureRoot(ctx);
+    const candidates = new Set();
+    const collect = meta => {
+        if (Number.isInteger(meta?.baseRevision) && getRevision(root, meta.baseRevision)) candidates.add(meta.baseRevision);
+    };
+    collect(activeMessageMeta(message));
+    if (Array.isArray(message?.swipe_info)) {
+        for (const info of message.swipe_info) collect(info?.extra?.[EXTRA_KEY]);
+    }
+    if (candidates.size === 1) return candidates.values().next().value;
+    return resolveRevisionBeforeMessage(ctx, messageId);
+}
+
 function onMessageSwiped(messageId) {
     setTimeout(async () => {
         const ctx = context();
@@ -1102,7 +1121,6 @@ function onMessageSwiped(messageId) {
         if (!ctx || !hasActiveChat(ctx) || !Number.isInteger(id)) return;
         try {
             invalidateLineageCache(ctx);
-            const revision = resolveActiveRevision(ctx);
             const message = ctx.chat?.[id];
             if (message && !message.is_user && !message.is_system && hasInventoryControl(message.mes)) {
                 await processAssistantMessage(id, 'existing_swipe');
@@ -1110,9 +1128,17 @@ function onMessageSwiped(messageId) {
             }
             if (message && !message.is_user && !message.is_system) {
                 const meta = activeMessageMeta(message);
-                if (!meta || meta.lineageHash !== lineageHashThrough(ctx, id)) attachMessageRevision(ctx, id, { baseRevision: revision, revision, newUid: true, portable: false });
+                const expectedHash = lineageHashThrough(ctx, id);
+                if (!meta || meta.lineageHash !== expectedHash) {
+                    // A new/untracked swipe inherits the inventory immediately before this
+                    // assistant response. Never resolve the changed branch first, because
+                    // missing swipe metadata must not turn into revision 0/empty inventory.
+                    const baseRevision = swipeBaseRevision(ctx, message, id);
+                    attachMessageRevision(ctx, id, { baseRevision, revision: baseRevision, newUid: true, portable: false });
+                }
             }
-            rememberBranchHead(ctx);
+            const revision = resolveActiveRevision(ctx);
+            rememberBranchHead(ctx, revision);
             ctx.saveMetadataDebounced?.();
             refreshAll();
         } catch (error) {

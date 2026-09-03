@@ -56,6 +56,7 @@ export function clearInventoryHistory(context) {
 
     scrubInventoryMetadata(context);
     root.activeRevision = 0;
+    root.durableRevision = 0;
     root.nextRevision = 1;
     root.mutationSerial = mutationSerial;
     root.revisions = {
@@ -67,11 +68,14 @@ export function clearInventoryHistory(context) {
             createdAt: new Date().toISOString(),
             state: current,
             portable: true,
+            durable: true,
         },
     };
     root.branchHeads = {};
 
     const chat = Array.isArray(context.chat) ? context.chat : [];
+    root.durableLength = chat.length;
+    root.resolvedLength = chat.length;
     if (chat.length) {
         attachPortableCheckpoint(context, chat.length - 1, 0, {
             source: SOURCE.RESET,
