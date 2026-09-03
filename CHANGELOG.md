@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.5.3
+
+Inventory editor rendering-isolation hotfix.
+
+- Fixes Inventory's own **Edit Inventory** action rebuilding the entire assistant message DOM after changing only hidden Inventory state.
+- Manual Inventory saves now update `message.mes`, synchronize the active swipe, and persist the SillyTavern chat without calling `updateMessageBlock()`.
+- Refreshes only Inventory's own Megumin pane after a manual save, preserving Megumin Suite, NPC State, reasoning, regex-rendered content, and other extension-owned DOM attached to the message.
+- Keeps full-message rerendering available for transport normalization, where a newly generated/plain visible `<Inventory>` block actually needs to disappear from narration.
+- Does not change the v0.5 message-native snapshot source of truth, hidden transport format, deletion/swipe behavior, prompt filtering, or category UI.
+
 ## 0.5.2
 
 Narration-hiding and category interaction hotfix.

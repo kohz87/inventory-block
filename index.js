@@ -13,7 +13,7 @@ import { injectInventorySnapshot } from './src/prompt.js';
 import { copyText, openInventoryEditor, renderInventoryPane } from './src/ui.js';
 import { initializeMeguminBridge, scheduleInventoryMount, setInventoryMountSuspended } from './src/megumin.js';
 
-const VERSION = '0.5.2';
+const VERSION = '0.5.3';
 const SESSION_MAX_AGE_MS = 2 * 60 * 1000;
 
 let initialized = false;
@@ -235,7 +235,10 @@ async function saveManualSnapshot(state, expectedChatId) {
     if (target < 0) throw new Error('No assistant message exists yet. Generate or open a greeting before saving Inventory.');
     const message = ctx.chat[target];
     message.mes = replaceOrAppendInventory(message.mes, state);
-    await persistMessageEdit(ctx, target, message);
+    // Inventory transport is hidden machine state. Re-rendering the whole assistant message
+    // would destroy DOM owned by Megumin Suite and other extensions even though no visible
+    // narration changed. Persist the raw message/swipe only, then refresh Inventory's pane.
+    await persistMessageEdit(ctx, target, message, { rerender: false });
     refreshAll(0);
 }
 
