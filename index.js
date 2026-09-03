@@ -5,6 +5,7 @@ import {
     inventoryForGeneration,
     latestAssistantIndex,
     latestInventorySnapshot,
+    normalizeInventoryTransports,
     replaceOrAppendInventory,
     syncActiveSwipeText,
 } from './src/snapshot.js';
@@ -12,7 +13,7 @@ import { injectInventorySnapshot } from './src/prompt.js';
 import { copyText, openInventoryEditor, renderInventoryPane } from './src/ui.js';
 import { initializeMeguminBridge, scheduleInventoryMount, setInventoryMountSuspended } from './src/megumin.js';
 
-const VERSION = '0.5.1';
+const VERSION = '0.5.2';
 const SESSION_MAX_AGE_MS = 2 * 60 * 1000;
 
 let initialized = false;
@@ -20,6 +21,7 @@ let eventsRegistered = false;
 let uiRetry = null;
 const pending = new Map();
 const cleanupTimers = new Map();
+const normalizingMessages = new Set();
 
 function context() {
     return globalThis.SillyTavern?.getContext?.() ?? null;
@@ -57,11 +59,13 @@ function currentState(ctx = context()) {
 }
 
 function renderCurrentPane(pane) {
-    const snapshot = currentSnapshot();
+    const ctx = context();
+    const snapshot = currentSnapshot(ctx);
     renderInventoryPane(pane, snapshot?.state ?? emptyInventory(), {
         hasSnapshot: Boolean(snapshot),
         onEdit: openEditor,
         onCopy: copyCurrentBlock,
+        uiKey: chatIdOf(ctx) ?? 'default',
     });
 }
 
@@ -153,7 +157,35 @@ function newestGeneratedBlockStatus(message) {
     return { valid: false, malformed: false, truncated: /<Inventory\b/i.test(text) };
 }
 
-function onMessageReceived(messageId) {
+async function persistMessageEdit(ctx, messageId, message, { rerender = true } = {}) {
+    syncActiveSwipeText(message);
+    if (rerender && document.querySelector(`#chat .mes[mesid="${Number(messageId)}"]`)) {
+        ctx.updateMessageBlock?.(messageId, message);
+    }
+    if (typeof ctx.saveChat === 'function') await ctx.saveChat();
+    else ctx.saveMetadataDebounced?.();
+}
+
+async function normalizeMessageTransport(messageId, { rerender = true } = {}) {
+    const ctx = context();
+    const id = Number(messageId);
+    if (!ctx || !Number.isInteger(id) || normalizingMessages.has(id)) return false;
+    const message = ctx.chat?.[id];
+    if (!message || message.is_user || message.is_system) return false;
+    const normalized = normalizeInventoryTransports(message.mes);
+    if (!normalized.changed) return false;
+
+    normalizingMessages.add(id);
+    try {
+        message.mes = normalized.text;
+        await persistMessageEdit(ctx, id, message, { rerender });
+        return true;
+    } finally {
+        normalizingMessages.delete(id);
+    }
+}
+
+async function onMessageReceived(messageId) {
     const ctx = context();
     const id = Number(messageId);
     if (!ctx || !Number.isInteger(id)) return;
@@ -162,16 +194,19 @@ function onMessageReceived(messageId) {
 
     const chatId = chatIdOf(ctx);
     const wasTracked = Boolean(chatId && pending.has(chatId));
-    if (wasTracked) {
-        const status = newestGeneratedBlockStatus(message);
-        if (!status.valid) {
-            if (status.malformed) {
-                notify('warning', `Malformed Inventory snapshot ignored; previous valid snapshot remains current. ${status.error?.message ?? ''}`.trim());
-            } else if (status.truncated) {
-                notify('warning', 'Truncated Inventory snapshot ignored; previous valid snapshot remains current.');
-            } else {
-                notify('warning', 'Response omitted a valid Inventory snapshot; previous valid snapshot remains current.');
-            }
+    const status = wasTracked ? newestGeneratedBlockStatus(message) : null;
+
+    // Keep the snapshot in raw message history, but hide its transport from narration.
+    // This also normalizes weak-model plain <Inventory> output into the canonical comment envelope.
+    await normalizeMessageTransport(id, { rerender: true });
+
+    if (status && !status.valid) {
+        if (status.malformed) {
+            notify('warning', `Malformed Inventory snapshot ignored; previous valid snapshot remains current. ${status.error?.message ?? ''}`.trim());
+        } else if (status.truncated) {
+            notify('warning', 'Truncated Inventory snapshot ignored; previous valid snapshot remains current.');
+        } else {
+            notify('warning', 'Response omitted a valid Inventory snapshot; previous valid snapshot remains current.');
         }
     }
     clearSession(chatId);
@@ -190,13 +225,6 @@ function onGenerationEnded() {
 function onGenerationStopped() {
     clearSession(chatIdOf(context()));
     refreshAll(0);
-}
-
-async function persistMessageEdit(ctx, messageId, message) {
-    syncActiveSwipeText(message);
-    ctx.updateMessageBlock?.(messageId, message);
-    if (typeof ctx.saveChat === 'function') await ctx.saveChat();
-    else ctx.saveMetadataDebounced?.();
 }
 
 async function saveManualSnapshot(state, expectedChatId) {
@@ -300,6 +328,14 @@ function onTimelineChanged() {
     refreshAll(20);
 }
 
+function onMessageVariantChanged(messageId) {
+    void normalizeMessageTransport(messageId).finally(() => refreshAll(20));
+}
+
+function onCharacterMessageRendered(messageId) {
+    void normalizeMessageTransport(messageId).finally(() => refreshAll(20));
+}
+
 function onChatChanged() {
     // Pending sessions are chat-scoped and intentionally survive UI chat switches.
     // A generation that was already prepared may still reach prompt-ready after the user
@@ -322,11 +358,15 @@ function registerEvents() {
     if (events.GENERATION_ENDED) ctx.eventSource.on(events.GENERATION_ENDED, onGenerationEnded);
     if (events.GENERATION_STOPPED) ctx.eventSource.on(events.GENERATION_STOPPED, onGenerationStopped);
 
-    for (const event of [events.MESSAGE_EDITED, events.MESSAGE_SWIPED, events.MESSAGE_DELETED, events.MESSAGE_SWIPE_DELETED, events.CHARACTER_FIRST_MESSAGE_SELECTED]) {
+    for (const event of [events.MESSAGE_EDITED, events.MESSAGE_SWIPED, events.CHARACTER_FIRST_MESSAGE_SELECTED]) {
+        if (event) ctx.eventSource.on(event, onMessageVariantChanged);
+    }
+    for (const event of [events.MESSAGE_DELETED, events.MESSAGE_SWIPE_DELETED]) {
         if (event) ctx.eventSource.on(event, onTimelineChanged);
     }
     for (const event of [events.CHAT_CHANGED, events.CHAT_LOADED]) if (event) ctx.eventSource.on(event, onChatChanged);
-    for (const event of [events.CHARACTER_MESSAGE_RENDERED, events.MORE_MESSAGES_LOADED]) if (event) ctx.eventSource.on(event, onTimelineChanged);
+    if (events.CHARACTER_MESSAGE_RENDERED) ctx.eventSource.on(events.CHARACTER_MESSAGE_RENDERED, onCharacterMessageRendered);
+    if (events.MORE_MESSAGES_LOADED) ctx.eventSource.on(events.MORE_MESSAGES_LOADED, onTimelineChanged);
     for (const event of [events.APP_READY, events.APP_INITIALIZED, events.EXTENSIONS_FIRST_LOAD, events.EXTENSION_SETTINGS_LOADED]) {
         if (event) ctx.eventSource.on(event, () => {
             ensureExtensionUi();
