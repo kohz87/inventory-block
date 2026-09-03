@@ -104,6 +104,7 @@ test('explicit administrative reconciliation can promote an LLM revision to dura
   assert.equal(root.durableRevision, 0);
   markDurableRevision(c, revision);
   assert.equal(root.durableRevision, revision);
+  assert.equal(getRevision(root, revision).durable, true);
   c.chat.length = 0;
   assert.equal(resolveActiveRevision(c), revision);
 });
@@ -134,4 +135,64 @@ test('prefix resolution never pulls a later durable manual edit backward', () =>
   assert.equal(root.durableRevision, manual);
   assert.equal(root.durableLength, 3);
   assert.equal(resolveRevisionBeforeMessage(c, 2), seed);
+});
+
+
+test('deleting the selected swipe preserves that swipe durable state, not a newer sibling durable state', () => {
+  const message = assistant('swipe zero');
+  message.swipes = ['swipe zero', 'swipe one'];
+  message.swipe_info = [{}, {}];
+  message.swipe_id = 0;
+  const c = ctx([message]);
+  const root = ensureRoot(c);
+  const swipe0 = commitManualState(c, inv([item('Branch Zero')]), { source: SOURCE.MANUAL });
+  message.swipe_id = 1;
+  message.mes = 'swipe one';
+  message.extra = structuredClone(message.swipe_info[0]?.extra ?? message.extra);
+  root.activeRevision = swipe0;
+  const swipe1 = commitManualState(c, inv([item('Branch One')]), { source: SOURCE.MANUAL });
+  message.swipe_info[1] = { extra: structuredClone(message.extra) };
+  assert.equal(root.durableRevision, swipe1);
+  message.swipe_id = 0;
+  message.mes = 'swipe zero';
+  message.extra = structuredClone(message.swipe_info[0].extra);
+  invalidateLineageCache(c);
+  assert.equal(resolveActiveRevision(c), swipe0);
+  assert.equal(root.resolvedLength, 1);
+  c.chat.pop();
+  invalidateLineageCache(c);
+  assert.equal(resolveActiveRevision(c), swipe0);
+});
+
+
+test('deletion preserves an explicitly promoted LLM durable revision on the selected swipe', () => {
+  const message = assistant('branch zero');
+  message.swipes = ['branch zero', 'branch one'];
+  message.swipe_info = [{}, {}];
+  message.swipe_id = 0;
+  const c = ctx([message]);
+  const root = ensureRoot(c);
+
+  const branch0 = createRevision(c, inv([item('Promoted Zero')]), { parent: 0, source: SOURCE.LLM });
+  markDurableRevision(c, branch0);
+  attachMessageRevision(c, 0, { baseRevision: 0, revision: branch0, newUid: true, portable: true });
+  message.swipe_info[0] = { extra: structuredClone(message.extra) };
+
+  message.swipe_id = 1;
+  message.mes = 'branch one';
+  message.extra = {};
+  root.activeRevision = 0;
+  const branch1 = createRevision(c, inv([item('Promoted One')]), { parent: 0, source: SOURCE.LLM });
+  markDurableRevision(c, branch1);
+  attachMessageRevision(c, 0, { baseRevision: 0, revision: branch1, newUid: true, portable: true });
+  message.swipe_info[1] = { extra: structuredClone(message.extra) };
+
+  message.swipe_id = 0;
+  message.mes = 'branch zero';
+  message.extra = structuredClone(message.swipe_info[0].extra);
+  invalidateLineageCache(c);
+  assert.equal(resolveActiveRevision(c), branch0);
+  c.chat.pop();
+  invalidateLineageCache(c);
+  assert.equal(resolveActiveRevision(c), branch0);
 });

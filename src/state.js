@@ -223,6 +223,7 @@ function makeRoot() {
         activeRevision: 0,
         durableRevision: 0,
         durableLength: 0,
+        resolvedLength: 0,
         nextRevision: 1,
         mutationSerial: 0,
         revisions: {
@@ -437,6 +438,7 @@ function appendRevisionToRoot(root, state, { parent, source, note, portable = fa
     root.revisions[String(id)] = {
         id, parent, source: source || SOURCE.PORTABLE, note: cleanText(note),
         createdAt: new Date().toISOString(), state: normalized, portable: Boolean(portable),
+        durable: isDurableSource(source),
     };
     root.activeRevision = id;
     if (isDurableSource(source)) root.durableRevision = id;
@@ -628,6 +630,7 @@ function hydratePortableTimeline(context, root) {
     }
     if (foundCheckpoint) {
         root.activeRevision = currentRevision;
+        root.resolvedLength = chat.length;
         const key = data.prefixKeys.at(-1) ?? 'root';
         root.branchHeads[key] = { revision: currentRevision, length: chat.length, sticky: true, touchedAt: Date.now(), lineageVersion: LINEAGE_VERSION };
         pruneBranchHeads(root);
@@ -649,15 +652,21 @@ export function ensureRoot(context) {
         throw new Error('Inventory Block state is damaged: initial revision is missing. State was not reset.');
     }
     if (!Number.isInteger(root.activeRevision) || !root.revisions[String(root.activeRevision)]) root.activeRevision = 0;
+    for (const revision of Object.values(root.revisions)) {
+        if (revision && isDurableSource(revision.source)) revision.durable = true;
+    }
     if (!Number.isInteger(root.durableRevision) || !root.revisions[String(root.durableRevision)]) {
         const durableIds = Object.values(root.revisions)
-            .filter(revision => revision && Number.isInteger(revision.id) && isDurableSource(revision.source))
+            .filter(revision => revision && Number.isInteger(revision.id) && revision.durable === true)
             .map(revision => revision.id)
             .sort((a, b) => a - b);
         root.durableRevision = durableIds.at(-1) ?? 0;
     }
     if (!Number.isInteger(root.durableLength) || root.durableLength < 0) {
         root.durableLength = root.durableRevision === 0 ? 0 : (Array.isArray(context.chat) ? context.chat.length : 0);
+    }
+    if (!Number.isInteger(root.resolvedLength) || root.resolvedLength < 0) {
+        root.resolvedLength = Array.isArray(context.chat) ? context.chat.length : 0;
     }
     const maxRevisionId = Math.max(0, ...Object.keys(root.revisions).map(Number).filter(Number.isInteger));
     if (!Number.isInteger(root.nextRevision) || root.nextRevision <= maxRevisionId) root.nextRevision = maxRevisionId + 1;
@@ -677,6 +686,8 @@ export function markDurableRevision(context, revisionId = null) {
     const root = ensureRoot(context);
     const id = revisionId === null ? root.activeRevision : Number(revisionId);
     if (!Number.isInteger(id) || !getRevision(root, id)) throw new Error(`Cannot mark missing inventory revision ${revisionId} as durable.`);
+    const revision = getRevision(root, id);
+    revision.durable = true;
     root.durableRevision = id;
     root.durableLength = Array.isArray(context?.chat) ? context.chat.length : 0;
     compactRevisions(root);
@@ -688,7 +699,8 @@ export function createRevision(context, state, { parent = null, source = SOURCE.
     const parentId = parent === null ? root.activeRevision : parent;
     if (!getRevision(root, parentId)) throw new Error(`Cannot create inventory revision from missing parent ${parentId}.`);
     const revision = appendRevisionToRoot(root, state, { parent: parentId, source, note, portable: false });
-    if (isDurableSource(source)) root.durableLength = Array.isArray(context?.chat) ? context.chat.length : 0;
+    root.resolvedLength = Array.isArray(context?.chat) ? context.chat.length : 0;
+    if (isDurableSource(source)) root.durableLength = root.resolvedLength;
     return revision;
 }
 
@@ -717,6 +729,19 @@ function revisionDescendsFrom(root, revisionId, baseRevision) {
         cursor = revision.parent;
     }
     return false;
+}
+
+function nearestDurableAncestor(root, revisionId) {
+    const seen = new Set();
+    let cursor = revisionId;
+    while (Number.isInteger(cursor) && !seen.has(cursor)) {
+        seen.add(cursor);
+        const revision = getRevision(root, cursor);
+        if (!revision) return null;
+        if (revision.durable === true || isDurableSource(revision.source)) return cursor;
+        cursor = revision.parent;
+    }
+    return null;
 }
 
 function expectedMetaHash(context, index, meta, data, legacyFingerprints) {
@@ -750,6 +775,12 @@ function materializeCheckpoint(context, root, index, currentRevision, checkpoint
                 parent: currentRevision, source: checkpoint.source || SOURCE.PORTABLE,
                 note: checkpoint.note || 'Recovered portable inventory checkpoint', portable: true, countMutation: false,
             });
+        if (checkpoint.durable === true) {
+            const recovered = getRevision(root, revision);
+            if (recovered) recovered.durable = true;
+            root.durableRevision = revision;
+            root.durableLength = index + 1;
+        }
         updateCheckpointReference(checkpoint, revision, data, index);
         return revision;
     } catch { return null; }
@@ -806,6 +837,7 @@ function resolveRevisionThrough(context, maxLength, { commitActive = false, allo
     const legacyFingerprints = chat.map(messageFingerprintLegacy);
     const legacyPrefix = length => legacyHashLineage(legacyFingerprints.slice(0, length));
     const previousActive = root.activeRevision;
+    const previousLength = Number.isInteger(root.resolvedLength) && root.resolvedLength >= 0 ? root.resolvedLength : end;
 
     let bestHead = null;
     let bestLength = -1;
@@ -842,25 +874,31 @@ function resolveRevisionThrough(context, maxLength, { commitActive = false, allo
         revision = checkpointRevisionIfValid(context, root, index, revision, true, data, legacyFingerprints);
     }
 
+    // Deleting messages shortens the active timeline. Preserve the nearest explicit
+    // seed/admin ancestor of the branch that was active immediately before deletion,
+    // but only if normal reconstruction landed on that ancestor or one of its parents.
+    // This is branch-specific: switching swipes at the same length never triggers it.
+    const branchDurable = commitActive && end < previousLength
+        ? nearestDurableAncestor(root, previousActive)
+        : null;
+    if (branchDurable !== null
+        && (revision === 0 || revision === branchDurable || revisionDescendsFrom(root, branchDurable, revision))) {
+        revision = branchDurable;
+    }
+
     const durableRevision = Number.isInteger(root.durableRevision) && getRevision(root, root.durableRevision)
         ? root.durableRevision
         : null;
     const durableLength = Number.isInteger(root.durableLength) && root.durableLength >= 0 ? root.durableLength : 0;
-    if (allowDurableFallback && durableRevision !== null) {
-        // Prefix reconstruction may use a durable state only if that state already existed
-        // by the requested boundary. This prevents a later manual edit leaking backward.
-        const missingKnownBaseline = revision === 0 && durableLength <= end;
-        // Full active-branch resolution may carry a later durable admin state across
-        // deletion(s), but only when the surviving revision is its ancestor. Same-length
-        // swipe changes therefore remain branch-local.
-        const deletedDurableAnchor = commitActive
-            && end < durableLength
-            && (revision === 0 || revisionDescendsFrom(root, durableRevision, revision));
-        if (missingKnownBaseline || deletedDurableAnchor) revision = durableRevision;
+    if (allowDurableFallback && durableRevision !== null && branchDurable === null) {
+        // Generic anti-empty recovery is allowed only if the durable state already
+        // existed by this boundary. Later admin changes never leak backward.
+        if (revision === 0 && durableLength <= end) revision = durableRevision;
     }
 
     if (commitActive) {
         root.activeRevision = revision;
+        root.resolvedLength = end;
         compactRevisions(root);
         compactPortableCheckpointsWithRoot(context, root);
     } else {
@@ -897,6 +935,7 @@ export function attachPortableCheckpoint(context, messageId, revisionId, { sourc
         packed: packInventory(revision.state),
         revision: revisionId,
         source: source || revision.source || SOURCE.PORTABLE,
+        durable: revision.durable === true,
         note: cleanText(note || revision.note),
         lineageHash: data.prefixKeys[Math.min(messageId + 1, data.prefixKeys.length - 1)] ?? 'root',
         lineageVersion: LINEAGE_VERSION,
@@ -952,8 +991,11 @@ export function commitManualState(context, state, {
     const normalized = validateAndNormalizeInventory(state);
     const previous = getInventoryAt(root, root.activeRevision);
     if (inventoryEquals(previous, normalized)) {
+        const active = getRevision(root, root.activeRevision);
+        if (active) active.durable = true;
         root.durableRevision = root.activeRevision;
         root.durableLength = Array.isArray(context?.chat) ? context.chat.length : 0;
+        root.resolvedLength = root.durableLength;
         compactRevisions(root);
         return root.activeRevision;
     }

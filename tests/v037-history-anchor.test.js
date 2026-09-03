@@ -16,6 +16,7 @@ test('Clear History rebases durableRevision and survives later tail deletion',()
   assert.equal(root.activeRevision,0);
   assert.equal(root.durableRevision,0);
   assert.equal(root.durableLength,1);
+  assert.equal(root.resolvedLength,1);
   assert.equal(getCurrentInventory(c).categories[0].items[0].name,'Coin Pouch');
   c.chat.length=0;
   invalidateLineageCache(c);

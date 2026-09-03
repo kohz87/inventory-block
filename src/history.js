@@ -68,12 +68,14 @@ export function clearInventoryHistory(context) {
             createdAt: new Date().toISOString(),
             state: current,
             portable: true,
+            durable: true,
         },
     };
     root.branchHeads = {};
 
     const chat = Array.isArray(context.chat) ? context.chat : [];
     root.durableLength = chat.length;
+    root.resolvedLength = chat.length;
     if (chat.length) {
         attachPortableCheckpoint(context, chat.length - 1, 0, {
             source: SOURCE.RESET,
