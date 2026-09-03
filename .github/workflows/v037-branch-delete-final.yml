@@ -19,12 +19,14 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Apply branch-specific deletion correction
-        run: python3 scripts/v037_branch_durable_delete.py
+      - name: Apply final branch-deletion corrections
+        run: |
+          python3 scripts/v037_branch_durable_delete.py
+          python3 scripts/v037_durable_marker_fix.py
       - name: Ten repeated hard-pass cycles
         run: |
           for i in $(seq 1 10); do
-            echo "=== v0.3.7 branch-delete hard pass $i/10 ==="
+            echo "=== v0.3.7 final branch-delete hard pass $i/10 ==="
             npm test
             npm run check
             git diff --check
