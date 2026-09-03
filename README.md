@@ -1,4 +1,4 @@
-# Inventory Block v0.4.1
+# Inventory Block v0.4.2
 
 Inventory Block is a lightweight SillyTavern RPG inventory extension with a **per-chat canonical backend**. The chat remains story history; inventory state is stored separately and rendered as an Inventory block compatible with Megumin Suite's block area.
 
@@ -32,13 +32,15 @@ For resource containers such as `Coin Pouch | 1 | 100 Gold` or `Food | 1 | About
 
 ## LLM integration
 
-Inventory Block v0.4.1 uses a **one-pass foreground accounting architecture**. At SillyTavern's final prompt-ready stage, the extension injects the current canonical Inventory JSON plus the compact validated patch protocol into the same assistant generation that writes the RP response. The model writes visible story/structured content first and, only when that response establishes completed possession/resource changes, emits one hidden `INVENTORY_BLOCK_UPDATE` machine control in the machine-output trailer.
+Inventory Block v0.4.2 uses a **one-pass foreground accounting architecture**. At SillyTavern's final prompt-ready stage, the extension injects the current canonical Inventory JSON plus the compact validated patch protocol into the same assistant generation that writes the RP response. The model writes visible story/structured content first and, only when that response establishes completed possession/resource changes, emits one hidden `INVENTORY_BLOCK_UPDATE` machine control in the machine-output trailer.
 
 Inventory no longer claims the absolute final response position. Other extensions may emit their own independently namespaced machine payloads before or after the Inventory control. Each payload must remain standalone; Inventory Block extracts and strips only `INVENTORY_BLOCK_UPDATE` and preserves unrelated prose/structured payloads byte-for-byte for their owning extensions.
 
 For text-form prompt-ready events, Inventory Block uses a compare-and-retry write so another extension changing the same shared prompt while Inventory awaits token counting cannot be overwritten by a stale Inventory copy. Chat-array prompt injection remains additive through a dedicated system entry.
 
 When generation is complete, Inventory Block does **not** start another model session. It parses its foreground control, validates the complete patch atomically, commits the resulting canonical backend revision, attaches branch/swipe metadata, and strips only the Inventory machine control from the current stored/displayed assistant message. The temporary Inventory prompt is never added to chat history, and the machine control is transport rather than storage. Future prompts receive only the latest canonical backend state.
+
+Manual message editing is handled only by SillyTavern's explicit `MESSAGE_EDITED` path. Generic `MESSAGE_UPDATED` notifications never consume an untracked Inventory control, preventing a pre-edit update event from stripping or rejecting the control before the trusted edit event runs.
 
 If the foreground response emits no Inventory control, Inventory remains unchanged. If a model forgets or mangles a required update, **Reconcile Latest Response** (or `/inventory-reconcile`) remains available as an explicit recovery action; only that manual fallback uses the separate `generateRaw` scanner. Normal RP turns therefore require one LLM request rather than a story request plus an automatic reconciliation request.
 
