@@ -1,3 +1,15 @@
+## 0.4.1
+
+Shared-generation interoperability hardening for one-pass extensions.
+
+- Replaces the v0.4.0 absolute-final Inventory placement rule with a cooperative machine-output trailer: other independently namespaced extension payloads may appear before or after `INVENTORY_BLOCK_UPDATE`.
+- Explicitly tells the foreground model never to nest, merge, repeat, rewrite, suppress, or copy another extension's machine payload.
+- Keeps Inventory cleanup ownership narrow: Inventory Block extracts and strips only its own control while preserving foreign structured/machine payloads for their owning extensions.
+- Adds compare-and-retry protection to text-form prompt injection so another extension mutating the shared prompt while Inventory awaits token counting cannot be overwritten by a stale prompt copy.
+- Fails closed with `concurrent-prompt-mutation` after bounded retries instead of erasing continuously changing foreign prompt state.
+- Adds regressions for foreign NPC-style payloads both before and after Inventory, plus concurrent shared-prompt mutation during injection.
+- Keeps the v0.4.0 one-pass accounting architecture, manual `generateRaw` recovery, branch/swipe durability, and backend validation unchanged. No state migration is required.
+
 ## 0.4.0
 
 One-pass foreground Inventory accounting.
