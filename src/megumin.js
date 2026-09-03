@@ -1,3 +1,5 @@
+import { setSharedQuietGenerationBlocked } from './shared-generation-queue.js';
+
 const TAB_KEY = 'inventory-block';
 const BLOCK_ID = 'inventory';
 
@@ -232,6 +234,7 @@ export function scheduleInventoryMount(delay = 60, { force = false } = {}) {
 
 export function setInventoryMountSuspended(value) {
     const next = Boolean(value);
+    setSharedQuietGenerationBlocked('inventory-block', next);
     if (mountSuspended === next) return;
     mountSuspended = next;
     if (mountSuspended) {
