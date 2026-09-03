@@ -9,7 +9,14 @@ const NO_CHANGE = /^NO_CHANGE[.!]?$/i;
 export function buildInventoryReferencePrompt(state) {
     return `INVENTORY_REFERENCE_JSON_BEGIN\n${formatInventoryState(state)}\nINVENTORY_REFERENCE_JSON_END\n\n` +
         `The JSON above is the authoritative current possession record for continuity only. Treat finite quantities and balances as real constraints, and do not narrate possession or use of items that are absent or unavailable. ` +
-        `Do not output <Inventory>, inventory JSON, bookkeeping, patch operations, HTML machine controls, or an inventory summary. Do not perform inventory accounting in the visible reply. Write the story response normally; Inventory Block reconciles completed changes after the message finishes.`;
+        `Do not output <Inventory>, inventory JSON, bookkeeping, patch operations, HTML machine controls, or an inventory summary. Do not perform inventory accounting in the visible reply. Write the story response normally. This legacy read-only helper does not authorize Inventory writes.`;
+}
+
+export function buildForegroundInventoryPrompt(state, { replaceCapability = null } = {}) {
+    const protocol = withResourceTrackingRule(buildInventoryPrompt(state, { replaceCapability }));
+    return `${protocol}\n\n` +
+        `Foreground one-pass accounting rule: write the visible response normally first. If and only if this response actually establishes completed Inventory changes, emit the single Inventory machine control required above after all visible prose and all other structured blocks as the final non-whitespace output. ` +
+        `The control is internal transport: Inventory Block will validate it, persist the resulting canonical state, and strip the control from the stored/displayed assistant message after generation completes. If nothing changes, emit no Inventory control.`;
 }
 
 export function deriveAssistantEventText(type, beforeText, afterText) {

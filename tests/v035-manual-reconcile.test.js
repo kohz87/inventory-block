@@ -24,16 +24,15 @@ test('manual reconciliation uses generateRaw and shares backend validator', () =
   assert.doesNotMatch(block, /generateQuietPrompt/);
 });
 
-test('successful automatic and manual reconciliation stamp exact message text', () => {
+test('successful manual reconciliation stamps exact message text', () => {
   assert.match(index, /function stampReconciliation/);
   assert.match(index, /textLength/);
   assert.match(index, /textHash/);
-  assert.match(index, /stampReconciliation\(live, id, acceptedRevision\)/);
   assert.match(index, /This response has already been reconciled/);
 });
 
 test('manual reconciliation fails closed on unsafe legacy or concurrent state', () => {
-  assert.match(index, /legacy response already carries an Inventory state change/i);
+  assert.match(index, /response already carries an Inventory state change/i);
   assert.match(index, /Inventory or chat history changed while manual reconciliation was running/i);
   assert.match(index, /previous reconciliation boundary/i);
   assert.match(index, /generationLockFor\(ctx\)/);

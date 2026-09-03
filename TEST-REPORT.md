@@ -1,6 +1,12 @@
-# Inventory Block v0.3.7 Raw Reconciliation Compatibility Report
+# Inventory Block v0.4.0 One-Pass Foreground Accounting Report
 
-Date: 2026-09-02
+Date: 2026-09-03
+
+## v0.4.0 one-pass foreground accounting
+
+v0.4.0 removes the automatic post-response `generateRaw` request. The final prompt-ready injection now gives the visible assistant generation authoritative Inventory state plus the validated patch protocol. Any generated machine control is consumed only after completion, committed to canonical backend history, then stripped from the stored/displayed message. Manual reconciliation remains the only raw second-pass path.
+
+The v0.4.0 release gate specifically checks that normal completion never calls `generateRaw`, foreground controls still use the existing atomic backend validator, missing controls leave Inventory unchanged and recoverable manually, Continue/Swipe branch behavior remains backend-driven, and the terminal control is not retained as persistent story text.
 
 ## v0.3.5 manual reconciliation recovery
 
