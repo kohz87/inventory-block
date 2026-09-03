@@ -13,7 +13,8 @@ test('foreground Inventory prompt contains canonical state, machine protocol and
   assert.match(prompt, /adjust_resource|add_item|delete_item/);
   assert.match(prompt, /Finite-resource and possession accounting/);
   assert.match(prompt, /one-pass accounting/i);
-  assert.match(prompt, /final non-whitespace output/i);
+  assert.match(prompt, /machine-output trailer/i);
+  assert.doesNotMatch(prompt, /final non-whitespace output/i);
 });
 
 test('legacy read-only helper remains non-writing for compatibility', () => {

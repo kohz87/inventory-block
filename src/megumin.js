@@ -1,4 +1,8 @@
 import { setSharedQuietGenerationBlocked } from './shared-generation-queue.js';
+import {
+    clearReconciliationBoundaryForManualEdit,
+    refreshReconciliationBoundaryAfterForeignCleanup,
+} from './interoperability.js';
 
 const TAB_KEY = 'inventory-block';
 const BLOCK_ID = 'inventory';
@@ -10,6 +14,7 @@ let renderCurrent = null;
 let mountedMessageElement = null;
 let mountSuspended = false;
 let forceRender = false;
+let interoperabilityEventSource = null;
 
 function latestAssistantMessageElement(context) {
     const messages = Array.from(document.querySelectorAll('#chat .mes')).reverse();
@@ -18,6 +23,55 @@ function latestAssistantMessageElement(context) {
         const message = Number.isInteger(index) ? context?.chat?.[index] : null;
         return message && !message.is_user && !message.is_system;
     }) ?? null;
+}
+
+function currentAssistantMessage(messageId) {
+    const context = globalThis.SillyTavern?.getContext?.();
+    const id = Number(messageId);
+    const message = Number.isInteger(id) ? context?.chat?.[id] : null;
+    if (!context || !message || message.is_user || message.is_system) return null;
+    return { context, message, id };
+}
+
+function persistInteropMetadata(context) {
+    try { context?.saveMetadataDebounced?.(); }
+    catch (error) { console.warn('[Inventory Block] Could not persist interoperability metadata.', error); }
+}
+
+function refreshForeignCleanupBoundary(messageId) {
+    if (mountSuspended) return false;
+    const current = currentAssistantMessage(messageId);
+    if (!current) return false;
+    if (!refreshReconciliationBoundaryAfterForeignCleanup(current.message)) return false;
+    persistInteropMetadata(current.context);
+    return true;
+}
+
+function clearManualEditBoundary(messageId) {
+    const current = currentAssistantMessage(messageId);
+    if (!current) return false;
+    if (!clearReconciliationBoundaryForManualEdit(current.message)) return false;
+    persistInteropMetadata(current.context);
+    return true;
+}
+
+function refreshLatestForeignCleanupBoundary() {
+    if (mountSuspended) return false;
+    const context = globalThis.SillyTavern?.getContext?.();
+    if (!context) return false;
+    const element = latestAssistantMessageElement(context);
+    const id = Number.parseInt(element?.getAttribute?.('mesid') ?? '', 10);
+    return Number.isInteger(id) ? refreshForeignCleanupBoundary(id) : false;
+}
+
+function ensureInteroperabilityEvents() {
+    const context = globalThis.SillyTavern?.getContext?.();
+    const eventSource = context?.eventSource;
+    const events = context?.eventTypes;
+    if (!eventSource || !events || interoperabilityEventSource === eventSource) return;
+    interoperabilityEventSource = eventSource;
+    if (events.MESSAGE_EDITED) eventSource.on(events.MESSAGE_EDITED, clearManualEditBoundary);
+    if (events.MESSAGE_UPDATED) eventSource.on(events.MESSAGE_UPDATED, refreshForeignCleanupBoundary);
 }
 
 /**
@@ -187,6 +241,9 @@ function mountNow() {
         return;
     }
 
+    const messageId = Number.parseInt(messageElement.getAttribute('mesid') ?? '', 10);
+    if (Number.isInteger(messageId)) refreshForeignCleanupBoundary(messageId);
+
     const meguminCard = inventoryMeguminHost(messageElement);
     if (!forceRender && mountedMessageElement === messageElement && inventoryMountMatchesHost(messageElement)) return;
     forceRender = false;
@@ -215,7 +272,10 @@ function ensureObserver() {
             if (target.closest('.inventory-block-pane') || target.closest('.inventory-block-card')) return false;
             return true;
         });
-        if (relevant) scheduleInventoryMount(60);
+        if (relevant) {
+            refreshLatestForeignCleanupBoundary();
+            scheduleInventoryMount(60);
+        }
     });
     observer.__inventoryChat = chat;
     observer.observe(chat, { childList: true, subtree: true });
@@ -223,6 +283,7 @@ function ensureObserver() {
 
 export function scheduleInventoryMount(delay = 60, { force = false } = {}) {
     ensureObserver();
+    ensureInteroperabilityEvents();
     if (force) forceRender = true;
     if (mountSuspended) return;
     if (timer) clearTimeout(timer);
@@ -248,6 +309,7 @@ export function setInventoryMountSuspended(value) {
 
 export function initializeMeguminBridge(renderPane) {
     renderCurrent = renderPane;
+    ensureInteroperabilityEvents();
     ensureObserver();
     scheduleInventoryMount(0, { force: true });
 }
