@@ -1,64 +1,24 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-const read = p => fs.readFileSync(new URL(`../${p}`, import.meta.url), 'utf8');
 
-test('all release metadata and runtime VERSION say 0.4.3', () => {
-  assert.equal(JSON.parse(read('manifest.json')).version, '0.4.3');
-  assert.equal(JSON.parse(read('package.json')).version, '0.4.3');
-  assert.match(read('src/constants.js'), /VERSION = '0\.4\.3'/);
-  assert.match(read('README.md'), /Inventory Block v0\.4\.3/);
+const read = path => fs.readFileSync(new URL(`../${path}`, import.meta.url), 'utf8');
+
+test('release metadata is v0.5.0', () => {
+  assert.equal(JSON.parse(read('manifest.json')).version, '0.5.0');
+  assert.equal(JSON.parse(read('package.json')).version, '0.5.0');
+  assert.match(read('index.js'), /VERSION = '0\.5\.0'/);
 });
 
-test('changelog documents v0.4.3 semantic resource hardening while retaining edit-event and interoperability history', () => {
-  const changelog=read('CHANGELOG.md');
-  assert.match(changelog,/## 0\.4\.3/);
-  assert.match(changelog,/exactly one numeric amount|one-and-only-one-number/i);
-  assert.match(changelog,/semantic|range|multi-number/i);
-  assert.match(changelog,/## 0\.4\.2/);
-  assert.match(changelog,/MESSAGE_UPDATED/);
-  assert.match(changelog,/MESSAGE_EDITED/);
-  assert.match(changelog,/## 0\.4\.1/);
-  assert.match(changelog,/cooperative machine/i);
-  assert.match(changelog,/concurrent/i);
-  assert.match(changelog,/## 0\.4\.0/);
-  assert.match(changelog,/one-pass foreground/i);
-  assert.match(changelog,/Reconcile Latest Response/i);
-  assert.match(changelog,/## 0\.3\.7/);
-  assert.match(changelog,/## 0\.3\.5/);
-  assert.match(changelog,/inventory-reconcile/i);
+test('active v0.5 runtime contains no legacy backend/reconciliation architecture', () => {
+  const active = [read('index.js'), read('src/snapshot.js'), read('src/prompt.js'), read('src/ui.js'), read('src/megumin.js')].join('\n');
+  for (const forbidden of ['durableRevision', 'branchHeads', 'portableCheckpoint', 'mutationSerial', 'INVENTORY_BLOCK_UPDATE', 'generateRaw', 'adjust_resource']) {
+    assert.doesNotMatch(active, new RegExp(forbidden));
+  }
 });
 
-test('v0.4.3 keeps backend hardening behind cooperative foreground controls', () => {
-  const protocol=read('src/protocol.js');
-  const injection=read('src/injection.js');
-  const resources=read('src/resources.js');
-  const reconcile=read('src/reconcile.js');
-  const history=read('src/history.js');
-  const ui=read('src/ui.js');
-  const settings=read('src/settings.js');
-  const constants=read('src/constants.js');
-  assert.match(reconcile,/COOPERATIVE_TRAILER_RULE/);
-  assert.match(reconcile,/Other extensions may emit their own independently namespaced machine payloads before or after it/);
-  assert.match(injection,/TEXT_PROMPT_CAS_RETRIES/);
-  assert.match(injection,/concurrent-prompt-mutation/);
-  assert.match(protocol,/Every object in "ops" MUST contain a string "op" field/);
-  assert.match(injection,/withResourceTrackingRule/);
-  assert.match(reconcile,/buildForegroundInventoryPrompt/);
-  assert.match(reconcile,/buildReconciliationPrompt/);
-  assert.match(reconcile,/NO_CHANGE/);
-  assert.match(resources,/one and only one numeric amount/);
-  assert.match(resources,/MUST NOT use adjust_resource/);
-  assert.match(resources,/Several days/);
-  assert.match(resources,/5–7 days/);
-  assert.match(resources,/2 meals \/ 3 days/);
-  assert.match(resources,/emit no operation for that row rather than guessing/);
-  assert.match(protocol,/adjust_resource\{category,name,by,deleteAtZero\?\}/);
-  assert.match(constants,/historyBytes/);
-  assert.match(constants,/portableCheckpointBytes/);
-  assert.match(history,/clearInventoryHistory/);
-  assert.match(ui,/compareInventoryStates/);
-  assert.match(settings,/Trim History Now/);
-  assert.match(settings,/Clear History/);
-  assert.match(constants,/50, 100, 200, 500, 768/);
+test('v0.4.3 is archived and root README documents message-native truth', () => {
+  assert.match(read('README.md'), /message-native/i);
+  assert.match(read('README.md'), /latest valid surviving <Inventory>/i);
+  assert.match(read('legacy/README.md'), /v0\.4\.3/);
 });

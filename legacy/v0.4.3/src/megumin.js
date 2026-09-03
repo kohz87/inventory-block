@@ -1,0 +1,315 @@
+import { setSharedQuietGenerationBlocked } from './shared-generation-queue.js';
+import {
+    clearReconciliationBoundaryForManualEdit,
+    refreshReconciliationBoundaryAfterForeignCleanup,
+} from './interoperability.js';
+
+const TAB_KEY = 'inventory-block';
+const BLOCK_ID = 'inventory';
+
+let observer = null;
+let timer = null;
+let observerRetry = null;
+let renderCurrent = null;
+let mountedMessageElement = null;
+let mountSuspended = false;
+let forceRender = false;
+let interoperabilityEventSource = null;
+
+function latestAssistantMessageElement(context) {
+    const messages = Array.from(document.querySelectorAll('#chat .mes')).reverse();
+    return messages.find(element => {
+        const index = Number.parseInt(element.getAttribute('mesid'), 10);
+        const message = Number.isInteger(index) ? context?.chat?.[index] : null;
+        return message && !message.is_user && !message.is_system;
+    }) ?? null;
+}
+
+function currentAssistantMessage(messageId) {
+    const context = globalThis.SillyTavern?.getContext?.();
+    const id = Number(messageId);
+    const message = Number.isInteger(id) ? context?.chat?.[id] : null;
+    if (!context || !message || message.is_user || message.is_system) return null;
+    return { context, message, id };
+}
+
+function persistInteropMetadata(context) {
+    try { context?.saveMetadataDebounced?.(); }
+    catch (error) { console.warn('[Inventory Block] Could not persist interoperability metadata.', error); }
+}
+
+function refreshForeignCleanupBoundary(messageId) {
+    if (mountSuspended) return false;
+    const current = currentAssistantMessage(messageId);
+    if (!current) return false;
+    if (!refreshReconciliationBoundaryAfterForeignCleanup(current.message)) return false;
+    persistInteropMetadata(current.context);
+    return true;
+}
+
+function clearManualEditBoundary(messageId) {
+    const current = currentAssistantMessage(messageId);
+    if (!current) return false;
+    if (!clearReconciliationBoundaryForManualEdit(current.message)) return false;
+    persistInteropMetadata(current.context);
+    return true;
+}
+
+function refreshLatestForeignCleanupBoundary() {
+    if (mountSuspended) return false;
+    const context = globalThis.SillyTavern?.getContext?.();
+    if (!context) return false;
+    const element = latestAssistantMessageElement(context);
+    const id = Number.parseInt(element?.getAttribute?.('mesid') ?? '', 10);
+    return Number.isInteger(id) ? refreshForeignCleanupBoundary(id) : false;
+}
+
+function ensureInteroperabilityEvents() {
+    const context = globalThis.SillyTavern?.getContext?.();
+    const eventSource = context?.eventSource;
+    const events = context?.eventTypes;
+    if (!eventSource || !events || interoperabilityEventSource === eventSource) return;
+    interoperabilityEventSource = eventSource;
+    if (events.MESSAGE_EDITED) eventSource.on(events.MESSAGE_EDITED, clearManualEditBoundary);
+    if (events.MESSAGE_UPDATED) eventSource.on(events.MESSAGE_UPDATED, refreshForeignCleanupBoundary);
+}
+
+/**
+ * Return a complete native Megumin host only after both its tab and panel roots
+ * exist. A partially rendered card is not ready to receive extension panes yet.
+ */
+export function inventoryMeguminHost(messageElement) {
+    const card = messageElement?.querySelector?.('.meg-blocks') ?? null;
+    if (!card?.querySelector?.('.meg-blocks-tabs') || !card?.querySelector?.('.meg-blocks-panel')) return null;
+    return card;
+}
+
+/**
+ * The v0.3.6 dedupe may skip a render only when Inventory is already mounted in
+ * the host mode that is currently available. In particular, a standalone mount
+ * must not block migration when Megumin finishes rendering later.
+ */
+export function inventoryMountMatchesHost(messageElement) {
+    const card = inventoryMeguminHost(messageElement);
+    if (card) {
+        return Boolean(card.querySelector?.('.inventory-block-tab') && card.querySelector?.('.inventory-block-pane'));
+    }
+    return Boolean(messageElement?.querySelector?.('.inventory-block-card'));
+}
+
+function removeInventoryFromMessage(messageElement) {
+    messageElement.querySelectorAll('.inventory-block-tab').forEach(node => node.remove());
+    messageElement.querySelectorAll('.inventory-block-pane').forEach(node => node.remove());
+    messageElement.querySelectorAll('.inventory-block-card').forEach(node => node.remove());
+}
+
+function cleanupPreviousMount(keep = null) {
+    if (mountedMessageElement && mountedMessageElement !== keep && mountedMessageElement.isConnected) {
+        removeInventoryFromMessage(mountedMessageElement);
+    }
+    mountedMessageElement = keep;
+}
+
+function makeTab() {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'meg-blocks-tab inventory-block-tab';
+    button.dataset.key = TAB_KEY;
+    button.dataset.blockId = BLOCK_ID;
+    button.title = 'Inventory';
+    button.setAttribute('aria-label', 'Inventory');
+    button.innerHTML = '<span class="meg-blocks-tab-emoji">🎒</span><span class="meg-blocks-tab-label">Inventory</span>';
+    return button;
+}
+
+function makePane() {
+    const pane = document.createElement('div');
+    pane.className = 'meg-block-body inventory-block-pane';
+    pane.dataset.key = TAB_KEY;
+    pane.dataset.blockId = BLOCK_ID;
+    pane.style.display = 'none';
+    return pane;
+}
+
+function deactivateInventory(card) {
+    card.querySelector('.inventory-block-tab')?.classList.remove('active');
+    const pane = card.querySelector('.inventory-block-pane');
+    if (pane) pane.style.display = 'none';
+}
+
+function neutralizeMeguminSelection(card) {
+    const active = card.querySelector('.meg-blocks-tab.active:not(.inventory-block-tab)');
+    if (active instanceof HTMLButtonElement) active.click();
+}
+
+function activateInventory(card) {
+    neutralizeMeguminSelection(card);
+    card.querySelectorAll('.meg-blocks-tab.active').forEach(tab => tab.classList.remove('active'));
+    card.querySelectorAll('.meg-block-body').forEach(pane => { pane.style.display = 'none'; });
+    card.querySelector('.inventory-block-tab')?.classList.add('active');
+    const pane = card.querySelector('.inventory-block-pane');
+    if (pane) pane.style.display = '';
+    card.classList.remove('meg-blocks-shut');
+}
+
+function bindExistingCard(card) {
+    if (card.dataset.inventoryBlockBound === '1') return;
+    card.dataset.inventoryBlockBound = '1';
+    card.addEventListener('click', event => {
+        const target = event.target instanceof Element ? event.target.closest('button') : null;
+        if (!target || !card.contains(target) || target.classList.contains('inventory-block-tab')) return;
+        if (target.classList.contains('meg-blocks-tab') || target.classList.contains('meg-blocks-collapse')) deactivateInventory(card);
+    }, true);
+}
+
+function attachToMeguminCard(messageElement, renderPane, readyCard = inventoryMeguminHost(messageElement)) {
+    const card = readyCard;
+    if (!card) return false;
+    bindExistingCard(card);
+    const tabs = card.querySelector('.meg-blocks-tabs');
+    const panel = card.querySelector('.meg-blocks-panel');
+    if (!tabs || !panel) return false;
+
+    let tab = card.querySelector('.inventory-block-tab');
+    let pane = card.querySelector('.inventory-block-pane');
+    if (!tab) {
+        tab = makeTab();
+        const collapse = tabs.querySelector('.meg-blocks-collapse');
+        if (collapse) tabs.insertBefore(tab, collapse);
+        else tabs.appendChild(tab);
+        tab.addEventListener('click', event => {
+            event.stopPropagation();
+            event.preventDefault();
+            const isOpen = tab.classList.contains('active') && pane?.style.display !== 'none';
+            if (isOpen) {
+                deactivateInventory(card);
+                card.classList.add('meg-blocks-shut');
+            } else {
+                activateInventory(card);
+            }
+        });
+    }
+    if (!pane) {
+        pane = makePane();
+        panel.appendChild(pane);
+    }
+    renderPane(pane);
+    return true;
+}
+
+function attachStandalone(messageElement, renderPane) {
+    const body = messageElement.querySelector('.mes_text');
+    if (!body) return false;
+    let card = body.querySelector(':scope > .inventory-block-card');
+    if (!card) {
+        card = document.createElement('div');
+        card.className = 'inventory-block-card inventory-block-standalone';
+        card.innerHTML = `
+            <div class="meg-blocks-tabs">
+                <button type="button" class="meg-blocks-tab inventory-block-tab active" data-key="${TAB_KEY}" data-block-id="${BLOCK_ID}" aria-label="Inventory" title="Inventory">
+                    <span class="meg-blocks-tab-emoji">🎒</span><span class="meg-blocks-tab-label">Inventory</span>
+                </button>
+                <button type="button" class="meg-blocks-collapse" title="Fold"><i class="fa-solid fa-chevron-down"></i></button>
+            </div>
+            <div class="meg-blocks-panel"><div class="meg-block-body inventory-block-pane" data-key="${TAB_KEY}" data-block-id="${BLOCK_ID}"></div></div>`;
+        body.appendChild(card);
+        const tab = card.querySelector('.inventory-block-tab');
+        const pane = card.querySelector('.inventory-block-pane');
+        const toggle = event => {
+            event.stopPropagation();
+            if (!pane || !tab) return;
+            const open = pane.style.display !== 'none';
+            pane.style.display = open ? 'none' : '';
+            tab.classList.toggle('active', !open);
+            card.classList.toggle('meg-blocks-shut', open);
+        };
+        tab?.addEventListener('click', toggle);
+        card.querySelector('.meg-blocks-collapse')?.addEventListener('click', toggle);
+    }
+    const pane = card.querySelector('.inventory-block-pane');
+    if (pane) renderPane(pane);
+    return true;
+}
+
+function mountNow() {
+    if (!renderCurrent || !globalThis.SillyTavern?.getContext || mountSuspended) return;
+    const context = SillyTavern.getContext();
+    const messageElement = latestAssistantMessageElement(context);
+    if (!messageElement) {
+        cleanupPreviousMount(null);
+        forceRender = false;
+        return;
+    }
+
+    const messageId = Number.parseInt(messageElement.getAttribute('mesid') ?? '', 10);
+    if (Number.isInteger(messageId)) refreshForeignCleanupBoundary(messageId);
+
+    const meguminCard = inventoryMeguminHost(messageElement);
+    if (!forceRender && mountedMessageElement === messageElement && inventoryMountMatchesHost(messageElement)) return;
+    forceRender = false;
+    cleanupPreviousMount(messageElement);
+
+    if (meguminCard) {
+        messageElement.querySelector('.inventory-block-card')?.remove();
+        attachToMeguminCard(messageElement, renderCurrent, meguminCard);
+    } else {
+        attachStandalone(messageElement, renderCurrent);
+    }
+}
+
+function ensureObserver() {
+    const chat = document.querySelector('#chat');
+    if (!chat) {
+        if (!observerRetry) observerRetry = setTimeout(() => { observerRetry = null; ensureObserver(); scheduleInventoryMount(0); }, 250);
+        return;
+    }
+    if (observer?.__inventoryChat === chat) return;
+    observer?.disconnect();
+    observer = new MutationObserver(mutations => {
+        const relevant = mutations.some(mutation => {
+            const target = mutation.target instanceof Element ? mutation.target : mutation.target?.parentElement;
+            if (!target) return true;
+            if (target.closest('.inventory-block-pane') || target.closest('.inventory-block-card')) return false;
+            return true;
+        });
+        if (relevant) {
+            refreshLatestForeignCleanupBoundary();
+            scheduleInventoryMount(60);
+        }
+    });
+    observer.__inventoryChat = chat;
+    observer.observe(chat, { childList: true, subtree: true });
+}
+
+export function scheduleInventoryMount(delay = 60, { force = false } = {}) {
+    ensureObserver();
+    ensureInteroperabilityEvents();
+    if (force) forceRender = true;
+    if (mountSuspended) return;
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(() => {
+        timer = null;
+        mountNow();
+    }, delay);
+}
+
+export function setInventoryMountSuspended(value) {
+    const next = Boolean(value);
+    setSharedQuietGenerationBlocked('inventory-block', next);
+    if (mountSuspended === next) return;
+    mountSuspended = next;
+    if (mountSuspended) {
+        if (timer) clearTimeout(timer);
+        timer = null;
+        return;
+    }
+    forceRender = true;
+    scheduleInventoryMount(0, { force: true });
+}
+
+export function initializeMeguminBridge(renderPane) {
+    renderCurrent = renderPane;
+    ensureInteroperabilityEvents();
+    ensureObserver();
+    scheduleInventoryMount(0, { force: true });
+}
