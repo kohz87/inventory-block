@@ -1,4 +1,4 @@
-# Inventory Block v0.5.0
+# Inventory Block v0.5.1
 
 Inventory Block is a lightweight SillyTavern RPG inventory extension built around **message-native full snapshots**.
 
@@ -67,7 +67,9 @@ Because future prompt construction removes every historical snapshot and injects
 
 ## UI
 
-Inventory Block renders the current snapshot in a Megumin-style tab when a compatible Megumin block host exists, with a simple standalone fallback. Raw `<Inventory>` custom elements are hidden in rendered story text but remain untouched in `message.mes`.
+Inventory Block renders the current snapshot as a native tab inside an existing Megumin Suite `.meg-blocks` card whenever that host is available. If Inventory mounts before Megumin finishes rendering, v0.5.1 automatically migrates the temporary standalone card into the native Megumin tab/panel once the host becomes complete.
+
+A compatible Megumin host is considered ready only after both its tab strip and panel container exist. If no Megumin host is present, Inventory uses a standalone fallback card. Raw `<Inventory>` custom elements are hidden in rendered story text but remain untouched in `message.mes`.
 
 The extension menu and settings panel provide:
 
