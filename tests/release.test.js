@@ -3,15 +3,18 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 const read = p => fs.readFileSync(new URL(`../${p}`, import.meta.url), 'utf8');
 
-test('all release metadata and runtime VERSION say 0.4.1', () => {
-  assert.equal(JSON.parse(read('manifest.json')).version, '0.4.1');
-  assert.equal(JSON.parse(read('package.json')).version, '0.4.1');
-  assert.match(read('src/constants.js'), /VERSION = '0\.4\.1'/);
-  assert.match(read('README.md'), /Inventory Block v0\.4\.1/);
+test('all release metadata and runtime VERSION say 0.4.2', () => {
+  assert.equal(JSON.parse(read('manifest.json')).version, '0.4.2');
+  assert.equal(JSON.parse(read('package.json')).version, '0.4.2');
+  assert.match(read('src/constants.js'), /VERSION = '0\.4\.2'/);
+  assert.match(read('README.md'), /Inventory Block v0\.4\.2/);
 });
 
-test('changelog documents v0.4.1 interoperability while retaining one-pass and recovery history', () => {
+test('changelog documents v0.4.2 edit-event hardening while retaining interoperability history', () => {
   const changelog=read('CHANGELOG.md');
+  assert.match(changelog,/## 0\.4\.2/);
+  assert.match(changelog,/MESSAGE_UPDATED/);
+  assert.match(changelog,/MESSAGE_EDITED/);
   assert.match(changelog,/## 0\.4\.1/);
   assert.match(changelog,/cooperative machine/i);
   assert.match(changelog,/concurrent/i);
@@ -23,7 +26,7 @@ test('changelog documents v0.4.1 interoperability while retaining one-pass and r
   assert.match(changelog,/inventory-reconcile/i);
 });
 
-test('v0.4.1 keeps backend hardening behind cooperative foreground controls', () => {
+test('v0.4.2 keeps backend hardening behind cooperative foreground controls', () => {
   const protocol=read('src/protocol.js');
   const injection=read('src/injection.js');
   const resources=read('src/resources.js');
