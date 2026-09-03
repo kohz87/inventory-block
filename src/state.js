@@ -10,6 +10,11 @@ import {
 
 const clone = value => structuredClone(value);
 const ROOT_ALIASES = new Set(['general', 'uncategorized']);
+const DURABLE_SOURCES = new Set([SOURCE.SEED, SOURCE.MANUAL, SOURCE.RESTORE, SOURCE.IMPORT, SOURCE.RESET]);
+
+function isDurableSource(source) {
+    return DURABLE_SOURCES.has(source);
+}
 
 export function emptyInventory() {
     return { categories: [] };
@@ -216,6 +221,7 @@ function makeRoot() {
     return {
         version: STATE_VERSION,
         activeRevision: 0,
+        durableRevision: 0,
         nextRevision: 1,
         mutationSerial: 0,
         revisions: {
@@ -397,6 +403,7 @@ function compactRevisions(root) {
 
     tryKeep(0, true);
     tryKeep(root.activeRevision, true);
+    tryKeep(root.durableRevision, true);
     const heads = Object.values(root.branchHeads ?? {})
         .filter(head => Number.isInteger(head?.revision) && original[String(head.revision)])
         .sort((a, b) => Number(Boolean(b?.sticky)) - Number(Boolean(a?.sticky)) || Number(b?.touchedAt ?? 0) - Number(a?.touchedAt ?? 0));
@@ -431,6 +438,7 @@ function appendRevisionToRoot(root, state, { parent, source, note, portable = fa
         createdAt: new Date().toISOString(), state: normalized, portable: Boolean(portable),
     };
     root.activeRevision = id;
+    if (isDurableSource(source)) root.durableRevision = id;
     if (countMutation) root.mutationSerial += 1;
     compactRevisions(root);
     return id;
@@ -518,6 +526,7 @@ function compactPortableCheckpointsWithRoot(context, root, limit = LIMITS.portab
     };
 
     protectLatestRevision(root.activeRevision, null, true);
+    protectLatestRevision(root.durableRevision, null, true);
     const heads = Object.values(root.branchHeads ?? {})
         .filter(head => Number.isInteger(head?.revision))
         .sort((a, b) => Number(Boolean(b?.sticky)) - Number(Boolean(a?.sticky)) || Number(b?.touchedAt ?? 0) - Number(a?.touchedAt ?? 0));
@@ -639,6 +648,13 @@ export function ensureRoot(context) {
         throw new Error('Inventory Block state is damaged: initial revision is missing. State was not reset.');
     }
     if (!Number.isInteger(root.activeRevision) || !root.revisions[String(root.activeRevision)]) root.activeRevision = 0;
+    if (!Number.isInteger(root.durableRevision) || !root.revisions[String(root.durableRevision)]) {
+        const durableIds = Object.values(root.revisions)
+            .filter(revision => revision && Number.isInteger(revision.id) && isDurableSource(revision.source))
+            .map(revision => revision.id)
+            .sort((a, b) => a - b);
+        root.durableRevision = durableIds.at(-1) ?? 0;
+    }
     const maxRevisionId = Math.max(0, ...Object.keys(root.revisions).map(Number).filter(Number.isInteger));
     if (!Number.isInteger(root.nextRevision) || root.nextRevision <= maxRevisionId) root.nextRevision = maxRevisionId + 1;
     if (!Number.isInteger(root.mutationSerial) || root.mutationSerial < 0) root.mutationSerial = Math.max(0, root.nextRevision - 1);
@@ -651,6 +667,15 @@ export function ensureRoot(context) {
 export function getCurrentInventory(context) {
     const root = ensureRoot(context);
     return getInventoryAt(root, root.activeRevision);
+}
+
+export function markDurableRevision(context, revisionId = null) {
+    const root = ensureRoot(context);
+    const id = revisionId === null ? root.activeRevision : Number(revisionId);
+    if (!Number.isInteger(id) || !getRevision(root, id)) throw new Error(`Cannot mark missing inventory revision ${revisionId} as durable.`);
+    root.durableRevision = id;
+    compactRevisions(root);
+    return id;
 }
 
 export function createRevision(context, state, { parent = null, source = SOURCE.MANUAL, note = '' } = {}) {
@@ -765,20 +790,22 @@ function checkpointRevisionIfValid(context, root, index, currentRevision, afterA
     return recovered === null ? currentRevision : recovered;
 }
 
-export function resolveActiveRevision(context) {
+function resolveRevisionThrough(context, maxLength, { commitActive = false, allowDurableFallback = true } = {}) {
     const root = ensureRoot(context);
     stabilizeAssistantUids(context);
     const data = lineageData(context);
     const chat = Array.isArray(context?.chat) ? context.chat : [];
+    const end = Math.max(0, Math.min(chat.length, Number.isInteger(Number(maxLength)) ? Number(maxLength) : chat.length));
     const legacyFingerprints = chat.map(messageFingerprintLegacy);
     const legacyPrefix = length => legacyHashLineage(legacyFingerprints.slice(0, length));
+    const previousActive = root.activeRevision;
 
     let bestHead = null;
     let bestLength = -1;
     for (const [branchKey, head] of Object.entries(root.branchHeads)) {
         if (!Number.isInteger(head?.revision) || !getRevision(root, head.revision)) continue;
         const length = Number.isInteger(head.length) ? head.length : Number.parseInt(String(branchKey).split(':', 1)[0], 10);
-        if (!Number.isInteger(length) || length < 0 || length > data.fingerprints.length || length <= bestLength) continue;
+        if (!Number.isInteger(length) || length < 0 || length > end || length <= bestLength) continue;
         const expectedKey = (head.lineageVersion ?? 1) === LINEAGE_VERSION ? data.prefixKeys[length] : legacyPrefix(length);
         if (expectedKey !== branchKey) continue;
         bestHead = head;
@@ -787,8 +814,8 @@ export function resolveActiveRevision(context) {
 
     let revision = bestHead?.revision ?? 0;
     const startIndex = bestLength >= 0 ? bestLength : 0;
-    if (bestHead) bestHead.touchedAt = Date.now();
-    for (let index = startIndex; index < chat.length; index++) {
+    if (bestHead && commitActive) bestHead.touchedAt = Date.now();
+    for (let index = startIndex; index < end; index++) {
         const message = chat[index];
         if (!message) continue;
         if (message.is_user || message.is_system) {
@@ -807,10 +834,32 @@ export function resolveActiveRevision(context) {
         revision = meta.revision;
         revision = checkpointRevisionIfValid(context, root, index, revision, true, data, legacyFingerprints);
     }
-    root.activeRevision = revision;
-    compactRevisions(root);
-    compactPortableCheckpointsWithRoot(context, root);
+
+    // A resolution that collapses to revision 0 can mean the branch lost all Inventory anchors.
+    // Once an explicit seed/admin revision exists, use it only as an anti-empty fallback.
+    if (revision === 0 && allowDurableFallback && Number.isInteger(root.durableRevision) && getRevision(root, root.durableRevision)) {
+        revision = root.durableRevision;
+    }
+
+    if (commitActive) {
+        root.activeRevision = revision;
+        compactRevisions(root);
+        compactPortableCheckpointsWithRoot(context, root);
+    } else {
+        root.activeRevision = getRevision(root, previousActive) ? previousActive : revision;
+    }
     return revision;
+}
+
+export function resolveRevisionBeforeMessage(context, messageId) {
+    const id = Number(messageId);
+    const length = Number.isInteger(id) ? Math.max(0, id) : 0;
+    return resolveRevisionThrough(context, length, { commitActive: false });
+}
+
+export function resolveActiveRevision(context) {
+    const chat = Array.isArray(context?.chat) ? context.chat : [];
+    return resolveRevisionThrough(context, chat.length, { commitActive: true });
 }
 
 export function attachPortableCheckpoint(context, messageId, revisionId, { source = null, note = '' } = {}) {
@@ -884,7 +933,11 @@ export function commitManualState(context, state, {
     }
     const normalized = validateAndNormalizeInventory(state);
     const previous = getInventoryAt(root, root.activeRevision);
-    if (inventoryEquals(previous, normalized)) return root.activeRevision;
+    if (inventoryEquals(previous, normalized)) {
+        root.durableRevision = root.activeRevision;
+        compactRevisions(root);
+        return root.activeRevision;
+    }
     const revision = createRevision(context, normalized, { parent: root.activeRevision, source, note });
     attachCurrentRevisionToTail(context, revision, source, note);
     rememberBranchHead(context, revision);

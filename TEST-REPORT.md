@@ -1,4 +1,4 @@
-# Inventory Block v0.3.6 Raw Reconciliation Compatibility Report
+# Inventory Block v0.3.7 Raw Reconciliation Compatibility Report
 
 Date: 2026-09-02
 

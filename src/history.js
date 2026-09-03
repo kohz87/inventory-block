@@ -56,6 +56,7 @@ export function clearInventoryHistory(context) {
 
     scrubInventoryMetadata(context);
     root.activeRevision = 0;
+    root.durableRevision = 0;
     root.nextRevision = 1;
     root.mutationSerial = mutationSerial;
     root.revisions = {
