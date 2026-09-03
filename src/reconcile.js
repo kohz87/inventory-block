@@ -6,7 +6,7 @@ import { normalizeGenerationType } from './lifecycle.js';
 const APPEND_TYPES = new Set(['continue', 'append', 'appendfinal']);
 const NO_CHANGE = /^NO_CHANGE[.!]?$/i;
 const ABSOLUTE_TAIL_RULE = 'Place it after all visible prose and all other required response blocks, as the final non-whitespace content of the response.';
-const COOPERATIVE_TRAILER_RULE = 'Place it after all visible prose and visible structured blocks in the machine-output trailer. Other extensions may emit their own namespaced machine controls before or after it; never merge, nest, rewrite, suppress, or copy those controls.';
+const COOPERATIVE_TRAILER_RULE = 'Place it after all visible prose and visible structured blocks in the machine-output trailer. Other extensions may emit their own independently namespaced machine payloads before or after it; never merge, nest, rewrite, suppress, or copy those payloads.';
 
 function foregroundProtocol(state, { replaceCapability = null } = {}) {
     const protocol = withResourceTrackingRule(buildInventoryPrompt(state, { replaceCapability }));
@@ -23,7 +23,7 @@ export function buildForegroundInventoryPrompt(state, { replaceCapability = null
     const protocol = foregroundProtocol(state, { replaceCapability });
     return `${protocol}\n\n` +
         `Foreground one-pass accounting rule: write the visible response normally first. If and only if this response actually establishes completed Inventory changes, emit the single Inventory machine control required above in the machine-output trailer after visible prose and visible structured blocks. ` +
-        `The Inventory control does not own the absolute final position: other extensions may place their own independently namespaced machine payloads before or after it. Keep every machine payload standalone and never nest, merge, repeat, rewrite, or suppress another extension's payload. ` +
+        `The Inventory control does not own the absolute final position. Other extensions may emit their own independently namespaced machine payloads before or after it. Keep every machine payload standalone and never nest, merge, repeat, rewrite, suppress, or copy another extension's payload. ` +
         `The Inventory control is internal transport: Inventory Block will validate it, persist the resulting canonical state, and strip only its own control from the stored/displayed assistant message after generation completes. If nothing changes, emit no Inventory control.`;
 }
 
