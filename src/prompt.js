@@ -45,10 +45,20 @@ export function injectInventorySnapshot(eventData, state) {
     const prompt = buildInventoryGenerationPrompt(state);
 
     if (Array.isArray(eventData.chat)) {
-        eventData.chat = eventData.chat
-            .filter(message => !(message?.role === 'system' && typeof message?.content === 'string' && message.content.includes(CONTEXT_BEGIN)))
-            .map(message => ({ ...message, content: sanitizeContent(message?.content) }));
-        insertSystemPrompt(eventData.chat, prompt);
+        const chat = eventData.chat;
+        const cleaned = [];
+        for (const message of chat) {
+            const content = sanitizeContent(message?.content);
+            const ownContextOnly = message?.role === 'system'
+                && typeof message?.content === 'string'
+                && message.content.includes(CONTEXT_BEGIN)
+                && String(content ?? '').trim() === '';
+            if (!ownContextOnly) cleaned.push({ ...message, content });
+        }
+        // Preserve the shared array object so other prompt-ready extensions that already
+        // hold a reference cannot lose their work when Inventory sanitizes history.
+        chat.splice(0, chat.length, ...cleaned);
+        insertSystemPrompt(chat, prompt);
         return { injected: true, kind: 'chat' };
     }
 
