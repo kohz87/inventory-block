@@ -1,4 +1,4 @@
-name: v0.3.7 branch deletion final hardpass
+name: v0.3.7 final durability hardpass
 
 on:
   push:
@@ -19,22 +19,20 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Apply final branch-deletion corrections
-        run: |
-          python3 scripts/v037_branch_durable_delete.py
-          python3 scripts/v037_durable_marker_fix.py
+      - name: Apply final source-review hardening
+        run: python3 scripts/v037_final_review.py
       - name: Ten repeated hard-pass cycles
         run: |
           for i in $(seq 1 10); do
-            echo "=== v0.3.7 final branch-delete hard pass $i/10 ==="
+            echo "=== v0.3.7 final review hard pass $i/10 ==="
             npm test
             npm run check
             git diff --check
           done
-      - name: Commit reviewed branch-deletion fix
+      - name: Commit final reviewed v0.3.7 source
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add CHANGELOG.md src/history.js src/state.js tests/v037-branch-anchor.test.js tests/v037-history-anchor.test.js tests/v037-runtime-static.test.js
-          git commit -m "v0.3.7: preserve selected branch across deletion"
+          git add CHANGELOG.md src/state.js tests/v037-branch-anchor.test.js tests/v037-runtime-static.test.js
+          git commit -m "v0.3.7: harden durable branch recovery"
           git push origin HEAD:audit/v0.3.7-branch-anchor-final
