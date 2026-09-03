@@ -53,3 +53,35 @@ test('foreground generation gets replace capability in the same injected prompt 
   assert.match(index, /buildForegroundInventoryPrompt\(getInventoryAt\(root, baseRevision\), \{ replaceCapability \}\)/);
   assert.match(index, /session\?\.replaceCapability/);
 });
+
+
+test('successful trusted foreground controls stamp the cleaned response for safe Continue recovery', () => {
+  const index = fs.readFileSync(new URL('../index.js', import.meta.url), 'utf8');
+  assert.match(index, /const foregroundControlAccepted = Boolean\(/);
+  assert.match(index, /pendingApplies && session\?\.promptInjected && result\.hadControl/);
+  assert.match(index, /warnings\.length === 0 && !concurrentConflict/);
+  assert.match(index, /if \(foregroundControlAccepted\) stampReconciliation\(ctx, id, acceptedRevision\)/);
+  const messageAssign = index.indexOf('message.mes = result.cleanedText');
+  const stamp = index.indexOf('if (foregroundControlAccepted) stampReconciliation(ctx, id, acceptedRevision)');
+  assert.ok(messageAssign >= 0 && stamp > messageAssign, 'stamp must hash the cleaned story after machine transport is stripped');
+});
+
+test('missing or rejected foreground controls remain unstamped and manually recoverable', () => {
+  const index = fs.readFileSync(new URL('../index.js', import.meta.url), 'utf8');
+  const start = index.indexOf('const foregroundControlAccepted = Boolean(');
+  const end = index.indexOf('let acceptedState = result.state', start);
+  const guard = index.slice(start, end);
+  assert.match(guard, /result\.hadControl/);
+  assert.match(guard, /warnings\.length === 0/);
+  assert.match(guard, /!concurrentConflict/);
+});
+
+test('new assistant or swipe identity clears any stale reconciliation boundary', () => {
+  const state = fs.readFileSync(new URL('../src/state.js', import.meta.url), 'utf8');
+  const start = state.indexOf('export function attachMessageRevision');
+  const end = state.indexOf('function attachCurrentRevisionToTail', start);
+  const block = state.slice(start, end);
+  assert.match(block, /if \(newUid\) \{/);
+  assert.match(block, /delete preserved\.checkpoint/);
+  assert.match(block, /delete preserved\.reconcile/);
+});

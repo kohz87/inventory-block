@@ -961,7 +961,10 @@ export function attachMessageRevision(context, messageId, { baseRevision, revisi
     message.extra ??= {};
     const current = message.extra[EXTRA_KEY] ?? {};
     const preserved = { ...current };
-    if (newUid) delete preserved.checkpoint;
+    if (newUid) {
+        delete preserved.checkpoint;
+        delete preserved.reconcile;
+    }
     const uid = newUid || !current.uid ? randomUid() : current.uid;
     message.extra[EXTRA_KEY] = {
         ...preserved, uid,

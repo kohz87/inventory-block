@@ -698,6 +698,9 @@ async function processAssistantMessage(messageId, type = '') {
         if (mutationConflict) warnings.push('Inventory changed while generation was running; the generated inventory write was discarded.');
         if (timelineConflict) warnings.push('The chat timeline changed while generation was running; the generated inventory write was discarded.');
         const concurrentConflict = mutationConflict || timelineConflict;
+        const foregroundControlAccepted = Boolean(
+            pendingApplies && session?.promptInjected && result.hadControl && warnings.length === 0 && !concurrentConflict
+        );
 
         let acceptedState = result.state;
         let acceptedRevision = baseRevision;
@@ -734,6 +737,7 @@ async function processAssistantMessage(messageId, type = '') {
         });
         const activeSwipeId = Number.isInteger(message.swipe_id) ? message.swipe_id : 0;
         scheduleAlternateSwipeMetadataCleanup(chatId, id, activeSwipeId, attachedMeta?.uid);
+        if (foregroundControlAccepted) stampReconciliation(ctx, id, acceptedRevision);
         root.activeRevision = acceptedRevision;
         rememberBranchHead(ctx, acceptedRevision);
 
