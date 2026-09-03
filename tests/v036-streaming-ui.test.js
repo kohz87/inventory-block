@@ -15,7 +15,7 @@ test('mount bridge can be suspended for foreground streaming', () => {
   const megumin = read('src/megumin.js');
   assert.match(megumin, /export function setInventoryMountSuspended/);
   assert.match(megumin, /if \(mountSuspended\) return;/);
-  assert.match(megumin, /mountedMessageElement === messageElement && hasExistingMount/);
+  assert.match(megumin, /mountedMessageElement === messageElement && inventoryMountMatchesHost\(messageElement\)/);
   assert.match(megumin, /scheduleInventoryMount\(0, \{ force: true \}\)/);
 });
 
