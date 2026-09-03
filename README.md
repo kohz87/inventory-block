@@ -1,4 +1,4 @@
-# Inventory Block v0.5.2
+# Inventory Block v0.5.3
 
 Inventory Block is a lightweight SillyTavern RPG inventory extension built around **message-native full snapshots**.
 
@@ -69,6 +69,8 @@ There is no `generateRaw` reconciliation pass and no `INVENTORY_BLOCK_UPDATE` pr
 ## Manual editing
 
 **Edit Inventory** opens the current full `<Inventory>` block as plain text. Saving writes the complete snapshot into the latest assistant message/current swipe inside the hidden transport envelope and saves the SillyTavern chat.
+
+Starting with v0.5.3, an Inventory-only edit does **not** rebuild the assistant message DOM. The hidden raw snapshot and active swipe are updated and persisted directly, then only Inventory's own pane is refreshed. Existing Megumin Suite tabs, NPC State UI, reasoning blocks, regex-rendered content, and other extension-owned rendering on that message are therefore left intact.
 
 Because future prompt construction removes every historical snapshot and injects only the newest valid one, older messages cannot reset a manual edit merely because they contain old Inventory values.
 
