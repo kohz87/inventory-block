@@ -6,12 +6,13 @@ import { buildForegroundInventoryPrompt } from '../src/reconcile.js';
 
 const base = { categories: [{ name: 'General', items: [{ name: 'Coin Pouch', quantity: '1', remark: '100 Gold' }] }] };
 
-test('one-pass prompt authorizes a terminal hidden patch in the same foreground response', () => {
+test('one-pass prompt authorizes a cooperative hidden patch in the same foreground response', () => {
   const prompt = buildForegroundInventoryPrompt(base);
   assert.match(prompt, /INVENTORY_STATE_JSON_BEGIN/);
   assert.match(prompt, /INVENTORY_BLOCK_UPDATE/);
   assert.match(prompt, /write the visible response normally first/i);
-  assert.match(prompt, /final non-whitespace output/i);
+  assert.match(prompt, /machine-output trailer/i);
+  assert.doesNotMatch(prompt, /final non-whitespace output/i);
   assert.match(prompt, /If nothing changes, emit no Inventory control/i);
 });
 
