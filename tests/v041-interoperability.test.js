@@ -3,6 +3,10 @@ import assert from 'node:assert/strict';
 import { consumeInventoryUpdates } from '../src/protocol.js';
 import { buildForegroundInventoryPrompt } from '../src/reconcile.js';
 import { injectGenerationPrompt } from '../src/injection.js';
+import {
+  clearReconciliationBoundaryForManualEdit,
+  refreshReconciliationBoundaryAfterForeignCleanup,
+} from '../src/interoperability.js';
 
 const base = {
   categories: [{
@@ -18,6 +22,28 @@ function assertForeignPayloadPreserved(result, story) {
   assert.match(result.cleanedText, new RegExp(story.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
   assert.ok(result.cleanedText.includes(npcPayload), 'foreign NPC payload must remain byte-for-byte intact');
   assert.doesNotMatch(result.cleanedText, /INVENTORY_BLOCK_UPDATE/);
+}
+
+function stampedMessage(text, revision = 7) {
+  return {
+    mes: text,
+    swipe_id: 0,
+    extra: {
+      inventoryBlockV2: {
+        uid: 'inv-test',
+        baseRevision: 3,
+        revision,
+        reconcile: {
+          version: 1,
+          textLength: text.length,
+          textHash: 'old-hash',
+          revision,
+          at: 1,
+        },
+      },
+    },
+    swipe_info: [{ extra: {} }],
+  };
 }
 
 test('foreground prompt uses a cooperative machine trailer instead of claiming absolute final position', () => {
@@ -88,4 +114,43 @@ test('text prompt injection fails closed instead of overwriting continuously cha
   assert.equal(result.reason, 'concurrent-prompt-mutation');
   assert.match(event.prompt, /^FOREIGN-4\nORIGINAL RP PROMPT$/);
   assert.doesNotMatch(event.prompt, /^INVENTORY PROMPT/);
+});
+
+test('foreign transport cleanup may safely shrink an accepted reconciliation boundary on the same revision', () => {
+  const story = 'Katrin closes the ledger.';
+  const original = `${story}\n\n${npcPayload}`;
+  const message = stampedMessage(original);
+  message.mes = story;
+
+  assert.equal(refreshReconciliationBoundaryAfterForeignCleanup(message), true);
+  const meta = message.extra.inventoryBlockV2;
+  assert.equal(meta.reconcile.textLength, story.length);
+  assert.notEqual(meta.reconcile.textHash, 'old-hash');
+  assert.equal(meta.reconcile.revision, 7);
+  assert.deepEqual(message.swipe_info[0].extra.inventoryBlockV2, meta);
+});
+
+test('foreign cleanup boundary retarget refuses additions, revision changes, and remaining Inventory controls', () => {
+  const original = `Story\n\n${npcPayload}`;
+
+  const addition = stampedMessage(original);
+  addition.mes = `${original}\nmore story`;
+  assert.equal(refreshReconciliationBoundaryAfterForeignCleanup(addition), false);
+
+  const wrongRevision = stampedMessage(original);
+  wrongRevision.extra.inventoryBlockV2.revision = 8;
+  wrongRevision.mes = 'Story';
+  assert.equal(refreshReconciliationBoundaryAfterForeignCleanup(wrongRevision), false);
+
+  const stillHasInventory = stampedMessage(`${original}\n${inventoryControl}`);
+  stillHasInventory.mes = `Story\n${inventoryControl}`;
+  assert.equal(refreshReconciliationBoundaryAfterForeignCleanup(stillHasInventory), false);
+});
+
+test('manual message edits clear the reconciliation boundary instead of being mistaken for foreign cleanup', () => {
+  const message = stampedMessage(`Story\n\n${npcPayload}`);
+  assert.equal(clearReconciliationBoundaryForManualEdit(message), true);
+  assert.equal(message.extra.inventoryBlockV2.reconcile, undefined);
+  assert.equal(message.swipe_info[0].extra.inventoryBlockV2.reconcile, undefined);
+  assert.equal(clearReconciliationBoundaryForManualEdit(message), false);
 });
