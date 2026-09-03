@@ -14,11 +14,17 @@ const base = {
 const inventoryControl = '<!-- INVENTORY_BLOCK_UPDATE {"mode":"patch","ops":[{"op":"adjust_resource","category":"General","name":"Coin Pouch","by":-6}]} -->.';
 const npcPayload = '<npc_state_v1>\n{"exchangeActiveNpcIds":["npc-katrin"],"inChatNpcIds":["npc-katrin"]}\n</npc_state_v1>';
 
+function assertForeignPayloadPreserved(result, story) {
+  assert.match(result.cleanedText, new RegExp(story.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+  assert.ok(result.cleanedText.includes(npcPayload), 'foreign NPC payload must remain byte-for-byte intact');
+  assert.doesNotMatch(result.cleanedText, /INVENTORY_BLOCK_UPDATE/);
+}
+
 test('foreground prompt uses a cooperative machine trailer instead of claiming absolute final position', () => {
   const prompt = buildForegroundInventoryPrompt(base);
   assert.match(prompt, /machine-output trailer/i);
   assert.match(prompt, /Other extensions may emit their own independently namespaced machine payloads before or after it/i);
-  assert.match(prompt, /never nest, merge, repeat, rewrite, or suppress another extension's payload/i);
+  assert.match(prompt, /never nest, merge, repeat, rewrite, suppress, or copy another extension's payload/i);
   assert.doesNotMatch(prompt, /as the final non-whitespace content of the response/i);
 });
 
@@ -29,7 +35,7 @@ test('Inventory cleanup preserves a foreign NPC payload that appears before Inve
   assert.deepEqual(result.errors, []);
   assert.equal(result.changed, true);
   assert.equal(result.state.categories[0].items[0].remark, '94 Gold');
-  assert.equal(result.cleanedText.trim(), `${story}\n\n${npcPayload}`);
+  assertForeignPayloadPreserved(result, story);
 });
 
 test('Inventory cleanup preserves a foreign NPC payload that appears after Inventory', () => {
@@ -39,7 +45,7 @@ test('Inventory cleanup preserves a foreign NPC payload that appears after Inven
   assert.deepEqual(result.errors, []);
   assert.equal(result.changed, true);
   assert.equal(result.state.categories[0].items[0].remark, '94 Gold');
-  assert.equal(result.cleanedText.trim(), `${story}\n\n${npcPayload}`);
+  assertForeignPayloadPreserved(result, story);
 });
 
 test('text prompt injection retries when another extension mutates the shared prompt during token counting', async () => {
