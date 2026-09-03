@@ -8,7 +8,7 @@ One-pass foreground Inventory accounting.
 - Processes the completed foreground response once: validate the patch atomically, commit its backend revision/branch metadata, then strip the machine control from the stored/displayed message.
 - Removes the automatic post-response `generateRaw` scan, eliminating the normal second LLM round-trip and its reinterpretation/latency cost.
 - Keeps **Reconcile Latest Response** and `/inventory-reconcile` as explicit `generateRaw` recovery tools when a foreground update was omitted or malformed; successful foreground controls stamp the cleaned-text boundary so a later Continue can recover only its new suffix without double-counting earlier events.
-- Keeps v0.3.7 durable branch anchors, swipe/deletion rollback semantics, streaming UI suspension, and backend negative-resource guards unchanged.
+- Keeps v0.3.7 durable branch anchors, swipe/deletion rollback semantics, streaming UI suspension, and backend negative-resource guards; an OOC/admin turn promotes durability only after its foreground control is actually accepted (or after explicit manual recovery).
 
 ## 0.3.7
 

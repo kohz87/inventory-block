@@ -85,3 +85,10 @@ test('new assistant or swipe identity clears any stale reconciliation boundary',
   assert.match(block, /delete preserved\.checkpoint/);
   assert.match(block, /delete preserved\.reconcile/);
 });
+
+
+test('admin durability is promoted only after a trusted foreground control is accepted', () => {
+  const index = fs.readFileSync(new URL('../index.js', import.meta.url), 'utf8');
+  assert.match(index, /if \(foregroundControlAccepted && session\?\.replaceCapability\) markDurableRevision\(ctx, acceptedRevision\)/);
+  assert.doesNotMatch(index, /if \(!concurrentConflict && warnings\.length === 0 && pendingApplies && session\?\.replaceCapability\) markDurableRevision/);
+});

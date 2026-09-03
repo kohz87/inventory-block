@@ -721,7 +721,7 @@ async function processAssistantMessage(messageId, type = '') {
             }
         }
 
-        if (!concurrentConflict && warnings.length === 0 && pendingApplies && session?.replaceCapability) markDurableRevision(ctx, acceptedRevision);
+        if (foregroundControlAccepted && session?.replaceCapability) markDurableRevision(ctx, acceptedRevision);
         message.mes = result.cleanedText;
         const effectiveBase = concurrentConflict ? acceptedRevision : baseRevision;
         const messageBaseRevision = concurrentConflict
