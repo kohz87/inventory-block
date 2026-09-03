@@ -23,3 +23,5 @@ jobs:
             npm run check
             git diff --check
           done
+      - name: Confirm clean audit head
+        run: git status --short
