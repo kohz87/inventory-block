@@ -41,8 +41,8 @@ test('streaming MESSAGE_UPDATED still exits before lineage invalidation', () => 
 test('generic non-streaming updates refresh branch state instead of stripping transport', () => {
   const block = functionBlock('onMessageUpdated', 'swipeBaseRevision');
   const genericStart = block.indexOf('if (!manualEdit) {');
-  const manualStart = block.indexOf('if (ctx) invalidateLineageCache(ctx);', genericStart + 1);
-  const generic = block.slice(genericStart, manualStart);
+  const manualControl = block.indexOf('if (hasInventoryControl(message.mes))');
+  const generic = block.slice(genericStart, manualControl);
   assert.match(generic, /resolveBranchAndRefresh/);
   assert.doesNotMatch(generic, /processAssistantMessage|consumeInventoryUpdates|hasInventoryControl/);
 });
