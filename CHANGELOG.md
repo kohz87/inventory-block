@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.5.1
+
+Megumin tab-host integration hotfix.
+
+- Restores host-aware mount deduplication from the mature pre-rewrite bridge without reintroducing any legacy Inventory state machinery.
+- Fixes the case where Inventory mounts as a standalone card before Megumin Suite finishes rendering, then never migrates into the later `.meg-blocks` tab host.
+- Treats a Megumin host as ready only when both `.meg-blocks-tabs` and `.meg-blocks-panel` exist.
+- A standalone Inventory mount is now considered stale as soon as a complete Megumin host becomes available, so it is removed and replaced by the native Inventory tab/pane.
+- Restores native Megumin tab activation/collapse coordination and deactivates Inventory when another Megumin tab is selected.
+- Restores observer retry when the chat DOM is not ready yet.
+- Adds regression coverage for partial hosts, standalone-before-Megumin timing, and stable native-tab mounts.
+- Keeps the v0.5 message-native snapshot source of truth, prompt filtering, manual editing, and generation behavior unchanged.
+
 ## 0.5.0
 
 Clean message-native rewrite.
