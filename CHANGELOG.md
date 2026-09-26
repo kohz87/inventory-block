@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.6.1
+
+Inventory pane scrolling hotfix.
+
+- Fixes long lists being clipped in the wide (tree) layout with no way to scroll: the height cap now sits on the tree and item columns, which scroll independently, instead of on the grid that clipped them.
+- Removes overscroll containment so wheel and touch scrolling continue into the chat once a list reaches its end, instead of trapping page scrolling while the pointer is over Inventory.
+
 ## 0.6.0
 
 Sub-categories and a responsive Inventory browser.
