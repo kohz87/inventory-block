@@ -14,7 +14,7 @@ import { DEFAULT_MAX_DEPTH, MAX_MAX_DEPTH, MIN_MAX_DEPTH, clampDepth } from './s
 import { copyText, openInventoryEditor, renderInventoryPane } from './src/ui.js';
 import { initializeMeguminBridge, scheduleInventoryMount, setInventoryMountSuspended } from './src/megumin.js';
 
-const VERSION = '0.6.0';
+const VERSION = '0.6.1';
 const SETTINGS_KEY = 'inventoryBlock';
 const SESSION_MAX_AGE_MS = 2 * 60 * 1000;
 

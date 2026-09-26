@@ -1,4 +1,4 @@
-# Inventory Block v0.6.0
+# Inventory Block v0.6.1
 
 Inventory Block is a lightweight SillyTavern RPG inventory extension built around **message-native full snapshots**.
 

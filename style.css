@@ -193,13 +193,15 @@
     background: var(--inventory-accent);
 }
 
-/* Browser: drill-down by default */
-
+/*
+ * Browser: drill-down by default. Long lists scroll inside the pane; no
+ * overscroll containment, so wheel/touch scrolling continues into the chat
+ * once the list reaches its end.
+ */
 .inventory-browser {
     border-top: 1px solid var(--inventory-border);
     max-height: 65vh;
     overflow-y: auto;
-    overscroll-behavior: contain;
 }
 
 .inventory-tree {
@@ -489,8 +491,18 @@
     .inventory-browser {
         display: grid;
         grid-template-columns: auto minmax(0, 1fr);
+        max-height: none;
+        overflow: visible;
+    }
+
+    /*
+     * Each column scrolls on its own. The height cap lives on the columns, not
+     * the grid: an auto grid row grows to its content, so a capped grid would
+     * clip the list instead of letting it scroll.
+     */
+    .inventory-tree,
+    .inventory-main {
         max-height: min(60vh, 42rem);
-        overflow: hidden;
     }
 
     .inventory-tree {
@@ -507,7 +519,6 @@
 
     .inventory-main {
         overflow-y: auto;
-        overscroll-behavior: contain;
     }
 
     .inventory-back,
