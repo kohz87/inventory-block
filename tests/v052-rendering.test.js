@@ -64,12 +64,8 @@ test('manual replace removes a hidden truncated transport as one unit', () => {
   assert.equal(latestValidInventoryInText(replaced).state.categories[0].items[0].remark, '100 Gold');
 });
 
-test('active UI uses native details/summary categories and runtime normalizes received/rendered messages', () => {
-  const ui = read('src/ui.js');
+test('runtime normalizes received/rendered messages', () => {
   const index = read('index.js');
-  assert.match(ui, /el\('details', 'inventory-category'\)/);
-  assert.match(ui, /el\('summary', 'inventory-category-title'\)/);
-  assert.match(ui, /addEventListener\('toggle'/);
   assert.match(index, /normalizeInventoryTransports/);
   assert.match(index, /onCharacterMessageRendered/);
   assert.match(index, /MESSAGE_EDITED/);

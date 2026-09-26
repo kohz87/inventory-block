@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.6.0
+
+Sub-categories and a responsive Inventory browser.
+
+- Adds sub-category paths in section headers, e.g. `[Wagon > Food > Preserved]`. Headers without `>` behave exactly as before, so existing snapshots stay valid.
+- Canonicalizes whitespace around `>` so spacing variants resolve to the same category.
+- Adds a **Sub-category depth** setting (1–5, default 3). Deeper paths are folded into the last visible level instead of being rejected; stored headers are never rewritten.
+- The generation prompt now explains full-path headers and the configured depth limit.
+- Replaces the flat collapsible category list with a width-aware browser built on container queries: a category tree with grouped item lists at ≥ 760px, drill-down lists with breadcrumb, back button and sibling chips below that.
+- Adds a whole-tree item filter that shows each match's location.
+- Adds a change strip comparing the current snapshot with the previous surviving snapshot (added, changed, moved, removed), with matching markers in the tree and item rows.
+- Edit and Copy move into compact header icon buttons; the quantity column stays aligned across rows, and long names and remarks wrap instead of truncating.
+
 ## 0.5.3
 
 Inventory editor rendering-isolation hotfix.

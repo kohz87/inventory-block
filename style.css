@@ -1,5 +1,22 @@
 #chat .mes_text inventory { display: none !important; }
 
+/*
+ * The pane lives inside a chat message, so layout follows the pane's own width
+ * (container queries), not the viewport. Base styles are the narrow drill-down
+ * layout; wider containers progressively add the 3-column rows and the tree.
+ */
+.inventory-block-pane {
+    --inventory-accent: var(--SmartThemeQuoteColor, #e18a24);
+    --inventory-border: var(--SmartThemeBorderColor, rgba(127, 127, 127, .28));
+    --inventory-row-bg: rgba(127, 127, 127, .07);
+    --inventory-hover-bg: rgba(127, 127, 127, .14);
+    --inventory-added: #5fb36b;
+    --inventory-changed: #d9a441;
+    --inventory-moved: #6b9fd6;
+    --inventory-removed: #d46a6a;
+    container: inventory / inline-size;
+}
+
 .inventory-block-pane,
 .inventory-block-card {
     font-size: 0.95em;
@@ -12,120 +29,565 @@
     overflow: hidden;
 }
 
-.inventory-block-card-head,
-.inventory-ledger-heading,
-.inventory-pane-toolbar,
-.inventory-category-title {
+.inventory-block-pane button:not(.menu_button) {
+    appearance: none;
+    background: none;
+    border: 0;
+    margin: 0;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+
+.inventory-block-pane button:focus-visible {
+    outline: 2px solid var(--inventory-accent);
+    outline-offset: -2px;
+    border-radius: 5px;
+}
+
+/* Header */
+
+.inventory-header {
     display: flex;
     align-items: center;
     gap: 0.55rem;
+    padding: 0.5rem 0.7rem 0.35rem;
 }
 
-.inventory-block-card-head,
-.inventory-ledger-heading {
-    padding: 0.55rem 0.7rem;
+.inventory-header-titles {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.2rem 0.6rem;
+    min-width: 0;
+    flex: 1;
+}
+
+.inventory-ledger-title {
     font-weight: 700;
-}
-
-.inventory-ledger-heading {
-    justify-content: space-between;
 }
 
 .inventory-pane-summary,
-.inventory-editor-note {
-    opacity: 0.7;
-    font-size: 0.88em;
+.inventory-editor-note,
+.inventory-node-count,
+.inventory-location-count {
+    opacity: 0.65;
+    font-size: 0.85em;
+    font-variant-numeric: tabular-nums;
 }
 
-.inventory-pane-toolbar {
-    padding: 0 0.7rem 0.55rem;
-    flex-wrap: wrap;
+.inventory-header-actions {
+    display: flex;
+    gap: 0.3rem;
+    flex: none;
 }
 
-.inventory-action {
-    min-width: 0;
+.inventory-icon-button {
+    min-width: 2.2rem;
+    min-height: 2.2rem;
+    margin: 0;
+    padding: 0.35rem 0.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.inventory-category {
-    margin: 0.3rem 0.7rem 0.65rem;
+/* Search */
+
+.inventory-search {
+    padding: 0 0.7rem 0.45rem;
 }
 
-.inventory-category-title {
-    font-weight: 700;
-    padding: 0.4rem 0;
+.inventory-search-input {
+    width: 100%;
+    margin: 0;
+    min-height: 2.2rem;
+    box-sizing: border-box;
+}
+
+/* Changes since the previous snapshot */
+
+.inventory-changes {
+    margin: 0 0.7rem 0.5rem;
+    border: 1px solid var(--inventory-border);
+    border-radius: 6px;
+    background: var(--inventory-row-bg);
+}
+
+.inventory-changes-summary {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.4rem 0.6rem;
+    min-height: 2.2rem;
+    box-sizing: border-box;
     cursor: pointer;
-    user-select: none;
     list-style: none;
+    user-select: none;
 }
 
-.inventory-category-title::-webkit-details-marker {
+.inventory-changes-summary::-webkit-details-marker {
     display: none;
 }
 
-.inventory-category-title::after {
-    content: '▾';
-    display: inline-block;
-    margin-left: auto;
-    opacity: 0.65;
-    transition: transform 120ms ease;
-}
-
-.inventory-category:not([open]) > .inventory-category-title::after {
-    transform: rotate(-90deg);
-}
-
-.inventory-category-name {
-    min-width: 0;
-    overflow-wrap: anywhere;
-}
-
-.inventory-category-count {
+.inventory-changes-summary::after {
+    content: '▸';
     margin-left: auto;
     opacity: 0.6;
-    font-size: 0.82em;
-    font-weight: 500;
+    flex: none;
 }
 
-.inventory-category-title::after {
-    margin-left: 0.15rem;
+.inventory-changes[open] > .inventory-changes-summary::after {
+    content: '▾';
 }
 
-.inventory-category > .inventory-table {
-    padding-top: 0.1rem;
+.inventory-changes-label {
+    font-weight: 700;
+    flex: none;
 }
 
-.inventory-table {
+.inventory-changes-preview {
+    min-width: 0;
+    overflow: hidden;
+    white-space: pre;
+    text-overflow: ellipsis;
+    opacity: 0.8;
+}
+
+.inventory-changes[open] .inventory-changes-preview {
+    display: none;
+}
+
+.inventory-changes-list {
+    list-style: none;
+    margin: 0;
+    padding: 0 0.35rem 0.4rem;
     display: grid;
-    gap: 0.15rem;
+    gap: 0.1rem;
 }
 
-.inventory-row {
-    display: grid;
-    grid-template-columns: minmax(8rem, 1.4fr) minmax(3.5rem, 0.45fr) minmax(8rem, 1.5fr);
-    gap: 0.55rem;
+.inventory-change-link {
+    display: block;
+    width: 100%;
     padding: 0.3rem 0.45rem;
     border-radius: 5px;
-    background: rgba(127,127,127,.06);
+    overflow-wrap: anywhere;
+    border-left: 3px solid transparent !important;
 }
 
-.inventory-cell {
+.inventory-change-link:hover {
+    background: var(--inventory-hover-bg);
+}
+
+.inventory-change.is-added .inventory-change-link { border-left-color: var(--inventory-added) !important; }
+.inventory-change.is-changed .inventory-change-link { border-left-color: var(--inventory-changed) !important; }
+.inventory-change.is-moved .inventory-change-link { border-left-color: var(--inventory-moved) !important; }
+.inventory-change.is-removed .inventory-change-link { border-left-color: var(--inventory-removed) !important; opacity: 0.85; }
+
+.inventory-change-dot {
+    flex: none;
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 50%;
+    background: var(--inventory-accent);
+}
+
+/* Browser: drill-down by default */
+
+.inventory-browser {
+    border-top: 1px solid var(--inventory-border);
+    max-height: 65vh;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+}
+
+.inventory-tree {
+    display: none;
+}
+
+.inventory-main {
+    min-width: 0;
+    padding: 0.35rem 0.7rem 0.7rem;
+}
+
+.inventory-node-name {
+    min-width: 0;
+    flex: 1;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    overflow: hidden;
+    overflow-wrap: anywhere;
+}
+
+.inventory-node-count {
+    flex: none;
+}
+
+/* Location: back button + breadcrumb */
+
+.inventory-location {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    min-height: 2.75rem;
+}
+
+.inventory-back {
+    flex: none;
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+    font-size: 1.4em !important;
+    line-height: 1;
+    text-align: center !important;
+    border-radius: 6px;
+}
+
+.inventory-back:hover,
+.inventory-crumb-button:hover {
+    background: var(--inventory-hover-bg) !important;
+}
+
+.inventory-crumbs {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.1rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    min-width: 0;
+    flex: 1;
+}
+
+.inventory-crumb {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+}
+
+.inventory-crumb + .inventory-crumb::before {
+    content: '›';
+    opacity: 0.5;
+    padding: 0 0.3rem;
+}
+
+.inventory-crumb-button {
+    padding: 0.3rem 0.35rem;
+    border-radius: 5px;
+    opacity: 0.75;
+    overflow-wrap: anywhere;
+}
+
+.inventory-crumb-current {
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+.inventory-crumb.is-middle {
+    display: none;
+}
+
+.inventory-location-count {
+    flex: none;
+    margin-left: auto;
+}
+
+/* Sibling chips */
+
+.inventory-siblings {
+    display: flex;
+    gap: 0.35rem;
+    overflow-x: auto;
+    padding: 0.1rem 0 0.5rem;
+    scrollbar-width: thin;
+}
+
+.inventory-chip {
+    flex: none;
+    display: inline-flex !important;
+    align-items: center;
+    gap: 0.4rem;
+    max-width: 16em;
+    min-height: 2.2rem;
+    padding: 0.25rem 0.7rem !important;
+    border: 1px solid var(--inventory-border) !important;
+    border-radius: 999px;
+}
+
+.inventory-chip .inventory-node-name {
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+}
+
+.inventory-chip.is-selected {
+    border-color: var(--inventory-accent) !important;
+    background: color-mix(in srgb, var(--inventory-accent) 16%, transparent) !important;
+}
+
+/* Child category rows */
+
+.inventory-children {
+    display: grid;
+    gap: 0.15rem;
+    margin-bottom: 0.55rem;
+}
+
+.inventory-child {
+    display: flex !important;
+    align-items: center;
+    gap: 0.55rem;
+    width: 100%;
+    min-height: 2.75rem;
+    padding: 0.35rem 0.55rem !important;
+    border-radius: 6px;
+    background: var(--inventory-row-bg) !important;
+    font-weight: 600 !important;
+}
+
+.inventory-child:hover {
+    background: var(--inventory-hover-bg) !important;
+}
+
+.inventory-child-chevron {
+    flex: none;
+    opacity: 0.55;
+    font-size: 1.2em;
+}
+
+/* Items */
+
+/* One grid for the whole list; rows use subgrid so quantities line up. */
+.inventory-items {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: 0.75rem;
+    row-gap: 0.15rem;
+}
+
+.inventory-group {
+    display: contents;
+}
+
+.inventory-group.is-descendant {
+    display: none;
+}
+
+.inventory-group-title,
+.inventory-results-summary,
+.inventory-items .inventory-empty-state {
+    grid-column: 1 / -1;
+}
+
+.inventory-group-title {
+    margin: 0.55rem 0 0.1rem;
+    font-size: 0.78em;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    opacity: 0.6;
+    overflow-wrap: anywhere;
+}
+
+.inventory-group.is-own > .inventory-group-title {
+    display: none;
+}
+
+.inventory-group-title:first-child {
+    margin-top: 0.1rem;
+}
+
+.inventory-item {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: subgrid;
+    column-gap: 0.75rem;
+    row-gap: 0.1rem;
+    padding: 0.4rem 0.55rem;
+    border-radius: 5px;
+    background: var(--inventory-row-bg);
+    border-left: 3px solid transparent;
+}
+
+.inventory-item.is-added { border-left-color: var(--inventory-added); }
+.inventory-item.is-changed { border-left-color: var(--inventory-changed); }
+.inventory-item.is-moved { border-left-color: var(--inventory-moved); }
+
+.inventory-item-name,
+.inventory-item-remark,
+.inventory-item-qty {
     min-width: 0;
     overflow-wrap: anywhere;
 }
 
-.inventory-quantity {
-    opacity: 0.82;
-    text-align: right;
+.inventory-item-name {
+    display: flex;
+    flex-direction: column;
 }
 
-.inventory-remark {
-    opacity: 0.88;
+.inventory-item-path {
+    font-size: 0.8em;
+    opacity: 0.6;
+}
+
+.inventory-item-qty {
+    text-align: right;
+    opacity: 0.85;
+    font-variant-numeric: tabular-nums;
+    max-width: 10ch;
+}
+
+.inventory-item-remark {
+    grid-column: 1 / -1;
+    padding-left: 0.75rem;
+    opacity: 0.8;
+    font-size: 0.93em;
+}
+
+.inventory-item-remark:empty {
+    display: none;
+}
+
+.inventory-results-summary {
+    opacity: 0.7;
+    font-size: 0.88em;
+    padding: 0.2rem 0 0.1rem;
 }
 
 .inventory-empty-state {
     padding: 0.75rem;
     opacity: 0.7;
 }
+
+/* Medium: single-line 3-column item rows */
+
+@container inventory (min-width: 480px) {
+    .inventory-items {
+        grid-template-columns: minmax(0, 1.3fr) fit-content(10ch) minmax(0, 1.5fr);
+    }
+
+    .inventory-item {
+        align-items: start;
+    }
+
+    .inventory-item-remark {
+        grid-column: auto;
+        padding-left: 0;
+        font-size: inherit;
+    }
+
+    .inventory-item-remark:empty {
+        display: block;
+    }
+}
+
+/* Wide: tree on the left, whole selected subtree on the right */
+
+@container inventory (min-width: 760px) {
+    .inventory-browser {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr);
+        max-height: min(60vh, 42rem);
+        overflow: hidden;
+    }
+
+    .inventory-tree {
+        display: block;
+        width: 15rem;
+        min-width: 10rem;
+        max-width: 50cqi;
+        resize: horizontal;
+        overflow: auto;
+        border-right: 1px solid var(--inventory-border);
+        padding: 0.35rem 0.3rem;
+        box-sizing: border-box;
+    }
+
+    .inventory-main {
+        overflow-y: auto;
+        overscroll-behavior: contain;
+    }
+
+    .inventory-back,
+    .inventory-siblings,
+    .inventory-children {
+        display: none !important;
+    }
+
+    .inventory-crumb.is-middle {
+        display: flex;
+    }
+
+    .inventory-crumb-ellipsis {
+        display: none;
+    }
+
+    .inventory-location {
+        position: sticky;
+        top: -0.35rem;
+        z-index: 1;
+        background: var(--SmartThemeBlurTintColor, var(--SmartThemeChatTintColor, #1f1f1f));
+        backdrop-filter: blur(8px);
+        border-bottom: 1px solid var(--inventory-border);
+        margin-bottom: 0.45rem;
+    }
+
+    .inventory-group.is-descendant {
+        display: contents;
+    }
+
+    .inventory-group.is-own > .inventory-group-title {
+        display: block;
+    }
+}
+
+/* Tree */
+
+.inventory-tree-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.inventory-tree-row {
+    display: flex;
+    align-items: flex-start;
+    padding-left: calc(var(--inventory-depth, 0) * 1rem);
+}
+
+.inventory-tree-toggle,
+.inventory-tree-spacer {
+    flex: none;
+    width: 1.4rem;
+    min-height: 2rem;
+    text-align: center !important;
+    opacity: 0.6;
+}
+
+.inventory-tree-label {
+    display: flex !important;
+    align-items: center;
+    gap: 0.45rem;
+    flex: 1;
+    min-width: 0;
+    min-height: 2rem;
+    padding: 0.25rem 0.45rem !important;
+    border-radius: 5px;
+}
+
+.inventory-tree-label:hover {
+    background: var(--inventory-hover-bg) !important;
+}
+
+.inventory-tree-label.is-selected {
+    background: color-mix(in srgb, var(--inventory-accent) 18%, transparent) !important;
+    box-shadow: inset 2px 0 0 var(--inventory-accent);
+    font-weight: 600;
+}
+
+/* Editor and settings */
 
 .inventory-editor {
     display: flex;
@@ -155,11 +617,14 @@
     margin: 0.55rem 0;
 }
 
-@media (max-width: 720px) {
-    .inventory-row {
-        grid-template-columns: 1fr auto;
-    }
-    .inventory-remark {
-        grid-column: 1 / -1;
-    }
+.inventory-block-settings-field {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    margin: 0.55rem 0 0;
+}
+
+.inventory-block-settings-field select {
+    width: auto;
+    margin: 0;
 }
