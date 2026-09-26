@@ -1,10 +1,10 @@
 {
   "name": "inventory-block",
-  "version": "0.5.3",
+  "version": "0.6.0",
   "private": true,
   "type": "module",
   "scripts": {
     "test": "node --test tests/*.test.js",
-    "check": "node --check index.js && node --check src/snapshot.js && node --check src/prompt.js && node --check src/ui.js && node --check src/megumin.js"
+    "check": "node --check index.js && node --check src/snapshot.js && node --check src/prompt.js && node --check src/ui.js && node --check src/megumin.js && node --check src/tree.js && node --check src/diff.js"
   }
 }

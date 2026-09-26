@@ -1,6 +1,7 @@
 export const INVENTORY_TAG = 'Inventory';
 export const ROOT_CATEGORY = 'General';
 export const TRANSPORT_MARKER = 'INVENTORY_BLOCK_V05';
+export const CATEGORY_PATH_SEPARATOR = '>';
 
 const COMPLETE_BLOCK = /<Inventory\b[^>]*>([\s\S]*?)<\/Inventory\s*>/gi;
 const TRANSPORT_BLOCK = /<!--\s*INVENTORY_BLOCK_V05\b[\s\S]*?-->/gi;
@@ -13,6 +14,27 @@ function key(value) {
     return clean(value).normalize('NFKC').toLowerCase();
 }
 
+/**
+ * Category headers may carry a sub-category path such as `[Wagon > Food]`.
+ * The stored category name stays the full path; only whitespace around the
+ * separators is canonicalized so `Wagon>Food` and `Wagon > Food` are the same.
+ */
+export function splitCategoryPath(name) {
+    return clean(name).split(CATEGORY_PATH_SEPARATOR).map(segment => segment.trim()).filter(Boolean);
+}
+
+export function canonicalCategoryName(name) {
+    return splitCategoryPath(name).join(` ${CATEGORY_PATH_SEPARATOR} `);
+}
+
+export function categoryKey(name) {
+    return key(canonicalCategoryName(name));
+}
+
+export function itemKey(name) {
+    return key(name);
+}
+
 export function emptyInventory() {
     return { categories: [] };
 }
@@ -22,7 +44,7 @@ export function normalizeInventory(input) {
     const categories = Array.isArray(input?.categories) ? input.categories : [];
     let root = null;
     for (const category of categories) {
-        const name = clean(category?.name) || ROOT_CATEGORY;
+        const name = canonicalCategoryName(category?.name) || ROOT_CATEGORY;
         const items = Array.isArray(category?.items) ? category.items : [];
         const normalized = items
             .map(item => ({
@@ -106,7 +128,7 @@ export function parseInventoryBody(body) {
         const line = lines[i].trim();
         if (!line) continue;
         if (line.startsWith('[') && line.endsWith(']')) {
-            const name = clean(line.slice(1, -1));
+            const name = canonicalCategoryName(line.slice(1, -1));
             if (!name) throw new Error(`Inventory category on line ${i + 1} is blank.`);
             current = { name, items: [] };
             categories.push(current);

@@ -10,10 +10,12 @@ import {
     syncActiveSwipeText,
 } from './src/snapshot.js';
 import { injectInventorySnapshot } from './src/prompt.js';
+import { DEFAULT_MAX_DEPTH, MAX_MAX_DEPTH, MIN_MAX_DEPTH, clampDepth } from './src/tree.js';
 import { copyText, openInventoryEditor, renderInventoryPane } from './src/ui.js';
 import { initializeMeguminBridge, scheduleInventoryMount, setInventoryMountSuspended } from './src/megumin.js';
 
-const VERSION = '0.5.3';
+const VERSION = '0.6.0';
+const SETTINGS_KEY = 'inventoryBlock';
 const SESSION_MAX_AGE_MS = 2 * 60 * 1000;
 
 let initialized = false;
@@ -50,6 +52,15 @@ function isBackgroundGeneration(type, isDryRun = false) {
     return ['quiet', 'impersonate', 'raw', 'background', 'dryrun', 'dry-run'].some(token => lower.includes(token));
 }
 
+function settings(ctx = context()) {
+    const store = ctx?.extensionSettings;
+    if (!store || typeof store !== 'object') return { maxDepth: DEFAULT_MAX_DEPTH };
+    if (!store[SETTINGS_KEY] || typeof store[SETTINGS_KEY] !== 'object') store[SETTINGS_KEY] = {};
+    const own = store[SETTINGS_KEY];
+    own.maxDepth = clampDepth(own.maxDepth ?? DEFAULT_MAX_DEPTH);
+    return own;
+}
+
 function currentSnapshot(ctx = context()) {
     return latestInventorySnapshot(ctx?.chat ?? []);
 }
@@ -61,8 +72,11 @@ function currentState(ctx = context()) {
 function renderCurrentPane(pane) {
     const ctx = context();
     const snapshot = currentSnapshot(ctx);
+    const previous = snapshot ? latestInventorySnapshot(ctx?.chat ?? [], { beforeIndex: snapshot.messageIndex }) : null;
     renderInventoryPane(pane, snapshot?.state ?? emptyInventory(), {
         hasSnapshot: Boolean(snapshot),
+        previousState: previous?.state ?? null,
+        maxDepth: settings(ctx).maxDepth,
         onEdit: openEditor,
         onCopy: copyCurrentBlock,
         uiKey: chatIdOf(ctx) ?? 'default',
@@ -140,7 +154,7 @@ function onPromptReady(eventData = null) {
     if (eventData?.dryRun === true) return;
     const session = selectPromptSession();
     if (!session) return;
-    const result = injectInventorySnapshot(eventData, session.state);
+    const result = injectInventorySnapshot(eventData, session.state, { maxDepth: settings().maxDepth });
     if (!result.injected && result.reason !== 'unsupported-event') {
         console.warn(`[Inventory Block] v0.5 prompt injection skipped: ${result.reason}`);
     }
@@ -303,14 +317,37 @@ function addSettingsPanel(documentRef) {
                     <button id="inventory_block_settings_copy" type="button" class="menu_button"><i class="fa-solid fa-copy"></i> Copy Current Block</button>
                     <button id="inventory_block_settings_refresh" type="button" class="menu_button"><i class="fa-solid fa-rotate"></i> Refresh / Rescan</button>
                 </div>
+                <label class="inventory-block-settings-field" for="inventory_block_settings_depth">
+                    <span>Sub-category depth</span>
+                    <select id="inventory_block_settings_depth" class="text_pole">
+                        ${Array.from({ length: MAX_MAX_DEPTH - MIN_MAX_DEPTH + 1 }, (_, i) => MIN_MAX_DEPTH + i)
+                            .map(depth => `<option value="${depth}">${depth === 1 ? '1 (no nesting)' : depth}</option>`).join('')}
+                    </select>
+                </label>
+                <div class="inventory-block-settings-note">Sub-categories use full-path headers such as [Wagon &gt; Food]. Paths deeper than this limit are folded into their last level; nothing is hidden.</div>
                 <div class="inventory-block-settings-note">The latest valid surviving &lt;Inventory&gt; snapshot in the selected chat/swipe is the source of truth. There is no separate backend revision database.</div>
             </div>
         </div>`;
+    const depth = wrapper.querySelector('#inventory_block_settings_depth');
+    if (depth) {
+        depth.value = String(settings().maxDepth);
+        depth.addEventListener('change', () => {
+            const ctx = context();
+            settings(ctx).maxDepth = clampDepth(depth.value);
+            ctx?.saveSettingsDebounced?.();
+            refreshAll(0);
+        });
+    }
     wrapper.querySelector('#inventory_block_settings_edit')?.addEventListener('click', openEditor);
     wrapper.querySelector('#inventory_block_settings_copy')?.addEventListener('click', copyCurrentBlock);
     wrapper.querySelector('#inventory_block_settings_refresh')?.addEventListener('click', () => refreshAll(0));
     host.appendChild(wrapper);
     return true;
+}
+
+function syncSettingsPanel(documentRef = document) {
+    const depth = documentRef.querySelector('#inventory_block_settings_depth');
+    if (depth) depth.value = String(settings().maxDepth);
 }
 
 function ensureExtensionUi() {
@@ -373,6 +410,7 @@ function registerEvents() {
     for (const event of [events.APP_READY, events.APP_INITIALIZED, events.EXTENSIONS_FIRST_LOAD, events.EXTENSION_SETTINGS_LOADED]) {
         if (event) ctx.eventSource.on(event, () => {
             ensureExtensionUi();
+            syncSettingsPanel();
             refreshAll(0);
         });
     }

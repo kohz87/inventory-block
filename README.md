@@ -1,4 +1,4 @@
-# Inventory Block v0.5.3
+# Inventory Block v0.6.0
 
 Inventory Block is a lightweight SillyTavern RPG inventory extension built around **message-native full snapshots**.
 
@@ -13,10 +13,33 @@ Food | 1 | About 7 days
 Travelling Coat | 1 | Worn
 Utility Knife | 1 | Belt
 
-[Astra Belongings]
+[Wagon > Food]
+Canned Rations | 12 | Crate, rear
+
+[Lent to Companions > Astra]
 Linen Smock | 1 | Worn
 </Inventory>
 ```
+
+## Sub-categories
+
+Starting with v0.6.0, a section header may carry a sub-category path using `>`:
+
+```text
+[Wagon]
+Wagon Cover | 1 | Patched, waxed
+
+[Wagon > Food > Preserved]
+Salt Pork | 3 | Barrel
+
+[Wagon > Tools]
+Tarp | 2 | Folded
+```
+
+- Every header states its **full path**; there is no indentation or nested bracket syntax. Parent levels exist implicitly, and a parent can also hold its own items through a plain `[Wagon]` header.
+- Whitespace around `>` is canonicalized, so `[Wagon>Food]` and `[Wagon > Food]` are the same category. `/` is not a separator, so names such as `Equipped / Carried` are unaffected.
+- Headers without `>` are ordinary top-level categories, so every pre-v0.6 snapshot stays valid unchanged.
+- **Sub-category depth** (settings panel, 1–5, default 3) controls how many levels the UI shows and what the model is told to use. Deeper paths are never rejected: the extra levels are folded into the last visible level (`A › B › C › D` at depth 3 shows `C › D` as one node), and the stored header is left untouched.
 
 ## Why v0.5 is different
 
@@ -88,13 +111,22 @@ Inventory Block renders the current snapshot as a native tab inside an existing 
 
 A compatible Megumin host is considered ready only after both its tab strip and panel container exist. If no Megumin host is present, Inventory uses a standalone fallback card.
 
-Each Inventory category is a native collapsible section. Click its heading to expand or collapse it; open/closed section state is remembered per chat while the extension is running.
+The pane adapts to its **own width** (CSS container queries), since the message column width varies with SillyTavern's panels and settings:
+
+- **Wide (≥ 760px):** a resizable category tree on the left and the selected branch on the right. Selecting a parent shows every item beneath it, grouped by sub-category. Arrow keys navigate the tree.
+- **Narrower (< 760px, tablet and phone):** drill-down lists. The header shows a back button and a breadcrumb (middle levels collapse to `…`), sibling categories appear as a scrollable chip row, and each level lists its sub-categories followed by its own items. Below 480px, remarks move under the item name.
+- **Filter** searches every item across the whole tree (name, quantity, remark and path) and lists matches with their location.
+- **Δ changes** compares the current snapshot with the previous surviving one and lists added, changed, moved and removed items. Changed items get a coloured edge, changed categories get a dot, and each change links to its category.
+- Item names and remarks always wrap; only category labels are clamped to two lines, with the full path on hover.
+
+Selection, expanded tree nodes and the open state of the changes strip are remembered per chat while the extension is running.
 
 The extension menu and settings panel provide:
 
 - Edit Inventory
 - Copy Current Block
 - Refresh / Rescan
+- Sub-category depth
 
 There is no backend revision-history UI in v0.5 because SillyTavern messages/swipes are the history.
 

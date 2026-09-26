@@ -1,4 +1,5 @@
 import { emptyInventory, formatInventoryTransport, normalizeInventory, stripInventoryBlocks } from './snapshot.js';
+import { DEFAULT_MAX_DEPTH, clampDepth } from './tree.js';
 
 export const CONTEXT_BEGIN = 'INVENTORY_BLOCK_V05_CONTEXT_BEGIN';
 export const CONTEXT_END = 'INVENTORY_BLOCK_V05_CONTEXT_END';
@@ -23,14 +24,21 @@ function sanitizeContent(content) {
     });
 }
 
-export function buildInventoryGenerationPrompt(state = emptyInventory()) {
+function nestingRule(maxDepth) {
+    const depth = clampDepth(maxDepth);
+    if (depth <= 1) return 'Do not nest categories; never use ">" inside a section header.';
+    return `Section headers may nest sub-categories with " > " (for example [Wagon > Food]), at most ${depth} levels deep. ` +
+        'Write the full path in every header, keep existing category paths spelled exactly as they appear in the current snapshot, and only add a sub-category when it keeps a large category organized.';
+}
+
+export function buildInventoryGenerationPrompt(state = emptyInventory(), { maxDepth = DEFAULT_MAX_DEPTH } = {}) {
     const block = formatInventoryTransport(normalizeInventory(state));
     return `${CONTEXT_BEGIN}\n` +
 `${block}\n\n` +
 `The hidden Inventory snapshot envelope above is the sole authoritative current possession state. Earlier story references and earlier Inventory snapshots are historical only and must never restore absent items, quantities, categories, or balances.\n` +
 `At the end of EVERY assistant response, emit exactly one complete updated Inventory snapshot in the SAME hidden HTML-comment envelope format shown above, including the INVENTORY_BLOCK_V05 marker and the complete Inventory opening/closing tags. The snapshot represents the full inventory after the events completed in that response. It is never a patch, delta, JSON object, or partial list. Preserve every unchanged item and category exactly; omission means loss, so do not omit unchanged data.\n` +
 `Apply only gains, losses, transfers, spending, consumption, equipment changes, or other possession changes that the response actually establishes as completed. Planned, attempted, interrupted, hypothetical, negotiated, or uncertain changes do not alter Inventory. If a change cannot be determined safely, keep the previous value instead of guessing or inventing precision. Never create a negative balance.\n` +
-`Use the compact row format Name | Quantity | Remark and section headers [Category]. Keep the Inventory envelope standalone and outside other XML/structured blocks. Write visible prose and visible structured blocks normally; other extensions may place their own independently namespaced machine payloads before or after Inventory.\n` +
+`Use the compact row format Name | Quantity | Remark and section headers [Category]. ${nestingRule(maxDepth)} Keep the Inventory envelope standalone and outside other XML/structured blocks. Write visible prose and visible structured blocks normally; other extensions may place their own independently namespaced machine payloads before or after Inventory.\n` +
 `Never print the Inventory snapshot as visible narration and do not explain its bookkeeping in prose.\n${CONTEXT_END}`;
 }
 
@@ -40,9 +48,9 @@ function insertSystemPrompt(chat, prompt) {
     chat.splice(index, 0, { role: 'system', content: prompt });
 }
 
-export function injectInventorySnapshot(eventData, state) {
+export function injectInventorySnapshot(eventData, state, options = {}) {
     if (!eventData || typeof eventData !== 'object' || eventData.dryRun === true) return { injected: false, reason: 'invalid-event' };
-    const prompt = buildInventoryGenerationPrompt(state);
+    const prompt = buildInventoryGenerationPrompt(state, options);
 
     if (Array.isArray(eventData.chat)) {
         const chat = eventData.chat;
