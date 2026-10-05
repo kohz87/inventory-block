@@ -14,9 +14,10 @@ import { DEFAULT_MAX_DEPTH, MAX_MAX_DEPTH, MIN_MAX_DEPTH, clampDepth } from './s
 import { copyText, openInventoryEditor, renderInventoryPane } from './src/ui.js';
 import { initializeMeguminBridge, scheduleInventoryMount, setInventoryMountSuspended } from './src/megumin.js';
 
-const VERSION = '0.6.1';
+const VERSION = '0.6.2';
 const SETTINGS_KEY = 'inventoryBlock';
 const SESSION_MAX_AGE_MS = 2 * 60 * 1000;
+const SESSION_RECHECK_MS = 15 * 1000;
 
 let initialized = false;
 let eventsRegistered = false;
@@ -110,6 +111,25 @@ function scheduleSessionCleanup(chatId, delay = 3000) {
     cleanupTimers.set(chatId, setTimeout(() => clearSession(chatId), delay));
 }
 
+// SillyTavern shows its Stop button only while a response is generating.
+function generationRunning() {
+    const stop = document.getElementById('mes_stop');
+    return Boolean(stop) && getComputedStyle(stop).display !== 'none';
+}
+
+/**
+ * Safety net for generations that never report back (API errors, aborts that
+ * emit no end event). Without it the session stays pending, Inventory stays
+ * suspended and the pane never refreshes again until the next generation.
+ */
+function armSessionWatchdog(chatId, delay = SESSION_MAX_AGE_MS) {
+    clearCleanupTimer(chatId);
+    cleanupTimers.set(chatId, setTimeout(() => {
+        if (generationRunning()) armSessionWatchdog(chatId, SESSION_RECHECK_MS);
+        else clearSession(chatId);
+    }, delay));
+}
+
 function prepareGeneration(type = 'normal', _params = null, isDryRun = false) {
     const ctx = context();
     if (!ctx || !hasActiveChat(ctx) || isBackgroundGeneration(type, isDryRun)) return null;
@@ -121,6 +141,7 @@ function prepareGeneration(type = 'normal', _params = null, isDryRun = false) {
         startedAt: Date.now(),
     };
     pending.set(chatId, session);
+    armSessionWatchdog(chatId);
     syncMountSuspension();
     return session;
 }
@@ -171,16 +192,20 @@ function newestGeneratedBlockStatus(message) {
     return { valid: false, malformed: false, truncated: /<Inventory\b/i.test(text) };
 }
 
-async function persistMessageEdit(ctx, messageId, message, { rerender = true } = {}) {
-    syncActiveSwipeText(message);
-    if (rerender && document.querySelector(`#chat .mes[mesid="${Number(messageId)}"]`)) {
-        ctx.updateMessageBlock?.(messageId, message);
-    }
+async function saveChat(ctx) {
     if (typeof ctx.saveChat === 'function') await ctx.saveChat();
     else ctx.saveMetadataDebounced?.();
 }
 
-async function normalizeMessageTransport(messageId, { rerender = true } = {}) {
+async function persistMessageEdit(ctx, messageId, message, { rerender = true, save = true } = {}) {
+    syncActiveSwipeText(message);
+    if (rerender && document.querySelector(`#chat .mes[mesid="${Number(messageId)}"]`)) {
+        ctx.updateMessageBlock?.(messageId, message);
+    }
+    if (save) await saveChat(ctx);
+}
+
+async function normalizeMessageTransport(messageId, { rerender = true, save = true } = {}) {
     const ctx = context();
     const id = Number(messageId);
     if (!ctx || !Number.isInteger(id) || normalizingMessages.has(id)) return false;
@@ -192,7 +217,7 @@ async function normalizeMessageTransport(messageId, { rerender = true } = {}) {
     normalizingMessages.add(id);
     try {
         message.mes = normalized.text;
-        await persistMessageEdit(ctx, id, message, { rerender });
+        await persistMessageEdit(ctx, id, message, { rerender, save });
         return true;
     } finally {
         normalizingMessages.delete(id);
@@ -270,6 +295,62 @@ async function openEditor() {
     }
 }
 
+function rescanReport(ctx, hidden) {
+    const snapshot = currentSnapshot(ctx);
+    let invalid = null;
+    for (let i = latestAssistantIndex(ctx.chat); i > (snapshot?.messageIndex ?? -1); i--) {
+        const message = ctx.chat[i];
+        if (!message || message.is_user || message.is_system) continue;
+        const status = newestGeneratedBlockStatus(message);
+        if (status.malformed || status.truncated) {
+            invalid = { index: i, status };
+            break;
+        }
+    }
+
+    const notes = [];
+    if (invalid) {
+        const reason = invalid.status.malformed ? 'malformed' : 'truncated';
+        const error = String(invalid.status.error?.message ?? '').replace(/\.+$/, '');
+        const detail = error ? `: ${error}` : '';
+        notes.push(`Message #${invalid.index} has a ${reason} Inventory block${detail}.`);
+    }
+    if (hidden) notes.push(`Hid ${hidden} raw Inventory ${hidden === 1 ? 'block' : 'blocks'} from narration.`);
+
+    if (!snapshot) return notify('warning', ['No valid Inventory snapshot found in this chat.', ...notes].join(' '));
+    const count = snapshot.state.categories.reduce((sum, category) => sum + category.items.length, 0);
+    const summary = `Showing ${count} ${count === 1 ? 'item' : 'items'} from message #${snapshot.messageIndex}.`;
+    notify(invalid ? 'warning' : 'success', [...notes, summary].join(' '));
+}
+
+/**
+ * Manual Refresh / Rescan: recover from a stale generation session, hide any
+ * raw snapshot left visible in narration, re-read the chat and report which
+ * snapshot is current.
+ */
+async function rescanInventory() {
+    const ctx = context();
+    if (!ctx || !hasActiveChat(ctx)) return notify('warning', 'Open a chat before rescanning Inventory.');
+    const chatId = chatIdOf(ctx);
+    if (pending.has(chatId)) {
+        if (generationRunning()) return notify('info', 'A response is still generating. Inventory refreshes when it finishes.');
+        clearSession(chatId);
+    }
+
+    let hidden = 0;
+    try {
+        for (let id = 0; id < (ctx.chat?.length ?? 0); id++) {
+            if (await normalizeMessageTransport(id, { rerender: true, save: false })) hidden++;
+        }
+        if (hidden) await saveChat(ctx);
+    } catch (error) {
+        notify('error', `Rescan could not update chat messages: ${error instanceof Error ? error.message : String(error)}`);
+    }
+
+    refreshAll(0);
+    rescanReport(ctx, hidden);
+}
+
 async function copyCurrentBlock() {
     const ctx = context();
     if (!ctx || !hasActiveChat(ctx)) return notify('warning', 'Open a chat before copying Inventory.');
@@ -340,7 +421,7 @@ function addSettingsPanel(documentRef) {
     }
     wrapper.querySelector('#inventory_block_settings_edit')?.addEventListener('click', openEditor);
     wrapper.querySelector('#inventory_block_settings_copy')?.addEventListener('click', copyCurrentBlock);
-    wrapper.querySelector('#inventory_block_settings_refresh')?.addEventListener('click', () => refreshAll(0));
+    wrapper.querySelector('#inventory_block_settings_refresh')?.addEventListener('click', () => void rescanInventory());
     host.appendChild(wrapper);
     return true;
 }

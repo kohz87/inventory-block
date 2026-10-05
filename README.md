@@ -1,4 +1,4 @@
-# Inventory Block v0.6.1
+# Inventory Block v0.6.2
 
 Inventory Block is a lightweight SillyTavern RPG inventory extension built around **message-native full snapshots**.
 
@@ -125,7 +125,7 @@ The extension menu and settings panel provide:
 
 - Edit Inventory
 - Copy Current Block
-- Refresh / Rescan
+- Refresh / Rescan — re-reads the chat, hides any raw `<Inventory>` block still visible in narration, clears a generation session that never reported back, and reports which message the current snapshot comes from (warning when a newer block is malformed or truncated)
 - Sub-category depth
 
 There is no backend revision-history UI in v0.5 because SillyTavern messages/swipes are the history.

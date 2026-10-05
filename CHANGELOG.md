@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.6.2
+
+Refresh / Rescan hotfix.
+
+- Fixes **Refresh / Rescan** silently doing nothing after a generation that never reported back (API error, or an abort without an end event). That left the session pending, kept Inventory suspended and froze the pane until the next generation. Rescan now clears such a stale session, and declines with a notice only while SillyTavern is visibly still generating.
+- Adds a watchdog so a pending generation session clears itself after two minutes once SillyTavern is no longer generating, even without a manual rescan.
+- Rescan now actually rescans: raw `<Inventory>` blocks still visible in narration are moved into the hidden transport (one chat save for the whole rescan).
+- Rescan reports its result: which message the current snapshot comes from and how many items it holds, with a warning when a newer message carries a malformed or truncated block.
+
 ## 0.6.1
 
 Inventory pane scrolling hotfix.
