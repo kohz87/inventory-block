@@ -10,8 +10,18 @@ function removeOldContext(text) {
     return String(text ?? '').replace(CONTEXT_RE, '');
 }
 
-function sanitizeText(text) {
-    return stripInventoryBlocks(removeOldContext(text));
+function sanitizeText(text, options) {
+    return stripInventoryBlocks(removeOldContext(text), options);
+}
+
+/**
+ * Chat completion keeps roles, so only assistant messages (where snapshots live) are
+ * fully stripped; user and system content (messages, character cards, World Info) only
+ * lose Inventory's own hidden envelopes, keeping any block a person wrote there.
+ * A combined text-completion prompt has no roles and is stripped fully.
+ */
+function stripOptions(message) {
+    return { bare: message?.role === 'assistant' };
 }
 
 function mapContentText(content, transform) {
@@ -24,8 +34,8 @@ function mapContentText(content, transform) {
     });
 }
 
-function sanitizeContent(content) {
-    return mapContentText(content, text => sanitizeText(text));
+function sanitizeContent(content, options) {
+    return mapContentText(content, text => sanitizeText(text, options));
 }
 
 function contentTexts(content) {
@@ -39,12 +49,12 @@ function hasValidBlock(text) {
 }
 
 // Remove every snapshot except the last valid one in `text`, which stays in place.
-function keepLastBlock(text) {
+function keepLastBlock(text, options) {
     const source = removeOldContext(text);
     const last = inventoryBlocks(source).filter(block => block.state).at(-1);
-    if (!last) return sanitizeText(source);
+    if (!last) return sanitizeText(source, options);
     const kept = source.slice(last.wrapStart, last.wrapEnd);
-    return `${stripInventoryBlocks(source.slice(0, last.wrapStart))}${kept}${stripInventoryBlocks(source.slice(last.wrapEnd))}`;
+    return `${stripInventoryBlocks(source.slice(0, last.wrapStart), options)}${kept}${stripInventoryBlocks(source.slice(last.wrapEnd), options)}`;
 }
 
 function nestingRule(maxDepth) {
@@ -56,7 +66,8 @@ function nestingRule(maxDepth) {
 
 // Constraints the parser enforces; stating them keeps a whole turn from being rejected.
 const FORMAT_RULES = 'Write each category header once and each item name once per category; merge duplicates into a single row. ' +
-    'Never put "|" inside a name, quantity, or remark (write "/" instead), and never write "-->" anywhere inside the snapshot.';
+    'Never put "|" inside a name, quantity, or remark (write "/" instead), and never write "-->" anywhere inside the snapshot. ' +
+    'A backslash in the snapshot above escapes the character after it (for example \\| or --\\>); keep such escapes exactly as written.';
 
 export function buildInventoryGenerationPrompt(state = emptyInventory(), { maxDepth = DEFAULT_MAX_DEPTH } = {}) {
     const block = formatInventoryTransport(normalizeInventory(state));
@@ -87,14 +98,16 @@ export function stripHistoricalInventory(eventData) {
         const chat = eventData.chat;
         let newest = null;
         chat.forEach((message, messageIndex) => {
+            if (message?.role !== 'assistant') return;
             for (const { text, index } of contentTexts(message?.content)) {
                 if (hasValidBlock(text)) newest = { messageIndex, index };
             }
         });
         const cleaned = [];
         chat.forEach((message, messageIndex) => {
+            const options = stripOptions(message);
             const content = mapContentText(message?.content, (text, index) => (
-                newest && newest.messageIndex === messageIndex && newest.index === index ? keepLastBlock(text) : sanitizeText(text)
+                newest && newest.messageIndex === messageIndex && newest.index === index ? keepLastBlock(text, options) : sanitizeText(text, options)
             ));
             const ownContextOnly = message?.role === 'system'
                 && typeof message?.content === 'string'
@@ -112,6 +125,11 @@ export function stripHistoricalInventory(eventData) {
     }
 
     return { stripped: false, reason: 'unsupported-event' };
+}
+
+/** True when a combined text prompt carries the context registered through the extension prompt. */
+export function hasInventoryContext(text) {
+    return typeof text === 'string' && text.includes(CONTEXT_BEGIN) && text.includes(CONTEXT_END);
 }
 
 /**
@@ -135,7 +153,7 @@ export function injectInventorySnapshot(eventData, state, options = {}) {
         const chat = eventData.chat;
         const cleaned = [];
         for (const message of chat) {
-            const content = sanitizeContent(message?.content);
+            const content = sanitizeContent(message?.content, stripOptions(message));
             const ownContextOnly = message?.role === 'system'
                 && typeof message?.content === 'string'
                 && message.content.includes(CONTEXT_BEGIN)
@@ -152,10 +170,9 @@ export function injectInventorySnapshot(eventData, state, options = {}) {
     if (typeof eventData.prompt === 'string') {
         if (options.contextInPrompt) {
             const sanitized = sanitizeAroundContext(eventData.prompt);
-            if (sanitized !== null) {
-                eventData.prompt = sanitized;
-                return { injected: true, kind: 'text-extension-prompt' };
-            }
+            if (sanitized === null) return { injected: false, reason: 'no-context-marker' };
+            eventData.prompt = sanitized;
+            return { injected: true, kind: 'text-extension-prompt' };
         }
         // Fallback when the extension prompt is unavailable: prepend to the combined prompt.
         const clean = sanitizeText(eventData.prompt);

@@ -5,11 +5,19 @@ export const CATEGORY_PATH_SEPARATOR = '>';
 // `<Inventory>` or `<Inventory attr>`, never look-alikes such as `<Inventory-notes>`.
 const OPEN_TAG = '<Inventory(?:\\s[^>]*)?>';
 const CLOSE_TAG = '<\\/Inventory\\s*>';
-const COMPLETE_BLOCK = new RegExp(`${OPEN_TAG}([\\s\\S]*?)${CLOSE_TAG}`, 'gi');
+// A block body never contains another opening tag. Without this, a snapshot cut off
+// before `</Inventory>` and followed by more text (Continue) would swallow everything
+// up to the next snapshot's closing tag.
+const BODY = `((?:(?!${OPEN_TAG})[\\s\\S])*?)`;
+const COMPLETE_BLOCK = new RegExp(`${OPEN_TAG}${BODY}${CLOSE_TAG}`, 'gi');
 const TRANSPORT_BLOCK = /<!--\s*INVENTORY_BLOCK_V05\b[\s\S]*?-->/gi;
 // A complete block together with the envelope directly around it. Matching the
 // block first means a stray `-->` inside the snapshot cannot end the envelope early.
-const ENVELOPED_BLOCK = new RegExp(`(?:<!--\\s*INVENTORY_BLOCK_V05\\b\\s*)?${OPEN_TAG}[\\s\\S]*?${CLOSE_TAG}(?:\\s*-->)?`, 'gi');
+const ENVELOPED_BLOCK = new RegExp(`(?:<!--\\s*INVENTORY_BLOCK_V05\\b\\s*)?${OPEN_TAG}${BODY}${CLOSE_TAG}(?:\\s*-->)?`, 'gi');
+// Same, but only blocks inside the hidden envelope (never a user-authored bare block).
+const HIDDEN_BLOCK = new RegExp(`<!--\\s*INVENTORY_BLOCK_V05\\b\\s*${OPEN_TAG}${BODY}${CLOSE_TAG}(?:\\s*-->)?`, 'gi');
+const TABLE_RULE = /^\|?\s*:?-{3,}:?\s*(?:\|\s*:?-{3,}:?\s*)*\|?$/;
+const LIST_MARKER = /^(?:[-*•]|\d+[.)])\s+/;
 const ENVELOPE_OPENER = /<!--\s*INVENTORY_BLOCK_V05\b\s*$/i;
 const ENVELOPE_CLOSER = /^\s*-->/;
 
@@ -132,6 +140,18 @@ function isHeaderLine(line) {
     return !escaped;
 }
 
+function rowCells(text) {
+    const cells = splitRow(text);
+    // Markdown-table rows: `| Rope | 1 | coiled |`. Drop the empty edge cells.
+    if (text.startsWith('|')) cells.shift();
+    if (cells.length >= 4 && cells.at(-1) === '') cells.pop();
+    return cells;
+}
+
+function isTableHeaderRow(cells) {
+    return /^(?:name|items?)$/i.test(cells[0] ?? '') && /^(?:qty|quantity|amount|count|#)$/i.test(cells[1] ?? '');
+}
+
 function unescapeText(value) {
     let result = '';
     let escaped = false;
@@ -179,8 +199,11 @@ export function parseInventoryBody(body) {
 
     const lines = String(body ?? '').split(/\r?\n/);
     for (let i = 0; i < lines.length; i++) {
-        const line = lines[i].trim();
-        if (!line) continue;
+        let line = lines[i].trim();
+        if (!line || TABLE_RULE.test(line)) continue;
+        // A whole row wrapped in brackets (`[Spare Rope | 1 | coiled]`) is a row, not a header:
+        // headers written since v0.6.3 escape `|`, and older ones rarely held two.
+        if (isHeaderLine(line) && splitRow(line.slice(1, -1)).length >= 3) line = line.slice(1, -1).trim();
         if (isHeaderLine(line)) {
             const name = canonicalCategoryName(unescapeText(line.slice(1, -1)));
             if (!name) throw new Error(`Inventory category on line ${i + 1} is blank.`);
@@ -192,7 +215,8 @@ export function parseInventoryBody(body) {
             }
             continue;
         }
-        const cells = splitRow(line);
+        const cells = rowCells(line.replace(LIST_MARKER, ''));
+        if (isTableHeaderRow(cells)) continue;
         if (cells.length < 2 || !clean(cells[0])) {
             throw new Error(`Inventory row ${i + 1} must be Name | Quantity | Remark.`);
         }
@@ -323,6 +347,15 @@ export function inventoryForGeneration(chat, type = 'normal') {
     return normalizeInventory(snapshot?.state ?? emptyInventory());
 }
 
+function rowShaped(line) {
+    return line.includes('|') || (line.startsWith('[') && line.endsWith(']'));
+}
+
+// The last line of a cut-off snapshot may be a partial row, but not finished prose.
+function partialRow(line) {
+    return rowShaped(line) || (line.length <= 40 && !/[.!?…"'”’)]$/.test(line));
+}
+
 function lastMatch(source, pattern) {
     let found = null;
     for (const match of source.matchAll(pattern)) found = match;
@@ -338,7 +371,55 @@ function looksLikeSnapshotTail(source, open) {
     const [tagLineRest, ...body] = rest.split(/\r?\n/);
     if (tagLineRest.trim()) return false;
     const lines = body.map(line => line.trim()).filter(Boolean);
-    return lines.slice(0, -1).every(line => line.includes('|') || (line.startsWith('[') && line.endsWith(']')));
+    if (!lines.length) return true;
+    return lines.slice(0, -1).every(rowShaped) && partialRow(lines.at(-1));
+}
+
+/**
+ * Snapshots cut off before `</Inventory>` and then followed by more text, as when
+ * a truncated reply is finished with Continue. Each span covers the envelope (if
+ * any), the opening tag and the row-shaped lines after it — plus a `-->` that an
+ * earlier normalization added — but never the prose that follows.
+ */
+export function interruptedSnapshots(text) {
+    const source = String(text ?? '');
+    const opens = [...source.matchAll(new RegExp(OPEN_TAG, 'gi'))];
+    const transports = transportRanges(source);
+    const spans = [];
+    for (let i = 0; i < opens.length - 1; i++) {
+        const open = opens[i];
+        const nextOpen = opens[i + 1];
+        if (new RegExp(CLOSE_TAG, 'i').test(source.slice(open.index, nextOpen.index))) continue;
+        const opener = ENVELOPE_OPENER.exec(source.slice(0, open.index));
+        const nextOpener = ENVELOPE_OPENER.exec(source.slice(0, nextOpen.index));
+        const limit = nextOpen.index - (nextOpener?.[0].length ?? 0);
+        const start = opener ? open.index - opener[0].length : open.index;
+        let end = open.index + open[0].length;
+        let offset = end;
+        const lines = source.slice(end, limit).split('\n');
+        for (let j = 0; j < lines.length; j++) {
+            const line = lines[j].trim();
+            if (j === 0 && !line) { offset += lines[j].length + 1; continue; }
+            if (line === '-->') { end = offset + lines[j].length; break; }
+            if (!rowShaped(line)) break;
+            end = offset + lines[j].length;
+            offset += lines[j].length + 1;
+        }
+        spans.push({
+            start,
+            end,
+            enveloped: Boolean(opener),
+            hidden: transports.some(range => range.start === start && range.end === end),
+            body: source.slice(open.index, end).replace(/\s*-->$/, ''),
+        });
+    }
+    return spans;
+}
+
+function removeSpans(source, spans) {
+    let result = source;
+    for (const span of [...spans].reverse()) result = `${result.slice(0, span.start)}${result.slice(span.end)}`;
+    return result;
 }
 
 /**
@@ -365,9 +446,18 @@ function removeTrailingTruncatedInventory(text) {
     return truncated ? source.slice(0, truncated.start).trimEnd() : source;
 }
 
-export function stripInventoryBlocks(text) {
-    const source = String(text ?? '').replace(ENVELOPED_BLOCK, '').replace(TRANSPORT_BLOCK, '');
-    return removeTrailingTruncatedInventory(source);
+/**
+ * Remove snapshots from prompt text. With `bare: false` only Inventory's own hidden
+ * envelopes are removed, so a block a person wrote into a message, character card or
+ * World Info entry (an example format, a pasted list) reaches the model untouched.
+ */
+export function stripInventoryBlocks(text, { bare = true } = {}) {
+    let source = String(text ?? '');
+    source = removeSpans(source, interruptedSnapshots(source).filter(span => bare || span.enveloped));
+    source = source.replace(bare ? ENVELOPED_BLOCK : HIDDEN_BLOCK, '').replace(TRANSPORT_BLOCK, '');
+    const truncated = truncatedSnapshot(source);
+    if (truncated && (bare || truncated.kind !== 'bare')) source = source.slice(0, truncated.start).trimEnd();
+    return source;
 }
 
 function hiddenRawBlock(raw) {
@@ -378,6 +468,11 @@ function hiddenRawBlock(raw) {
 export function normalizeInventoryTransports(text) {
     const original = String(text ?? '');
     let source = original;
+    // Close snapshots that were cut off and then continued, so the prose after them stays visible.
+    for (const span of interruptedSnapshots(source).reverse()) {
+        if (span.hidden) continue;
+        source = `${source.slice(0, span.start)}${hiddenRawBlock(span.body)}${source.slice(span.end)}`;
+    }
     const plain = inventoryBlocks(source).filter(block => !block.hidden);
     for (let i = plain.length - 1; i >= 0; i--) {
         const block = plain[i];
