@@ -70,6 +70,7 @@ const ctx = {
     eventTypes,
     eventSource: {
         on(type, fn) { (handlers[type] ??= []).push(fn); },
+        makeFirst(type, fn) { (handlers[type] ??= []).unshift(fn); },
         async emit(type, ...args) {
             emitted.push([type, ...args]);
             for (const fn of handlers[type] ?? []) await fn(...args);
@@ -77,6 +78,9 @@ const ctx = {
     },
 };
 globalThis.SillyTavern = { getContext: () => ctx };
+
+// Another extension that decorates swiped messages and was loaded before Inventory.
+ctx.eventSource.on(eventTypes.MESSAGE_SWIPED, () => { emitted.push(['decorator']); });
 
 await import('../index.js');
 const emit = (type, ...args) => ctx.eventSource.emit(eventTypes[type], ...args);
@@ -248,4 +252,71 @@ test('Rescan hides raw blocks, saves once and reports the current snapshot', asy
     assert.match(ctx.chat[0].mes, /<!-- INVENTORY_BLOCK_V05/);
     assert.equal(saves, 1);
     assert.ok(notices.some(notice => /Hid 1 raw Inventory block/.test(notice) && /from message #2/.test(notice)), notices.join('\n'));
+});
+
+test('Continue that finishes a cut-off row keeps that turn\'s snapshot', async () => {
+    ctx.chat = [{ is_user: false, mes: block(100) }, { is_user: true, mes: 'pay' }, { is_user: false, is_system: false, mes: 'She paid.\n<!-- INVENTORY_BLOCK_V05\n<Inventory>\nCoin Pouch | 1 | 90 Go' }];
+    await emit('MESSAGE_RECEIVED', 2);
+    assert.match(ctx.chat[2].mes, /90 Go\n-->$/);
+    // Continue appends the rest of the block to the same message.
+    ctx.chat[2].mes += 'ld\n</Inventory>\n-->';
+    await emit('MESSAGE_RECEIVED', 2);
+    assert.equal((ctx.chat[2].mes.match(/INVENTORY_BLOCK_V05/g) ?? []).length, 1);
+    await emit('GENERATION_AFTER_COMMANDS', 'normal', {}, false);
+    const event = { chat: [{ role: 'system', content: 'rules' }], dryRun: false };
+    await emit('CHAT_COMPLETION_PROMPT_READY', event);
+    assert.match(JSON.stringify(event.chat), /90 Gold/, 'the continued snapshot is current');
+    await finish();
+});
+
+test('text completion: macros in item text reach the model verbatim', async () => {
+    ctx.mainApi = 'textgenerationwebui';
+    const letter = '<!-- INVENTORY_BLOCK_V05\n<Inventory>\n{{user}}\'s Letter | 1 | <USER> owes {{roll:1d6}}\n</Inventory>\n-->';
+    ctx.chat = [{ is_user: false, mes: letter }, { is_user: true, mes: 'go' }];
+    await emit('GENERATION_AFTER_COMMANDS', 'normal', {}, false);
+    assert.doesNotMatch(extensionPrompts.inventory_block, /\{\{|<USER>/, 'defused before SillyTavern substitutes macros');
+    const event = { prompt: `Story.\n${extensionPrompts.inventory_block}\nhistory`, dryRun: false };
+    await emit('GENERATE_AFTER_COMBINE_PROMPTS', event);
+    assert.ok(event.prompt.includes("{{user}}'s Letter | 1 | <USER> owes {{roll:1d6}}"));
+    await finish();
+    ctx.mainApi = 'openai';
+});
+
+test('a quiet generation started before the reply\'s prompt does not take its instructions', async () => {
+    ctx.mainApi = 'textgenerationwebui';
+    ctx.chat = [{ is_user: false, mes: block(90) }, { is_user: true, mes: 'go' }];
+    await emit('GENERATION_AFTER_COMMANDS', 'normal', {}, false);
+    const placeholder = extensionPrompts.inventory_block;
+    // Another extension runs a quiet Generate() from its own handler before the reply's prompt is built.
+    await emit('GENERATION_AFTER_COMMANDS', 'quiet', {}, false);
+    const quiet = { prompt: `Summarize.\n${placeholder}`, dryRun: false };
+    await emit('GENERATE_AFTER_COMBINE_PROMPTS', quiet);
+    assert.doesNotMatch(quiet.prompt, /CONTEXT_BEGIN/, 'quiet prompt is background');
+    assert.equal(extensionPrompts.inventory_block, placeholder, 'context stays registered for the reply');
+    const reply = { prompt: `Story.\n${placeholder}\nhistory`, dryRun: false };
+    await emit('GENERATE_AFTER_COMBINE_PROMPTS', reply);
+    assert.match(reply.prompt, /CONTEXT_BEGIN[\s\S]*90 Gold/);
+    await finish();
+    ctx.mainApi = 'openai';
+});
+
+test('swipe normalization runs before decorators registered by earlier extensions', async () => {
+    ctx.chat = [{ is_user: false, is_system: false, mes: plainRope() }];
+    rendered.add(0);
+    emitted.length = 0;
+    await emit('MESSAGE_SWIPED', 0);
+    const names = emitted.map(entry => entry[0]);
+    assert.ok(names.indexOf('updateMessageBlock') >= 0 && names.indexOf('updateMessageBlock') < names.indexOf('decorator'), names.join(','));
+    rendered.clear();
+});
+
+test('chat completion: history copies embedded in a user message are removed, written examples stay', async () => {
+    const history = '<Inventory>\nCoin Pouch | 1 | 70 Gold\n</Inventory>';
+    ctx.chat = [{ is_user: false, is_system: false, mes: `Old reply\n${history}` }];
+    const example = '<Inventory>\nExample | 1 | format\n</Inventory>';
+    const event = { chat: [{ role: 'user', content: `[History]\nOld reply\n${history}\n[Format]\n${example}` }], dryRun: false };
+    await emit('CHAT_COMPLETION_PROMPT_READY', event);
+    const text = JSON.stringify(event.chat);
+    assert.doesNotMatch(text, /70 Gold/);
+    assert.match(text, /Example \| 1 \| format/);
 });

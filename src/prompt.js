@@ -20,8 +20,8 @@ function sanitizeText(text, options) {
  * lose Inventory's own hidden envelopes, keeping any block a person wrote there.
  * A combined text-completion prompt has no roles and is stripped fully.
  */
-function stripOptions(message) {
-    return { bare: message?.role === 'assistant' };
+function stripOptions(message, knownBlocks = null) {
+    return { bare: message?.role === 'assistant', knownBlocks };
 }
 
 function mapContentText(content, transform) {
@@ -91,7 +91,7 @@ function insertSystemPrompt(chat, prompt) {
  * extensions' generations). Without this, every historical hidden snapshot rides
  * along in those prompts. Only the newest complete snapshot is kept, as context.
  */
-export function stripHistoricalInventory(eventData) {
+export function stripHistoricalInventory(eventData, { knownBlocks = null } = {}) {
     if (!eventData || typeof eventData !== 'object' || eventData.dryRun === true) return { stripped: false, reason: 'invalid-event' };
 
     if (Array.isArray(eventData.chat)) {
@@ -105,7 +105,7 @@ export function stripHistoricalInventory(eventData) {
         });
         const cleaned = [];
         chat.forEach((message, messageIndex) => {
-            const options = stripOptions(message);
+            const options = stripOptions(message, knownBlocks);
             const content = mapContentText(message?.content, (text, index) => (
                 newest && newest.messageIndex === messageIndex && newest.index === index ? keepLastBlock(text, options) : sanitizeText(text, options)
             ));
@@ -133,16 +133,28 @@ export function hasInventoryContext(text) {
 }
 
 /**
- * Sanitize a combined text prompt whose Inventory context already arrived through
- * SillyTavern's extension prompt (inside the instruct template). The context
- * region is kept verbatim; every other snapshot is removed.
+ * SillyTavern runs macro substitution over extension prompts, which would rewrite
+ * `{{user}}`, `{{roll:1d6}}` or `<USER>` inside item text. The extension prompt
+ * therefore carries a defused copy that only reserves the place (and roughly the
+ * token budget); the real context replaces it at prompt-ready.
  */
-function sanitizeAroundContext(text) {
+export function defuseMacros(text) {
+    return String(text ?? '')
+        .replace(/\{\{/g, '{\u200b{')
+        .replace(/<(USER|BOT|CHAR|CHARIFNOTGROUP|GROUP)>/gi, '<\u200b$1>');
+}
+
+/**
+ * Sanitize a combined text prompt whose Inventory context arrived through SillyTavern's
+ * extension prompt (inside the instruct template): the placeholder region is replaced by
+ * the real, unsubstituted context and every other snapshot is removed.
+ */
+function sanitizeAroundContext(text, context) {
     const begin = text.lastIndexOf(CONTEXT_BEGIN);
     const end = begin >= 0 ? text.indexOf(CONTEXT_END, begin) : -1;
     if (begin < 0 || end < 0) return null;
     const close = end + CONTEXT_END.length;
-    return `${sanitizeText(text.slice(0, begin))}${text.slice(begin, close)}${sanitizeText(text.slice(close))}`;
+    return `${sanitizeText(text.slice(0, begin))}${context}${sanitizeText(text.slice(close))}`;
 }
 
 export function injectInventorySnapshot(eventData, state, options = {}) {
@@ -153,7 +165,7 @@ export function injectInventorySnapshot(eventData, state, options = {}) {
         const chat = eventData.chat;
         const cleaned = [];
         for (const message of chat) {
-            const content = sanitizeContent(message?.content, stripOptions(message));
+            const content = sanitizeContent(message?.content, stripOptions(message, options.knownBlocks));
             const ownContextOnly = message?.role === 'system'
                 && typeof message?.content === 'string'
                 && message.content.includes(CONTEXT_BEGIN)
@@ -169,7 +181,7 @@ export function injectInventorySnapshot(eventData, state, options = {}) {
 
     if (typeof eventData.prompt === 'string') {
         if (options.contextInPrompt) {
-            const sanitized = sanitizeAroundContext(eventData.prompt);
+            const sanitized = sanitizeAroundContext(eventData.prompt, prompt);
             if (sanitized === null) return { injected: false, reason: 'no-context-marker' };
             eventData.prompt = sanitized;
             return { injected: true, kind: 'text-extension-prompt' };
