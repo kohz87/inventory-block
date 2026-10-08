@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.6.5
+
+Third audit pass.
+
+- **Continue that finishes a cut-off row** no longer loses the turn's snapshot. The `-->` that closes a cut-off snapshot on receive used to end up inside the block once Continue finished the same row, so the block failed to parse. A body that only parses without that closer now drops it; a real `-->` in a cell is always escaped and cannot be confused with it. This bug dates back to v0.5.2.
+- **Text completion no longer runs item text through macro substitution.** SillyTavern substitutes macros in extension prompts, so `{{user}}`, `<USER>` or `{{roll:1d6}}` in item text were rewritten and then written back by the model. The extension prompt now carries a defused copy that only reserves the place; the real context replaces it at prompt-ready.
+- **Names that look like list markers, dividers, headers or a table header** (`- Spare`, `2. Map`, `---`, `[Sealed] Letter`, a `Name | Qty` item) now round-trip unchanged: they are saved with a leading backslash, and the header-row skip only applies to markdown-table rows.
+- **A quiet or impersonate generation started before the reply's own prompt** (for example from another extension's handler) is counted, so its prompt no longer takes the reply's instructions.
+- **Receive, swipe and render listeners run first** (`makeFirst`), so a re-render by Inventory no longer wipes decorations added by extensions loaded earlier.
+- **Cut-off detection:** a partial last row of any length counts, including one ending in `)`; a last line ending in sentence punctuation (ignoring closing quotes and brackets) is prose.
+- **Chat completion removes chat-history snapshot copies** that presets embed in user/system content, while still keeping blocks a person wrote there.
+- Tests: `tests/ui.test.js` renders the pane against a fake DOM in CI (tree, change strip, selection, filter, empty states). The runtime test covers both Continue flows, macro-safe context, the quiet-generation count, listener order and embedded history copies. `tests/v065-audit.test.js` adds a regression test per fix.
+
 ## 0.6.4
 
 Second audit pass.

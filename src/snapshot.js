@@ -122,6 +122,13 @@ function escapeCell(value) {
     return escapeText(value, /\|/g);
 }
 
+// A name starting like a list marker, table divider or header (`- Spare`, `2. Map`,
+// `[Sealed] Letter`) gets a leading backslash so the parser keeps it verbatim.
+function escapeName(value) {
+    const text = escapeCell(value);
+    return /^(?:[-*•:[]|\d+[.)])/.test(text) ? `\\${text}` : text;
+}
+
 function escapeHeader(name) {
     return escapeText(name, /[|\]]/g);
 }
@@ -148,8 +155,10 @@ function rowCells(text) {
     return cells;
 }
 
-function isTableHeaderRow(cells) {
-    return /^(?:name|items?)$/i.test(cells[0] ?? '') && /^(?:qty|quantity|amount|count|#)$/i.test(cells[1] ?? '');
+// Only a markdown-table row (`| Name | Qty | Remark |`) can be a header row; a canonical
+// `Name | Qty |` row is an ordinary item.
+function isTableHeaderRow(cells, markdown) {
+    return markdown && /^(?:name|items?)$/i.test(cells[0] ?? '') && /^(?:qty|quantity|amount|count|#)$/i.test(cells[1] ?? '');
 }
 
 function unescapeText(value) {
@@ -215,8 +224,9 @@ export function parseInventoryBody(body) {
             }
             continue;
         }
-        const cells = rowCells(line.replace(LIST_MARKER, ''));
-        if (isTableHeaderRow(cells)) continue;
+        const row = line.replace(LIST_MARKER, '');
+        const cells = rowCells(row);
+        if (isTableHeaderRow(cells, row.startsWith('|'))) continue;
         if (cells.length < 2 || !clean(cells[0])) {
             throw new Error(`Inventory row ${i + 1} must be Name | Quantity | Remark.`);
         }
@@ -243,13 +253,13 @@ export function formatInventoryBlock(state) {
     const root = inventory.categories.find(category => key(category.name) === key(ROOT_CATEGORY));
     const sections = inventory.categories.filter(category => key(category.name) !== key(ROOT_CATEGORY));
     for (const item of root?.items ?? []) {
-        lines.push(`${escapeCell(item.name)} | ${escapeCell(item.quantity)} | ${escapeCell(item.remark)}`);
+        lines.push(`${escapeName(item.name)} | ${escapeCell(item.quantity)} | ${escapeCell(item.remark)}`);
     }
     for (const category of sections) {
         if (lines.length > 1 && lines.at(-1) !== '') lines.push('');
         lines.push(`[${escapeHeader(category.name)}]`);
         for (const item of category.items) {
-            lines.push(`${escapeCell(item.name)} | ${escapeCell(item.quantity)} | ${escapeCell(item.remark)}`);
+            lines.push(`${escapeName(item.name)} | ${escapeCell(item.quantity)} | ${escapeCell(item.remark)}`);
         }
     }
     lines.push('</Inventory>');
@@ -269,6 +279,24 @@ function transportRanges(source) {
     return ranges;
 }
 
+/**
+ * Parse a block body. A reply cut off mid-snapshot is closed with `\n-->` when it is
+ * received; if Continue then finishes the same block, that closer ends up inside the
+ * body. It is never part of a row (a real `-->` in a cell is escaped as `--\>`), so
+ * when the body only parses without it, it is dropped.
+ */
+function parseBlockBody(body) {
+    try {
+        return { state: parseInventoryBody(body), error: null };
+    } catch (caught) {
+        const error = caught instanceof Error ? caught : new Error(String(caught));
+        if (/\n-->/.test(body)) {
+            try { return { state: parseInventoryBody(body.replace(/\n-->/g, '')), error: null }; } catch { /* keep the original error */ }
+        }
+        return { state: null, error };
+    }
+}
+
 export function inventoryBlocks(text) {
     const source = String(text ?? '');
     const transports = transportRanges(source);
@@ -280,10 +308,7 @@ export function inventoryBlocks(text) {
         const transport = transports.find(range => range.start <= start && range.end >= end) ?? null;
         const opener = ENVELOPE_OPENER.exec(source.slice(0, start));
         const closer = ENVELOPE_CLOSER.exec(source.slice(end));
-        let state = null;
-        let error = null;
-        try { state = parseInventoryBody(match[1]); }
-        catch (caught) { error = caught instanceof Error ? caught : new Error(String(caught)); }
+        const { state, error } = parseBlockBody(match[1]);
         blocks.push({
             start,
             end,
@@ -351,9 +376,12 @@ function rowShaped(line) {
     return line.includes('|') || (line.startsWith('[') && line.endsWith(']'));
 }
 
-// The last line of a cut-off snapshot may be a partial row, but not finished prose.
+// The last line of a cut-off snapshot may be a partial row (`Coin Po`, `Rope (50 ft)`) of
+// any length, but not finished prose: a line whose text, ignoring closing quotes and
+// brackets, ends in sentence punctuation is prose.
 function partialRow(line) {
-    return rowShaped(line) || (line.length <= 40 && !/[.!?…"'”’)]$/.test(line));
+    if (rowShaped(line) || line.startsWith('[')) return true;
+    return !/[.!?…]$/.test(line.replace(/["'”’)\]]+$/, ''));
 }
 
 function lastMatch(source, pattern) {
@@ -451,10 +479,23 @@ function removeTrailingTruncatedInventory(text) {
  * envelopes are removed, so a block a person wrote into a message, character card or
  * World Info entry (an example format, a pasted list) reaches the model untouched.
  */
-export function stripInventoryBlocks(text, { bare = true } = {}) {
+/** Raw text of the visible (not enveloped) complete blocks in `text`. */
+export function bareBlockTexts(text) {
+    const source = String(text ?? '');
+    const found = [];
+    for (const match of source.matchAll(COMPLETE_BLOCK)) {
+        if (!ENVELOPE_OPENER.test(source.slice(0, match.index))) found.push(match[0].trim());
+    }
+    return found;
+}
+
+export function stripInventoryBlocks(text, { bare = true, knownBlocks = null } = {}) {
     let source = String(text ?? '');
     source = removeSpans(source, interruptedSnapshots(source).filter(span => bare || span.enveloped));
     source = source.replace(bare ? ENVELOPED_BLOCK : HIDDEN_BLOCK, '').replace(TRANSPORT_BLOCK, '');
+    // Presets that embed chat history in a user/system message carry old visible snapshots
+    // there; drop those copies while keeping any block a person wrote.
+    if (!bare && knownBlocks?.size) source = source.replace(COMPLETE_BLOCK, block => (knownBlocks.has(block.trim()) ? '' : block));
     const truncated = truncatedSnapshot(source);
     if (truncated && (bare || truncated.kind !== 'bare')) source = source.slice(0, truncated.start).trimEnd();
     return source;

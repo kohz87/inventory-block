@@ -1,4 +1,5 @@
 import {
+    bareBlockTexts,
     emptyInventory,
     formatInventoryBlock,
     inventoryBlocks,
@@ -10,12 +11,12 @@ import {
     syncActiveSwipeText,
     truncatedSnapshot,
 } from './src/snapshot.js';
-import { buildInventoryGenerationPrompt, hasInventoryContext, injectInventorySnapshot, stripHistoricalInventory } from './src/prompt.js';
+import { buildInventoryGenerationPrompt, defuseMacros, hasInventoryContext, injectInventorySnapshot, stripHistoricalInventory } from './src/prompt.js';
 import { DEFAULT_MAX_DEPTH, MAX_MAX_DEPTH, MIN_MAX_DEPTH, clampDepth } from './src/tree.js';
 import { copyText, openInventoryEditor, renderInventoryPane } from './src/ui.js';
 import { initializeMeguminBridge, scheduleInventoryMount, setInventoryMountSuspended } from './src/megumin.js';
 
-const VERSION = '0.6.4';
+const VERSION = '0.6.5';
 const SETTINGS_KEY = 'inventoryBlock';
 const EXTENSION_PROMPT_KEY = 'inventory_block';
 // SillyTavern extension_prompt_types.IN_PROMPT / extension_prompt_roles.SYSTEM.
@@ -156,15 +157,25 @@ function armSessionWatchdog(chatId, delay = SESSION_MAX_AGE_MS) {
 
 function prepareGeneration(type = 'normal', _params = null, isDryRun = false) {
     const ctx = context();
-    if (!ctx || !hasActiveChat(ctx) || isBackgroundGeneration(type, isDryRun)) return null;
+    if (!ctx || !hasActiveChat(ctx)) return null;
+    if (isBackgroundGeneration(type, isDryRun)) {
+        // A quiet/impersonate generation started before the reply's own prompt is built (for
+        // example from another extension's handler) builds its prompt first, and in text
+        // completion that prompt carries the Inventory placeholder too. Count it so it is
+        // not mistaken for the reply's prompt.
+        const pendingSession = pending.get(chatIdOf(ctx));
+        if (!isDryRun && pendingSession && !pendingSession.consumed) pendingSession.backgroundPrompts += 1;
+        return null;
+    }
     const chatId = chatIdOf(ctx);
     const session = {
         chatId,
         state: inventoryForGeneration(ctx.chat, type),
         contextInPrompt: usesExtensionPrompt(ctx),
         consumed: false,
+        backgroundPrompts: 0,
     };
-    setInventoryExtensionPrompt(ctx, session.contextInPrompt ? buildInventoryGenerationPrompt(session.state, { maxDepth: settings(ctx).maxDepth }) : '');
+    setInventoryExtensionPrompt(ctx, session.contextInPrompt ? defuseMacros(buildInventoryGenerationPrompt(session.state, { maxDepth: settings(ctx).maxDepth })) : '');
     pending.set(chatId, session);
     armSessionWatchdog(chatId);
     syncMountSuspension();
@@ -197,19 +208,34 @@ globalThis.inventoryBlockGenerationInterceptor = onGenerationInterceptor;
  */
 function isForegroundPrompt(session, eventData) {
     if (!session || session.consumed) return false;
-    if (session.contextInPrompt && typeof eventData?.prompt === 'string') return hasInventoryContext(eventData.prompt);
-    return true;
+    const candidate = session.contextInPrompt && typeof eventData?.prompt === 'string' ? hasInventoryContext(eventData.prompt) : true;
+    if (candidate && session.backgroundPrompts > 0) {
+        session.backgroundPrompts -= 1;
+        return false;
+    }
+    return candidate;
+}
+
+// Visible snapshot blocks in chat history, so copies embedded in user/system content by
+// presets can be told apart from blocks a person wrote there.
+function historyBlocks(ctx) {
+    const known = new Set();
+    for (const message of ctx?.chat ?? []) {
+        if (message && !message.is_user && !message.is_system) bareBlockTexts(message.mes).forEach(block => known.add(block));
+    }
+    return known;
 }
 
 function onPromptReady(eventData = null) {
     if (eventData?.dryRun === true) return;
     const session = selectPromptSession();
+    const knownBlocks = Array.isArray(eventData?.chat) ? historyBlocks(context()) : null;
     if (!isForegroundPrompt(session, eventData)) {
         // Background prompts get no instructions and keep only the newest snapshot.
-        stripHistoricalInventory(eventData);
+        stripHistoricalInventory(eventData, { knownBlocks });
         return;
     }
-    const result = injectInventorySnapshot(eventData, session.state, { maxDepth: settings().maxDepth, contextInPrompt: session.contextInPrompt });
+    const result = injectInventorySnapshot(eventData, session.state, { maxDepth: settings().maxDepth, contextInPrompt: session.contextInPrompt, knownBlocks });
     if (result.injected) {
         session.consumed = true;
         // The context is needed for this one prompt; later quiet prompts must not inherit it.
@@ -524,19 +550,24 @@ function registerEvents() {
     const prepare = events.GENERATION_AFTER_COMMANDS || events.GENERATION_STARTED;
     if (prepare) ctx.eventSource.on(prepare, prepareGeneration);
     for (const event of [events.CHAT_COMPLETION_PROMPT_READY, events.GENERATE_AFTER_COMBINE_PROMPTS]) if (event) ctx.eventSource.on(event, onPromptReady);
-    if (events.MESSAGE_RECEIVED) ctx.eventSource.on(events.MESSAGE_RECEIVED, onMessageReceived);
+    // Where Inventory may re-render a message, run before other extensions' listeners so
+    // their decorations are applied after the re-render instead of being wiped by it.
+    const first = (event, listener) => (typeof ctx.eventSource.makeFirst === 'function'
+        ? ctx.eventSource.makeFirst(event, listener)
+        : ctx.eventSource.on(event, listener));
+    if (events.MESSAGE_RECEIVED) first(events.MESSAGE_RECEIVED, onMessageReceived);
     if (events.GENERATION_ENDED) ctx.eventSource.on(events.GENERATION_ENDED, onGenerationEnded);
     if (events.GENERATION_STOPPED) ctx.eventSource.on(events.GENERATION_STOPPED, onGenerationStopped);
 
     if (events.MESSAGE_EDITED) ctx.eventSource.on(events.MESSAGE_EDITED, onMessageEdited);
     for (const event of [events.MESSAGE_SWIPED, events.CHARACTER_FIRST_MESSAGE_SELECTED]) {
-        if (event) ctx.eventSource.on(event, onMessageVariantChanged);
+        if (event) first(event, onMessageVariantChanged);
     }
     for (const event of [events.MESSAGE_DELETED, events.MESSAGE_SWIPE_DELETED]) {
         if (event) ctx.eventSource.on(event, onTimelineChanged);
     }
     for (const event of [events.CHAT_CHANGED, events.CHAT_LOADED]) if (event) ctx.eventSource.on(event, onChatChanged);
-    if (events.CHARACTER_MESSAGE_RENDERED) ctx.eventSource.on(events.CHARACTER_MESSAGE_RENDERED, onCharacterMessageRendered);
+    if (events.CHARACTER_MESSAGE_RENDERED) first(events.CHARACTER_MESSAGE_RENDERED, onCharacterMessageRendered);
     if (events.MORE_MESSAGES_LOADED) ctx.eventSource.on(events.MORE_MESSAGES_LOADED, onTimelineChanged);
     for (const event of [events.APP_READY, events.APP_INITIALIZED, events.EXTENSIONS_FIRST_LOAD, events.EXTENSION_SETTINGS_LOADED]) {
         if (event) ctx.eventSource.on(event, () => {
