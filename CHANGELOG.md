@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.6.4
+
+Second audit pass.
+
+- **Continue after a cut-off snapshot** no longer hides the continued prose or loses the new snapshot. A block can no longer span another `<Inventory>` opening tag, and cut-off rows followed by more text are closed off in their own hidden comment (idempotently). Prompt stripping keeps the continued prose.
+- **No more `MESSAGE_UPDATED`.** v0.6.3 emitted it after re-rendering a normalized message, which made built-in Translate re-translate (and, with auto mode off, drop a manual translation) and Summarize react. On receive it was redundant with `CHARACTER_MESSAGE_RENDERED`. Edits are now normalized inside the awaited `MESSAGE_EDITED`, before SillyTavern renders the message and emits `MESSAGE_UPDATED` itself, so no extra re-render happens.
+- **Only the foreground prompt gets Inventory instructions.** Raw or quiet generations by other extensions while a reply is pending were treated as foreground. Text completion now recognises the foreground prompt by the context SillyTavern placed into it and withdraws the extension prompt right after. Chat completion injects into the first prompt after the generation starts. Everything else is treated as a background prompt.
+- **Markdown-table rows** (`| Rope | 1 | coiled |`) are accepted; divider and `Name | Qty` header rows are skipped.
+- A **trailing `|`** no longer ends up in the remark.
+- A **whole row wrapped in brackets** with two or more `|` is read as a row instead of an empty category.
+- **List markers** (`- `, `* `, `• `, `2. `) are not part of item names.
+- **Finished prose** after an unclosed block is no longer hidden; only a partial last row counts as cut off.
+- The prompt **explains the backslash escapes** shown in the current snapshot.
+- **Chat completion keeps blocks a person wrote** into user and system content (messages, character card, World Info); only assistant messages are stripped fully.
+- Removed the unused `startedAt` and `type` session fields.
+- Tests: runtime coverage for the background-prompt rules, the edit path, the watchdog (mock timers) and Rescan; `tests/v064-audit.test.js` adds a regression test per fix.
+
 ## 0.6.3
 
 Audit fixes: data-loss bugs, prompt hygiene, cleanup.

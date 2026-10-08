@@ -1,4 +1,4 @@
-# Inventory Block v0.6.3
+# Inventory Block v0.6.4
 
 Inventory Block is a lightweight SillyTavern RPG inventory extension built around **message-native full snapshots**.
 
@@ -72,13 +72,19 @@ Coin Pouch | 1 | 100 Gold
 -->
 ```
 
-The `<Inventory>` data is still physically present in `message.mes` and remains the source of truth, but SillyTavern does not render the HTML comment into narration. Plain v0.5.0/v0.5.1 snapshots remain fully readable; when Inventory encounters a plain snapshot in a received, edited, swiped, or rendered assistant message, it normalizes only that machine block into the hidden envelope and keeps the story text unchanged. After re-rendering such a message it emits `MESSAGE_UPDATED`, as SillyTavern's own edit flow does, so extensions that decorate messages can restore their UI.
+The `<Inventory>` data is still physically present in `message.mes` and remains the source of truth, but SillyTavern does not render the HTML comment into narration. Plain v0.5.0/v0.5.1 snapshots remain fully readable; when Inventory encounters a plain snapshot in a received, edited, swiped, or rendered assistant message, it normalizes only that machine block into the hidden envelope and keeps the story text unchanged. On receive this happens before SillyTavern's `CHARACTER_MESSAGE_RENDERED`, so other extensions decorate the final text. On edit it happens inside the awaited `MESSAGE_EDITED`, before SillyTavern renders the message itself, so no extra re-render is needed. Inventory does not emit `MESSAGE_UPDATED`: built-in Translate re-translates on it (and, with auto mode off, drops a manual translation) and Summarize reacts to it.
 
 Cell text is escaped so it can never break the envelope: `\` and `|` (and `]` in headers) get a backslash, and so do `-->` (written `--\>`) and `<Inventory` / `</Inventory` look-alikes. Escapes are reversed on parse. If a model writes a raw `-->` inside its snapshot anyway, the block is re-written as one canonical envelope the next time the message is normalized.
 
-Parsing rules: a header is a bracketed line whose only unescaped `]` is the final character, so an item such as `[Sealed] Letter | 1 |` stays an item while `[Food | Water]` stays a category. A repeated header continues the earlier section. Extra `|` separators in a row are kept as part of the remark. Duplicate item names within one category still reject the snapshot, and the generation prompt says so.
+Parsing rules:
 
-Only a cut-off snapshot is treated as truncated: an unclosed `<!-- INVENTORY_BLOCK_V05` comment, or an `<Inventory>` tag alone on its line followed only by snapshot-shaped rows. Prose that merely mentions `<inventory>` is never touched.
+- A header is a bracketed line whose only unescaped `]` is the final character, so an item such as `[Sealed] Letter | 1 |` stays an item while `[Food | Water]` stays a category. A whole row wrapped in brackets with two or more `|` (`[Spare Rope | 1 | coiled]`) is read as a row.
+- A repeated header continues the earlier section.
+- Markdown-table rows (`| Rope | 1 | coiled |`) are accepted; divider rows (`|---|---|`) and a `Name | Qty | …` header row are skipped. A trailing `|` is ignored, while extra `|` inside a row are kept as part of the remark.
+- List markers in front of a row (`- `, `* `, `• `, `2. `) are not part of the item name.
+- Duplicate item names within one category still reject the snapshot, and the generation prompt says so.
+
+Only a cut-off snapshot is treated as truncated: an unclosed `<!-- INVENTORY_BLOCK_V05` comment, or an `<Inventory>` tag alone on its line followed only by snapshot-shaped rows (the last of which may be a partial row, but not finished prose). Prose that merely mentions `<inventory>` is never touched. A block never spans another `<Inventory>` opening tag: when a cut-off reply is finished with **Continue**, the cut-off rows are closed off in their own hidden comment, and the continued prose and the new snapshot stay intact.
 
 ## Generation
 
@@ -91,9 +97,9 @@ Before each foreground RP generation, Inventory Block:
 
 Stored chat messages are never stripped for prompt hygiene. Old snapshots stay in SillyTavern history for natural deletion/swipe rollback, while the model sees only the current snapshot.
 
-- **Chat completion:** the context is inserted as a system message after the leading system messages.
-- **Text completion:** the context is registered through SillyTavern's extension prompt (`IN_PROMPT`), so it lands inside the instruct template's story string rather than in front of it. The combined prompt is then cleaned around it. The extension prompt is cleared when the reply arrives.
-- **Background prompts** (quiet, impersonate, other extensions' generations) receive no Inventory instructions, and all historical snapshots except the newest are removed from them.
+- **Chat completion:** the context is inserted as a system message after the leading system messages, into the first prompt built after the generation starts. Snapshots are stripped from assistant messages; user and system content (messages, character card, World Info) only lose Inventory's own hidden envelopes, so a block a person wrote there reaches the model untouched.
+- **Text completion:** the context is registered through SillyTavern's extension prompt (`IN_PROMPT`), so it lands inside the instruct template's story string rather than in front of it. The prompt that carries it is the foreground prompt; the combined prompt is cleaned around the context, and the extension prompt is withdrawn right after, so later quiet prompts do not inherit it. A combined text prompt has no roles, so every snapshot in it is stripped.
+- **Background prompts** (quiet, impersonate, other extensions' raw generations, including ones that fire while a reply is pending) receive no Inventory instructions, and all historical snapshots except the newest are removed from them.
 
 The model is instructed to preserve every unchanged item/category, apply only completed changes, keep uncertain values unchanged, and never emit patches or deltas.
 

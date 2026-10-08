@@ -10,12 +10,12 @@ import {
     syncActiveSwipeText,
     truncatedSnapshot,
 } from './src/snapshot.js';
-import { buildInventoryGenerationPrompt, injectInventorySnapshot, stripHistoricalInventory } from './src/prompt.js';
+import { buildInventoryGenerationPrompt, hasInventoryContext, injectInventorySnapshot, stripHistoricalInventory } from './src/prompt.js';
 import { DEFAULT_MAX_DEPTH, MAX_MAX_DEPTH, MIN_MAX_DEPTH, clampDepth } from './src/tree.js';
 import { copyText, openInventoryEditor, renderInventoryPane } from './src/ui.js';
 import { initializeMeguminBridge, scheduleInventoryMount, setInventoryMountSuspended } from './src/megumin.js';
 
-const VERSION = '0.6.3';
+const VERSION = '0.6.4';
 const SETTINGS_KEY = 'inventoryBlock';
 const EXTENSION_PROMPT_KEY = 'inventory_block';
 // SillyTavern extension_prompt_types.IN_PROMPT / extension_prompt_roles.SYSTEM.
@@ -160,11 +160,10 @@ function prepareGeneration(type = 'normal', _params = null, isDryRun = false) {
     const chatId = chatIdOf(ctx);
     const session = {
         chatId,
-        type: normalizeType(type),
         state: inventoryForGeneration(ctx.chat, type),
-        startedAt: Date.now(),
+        contextInPrompt: usesExtensionPrompt(ctx),
+        consumed: false,
     };
-    session.contextInPrompt = usesExtensionPrompt(ctx);
     setInventoryExtensionPrompt(ctx, session.contextInPrompt ? buildInventoryGenerationPrompt(session.state, { maxDepth: settings(ctx).maxDepth }) : '');
     pending.set(chatId, session);
     armSessionWatchdog(chatId);
@@ -189,16 +188,33 @@ async function onGenerationInterceptor(_chat, _contextSize, _abort, type = 'norm
 
 globalThis.inventoryBlockGenerationInterceptor = onGenerationInterceptor;
 
+/**
+ * Only the foreground reply's own prompt receives Inventory instructions. Other
+ * prompts that fire while a reply is pending (raw or quiet generations by
+ * other extensions) are background prompts. Text completion recognises the foreground
+ * prompt exactly by the context SillyTavern placed into it; chat completion takes the
+ * first prompt after the generation started.
+ */
+function isForegroundPrompt(session, eventData) {
+    if (!session || session.consumed) return false;
+    if (session.contextInPrompt && typeof eventData?.prompt === 'string') return hasInventoryContext(eventData.prompt);
+    return true;
+}
+
 function onPromptReady(eventData = null) {
     if (eventData?.dryRun === true) return;
     const session = selectPromptSession();
-    if (!session) {
-        // Background prompts (quiet, impersonate, other extensions) keep only the newest snapshot.
+    if (!isForegroundPrompt(session, eventData)) {
+        // Background prompts get no instructions and keep only the newest snapshot.
         stripHistoricalInventory(eventData);
         return;
     }
     const result = injectInventorySnapshot(eventData, session.state, { maxDepth: settings().maxDepth, contextInPrompt: session.contextInPrompt });
-    if (!result.injected && result.reason !== 'unsupported-event') {
+    if (result.injected) {
+        session.consumed = true;
+        // The context is needed for this one prompt; later quiet prompts must not inherit it.
+        if (session.contextInPrompt) setInventoryExtensionPrompt(context(), '');
+    } else if (result.reason !== 'unsupported-event') {
         console.warn(`[Inventory Block] prompt injection skipped: ${result.reason}`);
     }
 }
@@ -219,13 +235,14 @@ async function saveChat(ctx) {
     else ctx.saveMetadataDebounced?.();
 }
 
+// No MESSAGE_UPDATED is emitted here: built-in Translate re-translates (and, with auto
+// mode off, discards a manual translation) and Summarize reacts to it. On receive,
+// SillyTavern's CHARACTER_MESSAGE_RENDERED follows anyway; on edit, SillyTavern renders
+// the normalized text itself and emits MESSAGE_UPDATED once.
 async function persistMessageEdit(ctx, messageId, message, { rerender = true, save = true } = {}) {
     syncActiveSwipeText(message);
-    if (rerender && document.querySelector(`#chat .mes[mesid="${Number(messageId)}"]`) && typeof ctx.updateMessageBlock === 'function') {
-        ctx.updateMessageBlock(messageId, message);
-        // Same contract as SillyTavern's own edit flow: extensions that decorate messages
-        // (Megumin Suite, NPC State, …) re-render theirs on MESSAGE_UPDATED.
-        if (ctx.eventTypes?.MESSAGE_UPDATED) await ctx.eventSource?.emit?.(ctx.eventTypes.MESSAGE_UPDATED, messageId);
+    if (rerender && document.querySelector(`#chat .mes[mesid="${Number(messageId)}"]`)) {
+        ctx.updateMessageBlock?.(messageId, message);
     }
     if (save) await saveChat(ctx);
 }
@@ -478,6 +495,13 @@ function onMessageVariantChanged(messageId) {
     void normalizeMessageTransport(messageId).finally(() => refreshAll(20));
 }
 
+// SillyTavern awaits MESSAGE_EDITED, then renders chat[id].mes itself and emits
+// MESSAGE_UPDATED. Normalizing before that render needs no re-render of our own.
+async function onMessageEdited(messageId) {
+    try { await normalizeMessageTransport(messageId, { rerender: false }); }
+    finally { refreshAll(20); }
+}
+
 function onCharacterMessageRendered(messageId) {
     void normalizeMessageTransport(messageId).finally(() => refreshAll(20));
 }
@@ -504,7 +528,8 @@ function registerEvents() {
     if (events.GENERATION_ENDED) ctx.eventSource.on(events.GENERATION_ENDED, onGenerationEnded);
     if (events.GENERATION_STOPPED) ctx.eventSource.on(events.GENERATION_STOPPED, onGenerationStopped);
 
-    for (const event of [events.MESSAGE_EDITED, events.MESSAGE_SWIPED, events.CHARACTER_FIRST_MESSAGE_SELECTED]) {
+    if (events.MESSAGE_EDITED) ctx.eventSource.on(events.MESSAGE_EDITED, onMessageEdited);
+    for (const event of [events.MESSAGE_SWIPED, events.CHARACTER_FIRST_MESSAGE_SELECTED]) {
         if (event) ctx.eventSource.on(event, onMessageVariantChanged);
     }
     for (const event of [events.MESSAGE_DELETED, events.MESSAGE_SWIPE_DELETED]) {
