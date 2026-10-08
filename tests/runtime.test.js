@@ -79,6 +79,12 @@ const ctx = {
 };
 globalThis.SillyTavern = { getContext: () => ctx };
 
+// SillyTavern core reasoning auto-parse: registered at startup, before any extension.
+ctx.eventSource.on(eventTypes.MESSAGE_RECEIVED, id => {
+    const message = ctx.chat[id];
+    const match = /^<think>[\s\S]*?<\/think>\n?/.exec(message?.mes ?? '');
+    if (match) message.mes = message.mes.slice(match[0].length);
+});
 // Another extension that decorates swiped messages and was loaded before Inventory.
 ctx.eventSource.on(eventTypes.MESSAGE_SWIPED, () => { emitted.push(['decorator']); });
 
@@ -319,4 +325,15 @@ test('chat completion: history copies embedded in a user message are removed, wr
     const text = JSON.stringify(event.chat);
     assert.doesNotMatch(text, /70 Gold/);
     assert.match(text, /Example \| 1 \| format/);
+});
+
+test('reasoning is moved out before Inventory checks a reply, so a draft in <think> cannot hide a missing snapshot', async () => {
+    ctx.chat = [{ is_user: false, mes: block(90) }, { is_user: true, mes: 'pay' }];
+    await emit('GENERATION_AFTER_COMMANDS', 'normal', {}, false);
+    await emit('CHAT_COMPLETION_PROMPT_READY', { chat: [{ role: 'system', content: 'rules' }], dryRun: false });
+    ctx.chat.push({ is_user: false, is_system: false, mes: '<think>Draft:\n<Inventory>\nCoin Pouch | 1 | 80 Gold\n</Inventory>\n</think>\nShe paid.' });
+    notices.length = 0;
+    await emit('MESSAGE_RECEIVED', 2);
+    assert.equal(ctx.chat[2].mes, 'She paid.', 'reasoning parsed before Inventory touched the reply');
+    assert.ok(notices.some(notice => /omitted a valid Inventory snapshot/.test(notice)), notices.join('\n'));
 });

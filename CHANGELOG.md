@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.6.6
+
+Fourth audit pass.
+
+- **Reasoning is parsed before Inventory checks a reply.** v0.6.5 registered the `MESSAGE_RECEIVED` listener with `makeFirst`, which also put it ahead of SillyTavern's own reasoning auto-parse. A draft snapshot inside `<think>` then counted as the reply's, so a reply that omitted its snapshot raised no warning, and the draft was rewritten inside the stored reasoning. Receive is a plain listener again; swipe and render keep `makeFirst`.
+- **Continue that picks up exactly at the cut** now recovers the snapshot wherever the cut fell: inside a row, inside `<Inventory>` or `</Inventory>`, or right after the closing tag. A hidden cut-off envelope directly followed by glued text has its receive-time closer dropped so the halves rejoin, and a duplicate `-->` after a complete envelope is removed. Previously a cut inside a tag lost the snapshot and left fragments such as `tory>` in the narration.
+- Corrected the docs: Inventory strips the partial snapshot from the Continue prompt, so the model normally writes a fresh block; picking up at the cut is the rarer path.
+- Tests: `tests/v066-audit.test.js` covers six cut positions. A runtime test with a core reasoning listener registered before Inventory checks the receive order.
+
 ## 0.6.5
 
 Third audit pass.
