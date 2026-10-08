@@ -327,8 +327,34 @@ export function inventoryBlocks(text) {
     return blocks;
 }
 
+/**
+ * A reply cut off mid-snapshot gets its hidden envelope closed with `\n-->` on receive.
+ * If Continue then picks up exactly at the cut, its text is glued straight onto that
+ * closer (`<Inven\n-->tory>`, `90 Go\n-->ld`). Such an envelope holds no complete block
+ * and is followed by non-whitespace, which never happens for an envelope Inventory
+ * wrote around a finished snapshot, so the closer is dropped and the halves rejoin.
+ * A second `-->` directly after a complete envelope is a duplicate closer and is dropped.
+ */
+export function rejoinContinuedCuts(text) {
+    let source = String(text ?? '');
+    for (const range of transportRanges(source).reverse()) {
+        if (!source.slice(range.start, range.end).endsWith('\n-->')) continue;
+        if (new RegExp(COMPLETE_BLOCK.source, 'i').test(source.slice(range.start, range.end))) {
+            // Cut right after `</Inventory>`: the envelope was closed on receive and Continue
+            // then wrote the original closer too. Drop the duplicate so no `-->` shows.
+            const duplicate = /^\s*-->/.exec(source.slice(range.end));
+            if (duplicate) source = `${source.slice(0, range.end)}${source.slice(range.end + duplicate[0].length)}`;
+            continue;
+        }
+        const next = source.charAt(range.end);
+        if (!next || /\s/.test(next)) continue;
+        source = `${source.slice(0, range.end - 4)}${source.slice(range.end)}`;
+    }
+    return source;
+}
+
 export function latestValidInventoryInText(text) {
-    const blocks = inventoryBlocks(text);
+    const blocks = inventoryBlocks(rejoinContinuedCuts(text));
     for (let i = blocks.length - 1; i >= 0; i--) {
         if (blocks[i].state) return blocks[i];
     }
@@ -490,7 +516,7 @@ export function bareBlockTexts(text) {
 }
 
 export function stripInventoryBlocks(text, { bare = true, knownBlocks = null } = {}) {
-    let source = String(text ?? '');
+    let source = rejoinContinuedCuts(text);
     source = removeSpans(source, interruptedSnapshots(source).filter(span => bare || span.enveloped));
     source = source.replace(bare ? ENVELOPED_BLOCK : HIDDEN_BLOCK, '').replace(TRANSPORT_BLOCK, '');
     // Presets that embed chat history in a user/system message carry old visible snapshots
@@ -508,7 +534,7 @@ function hiddenRawBlock(raw) {
 
 export function normalizeInventoryTransports(text) {
     const original = String(text ?? '');
-    let source = original;
+    let source = rejoinContinuedCuts(original);
     // Close snapshots that were cut off and then continued, so the prose after them stays visible.
     for (const span of interruptedSnapshots(source).reverse()) {
         if (span.hidden) continue;
@@ -535,7 +561,7 @@ export function normalizeInventoryTransports(text) {
 
 export function replaceOrAppendInventory(text, state) {
     const transport = formatInventoryTransport(state);
-    let source = removeTrailingTruncatedInventory(text);
+    let source = removeTrailingTruncatedInventory(rejoinContinuedCuts(text));
     const blocks = inventoryBlocks(source);
     if (blocks.length) {
         const target = blocks.at(-1);

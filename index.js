@@ -16,7 +16,7 @@ import { DEFAULT_MAX_DEPTH, MAX_MAX_DEPTH, MIN_MAX_DEPTH, clampDepth } from './s
 import { copyText, openInventoryEditor, renderInventoryPane } from './src/ui.js';
 import { initializeMeguminBridge, scheduleInventoryMount, setInventoryMountSuspended } from './src/megumin.js';
 
-const VERSION = '0.6.5';
+const VERSION = '0.6.6';
 const SETTINGS_KEY = 'inventoryBlock';
 const EXTENSION_PROMPT_KEY = 'inventory_block';
 // SillyTavern extension_prompt_types.IN_PROMPT / extension_prompt_roles.SYSTEM.
@@ -550,12 +550,14 @@ function registerEvents() {
     const prepare = events.GENERATION_AFTER_COMMANDS || events.GENERATION_STARTED;
     if (prepare) ctx.eventSource.on(prepare, prepareGeneration);
     for (const event of [events.CHAT_COMPLETION_PROMPT_READY, events.GENERATE_AFTER_COMBINE_PROMPTS]) if (event) ctx.eventSource.on(event, onPromptReady);
-    // Where Inventory may re-render a message, run before other extensions' listeners so
-    // their decorations are applied after the re-render instead of being wiped by it.
+    // On swipe and render, run before other extensions' listeners so their decorations are
+    // applied after any re-render instead of being wiped by it. MESSAGE_RECEIVED stays a plain
+    // listener: SillyTavern's own reasoning auto-parse must move <think> out of the reply first,
+    // and extensions decorate on CHARACTER_MESSAGE_RENDERED, which follows anyway.
     const first = (event, listener) => (typeof ctx.eventSource.makeFirst === 'function'
         ? ctx.eventSource.makeFirst(event, listener)
         : ctx.eventSource.on(event, listener));
-    if (events.MESSAGE_RECEIVED) first(events.MESSAGE_RECEIVED, onMessageReceived);
+    if (events.MESSAGE_RECEIVED) ctx.eventSource.on(events.MESSAGE_RECEIVED, onMessageReceived);
     if (events.GENERATION_ENDED) ctx.eventSource.on(events.GENERATION_ENDED, onGenerationEnded);
     if (events.GENERATION_STOPPED) ctx.eventSource.on(events.GENERATION_STOPPED, onGenerationStopped);
 

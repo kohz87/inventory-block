@@ -1,4 +1,4 @@
-# Inventory Block v0.6.5
+# Inventory Block v0.6.6
 
 Inventory Block is a lightweight SillyTavern RPG inventory extension built around **message-native full snapshots**.
 
@@ -72,7 +72,7 @@ Coin Pouch | 1 | 100 Gold
 -->
 ```
 
-The `<Inventory>` data is still physically present in `message.mes` and remains the source of truth, but SillyTavern does not render the HTML comment into narration. Plain v0.5.0/v0.5.1 snapshots remain fully readable; when Inventory encounters a plain snapshot in a received, edited, swiped, or rendered assistant message, it normalizes only that machine block into the hidden envelope and keeps the story text unchanged. Inventory's receive, swipe and render listeners run before other extensions' listeners, so their decorations are applied after any re-render. On receive this also happens before SillyTavern's `CHARACTER_MESSAGE_RENDERED`. On edit it happens inside the awaited `MESSAGE_EDITED`, before SillyTavern renders the message itself, so no extra re-render is needed. Inventory does not emit `MESSAGE_UPDATED`: built-in Translate re-translates on it (and, with auto mode off, drops a manual translation) and Summarize reacts to it.
+The `<Inventory>` data is still physically present in `message.mes` and remains the source of truth, but SillyTavern does not render the HTML comment into narration. Plain v0.5.0/v0.5.1 snapshots remain fully readable; when Inventory encounters a plain snapshot in a received, edited, swiped, or rendered assistant message, it normalizes only that machine block into the hidden envelope and keeps the story text unchanged. Inventory's swipe and render listeners run before other extensions' listeners, so their decorations are applied after any re-render. The receive listener is a plain listener: SillyTavern's own reasoning auto-parse moves `<think>…</think>` out of the reply first, so a draft snapshot in the reasoning is never mistaken for the reply's. Receive also happens before SillyTavern's `CHARACTER_MESSAGE_RENDERED`, where extensions decorate. On edit it happens inside the awaited `MESSAGE_EDITED`, before SillyTavern renders the message itself, so no extra re-render is needed. Inventory does not emit `MESSAGE_UPDATED`: built-in Translate re-translates on it (and, with auto mode off, drops a manual translation) and Summarize reacts to it.
 
 Cell text is escaped so it can never break the envelope: `\` and `|` (and `]` in headers) get a backslash, and so do `-->` (written `--\>`) and `<Inventory` / `</Inventory` look-alikes. Escapes are reversed on parse. If a model writes a raw `-->` inside its snapshot anyway, the block is re-written as one canonical envelope the next time the message is normalized.
 
@@ -86,7 +86,7 @@ Parsing rules:
 
 Only a cut-off snapshot is treated as truncated: an unclosed `<!-- INVENTORY_BLOCK_V05` comment, or an `<Inventory>` tag alone on its line followed only by snapshot-shaped rows. The last row may be partial (`Coin Po`, of any length), but a last line that ends in sentence punctuation is prose and stays visible. Unpunctuated prose after an unclosed block cannot be told apart from a partial row. Prose that merely mentions `<inventory>` is never touched.
 
-**Continue** after a cut-off reply works both ways. If the model finishes the same row, the `-->` that closed the cut-off part on receive is dropped and the block reads as one snapshot. If the model starts a fresh block, the cut-off rows are closed off in their own hidden comment. Either way the continued prose stays visible.
+**Continue** after a cut-off reply: Inventory strips the partial snapshot from the Continue prompt, so the model normally continues the prose and writes a fresh block. The cut-off rows are then closed off in their own hidden comment, and the continued prose stays visible. If the model instead picks up exactly at the cut, wherever it fell (inside a row, inside `<Inventory>` or `</Inventory>`, or right after the closing tag), the `-->` that closed the cut-off part on receive is dropped and the halves rejoin into one snapshot.
 
 ## Generation
 
