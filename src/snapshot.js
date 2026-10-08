@@ -1,10 +1,17 @@
-export const INVENTORY_TAG = 'Inventory';
 export const ROOT_CATEGORY = 'General';
 export const TRANSPORT_MARKER = 'INVENTORY_BLOCK_V05';
 export const CATEGORY_PATH_SEPARATOR = '>';
 
-const COMPLETE_BLOCK = /<Inventory\b[^>]*>([\s\S]*?)<\/Inventory\s*>/gi;
+// `<Inventory>` or `<Inventory attr>`, never look-alikes such as `<Inventory-notes>`.
+const OPEN_TAG = '<Inventory(?:\\s[^>]*)?>';
+const CLOSE_TAG = '<\\/Inventory\\s*>';
+const COMPLETE_BLOCK = new RegExp(`${OPEN_TAG}([\\s\\S]*?)${CLOSE_TAG}`, 'gi');
 const TRANSPORT_BLOCK = /<!--\s*INVENTORY_BLOCK_V05\b[\s\S]*?-->/gi;
+// A complete block together with the envelope directly around it. Matching the
+// block first means a stray `-->` inside the snapshot cannot end the envelope early.
+const ENVELOPED_BLOCK = new RegExp(`(?:<!--\\s*INVENTORY_BLOCK_V05\\b\\s*)?${OPEN_TAG}[\\s\\S]*?${CLOSE_TAG}(?:\\s*-->)?`, 'gi');
+const ENVELOPE_OPENER = /<!--\s*INVENTORY_BLOCK_V05\b\s*$/i;
+const ENVELOPE_CLOSER = /^\s*-->/;
 
 function clean(value) {
     return String(value ?? '').replace(/\r?\n/g, ' ').trim();
@@ -90,8 +97,55 @@ function splitRow(line) {
     return cells;
 }
 
+/**
+ * Backslash escapes are reversible through splitRow/unescapeText. Besides `\`
+ * and `|`, escape anything that would end the hidden comment (`-->`, `--!>`) or
+ * open/close a block (`<Inventory`, `</Inventory`) when it appears inside a cell.
+ */
+function escapeText(value, specials) {
+    return clean(value)
+        .replace(/\\/g, '\\\\')
+        .replace(specials, '\\$&')
+        .replace(/--(!?)>/g, '--$1\\>')
+        .replace(/<(?=\/?inventory)/gi, '<\\');
+}
+
 function escapeCell(value) {
-    return clean(value).replace(/\\/g, '\\\\').replace(/\|/g, '\\|');
+    return escapeText(value, /\|/g);
+}
+
+function escapeHeader(name) {
+    return escapeText(name, /[|\]]/g);
+}
+
+// A header is `[…]` whose only unescaped `]` is the final one. `[Food | Water]` (written by
+// versions that did not escape `|`) stays a header; `[Sealed] Letter | 1 |` is a row.
+function isHeaderLine(line) {
+    if (!line.startsWith('[') || !line.endsWith(']')) return false;
+    let escaped = false;
+    for (let i = 1; i < line.length - 1; i++) {
+        const char = line[i];
+        if (escaped) escaped = false;
+        else if (char === '\\') escaped = true;
+        else if (char === ']') return false;
+    }
+    return !escaped;
+}
+
+function unescapeText(value) {
+    let result = '';
+    let escaped = false;
+    for (const char of String(value ?? '')) {
+        if (escaped) {
+            result += char;
+            escaped = false;
+        } else if (char === '\\') {
+            escaped = true;
+        } else {
+            result += char;
+        }
+    }
+    return escaped ? `${result}\\` : result;
 }
 
 function validateInventory(state) {
@@ -127,29 +181,34 @@ export function parseInventoryBody(body) {
     for (let i = 0; i < lines.length; i++) {
         const line = lines[i].trim();
         if (!line) continue;
-        if (line.startsWith('[') && line.endsWith(']')) {
-            const name = canonicalCategoryName(line.slice(1, -1));
+        if (isHeaderLine(line)) {
+            const name = canonicalCategoryName(unescapeText(line.slice(1, -1)));
             if (!name) throw new Error(`Inventory category on line ${i + 1} is blank.`);
-            current = { name, items: [] };
-            categories.push(current);
+            // A repeated header continues the earlier section instead of invalidating the snapshot.
+            current = categories.find(category => key(category.name) === key(name));
+            if (!current) {
+                current = { name, items: [] };
+                categories.push(current);
+            }
             continue;
         }
         const cells = splitRow(line);
-        if (cells.length < 2 || cells.length > 3 || !clean(cells[0])) {
+        if (cells.length < 2 || !clean(cells[0])) {
             throw new Error(`Inventory row ${i + 1} must be Name | Quantity | Remark.`);
         }
         if (!current) ensureRoot();
         current.items.push({
             name: clean(cells[0]),
             quantity: clean(cells[1]),
-            remark: clean(cells[2] ?? ''),
+            // An unescaped `|` inside the remark only splits it further; keep it as text.
+            remark: clean(cells.slice(2).join(' | ')),
         });
     }
     return validateInventory({ categories });
 }
 
 export function parseInventoryBlock(blockText) {
-    const match = /^\s*<Inventory\b[^>]*>([\s\S]*?)<\/Inventory\s*>\s*$/i.exec(String(blockText ?? ''));
+    const match = new RegExp(`^\\s*${OPEN_TAG}([\\s\\S]*?)${CLOSE_TAG}\\s*$`, 'i').exec(String(blockText ?? ''));
     if (!match) throw new Error('Expected exactly one complete <Inventory>...</Inventory> block.');
     return parseInventoryBody(match[1]);
 }
@@ -164,7 +223,7 @@ export function formatInventoryBlock(state) {
     }
     for (const category of sections) {
         if (lines.length > 1 && lines.at(-1) !== '') lines.push('');
-        lines.push(`[${clean(category.name).replace(/\]/g, '\\]')}]`);
+        lines.push(`[${escapeHeader(category.name)}]`);
         for (const item of category.items) {
             lines.push(`${escapeCell(item.name)} | ${escapeCell(item.quantity)} | ${escapeCell(item.remark)}`);
         }
@@ -195,6 +254,8 @@ export function inventoryBlocks(text) {
         const start = match.index ?? 0;
         const end = start + raw.length;
         const transport = transports.find(range => range.start <= start && range.end >= end) ?? null;
+        const opener = ENVELOPE_OPENER.exec(source.slice(0, start));
+        const closer = ENVELOPE_CLOSER.exec(source.slice(end));
         let state = null;
         let error = null;
         try { state = parseInventoryBody(match[1]); }
@@ -208,6 +269,10 @@ export function inventoryBlocks(text) {
             hidden: Boolean(transport),
             transportStart: transport?.start ?? null,
             transportEnd: transport?.end ?? null,
+            // The block plus any envelope directly around it, even when a stray `-->`
+            // inside the block broke the envelope (then `hidden` is false).
+            wrapStart: opener ? start - opener[0].length : start,
+            wrapEnd: closer ? end + closer[0].length : end,
         });
     }
     return blocks;
@@ -242,57 +307,91 @@ export function latestAssistantIndex(chat) {
     return -1;
 }
 
+/**
+ * Baseline for a generation. Regenerate and Swipe replace the final message only
+ * when it is an assistant reply; when the chat ends with the user's message (for
+ * example after a failed reply) nothing is replaced and the newest snapshot stays
+ * current. This also holds once SillyTavern has already removed the replaced reply.
+ */
 export function inventoryForGeneration(chat, type = 'normal') {
+    const list = Array.isArray(chat) ? chat : [];
     const lower = String(type ?? 'normal').toLowerCase();
-    if (lower.includes('first_message')) return emptyInventory();
-    if (lower.includes('regenerate') || lower === 'swipe' || lower.includes('swipe')) {
-        const target = latestAssistantIndex(chat);
-        return normalizeInventory(latestInventorySnapshot(chat, { beforeIndex: target })?.state ?? emptyInventory());
-    }
-    return normalizeInventory(latestInventorySnapshot(chat)?.state ?? emptyInventory());
+    const last = list.at(-1);
+    const replacesLast = (lower.includes('regenerate') || lower.includes('swipe'))
+        && Boolean(last) && !last.is_user && !last.is_system;
+    const snapshot = latestInventorySnapshot(list, replacesLast ? { beforeIndex: list.length - 1 } : {});
+    return normalizeInventory(snapshot?.state ?? emptyInventory());
 }
 
-function trailingTruncatedInventoryStart(text) {
+function lastMatch(source, pattern) {
+    let found = null;
+    for (const match of source.matchAll(pattern)) found = match;
+    return found;
+}
+
+// Only a tag alone on its line followed by snapshot-shaped rows counts as a
+// cut-off snapshot; prose such as "keep an <inventory> of …" never does.
+function looksLikeSnapshotTail(source, open) {
+    const lineStart = source.lastIndexOf('\n', open.index) + 1;
+    if (source.slice(lineStart, open.index).trim()) return false;
+    const rest = source.slice(open.index + open[0].length);
+    const [tagLineRest, ...body] = rest.split(/\r?\n/);
+    if (tagLineRest.trim()) return false;
+    const lines = body.map(line => line.trim()).filter(Boolean);
+    return lines.slice(0, -1).every(line => line.includes('|') || (line.startsWith('[') && line.endsWith(']')));
+}
+
+/**
+ * Locate a snapshot that was cut off before `</Inventory>`:
+ * - `envelope`: an `<!-- INVENTORY_BLOCK_V05` comment that was never closed;
+ * - `hidden`: an already-closed envelope holding an unterminated block;
+ * - `bare`: a visible, snapshot-shaped opening tag with no closing tag.
+ */
+export function truncatedSnapshot(text) {
     const source = String(text ?? '');
-    const lower = source.toLowerCase();
-    const open = lower.lastIndexOf('<inventory');
-    const close = lower.lastIndexOf('</inventory');
-    return open >= 0 && open > close ? open : -1;
+    const opener = lastMatch(source, /<!--\s*INVENTORY_BLOCK_V05\b/gi);
+    if (opener && !source.includes('-->', opener.index)) return { start: opener.index, kind: 'envelope' };
+    const open = lastMatch(source, new RegExp(OPEN_TAG, 'gi'));
+    if (!open) return null;
+    if (new RegExp(CLOSE_TAG, 'i').test(source.slice(open.index))) return null;
+    const transport = transportRanges(source).find(range => range.start <= open.index && range.end > open.index);
+    if (transport) return { start: transport.start, kind: 'hidden' };
+    return looksLikeSnapshotTail(source, open) ? { start: open.index, kind: 'bare' } : null;
 }
 
 function removeTrailingTruncatedInventory(text) {
     const source = String(text ?? '');
-    const open = trailingTruncatedInventoryStart(source);
-    if (open < 0) return source;
-    const transport = transportRanges(source).find(range => range.start <= open && range.end > open) ?? null;
-    return source.slice(0, transport?.start ?? open).trimEnd();
+    const truncated = truncatedSnapshot(source);
+    return truncated ? source.slice(0, truncated.start).trimEnd() : source;
 }
 
-export function stripInventoryBlocks(text, { stripTrailingTruncated = true } = {}) {
-    let source = String(text ?? '').replace(TRANSPORT_BLOCK, '').replace(COMPLETE_BLOCK, '');
-    if (stripTrailingTruncated) source = removeTrailingTruncatedInventory(source);
-    return source;
+export function stripInventoryBlocks(text) {
+    const source = String(text ?? '').replace(ENVELOPED_BLOCK, '').replace(TRANSPORT_BLOCK, '');
+    return removeTrailingTruncatedInventory(source);
+}
+
+function hiddenRawBlock(raw) {
+    // Keep a malformed block for inspection, but never let it close the comment early.
+    return `<!-- ${TRANSPORT_MARKER}\n${raw.replace(/--(!?)>/g, '--$1\\>')}\n-->`;
 }
 
 export function normalizeInventoryTransports(text) {
     const original = String(text ?? '');
     let source = original;
-    const blocks = inventoryBlocks(source);
-    const plain = blocks.filter(block => !block.hidden);
+    const plain = inventoryBlocks(source).filter(block => !block.hidden);
     for (let i = plain.length - 1; i >= 0; i--) {
         const block = plain[i];
-        const wrapped = `<!-- ${TRANSPORT_MARKER}\n${block.raw}\n-->`;
-        source = `${source.slice(0, block.start)}${wrapped}${source.slice(block.end)}`;
+        // Visible blocks, and blocks whose envelope a stray `-->` broke, are rewritten as one
+        // canonical envelope. That is idempotent: the result is hidden and left alone next time.
+        const wrapped = block.state ? formatInventoryTransport(block.state) : hiddenRawBlock(block.raw);
+        source = `${source.slice(0, block.wrapStart)}${wrapped}${source.slice(block.wrapEnd)}`;
     }
 
-    const truncatedStart = trailingTruncatedInventoryStart(source);
-    if (truncatedStart >= 0) {
-        const transports = transportRanges(source);
-        const alreadyHidden = transports.some(range => range.start <= truncatedStart && range.end > truncatedStart);
-        if (!alreadyHidden) {
-            const truncated = source.slice(truncatedStart);
-            source = `${source.slice(0, truncatedStart)}<!-- ${TRANSPORT_MARKER}\n${truncated}\n-->`;
-        }
+    const truncated = truncatedSnapshot(source);
+    if (truncated?.kind === 'envelope') {
+        source = `${source.trimEnd()}\n-->`;
+    } else if (truncated?.kind === 'bare') {
+        source = `${source.slice(0, truncated.start)}${hiddenRawBlock(source.slice(truncated.start))}`;
     }
 
     return { text: source, changed: source !== original };
@@ -304,8 +403,8 @@ export function replaceOrAppendInventory(text, state) {
     const blocks = inventoryBlocks(source);
     if (blocks.length) {
         const target = blocks.at(-1);
-        const start = target.transportStart ?? target.start;
-        const end = target.transportEnd ?? target.end;
+        const start = target.transportStart ?? target.wrapStart;
+        const end = target.transportEnd ?? target.wrapEnd;
         return `${source.slice(0, start)}${transport}${source.slice(end)}`;
     }
     source = source.trimEnd();

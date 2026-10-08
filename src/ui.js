@@ -86,10 +86,15 @@ export function renderInventoryPane(pane, state, {
     hasSnapshot = true,
     uiKey = 'default',
     previousState = null,
+    changesFromEarlierReply = false,
     maxDepth = DEFAULT_MAX_DEPTH,
 } = {}) {
     const inventory = normalizeInventory(state ?? emptyInventory());
     const view = viewState(uiKey);
+    // A refresh can land while the filter is being typed in; keep focus and caret.
+    const typing = document.activeElement?.classList?.contains('inventory-search-input') && pane.contains(document.activeElement)
+        ? { start: document.activeElement.selectionStart, end: document.activeElement.selectionEnd }
+        : null;
     pane.replaceChildren();
     pane.classList.add('inventory-block-pane');
 
@@ -159,8 +164,12 @@ export function renderInventoryPane(pane, state, {
         const strip = el('details', 'inventory-changes');
         strip.open = view.changesOpen;
         const summary = el('summary', 'inventory-changes-summary');
+        const label = `Δ ${plural(changes.length, 'change')}${changesFromEarlierReply ? ' · earlier reply' : ''}`;
+        summary.title = changesFromEarlierReply
+            ? 'The newest reply carried no Inventory snapshot; these changes come from an earlier reply.'
+            : 'Changes since the previous snapshot.';
         summary.append(
-            el('span', 'inventory-changes-label', `Δ ${plural(changes.length, 'change')}`),
+            el('span', 'inventory-changes-label', label),
             el('span', 'inventory-changes-preview', changes.map(describeChange).join('   ')),
         );
         strip.appendChild(summary);
@@ -252,6 +261,8 @@ export function renderInventoryPane(pane, state, {
         else if (event.key === 'ArrowRight' && node.children.length && node.id && !view.expanded.has(node.id)) {
             view.expanded.add(node.id);
             renderBrowser(node.id);
+        } else if (event.key === 'ArrowRight' && node.children.length && node.id) {
+            nav.querySelector(`.inventory-tree-label[data-node-id="${CSS.escape(node.children[0].id)}"]`)?.focus();
         } else if (event.key === 'ArrowLeft' && node.id && view.expanded.has(node.id)) {
             view.expanded.delete(node.id);
             renderBrowser(node.id);
@@ -416,6 +427,10 @@ export function renderInventoryPane(pane, state, {
     search.addEventListener('click', event => event.stopPropagation());
 
     renderBrowser();
+    if (typing) {
+        input.focus({ preventScroll: true });
+        input.setSelectionRange(typing.start, typing.end);
+    }
 }
 
 function toastError(error) {
@@ -432,16 +447,8 @@ export async function openInventoryEditor(context, state, { onSave } = {}) {
     root.appendChild(textarea);
 
     if (!context?.Popup || !context?.POPUP_TYPE) {
-        const edited = globalThis.prompt?.('Edit Inventory block', textarea.value);
-        if (edited === null || edited === undefined) return false;
-        try {
-            const parsed = parseInventoryBlock(edited);
-            await onSave?.(parsed);
-            return true;
-        } catch (error) {
-            toastError(error);
-            return false;
-        }
+        toastError(new Error('The Inventory editor needs SillyTavern\'s Popup API, which this SillyTavern version does not provide.'));
+        return false;
     }
 
     let saved = false;
