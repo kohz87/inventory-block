@@ -58,9 +58,10 @@ test('category paths are canonicalized and round-trip without changing flat cate
   assert.match(formatInventoryBlock(state), /\[Wagon > Food\]/);
 });
 
-test('blank path headers are rejected and spacing variants count as duplicates', () => {
+test('blank path headers are rejected and spacing variants merge into one category', () => {
   assert.throws(() => parseInventoryBlock('<Inventory>\n[ > ]\nA | 1 |\n</Inventory>'), /blank/);
-  assert.throws(() => parseInventoryBlock('<Inventory>\n[A>B]\nX | 1 |\n[A > B]\nY | 1 |\n</Inventory>'), /Duplicate/);
+  const merged = parseInventoryBlock('<Inventory>\n[A>B]\nX | 1 |\n[A > B]\nY | 1 |\n</Inventory>');
+  assert.deepEqual(merged.categories.map(c => [c.name, c.items.map(i => i.name)]), [['A > B', ['X', 'Y']]]);
 });
 
 test('depth is clamped and deeper paths fold into the last level without losing items', () => {

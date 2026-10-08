@@ -96,12 +96,6 @@ export function walkTree(node, visit) {
     for (const child of node.children) walkTree(child, visit);
 }
 
-export function findNode(root, id) {
-    let found = null;
-    walkTree(root, node => { if (!found && node.id === id) found = node; });
-    return found;
-}
-
 /**
  * Resolve a remembered selection. When the model removed or renamed that
  * category, fall back to the deepest ancestor that still exists.

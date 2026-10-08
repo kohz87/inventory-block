@@ -22,12 +22,6 @@ function latestAssistantElement(ctx) {
     }) ?? null;
 }
 
-function hideRawInventoryElements() {
-    document.querySelectorAll('#chat .mes_text inventory').forEach(node => {
-        if (node instanceof HTMLElement) node.style.display = 'none';
-    });
-}
-
 /**
  * Return Megumin's native card only after both of the attachment roots exist.
  * A partially rendered card is not yet a valid host.
@@ -197,7 +191,6 @@ function attachStandalone(messageElement) {
 
 function mountNow() {
     if (suspended || !renderCurrent || !globalThis.SillyTavern?.getContext) return;
-    hideRawInventoryElements();
 
     const ctx = context();
     const messageElement = latestAssistantElement(ctx);

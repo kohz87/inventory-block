@@ -1,8 +1,8 @@
-# Inventory Block v0.6.2
+# Inventory Block v0.6.3
 
 Inventory Block is a lightweight SillyTavern RPG inventory extension built around **message-native full snapshots**.
 
-The active v0.5 runtime deliberately has no parallel inventory database. The **latest valid surviving `<Inventory>` snapshot in the selected chat/swipe is the authoritative state**.
+Since v0.5 the runtime deliberately has no parallel inventory database. The **latest valid surviving `<Inventory>` snapshot in the selected chat/swipe is the authoritative state**.
 
 ```text
 <Inventory>
@@ -72,7 +72,13 @@ Coin Pouch | 1 | 100 Gold
 -->
 ```
 
-The `<Inventory>` data is still physically present in `message.mes` and remains the source of truth, but SillyTavern does not render the HTML comment into narration. Plain v0.5.0/v0.5.1 snapshots remain fully readable; when Inventory encounters a plain snapshot in a received, edited, swiped, or rendered assistant message, it normalizes only that machine block into the hidden envelope and keeps the story text unchanged.
+The `<Inventory>` data is still physically present in `message.mes` and remains the source of truth, but SillyTavern does not render the HTML comment into narration. Plain v0.5.0/v0.5.1 snapshots remain fully readable; when Inventory encounters a plain snapshot in a received, edited, swiped, or rendered assistant message, it normalizes only that machine block into the hidden envelope and keeps the story text unchanged. After re-rendering such a message it emits `MESSAGE_UPDATED`, as SillyTavern's own edit flow does, so extensions that decorate messages can restore their UI.
+
+Cell text is escaped so it can never break the envelope: `\` and `|` (and `]` in headers) get a backslash, and so do `-->` (written `--\>`) and `<Inventory` / `</Inventory` look-alikes. Escapes are reversed on parse. If a model writes a raw `-->` inside its snapshot anyway, the block is re-written as one canonical envelope the next time the message is normalized.
+
+Parsing rules: a header is a bracketed line whose only unescaped `]` is the final character, so an item such as `[Sealed] Letter | 1 |` stays an item while `[Food | Water]` stays a category. A repeated header continues the earlier section. Extra `|` separators in a row are kept as part of the remark. Duplicate item names within one category still reject the snapshot, and the generation prompt says so.
+
+Only a cut-off snapshot is treated as truncated: an unclosed `<!-- INVENTORY_BLOCK_V05` comment, or an `<Inventory>` tag alone on its line followed only by snapshot-shaped rows. Prose that merely mentions `<inventory>` is never touched.
 
 ## Generation
 
@@ -85,9 +91,13 @@ Before each foreground RP generation, Inventory Block:
 
 Stored chat messages are never stripped for prompt hygiene. Old snapshots stay in SillyTavern history for natural deletion/swipe rollback, while the model sees only the current snapshot.
 
+- **Chat completion:** the context is inserted as a system message after the leading system messages.
+- **Text completion:** the context is registered through SillyTavern's extension prompt (`IN_PROMPT`), so it lands inside the instruct template's story string rather than in front of it. The combined prompt is then cleaned around it. The extension prompt is cleared when the reply arrives.
+- **Background prompts** (quiet, impersonate, other extensions' generations) receive no Inventory instructions, and all historical snapshots except the newest are removed from them.
+
 The model is instructed to preserve every unchanged item/category, apply only completed changes, keep uncertain values unchanged, and never emit patches or deltas.
 
-There is no `generateRaw` reconciliation pass and no `INVENTORY_BLOCK_UPDATE` protocol in v0.5.
+There is no `generateRaw` reconciliation pass and no `INVENTORY_BLOCK_UPDATE` protocol (removed in v0.5).
 
 ## Manual editing
 
@@ -100,9 +110,9 @@ Because future prompt construction removes every historical snapshot and injects
 ## Regenerate, Swipe, Continue, Delete
 
 - **Normal / Continue:** use the latest valid snapshot currently present in the selected chat.
-- **Regenerate / Swipe:** use the latest valid snapshot before the assistant response being replaced.
+- **Regenerate / Swipe:** use the latest valid snapshot before the assistant response being replaced. When the chat ends with your own message (for example after a failed reply), nothing is replaced and the latest snapshot is used.
 - **Delete latest message:** exposes the previous surviving snapshot.
-- **Delete an older causal message while newer snapshots survive:** the newest surviving snapshot remains authoritative. v0.5 intentionally does not replay downstream history.
+- **Delete an older causal message while newer snapshots survive:** the newest surviving snapshot remains authoritative. Inventory intentionally does not replay downstream history.
 - **Malformed/omitted new snapshot:** previous valid snapshot remains current.
 
 ## UI
@@ -116,7 +126,7 @@ The pane adapts to its **own width** (CSS container queries), since the message 
 - **Wide (≥ 760px):** a resizable category tree on the left and the selected branch on the right. Selecting a parent shows every item beneath it, grouped by sub-category. Arrow keys navigate the tree.
 - **Narrower (< 760px, tablet and phone):** drill-down lists. The header shows a back button and a breadcrumb (middle levels collapse to `…`), sibling categories appear as a scrollable chip row, and each level lists its sub-categories followed by its own items. Below 480px, remarks move under the item name.
 - **Filter** searches every item across the whole tree (name, quantity, remark and path) and lists matches with their location.
-- **Δ changes** compares the current snapshot with the previous surviving one and lists added, changed, moved and removed items. Changed items get a coloured edge, changed categories get a dot, and each change links to its category.
+- **Δ changes** compares the current snapshot with the previous surviving one and lists added, changed, moved and removed items. When the newest reply carried no snapshot, the strip is labelled "earlier reply". Changed items get a coloured edge, changed categories get a dot, and each change links to its category.
 - Item names and remarks always wrap; only category labels are clamped to two lines, with the full path on hover.
 
 Selection, expanded tree nodes and the open state of the changes strip are remembered per chat while the extension is running.
@@ -128,14 +138,8 @@ The extension menu and settings panel provide:
 - Refresh / Rescan — re-reads the chat, hides any raw `<Inventory>` block still visible in narration, clears a generation session that never reported back, and reports which message the current snapshot comes from (warning when a newer block is malformed or truncated)
 - Sub-category depth
 
-There is no backend revision-history UI in v0.5 because SillyTavern messages/swipes are the history.
+There is no backend revision-history UI because SillyTavern messages/swipes are the history.
 
 ## Legacy archive
 
-The complete final pre-rewrite codebase is preserved at:
-
-```text
-legacy/v0.4.3/
-```
-
-It includes the old source, tests, docs, workflow, and release metadata. Legacy modules are not imported by the v0.5 runtime.
+The complete final pre-rewrite v0.4.3 codebase (source, tests, docs, workflow and release metadata) lived in `legacy/v0.4.3/` until v0.6.2. It was removed from the installed extension in v0.6.3 and remains in git history at commit [`1170298`](https://github.com/kohz87/inventory-block/tree/1170298720e055dc06e02748f73d33eadd606480/legacy/v0.4.3).

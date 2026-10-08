@@ -8,14 +8,19 @@ import {
     normalizeInventoryTransports,
     replaceOrAppendInventory,
     syncActiveSwipeText,
+    truncatedSnapshot,
 } from './src/snapshot.js';
-import { injectInventorySnapshot } from './src/prompt.js';
+import { buildInventoryGenerationPrompt, injectInventorySnapshot, stripHistoricalInventory } from './src/prompt.js';
 import { DEFAULT_MAX_DEPTH, MAX_MAX_DEPTH, MIN_MAX_DEPTH, clampDepth } from './src/tree.js';
 import { copyText, openInventoryEditor, renderInventoryPane } from './src/ui.js';
 import { initializeMeguminBridge, scheduleInventoryMount, setInventoryMountSuspended } from './src/megumin.js';
 
-const VERSION = '0.6.2';
+const VERSION = '0.6.3';
 const SETTINGS_KEY = 'inventoryBlock';
+const EXTENSION_PROMPT_KEY = 'inventory_block';
+// SillyTavern extension_prompt_types.IN_PROMPT / extension_prompt_roles.SYSTEM.
+const EXTENSION_PROMPT_IN_PROMPT = 0;
+const EXTENSION_PROMPT_ROLE_SYSTEM = 0;
 const SESSION_MAX_AGE_MS = 2 * 60 * 1000;
 const SESSION_RECHECK_MS = 15 * 1000;
 
@@ -47,10 +52,11 @@ function normalizeType(type) {
     return String(type ?? 'normal').trim().toLowerCase();
 }
 
+// SillyTavern's background generation types; Inventory drives only foreground replies.
 function isBackgroundGeneration(type, isDryRun = false) {
     if (isDryRun) return true;
     const lower = normalizeType(type);
-    return ['quiet', 'impersonate', 'raw', 'background', 'dryrun', 'dry-run'].some(token => lower.includes(token));
+    return lower === 'quiet' || lower === 'impersonate';
 }
 
 function settings(ctx = context()) {
@@ -77,6 +83,8 @@ function renderCurrentPane(pane) {
     renderInventoryPane(pane, snapshot?.state ?? emptyInventory(), {
         hasSnapshot: Boolean(snapshot),
         previousState: previous?.state ?? null,
+        // The newest reply carried no snapshot, so these changes belong to an earlier reply.
+        changesFromEarlierReply: Boolean(snapshot) && snapshot.messageIndex !== latestAssistantIndex(ctx?.chat ?? []),
         maxDepth: settings(ctx).maxDepth,
         onEdit: openEditor,
         onCopy: copyCurrentBlock,
@@ -99,10 +107,25 @@ function clearCleanupTimer(chatId) {
     cleanupTimers.delete(chatId);
 }
 
+/**
+ * Text-completion APIs receive the Inventory context through SillyTavern's
+ * extension prompt, which places it inside the instruct template's story string.
+ * Chat completion keeps the system message inserted at prompt-ready.
+ */
+function usesExtensionPrompt(ctx) {
+    return Boolean(ctx?.mainApi) && ctx.mainApi !== 'openai' && typeof ctx.setExtensionPrompt === 'function';
+}
+
+function setInventoryExtensionPrompt(ctx, value = '') {
+    if (typeof ctx?.setExtensionPrompt !== 'function') return;
+    ctx.setExtensionPrompt(EXTENSION_PROMPT_KEY, value, EXTENSION_PROMPT_IN_PROMPT, 0, false, EXTENSION_PROMPT_ROLE_SYSTEM);
+}
+
 function clearSession(chatId) {
     if (!chatId) return;
     clearCleanupTimer(chatId);
     pending.delete(chatId);
+    if (!pending.size) setInventoryExtensionPrompt(context(), '');
     syncMountSuspension();
 }
 
@@ -111,8 +134,9 @@ function scheduleSessionCleanup(chatId, delay = 3000) {
     cleanupTimers.set(chatId, setTimeout(() => clearSession(chatId), delay));
 }
 
-// SillyTavern shows its Stop button only while a response is generating.
+// SillyTavern marks <body data-generating="true"> and shows its Stop button while a reply generates.
 function generationRunning() {
+    if (document.body?.dataset?.generating === 'true') return true;
     const stop = document.getElementById('mes_stop');
     return Boolean(stop) && getComputedStyle(stop).display !== 'none';
 }
@@ -140,25 +164,19 @@ function prepareGeneration(type = 'normal', _params = null, isDryRun = false) {
         state: inventoryForGeneration(ctx.chat, type),
         startedAt: Date.now(),
     };
+    session.contextInPrompt = usesExtensionPrompt(ctx);
+    setInventoryExtensionPrompt(ctx, session.contextInPrompt ? buildInventoryGenerationPrompt(session.state, { maxDepth: settings(ctx).maxDepth }) : '');
     pending.set(chatId, session);
     armSessionWatchdog(chatId);
     syncMountSuspension();
     return session;
 }
 
-function freshPendingSessions() {
-    const now = Date.now();
-    for (const [chatId, session] of pending) {
-        if (now - session.startedAt > SESSION_MAX_AGE_MS) clearSession(chatId);
-    }
-    return [...pending.values()];
-}
-
+// Session lifetime is owned by the watchdog, which knows whether a reply is still generating.
 function selectPromptSession() {
-    const sessions = freshPendingSessions();
     const activeId = chatIdOf(context());
     if (activeId && pending.has(activeId)) return pending.get(activeId);
-    return sessions.length === 1 ? sessions[0] : null;
+    return pending.size === 1 ? [...pending.values()][0] : null;
 }
 
 async function onGenerationInterceptor(_chat, _contextSize, _abort, type = 'normal') {
@@ -174,10 +192,14 @@ globalThis.inventoryBlockGenerationInterceptor = onGenerationInterceptor;
 function onPromptReady(eventData = null) {
     if (eventData?.dryRun === true) return;
     const session = selectPromptSession();
-    if (!session) return;
-    const result = injectInventorySnapshot(eventData, session.state, { maxDepth: settings().maxDepth });
+    if (!session) {
+        // Background prompts (quiet, impersonate, other extensions) keep only the newest snapshot.
+        stripHistoricalInventory(eventData);
+        return;
+    }
+    const result = injectInventorySnapshot(eventData, session.state, { maxDepth: settings().maxDepth, contextInPrompt: session.contextInPrompt });
     if (!result.injected && result.reason !== 'unsupported-event') {
-        console.warn(`[Inventory Block] v0.5 prompt injection skipped: ${result.reason}`);
+        console.warn(`[Inventory Block] prompt injection skipped: ${result.reason}`);
     }
 }
 
@@ -189,7 +211,7 @@ function newestGeneratedBlockStatus(message) {
         if (latest.state) return { valid: true, malformed: false, truncated: false };
         return { valid: false, malformed: true, truncated: false, error: latest.error };
     }
-    return { valid: false, malformed: false, truncated: /<Inventory\b/i.test(text) };
+    return { valid: false, malformed: false, truncated: Boolean(truncatedSnapshot(text)) };
 }
 
 async function saveChat(ctx) {
@@ -199,8 +221,11 @@ async function saveChat(ctx) {
 
 async function persistMessageEdit(ctx, messageId, message, { rerender = true, save = true } = {}) {
     syncActiveSwipeText(message);
-    if (rerender && document.querySelector(`#chat .mes[mesid="${Number(messageId)}"]`)) {
-        ctx.updateMessageBlock?.(messageId, message);
+    if (rerender && document.querySelector(`#chat .mes[mesid="${Number(messageId)}"]`) && typeof ctx.updateMessageBlock === 'function') {
+        ctx.updateMessageBlock(messageId, message);
+        // Same contract as SillyTavern's own edit flow: extensions that decorate messages
+        // (Megumin Suite, NPC State, …) re-render theirs on MESSAGE_UPDATED.
+        if (ctx.eventTypes?.MESSAGE_UPDATED) await ctx.eventSource?.emit?.(ctx.eventTypes.MESSAGE_UPDATED, messageId);
     }
     if (save) await saveChat(ctx);
 }
@@ -504,6 +529,7 @@ export async function init() {
         return;
     }
     initialized = true;
+    setInventoryExtensionPrompt(context(), '');
     ensureExtensionUi();
     initializeMeguminBridge(renderCurrentPane);
     registerEvents();

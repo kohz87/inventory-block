@@ -1,5 +1,38 @@
 # Changelog
 
+## 0.6.3
+
+Audit fixes: data-loss bugs, prompt hygiene, cleanup.
+
+Data loss and corruption:
+- **Regenerate after a failed reply** no longer rolls Inventory back one turn. Regenerate/Swipe now exclude the final message only when it is an assistant reply.
+- **Prose mentioning `<inventory>`** is no longer treated as a cut-off snapshot. Previously the rest of that prompt text was deleted before sending, and the rest of a received reply was hidden in the transport comment. Truncation now requires an unclosed envelope or a tag alone on its line followed by snapshot-shaped rows.
+- **`-->` inside item text** can no longer break the hidden envelope. The formatter escapes it (`--\>`, reversed on parse), along with `<Inventory`/`</Inventory` look-alikes. A raw `-->` written by the model is repaired into one canonical envelope (idempotently, instead of adding a wrapper on every pass), and prompt stripping no longer leaves fragments behind.
+- **Bracketed item rows** such as `[Sealed] Letter | 1 |` stay items. A header is now a bracketed line whose only unescaped `]` is the last character, so existing headers like `[Food | Water]` still parse as categories.
+- **Category names containing `]`** no longer gain a backslash on every save. Headers now escape `\`, `|` and `]`, and the parser unescapes them; headers written by earlier versions read back correctly.
+
+Rules and prompts:
+- Repeated category headers merge into one section instead of invalidating the snapshot, and extra `|` in a row stays in the remark. Duplicate item names within a category are still rejected, and the generation prompt now states every constraint the parser enforces.
+- Background prompts (quiet, impersonate, other extensions) no longer carry every historical hidden snapshot: all but the newest are removed, and no Inventory instructions are added.
+- Text-completion APIs receive the Inventory context through SillyTavern's extension prompt (`IN_PROMPT`), inside the instruct template, instead of in front of the whole combined prompt. Chat completion is unchanged.
+- Look-alike tags such as `<Inventory-notes>` are no longer parsed as Inventory blocks.
+
+Runtime and UI:
+- Re-rendering a normalized message now emits `MESSAGE_UPDATED`, as SillyTavern's own edit flow does, so Megumin Suite and other extensions can restore their message UI (affects receive, swipe/edit normalization and Rescan).
+- Generation detection prefers SillyTavern's `body[data-generating]` flag, falling back to the Stop button.
+- Pending-session lifetime is owned by the watchdog alone; the separate 2-minute expiry, which ignored running generations, is gone.
+- The changes strip is labelled "earlier reply" when the newest reply carried no snapshot.
+- A refresh no longer steals focus and caret from the filter box.
+- → on an expanded tree node moves to its first child.
+- The editor no longer falls back to a single-line `window.prompt` that could not hold a multi-line block.
+
+Cleanup:
+- CI's diff check now checks the PR/push range; the old bare `git diff --check` on a clean checkout never found anything.
+- Removed dead code: `INVENTORY_TAG`, `findNode`, the unused `stripTrailingTruncated` option, non-existent generation types (`raw`, `background`, `dryrun`, `dry-run`), the unreachable `first_message` baseline branch, and `hideRawInventoryElements()`, which duplicated a CSS rule.
+- Removed `legacy/v0.4.3/` (49 files) from the installed extension; it stays in git history (see README).
+- Replaced stale "v0.5" labels in logs, README and test names.
+- Added `tests/runtime.test.js`, which drives the real `index.js` event flow against a fake SillyTavern, and `tests/v063-audit.test.js` with a regression test per fix. `tests/index-static.test.js` (source regexes) is superseded by the runtime test.
+
 ## 0.6.2
 
 Refresh / Rescan hotfix.
