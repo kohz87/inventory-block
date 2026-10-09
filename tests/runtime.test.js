@@ -90,6 +90,11 @@ ctx.eventSource.on(eventTypes.MESSAGE_SWIPED, () => { emitted.push(['decorator']
 
 await import('../index.js');
 const emit = (type, ...args) => ctx.eventSource.emit(eventTypes[type], ...args);
+// A reply prompt as SillyTavern builds it: extension prompts sit next to the main prompt.
+const replyChat = (...messages) => ({
+    chat: [{ role: 'system', content: 'rules' }, ...(extensionPrompts.inventory_block ? [{ role: 'system', content: extensionPrompts.inventory_block }] : []), ...messages],
+    dryRun: false,
+});
 const finish = async () => {
     // Clears the pending session (and its watchdog timer) the way a received reply does.
     ctx.chat.push({ is_user: false, is_system: false, mes: 'reply' });
@@ -99,10 +104,11 @@ const finish = async () => {
 test('chat completion: foreground prompt gets exactly one current snapshot', async () => {
     ctx.chat = [{ is_user: false, mes: `Hi.\n${block(100)}` }, { is_user: true, mes: 'buy' }, { is_user: false, mes: `Bought.\n${block(90)}` }];
     await emit('GENERATION_AFTER_COMMANDS', 'normal', {}, false);
-    const event = { chat: ctx.chat.map(m => ({ role: m.is_user ? 'user' : 'assistant', content: m.mes })), dryRun: false };
+    const event = replyChat(...ctx.chat.map(m => ({ role: m.is_user ? 'user' : 'assistant', content: m.mes })));
     await emit('CHAT_COMPLETION_PROMPT_READY', event);
     const text = JSON.stringify(event.chat);
-    assert.match(text, /90 Gold/);
+    assert.match(text, /INVENTORY_BLOCK_V05_CONTEXT_BEGIN[\s\S]*90 Gold/);
+    assert.doesNotMatch(text, /\\u200b|\u200b/, 'placeholder replaced by the real context');
     assert.doesNotMatch(text, /100 Gold/);
     assert.equal((text.match(/<Inventory>/g) ?? []).length, 1);
     await finish();
@@ -111,7 +117,7 @@ test('chat completion: foreground prompt gets exactly one current snapshot', asy
 test('regenerate after a failed reply keeps the newest snapshot as baseline', async () => {
     ctx.chat = [{ is_user: false, mes: block(100) }, { is_user: true, mes: 'buy' }, { is_user: false, mes: block(90) }, { is_user: true, mes: 'go on' }];
     await emit('GENERATION_AFTER_COMMANDS', 'regenerate', {}, false);
-    const event = { chat: [{ role: 'system', content: 'rules' }], dryRun: false };
+    const event = replyChat();
     await emit('CHAT_COMPLETION_PROMPT_READY', event);
     assert.match(JSON.stringify(event.chat), /90 Gold/);
     await finish();
@@ -120,7 +126,7 @@ test('regenerate after a failed reply keeps the newest snapshot as baseline', as
 test('regenerate of an assistant reply uses the snapshot before it', async () => {
     ctx.chat = [{ is_user: false, mes: block(100) }, { is_user: true, mes: 'buy' }, { is_user: false, mes: block(90) }];
     await emit('GENERATION_AFTER_COMMANDS', 'regenerate', {}, false);
-    const event = { chat: [{ role: 'system', content: 'rules' }], dryRun: false };
+    const event = replyChat();
     await emit('CHAT_COMPLETION_PROMPT_READY', event);
     assert.match(JSON.stringify(event.chat), /100 Gold/);
     await finish();
@@ -184,7 +190,7 @@ test('an edited message is normalized before SillyTavern renders it, with no re-
 test('chat completion: prompts after the foreground one get no instructions', async () => {
     ctx.chat = [{ is_user: false, mes: block(100) }, { is_user: true, mes: 'buy' }, { is_user: false, mes: block(90) }];
     await emit('GENERATION_AFTER_COMMANDS', 'normal', {}, false);
-    const foreground = { chat: [{ role: 'system', content: 'rules' }], dryRun: false };
+    const foreground = replyChat();
     await emit('CHAT_COMPLETION_PROMPT_READY', foreground);
     assert.match(JSON.stringify(foreground.chat), /CONTEXT_BEGIN/);
     // Another extension generates while the reply is still pending.
@@ -269,7 +275,7 @@ test('Continue that finishes a cut-off row keeps that turn\'s snapshot', async (
     await emit('MESSAGE_RECEIVED', 2);
     assert.equal((ctx.chat[2].mes.match(/INVENTORY_BLOCK_V05/g) ?? []).length, 1);
     await emit('GENERATION_AFTER_COMMANDS', 'normal', {}, false);
-    const event = { chat: [{ role: 'system', content: 'rules' }], dryRun: false };
+    const event = replyChat();
     await emit('CHAT_COMPLETION_PROMPT_READY', event);
     assert.match(JSON.stringify(event.chat), /90 Gold/, 'the continued snapshot is current');
     await finish();
@@ -330,10 +336,62 @@ test('chat completion: history copies embedded in a user message are removed, wr
 test('reasoning is moved out before Inventory checks a reply, so a draft in <think> cannot hide a missing snapshot', async () => {
     ctx.chat = [{ is_user: false, mes: block(90) }, { is_user: true, mes: 'pay' }];
     await emit('GENERATION_AFTER_COMMANDS', 'normal', {}, false);
-    await emit('CHAT_COMPLETION_PROMPT_READY', { chat: [{ role: 'system', content: 'rules' }], dryRun: false });
+    await emit('CHAT_COMPLETION_PROMPT_READY', replyChat());
     ctx.chat.push({ is_user: false, is_system: false, mes: '<think>Draft:\n<Inventory>\nCoin Pouch | 1 | 80 Gold\n</Inventory>\n</think>\nShe paid.' });
     notices.length = 0;
     await emit('MESSAGE_RECEIVED', 2);
     assert.equal(ctx.chat[2].mes, 'She paid.', 'reasoning parsed before Inventory touched the reply');
     assert.ok(notices.some(notice => /omitted a valid Inventory snapshot/.test(notice)), notices.join('\n'));
+});
+
+test('chat completion: a raw call by an extension loaded after Inventory does not take the reply\'s context', async () => {
+    const raw = async type => { if (type === 'normal') await emit('CHAT_COMPLETION_PROMPT_READY', { chat: [{ role: 'user', content: 'Plan the next scene.' }], dryRun: false }); };
+    ctx.eventSource.on(eventTypes.GENERATION_AFTER_COMMANDS, raw);
+    try {
+        ctx.chat = [{ is_user: false, mes: block(90) }, { is_user: true, mes: 'go' }];
+        await emit('GENERATION_AFTER_COMMANDS', 'normal', {}, false);
+        const reply = replyChat({ role: 'user', content: 'go' });
+        await emit('CHAT_COMPLETION_PROMPT_READY', reply);
+        await finish();
+        assert.match(JSON.stringify(reply.chat), /INVENTORY_BLOCK_V05_CONTEXT_BEGIN[\s\S]*90 Gold/);
+    } finally {
+        handlers[eventTypes.GENERATION_AFTER_COMMANDS] = handlers[eventTypes.GENERATION_AFTER_COMMANDS].filter(fn => fn !== raw);
+    }
+});
+
+test('fallback: without the extension-prompt API every reply prompt still gets the context', async () => {
+    const setExtensionPrompt = ctx.setExtensionPrompt;
+    delete ctx.setExtensionPrompt;
+    try {
+        ctx.chat = [{ is_user: false, mes: block(90) }, { is_user: true, mes: 'go' }];
+        await emit('GENERATION_AFTER_COMMANDS', 'normal', {}, false);
+        const reply = { chat: [{ role: 'system', content: 'rules' }], dryRun: false };
+        await emit('CHAT_COMPLETION_PROMPT_READY', reply);
+        await finish();
+        assert.match(JSON.stringify(reply.chat), /INVENTORY_BLOCK_V05_CONTEXT_BEGIN[\s\S]*90 Gold/);
+    } finally {
+        ctx.setExtensionPrompt = setExtensionPrompt;
+    }
+});
+
+test('the settings panel reports whether the last reply got the inventory context', async () => {
+    const status = fixed['#extensions_settings'].children[0];
+    ctx.chat = [{ is_user: false, mes: block(90) }, { is_user: true, mes: 'go' }];
+    const statusEl = { textContent: '' };
+    const getElementById = document.getElementById;
+    document.getElementById = id => (id === 'inventory_block_settings_status' ? statusEl : null);
+    try {
+        await emit('GENERATION_AFTER_COMMANDS', 'normal', {}, false);
+        await emit('CHAT_COMPLETION_PROMPT_READY', replyChat());
+        assert.match(statusEl.textContent, /inventory context injected \(1 item, placeholder found, chat completion\)/);
+        await finish();
+        // A reply whose prompts never carry the placeholder (after it has been seen once) is reported.
+        await emit('GENERATION_AFTER_COMMANDS', 'normal', {}, false);
+        await emit('CHAT_COMPLETION_PROMPT_READY', { chat: [{ role: 'user', content: 'raw' }], dryRun: false });
+        await finish();
+        assert.match(statusEl.textContent, /none of its 1 prompt\(s\) carried the Inventory placeholder/);
+    } finally {
+        document.getElementById = getElementById;
+    }
+    assert.ok(status);
 });

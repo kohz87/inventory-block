@@ -180,13 +180,13 @@ export function injectInventorySnapshot(eventData, state, options = {}) {
     }
 
     if (typeof eventData.prompt === 'string') {
-        if (options.contextInPrompt) {
-            const sanitized = sanitizeAroundContext(eventData.prompt, prompt);
-            if (sanitized === null) return { injected: false, reason: 'no-context-marker' };
+        // The placeholder SillyTavern placed inside the instruct template is replaced in place.
+        const sanitized = sanitizeAroundContext(eventData.prompt, prompt);
+        if (sanitized !== null) {
             eventData.prompt = sanitized;
             return { injected: true, kind: 'text-extension-prompt' };
         }
-        // Fallback when the extension prompt is unavailable: prepend to the combined prompt.
+        // Fallback when no placeholder landed: prepend to the combined prompt.
         const clean = sanitizeText(eventData.prompt);
         eventData.prompt = `${prompt}\n${clean}`;
         return { injected: true, kind: 'text' };

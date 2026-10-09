@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.6.7
+
+Inventory context not injected.
+
+- **Fixes the reply's prompt getting no inventory context.** Since v0.6.4, chat completion injected into the *first* prompt built after a reply started. A raw chat-completion call that another extension makes in that window took the context instead, and the reply got nothing. Examples: a planning or tracker pass from its `GENERATION_AFTER_COMMANDS` handler or generate interceptor, by an extension loaded after Inventory. The reply's prompt is now recognised by a placeholder registered through SillyTavern's extension prompt, for chat completion as well as text completion. SillyTavern adds extension prompts only to prompts it builds for a generation, never to raw generations.
+- Fallback for setups where the placeholder never shows (SillyTavern drops extension prompts when the Prompt Manager has no main prompt, or no extension-prompt API): prompts built after Inventory's generate interceptor runs still get the context, as before v0.6.4.
+- The settings panel now shows whether the last reply's prompt got the inventory context (item count, how it was found, which API), or warns that none of its prompts carried the placeholder. The same line is logged to the console.
+- Tests: a runtime regression for a raw call by an extension loaded after Inventory (it fails on v0.6.6), the no-extension-prompt fallback, and the status line. Reply prompts in the runtime tests now carry the placeholder as SillyTavern builds them.
+
 ## 0.6.6
 
 Fourth audit pass.
