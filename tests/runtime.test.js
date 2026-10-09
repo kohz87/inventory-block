@@ -56,6 +56,7 @@ const eventTypes = Object.fromEntries([
 
 const block = gold => formatInventoryTransport({ categories: [{ name: 'General', items: [{ name: 'Coin Pouch', quantity: '1', remark: `${gold} Gold` }] }] });
 const extensionPrompts = {};
+const extensionPromptPositions = {};
 const notices = [];
 globalThis.toastr = Object.fromEntries(['success', 'info', 'warning', 'error'].map(level => [level, message => notices.push(`${level}: ${message}`)]));
 const ctx = {
@@ -66,7 +67,7 @@ const ctx = {
     saveSettingsDebounced() {},
     async saveChat() {},
     updateMessageBlock(id) { emitted.push(['updateMessageBlock', id]); },
-    setExtensionPrompt(key, value) { extensionPrompts[key] = value; },
+    setExtensionPrompt(key, value, position) { extensionPrompts[key] = value; extensionPromptPositions[key] = position; },
     eventTypes,
     eventSource: {
         on(type, fn) { (handlers[type] ??= []).push(fn); },
@@ -90,11 +91,14 @@ ctx.eventSource.on(eventTypes.MESSAGE_SWIPED, () => { emitted.push(['decorator']
 
 await import('../index.js');
 const emit = (type, ...args) => ctx.eventSource.emit(eventTypes[type], ...args);
-// A reply prompt as SillyTavern builds it: extension prompts sit next to the main prompt.
-const replyChat = (...messages) => ({
-    chat: [{ role: 'system', content: 'rules' }, ...(extensionPrompts.inventory_block ? [{ role: 'system', content: extensionPrompts.inventory_block }] : []), ...messages],
-    dryRun: false,
-});
+// A reply prompt as SillyTavern builds it for a preset with Main Prompt disabled: in-prompt
+// (relative) extension prompts are dropped, in-chat ones at depth 0 follow the history.
+const replyChat = (...messages) => {
+    const placeholder = extensionPrompts.inventory_block && extensionPromptPositions.inventory_block === 1
+        ? [{ role: 'system', content: extensionPrompts.inventory_block }]
+        : [];
+    return { chat: [{ role: 'system', content: 'rules' }, ...messages, ...placeholder], dryRun: false };
+};
 const finish = async () => {
     // Clears the pending session (and its watchdog timer) the way a received reply does.
     ctx.chat.push({ is_user: false, is_system: false, mes: 'reply' });
@@ -357,6 +361,21 @@ test('chat completion: a raw call by an extension loaded after Inventory does no
     } finally {
         handlers[eventTypes.GENERATION_AFTER_COMMANDS] = handlers[eventTypes.GENERATION_AFTER_COMMANDS].filter(fn => fn !== raw);
     }
+});
+
+test('chat completion: the placeholder is in-chat, so presets without a Main Prompt still carry it', async () => {
+    ctx.chat = [{ is_user: false, mes: block(90) }, { is_user: true, mes: 'go' }];
+    await emit('GENERATION_AFTER_COMMANDS', 'normal', {}, false);
+    assert.equal(extensionPromptPositions.inventory_block, 1, 'IN_CHAT for chat completion');
+    // Another extension's depth-0 system prompt shares the same in-chat message.
+    const reply = { chat: [{ role: 'system', content: 'rules' }, { role: 'user', content: 'go' }, { role: 'system', content: `Weather: rain\n${extensionPrompts.inventory_block}` }], dryRun: false };
+    await emit('CHAT_COMPLETION_PROMPT_READY', reply);
+    await finish();
+    const contexts = reply.chat.filter(m => /INVENTORY_BLOCK_V05_CONTEXT_BEGIN/.test(m.content));
+    assert.equal(contexts.length, 1, 'placeholder replaced, not duplicated');
+    assert.equal(reply.chat[1], contexts[0], 'context sits after the leading system messages');
+    assert.match(contexts[0].content, /90 Gold/);
+    assert.equal(reply.chat.at(-1).content.trim(), 'Weather: rain', 'the shared message keeps the other prompt');
 });
 
 test('fallback: without the extension-prompt API every reply prompt still gets the context', async () => {

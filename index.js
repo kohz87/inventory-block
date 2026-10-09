@@ -19,8 +19,9 @@ import { initializeMeguminBridge, scheduleInventoryMount, setInventoryMountSuspe
 const VERSION = '0.6.7';
 const SETTINGS_KEY = 'inventoryBlock';
 const EXTENSION_PROMPT_KEY = 'inventory_block';
-// SillyTavern extension_prompt_types.IN_PROMPT / extension_prompt_roles.SYSTEM.
+// SillyTavern extension_prompt_types.IN_PROMPT / IN_CHAT and extension_prompt_roles.SYSTEM.
 const EXTENSION_PROMPT_IN_PROMPT = 0;
+const EXTENSION_PROMPT_IN_CHAT = 1;
 const EXTENSION_PROMPT_ROLE_SYSTEM = 0;
 const SESSION_MAX_AGE_MS = 2 * 60 * 1000;
 const SESSION_RECHECK_MS = 15 * 1000;
@@ -123,9 +124,13 @@ function usesExtensionPrompt(ctx) {
     return typeof ctx?.setExtensionPrompt === 'function';
 }
 
+// Chat completion places in-prompt extension prompts next to the Main Prompt and drops
+// them when a preset disables it, so the placeholder goes in-chat there (it is removed
+// again at prompt-ready). Text completion keeps it inside the story string.
 function setInventoryExtensionPrompt(ctx, value = '') {
     if (typeof ctx?.setExtensionPrompt !== 'function') return;
-    ctx.setExtensionPrompt(EXTENSION_PROMPT_KEY, value, EXTENSION_PROMPT_IN_PROMPT, 0, false, EXTENSION_PROMPT_ROLE_SYSTEM);
+    const position = ctx.mainApi === 'openai' ? EXTENSION_PROMPT_IN_CHAT : EXTENSION_PROMPT_IN_PROMPT;
+    ctx.setExtensionPrompt(EXTENSION_PROMPT_KEY, value, position, 0, false, EXTENSION_PROMPT_ROLE_SYSTEM);
 }
 
 // Shown in the settings panel and logged, so a missing injection can be diagnosed.
