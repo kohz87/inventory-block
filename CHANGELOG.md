@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.6.7
+
+Inventory context not injected.
+
+- **Fixes the reply's prompt getting no inventory context.** Since v0.6.4, chat completion injected into the *first* prompt built after a reply started. A raw chat-completion call that another extension makes in that window took the context instead, and the reply got nothing. Examples: a planning or tracker pass from its `GENERATION_AFTER_COMMANDS` handler or generate interceptor, by an extension loaded after Inventory. The reply's prompt is now recognised by a placeholder registered through SillyTavern's extension prompt, for chat completion as well as text completion. SillyTavern adds extension prompts only to prompts it builds for a generation, never to raw generations.
+- **Chat completion places the placeholder in-chat** (depth 0, system role). SillyTavern inserts in-prompt extension prompts next to the Main Prompt and silently drops them when a preset disables it, which many community presets do. In-chat extension prompts are always inserted. The placeholder is removed at prompt-ready; if it shares a message with another extension's in-chat prompt, only its own part is removed. Text completion keeps it in the story string.
+- Fallback for setups where the placeholder never shows (no extension-prompt API, or a prompt layout that drops it): prompts built after Inventory's generate interceptor runs still get the context, as before v0.6.4.
+- The settings panel now shows whether the last reply's prompt got the inventory context (item count, how it was found, which API), or warns that none of its prompts carried the placeholder. The same line is logged to the console.
+- Tests: a runtime regression for a raw call by an extension loaded after Inventory (it fails on v0.6.6), the no-extension-prompt fallback, an in-chat placeholder that shares its message with another extension's prompt, and the status line. Reply prompts in the runtime tests are now built as SillyTavern builds them for a preset with Main Prompt disabled.
+
 ## 0.6.6
 
 Fourth audit pass.

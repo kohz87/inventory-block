@@ -16,16 +16,20 @@ import { DEFAULT_MAX_DEPTH, MAX_MAX_DEPTH, MIN_MAX_DEPTH, clampDepth } from './s
 import { copyText, openInventoryEditor, renderInventoryPane } from './src/ui.js';
 import { initializeMeguminBridge, scheduleInventoryMount, setInventoryMountSuspended } from './src/megumin.js';
 
-const VERSION = '0.6.6';
+const VERSION = '0.6.7';
 const SETTINGS_KEY = 'inventoryBlock';
 const EXTENSION_PROMPT_KEY = 'inventory_block';
-// SillyTavern extension_prompt_types.IN_PROMPT / extension_prompt_roles.SYSTEM.
+// SillyTavern extension_prompt_types.IN_PROMPT / IN_CHAT and extension_prompt_roles.SYSTEM.
 const EXTENSION_PROMPT_IN_PROMPT = 0;
+const EXTENSION_PROMPT_IN_CHAT = 1;
 const EXTENSION_PROMPT_ROLE_SYSTEM = 0;
 const SESSION_MAX_AGE_MS = 2 * 60 * 1000;
 const SESSION_RECHECK_MS = 15 * 1000;
 
 let initialized = false;
+// Set once a reply's prompt has been seen carrying the Inventory placeholder; from then on
+// a prompt without it is never mistaken for a reply's (see isForegroundPrompt).
+let contextMarkerSeen = false;
 let eventsRegistered = false;
 let uiRetry = null;
 const pending = new Map();
@@ -109,22 +113,40 @@ function clearCleanupTimer(chatId) {
 }
 
 /**
- * Text-completion APIs receive the Inventory context through SillyTavern's
- * extension prompt, which places it inside the instruct template's story string.
- * Chat completion keeps the system message inserted at prompt-ready.
+ * Every reply registers a macro-defused placeholder through SillyTavern's extension prompt.
+ * SillyTavern puts extension prompts only into prompts it builds for a generation (inside
+ * the instruct story string for text completion, next to the main prompt for chat
+ * completion), never into raw generations by other extensions, so the prompt carrying the
+ * placeholder is the reply's. At prompt-ready the placeholder is replaced by the real
+ * context (text completion) or by the usual system message (chat completion).
  */
 function usesExtensionPrompt(ctx) {
-    return Boolean(ctx?.mainApi) && ctx.mainApi !== 'openai' && typeof ctx.setExtensionPrompt === 'function';
+    return typeof ctx?.setExtensionPrompt === 'function';
 }
 
+// Chat completion places in-prompt extension prompts next to the Main Prompt and drops
+// them when a preset disables it, so the placeholder goes in-chat there (it is removed
+// again at prompt-ready). Text completion keeps it inside the story string.
 function setInventoryExtensionPrompt(ctx, value = '') {
     if (typeof ctx?.setExtensionPrompt !== 'function') return;
-    ctx.setExtensionPrompt(EXTENSION_PROMPT_KEY, value, EXTENSION_PROMPT_IN_PROMPT, 0, false, EXTENSION_PROMPT_ROLE_SYSTEM);
+    const position = ctx.mainApi === 'openai' ? EXTENSION_PROMPT_IN_CHAT : EXTENSION_PROMPT_IN_PROMPT;
+    ctx.setExtensionPrompt(EXTENSION_PROMPT_KEY, value, position, 0, false, EXTENSION_PROMPT_ROLE_SYSTEM);
+}
+
+// Shown in the settings panel and logged, so a missing injection can be diagnosed.
+function reportInjection(text, level = 'info') {
+    const status = globalThis.document?.getElementById?.('inventory_block_settings_status');
+    if (status) status.textContent = `${new Date().toLocaleTimeString()} · ${text}`;
+    console[level === 'warn' ? 'warn' : 'info'](`[Inventory Block] ${text}`);
 }
 
 function clearSession(chatId) {
     if (!chatId) return;
     clearCleanupTimer(chatId);
+    const session = pending.get(chatId);
+    if (session && !session.injected && session.promptsSeen > 0) {
+        reportInjection(`Last reply: none of its ${session.promptsSeen} prompt(s) carried the Inventory placeholder, so no inventory context was sent.`, 'warn');
+    }
     pending.delete(chatId);
     if (!pending.size) setInventoryExtensionPrompt(context(), '');
     syncMountSuspension();
@@ -174,6 +196,11 @@ function prepareGeneration(type = 'normal', _params = null, isDryRun = false) {
         contextInPrompt: usesExtensionPrompt(ctx),
         consumed: false,
         backgroundPrompts: 0,
+        // Set when Inventory's generate interceptor runs, i.e. once this reply's own prompt
+        // is about to be built; used only by the fallback when the placeholder never shows.
+        armed: false,
+        injected: false,
+        promptsSeen: 0,
     };
     setInventoryExtensionPrompt(ctx, session.contextInPrompt ? defuseMacros(buildInventoryGenerationPrompt(session.state, { maxDepth: settings(ctx).maxDepth })) : '');
     pending.set(chatId, session);
@@ -195,25 +222,41 @@ async function onGenerationInterceptor(_chat, _contextSize, _abort, type = 'norm
     if (!ctx || !hasActiveChat(ctx)) return;
     const chatId = chatIdOf(ctx);
     if (!pending.has(chatId)) prepareGeneration(type);
+    const session = pending.get(chatId);
+    if (session) session.armed = true;
 }
 
 globalThis.inventoryBlockGenerationInterceptor = onGenerationInterceptor;
 
+function promptCarriesContext(eventData) {
+    if (typeof eventData?.prompt === 'string') return hasInventoryContext(eventData.prompt);
+    if (!Array.isArray(eventData?.chat)) return false;
+    return eventData.chat.some(message => {
+        const content = message?.content;
+        if (typeof content === 'string') return hasInventoryContext(content);
+        return Array.isArray(content) && content.some(part => hasInventoryContext(typeof part === 'string' ? part : part?.text));
+    });
+}
+
 /**
- * Only the foreground reply's own prompt receives Inventory instructions. Other
- * prompts that fire while a reply is pending (raw or quiet generations by
- * other extensions) are background prompts. Text completion recognises the foreground
- * prompt exactly by the context SillyTavern placed into it; chat completion takes the
- * first prompt after the generation started.
+ * Only the reply's own prompt receives Inventory instructions; raw or quiet generations by
+ * other extensions while the reply is pending are background prompts. The reply's prompt is
+ * the one carrying the placeholder (`marked`); quiet/impersonate generations started before
+ * it carry it too and are counted. Returns 'marked', 'fallback' or null.
+ *
+ * Fallback, while the placeholder has never been seen (a setup where SillyTavern drops
+ * extension prompts, or no extension-prompt API): prompts built after Inventory's generate
+ * interceptor ran get the context without consuming the session, as before v0.6.4.
  */
-function isForegroundPrompt(session, eventData) {
-    if (!session || session.consumed) return false;
-    const candidate = session.contextInPrompt && typeof eventData?.prompt === 'string' ? hasInventoryContext(eventData.prompt) : true;
-    if (candidate && session.backgroundPrompts > 0) {
+function foregroundKind(session, eventData) {
+    if (!session || session.consumed) return null;
+    const marked = session.contextInPrompt && promptCarriesContext(eventData);
+    const kind = marked ? 'marked' : (!session.contextInPrompt || (!contextMarkerSeen && session.armed)) ? 'fallback' : null;
+    if (kind && session.backgroundPrompts > 0) {
         session.backgroundPrompts -= 1;
-        return false;
+        return null;
     }
-    return candidate;
+    return kind;
 }
 
 // Visible snapshot blocks in chat history, so copies embedded in user/system content by
@@ -230,17 +273,27 @@ function onPromptReady(eventData = null) {
     if (eventData?.dryRun === true) return;
     const session = selectPromptSession();
     const knownBlocks = Array.isArray(eventData?.chat) ? historyBlocks(context()) : null;
-    if (!isForegroundPrompt(session, eventData)) {
+    if (session && !session.consumed) session.promptsSeen += 1;
+    const kind = foregroundKind(session, eventData);
+    if (!kind) {
         // Background prompts get no instructions and keep only the newest snapshot.
         stripHistoricalInventory(eventData, { knownBlocks });
         return;
     }
-    const result = injectInventorySnapshot(eventData, session.state, { maxDepth: settings().maxDepth, contextInPrompt: session.contextInPrompt, knownBlocks });
+    const result = injectInventorySnapshot(eventData, session.state, { maxDepth: settings().maxDepth, knownBlocks });
     if (result.injected) {
+        session.injected = true;
+        const items = session.state.categories.reduce((sum, category) => sum + category.items.length, 0);
+        reportInjection(`Last reply: inventory context injected (${items} ${items === 1 ? 'item' : 'items'}, ${kind === 'marked' ? 'placeholder found' : 'fallback'}, ${Array.isArray(eventData?.chat) ? 'chat completion' : 'text completion'}).`);
+    }
+    if (result.injected && kind === 'marked') {
+        contextMarkerSeen = true;
         session.consumed = true;
         // The context is needed for this one prompt; later quiet prompts must not inherit it.
-        if (session.contextInPrompt) setInventoryExtensionPrompt(context(), '');
-    } else if (result.reason !== 'unsupported-event') {
+        setInventoryExtensionPrompt(context(), '');
+    } else if (result.injected && !session.contextInPrompt) {
+        session.consumed = true;
+    } else if (!result.injected && result.reason !== 'unsupported-event') {
         console.warn(`[Inventory Block] prompt injection skipped: ${result.reason}`);
     }
 }
@@ -473,6 +526,7 @@ function addSettingsPanel(documentRef) {
                             .map(depth => `<option value="${depth}">${depth === 1 ? '1 (no nesting)' : depth}</option>`).join('')}
                     </select>
                 </label>
+                <div id="inventory_block_settings_status" class="inventory-block-settings-note">No reply generated yet in this session.</div>
                 <div class="inventory-block-settings-note">Sub-categories use full-path headers such as [Wagon &gt; Food]. Paths deeper than this limit are folded into their last level; nothing is hidden.</div>
                 <div class="inventory-block-settings-note">The latest valid surviving &lt;Inventory&gt; snapshot in the selected chat/swipe is the source of truth. There is no separate backend revision database.</div>
             </div>

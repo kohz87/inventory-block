@@ -76,9 +76,13 @@ test('L6: bare: false removes only Inventory envelopes', () => {
     assert.equal(stripInventoryBlocks(text), 'Example:\n\nHistory:\n');
 });
 
-test('M2: a text prompt without the context marker is not treated as foreground', () => {
-    const event = { prompt: 'Summarize this.', dryRun: false };
-    assert.deepEqual(injectInventorySnapshot(event, undefined, { contextInPrompt: true }), { injected: false, reason: 'no-context-marker' });
-    assert.equal(event.prompt, 'Summarize this.');
-    assert.equal(hasInventoryContext(buildInventoryGenerationPrompt()), true);
+test('M2: a text prompt carrying the placeholder gets it replaced in place; otherwise the context is prepended', () => {
+    const placeholder = buildInventoryGenerationPrompt();
+    assert.equal(hasInventoryContext(placeholder), true);
+    const marked = { prompt: `<|im_start|>system\n${placeholder}<|im_end|>\nhistory`, dryRun: false };
+    assert.equal(injectInventorySnapshot(marked, undefined).kind, 'text-extension-prompt');
+    assert.ok(marked.prompt.startsWith('<|im_start|>system'));
+    const unmarked = { prompt: 'history', dryRun: false };
+    assert.equal(injectInventorySnapshot(unmarked, undefined).kind, 'text');
+    assert.ok(unmarked.prompt.startsWith('INVENTORY_BLOCK_V05_CONTEXT_BEGIN'));
 });
