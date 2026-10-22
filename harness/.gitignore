@@ -2,3 +2,4 @@ st/
 inst/
 break/
 st-first.log
+inst-*.env

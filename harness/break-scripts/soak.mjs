@@ -110,6 +110,8 @@ if (RESUME) {
 chatId = await ev(async CHAR_NAME => {
         const ctx = SillyTavern.getContext();
         ctx.powerUserSettings.personas['user-default.png'] = 'Wessel';
+        // Features are the reader's (extension settings), not the chat's: a fresh run starts at the defaults.
+        if (ctx.extensionSettings.storySuite) ctx.extensionSettings.storySuite.features = {};
         await ctx.executeSlashCommandsWithOptions('/persona-set mode=temp Wessel');
         ctx.saveSettingsDebounced();
         await ctx.selectCharacterById(String(ctx.characters.findIndex(c => c.name === CHAR_NAME)));
