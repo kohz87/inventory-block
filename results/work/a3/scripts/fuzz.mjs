@@ -10,6 +10,7 @@ const { STATIC_KEY, TAIL_KEY } = turnMod;
 
 const args = process.argv.slice(2);
 const FROM = Number(args[0] ?? 1), TO = Number(args[1] ?? FROM), STEPS = Number(args[2] ?? 60);
+const MID = args.includes('--p2');
 const VERBOSE = args.includes('-v'), KNOWN = args.includes('--known'), STOP = args.includes('--stop');
 const J = v => JSON.stringify(v ?? null);
 const isCarrier = m => m && !m.is_user;
@@ -20,17 +21,17 @@ const PEOPLE = ['Fenna', 'Kael', 'Lyra'];
 function line(r) {
     switch (r.int(0, 13)) {
         case 0: case 1: case 2: return `~ tick ${r.pick(['Alpha', 'Beta', 'Gamma', 'Delta'])} | n: ${r.int(1, 9)}`;
-        case 3: return `+ tock ${r.pick(['One', 'Two', 'Three'])}`;
+        case 3: return r.chance(0.3) ? `~ time March ${r.int(1, 28)}, 8:00 am` : `+ tock ${r.pick(['One', 'Two', 'Three'])}`;
         case 4: return `+ item ${r.pick(ITEMS)} | qty: ${r.int(1, 3)}`;
         case 5: return `- item ${r.pick(ITEMS)}`;
         case 6: return `+ coin ${r.int(1, 30)} | from: ${r.pick(PEOPLE)}`;
         case 7: return `${r.pick(['+', '-'])} present ${r.pick(PEOPLE)}`;
         case 8: return `+ hook Rumor ${r.int(1, 9)} — an open thread`;
-        case 9: return `! time +${r.int(1, 5)}h`;
+        case 9: return r.chance(0.4) ? `! time +${r.int(20, 50)}h` : `! time +${r.int(1, 5)}h`;
         case 10: return `~ wound Ren — a fall | harm: scratch`;
         case 11: return `+ quest Find ${r.pick(ITEMS)} — a job | giver: ${r.pick(PEOPLE)} | goal: get it | reward: 10 coin`;
         case 12: return `? check athletics — climb | dc: easy | who: Ren`;
-        default: return `~ TICK ${r.pick(['Alpha', 'Beta'])} | n: 2`;
+        default: return r.chance(0.5) ? `! time +${r.int(20, 50)}h` : `~ TICK ${r.pick(['Alpha', 'Beta'])} | n: 2`;
     }
 }
 const reply = (r, step) => {
@@ -61,6 +62,7 @@ async function runSeed(seed) {
         violations.push({ sig, detail: String(detail).slice(0, 300), step: log.length, op: log.at(-1) });
         signatures.set(sig, (signatures.get(sig) ?? 0) + 1);
         if (process.env.DUMPDEL && violations.length === 1) fs.writeFileSync(process.env.DUMPDEL, J(globalThis.__dels.at(-1)));
+        if (process.env.DUMPCHAT && violations.length === 1) fs.writeFileSync(process.env.DUMPCHAT, J({ chat: ctx.chat, head: store.head() }));
         if (process.env.DUMPLOG && violations.length === 1) console.error('LOG', J(log), '\nCHAT', J(ctx.chat.map(m => [m.is_user ? 'U' : 'A', m.swipe_id, m.swipes?.length, m.mes.slice(0, 200)])));
         if (VERBOSE) console.error('VIOLATION', seed, log.length, log.at(-1), sig, String(detail).slice(0, 300));
     };
@@ -79,26 +81,42 @@ async function runSeed(seed) {
 
     await sdk.command('party.create', { name: 'Ren', preset: 'fighter' });
     await sdk.command('scene.place', { name: 'Bluewatch Village', kind: 'settlement' });
+    sdk.on('committed', ({ receipt }) => {
+        if (receipt?.type !== 'chronicle.digest') return;
+        globalThis.__digests = (globalThis.__digests ?? 0) + 1;
+        if (!isOn('story-director.digest')) fail('digest-ran-while-off');
+    });
+    await h.send('Morning.', 'Dawn.\n<Changes>\n~ time March 3, 8:00 am\n</Changes>');
+    if (process.env.DBGT) console.log('START', J(store.head()?.domains?.director?.time), J(turns.at(-1)?.problems));
     await store.flush?.();
 
+    // At prompt-ready (after the host's listener): what the request was built with, then a pending
+    // mid-generation toggle (between interceptor and MESSAGE_RECEIVED).
+    let gen = null, midToggle = null;
+    ctx.eventSource.on(ctx.eventTypes.CHAT_COMPLETION_PROMPT_READY, () => {
+        gen = { on: Object.fromEntries(registry.features().map(f => [f.id, isOn(f.id)])), static: st.prompt(STATIC_KEY), tail: st.prompt(TAIL_KEY) };
+        if (midToggle) { const [id, want] = midToggle; midToggle = null; features.set(id, want); totalToggles += 1; log[log.length - 1] += ` mid:${id}=${want}`; }
+    });
+    const genOn = id => (gen ? gen.on[id] : isOn(id));
     function checkGen(label) {
-        const sv = st.prompt(STATIC_KEY), tv = st.prompt(TAIL_KEY);
-        const last = st.promptLog.filter(e => e.key === STATIC_KEY && e.value).at(-1)?.value ?? sv;
-        const key = J(promptIds.map(id => isOn(id)));
+        if (!gen) return;
+        const last = gen.static;
+        const key = J(promptIds.map(id => genOn(id)));
         if (staticByKey.has(key) && staticByKey.get(key) !== last) fail('static-differs-same-prompt-features', label);
         if (!staticByKey.has(key)) {
             for (const [k, v] of staticByKey) if (v === last && k !== key) { /* two keys same static: fine for prompt:true */ }
             staticByKey.set(key, last);
         }
         const tick = last.includes('~ tick');
-        if (tick !== isOn('fz.kind')) fail('static-grammar-vs-feature', `tick grammar ${tick} fz.kind ${isOn('fz.kind')}`);
-        void tv;
+        if (tick !== genOn('fz.kind')) fail('static-grammar-vs-feature', `tick grammar ${tick} fz.kind ${genOn('fz.kind')}`);
+        checkTail(gen.tail);
+        gen = null;
     }
     function checkTail(tail) {
         if (typeof tail !== 'string' || !tail) return;
-        if (tail.includes(FZ_TAIL) !== isOn('fz.tail')) fail('tail-part-vs-feature', `fz.tail ${isOn('fz.tail')}`);
-        if (tail.includes('FY tail.') !== isOn('fy.all')) fail('tail-whole-vs-feature', `fy.all ${isOn('fy.all')}`);
-        if (/FZ ticks \d/.test(tail) !== isOn('fz.kind')) fail('tail-kindpart-vs-feature', `fz.kind ${isOn('fz.kind')}`);
+        if (tail.includes(FZ_TAIL) !== genOn('fz.tail')) fail('tail-part-vs-feature', `fz.tail ${genOn('fz.tail')}`);
+        if (tail.includes('FY tail.') !== genOn('fy.all')) fail('tail-whole-vs-feature', `fy.all ${genOn('fy.all')}`);
+        if (/FZ ticks \d/.test(tail) !== genOn('fz.kind')) fail('tail-kindpart-vs-feature', `fz.kind ${genOn('fz.kind')}`);
     }
     function checkAll(label) {
         let live;
@@ -146,24 +164,30 @@ async function runSeed(seed) {
             if (J(store.head()) !== before) fail('toggle-changed-state', id);
         },
         async send(step) {
-            const text = reply(r, step);
-            const kindOn = isOn('fz.kind');
+            let text = reply(r, step);
+            if (store.head()?.domains?.director?.time?.minutes == null && r.chance(0.5)) text = `${text.split('\n')[0]}\n<Changes>\n~ time March ${r.int(1, 28)}, 8:00 am\n</Changes>`;
+            if (MID && r.chance(0.3)) midToggle = [r.pick(IDS), r.chance(0.5)];
             const res = await h.send(`User ${step}.`, text);
-            if (res?.index >= 0) checkCapture(res.index, text, kindOn);
-            checkGen('send'); checkTail(st.prompt(TAIL_KEY) || st.promptLog.filter(e => e.key === TAIL_KEY && e.value).at(-1)?.value);
+            midToggle = null;
+            if (res?.index >= 0) checkCapture(res.index, text, isOn('fz.kind'));
+            checkGen('send');
         },
         async swipe(step) {
             if (!isCarrier(ctx.chat.at(-1)) || ctx.chat.length < 2) return;
-            const text = reply(r, step); const kindOn = isOn('fz.kind');
+            const text = reply(r, step);
+            if (MID && r.chance(0.3)) midToggle = [r.pick(IDS), r.chance(0.5)];
             const res = await h.swipe(text);
-            if (res?.index >= 0) checkCapture(res.index, text, kindOn);
+            midToggle = null;
+            if (res?.index >= 0) checkCapture(res.index, text, isOn('fz.kind'));
             checkGen('swipe');
         },
         async regenerate(step) {
             if (!isCarrier(ctx.chat.at(-1)) || ctx.chat.length < 3) return;
-            const text = reply(r, step); const kindOn = isOn('fz.kind');
+            const text = reply(r, step);
+            if (MID && r.chance(0.3)) midToggle = [r.pick(IDS), r.chance(0.5)];
             const res = await h.regenerate(text);
-            if (res?.index >= 0) checkCapture(res.index, text, kindOn);
+            midToggle = null;
+            if (res?.index >= 0) checkCapture(res.index, text, isOn('fz.kind'));
             checkGen('regenerate');
         },
         async cont(step) {
@@ -221,6 +245,61 @@ async function runSeed(seed) {
             const res = await sdk.reread(i);
             if (res?.ok && !on && J(store.at(i)?.domains?.fzk) !== before) fail('reread-while-off-dropped-feature-state', `${before} -> ${J(store.at(i)?.domains?.fzk)}`);
         },
+        async edit(step) {
+            const idx = carriers(ctx.chat).filter(i => i > 0);
+            if (!idx.length) return;
+            const i = r.pick(idx);
+            const m = ctx.chat[i];
+            await st.editMessage(i, r.chance(0.5) ? `${m.mes} (edited ${step})` : `Edited ${step}.\n<Changes>\n${line(r)}\n</Changes>`);
+        },
+        async corrupt() {
+            const idx = carriers(ctx.chat).filter(i => i > 0);
+            if (!idx.length) return;
+            const m = ctx.chat[r.pick(idx)];
+            const rec = m.extra?.storySuite;
+            if (!rec) return;
+            const how = r.int(0, 4);
+            const bad = structuredClone(rec);
+            if (how === 0) bad.ops = 'junk';
+            else if (how === 1) { if (KNOWN) return; bad.spans = [{ n: 999, story: true }]; }
+            else if (how === 2) { bad.ops = [...(bad.ops ?? []), { op: 'replace', path: '/domains/fzk/ticks/Nope/x', value: 1 }]; if (KNOWN) bad.spans = [...(bad.spans ?? []), { n: 1, story: false }]; }
+            else if (how === 3) bad.checkpoint = { v: 2, meta: { rev: 'x' }, domains: [] };
+            else bad.receipts = null;
+            m.extra.storySuite = bad;
+            if (m.swipe_info?.[m.swipe_id ?? 0]) m.swipe_info[m.swipe_id ?? 0].extra = structuredClone(m.extra);
+            log[log.length - 1] += ` how${how}`;
+            await st.loadChat(structuredClone(ctx.chat));
+        },
+        async rewind() {
+            const idx = carriers(ctx.chat).filter(i => (ctx.chat[i].extra?.storySuite?.receipts?.length ?? 0) > 0);
+            if (!idx.length) return;
+            const i = r.pick(idx);
+            const revs = ctx.chat[i].extra.storySuite.receipts.map(x => x?.rev).filter(Number.isInteger);
+            if (!revs.length) return;
+            const res = await sdk.rewind({ index: i, beforeRev: r.pick(revs) });
+            log[log.length - 1] += ` ${i} ${res?.ok ?? res?.code}`;
+        },
+        async branch() {
+            if (ctx.chat.length < 2) return;
+            await ctx.branchChat(r.int(0, ctx.chat.length - 1));
+        },
+        async midsave() {
+            // A command whose save is pending while the reader flips a feature.
+            let release;
+            const gate = new Promise(res => { release = res; });
+            const real = ctx.saveChat;
+            ctx.saveChat = async (...a) => { await gate; return real(...a); };
+            try {
+                const on = isOn('fz.cmd');
+                const pending = sdk.command(r.pick(['fz.poke', 'fz.free', 'scene.present']), { add: r.pick(PEOPLE) });
+                await Promise.resolve();
+                const id = r.pick(IDS); const want = r.chance(0.5);
+                features.set(id, want); totalToggles += 1; log[log.length - 1] += ` ${id}=${want} cmdOn=${on}`;
+                release();
+                const res = await pending;
+                if (res && typeof res.ok !== 'boolean') fail('midsave-odd-result');
+            } finally { ctx.saveChat = real; release(); }
+        },
         async blocked(step) {
             if (KNOWN) return;
             H.block = true;
@@ -230,6 +309,7 @@ async function runSeed(seed) {
         },
     };
     const weights = [['toggle', 6], ['send', 6], ['swipe', 2], ['regenerate', 2], ['cont', 1], ['swipeBack', 1], ['del', 2], ['reload', 1], ['command', 3], ['preview', 1], ['reread', 1], ['blocked', 1]];
+    if (MID) weights.push(['edit', 2], ['corrupt', 1], ['rewind', 1], ['branch', 1], ['midsave', 2], ['reread', 1]);
     const bag = weights.flatMap(([n, w]) => Array(w).fill(n));
     for (let step = 0; step < STEPS; step++) {
         const op = r.pick(bag);
@@ -237,9 +317,11 @@ async function runSeed(seed) {
         try { await OPS[op](step); } catch (e) { fail(`threw:${op}`, e?.stack ?? e); }
         await store.flush?.();
         checkAll(op);
+        if (process.env.DBGT2) console.log('T', step, log.at(-1), J(store.head()?.domains?.director?.time?.minutes), ctx.chat.length);
         totalSteps += 1;
         if (STOP && violations.length) break;
     }
+    if (process.env.DBGT) console.log('END', seed, J(store.head()?.domains?.director?.time), J(store.head()?.domains?.chronicle?.written), isOn('story-director.digest'), log.filter(x => x.startsWith('send')).length);
     h.close();
     console.warn = warn;
     restore();
@@ -252,4 +334,4 @@ for (let seed = FROM; seed <= TO; seed++) {
     if (v.length) { bad += 1; if (!VERBOSE) console.log(`seed ${seed}: ${v.length} violations, first ${v[0].sig} @${v[0].step} ${v[0].op} ${v[0].detail.slice(0, 120)}`); }
     if (STOP && v.length) break;
 }
-console.log(JSON.stringify({ seeds: `${FROM}-${TO}`, steps: STEPS, totalSteps, totalToggles, totalLinesOff, badSeeds: bad, signatures: Object.fromEntries(signatures) }, null, 1));
+console.log(JSON.stringify({ digests: globalThis.__digests ?? 0, seeds: `${FROM}-${TO}`, steps: STEPS, totalSteps, totalToggles, totalLinesOff, badSeeds: bad, signatures: Object.fromEntries(signatures) }, null, 1));

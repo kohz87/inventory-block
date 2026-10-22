@@ -61,3 +61,68 @@ feature, a command that ctx.calls fz's command and queries fz's query).
 - Declarations (scripts/declprobe.mjs): dup id, wrong prefix / no dot / sub-dot / upper case, label > 60 / blank / non-text, describe > 240 / null, default / prompt non-boolean, feature naming another module's feature (command, kind, context, widget, screen), feature value null / object: all refused with a plain sentence, the other module's features kept; unknown field warned and ignored; 5,000 features register in 10 ms.
 - Not filed (notes): a getter that throws on a feature entry / a Proxy `features` throws the raw error out of register() instead of the "cannot be registered" refusal (developer-only hostile input, same as other definition keys); a label padded with spaces to 62 chars is refused though the trimmed label is 60; feature ids have no length cap (a 100k-char name registers).
 
+
+## Pass 1 — Capture and grammar fuzz (agent 2)
+
+Heads: Story_block e0fd33b, rpg_battle 924b9a3, Story_director f001974, npc_state_delta 5243d79. Verified by the lead: all
+21 test cases in the 6 files fail on these heads. (The agent could not write .md files; this write-up is the lead's from its report.)
+
+Kinds on v2 with all four modules: SB coin, item, place, present · RB check, encounter, join, leave, market, rest, skill,
+use, wound · SD agenda, beat, clock, event, faction, hook, landmark, quest, route, secret, time, world · NSD npc.
+No capture kind yet for equip/cond/wear/repair, crafting, timed effects, party ranks or digest. Covered instead: quest ranks
+(F104), NSD changeCap/stages, notable story item, `! use`, same-reply checks.
+
+Runs: ~23,700 hostile replies (seeds 1000–1599 × 25 = 15,000 in 580 s; seeds 5000–5299 × 25 = 7,500 with valid calendar
+times and a Re-read check on 12% of replies; ~1,200 smoke). Signatures: COIN over budget on quest turn-in 49 → C2-1;
+bare block after Continue 115 → C2-2; reasoning sentinel read 40 → C2-3; Re-read ≠ live 19 (harness slug ids, or C2-2/C2-6
+symptoms; seed 5186 reply 18 not minimized); time > 4×maxJump 3 → C2-5; "atlas route must be a whole number" 251 (clean
+refusal known since r1); TOO_MANY (harness false positive); lone surrogates kept in state ~15k (low, not filed).
+
+### C2-1 [severity: high] Fetch quests of story-minted items pay past the per-reply budget, any number per reply
+Repo Story_director, src/v2/quests/index.js:336 (`storyMoney = !target && !byPack`), :199 wordRule, :144 (`vouched`).
+Repro (level 1, budget 50): one reply `+ item Rope | qty: 18` plus six `- quest Fetch X — turned in` (goal "Bring 3 Rope")
+pays 300; with `rank: S` each pays 230 (six → 1380); one fetch quest + `+ coin 50` pays 280. A story-vouched errand of the
+same rank pays 50. The reader only has to accept the job. Invariant 3. Fix: a fetch quest whose items are story-made in the
+same reply goes down the vouched path (one turn-in per reply, rank held to the party's, paid as `story: true`).
+Test results/tests/Story_director/c2-fetch-quest-story-items.test.js (2). Owner SD-ranks / quests.
+
+### C2-2 [severity: medium] A <Changes> block split across a Continue loses the continuation's lines and leaves raw markup visible
+Repo Story_block, src/v2/capture.js:221 laterBlocks (`block.start >= from`), turn.js:614-633. `…<Changes>\n+ coin 5\n` then
+Continue `+ item Rope | qty: 2\n</Changes>`: no Rope and `-->+ item Rope…</Changes>` shown. `<Chan` + Continue `ges>…`:
+whole block unread, bare, no Problem. Cut at `+ item Ro`: item "Ro" made, or (stopped) the line lost with the half line
+visible. Invariants 3/4. Fix: on Continue, re-scan from the start of the last open block across the join, and hold a
+trailing partial line until the reply ends. Test results/tests/Story_block/c2-continue-split-block.test.js (3). Owner main.
+
+### C2-3 [severity: medium] A reply cut off mid-reasoning applies the draft block inside the unclosed <think>
+Repo Story_block, src/v2/capture.js:201-213 (only closed pairs masked). After a Continue closes `</think>`, the draft stays
+applied (20 coin + 3 Torch on top of the real Rope); Re-read then differs from live. A stray mismatched close (`</think>`
+inside `<reasoning>`) ends reasoning early. Invariants 1/3. Fix: an unclosed opening tag masks to the end of the text;
+close only on the matching tag name. Test results/tests/Story_block/c2-cut-mid-reasoning.test.js (2). Owner main.
+
+### C2-6 [severity: medium] Hiding a block writes the blanked text back into the message
+Repo Story_block, src/v2/capture.js:286 hideBlock (bodies taken from the reasoning-blanked text). Reasoning inside or
+overlapping a block is erased from the saved message for good (replaced by spaces); a mid-line mention ("Story with a
+`<Changes>` word in it.") opens a block and moves the rest of the story into the hidden comment. Invariant 4/7 (reader text
+lost). Fix: take offsets from the masked text but splice bodies from the original; only open a block at line start.
+Test results/tests/Story_block/c2-hide-masked-body.test.js (2). Owner main / SB-storage.
+
+### C2-4 [severity: low] `+ coin` turns other minus signs and fractions into whole positive amounts
+Repo Story_block, src/v2/domains/money.js:54-59 parseAmount (sign check only `-−–—`). `‐30 ‑30 ‒30 ⁻30 ₋30 ﹣30 －30` each pay
+30; `.5`/`٫5` pay 5; `2⁵` pays 2; `½5`; RLO+`03` (shown as "30") pays 3. Within the per-reply budget. Invariant 3. Fix: NFKC
+the amount and refuse anything but `[0-9]+` after an optional ASCII/known minus. Test
+results/tests/Story_block/c2-coin-amount-forms.test.js (11). Owner SB-inv.
+
+### C2-5 [severity: low] maxJump is held per time line, not per reply
+Repo Story_director, src/v2/tracker/time.js:138-158. 150 × `! time +30d` in one reply moves the clock 4,500 days.
+Invariant 3. Fix: keep the reply's total jump under the carrier sid and cap the sum. Test
+results/tests/Story_director/c2-time-jump-per-reply.test.js. Owner SD-digest.
+
+### Held up
+No exception/console.error reached the reader, no reply left without a turn, none over 3 s. Store rebuild == live after
+every reply; fresh full replay == live on every seed. Static prompt byte-identical; tail in budget. Caps held without quest
+turn-ins: coin ≤ budget, ≤ 20 of one item per reply, goods-worth and notable-item limits, ≤ 10 new definitions, no XP gain,
+NSD meters ≤ 15 per reply (homoglyph/fullwidth/zero-width name variants included), ≤ +1 actor per reply. Prototype-key
+names/labels safe in every module. `extra.reasoning` ignored; closed and mismatched think/thinking/reasoning pairs masked.
+Duplicate quest turn-ins claimed once. 150-line cap holds. `qty` parser strict (only "0020" of 50 odd forms accepted).
+Not filed: `<details>`, `<thought>`, fullwidth "think" not treated as reasoning; `<think\n>` not recognised; NSD accepts loose
+meter numbers (`5.`, `20,5`, `1 000`), clamped to 15.

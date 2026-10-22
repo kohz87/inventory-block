@@ -50,7 +50,8 @@ async function runSeed(seed) {
     const restore = seedCrypto(seed);
     const r = prng(seed);
     const origWarn = console.warn, origErr = console.error;
-    console.warn = () => {};
+    const warns = [];
+    console.warn = (...a) => { warns.push(a.map(x => String(x?.message ?? x)).join(' ').slice(0, 220)); if (warns.length > 50) warns.shift(); };
     console.error = () => {};
     const server = makeServer();
     const h = await allHost({ server });
@@ -61,7 +62,7 @@ async function runSeed(seed) {
         const v = { seed, step: log.length - 1, op: log.at(-1), what, detail: String(detail).slice(0, 500) };
         violations.push(v);
         if (VERBOSE) origErr('VIOLATION', JSON.stringify(v));
-        if (process.env.DBG) origErr('DBG', what, 'serverlog:', server.log.slice(-14).join(' '), '| ops:', log.slice(-4).join(' '));
+        if (process.env.DBG) origErr('DBG', what, 'serverlog:', server.log.slice(-14).join(' '), '| ops:', log.slice(-4).join(' '), '| warns:', warns.slice(-4).join(' || '));
     };
     const head = () => { try { return store.head(); } catch (e) { fail('head() threw', e.message); return null; } };
     let chatN = 0;

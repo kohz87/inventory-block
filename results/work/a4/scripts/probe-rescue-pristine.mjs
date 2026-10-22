@@ -8,7 +8,7 @@ const pres = x => J(x?.domains?.scene?.present);
 for (const variant of ['bus-switch', 'fail-switch']) {
   const G = `G-${variant}`;
   await openFromServer(h, server, G);
-  await store.flush().catch(() => {});
+  if (process.env.PREFLUSH) await store.flush().catch(() => {});
   server.log.length = 0;
   if (variant === 'bus-switch') {
     const r = await h.bus.command('scene.present', { add: 'Ann' }, { cause: 'ui' });

@@ -1,0 +1,2338 @@
+[
+ {
+  "sig": "INVARIANT lone surrogate in state /director",
+  "count": 5321,
+  "first": {
+   "seed": 1000,
+   "n": 5,
+   "detail": {
+    "i": "lone surrogate in state /director",
+    "shape": "many",
+    "lines": [
+     "~ place Torch | kind: settlement | with: tab\there, Healíng Draught",
+     "+ clock Healing Draught -- doom | due: +½h | shown: none"
+    ]
+   }
+  }
+ },
+ {
+  "sig": "INVARIANT lone surrogate in state /trade",
+  "count": 2271,
+  "first": {
+   "seed": 1001,
+   "n": 3,
+   "detail": {
+    "i": "lone surrogate in state /trade",
+    "shape": "many",
+    "lines": [
+     "+ skill Wolf: : a cut | taught by: Torch",
+     "+ item — just text",
+     "+ landmark A:B | region: Granary Rats | kind: cave"
+    ]
+   }
+  }
+ },
+ {
+  "sig": "INVARIANT lone surrogate in state /party",
+  "count": 1894,
+  "first": {
+   "seed": 1001,
+   "n": 17,
+   "detail": {
+    "i": "lone surrogate in state /party",
+    "shape": "many",
+    "lines": [
+     "The party found 10 gold and a Bluewatch.",
+     "+ hook Ren - an open thread",
+     "! market <img src=x onerror=alert(1)> — no bread | until: +NaN h",
+     "Potion gained a rope",
+     "+ item — just text",
+     "! encounter 8  -- circling | tier: trivial",
+     "~ npc Zalgo̸̢͎̓ | affection: ",
+     "~ npc Fenna | trust: +5",
+     "- leave <USER>—parts ways",
+     "+ market {{char}} --  | until: 09:00",
+     "The party found 10 gold and a Bluewatch.",
+     "The party found 10 gold and a Bluewatch.",
+     "The party found 10 gold and a Bluewatch.",
+     "The party found 10 gold and a Bluewatch.",
+     "The party found 10 gold and a Bluewatch."
+    ]
+   }
+  }
+ },
+ {
+  "sig": "INVARIANT lone surrogate in state /combat",
+  "count": 1743,
+  "first": {
+   "seed": 1000,
+   "n": 0,
+   "detail": {
+    "i": "lone surrogate in state /combat",
+    "shape": "many",
+    "lines": [
+     "﻿+ coin 5",
+     "+ agenda Healing Draught -- plots | now: 1,000 | then: x | on: +1d",
+     "> + coin 2",
+     "~ wound Torch – poisoned",
+     "! encounter 3 Goblin: circling | tier: deadly",
+     "* + item Healing Draught",
+     "~ wound Lyra – fell | heal: grave",
+     "+ coin 10 -->",
+     "+ time Wolf | result: 09:00",
+     "+ hook gold -- an open thread | giver: Lyra | reward: 10 gold",
+     "﻿+ coin 5",
+     "﻿+ coin 5"
+    ]
+   }
+  }
+ },
+ {
+  "sig": "INVARIANT lone surrogate in state /atlas",
+  "count": 1708,
+  "first": {
+   "seed": 1004,
+   "n": 6,
+   "detail": {
+    "i": "lone surrogate in state /atlas",
+    "shape": "many",
+    "lines": [
+     "+ quest Lyra: a job | giver: hasOwnProperty | goal: Find the thing | reward: 9007199254740991 silver each | due: 25:99 | difficulty: normal",
+     "</Changes>",
+     "+ faction yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy—merchants | area: Iron Sword | stance: friendly",
+     "+ recipe Bluewatch | from: Wolf | makes: Infinity | with: A x2, B | craft: alchemy",
+     "? _x Bluewatch"
+    ]
+   }
+  }
+ },
+ {
+  "sig": "INVARIANT lone surrogate in state /checks",
+  "count": 821,
+  "first": {
+   "seed": 1017,
+   "n": 5,
+   "detail": {
+    "i": "lone surrogate in state /checks",
+    "shape": "nested",
+    "lines": [
+     "~ npc 1,000 | trust: NaN",
+     "~ wound Infinity -- poisoned | harm: grave"
+    ]
+   }
+  }
+ },
+ {
+  "sig": "INVARIANT lone surrogate in state /inventory",
+  "count": 386,
+  "first": {
+   "seed": 1033,
+   "n": 3,
+   "detail": {
+    "i": "lone surrogate in state /inventory",
+    "shape": "many",
+    "lines": [
+     "~ world NaN – war | state: ongoing | place: Healing Draught | factions: Ren",
+     "- join Lyra -- a stranger | level: 6 | role: mage",
+     "- join Rope – a stranger | level: 3 | role: ",
+     "**+ item İstanbul**",
+     "~ npc Fenna | trust: NaN",
+     "<!-- STORY_SUITE_V2 + coin 999 -->"
+    ]
+   }
+  }
+ },
+ {
+  "sig": "INVARIANT lone surrogate in state /scene",
+  "count": 370,
+  "first": {
+   "seed": 1015,
+   "n": 0,
+   "detail": {
+    "i": "lone surrogate in state /scene",
+    "shape": "many",
+    "lines": [
+     "~ market A — B –  | until: +999999h",
+     "! encounter 999999 —circling | tier: trivial",
+     "~ wound Iron Sword -- poisoned | heal: grievous",
+     "! encounter 2  - circling | tier: weak",
+     "~ place 1,000 | kind: wild | with: everyone",
+     "+ secret Ren: hidden",
+     "~ npc Ren | desire: +½",
+     "- leave rope - parts ways",
+     "+ agenda Bluewatch -- plots | now: Bluewatch | then: x | on: +1,000h",
+     "- faction Ren—merchants | area: Granary Rats | stance: ",
+     "+ beat Healing Draught: a turn | on: +9007199254740993m",
+     "```"
+    ]
+   }
+  }
+ },
+ {
+  "sig": "INVARIANT lone surrogate in state /chronicle",
+  "count": 338,
+  "first": {
+   "seed": 1015,
+   "n": 6,
+   "detail": {
+    "i": "lone surrogate in state /chronicle",
+    "shape": "many",
+    "lines": []
+   }
+  }
+ },
+ {
+  "sig": "INVARIANT lone surrogate in state /npc",
+  "count": 241,
+  "first": {
+   "seed": 1051,
+   "n": 9,
+   "detail": {
+    "i": "lone surrogate in state /npc",
+    "shape": "many",
+    "lines": [
+     "- coin 6 | to: Ren",
+     "+ item Bluewatch || | | |",
+     "- coin 6 | to: Ren",
+     "- coin 6 | to: Ren",
+     "- coin 6 | to: Ren",
+     "- coin 6 | to: Ren",
+     "- coin 6 | to: Ren"
+    ]
+   }
+  }
+ },
+ {
+  "sig": "BARE BLOCK LEFT VISIBLE [cont]",
+  "count": 83,
+  "first": {
+   "seed": 1002,
+   "n": 4,
+   "detail": {
+    "mes": "Ren drinks.\n\n<Changes>\n+ hook Torch—an open thread\n- item Granary Rats | qty: 2\n? check luk - try | dc: hard | roll:  | result: critical\n~ npc hasOwnProperty | trust: NaN\n+ beat Torch – a turn | on: tomorrow\n? check STR -- try | dc: 0 | roll: 0 | result:\n+ event Healing Draught: a fair | then: x | on: 09:00\n+ item Superior Healing Potion | qty: 30 | note: rare\n~ Quest Rope | :: 30 | : x | y | step: done | reach: yes | gold: --> | meter: x | y\n</Changes>",
+    "text": "Ren drinks.\n\n<Changes>\n+ hook Torch—an open thread\n- item Granary Rats | qty: 2\n? check luk - try | dc: hard | roll:  | result: critical\n~ npc hasOwnProperty | trust: NaN\n+ beat Torch – a turn | on: tomorrow\n? check STR -- try | dc: 0 | roll: 0 | result: \n+ event Healing Draught: a fair | then: x | on: 09:00\n+ item Superior Healing Potion | qty: 30 | note: rare\n~ Quest Rope | :: 30 | : x | y | step: done | reach: yes | gold: --> | meter: x | y\n</Changes>",
+    "cont": {
+     "first": "Ren drinks.\n\n<Change",
+     "rest": "s>\n+ hook Torch—an open thread\n- item Granary Rats | qty: 2\n? check luk - try | dc: hard | roll:  | result: critical\n~ npc hasOwnProperty | trust: NaN\n+ beat Torch – a turn | on: tomorrow\n? check STR -- try | dc: 0 | roll: 0 | result: \n+ event Healing Draught: a fair | then: x | on: 09:00\n+ item Superior Healing Potion | qty: 30 | note: rare\n~ Quest Rope | :: 30 | : x | y | step: done | reach: yes | gold: --> | meter: x | y\n</Changes>",
+     "stopped": true
+    },
+    "wrap": "case"
+   }
+  }
+ },
+ {
+  "sig": "HANDLER CRASH/LEAK [null] TOO_MANY The reply has N change lines; only the first N were read, so N lines were not used (from \"…\").",
+  "count": 29,
+  "first": {
+   "seed": 1014,
+   "n": 3,
+   "detail": {
+    "line": "undefined",
+    "message": "The reply has 1346 change lines; only the first 150 were read, so 1196 lines were not used (from \"+ skill undefined — Ηealing Draught: does 9,007,199,254,740,\")."
+   }
+  }
+ },
+ {
+  "sig": "CAP COIN +N > budget N [reply turns in a quest]",
+  "count": 28,
+  "first": {
+   "seed": 1011,
+   "n": 12,
+   "detail": {
+    "c": "COIN +90 > budget 50 [reply turns in a quest]",
+    "shape": "many",
+    "text": "Story.\n<Changes>\n! encounter 6 Rеn — attack | tier: god | stakes: \n+ world Ro​pe -- war | state: resolved | place: ǅ | factions: Granary Rats\n＋ coin 5\n! rest LONG — fenna\n- quest Fetch — turned in | reward: 6 gold\n+ coin 1 -->\n+ beat ${x} – a turn | on: tomorrow\n- - item Rope\n! time -十h\n＋ coin 5\n~ wound Lyra — healed | heal: scratch\n~ item Lyra | qty: 100\n+ skill Torch — $&: does 3 damage | taught by: {{char}}\n~ wound \udc00Rope — cut | harm: wound\n+ join Torch — a stranger | level: 3 | role: prototype\n? check luk: x — y | dc: normal\n- coin ٣ | to: Fenna\n+ agenda __proto__ — Fenna‮ | region: +1e309h\n**+ item -->**\n~ wound Ro​pe - bitten | heal: grave\n+ clock a\u0000b: doom | due: +1e309h | shown: none\n~ item Fenna | qty: 4 | note: Object\n! encounter +7 Ｒｏｐｅ — attack | tier: deadly | stakes: normal\n+ route Torch — Granary Rats | hours: 3 | kind: road\n+ item — just text\n! rest short — Iron Sword\n! market Wolf — Fen​na | until: 30\n+ item | qty: 3\n? check __proto__—12 | dc: normal | roll: Infinity\n? check STR — ı | dc: 1’000 | roll: 2 | result: fail\n! time +5d\n+ beat zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz — Wolf | region: +1e309h\n! use Lyra | on: Wolf | by: <Changes> | qty: 30​\n- coin \udfff\n! rest  -- at the inn\n? check athletics: 09:00 | dc: -1 | who: Zalgo̸̢͎̓ | roll: Infinity | result: x\n+ item | qty: 3\n<!-- STORY_SUITE_V2 + coin 999 -->\n! time +NaN h\n~ place R̶o̶p̶e | kind: dungeon | region: toJSON\n~ item Rope | qty: two\n+ item SS || | | |\n+ item zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n+ coin 0 | to: 0x10\n- item Iron Sword | qty: 7\n+ recipe Iron Sword | from: Ren | makes: --> | with: A x2, B | craft: alchemy\n+ recipe Lyra | from: <img src=x onerror=alert(1)> | makes: null | with: A x2, B | craft: alchemy\n+ hook   — Granary Rats | due: healing draught\n~ item Healing Draught | qty:  | note: -->\n`+ coin `\n+ skill Array — </Changes>: does 10 damage | taught by: \udc00Rope\n+ item Wolf | note: --> <script>alert(1)</script>\n~ npc <img src=x onerror=alert(1)> | desire: +３\n! rest long — ‮epor\n+ item Mithril Dagger | qty: 10 | note: legendary, worth 99999 gold\n+ event Granary Rats: a fair | then: x | on: +0h\n+ item Rope | qty: 9 | qty: Infinity | qty: 6\n+ beat Lyra — Ꮢope | region: Iron Sword\n! craft Rope | with: Rope x2, Iron Sword | roll: 10k | result: fine\n+ skill Granary Rats — toString: does 11 damage | taught by: Wolf\n+ agenda Torch - plots | now: Fenna | then: x | on: 09:00\n! time +‏30h\n- present ﬀ, zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz, Gold\n! encounter 00001 Dragon - circling | tier: strong\n+ join hasOwnProperty — a stranger | level: +30 | role: Ｒｏｐｅ\n+ clock Ren - doom | due: Day 2, 09:00 | shown: x\n~ place Granary Rats | kind: dungeon | region: Wolf\n+ item tab\there || | | |\nThe party found 4 gold and a Healing Draught.\n﻿+ coi"
+   }
+  }
+ },
+ {
+  "sig": "CAP REASONING READ: sentinel item made",
+  "count": 12,
+  "first": {
+   "seed": 1193,
+   "n": 15,
+   "detail": {
+    "c": "REASONING READ: sentinel item made",
+    "shape": "reasonAfter",
+    "text": "<Changes>\r\n+ coin 1\r\n</Changes>\r\nNothing much.\r\n\r\n<Changes>\r\n- - item Rope\r\r\n+ leave Infinity | taught by: 09:00 | qty: a: b | with:  | : 09:00 | place: Coins\r\r\n! encounter 6 Wolf -- circling | tier: deadly\r\r\n!skill:Healing Draught\r\r\n+ clock Lyra – doom | due: Day 2, 09:00 | shown: warning\r\r\n</Changes>\r\n\r\n<Changes>\r\n+ item zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\r\n</Changes>\n\n<reasoning>\nLet me plan.\n<Changes>\n~ item Rope‍ | qty: 5 | note: Å | used: yes\n+ skill $& — </think>: does 0020 damage | taught by: Healíng Draught\n! encounter ½ </think> — attack | tier: deadly | stakes: \n+ skill ß — Å: does 4294967296 damage | taught by: Gold\n<Changes>\n! rest long — Ｒｏｐｅ\n+ item Thinkbait | qty: 1\n~ npc Thinkbait | trust: +5\n</Changes>\n</reasoning>"
+   }
+  }
+ },
+ {
+  "sig": "CAP REASONING READ: sentinel npc made",
+  "count": 12,
+  "first": {
+   "seed": 1193,
+   "n": 15,
+   "detail": {
+    "c": "REASONING READ: sentinel npc made",
+    "shape": "reasonAfter",
+    "text": "<Changes>\r\n+ coin 1\r\n</Changes>\r\nNothing much.\r\n\r\n<Changes>\r\n- - item Rope\r\r\n+ leave Infinity | taught by: 09:00 | qty: a: b | with:  | : 09:00 | place: Coins\r\r\n! encounter 6 Wolf -- circling | tier: deadly\r\r\n!skill:Healing Draught\r\r\n+ clock Lyra – doom | due: Day 2, 09:00 | shown: warning\r\r\n</Changes>\r\n\r\n<Changes>\r\n+ item zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\r\n</Changes>\n\n<reasoning>\nLet me plan.\n<Changes>\n~ item Rope‍ | qty: 5 | note: Å | used: yes\n+ skill $& — </think>: does 0020 damage | taught by: Healíng Draught\n! encounter ½ </think> — attack | tier: deadly | stakes: \n+ skill ß — Å: does 4294967296 damage | taught by: Gold\n<Changes>\n! rest long — Ｒｏｐｅ\n+ item Thinkbait | qty: 1\n~ npc Thinkbait | trust: +5\n</Changes>\n</reasoning>"
+   }
+  }
+ },
+ {
+  "sig": "HANDLER CRASH/LEAK [null] TOO_MANY The reply has N change lines; only the first N were read, so N line was not used (from \"…\").",
+  "count": 2,
+  "first": {
+   "seed": 1031,
+   "n": 12,
+   "detail": {
+    "line": "undefined",
+    "message": "The reply has 151 change lines; only the first 150 were read, so 1 line was not used (from \"~ place NaN | kind: wild | with: nobody\")."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_kNyxcpzu.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1000,
+   "n": 20,
+   "detail": {
+    "line": "+ route Healíng Draught – Wolf | hours: 9007199254740993 | kind: river",
+    "message": "\"+ route Healíng Draught – Wolf | hours: 9007199254740993 | kind: river\" was not used: The atlas would not be valid: atlas.routes.rt_k3yxcpzu.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_nwuNldmu.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1004,
+   "n": 13,
+   "detail": {
+    "line": "+ route Fenna — Infinity | days: 99999999999999999 | kind: road",
+    "message": "\"+ route Fenna — Infinity | days: 99999999999999999 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_nwu6ldmu.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_uhNybxg.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1010,
+   "n": 2,
+   "detail": {
+    "line": "+ route 🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️ — Wolf | hours: 9007199254740992 | kind: road",
+    "message": "\"+ route 🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️ — Wolf | hours: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_uh28ybxg.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_NykwNz.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1012,
+   "n": 10,
+   "detail": {
+    "line": "+ route İstanbul – Wolf | days: 9007199254740993 | kind: sea",
+    "message": "\"+ route İstanbul – Wolf | days: 9007199254740993 | kind: sea\" was not used: The atlas would not be valid: atlas.routes.rt_9ykw248z.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_poncpohN.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1015,
+   "n": 3,
+   "detail": {
+    "line": "+ route Lyra —  Rope | days: 99999999999999999 | kind: road",
+    "message": "\"+ route Lyra —  Rope | days: 99999999999999999 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_poncpoh8.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_NkngxNy.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1015,
+   "n": 14,
+   "detail": {
+    "line": "+ route ${1} — Infinity | hours: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route ${1} — Infinity | hours: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_3kngx46y.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_aNjNwN.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1016,
+   "n": 0,
+   "detail": {
+    "line": "+ route then — isPrototypeOf | hours: 99999999999999999 | kind: road",
+    "message": "\"+ route then — isPrototypeOf | hours: 99999999999999999 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_a07j64w8.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_dpccbNm.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1016,
+   "n": 0,
+   "detail": {
+    "line": "+ route \\n — prototype | days: 9007199254740993 | kind: road",
+    "message": "\"+ route \\n — prototype | days: 9007199254740993 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_dpccb26m.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_tpgNgrrz.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1017,
+   "n": 4,
+   "detail": {
+    "line": "+ route Ｆｅｎｎａ — Healing Draught | days: 9007199254740993 | kind: road",
+    "message": "\"+ route Ｆｅｎｎａ — Healing Draught | days: 9007199254740993 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_tpg8grrz.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_sNxNhNeg.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1019,
+   "n": 16,
+   "detail": {
+    "line": "+ route \\ — Å | hours: 9007199254740992 | kind: road",
+    "message": "\"+ route \\ — Å | hours: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_s5x2h5eg.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_NkNdN.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1031,
+   "n": 5,
+   "detail": {
+    "line": "+ route --> — Healing Draught | hours: 9007199254740992 | kind: road",
+    "message": "\"+ route --> — Healing Draught | hours: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_77k09d47.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_iyhoqivN.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1036,
+   "n": 3,
+   "detail": {
+    "line": "+ route Bluewatch — \\n | days: 9007199254740992 | kind: road",
+    "message": "\"+ route Bluewatch — \\n | days: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_iyhoqiv5.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_fjqbjmN.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1039,
+   "n": 1,
+   "detail": {
+    "line": "+ route ROPE — Torch | hours: 9007199254740992 | kind: road",
+    "message": "\"+ route ROPE — Torch | hours: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_fjqbjm94.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_NoqycwN.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1044,
+   "n": 14,
+   "detail": {
+    "line": "+ route Rope — Healing Draught | hours: 99999999999999999 | kind: road",
+    "message": "\"+ route Rope — Healing Draught | hours: 99999999999999999 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_38oqycw3.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_dmNdtx.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1058,
+   "n": 9,
+   "detail": {
+    "line": "+ route Ren — then | days: 99999999999999999 | kind: road",
+    "message": "\"+ route Ren — then | days: 99999999999999999 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_dm877dtx.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_jdsylNca.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1058,
+   "n": 22,
+   "detail": {
+    "line": "+ route Healing Draught — Lyra | days: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route Healing Draught — Lyra | days: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_jdsyl7ca.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_NsxNmNl.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1064,
+   "n": 10,
+   "detail": {
+    "line": "+ route Rope\r — 0x10 | hours: 9007199254740992 | kind: road",
+    "message": "\"+ route Rope\r — 0x10 | hours: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_2sx27m2l.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_xNxqNfl.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1086,
+   "n": 4,
+   "detail": {
+    "line": "+ route NaN – -0 | hours: 9007199254740993 | kind: trail",
+    "message": "\"+ route NaN – -0 | hours: 9007199254740993 | kind: trail\" was not used: The atlas would not be valid: atlas.routes.rt_x98xq0fl.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_rqehsNvx.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1086,
+   "n": 17,
+   "detail": {
+    "line": "+ route Potion — Ren | hours: 9007199254740993 | kind: trail",
+    "message": "\"+ route Potion — Ren | hours: 9007199254740993 | kind: trail\" was not used: The atlas would not be valid: atlas.routes.rt_rqehs4vx.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_plNubnNo.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1090,
+   "n": 5,
+   "detail": {
+    "line": "+ route ${1} — zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz | hours: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route ${1} — zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz | hours: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_pl2ubn3o.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_bmNatwpN.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1091,
+   "n": 9,
+   "detail": {
+    "line": "+ route --> — Rope‍ | days: 99999999999999999 | kind: road <b onclick=x>bold</b>",
+    "message": "\"+ route --> — Rope‍ | days: 99999999999999999 | kind: road <b onclick=x>bold</b>\" was not used: The atlas would not be valid: atlas.routes.rt_bm4atwp0.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_gylllNvn.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1091,
+   "n": 24,
+   "detail": {
+    "line": "+ route {{char}} — \\ | hours: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route {{char}} — \\ | hours: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_gylll0vn.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_yfeuNnjx.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1093,
+   "n": 24,
+   "detail": {
+    "line": "+ route </Changes> — 🗡 Dagger | days: 99999999999999999 | kind: road",
+    "message": "\"+ route </Changes> — 🗡 Dagger | days: 99999999999999999 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_yfeu4njx.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_lyfNxjN.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1095,
+   "n": 3,
+   "detail": {
+    "line": "+ route Healing Draught — Rope\r | hours: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route Healing Draught — Rope\r | hours: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_lyf66xj3.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_NuNlbas.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1095,
+   "n": 14,
+   "detail": {
+    "line": "+ route Coins — Ro­pe | hours: 9007199254740992 | kind: road",
+    "message": "\"+ route Coins — Ro­pe | hours: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_2u99lbas.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_kNhgmNs.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1103,
+   "n": 21,
+   "detail": {
+    "line": "+ route SS — Granary Rats | days: 9007199254740993 | kind: river",
+    "message": "\"+ route SS — Granary Rats | days: 9007199254740993 | kind: river\" was not used: The atlas would not be valid: atlas.routes.rt_k3hgm59s.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_yfobaixj.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1113,
+   "n": 24,
+   "detail": {
+    "line": "+ route {{char}} — rope | hours: 9007199254740993 | kind: sea",
+    "message": "\"+ route {{char}} — rope | hours: 9007199254740993 | kind: sea\" was not used: The atlas would not be valid: atlas.routes.rt_yfobaixj.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_dkiyxvuf.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1116,
+   "n": 14,
+   "detail": {
+    "line": "+ route Healing Draught — Rope͏ | hours: 9007199254740992 | kind: road",
+    "message": "\"+ route Healing Draught — Rope͏ | hours: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_dkiyxvuf.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_xNomrzzN.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1120,
+   "n": 6,
+   "detail": {
+    "line": "+ route ǅ — ${1} | days: 99999999999999999 | kind: road",
+    "message": "\"+ route ǅ — ${1} | days: 99999999999999999 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_x4omrzz8.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_anNrNrNi.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1133,
+   "n": 22,
+   "detail": {
+    "line": "+ route \\n — Iron Sword | hours: 99999999999999999 | kind: road",
+    "message": "\"+ route \\n — Iron Sword | hours: 99999999999999999 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_an9r4r3i.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_bgNzgNay.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1135,
+   "n": 21,
+   "detail": {
+    "line": "+ route toString — isPrototypeOf | hours: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route toString — isPrototypeOf | hours: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_bg7zg4ay.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_Nefxjmqo.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1137,
+   "n": 17,
+   "detail": {
+    "line": "+ route A:B — ⁦Rope⁩ | days: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route A:B — ⁦Rope⁩ | days: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_1efxjmqo.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_istNegNm.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1140,
+   "n": 9,
+   "detail": {
+    "line": "+ route Coins — Ren | days: 9007199254740992 | kind: road",
+    "message": "\"+ route Coins — Ren | days: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_ist5eg6m.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_mNsjNrN.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1140,
+   "n": 17,
+   "detail": {
+    "line": "+ route Object — Ren | hours: 9007199254740993 | kind: road",
+    "message": "\"+ route Object — Ren | hours: 9007199254740993 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_m35sj3r5.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_paNebNo.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1144,
+   "n": 18,
+   "detail": {
+    "line": "+ route Granary Rats — \\ | hours: 9007199254740992 | kind: road",
+    "message": "\"+ route Granary Rats — \\ | hours: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_pa88eb5o.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_fgNmvyr.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1144,
+   "n": 18,
+   "detail": {
+    "line": "+ route <b>Rope</b> — Rope\ud800 | days: 9007199254740992 | kind: road",
+    "message": "\"+ route <b>Rope</b> — Rope\ud800 | days: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_fg45mvyr.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_jNtN.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1149,
+   "n": 15,
+   "detail": {
+    "line": "+ route Wolf — ǅ | hours: 9007199254740993 | kind: road",
+    "message": "\"+ route Wolf — ǅ | hours: 9007199254740993 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_j2349t79.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_pnpuaoN.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1151,
+   "n": 16,
+   "detail": {
+    "line": "+ route Torch — Array | hours: 9007199254740993 | kind: road",
+    "message": "\"+ route Torch — Array | hours: 9007199254740993 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_pnpuao71.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_irtrkfip.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1154,
+   "n": 2,
+   "detail": {
+    "line": "+ route yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy — Rope\r | days: 9007199254740993 | kind: road",
+    "message": "\"+ route yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy — Rope\r | days: 9007199254740993 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_irtrkfip.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_NbjhvNuu.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1165,
+   "n": 9,
+   "detail": {
+    "line": "+ route Fen​na — Rope‍ | hours: 9007199254740992 | kind: road",
+    "message": "\"+ route Fen​na — Rope‍ | hours: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_9bjhv8uu.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_tpdsreN.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1165,
+   "n": 14,
+   "detail": {
+    "line": "+ route Å — Ｒｏｐｅ | hours: 99999999999999999 | kind: road",
+    "message": "\"+ route Å — Ｒｏｐｅ | hours: 99999999999999999 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_tpdsre18.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_rzxhNlrr.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1167,
+   "n": 7,
+   "detail": {
+    "line": "+ route $& — </Changes> | days: 9007199254740992 | kind: road",
+    "message": "\"+ route $& — </Changes> | days: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_rzxh9lrr.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_pbxNjxNz.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1173,
+   "n": 14,
+   "detail": {
+    "line": "+ route <USER> — Ren | days: 9007199254740993 | kind: road",
+    "message": "\"+ route <USER> — Ren | days: 9007199254740993 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_pbx3jx9z.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_NnN.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1173,
+   "n": 16,
+   "detail": {
+    "line": "+ route İ — Wolf | hours: 9007199254740992 | kind: road",
+    "message": "\"+ route İ — Wolf | hours: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_371n4101.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_snrNiN.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1174,
+   "n": 15,
+   "detail": {
+    "line": "+ route 0x10 — Bluewatch | hours: 9007199254740993 | kind: sea",
+    "message": "\"+ route 0x10 — Bluewatch | hours: 9007199254740993 | kind: sea\" was not used: The atlas would not be valid: atlas.routes.rt_snr7i894.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_NiNyNoN.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1174,
+   "n": 22,
+   "detail": {
+    "line": "+ route ﷺ — A:B | hours: 9007199254740992 | kind: road",
+    "message": "\"+ route ﷺ — A:B | hours: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_8i77y7o6.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_nwNotwgm.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1176,
+   "n": 2,
+   "detail": {
+    "line": "+ route Torch — — | hours: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route Torch — — | hours: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_nw3otwgm.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_cNuNhgtl.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1180,
+   "n": 15,
+   "detail": {
+    "line": "+ route Granary Rats — <Changes> | hours: 9007199254740992 | kind: road",
+    "message": "\"+ route Granary Rats — <Changes> | hours: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_c1u1hgtl.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_kNhuzrvc.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1192,
+   "n": 7,
+   "detail": {
+    "line": "+ route fenna — --> | hours: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route fenna — --> | hours: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_k1huzrvc.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_thNvdN.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1193,
+   "n": 3,
+   "detail": {
+    "line": "+ route R̶o̶p̶e — Torch | days: 9007199254740992 | kind: road",
+    "message": "\"+ route R̶o̶p̶e — Torch | days: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_th47vd11.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_eheNyfag.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1193,
+   "n": 19,
+   "detail": {
+    "line": "+ route Granary Rats — Rope\ud800 | days: 9007199254740992 | kind: road",
+    "message": "\"+ route Granary Rats — Rope\ud800 | days: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_ehe8yfag.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_NrwqNiah.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1194,
+   "n": 0,
+   "detail": {
+    "line": "+ route Ｆｅｎｎａ — Rope | days: 9007199254740992 | kind: road",
+    "message": "\"+ route Ｆｅｎｎａ — Rope | days: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_4rwq8iah.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_vNipbN.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1195,
+   "n": 14,
+   "detail": {
+    "line": "+ route coin — Potion | hours: 9007199254740993 | kind: road",
+    "message": "\"+ route coin — Potion | hours: 9007199254740993 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_v60ipb70.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_NwlvNmvg.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1196,
+   "n": 21,
+   "detail": {
+    "line": "+ route Coins — 𒀱 | hours: 99999999999999999 | kind: road",
+    "message": "\"+ route Coins — 𒀱 | hours: 99999999999999999 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_3wlv2mvg.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_dqNjywN.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1204,
+   "n": 9,
+   "detail": {
+    "line": "+ route __defineGetter__ — ½ | hours: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route __defineGetter__ — ½ | hours: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_dq0jyw34.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_nztzjNmh.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1207,
+   "n": 23,
+   "detail": {
+    "line": "+ route A — B — Iron Sword | hours: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route A — B — Iron Sword | hours: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_nztzj8mh.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_oNngxybb.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1210,
+   "n": 0,
+   "detail": {
+    "line": "+ route Granary Rats — Fenna | days: 9007199254740992 | kind: road",
+    "message": "\"+ route Granary Rats — Fenna | days: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_o8ngxybb.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_NhupzpsN.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1214,
+   "n": 18,
+   "detail": {
+    "line": "+ route Bluewatch — Iron Sword | days: 9007199254740993 | kind: road",
+    "message": "\"+ route Bluewatch — Iron Sword | days: 9007199254740993 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_2hupzps4.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_boeitNkv.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1219,
+   "n": 24,
+   "detail": {
+    "line": "+ route Fenna — \\n | hours: 9007199254740993 | kind: road",
+    "message": "\"+ route Fenna — \\n | hours: 9007199254740993 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_boeit2kv.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_tyrhroyN.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1222,
+   "n": 23,
+   "detail": {
+    "line": "+ route Healing Draught — Ro​pe | hours: 9007199254740993 | kind: road",
+    "message": "\"+ route Healing Draught — Ro​pe | hours: 9007199254740993 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_tyrhroy8.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_sxnzNbNp.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1222,
+   "n": 23,
+   "detail": {
+    "line": "+ route Ｒｏｐｅ — constructor | days: 9007199254740992 | kind: road",
+    "message": "\"+ route Ｒｏｐｅ — constructor | days: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_sxnz8b1p.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_ynNwjNv.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1227,
+   "n": 0,
+   "detail": {
+    "line": "+ route Fen​na — ½ | hours: 99999999999999999 | kind: road",
+    "message": "\"+ route Fen​na — ½ | hours: 99999999999999999 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_yn89wj9v.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_eNnNeoua.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1231,
+   "n": 4,
+   "detail": {
+    "line": "+ route Coins — Ꮢope | days: 9007199254740993 | kind: road",
+    "message": "\"+ route Coins — Ꮢope | days: 9007199254740993 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_e4n8eoua.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_Npbhpgg.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1233,
+   "n": 23,
+   "detail": {
+    "line": "+ route Granary Rats — Torch | hours: 9007199254740992 | kind: road",
+    "message": "\"+ route Granary Rats — Torch | hours: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_92pbhpgg.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_iheiN.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1234,
+   "n": 24,
+   "detail": {
+    "line": "+ route ǅ — FENNA | hours: 9007199254740992 | kind: road",
+    "message": "\"+ route ǅ — FENNA | hours: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_ihei6527.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_NlhfctdN.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1239,
+   "n": 18,
+   "detail": {
+    "line": "+ route coin – Rópe | hours: 9007199254740993 | kind: sea",
+    "message": "\"+ route coin – Rópe | hours: 9007199254740993 | kind: sea\" was not used: The atlas would not be valid: atlas.routes.rt_1lhfctd5.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_nNrppacn.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1247,
+   "n": 21,
+   "detail": {
+    "line": "+ route ${1} — กำ | hours: 9007199254740992 | kind: road",
+    "message": "\"+ route ${1} — กำ | hours: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_n7rppacn.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_NpNdNd.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1249,
+   "n": 22,
+   "detail": {
+    "line": "+ route Ren — Fenna | hours: 9007199254740992 | kind: road",
+    "message": "\"+ route Ren — Fenna | hours: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_3p005d9d.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_hNpnybNc.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1250,
+   "n": 23,
+   "detail": {
+    "line": "+ route Bluewatch —  Rope | days: 9007199254740993 | kind: road",
+    "message": "\"+ route Bluewatch —  Rope | days: 9007199254740993 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_h8pnyb4c.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_foNwhpkn.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1253,
+   "n": 18,
+   "detail": {
+    "line": "+ route \\ — %s%s%n | days: 9007199254740992 | kind: road",
+    "message": "\"+ route \\ — %s%s%n | days: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_fo7whpkn.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_NqNqlne.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1255,
+   "n": 24,
+   "detail": {
+    "line": "+ route constructor — <!-- | hours: 9007199254740992 | kind: road",
+    "message": "\"+ route constructor — <!-- | hours: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_63q6qlne.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_eNoNqvoz.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1258,
+   "n": 12,
+   "detail": {
+    "line": "+ route Wolf — valueOf | hours: 9007199254740992 | kind: road",
+    "message": "\"+ route Wolf — valueOf | hours: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_e7o1qvoz.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_ivNtNy.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1271,
+   "n": 16,
+   "detail": {
+    "line": "+ route Wolf — Potion | hours: 9007199254740992 | kind: road",
+    "message": "\"+ route Wolf — Potion | hours: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_iv22t64y.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_dNxNqNgw.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1274,
+   "n": 19,
+   "detail": {
+    "line": "+ route Rope — Wolf | days: 9007199254740993 |",
+    "message": "\"+ route Rope — Wolf | days: 9007199254740993 |\" was not used: The atlas would not be valid: atlas.routes.rt_d9x3q4gw.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_scwfjkvN.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1276,
+   "n": 24,
+   "detail": {
+    "line": "+ route Iron Sword — Ηealing Draught | hours: 9007199254740993 | kind: road",
+    "message": "\"+ route Iron Sword — Ηealing Draught | hours: 9007199254740993 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_scwfjkv4.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_NgeNr.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1278,
+   "n": 3,
+   "detail": {
+    "line": "+ route isPrototypeOf — Lyra | hours: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route isPrototypeOf — Lyra | hours: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_3ge1208r.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_uNducyN.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1278,
+   "n": 10,
+   "detail": {
+    "line": "+ route </think> — Object | hours: 99999999999999999 | kind: road",
+    "message": "\"+ route </think> — Object | hours: 99999999999999999 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_u9ducy72.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_anNqlnNr.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1285,
+   "n": 0,
+   "detail": {
+    "line": "+ route 🗡 Dagger —  Rope | days: 9007199254740992 | kind: road",
+    "message": "\"+ route 🗡 Dagger —  Rope | days: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_an8qln1r.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_qsNspnNt.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1288,
+   "n": 0,
+   "detail": {
+    "line": "+ route Wolf — ı | days: 9007199254740992 | kind: road",
+    "message": "\"+ route Wolf — ı | days: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_qs7spn8t.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_oNhgqdon.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1291,
+   "n": 10,
+   "detail": {
+    "line": "+ route Granary Rats — Torch | days: 9007199254740993 | kind: road",
+    "message": "\"+ route Granary Rats — Torch | days: 9007199254740993 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_o2hgqdon.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_kgafNjrN.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1293,
+   "n": 19,
+   "detail": {
+    "line": "+ route Rope️ — \\ | hours: 9007199254740992 | kind: road",
+    "message": "\"+ route Rope️ — \\ | hours: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_kgaf9jr7.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_qjacxNat.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1296,
+   "n": 23,
+   "detail": {
+    "line": "+ route ${1} — Ro​pe | days: 99999999999999999 | kind: road",
+    "message": "\"+ route ${1} — Ro​pe | days: 99999999999999999 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_qjacx3at.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_NtNoaNzw.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1297,
+   "n": 22,
+   "detail": {
+    "line": "+ route Torch — <!-- | days: 9007199254740992 | kind: road",
+    "message": "\"+ route Torch — <!-- | days: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_0t7oa2zw.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_wrNofdgN.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1302,
+   "n": 4,
+   "detail": {
+    "line": "+ route Wolf — Rope‍ | hours: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route Wolf — Rope‍ | hours: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_wr4ofdg2.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_skdNhnN.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1305,
+   "n": 12,
+   "detail": {
+    "line": "+ route Ro​pe — coin | hours: 9007199254740992 | kind: road",
+    "message": "\"+ route Ro​pe — coin | hours: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_skd4hn07.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_qzgNpjz.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1311,
+   "n": 20,
+   "detail": {
+    "line": "+ route Rope — Wolf | days: 9007199254740993 | kind: sea",
+    "message": "\"+ route Rope — Wolf | days: 9007199254740993 | kind: sea\" was not used: The atlas would not be valid: atlas.routes.rt_qzg26pjz.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_kmhkhxNa.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1313,
+   "n": 13,
+   "detail": {
+    "line": "+ route Granary Rats — Lyra | hours: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route Granary Rats — Lyra | hours: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_kmhkhx0a.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_gidNxdpk.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1316,
+   "n": 12,
+   "detail": {
+    "line": "+ route Lyra — Fenna | hours: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route Lyra — Fenna | hours: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_gid4xdpk.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_ejbwvwlN.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1317,
+   "n": 4,
+   "detail": {
+    "line": "+ route ROPE — Iron Sword | hours: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route ROPE — Iron Sword | hours: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_ejbwvwl8.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_bfwbhqjq.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1318,
+   "n": 23,
+   "detail": {
+    "line": "+ route Ｒｏｐｅ — Potion | hours: 9007199254740993 | kind: road",
+    "message": "\"+ route Ｒｏｐｅ — Potion | hours: 9007199254740993 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_bfwbhqjq.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_NrjhiNwk.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1321,
+   "n": 1,
+   "detail": {
+    "line": "+ route %s%s%n – rope | hours: 9007199254740993 | kind: river",
+    "message": "\"+ route %s%s%n – rope | hours: 9007199254740993 | kind: river\" was not used: The atlas would not be valid: atlas.routes.rt_1rjhi7wk.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_koNeNh.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1321,
+   "n": 1,
+   "detail": {
+    "line": "+ route Å — 🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️ | days: 9007199254740992 | kind: road",
+    "message": "\"+ route Å — 🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️ | days: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_ko0e905h.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_kbwgNsd.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1321,
+   "n": 12,
+   "detail": {
+    "line": "+ route Ren — valueOf | days: 9007199254740993 | kind: road",
+    "message": "\"+ route Ren — valueOf | days: 9007199254740993 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_kbwg16sd.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_quchvNzd.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1323,
+   "n": 13,
+   "detail": {
+    "line": "+ route Lyra — Wolf | days: 9007199254740992 | kind: road",
+    "message": "\"+ route Lyra — Wolf | days: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_quchv9zd.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_prNuttvy.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1326,
+   "n": 22,
+   "detail": {
+    "line": "+ route Rope — then | days: 9007199254740993 | kind: road",
+    "message": "\"+ route Rope — then | days: 9007199254740993 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_pr6uttvy.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_NuxnNve.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1326,
+   "n": 22,
+   "detail": {
+    "line": "+ route Bluewatch – Wolf | hours: 9007199254740993 | kind: river",
+    "message": "\"+ route Bluewatch – Wolf | hours: 9007199254740993 | kind: river\" was not used: The atlas would not be valid: atlas.routes.rt_3uxn65ve.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_NkNdlNi.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1327,
+   "n": 12,
+   "detail": {
+    "line": "+ route Ｆｅｎｎａ — Healing Draught | days: 99999999999999999 | kind: road",
+    "message": "\"+ route Ｆｅｎｎａ — Healing Draught | days: 99999999999999999 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_3k1dl48i.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_NaNjhktg.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1327,
+   "n": 20,
+   "detail": {
+    "line": "+ route Rope\r — \\ | hours: 9007199254740993 | kind: road",
+    "message": "\"+ route Rope\r — \\ | hours: 9007199254740993 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_5a4jhktg.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_rNd.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1329,
+   "n": 7,
+   "detail": {
+    "line": "+ route hasOwnProperty — constructor | hours: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route hasOwnProperty — constructor | hours: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_r552167d.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_nbxNqpxd.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1335,
+   "n": 2,
+   "detail": {
+    "line": "+ route gold — <Changes> | hours: 9007199254740993 | kind: road",
+    "message": "\"+ route gold — <Changes> | hours: 9007199254740993 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_nbx2qpxd.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_ktNpavfx.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1340,
+   "n": 1,
+   "detail": {
+    "line": "+ route R̶o̶p̶e — constructor | hours: 9007199254740992 | kind: road",
+    "message": "\"+ route R̶o̶p̶e — constructor | hours: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_kt8pavfx.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_ocbNrxwu.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1342,
+   "n": 2,
+   "detail": {
+    "line": "+ route Rope — ß | hours: 9007199254740992 | kind: road",
+    "message": "\"+ route Rope — ß | hours: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_ocb9rxwu.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_NigqeNg.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1342,
+   "n": 4,
+   "detail": {
+    "line": "+ route Ren — ROPE | hours: 9007199254740992 | kind: road",
+    "message": "\"+ route Ren — ROPE | hours: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_17igqe6g.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_NewbNeu.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1345,
+   "n": 1,
+   "detail": {
+    "line": "+ route Torch — A — B | days: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route Torch — A — B | days: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_9ewb65eu.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_NpivNguN.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1350,
+   "n": 15,
+   "detail": {
+    "line": "+ route ROPE — Wolf | hours: 9007199254740993 | kind: road",
+    "message": "\"+ route ROPE — Wolf | hours: 9007199254740993 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_0piv8gu8.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_nwfkNdkN.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1351,
+   "n": 9,
+   "detail": {
+    "line": "+ route SS — hasOwnProperty | hours: 99999999999999999 | kind: road",
+    "message": "\"+ route SS — hasOwnProperty | hours: 99999999999999999 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_nwfk3dk1.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_xpfNcrNu.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1361,
+   "n": 17,
+   "detail": {
+    "line": "+ route Fenna — ROPE | hours: 99999999999999999 | kind: road",
+    "message": "\"+ route Fenna — ROPE | hours: 99999999999999999 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_xpf6cr9u.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_Nhwuyekk.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1363,
+   "n": 13,
+   "detail": {
+    "line": "+ route Iron Sword — Lyra | hours: 9007199254740993 | kind: road",
+    "message": "\"+ route Iron Sword — Lyra | hours: 9007199254740993 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_6hwuyekk.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_evgvdvwN.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1368,
+   "n": 20,
+   "detail": {
+    "line": "+ route Wolf — Torch | days: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route Wolf — Torch | days: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_evgvdvw2.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_ygnNxNsN.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1371,
+   "n": 10,
+   "detail": {
+    "line": "+ route ROPE — --> | days: 9007199254740993 | kind: road",
+    "message": "\"+ route ROPE — --> | days: 9007199254740993 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_ygn8x8s7.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_NrtNxxgl.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1372,
+   "n": 1,
+   "detail": {
+    "line": "+ route Rope — Fen​na | days: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route Rope — Fen​na | days: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_5rt6xxgl.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_xNmNqk.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1380,
+   "n": 1,
+   "detail": {
+    "line": "+ route Torch — Healing Draught | days: 99999999999999999 | kind: road",
+    "message": "\"+ route Torch — Healing Draught | days: 99999999999999999 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_x88m20qk.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_kooNfNac.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1385,
+   "n": 24,
+   "detail": {
+    "line": "+ route ${1} — Granary Rats | days: 9007199254740993 | kind: road",
+    "message": "\"+ route ${1} — Granary Rats | days: 9007199254740993 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_koo3f8ac.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_nrhtnhfv.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1395,
+   "n": 5,
+   "detail": {
+    "line": "+ route $& — {{char}} | days: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route $& — {{char}} | days: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_nrhtnhfv.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_kslNmlNd.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1400,
+   "n": 12,
+   "detail": {
+    "line": "+ route ı — valueOf | hours: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route ı — valueOf | hours: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_ksl3ml8d.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_wdNvNxm.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1401,
+   "n": 3,
+   "detail": {
+    "line": "+ route Lyra — Bluewatch | hours: 99999999999999999 | kind: road",
+    "message": "\"+ route Lyra — Bluewatch | hours: 99999999999999999 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_wd8v77xm.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_nutNkim.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1401,
+   "n": 18,
+   "detail": {
+    "line": "+ route Rоpe — SS | days: 99999999999999999 | kind: road",
+    "message": "\"+ route Rоpe — SS | days: 99999999999999999 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_nut73kim.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_vNyNtNqv.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1404,
+   "n": 21,
+   "detail": {
+    "line": "+ route Torch — 1e309 | days: 9007199254740993 | kind: sea",
+    "message": "\"+ route Torch — 1e309 | days: 9007199254740993 | kind: sea\" was not used: The atlas would not be valid: atlas.routes.rt_v2y1t6qv.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_rvNwhN.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1414,
+   "n": 7,
+   "detail": {
+    "line": "+ route Wolf — </think> | hours: 99999999999999999 | kind: road",
+    "message": "\"+ route Wolf — </think> | hours: 99999999999999999 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_rv914wh9.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_cokNpNxj.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1417,
+   "n": 24,
+   "detail": {
+    "line": "+ route ı — Ren | hours: 9007199254740992 | kind: road",
+    "message": "\"+ route ı — Ren | hours: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_cok6p3xj.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_hNbiNkbc.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1421,
+   "n": 0,
+   "detail": {
+    "line": "+ route ⁦Rope⁩ — Healing Draught | hours: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route ⁦Rope⁩ — Healing Draught | hours: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_h3bi4kbc.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_NndNwv.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1423,
+   "n": 6,
+   "detail": {
+    "line": "+ route </Changes> — Fenna | days: 9007199254740992 | kind: road",
+    "message": "\"+ route </Changes> — Fenna | days: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_6nd260wv.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_faygogeN.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1424,
+   "n": 6,
+   "detail": {
+    "line": "+ route zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz — __proto__ | hours: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz — __proto__ | hours: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_faygoge7.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_sNvyeqd.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1424,
+   "n": 9,
+   "detail": {
+    "line": "+ route Ｆｅｎｎａ — Rope\u0000 | hours: 9007199254740992 | kind: road",
+    "message": "\"+ route Ｆｅｎｎａ — Rope\u0000 | hours: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_s46vyeqd.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_NhNnbmNm.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1424,
+   "n": 20,
+   "detail": {
+    "line": "+ route Iron Sword – Bluewatch | days: 9007199254740993 | kind: x",
+    "message": "\"+ route Iron Sword – Bluewatch | days: 9007199254740993 | kind: x\" was not used: The atlas would not be valid: atlas.routes.rt_9h5nbm5m.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_zNwjuhw.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1426,
+   "n": 12,
+   "detail": {
+    "line": "+ route Bluewatch — Fenna | hours: 9007199254740992 | kind: road",
+    "message": "\"+ route Bluewatch — Fenna | hours: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_z33wjuhw.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_cpfsmzyN.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1431,
+   "n": 19,
+   "detail": {
+    "line": "+ route Rópe — Wolf | days: 9007199254740993 | kind: road",
+    "message": "\"+ route Rópe — Wolf | days: 9007199254740993 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_cpfsmzy0.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_fwnikNc.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1434,
+   "n": 7,
+   "detail": {
+    "line": "+ route fenna — Torch | days: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route fenna — Torch | days: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_fwnik26c.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_Nwolcej.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1437,
+   "n": 17,
+   "detail": {
+    "line": "+ route Rope͏ — Ren | days: 99999999999999999 | kind: road",
+    "message": "\"+ route Rope͏ — Ren | days: 99999999999999999 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_10wolcej.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_boNckwNo.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1441,
+   "n": 24,
+   "detail": {
+    "line": "+ route Lyra — constructor | days: 9007199254740993 | kind: road",
+    "message": "\"+ route Lyra — constructor | days: 9007199254740993 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_bo6ckw9o.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_wvxNyrac.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1446,
+   "n": 0,
+   "detail": {
+    "line": "+ route Lyra — <!-- | hours: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route Lyra — <!-- | hours: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_wvx7yrac.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_Nkxihuw.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1466,
+   "n": 14,
+   "detail": {
+    "line": "+ route Rope‍ — Rоpe | days: 9007199254740993 | kind: road",
+    "message": "\"+ route Rope‍ — Rоpe | days: 9007199254740993 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_37kxihuw.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_vkiNpnyd.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1467,
+   "n": 19,
+   "detail": {
+    "line": "+ route Ren — prototype | days: 9007199254740993 | kind: road",
+    "message": "\"+ route Ren — prototype | days: 9007199254740993 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_vki2pnyd.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_NmNoNv.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1468,
+   "n": 18,
+   "detail": {
+    "line": "+ route <USER> — Granary Rats | days: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route <USER> — Granary Rats | days: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_64m7o70v.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_wmrjuNfN.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1473,
+   "n": 9,
+   "detail": {
+    "line": "+ route Rope — Wolf | days: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route Rope — Wolf | days: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_wmrju9f5.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_wmwqbswc.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1475,
+   "n": 11,
+   "detail": {
+    "line": "+ route Ren — Bluewatch | days: 99999999999999999 | kind: road",
+    "message": "\"+ route Ren — Bluewatch | days: 99999999999999999 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_wmwqbswc.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_NwmyNagj.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1475,
+   "n": 13,
+   "detail": {
+    "line": "+ route Bluewatch — rope | hours: 9007199254740993 | kind: road",
+    "message": "\"+ route Bluewatch — rope | hours: 9007199254740993 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_4wmy5agj.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_NibdruNp.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1478,
+   "n": 13,
+   "detail": {
+    "line": "+ route Healing Draught — Ｒｏｐｅ | hours: 99999999999999999 | kind: road",
+    "message": "\"+ route Healing Draught — Ｒｏｐｅ | hours: 99999999999999999 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_6ibdru8p.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_jisNeNoa.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1481,
+   "n": 14,
+   "detail": {
+    "line": "+ route Bluewatch — __defineGetter__ | hours: 9007199254740992 | kind: road",
+    "message": "\"+ route Bluewatch — __defineGetter__ | hours: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_jis0e5oa.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_NwNiiixN.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1486,
+   "n": 10,
+   "detail": {
+    "line": "+ route Rope — Iron Sword | days: 9007199254740993 | kind: x",
+    "message": "\"+ route Rope — Iron Sword | days: 9007199254740993 | kind: x\" was not used: The atlas would not be valid: atlas.routes.rt_1w8iiix8.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_efcyNwwc.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1492,
+   "n": 17,
+   "detail": {
+    "line": "+ route Torch — Iron Sword | days: 9007199254740992 | kind: road",
+    "message": "\"+ route Torch — Iron Sword | days: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_efcy1wwc.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_NblyNp.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1493,
+   "n": 6,
+   "detail": {
+    "line": "+ route Healíng Draught — --> | hours: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route Healíng Draught — --> | hours: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_90bly27p.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_uhjNvNd.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1500,
+   "n": 8,
+   "detail": {
+    "line": "+ route Rope\r — then | hours: 99999999999999999 | kind: road",
+    "message": "\"+ route Rope\r — then | hours: 99999999999999999 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_uhj24v9d.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_NeoNksNh.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1502,
+   "n": 24,
+   "detail": {
+    "line": "+ route then — Granary Rats | hours: 99999999999999999 | kind: road",
+    "message": "\"+ route then — Granary Rats | hours: 99999999999999999 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_8eo5ks6h.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_stxvN.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1511,
+   "n": 13,
+   "detail": {
+    "line": "+ route Healing Draught — -0 | hours: 9007199254740992 | kind: road",
+    "message": "\"+ route Healing Draught — -0 | hours: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_stxv8997.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_ognxlcjg.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1513,
+   "n": 3,
+   "detail": {
+    "line": "+ route Fenna — Lyra | hours: 9007199254740993 | kind: road",
+    "message": "\"+ route Fenna — Lyra | hours: 9007199254740993 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_ognxlcjg.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_eqduqnco.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1514,
+   "n": 0,
+   "detail": {
+    "line": "+ route Ｒｏｐｅ — Iron Sword | days: 9007199254740993 | kind: road",
+    "message": "\"+ route Ｒｏｐｅ — Iron Sword | days: 9007199254740993 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_eqduqnco.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_sdlksNe.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1515,
+   "n": 5,
+   "detail": {
+    "line": "+ route Ｒｏｐｅ — Iron Sword | hours: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route Ｒｏｐｅ — Iron Sword | hours: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_sdlks36e.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_NelmmN.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1515,
+   "n": 19,
+   "detail": {
+    "line": "+ route gold — Bluewatch | days: 9007199254740992 | kind: road",
+    "message": "\"+ route gold — Bluewatch | days: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_619elmm8.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_NoqNzN.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1516,
+   "n": 21,
+   "detail": {
+    "line": "+ route <!-- — ǅ | days: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route <!-- — ǅ | days: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_392oq8z9.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_NtNmuvjf.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1520,
+   "n": 0,
+   "detail": {
+    "line": "+ route {{user}} — Wolf | days: 99999999999999999 | kind: road",
+    "message": "\"+ route {{user}} — Wolf | days: 99999999999999999 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_2t0muvjf.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_NuNokuNg.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1520,
+   "n": 14,
+   "detail": {
+    "line": "+ route Wolf — $& | hours: 9007199254740992 | kind: road",
+    "message": "\"+ route Wolf — $& | hours: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_9u3oku8g.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_pNjbaNlg.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1522,
+   "n": 19,
+   "detail": {
+    "line": "+ route Lyra — healing draught | days: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route Lyra — healing draught | days: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_p2jba9lg.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_ncioN.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1524,
+   "n": 7,
+   "detail": {
+    "line": "+ route prototype — <!-- | hours: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route prototype — <!-- | hours: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_ncio2523.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_NulcN.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1530,
+   "n": 3,
+   "detail": {
+    "line": "+ route <Changes> — Rope | days: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route <Changes> — Rope | days: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_2ulc4259.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_NpNjctih.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1531,
+   "n": 16,
+   "detail": {
+    "line": "+ route İstanbul — Iron Sword | hours: 9007199254740993 | kind: road",
+    "message": "\"+ route İstanbul — Iron Sword | hours: 9007199254740993 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_7p0jctih.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_tvNccaNu.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1531,
+   "n": 16,
+   "detail": {
+    "line": "+ route ß — Iron Sword | hours: 99999999999999999 | kind: road",
+    "message": "\"+ route ß — Iron Sword | hours: 99999999999999999 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_tv4cca1u.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_NiqoeNs.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1532,
+   "n": 6,
+   "detail": {
+    "line": "+ route Ｒｏｐｅ — <Changes> | hours: 99999999999999999 | kind: road",
+    "message": "\"+ route Ｒｏｐｅ — <Changes> | hours: 99999999999999999 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_24iqoe2s.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_jdawNni.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1543,
+   "n": 6,
+   "detail": {
+    "line": "+ route ROPE — then | days: 9007199254740993 | kind: road",
+    "message": "\"+ route ROPE — then | days: 9007199254740993 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_jdaw11ni.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_tNgmhzNk.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1543,
+   "n": 17,
+   "detail": {
+    "line": "+ route Bluewatch — --> | days: 9007199254740992 | kind: road",
+    "message": "\"+ route Bluewatch — --> | days: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_t6gmhz8k.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_NbiizuhN.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1545,
+   "n": 10,
+   "detail": {
+    "line": "+ route hasOwnProperty — \\ | hours: 9007199254740992 | kind: road",
+    "message": "\"+ route hasOwnProperty — \\ | hours: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_1biizuh2.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_NoNosNk.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1551,
+   "n": 22,
+   "detail": {
+    "line": "+ route Fen​na — Rоpe | days: 9007199254740993 | kind: road",
+    "message": "\"+ route Fen​na — Rоpe | days: 9007199254740993 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_4o61os8k.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_NbgpNh.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1576,
+   "n": 6,
+   "detail": {
+    "line": "+ route Rope\r — constructor | hours: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route Rope\r — constructor | hours: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_97bgp96h.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_balvgNjN.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1576,
+   "n": 17,
+   "detail": {
+    "line": "+ route Fenna‮ — ½ | days: 99999999999999999 | kind: road",
+    "message": "\"+ route Fenna‮ — ½ | days: 99999999999999999 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_balvg9j4.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_siNxNpg.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1579,
+   "n": 7,
+   "detail": {
+    "line": "+ route Rope͏ — Infinity | hours: 99999999999999999 | kind: road",
+    "message": "\"+ route Rope͏ — Infinity | hours: 99999999999999999 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_si17x6pg.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_dtiyappc.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1581,
+   "n": 24,
+   "detail": {
+    "line": "+ route valueOf — Ren | hours: 9007199254740993 | kind: road",
+    "message": "\"+ route valueOf — Ren | hours: 9007199254740993 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_dtiyappc.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_vcvhnleg.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1582,
+   "n": 12,
+   "detail": {
+    "line": "+ route -0 — Rope | days: 99999999999999999 | kind: road",
+    "message": "\"+ route -0 — Rope | days: 99999999999999999 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_vcvhnleg.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_ztojNayh.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1582,
+   "n": 24,
+   "detail": {
+    "line": "+ route Ren — Rope | days: 9007199254740992 | kind: road",
+    "message": "\"+ route Ren — Rope | days: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_ztoj4ayh.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_iNigNwk.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1583,
+   "n": 3,
+   "detail": {
+    "line": "+ route Rope\r — ½ | hours: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route Rope\r — ½ | hours: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_i8ig87wk.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_xwlNxNk.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1594,
+   "n": 9,
+   "detail": {
+    "line": "+ route valueOf — hasOwnProperty | hours: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route valueOf — hasOwnProperty | hours: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_xwl37x3k.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_xNzNzig.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 1598,
+   "n": 5,
+   "detail": {
+    "line": "+ route Lyra — {{char}} | hours: 9007199254740992 | kind: road",
+    "message": "\"+ route Lyra — {{char}} | hours: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_x24z8zig.hours must be a whole number.."
+   }
+  }
+ }
+]

@@ -190,9 +190,11 @@ async function runSeed(seed) {
             if (live !== JSON.stringify(host.head())) note(`REBUILD != LIVE [${shape}]`, seed, n, {});
             if (process.env.FUZZ_REREAD !== '0' && gen.r.chance(0.12) && typeof host.sdk.reread === 'function') {
                 const s0 = snapshot(host);
+                if (process.env.FUZZ_DUMP === String(n)) fs.writeFileSync(new URL('./dump-before.json', OUT), JSON.stringify({ chat: host.ctx.chat, head: host.head() }, null, 1));
                 const key = x => JSON.stringify({ coin: x.coin, qty: x.qty, meters: x.meters, xp: x.xp });
                 let rr;
                 try { rr = await host.sdk.reread(host.ctx.chat.length - 1); } catch (e) { note(`REREAD EXCEPTION ${String(e?.message).slice(0, 100)}`, seed, n, { shape }); }
+                if (process.env.FUZZ_DUMP === String(n)) fs.writeFileSync(new URL('./dump-after.json', OUT), JSON.stringify({ rr, chat: host.ctx.chat, head: host.head() }, null, 1));
                 if (rr && !rr.ok) note(`REREAD REFUSED ${rr.code} ${norm(rr.message).slice(0, 100)} [${shape}]`, seed, n, { shape, text: text.slice(0, 1500) });
                 else if (rr && key(s0) !== key(snapshot(host))) note(`REREAD != LIVE [${shape}]`, seed, n, { before: key(s0).slice(0, 600), after: key(snapshot(host)).slice(0, 600), text: text.slice(0, 2000), cont: rep.cont });
             }

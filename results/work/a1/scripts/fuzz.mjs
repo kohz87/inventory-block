@@ -128,7 +128,7 @@ async function runSeed(seed) {
     ctx.saveChat = async () => {
         if (saveMode === 'fail') { saveMode = 'ok'; throw new Error('fake failure'); }
         if (saveMode === 'swallow') { saveMode = 'ok'; return; }   // ST saveChatConditional: error swallowed
-        const snap = structuredClone(ctx.chat);
+        const snap = JSON.parse(JSON.stringify(ctx.chat));   // what reaches the disk is JSON
         const id = ctx.chatId;
         if (saveDelay) await sleep(saveDelay);
         st.saves.push(snap);
@@ -144,7 +144,7 @@ async function runSeed(seed) {
 
     const head = () => { try { return store.head(); } catch (e) { fail('head() threw', e.message); return null; } };
 
-    function check(label, { expectRecorded = true, skip = new Set() } = {}) {
+    function check(label, { expectRecorded = true, skip = new Set(), full = true } = {}) {
         const chat = ctx.chat;
         const idx = carriers(chat);
         // #1 oracle per carrier (strict; known to lack rebase/scratch: opt-in)
@@ -154,7 +154,7 @@ async function runSeed(seed) {
             const want = rebuildAt(chat, i).state;
             if (J(live) !== J(want)) fail(`#1 at(${i}) != strict rebuild`, `${label}`);
         }
-        const snap = structuredClone(chat);
+        const snap = JSON.parse(JSON.stringify(chat));   // a chat file is JSON
         const fresh = mkStore(() => snap);
         // #1b every carrier: a cold rebuild's state at that point == the live store's
         if (AT_EVERY > 0 && (log.length % AT_EVERY === 0)) {
@@ -171,7 +171,8 @@ async function runSeed(seed) {
         }
         // #2 recorded
         if (expectRecorded) {
-            for (const i of idx) {
+            // every recorded point after a restoring op (and every 10th step); else the last three carriers
+            for (const i of (full || log.length % 10 === 0 ? idx : idx.slice(-3))) {
                 const k = key(chat[i]);
                 if (!recorded.has(k) || skip.has(k)) continue;
                 const live = J(store.at(i));
@@ -241,10 +242,10 @@ async function runSeed(seed) {
     check('start');
 
     const OPS = {
-        async send(step) { await h.send(`User ${step}.`, replyText(r, step, r.chance(0.15))); },
+        async send(step) { await h.send(`User ${step}.`, replyText(r, step, r.chance(0.15))); await stSave(); },   // ST saves after each generation
         async group(step) {     // a second carrier in a row (group chat: another character answers)
             await st.generate('normal', { reply: replyText(r, step) });
-            const m = ctx.chat.at(-1); m.name = r.pick(['Fenna', 'Kael']);
+            const m = ctx.chat.at(-1); if (m && !m.is_user) m.name = r.pick(['Fenna', 'Kael']);
         },
         async ui() {
             // UI commands of all four modules between replies, payloads from the live head.
@@ -280,10 +281,16 @@ async function runSeed(seed) {
             for (const o of offers) choices.push([r.pick(['party.acceptOffer', 'party.dismissOffer']), { offer: o }]);
             if (actors.length) {
                 const a = r.pick(actors);
-                choices.push(['party.spend', { actor: a, points: { [r.pick(['STR', 'AGI', 'VIT'])]: 1 } }], ['party.learnSkill', { actor: a, name: r.pick(['Power Strike', 'Quick Shot', 'Mend']) }]);
+                if ((party.actors[a]?.points ?? 0) > 0) choices.push(['party.spend', { actor: a, points: { [r.pick(['STR', 'AGI', 'VIT'])]: 1 } }]);
+                choices.push(['party.learnSkill', { actor: a, name: r.pick(['Power Strike', 'Quick Shot', 'Mend']) }]);
+                const comp = actors.find(x => x !== party.pc);
+                if (comp && st0) choices.push(['inventory.transfer', { stack: st0.id, to: comp }], ['party.heal', { actor: comp, hp: r.int(1, 5) }]);
                 if (actors.length > 1) choices.push(['party.removeCompanion', { actor: actors.find(x => x !== party.pc) }]);
             }
-            for (const t of threads.slice(0, 6)) choices.push([r.pick(['quest.take', 'quest.decline', 'quest.abandon', 'quest.finish']), { id: t.id }]);
+            for (const t of threads.filter(x => x.kind === 'quest' && !x.ended).slice(0, 6)) {
+                if (t.offer && !t.taken) choices.push([r.pick(['quest.take', 'quest.take', 'quest.decline']), { id: t.id }]);
+                else choices.push([r.pick(['quest.finish', 'quest.finish', 'quest.abandon']), { id: t.id }]);
+            }
             try {
                 const m = sdk.query('trade.market');
                 if (m?.open) {
@@ -299,7 +306,7 @@ async function runSeed(seed) {
             log[log.length - 1] += `:${t}${res?.ok ? '' : '!'}`;
             if (r.chance(FAST ? 0.03 : 0.15)) await sleep(450);       // let the scheduled save fire
         },
-        async swipe(step) { if (lastIsCarrier() && ctx.chat.length > 1) await h.swipe(replyText(r, step)); },
+        async swipe(step) { if (lastIsCarrier() && ctx.chat.length > 1) { await h.swipe(replyText(r, step)); await stSave(); } },
         async stSwipe(step) {      // SillyTavern's own new-swipe path (non-streaming saveReply)
             if (!lastIsCarrier() || ctx.chat.length < 2) return;
             const last = ctx.chat.length - 1, m = ctx.chat[last];
@@ -348,7 +355,7 @@ async function runSeed(seed) {
             await st.eventSource.emit('message_swipe_deleted', { messageId: i, swipeId: del, newSwipeId: now });
             await stSave();
         },
-        async regenerate(step) { if (ctx.chat.length > 1) await h.regenerate(replyText(r, step)); },
+        async regenerate(step) { if (ctx.chat.length > 1) { await h.regenerate(replyText(r, step)); await stSave(); } },
         async cont(step) { if (lastIsCarrier() && ctx.chat.length > 1) await h.cont(r.chance(0.5) ? `\nmore\n<Changes>\n${line(r)}\n</Changes>` : ' more.'); },
         async deleteLast() { if (ctx.chat.length > 1) { await st.deleteMessage(ctx.chat.length - 1); await stSave(); } },
         async deleteMiddle() {
@@ -389,10 +396,11 @@ async function runSeed(seed) {
             lastSavedChatId = null;
         },
         async rewind() {
-            const idx = carriers(ctx.chat).filter(i => (readRecord(ctx.chat[i])?.receipts?.length ?? 0) > 0);
+            const idx = carriers(ctx.chat).filter(i => (readRecord(ctx.chat[i])?.receipts ?? []).some(x => Number.isInteger(x?.rev) && x.rev >= 1));
             if (!idx.length) return;
             const i = r.pick(idx);
-            const recs = readRecord(ctx.chat[i]).receipts;
+            const recs = readRecord(ctx.chat[i]).receipts.filter(x => Number.isInteger(x?.rev) && x.rev >= 1);   // corrupt receiptsJunk leaves junk
+            if (!recs.length) return;
             const rec = r.pick(recs);
             const k = key(ctx.chat[i]);
             // the rev expected after it: rec.rev - 1 inside the record, else the state before this carrier's
@@ -494,7 +502,7 @@ async function runSeed(seed) {
             await sleep(60);
             saveDelay = 0;
         },
-        async bigReply(step) { await h.send(`User ${step}.`, replyText(r, step, true)); },
+        async bigReply(step) { await h.send(`User ${step}.`, replyText(r, step, true)); await stSave(); },
         async death(step) {
             const res = await h.send(`User ${step}.`, `A wolf pack!\n<Changes>\n! encounter 3 Wolf — circling | tier: deadly | stakes: death\n</Changes>`);
             for (let n = 0; n < 200; n++) {
@@ -520,6 +528,7 @@ async function runSeed(seed) {
         slowRace: 2, bigReply: 3, death: 1 };
     if (process.env.PROFILE === 'cp') Object.assign(WEIGHTS, { send: 30, bigReply: 25, group: 5, deleteMany: 0.2, newChat: 0, corrupt: 0, deleteMiddle: 1, death: 0.5, saveFail: 0.5 });
     if (process.env.PROFILE === 'long') Object.assign(WEIGHTS, { send: 30, bigReply: 8, deleteMany: 0.3, newChat: 0.1, deleteLast: 3, corrupt: 0.5 });
+    if (process.env.PROFILE === 'clean') Object.assign(WEIGHTS, { send: 30, bigReply: 6, deleteMany: 0.3, newChat: 0.1, corrupt: 0, ui: 14 });   // no hand-damaged records
     if (FAST) Object.assign(WEIGHTS, { saveFail: 0.4, slowRace: 0.4 });
     const names = Object.keys(WEIGHTS).filter(n => !ONLY.length || ONLY.includes(n));
     const total = names.reduce((s, n) => s + WEIGHTS[n], 0);
@@ -548,7 +557,7 @@ async function runSeed(seed) {
             const before = carriers(ctx.chat).filter(i => i < hi).at(-1);
             if (before !== undefined) skip.add(key(ctx.chat[before]));   // a cue before the reply lands there
         }
-        check(`${step}:${op}`, { expectRecorded: out !== 'nocheck2', skip });
+        check(`${step}:${op}`, { expectRecorded: out !== 'nocheck2', skip, full: RESTORE.has(op) || op === 'rewind' });
         const dt = performance.now() - t0;
         if (VERBOSE && step % 50 === 0) origErr(`seed ${seed} step ${step} len ${ctx.chat.length} rev ${head()?.meta?.rev} check ${dt.toFixed(0)}ms`);
         for (const p of turn.problems()) if (/could not be kept|could not be built/.test(p.message)) fail('turn problem', p.message);

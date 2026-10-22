@@ -1,0 +1,1432 @@
+[
+ {
+  "sig": "INVARIANT lone surrogate in state /director",
+  "count": 2339,
+  "first": {
+   "seed": 5003,
+   "n": 12,
+   "detail": {
+    "i": "lone surrogate in state /director",
+    "shape": "many",
+    "lines": [
+     "+ item zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+     "+ item zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+     "~ place 🗡️ Dagger | kind: settlement | with: everyone",
+     "- npc Lyra | tension: +1e309",
+     "- route Lyra — Fenna | hours: 12 | kind: road",
+     "~item::Torch",
+     "+ event Lyra: a fair | then: x | on: +999999h",
+     "~ place Rope | kind: settlement",
+     "+ recipe Bluewatch | from: Healing Draught | makes: Torch | with: A x2, B | craft: alchemy"
+    ]
+   }
+  }
+ },
+ {
+  "sig": "INVARIANT lone surrogate in state /trade",
+  "count": 1075,
+  "first": {
+   "seed": 5000,
+   "n": 16,
+   "detail": {
+    "i": "lone surrogate in state /trade",
+    "shape": "many",
+    "lines": [
+     "+ beat Granary Rats — a turn | on: +30m | encounter: 10 Goblin",
+     "The party found 7 gold and a Wolf.",
+     "+ beat Fenna — a turn | on: Day 2, 09:00",
+     "The party found 1000000 gold and a ½.",
+     "~ place __proto__ | kind: settlement | with: ",
+     "! encounter 1  -- circling | tier: god",
+     "+ xp Lyra | a b c: --  > | days: 09:00",
+     "+ coin 7",
+     "? check stealth – try | dc: 40 | roll: 1e309 | result: "
+    ]
+   }
+  }
+ },
+ {
+  "sig": "INVARIANT lone surrogate in state /party",
+  "count": 1051,
+  "first": {
+   "seed": 5007,
+   "n": 23,
+   "detail": {
+    "i": "lone surrogate in state /party",
+    "shape": "many",
+    "lines": [
+     "+ recipe NaN | from: Rope | makes: Bluewatch | with: A x2, B | craft: alchemy",
+     "**+ item undefined**",
+     "+ event Bluewatch -- a fair | then: x | on: +1d",
+     "~ npc hasOwnProperty | trust: NaN",
+     "+ quest yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy—a job | giver: Healing Draught | goal: Find the thing | reward: ٣  | due: +1e309h",
+     "~ wound coin—cure poisoned | harm: grievous",
+     "? check STR—yes | dc: 1e309 | roll: 6 | result: x",
+     "~ quest Wolf",
+     "? check STR -- try | dc: easy | roll: -1 | result: critical",
+     "+ market Granary Rats –  | until: +1,000h"
+    ]
+   }
+  }
+ },
+ {
+  "sig": "INVARIANT lone surrogate in state /combat",
+  "count": 948,
+  "first": {
+   "seed": 5000,
+   "n": 2,
+   "detail": {
+    "i": "lone surrogate in state /combat",
+    "shape": "mixed",
+    "lines": [
+     "<Changes>",
+     "+ join Lyra — a stranger | level: ‏30 | role: Bluewatch",
+     "+ join Rope — a stranger | level: 5 | role: Ηealing Draught",
+     "! encounter ‏30 Rope\ud800 — attack | tier: trivial | stakes: ",
+     "! rest long — Iron Sword",
+     "~ place Wolf | kind: settlement | with: everyone",
+     "+ secret Rope—hidden",
+     "+ skill toJSON — Iron Sword: does 8 damage | taught by: Fenna",
+     "! use Bluewatch | on: Healing Draught | by: Wolf",
+     "`+ coin 5`",
+     "+ wound ",
+     "+ skill Fenna — Healing Draught: does 3 damage | taught by: NaN",
+     "! use {{char}} | on: Healing Draught | by: Lyra | qty: ３",
+     "- world Ren -- war | state: looming | place: Lyra | factions: Rópe"
+    ]
+   }
+  }
+ },
+ {
+  "sig": "INVARIANT lone surrogate in state /atlas",
+  "count": 487,
+  "first": {
+   "seed": 5012,
+   "n": 12,
+   "detail": {
+    "i": "lone surrogate in state /atlas",
+    "shape": "many",
+    "lines": [
+     "+ item gold\t| qty:\t ",
+     "~ npc Granary Rats | trust: NaN",
+     "- leave Iron Sword - parts ways",
+     "- world Granary Rats -- war | state: x | place: A:B | factions: ½",
+     "+ item Healing Draught | note: --> <script>alert(1)</script>",
+     "- coin 3 | to: Ren"
+    ]
+   }
+  }
+ },
+ {
+  "sig": "INVARIANT lone surrogate in state /checks",
+  "count": 418,
+  "first": {
+   "seed": 5040,
+   "n": 5,
+   "detail": {
+    "i": "lone surrogate in state /checks",
+    "shape": "cut",
+    "lines": [
+     "? check lockpicking – yes | dc: 0 | roll: ½ | result: critical",
+     "- join Infinity - a stranger | level: 7 | role: mage",
+     "! encounter x5 Dragon — circling | tier: god",
+     "- item valueOf | name: Healing Draught",
+     "~ item Wolf | note: 09:00",
+     "+ item | qty: 3",
+     "+ coin 12",
+     "? check xyz – try | dc: easy | roll: 1e309 | result: critical",
+     "+items:hasOwnProperty",
+     "```",
+     "! use Granary Rats | on: Rope | by: Ren | qty: 十",
+     "? check __proto__ — Rope\ud800 | dc: easy | roll: 20,5 | result: critical",
+     "- coin 3",
+     "! use Wolf | on: Rope\r | by: Bluewatch | qty: 9",
+     "+ present Iron Sword",
+     "? check xyz — try | dc:  | roll: -1 | result: critical",
+     "! market valueOf — Healing Draught | until: +1e309d",
+     "+ item Bluewatch | area: 9,007,199,254,740,991 | days: +½h | level: yes | 9x: 09:00 | note: prototype | dc: --  > | kind: 09:00 | reach: a: b | harm: +½h | note:  | tier: yes | tier: x | y | a b c: done | heal: a: b | role: x — y | on:  | difficulty: x — y | due: yes | gold: 0 | due: --> | roll: yes | :: NaN | role: ǅ | goal: done | Qty: yes | dc: +½h | who: 09:00",
+     "+ world Torch — Bluewatch | state: +1e309h",
+     "- op: \"+\"\n  kind: item\n  name: Rope",
+     "1. + item Fenna"
+    ]
+   }
+  }
+ },
+ {
+  "sig": "INVARIANT lone surrogate in state /inventory",
+  "count": 250,
+  "first": {
+   "seed": 5027,
+   "n": 1,
+   "detail": {
+    "i": "lone surrogate in state /inventory",
+    "shape": "cont",
+    "lines": [
+     "+ ",
+     "+ beat Ren - a turn | on: -5h | encounter: 2 Cellar Rat",
+     "~ present Rope",
+     "! craft Granary Rats | with: Granary Rats x2, Ro​pe | roll: 2 | result: fine",
+     "+ landmark Wolf | region: Iron Sword | kind: ruin",
+     "! craft Bluewatch | with: Torch x2, ‮epor | roll:   | result: fine",
+     "+ item \udc00Rope | qty: 10",
+     "~ place Fenna‮ | kind: settlement | region: Å",
+     "? check STR — gold | dc: hard | roll: -Infinity | result: ",
+     "~ place Ro​pe | kind: wild | region: ﬀ | with: hasOwnProperty",
+     "~ time +30m",
+     "+ item Ren\t| qty:\t2",
+     "- quest Rats — turned in | reward: 999999 gold",
+     "~ npc Wolf | trust: -1000",
+     "+ clock Ren: doom | due: -5h | shown: sign",
+     "- world Wolf -- war | state: ongoing | place: Iron Sword | factions: gold",
+     "{\"op\":\"+\",\"kind\":\"item\",\"name\":\"Iron Sword\",\"qty\":1e309}",
+     "- npc Rope | trust: +1e309",
+     "+ hook Rope - an open thread | giver: Ren | reward: 3.5 gold",
+     "+ skill healing draught — Torch: does 30 damage | taught by: Lyra"
+    ]
+   }
+  }
+ },
+ {
+  "sig": "INVARIANT lone surrogate in state /chronicle",
+  "count": 210,
+  "first": {
+   "seed": 5024,
+   "n": 11,
+   "detail": {
+    "i": "lone surrogate in state /chronicle",
+    "shape": "many",
+    "lines": [
+     "~ npc ${x} | trust: NaN",
+     "~ npc ${x} | trust: NaN",
+     "~ npc ${x} | trust: NaN"
+    ]
+   }
+  }
+ },
+ {
+  "sig": "INVARIANT lone surrogate in state /scene",
+  "count": 148,
+  "first": {
+   "seed": 5007,
+   "n": 16,
+   "detail": {
+    "i": "lone surrogate in state /scene",
+    "shape": "many",
+    "lines": [
+     "+ item Bluewatch || | | |",
+     "```",
+     "+ secret Gold: hidden",
+     "- place yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy | kind: settlement",
+     "**+ item %s%s%n**",
+     "?__proto__:Gold",
+     "＋ coin 5",
+     "~ present Granary Rats",
+     "+ item Bluewatch || | | |",
+     "+ item Bluewatch || | | |",
+     "+ item Bluewatch || | | |",
+     "+ item Bluewatch || | | |"
+    ]
+   }
+  }
+ },
+ {
+  "sig": "INVARIANT lone surrogate in state /npc",
+  "count": 80,
+  "first": {
+   "seed": 5063,
+   "n": 23,
+   "detail": {
+    "i": "lone surrogate in state /npc",
+    "shape": "many",
+    "lines": [
+     "+ wound",
+     "Granary Rats gained a rope",
+     "- market 🗡 Dagger —  | until: 25:99",
+     "! use Ren | on: Fenna",
+     "~ market Lyra – supplies back | until: 25:99",
+     "+ landmark Torch | region: Torch | kind: cave | plane: underground",
+     "The party found 9 gold and a Lyra.",
+     "+ join Fenna: a stranger | level: 1 | role: ranger",
+     "+ skill Torch - __proto__: a cut | taught by: Granary Rats",
+     "? check luk – --  > | dc: easy | who: Fenna | result: critical",
+     "! use Rope | on: tab\there",
+     "+ kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk x",
+     "+ item Granary Rats | toString: yes | result: x | y | makes: yes | gold: yes | region: x | y | 9x: 09:00 | harm: done | difficulty: a: b | :: tomorrow | a b c: yes | shown: a: b",
+     "+ kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk x",
+     "+ join Healing Draught - a stranger | level: 1 | role: mage",
+     "? check __proto__ – try | dc: hard | roll: 1e309 | result: critical",
+     "+ secret healing draught: hidden",
+     "+route:🗡️ Dagger",
+     "+ item prototype || | | |",
+     "1. + item ½",
+     "! time +999999h",
+     "? check __proto__—try | dc: 15 | roll: 20 | result: fail",
+     "+ landmark Bluewatch | region: Infinity | kind: town",
+     "＋ coin 5",
+     "+ hook Ren - an open thread",
+     "! use Torch | on: NaN | qty: 11",
+     "- join yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy: a stranger | level: 2 | role: mage",
+     "+ beat Ｒｏｐｅ — a turn | on: +30m | encounter: 11 ",
+     "! craft 1,000 | with: Granary Rats x2, Bluewatch | roll: 5 gold 3 silver | result: fine",
+     "- coin 8"
+    ]
+   }
+  }
+ },
+ {
+  "sig": "BARE BLOCK LEFT VISIBLE [cont]",
+  "count": 32,
+  "first": {
+   "seed": 5001,
+   "n": 24,
+   "detail": {
+    "mes": "<Changes>\n! craft Fenna | with: Torch x2, Wolf | roll: 5 | result: fine\n~ place ß | kind: settlement | region: Torch\n+ item Coins | constructor: x | toString: y | __proto__: z\n- quest Fetch — turned in\n</Changes>",
+    "text": "\n\n<Changes>\n! craft Fenna | with: Torch x2, Wolf | roll: 5 | result: fine\n~ place ß | kind: settlement | region: Torch\n+ item Coins | constructor: x | toString: y | __proto__: z\n- quest Fetch — turned in\n</Changes>",
+    "cont": {
+     "first": "\n\n<",
+     "rest": "Changes>\n! craft Fenna | with: Torch x2, Wolf | roll: 5 | result: fine\n~ place ß | kind: settlement | region: Torch\n+ item Coins | constructor: x | toString: y | __proto__: z\n- quest Fetch — turned in\n</Changes>",
+     "stopped": false
+    },
+    "wrap": "unclosed"
+   }
+  }
+ },
+ {
+  "sig": "CAP COIN +N > budget N [reply turns in a quest]",
+  "count": 21,
+  "first": {
+   "seed": 5005,
+   "n": 18,
+   "detail": {
+    "c": "COIN +74 > budget 50 [reply turns in a quest]",
+    "shape": "many",
+    "text": "Story.\n<Changes>\n* + item Fenna\n+ join Bluewatch — a stranger | level: 5. | role: |\n`+ coin 1e309`\n+ route Healing Draught — Bluewatch | days: 1e3 | kind: road\n+ hook constructor — Torch | region: Fenna\n+ join NaN - a stranger | level: 8 | role: mage\n+ route Fenna — then | hours: 99999999999999999 | kind: road\n+ item {{char}} | hours: --  > | with: a: b | Qty: +2h | makes: x | y | QTY: 09:00 | level: Ren | xp: +30m | hours: a: b | constructor: 25:99 | meter: x | y | a b c:  | on: --  > | stakes: yes | é: two | area: --  > | makes:  | trust: done | trust: x — y | toString: done | a b c:  | stance: done | é: x | y | to: 25:99 | craft: done | kind: x — y | result: 10 | dc: yes | 9x:  | days:  | toString: done\n+ coin ½\n! encounter 2 Dragon — circling | tier: even\n- coin ٣ | to: Healing Draught\n+\n+ coin ٣ -->\n+ item Superior Healing Potion | qty: 1 000 | note: heals 99999 HP\n?event:Ren\n1. + item {{char}}\n~ wound A:B — cut | heal: severe\n- quest Fetch — turned in\n+ item | qty: 3\n~ quest Fetch | met: yes\n! market — — Lyra | until: +1e309d\n+ landmark Iron Sword | region: Wolf | kind: cave\n~ time 09:00\n~ wound Torch – fell | heal: severe\n+ join Rope — a stranger | level:  | role: Ｆｅｎｎａ\n​+ coin 5\n- op: \"+\"\n  kind: item\n  name: Rope\n+ secret Potion – hidden\n- present Torch, Fenna, Healing Draught\n* + item Lyra\n! use 1e309 | on: Rope | by: Iron Sword | qty: 6\n- coin 7\n! use 0x10 | on: Potion\n+ coin NaN | to: 🗡 Dagger\n+ coin 9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999\n+ present $&, ${1}, Fenna‮, ß, Wolf, Wolf\n~ npc <think> | trust: +15\n+ market Ren -- no bread\n? check athletics - try | dc: hard | roll: Roll 1 | result: x\n- quest Lyra — done\n~ time tomorrow\n<!-- STORY_SUITE_V2 + coin 999 -->\n? check __proto__ — {{char}} | dc: easy | roll: −30 | result: critical\n+ coin 30.0\n? check constructor — Ｒｏｐｅ | dc: easy | roll: 5. | result: fail\n! use   | on: Healing Draught | qty: 6\n﻿+ coin 5\n+ item Lyra | constructor: x | toString: y | __proto__: z\n~ place Healing Draught | kind: settlement | region: Fenna\n+ item Rope\ud800 | qty: 5́\n! craft ${x} | with: valueOf x2, A:B | roll: 8 | result: fine\n! encounter 1 Lyra — attack | tier:  | stakes: normal\n! item 1e309 | qty: 5\n+ clock Zalgo̸̢͎̓ – doom | due: Day 2, 09:00 | shown: x\n~ wound ﷺ — cut | heal: grievous\n<Changes>\n! encounter ‏30 Granary Rats — attack | tier: even | stakes: normal\n~ place Ren | kind: wild | with: \n? check xyz -- try | dc: 0 | roll: 1e309 | result: x\n~ npc valueOf | trust: -1000\n+ join Rope͏ — a stranger | level: -1e309 | role: Array\n! use constructor | on: 1e309\n! time +8h\n~ wound Rope - cure poisoned | harm: 1000\n- item Ren | qty: Infinity\n+ item zzzzz"
+   }
+  }
+ },
+ {
+  "sig": "HANDLER CRASH/LEAK [null] TOO_MANY The reply has N change lines; only the first N were read, so N lines were not used (from \"…\").",
+  "count": 14,
+  "first": {
+   "seed": 5005,
+   "n": 2,
+   "detail": {
+    "line": "undefined",
+    "message": "The reply has 1424 change lines; only the first 150 were read, so 1274 lines were not used (from \"? check xyz – try | dc: 1e309 | roll: NaN | result: critical\")."
+   }
+  }
+ },
+ {
+  "sig": "REREAD != LIVE [many]",
+  "count": 12,
+  "first": {
+   "seed": 5015,
+   "n": 20,
+   "detail": {
+    "before": "{\"coin\":5,\"qty\":{\"story/healing-draught\":7,\"story/wolf\":15,\"story/torch\":1,\"story/zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\":1,\"story/iron-sword\":12,\"story/a\":11,\"story/fenna\":2,\"story/item-1msjxgj\":1,\"story/superior-healing-potion\":1,\"story/ren\":1,\"story/lyra\":2},\"meters\":{\"fenna\":{\"trust\":5,\"affection\":0,\"desire\":0,\"tension\":0},\"object\":{\"trust\":15,\"affection\":0,\"desire\":0,\"tension\":0},\"rope\":{\"trust\":0,\"affection\":0,\"desire\":0,\"tension\":15}},\"xp\":0}",
+    "after": "{\"coin\":5,\"qty\":{\"story/healing-draught\":7,\"story/wolf\":15,\"story/torch\":1,\"story/zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\":1,\"story/iron-sword\":12,\"story/a\":11,\"story/fenna\":2,\"story/item-whg3mb\":1,\"story/superior-healing-potion\":1,\"story/ren\":1,\"story/lyra\":2},\"meters\":{\"fenna\":{\"trust\":5,\"affection\":0,\"desire\":0,\"tension\":0},\"object\":{\"trust\":15,\"affection\":0,\"desire\":0,\"tension\":0},\"rope\":{\"trust\":0,\"affection\":0,\"desire\":0,\"tension\":15}},\"xp\":0}",
+    "text": "Story.\n<Changes>\n+ hp\n! market | — Lyra | until: +1e309d\n﻿+ coin 5\n~ quest Rats | met: yes\n! use Fenna | on: <Changes> | by: NaN | qty: ०५\n- coin 10 | from: Rope͏\n+ kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk",
+    "cont": null
+   }
+  }
+ },
+ {
+  "sig": "CAP REASONING READ: sentinel item made",
+  "count": 8,
+  "first": {
+   "seed": 5007,
+   "n": 15,
+   "detail": {
+    "c": "REASONING READ: sentinel item made",
+    "shape": "reasonAfter",
+    "text": "Story with a <Changes> word in it\n\n<think>\n<Changes>\nnone\n+ skill prototype - __proto__: a cut | taught by: Fenna\n+ item Rope | met: x — y | toString: --  > | 9x: yes | hours: x | y | dc: x — y | xp: prototype | role: 09:00 | QTY: --> | giver: --  > | meter: x — y | 9x: done\n? check xyz: try | dc: hard | roll: 3 | result: success\n- leave Wolf—parts ways\n+ route Fenna – -0 | days: ½ | kind: trail\n+ coin 9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999\n+ clock 0x10 - doom | due: -5h | shown: none\n~ world Iron Sword — war | state: ongoing | place: Granary Rats | factions: Lyra\n</Changes>\nnone\nnone\nnone\nnone\nnone\nnone\nnone\n</Changes>\n</think>\n\n<Think>\nLet me plan.\n<Changes>\n! time tomorrow\n? check athletics: yes | dc: 41\n! use </think> | on: Ꮢope | by: Ren | qty: ½\n+ recipe Rope | from: Healing Draught | makes: Bluewatch | with: A x2, B | craft: alchemy\n+ landmark Rópe | region: Lyra | kind: ruin\n+ secret Gold – hidden\n+ item Thinkbait | qty: 1\n~ npc Thinkbait | trust: +5\n</Changes>\n</Think>"
+   }
+  }
+ },
+ {
+  "sig": "CAP REASONING READ: sentinel npc made",
+  "count": 8,
+  "first": {
+   "seed": 5007,
+   "n": 15,
+   "detail": {
+    "c": "REASONING READ: sentinel npc made",
+    "shape": "reasonAfter",
+    "text": "Story with a <Changes> word in it\n\n<think>\n<Changes>\nnone\n+ skill prototype - __proto__: a cut | taught by: Fenna\n+ item Rope | met: x — y | toString: --  > | 9x: yes | hours: x | y | dc: x — y | xp: prototype | role: 09:00 | QTY: --> | giver: --  > | meter: x — y | 9x: done\n? check xyz: try | dc: hard | roll: 3 | result: success\n- leave Wolf—parts ways\n+ route Fenna – -0 | days: ½ | kind: trail\n+ coin 9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999\n+ clock 0x10 - doom | due: -5h | shown: none\n~ world Iron Sword — war | state: ongoing | place: Granary Rats | factions: Lyra\n</Changes>\nnone\nnone\nnone\nnone\nnone\nnone\nnone\n</Changes>\n</think>\n\n<Think>\nLet me plan.\n<Changes>\n! time tomorrow\n? check athletics: yes | dc: 41\n! use </think> | on: Ꮢope | by: Ren | qty: ½\n+ recipe Rope | from: Healing Draught | makes: Bluewatch | with: A x2, B | craft: alchemy\n+ landmark Rópe | region: Lyra | kind: ruin\n+ secret Gold – hidden\n+ item Thinkbait | qty: 1\n~ npc Thinkbait | trust: +5\n</Changes>\n</Think>"
+   }
+  }
+ },
+ {
+  "sig": "CAP TIME +Nd in one reply (> N × maxJump)",
+  "count": 3,
+  "first": {
+   "seed": 5048,
+   "n": 2,
+   "detail": {
+    "c": "TIME +240d in one reply (> 4 × maxJump)",
+    "shape": "conflict",
+    "text": "Story.\n\n<Changes>\n! time +30d\n! time +30d\n! time +30d\n! time +30d\n! time +30d\n! time +30d\n! time +30d\n! time +30d\n! time -- 20h\n+ quest Fetch — a job I accepted | giver: Coins | goal: Kill 12 Wolf | reward: 6 gold | difficulty: Z\n</Changes>"
+   }
+  }
+ },
+ {
+  "sig": "REREAD != LIVE [reason]",
+  "count": 2,
+  "first": {
+   "seed": 5186,
+   "n": 18,
+   "detail": {
+    "before": "{\"coin\":157,\"qty\":{\"story/healing-draught\":1,\"story/zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\":2,\"story/healing-draught-2\":1,\"story/wolf\":2,\"story/lyra\":1,\"story/valueof\":2,\"story/istanbul\":1,\"story/jean-luc\":1,\"story/bluewatch\":1,\"story/fenna\":2,\"story/iron-sword\":2,\"story/char\":1,\"story/rope-2\":1,\"story/user\":1,\"story/rope\":1,\"story/ren\":1},\"meters\":{\"fenna\":{\"trust\":-10,\"affection\":0,\"desire\":0,\"tension\":0},\"bluewatch\":{\"trust\":0,\"affection\":0,\"desire\":-15,\"tension\":0},\"1-000\":{\"trust\":0,\"affection\":0,\"desire\":0,\"tension\":0},\"rope\":{\"trust\":0,\"affection\":15,\"desire\":0,\"tension\":0},\"d",
+    "after": "{\"coin\":136,\"qty\":{\"story/healing-draught\":1,\"story/zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\":2,\"story/healing-draught-2\":1,\"story/wolf\":2,\"story/lyra\":1,\"story/valueof\":2,\"story/istanbul\":1,\"story/jean-luc\":1,\"story/bluewatch\":3,\"story/fenna\":1,\"story/iron-sword\":1,\"story/char\":1,\"story/rope\":2,\"story/ren\":1,\"story/rope-2\":1,\"story/user\":1},\"meters\":{\"fenna\":{\"trust\":-10,\"affection\":0,\"desire\":0,\"tension\":0},\"bluewatch\":{\"trust\":0,\"affection\":0,\"desire\":-15,\"tension\":0},\"1-000\":{\"trust\":0,\"affection\":0,\"desire\":0,\"tension\":0},\"rope\":{\"trust\":0,\"affection\":15,\"desire\":0,\"tension\":0},\"d",
+    "text": "<reasoning>\nLet me plan.\n<Changes>\n- coin ３\n+ recipe ½ | from: A:B | makes: --> | with: A x2, B | craft: alchemy\n+ item Thinkbait | qty: 1\n~ npc Thinkbait | trust: +5\n</Changes>\n</reasoning>\n\nNothing much.\n\n<!-- STORY_SUITE_V2\n<Changes>\n? check xyz—1e309 | dc: NaN | who: Infinity | roll: 100\n~ wound Wolf — bitten | harm: scratch\n~ time +9007199254740993m\n+ coin 9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999\n+ agenda Granary Rats – plots | now: Iron Sword | then: x | on: tomorrow\n! time +9007199254740993m\n~ place <USER>\n+ \n＋ coin 5\n! market Gold –  | until: +30m\n! use Granary Rats | on: Torch | by: __proto__ | qty: 3\n! use toString | on: Rope | by: {{user}}\n- faction Fenna—merchants | area: Ro​pe | stance: hostile\n<!-- STORY_SUITE_V2 + coin 999 -->\n{\"op\":\"+\",\"kind\":\"item\",\"name\":\"Ren\",\"qty\":10}\n- market Granary Rats — no bread | until: +1,000h\n+ landmark Granary Rats | region: Ren | kind: town\n+ join Infinity — a stranger | level: 7 | role: ranger\n+ market İstanbul - supplies back | until: +0h\n! rest long – at the inn\n+ recipe Healing Draught | from: Wolf | makes: Iron Sword | with: A x2, B | craft: alchemy\nThe party found 1e3 gold and a -0.\n- - item Rope\n~ npc Infinity | trust: +1e309\n~ place Healing Draught | kind: settlement | with: \n+ route Fenna – Lyra | days: 4 | kind: river\n＋ coin 5\n~ npc ǅ | trust: -1000\n+ landmark Granary Rats | region: Torch | kind: ruin\n! npc rope | desire: \n- market Ren: supplies back\n​+ coin 5\n**+ item Jean-Luc**\n! craft Rope | with: Fenna x2, Granary Rats | roll: 1e3 | result: fine\nThe party found 1 gold and a constructor.\n+ item Bluewatch | on: --> | : a: b | é: tomorrow | constructor: 09",
+    "cont": null
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_NopNtNi.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5000,
+   "n": 24,
+   "detail": {
+    "line": "+ route null — 🗡 Dagger | hours: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route null — 🗡 Dagger | hours: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_1op07t6i.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_NvuigvNu.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5005,
+   "n": 18,
+   "detail": {
+    "line": "+ route Fenna — then | hours: 99999999999999999 | kind: road",
+    "message": "\"+ route Fenna — then | hours: 99999999999999999 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_9vuigv4u.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_mfkdNoNu.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5008,
+   "n": 14,
+   "detail": {
+    "line": "+ route Healing Draught — \\n | days: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route Healing Draught — \\n | days: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_mfkd4o7u.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_yNgljqn.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5010,
+   "n": 6,
+   "detail": {
+    "line": "+ route Wolf — Å | hours: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route Wolf — Å | hours: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_y91gljqn.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_aNzhNin.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5012,
+   "n": 12,
+   "detail": {
+    "line": "+ route 🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️ — $& | days: 9007199254740993 | kind: road",
+    "message": "\"+ route 🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️ — $& | days: 9007199254740993 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_a5zh22in.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_cifitpNt.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5017,
+   "n": 18,
+   "detail": {
+    "line": "+ route Lyra — Rope͏ | days: 9007199254740992 | kind: road",
+    "message": "\"+ route Lyra — Rope͏ | days: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_cifitp2t.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_qvyNtmN.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5024,
+   "n": 11,
+   "detail": {
+    "line": "+ route Ren — Fenna | days: 9007199254740992 | kind: road",
+    "message": "\"+ route Ren — Fenna | days: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_qvy8tm35.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_ncucrjyN.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5027,
+   "n": 8,
+   "detail": {
+    "line": "+ route Healing Draught — ı | hours: 9007199254740992 | kind: road",
+    "message": "\"+ route Healing Draught — ı | hours: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_ncucrjy4.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_NczmNjer.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5029,
+   "n": 24,
+   "detail": {
+    "line": "+ route ı — fenna | hours: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route ı — fenna | hours: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_6czm4jer.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_qbnfogpN.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5034,
+   "n": 10,
+   "detail": {
+    "line": "+ route ı — undefined | hours: 9007199254740993 | kind: road",
+    "message": "\"+ route ı — undefined | hours: 9007199254740993 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_qbnfogp0.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_impyhfol.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5036,
+   "n": 18,
+   "detail": {
+    "line": "+ route 0x10 — Rope | hours: 9007199254740993 | kind: road",
+    "message": "\"+ route 0x10 — Rope | hours: 9007199254740993 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_impyhfol.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_mNcnNsy.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5043,
+   "n": 0,
+   "detail": {
+    "line": "+ route Bluewatch — Ren | days: 9007199254740993 | kind: road",
+    "message": "\"+ route Bluewatch — Ren | days: 9007199254740993 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_m4cn70sy.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_boNvmbnm.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5044,
+   "n": 18,
+   "detail": {
+    "line": "+ route <Changes> — Rope | days: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route <Changes> — Rope | days: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_bo7vmbnm.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_NhfyNsnN.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5048,
+   "n": 0,
+   "detail": {
+    "line": "+ route valueOf — Ｆｅｎｎａ | days: 9007199254740992 | kind: road",
+    "message": "\"+ route valueOf — Ｆｅｎｎａ | days: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_0hfy9sn7.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "REREAD != LIVE [reasonAfter]",
+  "count": 1,
+  "first": {
+   "seed": 5050,
+   "n": 13,
+   "detail": {
+    "before": "{\"coin\":170,\"qty\":{\"story/healing-draught\":9,\"story/item-ozfcha\":4,\"story/superior-healing-potion\":1,\"story/mithril-dagger\":1,\"story/dragon-crown\":1,\"story/lyra\":7,\"story/bluewatch\":1,\"story/granary-rats\":1,\"story/a\":1,\"story/tostring\":1,\"story/ren\":1,\"story/thinkbait\":1},\"meters\":{\"fenna\":{\"trust\":5,\"affection\":0,\"desire\":0,\"tension\":0},\"ren\":{\"trust\":0,\"affection\":15,\"desire\":0,\"tension\":0},\"thinkbait\":{\"trust\":5,\"affection\":0,\"desire\":0,\"tension\":0}},\"xp\":0}",
+    "after": "{\"coin\":120,\"qty\":{\"story/healing-draught\":9,\"story/item-ozfcha\":4,\"story/superior-healing-potion\":1,\"story/mithril-dagger\":1,\"story/dragon-crown\":1,\"story/lyra\":7,\"story/bluewatch\":1,\"story/granary-rats\":1,\"story/a\":1,\"story/tostring\":1,\"story/ren\":1,\"story/thinkbait\":1},\"meters\":{\"fenna\":{\"trust\":5,\"affection\":0,\"desire\":0,\"tension\":0},\"ren\":{\"trust\":0,\"affection\":15,\"desire\":0,\"tension\":0},\"thinkbait\":{\"trust\":5,\"affection\":0,\"desire\":0,\"tension\":0}},\"xp\":0}",
+    "text": "Story with a <Changes> word in it\n\n<!-- STORY_SUITE_V2\n<Changes>\n! craft gold | with: -0 x2, Bluewatch | roll: 1,000 | result: fine\n+ place Bluewatch | kind: dungeon | region: Fenna\n- + coin 9,007,199,254,740,991\n! rest long: at the inn\n+ world Fenna — war | state: resolved | place: Rope | factions: Wolf\n+ event Bluewatch: a fair | then: x | on: -5h\n+ recipe xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    "cont": null
+   }
+  }
+ },
+ {
+  "sig": "REREAD != LIVE [cont]",
+  "count": 1,
+  "first": {
+   "seed": 5058,
+   "n": 22,
+   "detail": {
+    "before": "{\"coin\":95,\"qty\":{\"story/healing-draught\":5,\"story/torch\":2,\"story/bluewatch-b-onclick-x-bold-b\":1,\"story/superior-healing-potion\":2,\"story/bluewatch\":1,\"story/rope\":5,\"story/ren\":1,\"story/rope-2\":20},\"meters\":{\"fenna\":{\"trust\":5,\"affection\":0,\"desire\":0,\"tension\":0},\"lyra\":{\"trust\":5,\"affection\":0,\"desire\":0,\"tension\":0},\"char\":{\"trust\":5,\"affection\":0,\"desire\":0,\"tension\":0},\"ren\":{\"trust\":0,\"affection\":-15,\"desire\":0,\"tension\":0}},\"xp\":0}",
+    "after": "{\"coin\":95,\"qty\":{\"story/healing-draught\":5,\"story/torch\":2,\"story/bluewatch-b-onclick-x-bold-b\":1,\"story/superior-healing-potion\":2,\"story/bluewatch\":1,\"story/rope\":5,\"story/ren\":1,\"story/rope-2\":20,\"story/iron-sword\":1},\"meters\":{\"fenna\":{\"trust\":5,\"affection\":0,\"desire\":0,\"tension\":0},\"lyra\":{\"trust\":5,\"affection\":0,\"desire\":0,\"tension\":0},\"char\":{\"trust\":5,\"affection\":0,\"desire\":0,\"tension\":0},\"ren\":{\"trust\":0,\"affection\":-15,\"desire\":0,\"tension\":0}},\"xp\":0}",
+    "text": "\n\n<Changes>\n+ item Healing Draught | qty: 1e309 | note: ATK +9999\n+ join __defineGetter__ — a stranger | level: ‮03 | role: Lyra\n~ place rope  | kind: wild | region: A:B | with: Iron Sword\n```\n+ item Iron Sword || | | |\n</Changes>",
+    "cont": {
+     "first": "\n\n<C",
+     "rest": "hanges>\n+ item Healing Draught | qty: 1e309 | note: ATK +9999\n+ join __defineGetter__ — a stranger | level: ‮03 | role: Lyra\n~ place rope  | kind: wild | region: A:B | with: Iron Sword\n```\n+ item Iron Sword || | | |\n</Changes>",
+     "stopped": false
+    }
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_lNvfNtNj.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5059,
+   "n": 16,
+   "detail": {
+    "line": "+ route 🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️ — Ηealing Draught | days: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route 🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️ — Ηealing Draught | days: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_l1vf6t4j.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_NrytgnN.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5063,
+   "n": 8,
+   "detail": {
+    "line": "+ route Lyra — Ren | days: 99999999999999999 | kind: road",
+    "message": "\"+ route Lyra — Ren | days: 99999999999999999 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_92rytgn0.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_krbntjqN.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5075,
+   "n": 5,
+   "detail": {
+    "line": "+ route a\u0000b — Fenna | days: 9007199254740993 | kind: road <b onclick=x>bold</b>",
+    "message": "\"+ route a\u0000b — Fenna | days: 9007199254740993 | kind: road <b onclick=x>bold</b>\" was not used: The atlas would not be valid: atlas.routes.rt_krbntjq5.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_NhNpNfN.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5086,
+   "n": 6,
+   "detail": {
+    "line": "+ route gold — <img src=x onerror=alert(1)> | days: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route gold — <img src=x onerror=alert(1)> | days: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_7h26p3f9.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_nNmtelhw.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5086,
+   "n": 9,
+   "detail": {
+    "line": "+ route undefined – Ren | hours: 9007199254740993 | kind: x",
+    "message": "\"+ route undefined – Ren | hours: 9007199254740993 | kind: x\" was not used: The atlas would not be valid: atlas.routes.rt_n1mtelhw.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_icNve.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5091,
+   "n": 21,
+   "detail": {
+    "line": "+ route --> — Coins | hours: 99999999999999999 | kind: road",
+    "message": "\"+ route --> — Coins | hours: 99999999999999999 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_ic6334ve.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_jwvxjide.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5093,
+   "n": 19,
+   "detail": {
+    "line": "+ route Array — ROPE | hours: 9007199254740992 | kind: road",
+    "message": "\"+ route Array — ROPE | hours: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_jwvxjide.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_cNwueNg.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5098,
+   "n": 7,
+   "detail": {
+    "line": "+ route <Changes> — \\n | hours: 99999999999999999 | kind: road",
+    "message": "\"+ route <Changes> — \\n | hours: 99999999999999999 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_c95wue2g.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_lNxNiNuo.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5098,
+   "n": 14,
+   "detail": {
+    "line": "+ route constructor — Array | days: 9007199254740993 | kind: road",
+    "message": "\"+ route constructor — Array | days: 9007199254740993 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_l4x2i9uo.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_xNchpaN.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5102,
+   "n": 0,
+   "detail": {
+    "line": "+ route \\ — Wolf | hours: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route \\ — Wolf | hours: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_x17chpa8.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_svagNpiN.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5103,
+   "n": 19,
+   "detail": {
+    "line": "+ route İstanbul — Lyra | days: 9007199254740992 | kind: road",
+    "message": "\"+ route İstanbul — Lyra | days: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_svag3pi7.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_NyNptka.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5106,
+   "n": 0,
+   "detail": {
+    "line": "+ route 🗡️ Dagger — Zalgo̸̢͎̓ | days: 9007199254740993 | kind: road",
+    "message": "\"+ route 🗡️ Dagger — Zalgo̸̢͎̓ | days: 9007199254740993 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_8y80ptka.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "HANDLER CRASH/LEAK [null] TOO_MANY The reply has N change lines; only the first N were read, so N line was not used (from \"…\").",
+  "count": 1,
+  "first": {
+   "seed": 5110,
+   "n": 24,
+   "detail": {
+    "line": "undefined",
+    "message": "The reply has 151 change lines; only the first 150 were read, so 1 line was not used (from \"+ agenda Ren – plots | now: --> | then: x | on: +NaN h\")."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_mbujNwp.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5111,
+   "n": 19,
+   "detail": {
+    "line": "+ route Zalgo̸̢͎̓ — ⁦Rope⁩ | days: 9007199254740993 | kind: road",
+    "message": "\"+ route Zalgo̸̢͎̓ — ⁦Rope⁩ | days: 9007199254740993 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_mbuj11wp.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_oNdNwhed.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5113,
+   "n": 1,
+   "detail": {
+    "line": "+ route Ren — <b>Rope</b> | days: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route Ren — <b>Rope</b> | days: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_o9d6whed.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_nzNxgejN.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5116,
+   "n": 13,
+   "detail": {
+    "line": "+ route Ren — Lyra | days: 9007199254740993 | kind: sea",
+    "message": "\"+ route Ren — Lyra | days: 9007199254740993 | kind: sea\" was not used: The atlas would not be valid: atlas.routes.rt_nz0xgej0.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_uxcNkkkc.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5116,
+   "n": 14,
+   "detail": {
+    "line": "+ route  Rope — $& | days: 9007199254740993 | kind: road",
+    "message": "\"+ route  Rope — $& | days: 9007199254740993 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_uxc6kkkc.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_tfNccfNh.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5116,
+   "n": 16,
+   "detail": {
+    "line": "+ route <!-- — Rope\u0000 | hours: 9007199254740992 | kind: road",
+    "message": "\"+ route <!-- — Rope\u0000 | hours: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_tf5ccf8h.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_wNddsNkd.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5119,
+   "n": 15,
+   "detail": {
+    "line": "+ route Rope — Ren | hours: 9007199254740993 | kind: road",
+    "message": "\"+ route Rope — Ren | hours: 9007199254740993 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_w7dds0kd.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_zujNreN.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5123,
+   "n": 9,
+   "detail": {
+    "line": "+ route Lyra — İ | days: 99999999999999999 | kind: road",
+    "message": "\"+ route Lyra — İ | days: 99999999999999999 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_zuj17re4.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_Nxbaeqz.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5130,
+   "n": 10,
+   "detail": {
+    "line": "+ route %s%s%n — __proto__ | hours: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route %s%s%n — __proto__ | hours: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_79xbaeqz.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_fNikjiNr.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5130,
+   "n": 18,
+   "detail": {
+    "line": "+ route Granary Rats — ⁦Rope⁩ | days: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route Granary Rats — ⁦Rope⁩ | days: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_f4ikji2r.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_sigxNlNx.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5139,
+   "n": 17,
+   "detail": {
+    "line": "+ route Rеn — Ren | days: 99999999999999999 | kind: road",
+    "message": "\"+ route Rеn — Ren | days: 99999999999999999 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_sigx9l8x.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_fszgvNtd.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5141,
+   "n": 8,
+   "detail": {
+    "line": "+ route prototype — \\ | hours: 9007199254740993 | kind: road",
+    "message": "\"+ route prototype — \\ | hours: 9007199254740993 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_fszgv7td.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_iqNfNxu.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5142,
+   "n": 12,
+   "detail": {
+    "line": "+ route Object — {{char}} | days: 9007199254740993 | kind: road",
+    "message": "\"+ route Object — {{char}} | days: 9007199254740993 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_iq23f6xu.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_carNxvfN.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5144,
+   "n": 2,
+   "detail": {
+    "line": "+ route Ｆｅｎｎａ — Ro­pe | days: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route Ｆｅｎｎａ — Ro­pe | days: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_car9xvf7.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_NpvjkayN.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5150,
+   "n": 0,
+   "detail": {
+    "line": "+ route fenna — Ren | hours: 99999999999999999 | kind: road",
+    "message": "\"+ route fenna — Ren | hours: 99999999999999999 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_2pvjkay0.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_jNyNiwam.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5156,
+   "n": 0,
+   "detail": {
+    "line": "+ route ${1} — 𒀱 | hours: 99999999999999999 | kind: road",
+    "message": "\"+ route ${1} — 𒀱 | hours: 99999999999999999 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_j0y1iwam.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_vpvmbuvb.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5157,
+   "n": 10,
+   "detail": {
+    "line": "+ route  Rope — coin | hours: 9007199254740992 | kind: road",
+    "message": "\"+ route  Rope — coin | hours: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_vpvmbuvb.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_NyxaNd.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5160,
+   "n": 1,
+   "detail": {
+    "line": "+ route 1e309 — Ｒｏｐｅ | hours: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route 1e309 — Ｒｏｐｅ | hours: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_72yxa66d.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_fsuduxNy.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5164,
+   "n": 9,
+   "detail": {
+    "line": "+ route Healing Draught — Ren | days: 9007199254740992 | kind: road",
+    "message": "\"+ route Healing Draught — Ren | days: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_fsudux1y.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_uNdndkke.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5170,
+   "n": 10,
+   "detail": {
+    "line": "+ route gold — Bluewatch | days: 9007199254740992 | kind: road <b onclick=x>bold</b>",
+    "message": "\"+ route gold — Bluewatch | days: 9007199254740992 | kind: road <b onclick=x>bold</b>\" was not used: The atlas would not be valid: atlas.routes.rt_u4dndkke.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_fufNggwb.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5175,
+   "n": 18,
+   "detail": {
+    "line": "+ route rope — Rope️ | hours: 9007199254740993 | kind: road <b onclick=x>bold</b>",
+    "message": "\"+ route rope — Rope️ | hours: 9007199254740993 | kind: road <b onclick=x>bold</b>\" was not used: The atlas would not be valid: atlas.routes.rt_fuf5ggwb.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_ouNfN.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5183,
+   "n": 0,
+   "detail": {
+    "line": "+ route Granary Rats — Ｒｏｐｅ | hours: 9007199254740993 | kind: road",
+    "message": "\"+ route Granary Rats — Ｒｏｐｅ | hours: 9007199254740993 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_ou18f513.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_Nmuzehus.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5184,
+   "n": 17,
+   "detail": {
+    "line": "+ route Object — 🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️ | hours: 9007199254740992 | kind: road",
+    "message": "\"+ route Object — 🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️🗡️ | hours: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_4muzehus.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_tNoN.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5185,
+   "n": 11,
+   "detail": {
+    "line": "+ route valueOf — NaN | days: 9007199254740993 | kind: road",
+    "message": "\"+ route valueOf — NaN | days: 9007199254740993 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_t623o846.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_btNczmt.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5189,
+   "n": 2,
+   "detail": {
+    "line": "+ route coin — <script>alert(1)</script> | days: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route coin — <script>alert(1)</script> | days: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_bt47czmt.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "REREAD != LIVE [mixed]",
+  "count": 1,
+  "first": {
+   "seed": 5189,
+   "n": 18,
+   "detail": {
+    "before": "{\"coin\":206,\"qty\":{\"story/healing-draught\":12,\"story/prototype\":19,\"story/dagger\":1,\"story/dragon-crown\":1,\"story/ren\":1,\"story/iron-sword\":1,\"story/fenna\":2,\"story/a\":5,\"story/mithril-dagger\":1,\"story/healing-draught-2\":1,\"story/wolf\":4,\"story/lyra\":9,\"story/changes\":6,\"story/proto\":20,\"story/torch\":1,\"story/zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\":1,\"story/0\":1,\"story/object\":8,\"story/tab-here\":7,\"story/item-1msjxgj\":1},\"meters\":{\"fenna\":{\"trust\":5,\"affection\":15,\"desire\":0,\"tension\":0},\"0x10\":{\"trust\":-15,\"affection\":0,\"desire\":0,\"tension\":0},\"rópe\":{\"trust\":5,\"affection\":0,\"desire",
+    "after": "{\"coin\":206,\"qty\":{\"story/healing-draught\":12,\"story/prototype\":19,\"story/dagger\":1,\"story/dragon-crown\":1,\"story/ren\":1,\"story/iron-sword\":1,\"story/fenna\":2,\"story/a\":5,\"story/mithril-dagger\":1,\"story/healing-draught-2\":1,\"story/wolf\":4,\"story/lyra\":9,\"story/changes\":6,\"story/proto\":20,\"story/torch\":1,\"story/zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\":1,\"story/0\":1,\"story/object\":8,\"story/tab-here\":7,\"story/item-whg3mb\":1},\"meters\":{\"fenna\":{\"trust\":5,\"affection\":15,\"desire\":0,\"tension\":0},\"0x10\":{\"trust\":-15,\"affection\":0,\"desire\":0,\"tension\":0},\"rópe\":{\"trust\":5,\"affection\":0,\"desire\"",
+    "text": "Ren drinks.\n\n<Changes>\n+ faction --> — Wolf | state: +1e309h\n**+ item -->**\n+ present <!--, İ, Bluewatch, Rope, Lyra\n- coin +-20\n+ present <!--, กำ, Array\n- join Rope — a stranger | level: 4 | role: ranger\n+ present </Changes>, Bluewatch\n</Changes>",
+    "cont": null
+   }
+  }
+ },
+ {
+  "sig": "REREAD != LIVE [cut]",
+  "count": 1,
+  "first": {
+   "seed": 5195,
+   "n": 13,
+   "detail": {
+    "before": "{\"coin\":100,\"qty\":{\"story/healing-draught\":3,\"story/hasownproperty\":3,\"story/a-b\":1,\"story/i\":10,\"story/torch\":1,\"story/1-000\":1,\"story/ren\":1,\"story/item-1uzg9a4\":6,\"story/fen\":1},\"meters\":{\"fenna\":{\"trust\":5,\"affection\":0,\"desire\":0,\"tension\":0},\"ß\":{\"trust\":-15,\"affection\":0,\"desire\":0,\"tension\":0}},\"xp\":0}",
+    "after": "{\"coin\":100,\"qty\":{\"story/healing-draught\":3,\"story/hasownproperty\":3,\"story/a-b\":1,\"story/i\":10,\"story/torch\":1,\"story/1-000\":1,\"story/ren\":1,\"story/item-1uzg9a4\":5,\"story/fen\":1,\"story/item-2bcu1\":1},\"meters\":{\"fenna\":{\"trust\":5,\"affection\":0,\"desire\":0,\"tension\":0},\"ß\":{\"trust\":-15,\"affection\":0,\"desire\":0,\"tension\":0}},\"xp\":0}",
+    "text": "\n\n<Changes>\n~ npc {{char}} | __proto__: =+30\n- world Ren -- war | state: x | place: SS | factions: A:B\n+ skill rope  — กำ: does 9 damage | taught by: Granary Rats\n- faction Lyra: merchants | area: Iron Sword | stance: \n~ place Granary Rats | kind: dungeon | region: prototype | with: ﷺ\n~ wound Infinity - cure poisoned | harm: severe\n~ wound \\ — cut | heal: 30\ud800\n~ faction Lyra - merchants | area: Granary Rats | stance: friendly\n+ item <!-- | __proto__: 10 | constructor: x | prototype: y | t",
+    "cont": null
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_tNjNknen.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5197,
+   "n": 13,
+   "detail": {
+    "line": "+ route 🗡️ Dagger — <b>Rope</b> | days: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route 🗡️ Dagger — <b>Rope</b> | days: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_t8j0knen.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_jNsozfN.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5205,
+   "n": 7,
+   "detail": {
+    "line": "+ route toString — Lyra | days: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route toString — Lyra | days: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_j5sozf31.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_hNkwcNs.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5216,
+   "n": 4,
+   "detail": {
+    "line": "+ route Lyra — <script>alert(1)</script> | hours: 9007199254740992 | kind: road",
+    "message": "\"+ route Lyra — <script>alert(1)</script> | hours: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_h7kwc93s.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_xrlcunow.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5218,
+   "n": 7,
+   "detail": {
+    "line": "+ route Bluewatch — healing draught | days: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route Bluewatch — healing draught | days: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_xrlcunow.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_NxNlsrN.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5219,
+   "n": 19,
+   "detail": {
+    "line": "+ route İ — 𒀱 | days: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route İ — 𒀱 | days: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_22x3lsr4.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_zkacNznl.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5231,
+   "n": 3,
+   "detail": {
+    "line": "+ route Rope\ud800 — coin | days: 9007199254740993 | kind: road",
+    "message": "\"+ route Rope\ud800 — coin | days: 9007199254740993 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_zkac9znl.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_NhNzfnvk.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5238,
+   "n": 3,
+   "detail": {
+    "line": "+ route Zalgo̸̢͎̓ — Healing Draught | days: 9007199254740993 | kind: river",
+    "message": "\"+ route Zalgo̸̢͎̓ — Healing Draught | days: 9007199254740993 | kind: river\" was not used: The atlas would not be valid: atlas.routes.rt_6h8zfnvk.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_tNhiNwfq.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5239,
+   "n": 15,
+   "detail": {
+    "line": "+ route Granary Rats — ‮epor | hours: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route Granary Rats — ‮epor | hours: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_t0hi8wfq.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_oNpackNi.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5241,
+   "n": 17,
+   "detail": {
+    "line": "+ route {{char}} — Wolf | days: 9007199254740992 | kind: road",
+    "message": "\"+ route {{char}} — Wolf | days: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_o2pack8i.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_iqNtcaoj.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5241,
+   "n": 19,
+   "detail": {
+    "line": "+ route 0x10 — Granary Rats | days: 99999999999999999 | kind: road",
+    "message": "\"+ route 0x10 — Granary Rats | days: 99999999999999999 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_iq9tcaoj.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_Neht.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5253,
+   "n": 21,
+   "detail": {
+    "line": "+ route Wolf — — | days: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route Wolf — — | days: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_75989eht.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_ahgNgrN.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5260,
+   "n": 6,
+   "detail": {
+    "line": "+ route Lyra — __defineGetter__ | days: 9007199254740992 | kind: road",
+    "message": "\"+ route Lyra — __defineGetter__ | days: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_ahg03gr3.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_NmhapNu.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5260,
+   "n": 6,
+   "detail": {
+    "line": "+ route valueOf — <img src=x onerror=alert(1)> | days: 9007199254740992 | kind: road",
+    "message": "\"+ route valueOf — <img src=x onerror=alert(1)> | days: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_69mhap5u.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_NqocrpbN.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5260,
+   "n": 16,
+   "detail": {
+    "line": "+ route then — $& | hours: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route then — $& | hours: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_6qocrpb6.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_qNcNogN.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5262,
+   "n": 4,
+   "detail": {
+    "line": "+ route Ren — Wolf | hours: 99999999999999999 | kind: road",
+    "message": "\"+ route Ren — Wolf | hours: 99999999999999999 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_q36c1og8.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_hrjNomNp.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5263,
+   "n": 7,
+   "detail": {
+    "line": "+ route ROPE – %s%s%n | hours: 9007199254740993 | kind: road",
+    "message": "\"+ route ROPE – %s%s%n | hours: 9007199254740993 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_hrj6om4p.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_hNyysfrb.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5268,
+   "n": 0,
+   "detail": {
+    "line": "+ route --> — Ｆｅｎｎａ | hours: 9007199254740993 | kind: road",
+    "message": "\"+ route --> — Ｆｅｎｎａ | hours: 9007199254740993 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_h0yysfrb.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_ckNyvqal.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5269,
+   "n": 24,
+   "detail": {
+    "line": "+ route Torch – Bluewatch | days: 9007199254740993 | kind: river",
+    "message": "\"+ route Torch – Bluewatch | days: 9007199254740993 | kind: river\" was not used: The atlas would not be valid: atlas.routes.rt_ck3yvqal.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_ggwNvwfd.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5272,
+   "n": 11,
+   "detail": {
+    "line": "+ route prototype — Granary Rats | hours: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route prototype — Granary Rats | hours: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_ggw0vwfd.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_dypNnmz.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5277,
+   "n": 19,
+   "detail": {
+    "line": "+ route Fenna — Object | hours: 9007199254740992 | kind: road",
+    "message": "\"+ route Fenna — Object | hours: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_dyp14nmz.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_ctfmqnow.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5277,
+   "n": 19,
+   "detail": {
+    "line": "+ route \\ —  Rope | hours: 9007199254740993 | kind: road",
+    "message": "\"+ route \\ —  Rope | hours: 9007199254740993 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_ctfmqnow.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "REREAD != LIVE [base]",
+  "count": 1,
+  "first": {
+   "seed": 5280,
+   "n": 12,
+   "detail": {
+    "before": "{\"coin\":136,\"qty\":{\"story/healing-draught\":5,\"story/tojson\":4,\"story/char\":1,\"story/img-src-x-onerror-alert-1\":1,\"story/granary-rats\":2,\"story/wolf\":2,\"story/rope\":21,\"story/r-pe\":20,\"story/rope-2\":10,\"story/torch\":2,\"story/fenna\":2,\"story/zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\":1,\"story/lyra\":1,\"story/iron-sword\":1,\"story/1-000\":1,\"story/hasownproperty\":1},\"meters\":{\"fenna\":{\"trust\":5,\"affection\":0,\"desire\":0,\"tension\":0},\"prototype-npc\":{\"trust\":0,\"affection\":0,\"desire\":0,\"tension\":5},\"rope\":{\"trust\":5,\"affection\":0,\"desire\":0,\"tension\":0},\"granary-rats\":{\"trust\":-15,\"affection\":0,",
+    "after": "{\"coin\":136,\"qty\":{\"story/healing-draught\":5,\"story/tojson\":4,\"story/char\":1,\"story/img-src-x-onerror-alert-1\":1,\"story/granary-rats\":2,\"story/wolf\":2,\"story/rope\":21,\"story/r-pe\":20,\"story/rope-2\":10,\"story/torch\":2,\"story/fenna\":2,\"story/zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\":1,\"story/lyra\":1,\"story/iron-sword\":1,\"story/1-000\":1,\"story/hasownproperty\":1,\"story/bluewatch\":1},\"meters\":{\"fenna\":{\"trust\":5,\"affection\":0,\"desire\":0,\"tension\":0},\"prototype-npc\":{\"trust\":0,\"affection\":0,\"desire\":0,\"tension\":5},\"rope\":{\"trust\":5,\"affection\":0,\"desire\":0,\"tension\":0},\"granary-rats\":{\"trust",
+    "text": "Text with --> arrow\n\n<Changes>\n```\n~ present A — B\n​+ coin 5\n+ agenda Granary Rats – plots | now: Torch | then: x | on: +1e309h\n- item <script>alert(1)</script>\n! market Iron Sword – \n+ coin 10k -->\n+ item Healing Draught | dc:  | : --> | 9x: x | y | on: --> | 9x: 09:00 | state: done | shown: Lyra | dc: --> | Qty: 12 | QTY: done | é: a: b | stakes: 09:00 | makes: --  > | amount: yes\n- - item Rope\n+ coin 3 | from: Rope\n~ wound coin -- cure poisoned | heal: wound\n<Changes>\n**+ item Torch**\n`+ coin 9,007,199,254,740,991`\n+ \n+ event prototype – a fair | then: x | on: +0h\n<!-- STORY_SUITE_V2 + coin 999 -->\n{\"op\":\"+\",\"kind\":\"item\",\"name\":\"-->\",\"qty\":7}\n- npc Wolf | stage: +1e309\n＋ coin 5\n- faction Bluewatch -- merchants | area: Iron Sword | stance: hostile\n- world Ro​pe – war | state: x | place: Rope | factions: Healing Draught\n+ item Rope | note: --> <script>alert(1)</script>\n+ recipe Healing Draught | from: ROPE | makes: Gold | with: A x2, B | craft: alchemy\n! craft Granary Rats | with: healing draught x2, Lyra | roll: 100 | result: fine\n+\n! encounter 5× Wolf: circling | tier: god\n**+ item Torch**\n+ landmark Torch | region: Rope | kind: town\n! market Wolf—\n+ hp\n+ coin 9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999\n~ npc Rope | trust: +5\n+ item Fenna | note: --> <script>alert(1)</script>\n+ item — just text\n> + coin 3\n+ secret 🗡 Dagger – hidden\n~ npc Lyra | trust: +999999\n- route Wolf – tab\there | hours: 3 | kind: sea\n- route Ren — Ren | days: 10 | kind: sea\n＋ coin 5\n`+ coin 10`\n! time +NaN h\n{\"op\":\"+\",\"kind\":\"item\",\"name\":\"½\",\"qty\":6}\n+ item zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+    "cont": null
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_axbNewtz.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5280,
+   "n": 17,
+   "detail": {
+    "line": "+ route Jean-Luc — hasOwnProperty | hours: 9007199254740992 | kind: road",
+    "message": "\"+ route Jean-Luc — hasOwnProperty | hours: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_axb0ewtz.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_NmsbdzN.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5282,
+   "n": 11,
+   "detail": {
+    "line": "+ route constructor — <b>Rope</b> | hours: 9007199254740992 | kind: road",
+    "message": "\"+ route constructor — <b>Rope</b> | hours: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_22msbdz9.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_wkveqNiq.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5286,
+   "n": 15,
+   "detail": {
+    "line": "+ route Rope\ud800 — Rope | hours: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route Rope\ud800 — Rope | hours: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_wkveq8iq.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_kNlfax.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5289,
+   "n": 3,
+   "detail": {
+    "line": "+ route healing draught — Ｒｏｐｅ | hours: 9007199254740992 | kind: road",
+    "message": "\"+ route healing draught — Ｒｏｐｅ | hours: 9007199254740992 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_k623lfax.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_sjiqNiea.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5291,
+   "n": 8,
+   "detail": {
+    "line": "+ route __proto__ — Healing Draught | hours: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route __proto__ — Healing Draught | hours: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_sjiq4iea.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_NquclrN.hours must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5291,
+   "n": 8,
+   "detail": {
+    "line": "+ route -0 — Potion | hours: 111111111111111111111111111111 | kind: road",
+    "message": "\"+ route -0 — Potion | hours: 111111111111111111111111111111 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_2quclr89.hours must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_vfhorubn.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5294,
+   "n": 21,
+   "detail": {
+    "line": "+ route Lyra — Iron Sword | days: 99999999999999999 | kind: road",
+    "message": "\"+ route Lyra — Iron Sword | days: 99999999999999999 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_vfhorubn.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_NcrvzNlm.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5296,
+   "n": 10,
+   "detail": {
+    "line": "+ route Ηealing Draught — FENNA | days: 99999999999999999 | kind: road",
+    "message": "\"+ route Ηealing Draught — FENNA | days: 99999999999999999 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_8crvz7lm.days must be a whole number.."
+   }
+  }
+ },
+ {
+  "sig": "STATE RULE [story-director] \"…\" was not used: The atlas would not be valid: atlas.routes.rt_ayrmzNyg.days must be a whole number..",
+  "count": 1,
+  "first": {
+   "seed": 5299,
+   "n": 22,
+   "detail": {
+    "line": "+ route --> — prototype | days: 99999999999999999 | kind: road",
+    "message": "\"+ route --> — prototype | days: 99999999999999999 | kind: road\" was not used: The atlas would not be valid: atlas.routes.rt_ayrmz3yg.days must be a whole number.."
+   }
+  }
+ }
+]

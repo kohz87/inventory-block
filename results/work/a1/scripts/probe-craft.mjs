@@ -1,0 +1,37 @@
+// Directed: crafting / trade / quest UI commands across swipe, delete, rewind, reload; fresh == live, recorded points restore.
+import { allHost, storeMod, seededMod } from './lib/host.mjs';
+const restore = seededMod.seedCrypto(5);
+const h = await allHost({ pack: true });
+const { sdk, store, st, ctx } = h;
+const J = v => JSON.stringify(v);
+const fresh = () => storeMod.createStore({ chat: () => structuredClone(ctx.chat), save: async () => {}, validate: (s, n) => [], scratch: name => h.registry.scratch(name) }).head();
+const cmp = label => { const a = J(store.head()), b = J(fresh()); console.log(label, a === b ? 'fresh==live' : 'MISMATCH', 'rev', store.head().meta.rev); };
+const c = async (t, p) => { const r = await sdk.command(t, p); console.log(' ', t, r.ok ? 'ok' : `${r.code} ${r.message}`); return r; };
+const R = (t, lines) => `${t}\n<Changes>\n${lines.join('\n')}\n</Changes>`;
+await c('party.create', { name: 'Ren', preset: 'fighter' });
+await h.send('hi', R('ok', ['+ item Crag Wolf Pelt | qty: 4', '+ coin 300 | from: Kael', '~ place Bluewatch Village | kind: settlement']));
+cmp('after loot');
+const pelt = Object.values(store.head().domains.inventory.stacks).find(s => /pelt/.test(s.def));
+await c('craft.commission', { piece: 'Wolf-pelt Mantle', materials: [{ stack: pelt.id, qty: 3 }], crafter: 'Gate Forge' });
+cmp('after commission');
+const at1 = J(store.at(ctx.chat.length - 1));
+await h.send('wait', R('a day passes', ['! time +2d']));
+cmp('after wait');
+const order = Object.keys(store.head().domains.trade.orders)[0];
+await c('craft.collect', { order });
+cmp('after collect');
+const stock = sdk.query('trade.stock', { kind: 'Watch Stores' });
+await c('trade.buy', { shop: stock.shop, def: stock.items[0].def.id, qty: 2 });
+await c('trade.buy', { shop: stock.shop, def: stock.items[0].def.id, qty: 1 });
+cmp('after buy');
+await h.swipe(R('another day', ['! time +1d', '+ coin 5']));
+cmp('after swipe');
+await st.swipeTo(ctx.chat.length - 1, 0);
+cmp('after swipe back');
+await st.deleteMessage(ctx.chat.length - 1); await st.deleteMessage(ctx.chat.length - 1);
+cmp('after delete last pair');
+console.log('point restored', J(store.head()) === at1 ? 'yes' : 'NO'); { const A = JSON.parse(at1), B = store.head(); const walk = (x, y, p) => { if (J(x) === J(y)) return; if (x && y && typeof x === 'object' && typeof y === 'object') { for (const k of new Set([...Object.keys(x), ...Object.keys(y)])) walk(x[k], y[k], p + '/' + k); } else console.log('   ', p, J(x)?.slice(0, 150), '->', J(y)?.slice(0, 150)); }; walk(A, B, ''); }
+ctx.chat.forEach((m, i) => console.log(i, m.is_user ? 'U' : 'A', J(m.mes).slice(0, 30), (m.extra?.storySuite?.receipts ?? []).map(x => x.rev + ':' + x.type).join(',')));
+const rec = store.receipts?.() ?? sdk.receipts();
+console.log('receipts', rec.length);
+restore(); h.close(); process.exit(0);
