@@ -1,0 +1,22 @@
+import { suiteHost } from '../fuzz/helpers/suite-final.js';
+const h = await suiteHost({ seed: 9 }); await h.cmd('party.create', { name: 'Wessel', preset: 'fighter' });
+await h.send('hi', h.reply('Bluewatch.', ['~ place Bluewatch Village | kind: settlement']));
+const pc = () => Object.values(h.head().domains.party.actors)[0];
+const hp = () => { const p = pc(); return `${JSON.stringify(p.hp)} rested=${h.head().domains.party.rested}`; };
+const now = () => JSON.stringify(h.q('time.now') ?? h.head().domains.director?.time ?? null).slice(0, 120);
+const S = async (tag, lines) => { await h.send('x', h.reply(tag, lines)); await h.send('y', h.reply('next', [])); console.log(tag.padEnd(28), hp(), now()); };
+console.log('start', hp(), now());
+await S('wound severe', ['~ wound Wessel — a deep cut | harm: severe']);
+await S('time +2h', ['! time +2h']);
+await S('time set back 2h', ['~ time Goldwane 12, 06:40 am']);
+await S('time +2h again', ['! time +2h']);
+await S('time +1h', ['! time +1h']);
+h.features.set('rpg-battle.recovery', false);
+await S('off: time +3h', ['! time +3h']);
+h.features.set('rpg-battle.recovery', true);
+await S('on again: time +1h', ['! time +1h']);
+await S('time +6h', ['! time +6h']);
+// rebuild through a fresh host
+const fresh = await suiteHost({ seed: 1 }); await fresh.st.loadChat(structuredClone(h.ctx.chat), 'r');
+const same = JSON.stringify(fresh.head()) === JSON.stringify(h.head()); console.log('rebuild==live (key order sensitive):', same, JSON.stringify(Object.values(fresh.head().domains.party.actors)[0].hp));
+fresh.close(); h.close();

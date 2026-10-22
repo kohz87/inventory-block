@@ -1,0 +1,21 @@
+import { suiteHost } from '../fuzz/helpers/suite-final.js';
+const h = await suiteHost({ seed: 9 }); await h.cmd('party.create', { name: 'Wessel', preset: 'fighter' });
+await h.send('hi', h.reply('Bluewatch.', ['~ place Bluewatch Village | kind: settlement', '+ present Fenna']));
+const warns = []; console.warn = (...a) => warns.push(a.join(' ').slice(0, 200));
+const T = async (tag, text, user = 'x') => {
+    warns.length = 0; const before = JSON.stringify(h.head().domains);
+    await h.send(user, text);
+    const m = h.ctx.chat.at(-1); const rec = (m.extra?.storySuite?.receipts ?? []).map(r => `${r.type}: ${r.summary ?? ''}`.slice(0, 110));
+    console.log(`## ${tag}\n   receipts: ${rec.join(' || ') || '-'}\n   shown text ends: ${JSON.stringify(m.mes.slice(-90))}\n   warns: ${warns.filter(w => !/dossier/.test(w)).join(' || ').slice(0, 400) || '-'}`);
+};
+await T('prose bullet list, no block', 'Fenna ticks off the list on her fingers:\n\n- present company excluded, nobody here can read\n- item one, the ledger; item two, the key\n+ the rest is gossip');
+await T('dialogue line that is a change line, no block', '"Write it down," Fenna says.\n\n+ coin 40 | from: Fenna\n\nShe does not pay you.');
+await T('stray in the first paragraph (far from block)', '+ item Torch | qty: 2\n\nThen a long walk.\n\nThen more walking.\n\nThen the gate.\n\n<Changes>\n! time +1h\n</Changes>');
+await T('stray right before block', 'The gate.\n+ item Torch | qty: 2\n\n<Changes>\n! time +1h\n</Changes>');
+await T('stray in a user message', 'The gate.\n\n<Changes>\n! time +1h\n</Changes>', 'I take it.\n+ coin 50 | from: Fenna');
+await T('stray inside a code fence before block', 'The gate.\n```\n+ item Torch | qty: 2\n```\n\n<Changes>\n! time +1h\n</Changes>');
+await T('stray inside think', '<think>\n+ coin 40 | from: thinking\n</think>\nThe gate.\n\n<Changes>\n! time +1h\n</Changes>');
+await T('stray after NSD comment', 'The gate.\n\n<Changes>\n! time +1h\n</Changes>\n\n<!--npc_state_delta\n{"npcs":[]}\n-->\n+ coin 40 | from: after the comment');
+await T('stray line repeated twice (same line in story and block)', 'The gate.\n+ coin 40 | from: Fenna\n\n<Changes>\n+ coin 40 | from: Fenna\n</Changes>');
+console.log('wallet', h.wallet());
+h.close();

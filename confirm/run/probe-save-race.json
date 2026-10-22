@@ -1,0 +1,21 @@
+{
+ "chatBytes": 6304739,
+ "stale": {
+  "first": true,
+  "second": true,
+  "ms": 32609,
+  "dirtyAfter": null,
+  "liveHasBeta": true,
+  "fileHasAlpha": true,
+  "fileHasBeta": true,
+  "afterReloadHasBeta": true
+ },
+ "rename": {
+  "cmd": true,
+  "renamed": "Probe copy renamed",
+  "oldFileExists": false,
+  "oldFileHasGamma": null,
+  "newFileHasGamma": true,
+  "chatList": 1
+ }
+}

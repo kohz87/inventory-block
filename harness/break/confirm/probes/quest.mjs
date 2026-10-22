@@ -1,0 +1,17 @@
+import { suiteHost } from '../fuzz/helpers/suite-final.js';
+const h = await suiteHost({ seed: 9 }); await h.cmd('party.create', { name: 'Wessel', preset: 'fighter' });
+await h.send('hi', h.reply('Bluewatch.', ['~ place Bluewatch Village | kind: settlement']));
+const warns = []; console.warn = (...a) => warns.push(a.join(' ').slice(0, 220));
+const quests = () => Object.values(h.head().domains.director?.threads ?? {}).filter(t => t.kind === 'quest').map(t => `${t.key ?? t.fields?.name}:${t.status ?? t.state ?? ''}${t.ended ? ':ended' : ''}`);
+const T = async (tag, lines) => { warns.length = 0; await h.send('x', h.reply(tag, lines)); console.log(tag.padEnd(34), JSON.stringify(quests()), '|', warns.filter(w => !/dossier/.test(w)).join(' || ').slice(0, 250)); };
+const Q = '+ quest Granary Rats — clear the cellar rats | giver: Fenna | goal: kill 6 cellar rats | reward: 50 marks';
+await T('direct quest', [Q]);
+await T('same quest again', [Q]);
+await T('quest renamed case', ['+ quest granary rats — clear the cellar | giver: Fenna | goal: kill 6 cellar rats | reward: 50 marks']);
+await T('hook after the quest', ['+ hook Granary Rats — clear the cellar rats | giver: Fenna']);
+await T('two quests one reply', ['+ quest Culvert Leeches — scrape | giver: Fenna | goal: kill 8 sluice leeches | reward: 120 marks', '+ quest East Bluff Wolves — hunt | giver: Fenna | goal: kill 4 crag wolves | reward: 200 marks']);
+await T('turn in without goal met', ['- quest Granary Rats — turned in']);
+await T('fail one', ['- quest Culvert Leeches — failed']);
+await T('re-take the failed one', ['+ quest Culvert Leeches — scrape again | giver: Fenna | goal: kill 8 sluice leeches | reward: 120 marks']);
+console.log('wallet', h.wallet());
+h.close();

@@ -1,0 +1,102 @@
+{
+ "4095": [
+  {
+   "sendToRequest": 2494,
+   "interceptMs": 1690,
+   "saveInIntercept": 0,
+   "ctx": 3795,
+   "msgs": 14,
+   "reqChars": 12633
+  },
+  {
+   "sendToRequest": 3512,
+   "interceptMs": 2681,
+   "saveInIntercept": 0,
+   "ctx": 3795,
+   "msgs": 14,
+   "reqChars": 12423
+  },
+  {
+   "sendToRequest": 2177,
+   "interceptMs": 1506,
+   "saveInIntercept": 0,
+   "ctx": 3795,
+   "msgs": 16,
+   "reqChars": 12673
+  },
+  {
+   "sendToRequest": 2237,
+   "interceptMs": 1557,
+   "saveInIntercept": 0,
+   "ctx": 3795,
+   "msgs": 14,
+   "reqChars": 12845
+  },
+  {
+   "sendToRequest": 2359,
+   "interceptMs": 1682,
+   "saveInIntercept": 0,
+   "ctx": 3795,
+   "msgs": 14,
+   "reqChars": 12760
+  },
+  {
+   "sendToRequest": 2350,
+   "interceptMs": 1609,
+   "saveInIntercept": 0,
+   "ctx": 3795,
+   "msgs": 14,
+   "reqChars": 12718
+  }
+ ],
+ "16384": [
+  {
+   "sendToRequest": 2178,
+   "interceptMs": 1495,
+   "saveInIntercept": 0,
+   "ctx": 16084,
+   "msgs": 123,
+   "reqChars": 42345
+  },
+  {
+   "sendToRequest": 2144,
+   "interceptMs": 1431,
+   "saveInIntercept": 0,
+   "ctx": 16084,
+   "msgs": 125,
+   "reqChars": 42465
+  },
+  {
+   "sendToRequest": 3165,
+   "interceptMs": 2488,
+   "saveInIntercept": 0,
+   "ctx": 16084,
+   "msgs": 123,
+   "reqChars": 42578
+  },
+  {
+   "sendToRequest": 2268,
+   "interceptMs": 1557,
+   "saveInIntercept": 0,
+   "ctx": 16084,
+   "msgs": 123,
+   "reqChars": 42886
+  },
+  {
+   "sendToRequest": 2190,
+   "interceptMs": 1459,
+   "saveInIntercept": 0,
+   "ctx": 16084,
+   "msgs": 123,
+   "reqChars": 42209
+  },
+  {
+   "sendToRequest": 2162,
+   "interceptMs": 1562,
+   "saveInIntercept": 0,
+   "ctx": 16084,
+   "msgs": 125,
+   "reqChars": 42569
+  }
+ ]
+}

@@ -1,0 +1,10 @@
+import { suiteHost } from '../fuzz/helpers/suite-final.js';
+const h = await suiteHost({ seed: 9 }); await h.cmd('party.create', { name: 'Wessel', preset: 'fighter' });
+await h.send('hi', h.reply('Bluewatch.', ['~ place Watch Granary | kind: settlement']));
+const enc = '! encounter 3 Cellar Rat Swarm — boiling out of the dark | tier: weak | stakes: normal';
+await h.send('I go down.', `The rats come.\n${enc}\n\n<Changes>\n${enc}\n+ item Moonveil Trout | qty: 1\n</Changes>`);
+console.log('offers', JSON.stringify((h.q('combat.offers') ?? []).map(o => `${o.id}: ${o.foes?.map?.(f => f.name ?? f).join(',') ?? o.title ?? ''}`)));
+console.log('receipts', h.ctx.chat.at(-1).extra.storySuite.receipts.map(r => `${r.type}: ${r.summary}`.slice(0, 120)).join(' || '));
+await h.send('x', 'Fenna hands it over.\n+ item Moonveil Trout | qty: 1\n\n<Changes>\n+ item Moonveil Trout | qty: 1\n</Changes>');
+console.log('trout', JSON.stringify(h.items().filter(i => /Trout/.test(i.name)).map(i => [i.name, i.qty])));
+h.close();

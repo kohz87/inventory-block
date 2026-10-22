@@ -1,0 +1,1802 @@
+[
+ {
+  "step": 0,
+  "kind": "warning",
+  "text": "Settings not ready, scheduling another save",
+  "loc": "http://127.0.0.1:8262/script.js"
+ },
+ {
+  "step": 0,
+  "kind": "error",
+  "text": "Failed to load resource: the server responded with a status of 404 (Not Found) http://127.0.0.1:8262/user/files/npc-state-delta-b9aub81k1ndv2.json",
+  "loc": "http://127.0.0.1:8262/user/files/npc-state-delta-b9aub81k1ndv2.json"
+ },
+ {
+  "step": 0,
+  "kind": "error",
+  "text": "[NPC State Delta] dossier scan failed Error: No message generated\n    at Object.generateRaw (http://127.0.0.1:8262/script.js:4147:15)\n    at async dispatchScannerRequest (http://127.0.0.1:8262/scripts/extensions/third-party/npc_state_delta/scanner-routing.js:228:26)\n    at async invoke (http://127.0.0.1:8262/scripts/extensions/third-party/npc_state_delta/src/scanner-request.js:50:21)\n    at async scanNow (http://127.0.0.1:8262/scripts/extensions/third-party/npc_state_delta/index.js:3758:85)\n    at async handleAssistantMessageReceived (http://127.0.0.1:8262/scripts/extensions/third-party/npc_state_delta/index.js:7158:13)\n    at async EventEmitter.<anonymous> (http://127.0.0.1:8262/scripts/extensions/third-party/npc_state_delta/index.js:7312:13)\n    at async EventEmitter.emit (http://127.0.0.1:8262/lib/eventemitter.js:146:17)\n    at async getChatResult (http://127.0.0.1:8262/script.js:7705:9)\n    at async getChat (http://127.0.0.1:8262/script.js:7668:9)\n    at async doNewChat (http://127.0.0.1:8262/script.js:10643:9)",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/diagnostics.js"
+ },
+ {
+  "step": 1,
+  "kind": "warning",
+  "text": "[Story Suite] No module keeps \"hp\", so \"~ hp Wessel | -5\" was not used.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 2,
+  "kind": "warning",
+  "text": "[Story Suite] story-director: \"- route Watch Granary — Watch Granary\" was not used: \"- route Watch Granary — Watch Granary\" leads from a place to itself.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 5,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"! craft Pitch Torches | result: masterwork\" was not used: Wessel cannot craft Pitch Torches: Missing 1 Lamp Oil, 1 Burlap Sack.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 6,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"! craft Leech-salt Pouch | with: Coarse Salt x2, Burlap Sack | by: Wessel | roll: 1 | result: made\" was not used: Wessel cannot craft Leech-salt Pouch: Missing 2 Coarse Salt, 1 Burlap Sack.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 6,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"- effect Steady Hands | who: Wessel\" was not used: Wessel has no effect called Steady Hands.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 6,
+  "kind": "warning",
+  "text": "The message had missing or invalid swipe_info for a swipe. It has been backfilled. Object",
+  "loc": "http://127.0.0.1:8262/script.js"
+ },
+ {
+  "step": 7,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"~ wound Wessel — cure bleeding\" was not used: That changes nothing for Wessel.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 7,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"+ effect Keen Sight | for: two hours\" was not used: Keen Sight: say what it acts on (on: perception, stealth, DEX, attack, defence, all checks…).",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 10,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"+ join Dov | level: high\" was not used: The level \"high\" is not a level.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 10,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"- item Salt-stained Letter | qty: 1\" was not used: There is no Salt-stained Letter in the inventory.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 11,
+  "kind": "warning",
+  "text": "[Story Suite] npc-state-delta: \"~ npc Watch-Captain Rorke | meter: -2\" was not used: \"meter\" is not a meter (meters: trust, affection, desire, tension).",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 13,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"! repair Cane-Blade | at: tailor\" was not used: No smith or tailor here (East Bluff): gear is repaired and refined at a market.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 13,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"+ coin 9007199254740993 | from: Quay inspector\" was not used: The amount must be more than nothing.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 14,
+  "kind": "warning",
+  "text": "[Story Suite] npc-state-delta: \"~ npc Marrit | affection: -1e308\" was not used: Affection: \"-1e308\" is not +N, -N or =N.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 15,
+  "kind": "warning",
+  "text": "[Story Suite] story-director: \"- world Auvoth Depth Tremors — the riots burn out\" was not used: There is no world event \"Auvoth Depth Tremors\" in the chronicle to end.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 16,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"~ item Flint and Steel | value: 99999 | rarity: legendary\" was not used: There is no Flint and Steel in the inventory.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 16,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"~ item Spear | wear: scratched\" was not used: There is no Spear in the inventory.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 16,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"! use Common Ale | on: {{user}} | qty: 0x7fffffff\" was not used: Use from 1 to 10 at once.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 16,
+  "kind": "warning",
+  "text": "[Story Suite] npc-state-delta: \"~ npc the quartermaster | meter: +3\" was not used: \"meter\" is not a meter (meters: trust, affection, desire, tension).",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 17,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"~ item Knife — nicked on a wolf's skull | wear: tear\" was not used: There is no Knife among the party's gear.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 17,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"~ item Spear | cond: 999 | refine: +99\" was not used: There is no Spear in the inventory.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 18,
+  "kind": "warning",
+  "text": "[Story Suite] story-director: \"- - world Hill Rains — the riots burn out\" was not used: There is no world event \"Hill Rains\" in the chronicle to end.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 20,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"~ item Iron Cap | equip: prototype\" was not used: There is no Iron Cap in the inventory.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 23,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"~ wound Wessel — cure exhausted\" was not used: That changes nothing for Wessel.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 26,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"! repair Knife | at: tailor\" was not used: There is no Knife among the party's gear.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 27,
+  "kind": "warning",
+  "text": "[Story Suite] Line 4 \"? choice\" is not a change line: the choice has no name.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 27,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"! refine Drowned Saint's Relic | at: smith | with: Crag Wolf Fang x2\" was not used: There is no Drowned Saint's Relic among the party's gear.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 27,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"- item Tarred Twine | qty: 1\" was not used: There is no Tarred Twine in the inventory.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 28,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"? choice Option 5\" was not used: a reply shows at most 4 choices, and this one had more.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 29,
+  "kind": "warning",
+  "text": "[Story Suite] Line 1 \"+ item Hot Meal | qty: 1 | note: very long note very long no…\" is longer than 2000 characters, so it was not read.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 29,
+  "kind": "warning",
+  "text": "[Story Suite] npc-state-delta: \"+ milestone Shared Watch — they stood the night watch side by side\" was not used: Shared Watch already has the milestone “they stood the night watch side by side”.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 31,
+  "kind": "warning",
+  "text": "[Story Suite] Line 1 \"! market — nothing\" is not a change line: the market has no name.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 33,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"~ market Glassdock — supplies back\" was not used: There is no shortage at Glassdock to lift.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 33,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"! craft Leech-salt Pouch | with: Coarse Salt x2, Burlap Sack | by: Wessel\" was not used: Wessel cannot craft Leech-salt Pouch: Missing 2 Coarse Salt, 1 Burlap Sack.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 34,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"! repair Knife | at: smith\" was not used: There is no Knife among the party's gear.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 34,
+  "kind": "warning",
+  "text": "[Story Suite] story-director: \"- route Stray Oar — Watch Granary\" was not used: There is no route between Stray Oar and Watch Granary on the map.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 34,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"! repair Whetstone | at: tailor\" was not used: There is no Whetstone among the party's gear.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 36,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"+ xp huge — a big day\" was not used: An XP award is minor, major or milestone.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 36,
+  "kind": "warning",
+  "text": "[Story Suite] No module keeps \"choices\", so \"? choices Run | Hide\" was not used.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 36,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"+ coin 4 silver 9 copper | from: Hollis\" was not used: \"4 silver 9 copper\" holds more than one number: write it in one coin or in copper (+ coin 35).",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 37,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"- recipe Wolf-pelt Mantle | who: Wessel\" was not used: Wessel does not know a recipe called Wolf-pelt Mantle.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 38,
+  "kind": "warning",
+  "text": "[Story Suite] story-director: \"- route Stray Oar — Old Lantern Post\" was not used: There is no route between Stray Oar and Old Lantern Post on the map.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 38,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"~ wound Wessel — a rat bite on the calf | harm: scratch\" was not used: That changes nothing for Wessel.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 39,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"! craft Leech-salt Pouch | result: masterwork\" was not used: Wessel cannot craft Leech-salt Pouch: Missing 2 Coarse Salt, 1 Burlap Sack.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 41,
+  "kind": "warning",
+  "text": "[Story Suite] No module keeps \"agendaa\", so \"+ agendaa Ketter — buying up salt | now: Bluewatch Village | then: comes to Bluewatch | on: Goldwane 14, 03:10 pm\" was not used.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 41,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"~ item Knife — scraped on the quay stones | wear: ruin\" was not used: There is no Knife among the party's gear.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 43,
+  "kind": "warning",
+  "text": "[Story Suite] No module keeps \"money\", so \"+ money 1 silver | from: Watch-Captain Rorke\" was not used.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 43,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"+ coin three | from: Old Tamsin\" was not used: No amount of money was written.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 44,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"+ xp 50\" was not used: An XP award is minor, major or milestone.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 44,
+  "kind": "warning",
+  "text": "[Story Suite] story-director: \"- world Confederacy Levy — the riots burn out\" was not used: There is no world event \"Confederacy Levy\" in the chronicle to end.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 44,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"! craft Iron Cap | with: Crag Wolf Pelt, Small Monster Core\" was not used: There is no recipe for Iron Cap.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 45,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"? check {{char}} — x | dc: -100\" was not used: The difficulty is easy, normal, hard or a number from 1 to 40.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 47,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"~ item Wolf-pelt Mantle | cond: 50%\" was not used: There is no Wolf-pelt Mantle in the inventory.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 47,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"! refine Drowned Saint's Relic | at: smith | with: Small Monster Core\" was not used: There is no Drowned Saint's Relic among the party's gear.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 48,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"+ coin three | from: Fenna\" was not used: No amount of money was written.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 49,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"~ item Drowned Saint's Relic | note: scuffed\" was not used: There are several lots of Drowned Saint's Relic; the line cannot say which one changed.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 50,
+  "kind": "warning",
+  "text": "[Story Suite] No module keeps \"gold\", so \"+ gold 18\" was not used.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 50,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"+ coin 14 copper | from: Dov\" was not used: This reply has already given all the money one reply may give (4 gold); the rest was not paid.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 51,
+  "kind": "warning",
+  "text": "[Story Suite] story-director: \"- route North Culvert — Auvoth\" was not used: There is no route between North Culvert and Auvoth on the map.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 51,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"+ recipe Leech-salt Pouch | from: Sella the sealer | who: Wessel\" was not used: Wessel already knows Leech-salt Pouch.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 52,
+  "kind": "warning",
+  "text": "[Story Suite] npc-state-delta: \"~ npc Marrit | stage: smitten\" was not used: Stages are set by code from the meters; \"stage: smitten\" was not used.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 55,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"+ item Trail Rations | qty: 999999999\" was not used: \"999999999\" is not a quantity.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 56,
+  "kind": "warning",
+  "text": "[Story Suite] story-director: \"+ world Auvoth Depth Tremors | state: maybe\" was not used: \"+ world Auvoth Depth Tremors | state: maybe\": \"maybe\" is not a state; write looming, ongoing or resolved.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 56,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"~ wound Wessel — cure chilled\" was not used: That changes nothing for Wessel.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 57,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"- recipe Healing Salve | who: Wessel\" was not used: Wessel does not know a recipe called Healing Salve.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 57,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"~ wound Wesel — bruised | harm: bruise\" was not used: Wesel is not in the party.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 57,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"+ join Watch-Captain Rorke | level: high\" was not used: The level \"high\" is not a level.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 58,
+  "kind": "warning",
+  "text": "[Story Suite] Line 3 \"+ route aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa…\" is longer than 2000 characters, so it was not read.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 58,
+  "kind": "warning",
+  "text": "[Story Suite] npc-state-delta: \"~ npc Fenna | meter: -7\" was not used: \"meter\" is not a meter (meters: trust, affection, desire, tension).",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 58,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"! craft Camp Stew | with: Trail Rations, Coarse Bread | by: Wessel | roll: 1 | result: fine | at: campfire\" was not used: Wessel cannot craft Camp Stew: Missing 1 Trail Rations, 1 Coarse Bread.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 59,
+  "kind": "warning",
+  "text": "[Story Suite] No module keeps \"wear\", so \"~ wear Spear | -1\" was not used.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 60,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"- coin -822 | to: Ketter\" was not used: Write the amount without a sign; + coin or - coin says whether it is gained or paid.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 61,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"- coin -873 | to: Brannoc\" was not used: Write the amount without a sign; + coin or - coin says whether it is gained or paid.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 61,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"+ skill Wessel — River Sense: ties fast knots under stress | taught by: Marrit\" was not used: Wessel already knows River Sense.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 62,
+  "kind": "warning",
+  "text": "[Story Suite] Line 4 \"+ xp — nothing much\" is not a change line: the xp has no name.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 62,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"~ item Torch | equip: Wessel\" was not used: The line changes nothing about Torch.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 62,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"+ xp 99999 — x\" was not used: An XP award is minor, major or milestone.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 62,
+  "kind": "warning",
+  "text": "[Story Suite] npc-state-delta: \"~ npc Hollis | meter: +3\" was not used: \"meter\" is not a meter (meters: trust, affection, desire, tension).",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 63,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"+ coin 1.5 gold | from: Ysolde\" was not used: \"1.5\" is not a whole amount.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 65,
+  "kind": "warning",
+  "text": "[Story Suite] npc-state-delta: \"~ npc Old Tamsin |meter: +5\" was not used: \"meter\" is not a meter (meters: trust, affection, desire, tension).",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 67,
+  "kind": "warning",
+  "text": "[Story Suite] Line 1 \"+ effect aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa…\" is longer than 2000 characters, so it was not read.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 67,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"+ recipe Wolf-pelt Mantle | from: Sella the sealer | who: Wessel\" was not used: Wolf-pelt Mantle is taught only by the Watch smith at the Gate Forge.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 67,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"! repair Drowned Saint's Relic | at: tailor\" was not used: There is no Drowned Saint's Relic among the party's gear.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 74,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"~ wound Wessel — the sealer binds the cut | heal: scratch\" was not used: That changes nothing for Wessel.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 74,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: 9999999 gold 9 silver 9 copper was written, but one reply may give at most 4 gold; 4 gold was paid.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 74,
+  "kind": "warning",
+  "text": "[Story Suite] story-director: \"- route Auvoth — Wolfmere Outpost\" was not used: There is no route between Auvoth and Wolfmere Outpost on the map.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 74,
+  "kind": "warning",
+  "text": "[Story Suite] story-director: \"+ route Varnhold Watch to Guild Office | hours: two\" was not used: \"+ route Varnhold Watch to Guild Office | hours: two\" needs two places: + route Place — Other Place.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 76,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"~ item Cane-Blade | cond: worn\" was not used: The line changes nothing about Cane-Blade.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 78,
+  "kind": "warning",
+  "text": "[Story Suite] The reply stopped in the middle of the change line \"<npc_state_delta>{\"npcs\":[{\"name\":\"Brannoc\",\"present\":false,\"role\":\"hired spear\"\", so it was not used.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 81,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"+ recipe Wolf-pelt Mantle | from: Old Tamsin | who: Wessel\" was not used: Wolf-pelt Mantle is taught only by the Watch smith at the Gate Forge.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 81,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"~ item Whetstone | equip: Brannoc\" was not used: The line changes nothing about Whetstone.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 82,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"~ item Cane-Blade | cond: 3/4\" was not used: The line changes nothing about Cane-Blade.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 84,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"~ xp minor — x\" was not used: The story only gives XP: \"+ xp minor|major|milestone — why\".",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 85,
+  "kind": "warning",
+  "text": "[Story Suite] story-director: \"+ world {{user}} — {{user}} | state: {{user}} | factions: {{user}}\" was not used: \"+ world {{user}} — {{user}} | state: {{user}} | factions: {{user}}\": \"{{user}}\" is not a state; write looming, ongoing or resolved.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 88,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"~ item Burlap Sack | value: 99999 | rarity: legendary\" was not used: There is no Burlap Sack in the inventory.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 88,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: One reply may lay out at most 8 things to pick from; Thing 8 and the rest were left out.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 88,
+  "kind": "warning",
+  "text": "[Story Suite] story-director: \"- route Auvoth — Watchhouse\" was not used: There is no route between Auvoth and Watchhouse on the map.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 90,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"! craft Healing Salve | with: Bluecap Moss x2, Lamp Oil | by: Wessel | roll: 2 | result: masterwork\" was not used: Wessel cannot craft Healing Salve: Alchemy here needs an alchemy table, and there is none.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 93,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"! refine Drowned Saint's Relic | at: smith | with: Rusty Nails\" was not used: There is no Drowned Saint's Relic among the party's gear.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 95,
+  "kind": "warning",
+  "text": "[Story Suite] story-director: \"- quest Salt Crew Debt — turned in\" was not used: Salt Crew Debt has already been paid.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 96,
+  "kind": "warning",
+  "text": "[Story Suite] Line 5 \"+\" is not a change line: there is no kind after the op.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 96,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"+ coin 1.5 gold | from: Fenna\" was not used: \"1.5\" is not a whole amount.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 96,
+  "kind": "warning",
+  "text": "[Story Suite] No module keeps \"party\", so \"~ party Wessel | xp: 99999 | hp: 9999\" was not used.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 96,
+  "kind": "warning",
+  "text": "[Story Suite] npc-state-delta: \"~ npc Watch-Captain Rorke | trust: high\" was not used: Trust: \"high\" is not +N, -N or =N.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 96,
+  "kind": "warning",
+  "text": "[Story Suite] story-director: \"- route Guild Office — Bluewatch Village\" was not used: There is no route between Guild Office and Bluewatch Village on the map.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 98,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"~ item Hatchet | cond: 50%\" was not used: There is no Hatchet in the inventory.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 99,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"~ item Cane-Blade | cond: NaN | refine: +99\" was not used: The line changes nothing about Cane-Blade.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 101,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"+ effect Steady Hands — x | on: luck | for: 2h | who: Wesel\" was not used: Wesel is not in the party.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 102,
+  "kind": "warning",
+  "text": "[Story Suite] Line 1 \"? check — sneaking | dc: very hard\" is not a change line: the check has no name.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 103,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: mark coins ×140 was written, but one reply may give at most 20 of one item; 20 were given.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 110,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"~ item Crag Wolf Pelt — torn by brambles | wear: tear\" was not used: There is no Crag Wolf Pelt among the party's gear.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 110,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"- effect Soaked Through | who: Wessel\" was not used: Wessel has no effect called Soaked Through.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 110,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"+ recipe Wolf-pelt Mantle | from: a stained page | who: Wessel\" was not used: Wolf-pelt Mantle is taught only by the Watch smith at the Gate Forge.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 110,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"+ effect prototype — prototype | on: prototype | for: 2h | who: prototype\" was not used: prototype is not in the party.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 113,
+  "kind": "warning",
+  "text": "[Story Suite] \"~ quest | met: yes\" was not used: it is not a change line: the quest has no name; change lines go inside the <Changes> block at the end of the reply.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 113,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"~ wound Wessel — healed completely | heal: everything\" was not used: Harm and heal are scratch, wound, severe or grievous.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 115,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"+ join the quartermaster | level: high\" was not used: The level \"high\" is not a level.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 116,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"! refine Rat Tail | at: smith | with: Small Monster Core\" was not used: There is no Rat Tail among the party's gear.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 116,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"- item Cracked Lantern | qty: 1\" was not used: There is no Cracked Lantern in the inventory.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 117,
+  "kind": "warning",
+  "text": "[Story Suite] The reply stopped in the middle of the change line \"</Changes>\", so it was not used.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 118,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"+ coin 1e6 gold | from: the dragon hoard\" was not used: \"1e6 gold\" holds more than one number: write it in one coin or in copper (+ coin 35).",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 120,
+  "kind": "warning",
+  "text": "[Story Suite] story-director: \"+ world prototype — prototype | state: prototype | factions: prototype\" was not used: \"+ world prototype — prototype | state: prototype | factions: prototype\": \"prototype\" is not a state; write looming, ongoing or resolved.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 121,
+  "kind": "warning",
+  "text": "[Story Suite] Line 4 \"Changes: + item Torch\" is not a change line: it does not start with + - ~ ! or ?.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 121,
+  "kind": "warning",
+  "text": "[Story Suite] npc-state-delta: \"~ npc Ysolde | meter: +3\" was not used: \"meter\" is not a meter (meters: trust, affection, desire, tension).",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 122,
+  "kind": "warning",
+  "text": "[Story Suite] npc-state-delta: \"~ npc Fenna | meter: +1\" was not used: \"meter\" is not a meter (meters: trust, affection, desire, tension).",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 123,
+  "kind": "warning",
+  "text": "[Story Suite] story-director: \"+ route Gate Forge to Watch Granary | hours: two\" was not used: \"+ route Gate Forge to Watch Granary | hours: two\" needs two places: + route Place — Other Place.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 123,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"+ coin 1.5 gold | from: Brannoc\" was not used: \"1.5\" is not a whole amount.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 125,
+  "kind": "warning",
+  "text": "[Story Suite] story-director: \"+ route ../../../etc/passwd — ../../../etc/passwd | hours: ١٢\" was not used: \"+ route ../../../etc/passwd — ../../../etc/passwd | hours: ١٢\" leads from a place to itself.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 126,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"+ skill Wessel — River Sense: ties fast knots under stress | taught by: Old Tamsin\" was not used: Wessel already knows River Sense.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 126,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"! craft Camp Stew | result: masterwork\" was not used: Wessel cannot craft Camp Stew: Cooking here needs a campfire, and there is none.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 127,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: 999 gold was written, but one reply may give at most 4 gold; 4 gold was paid.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 128,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"- coin -5005 | to: Old Tamsin\" was not used: Write the amount without a sign; + coin or - coin says whether it is gained or paid.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 131,
+  "kind": "warning",
+  "text": "[Story Suite] No module keeps \"checkk\", so \"? checkk STR — climbing the wet palisade | dc: normal | roll: 11 | result: success\" was not used.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 133,
+  "kind": "warning",
+  "text": "[Story Suite] npc-state-delta: \"~ npc Marrit | meter: +8\" was not used: \"meter\" is not a meter (meters: trust, affection, desire, tension).",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 134,
+  "kind": "warning",
+  "text": "[Story Suite] story-director: \"+ route Stray Oar to Watchhouse | hours: two\" was not used: \"+ route Stray Oar to Watchhouse | hours: two\" needs two places: + route Place — Other Place.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 134,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"! refine Cane-Blade | at: smith | with: Small Monster Core\" was not used: There is no Small Monster Core among the party's loose materials.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 134,
+  "kind": "warning",
+  "text": "[Story Suite] story-director: \"- route North Culvert — Wolfmere Outpost\" was not used: There is no route between North Culvert and Wolfmere Outpost on the map.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 135,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"! encounter ١٢ constructor | tier: constructor\" was not used: This change breaks the state's rules: /domains/combat/offers/en_9tyngtd2/foes/0/tier is a function; state holds plain JSON only.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 135,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"! loot Burlap Sack x2 — on the floor\" was not used: \"! loot\" is not a change the inventory understands; write ? loot Thing, Other Thing — where it lies.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 141,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"+ xp huge — the wolves\" was not used: An XP award is minor, major or milestone.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 142,
+  "kind": "warning",
+  "text": "[Story Suite] npc-state-delta: \"~ npc Ketter | meter: +5\" was not used: \"meter\" is not a meter (meters: trust, affection, desire, tension).",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 142,
+  "kind": "warning",
+  "text": "[Story Suite] No module keeps \"effectt\", so \"- effectt Wolf Fever | who: Wessel\" was not used.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 142,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"~ item Chitin Plate — soaked in the sluice | wear: scuff\" was not used: There is no Chitin Plate among the party's gear.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 144,
+  "kind": "warning",
+  "text": "[Story Suite] npc-state-delta: \"~ npc Old Tamsin | trust: high\" was not used: Trust: \"high\" is not +N, -N or =N.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 146,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"! use Bandage | on: Wessel | qty: 999\" was not used: Use from 1 to 10 at once.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 147,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"! repair Chitin Plate | at: smith\" was not used: There is no Chitin Plate among the party's gear.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 148,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"+ join Dov — a runaway acolyte | level: 3 | role: healer\" was not used: Dov is already in the party.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 151,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"~ chatter thinks the stick is a sword\" was not used: it names no one (write \"~ chatter Name: the thought\").",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 153,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"+ join Brannoc - a hired spear with debts | level: 6 | role: scout\" was not used: Brannoc is already in the party.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 154,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"! craft Wolf-pelt Mantle | result: masterwork\" was not used: Wessel does not know how to make Wolf-pelt Mantle: the story has to teach the recipe first (`+ recipe Wolf-pelt Mantle | from: …`).",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 156,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"~ item Knife | equip: Brannoc\" was not used: The line changes nothing about Knife.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 157,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"? check lockpicking — x | dc: 1 | roll: -50 | result: success | who: ‮gnirts desrever\" was not used: ‮gnirts desrever is not in the party.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 157,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"+ item Hemp Rope | qty: 999999999\" was not used: \"999999999\" is not a quantity.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 159,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"+ join Quay inspector | level: high\" was not used: The level \"high\" is not a level.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 159,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"! craft wolf-pelt mantle\" was not used: Wessel does not know how to make Wolf-pelt Mantle: the story has to teach the recipe first (`+ recipe Wolf-pelt Mantle | from: …`).",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 160,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"~ wound Wessel — cure everything\" was not used: That changes nothing for Wessel.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 161,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"~ chatter Ketter: thought 2\" was not used: a reply shows at most 3 chatter lines, and this one had more.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 161,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"~ chatter Hollis: thought 3\" was not used: a reply shows at most 3 chatter lines, and this one had more.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 163,
+  "kind": "warning",
+  "text": "[Story Suite] No module keeps \"cond\", so \"~ cond Wessel | poisoned\" was not used.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 167,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"+ recipe Camp Stew | from: a stained page | who: Wessel\" was not used: Wessel already knows Camp Stew.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 169,
+  "kind": "warning",
+  "text": "[Story Suite] npc-state-delta: \"~ npc Old Tamsin | meter: +3\" was not used: \"meter\" is not a meter (meters: trust, affection, desire, tension).",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 170,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"~ market Auvoth — barges brought salt again\" was not used: There is no shortage at Auvoth to lift.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 171,
+  "kind": "warning",
+  "text": "[Story Suite] story-director: \"- quest salt crew debt — done\" was not used: Salt Crew Debt has already been paid.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 173,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"! refine Fang | at: smith | with: Crag Wolf Fang x2\" was not used: There is no Fang among the party's gear.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 175,
+  "kind": "warning",
+  "text": "[Story Suite] story-director: \"- quest Lost Ferry Bell — turned in\" was not used: Lost Ferry Bell has already been paid.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 176,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"~ item Tough Trophy — torn by brambles | wear: scuff\" was not used: There is no Tough Trophy among the party's gear.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 177,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"~ item Moonveil Pearl | equip: Dov\" was not used: The line changes nothing about Moonveil Pearl.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 179,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"~ wound javascript:alert(1) — x | harm: javascript:alert(1)\" was not used: javascript:alert(1) is not in the party.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 180,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"? check toString — x | dc: -100\" was not used: The difficulty is easy, normal, hard or a number from 1 to 40.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 180,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"~ item Cane-Blade | cond: -5 | refine: +9\" was not used: The line changes nothing about Cane-Blade.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 180,
+  "kind": "warning",
+  "text": "[Story Suite] story-director: \"- route Old Lantern Post — Wolfmere Outpost\" was not used: There is no route between Old Lantern Post and Wolfmere Outpost on the map.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 180,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"+ coin three | from: the quartermaster\" was not used: No amount of money was written.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 181,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: Crag Wolf Fang is already carried, so it is not offered.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 182,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"! repair Inspector's Chit | at: tailor\" was not used: There is no Inspector's Chit among the party's gear.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 184,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"~ wound Wessel — cure javascript:alert(1)\" was not used: That changes nothing for Wessel.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 184,
+  "kind": "warning",
+  "text": "[Story Suite] story-director: \"- route Watchhouse — Inspection Quay\" was not used: There is no route between Watchhouse and Inspection Quay on the map.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 186,
+  "kind": "warning",
+  "text": "[Story Suite] Line 3 \"? check survival — x | dc: 1 | roll: 0 | result: success | w…\" is longer than 2000 characters, so it was not read.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 187,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"~ item Hatchet | equip: on\" was not used: There is no Hatchet in the inventory.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 190,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"! craft leech-salt pouch\" was not used: Wessel does not know how to make Leech-salt Pouch: the story has to teach the recipe first (`+ recipe Leech-salt Pouch | from: …`).",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 192,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"~ item Wolf-pelt Mantle | wear: broken\" was not used: There is no Wolf-pelt Mantle in the inventory.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 192,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"~ wound Wessel — a hot meal and sleep | heal: wound\" was not used: That changes nothing for Wessel.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 192,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"! craft camp stew\" was not used: Wessel cannot craft Camp Stew: Cooking here needs a campfire, and there is none.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 197,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"! rest overnight\" was not used: A rest is short or long.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 197,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"! refine Whetstone | at: smith | with: Rusty Nails\" was not used: There is no Whetstone among the party's gear.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 197,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"+ skill Wessel — Quick Knot: reads currents and weather | taught by: Marrit\" was not used: Wessel already knows Quick Knot.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 198,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"~ wound Wessel — a fist in the ribs | harm: wound\" was not used: That changes nothing for Wessel.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 198,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"- effect Salt Courage | who: Wessel\" was not used: Wessel has no effect called Salt Courage.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 199,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"! craft healing salve\" was not used: Wessel does not know how to make Healing Salve: the story has to teach the recipe first (`+ recipe Healing Salve | from: …`).",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 199,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"~ item Rat Tail | equip: Brannoc\" was not used: The line changes nothing about Rat Tail.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 201,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"~ item Moonveil Pearl — nicked on a wolf's skull | wear: scuff\" was not used: There is no Moonveil Pearl among the party's gear.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 203,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"+ coin 5 platinum | from: Fenna\" was not used: \"platinum\" is not a coin here: write copper, bronze, silver, gold or a number of copper.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 204,
+  "kind": "warning",
+  "text": "[Story Suite] story-director: \"- route Glassdock — Old Lantern Post\" was not used: There is no route between Glassdock and Old Lantern Post on the map.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 204,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"~ chatter nobody in particular\" was not used: it names no one (write \"~ chatter Name: the thought\").",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 205,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"~ item Small Monster Core | value: 99999 | rarity: legendary\" was not used: There is no Small Monster Core in the inventory.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 205,
+  "kind": "warning",
+  "text": "[Story Suite] npc-state-delta: \"~ npc Watch-Captain Rorke | meter: +4\" was not used: \"meter\" is not a meter (meters: trust, affection, desire, tension).",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 206,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"+ coin ١٢ | from: Brannoc\" was not used: No amount of money was written.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 206,
+  "kind": "warning",
+  "text": "[Story Suite] npc-state-delta: \"+ milestone Shared Watch — Marrit laughed at last\" was not used: Shared Watch already has the milestone “Marrit laughed at last”.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 209,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"~ chatter : nothing\" was not used: it names no one (write \"~ chatter Name: the thought\").",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 211,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"~ market Auvoth — supplies back\" was not used: There is no shortage at Auvoth to lift.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 211,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"+ join Brannoc | level: high\" was not used: The level \"high\" is not a level.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 213,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"~ item Iron Cap | equip: on\" was not used: The line changes nothing about Iron Cap.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 214,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"! craft Pitch Torches | with: Lamp Oil, Burlap Sack | by: Wessel | roll: 1 | result: made\" was not used: Wessel does not know how to make Pitch Torches: the story has to teach the recipe first (`+ recipe Pitch Torches | from: …`).",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 219,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"! loot Bluecap Moss x2 — on the floor\" was not used: \"! loot\" is not a change the inventory understands; write ? loot Thing, Other Thing — where it lies.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 222,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"+ effect Wolf Fever | for: two hours\" was not used: Wolf Fever: say what it acts on (on: perception, stealth, DEX, attack, defence, all checks…).",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 224,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"~ item Moonveil Pearl | equip: Brannoc\" was not used: The line changes nothing about Moonveil Pearl.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 224,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"! craft Minor Healing Draught x999 | with: air\" was not used: There is no recipe for Minor Healing Draught x999.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 228,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"+ join Ysolde | level: high\" was not used: The level \"high\" is not a level.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 229,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"+ effect Wolf Fever — x | on: luck | for: 2h | who: Wesel\" was not used: Wesel is not in the party.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 233,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"~ item Hatchet | wear: scratched\" was not used: There is no Hatchet in the inventory.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 233,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"+ effect <USER> — <USER> | on: <USER> | for: 2h | who: <USER>\" was not used: <USER> is not in the party.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 234,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"! repair Chitin Bracer | at: tailor\" was not used: No smith or tailor here (East Bluff): gear is repaired and refined at a market.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 234,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"+ skill Wessel — Quick Knot: ties fast knots under stress | taught by: Marrit\" was not used: Wessel already knows Quick Knot.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 235,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"~ item Chitin Plate | equip: Brannoc\" was not used: The line changes nothing about Chitin Plate.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 236,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"- recipe Leech-salt Pouch | who: Wessel\" was not used: Wessel does not know a recipe called Leech-salt Pouch.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 238,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"+ effect Salt Courage — x | on: luck | for: 2h | who: Wesel\" was not used: Wesel is not in the party.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 238,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"~ item Spear | wear: 1e308\" was not used: There is no Spear in the inventory.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 239,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"~ wound Wessel — a rat bite on the calf | harm: wound\" was not used: That changes nothing for Wessel.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 239,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"~ chatter Fenna: thought 3\" was not used: a reply shows at most 3 chatter lines, and this one had more.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 240,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"+ coin 1.5 gold | from: Hollis\" was not used: \"1.5\" is not a whole amount.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 240,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"! craft Leech-salt Pouch | with: nothing | by: {{char}} | roll: -0 | result: masterwork\" was not used: {{char}} is not in the party.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 243,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"~ item Wolf-pelt Mantle | cond: -0 | refine: +99\" was not used: There is no Wolf-pelt Mantle in the inventory.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 247,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"+ item item item item item item item item item item item item item item item item item item item item item item item item item item item item item item item item item item item item item item item item item item item item item item item item item item Torch\" was not used: An item needs a name of 1 to 120 characters.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 248,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: Waterskin ×9999 was written, but one reply may give at most 20 of one item; 20 were given. Mark ×500 was written, but one reply may give at most 20 of one item; 20 were given.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 250,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"- effect Keen Sight | who: Wessel\" was not used: Wessel has no effect called Keen Sight.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 252,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"! craft Iron Sword | with: Iron Ore x2 | by: Wessel\" was not used: There is no recipe for Iron Sword.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 252,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"+ effect Steady Hands | for: two hours\" was not used: Steady Hands: say what it acts on (on: perception, stealth, DEX, attack, defence, all checks…).",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 254,
+  "kind": "warning",
+  "text": "[Story Suite] story-director: \"- route Guild Office — Watchhouse\" was not used: There is no route between Guild Office and Watchhouse on the map.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 255,
+  "kind": "warning",
+  "text": "[Story Suite] story-director: \"+ world Confederacy Levy | state: maybe\" was not used: \"+ world Confederacy Levy | state: maybe\": \"maybe\" is not a state; write looming, ongoing or resolved.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 264,
+  "kind": "warning",
+  "text": "[Story Suite] npc-state-delta: \"~ npc Hollis | meter: -8\" was not used: \"meter\" is not a meter (meters: trust, affection, desire, tension).",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 265,
+  "kind": "warning",
+  "text": "[Story Suite] story-director: \"- route North Culvert — East Bluff\" was not used: There is no route between North Culvert and East Bluff on the map.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 265,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"~ chatter Ketter: I should never have signed that ledger\" was not used: a reply shows at most 3 chatter lines, and this one had more.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 266,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"~ item Torch — torn by brambles | wear: tear\" was not used: There is no Torch among the party's gear.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 267,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"! use Bandage | on: Wessel | qty: -3\" was not used: Use from 1 to 10 at once.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 267,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"+ item Bandage | qty: ١٢\" was not used: \"١٢\" is not a quantity.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 269,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"~ wound Wessel — healed completely | heal: 999\" was not used: Harm and heal are scratch, wound, severe or grievous.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 271,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: Bent Copper Key is already carried, so it is not offered. Mark ×500 was written, but one reply may give at most 20 of one item; 20 were given.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 274,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"- leave Dov — had enough of wolves\" was not used: Dov's leaving is already waiting for the reader.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 276,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"? check STR — x | dc: 1 | roll:   | result: success | who: toString\" was not used: toString is not in the party.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 276,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"! refine Crag Wolf Matriarch Pelt | at: smith | with: Small Monster Core\" was not used: There is no Crag Wolf Matriarch Pelt among the party's gear.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 279,
+  "kind": "warning",
+  "text": "[Story Suite] npc-state-delta: \"~ npc Ketter | stage: smitten\" was not used: Stages are set by code from the meters; \"stage: smitten\" was not used.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 279,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"? check lockpicking — spotting the tripwire | dc: easy.\" was not used: The difficulty is easy, normal, hard or a number from 1 to 40.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 279,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"! craft Healing Salve | with: Bluecap Moss x2, Lamp Oil | by: Wessel\" was not used: Wessel does not know how to make Healing Salve: the story has to teach the recipe first (`+ recipe Healing Salve | from: …`).",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 283,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"- effect Wolf Fever | who: Wessel\" was not used: Wessel has no effect called Wolf Fever.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 286,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"! craft \"; DROP TABLE items; -- | with: \"; DROP TABLE items; -- | result: legendary\" was not used: There is no recipe for \"; DROP TABLE items; --.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 286,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"+ coin 1 platinum | from: Dov\" was not used: \"platinum\" is not a coin here: write copper, bronze, silver, gold or a number of copper.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 287,
+  "kind": "warning",
+  "text": "[Story Suite] Line 2 \"? loot\" is not a change line: the loot has no name.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 288,
+  "kind": "warning",
+  "text": "[Story Suite] npc-state-delta: \"~ npc Hollis | trust: high\" was not used: Trust: \"high\" is not +N, -N or =N.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 288,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"~ wound Wessel — cure poisoned\" was not used: That changes nothing for Wessel.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 290,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"? check $&$1 — x | dc: -100\" was not used: The difficulty is easy, normal, hard or a number from 1 to 40.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 291,
+  "kind": "warning",
+  "text": "[Story Suite] npc-state-delta: \"+ milestone First Blood Together — they stood the night watch side by side\" was not used: First Blood Together already has the milestone “they stood the night watch side by side”.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 291,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"! refine Tarred Twine | at: smith | with: Small Monster Core\" was not used: There is no Tarred Twine among the party's gear.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 294,
+  "kind": "warning",
+  "text": "[Story Suite] story-director: \"+ route Glassdock to Varnhold Watch | hours: two\" was not used: \"+ route Glassdock to Varnhold Watch | hours: two\" needs two places: + route Place — Other Place.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 297,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"+ skill Wessel — River Sense: reads currents and weather | taught by: Old Tamsin\" was not used: Wessel already knows River Sense.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 297,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"! repair Tough Trophy | at: tailor\" was not used: There is no Tough Trophy among the party's gear.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 298,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"! craft Wolf-pelt Mantle | with: Crag Wolf Pelt x3 | by: Wessel | roll: 1 | result: made\" was not used: Wessel does not know how to make Wolf-pelt Mantle: the story has to teach the recipe first (`+ recipe Wolf-pelt Mantle | from: …`).",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 299,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"! refine Crag Wolf Fang | at: smith | with: Small Monster Core.\" was not used: There is no Crag Wolf Fang among the party's gear.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 301,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"~ item Cane-Blade | equip: on\" was not used: The line changes nothing about Cane-Blade.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 303,
+  "kind": "warning",
+  "text": "[Story Suite] story-director: \"+ route Guild Office to East Bluff | hours: two\" was not used: \"+ route Guild Office to East Bluff | hours: two\" needs two places: + route Place — Other Place.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 307,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"~ item Crag Wolf Pelt — torn by brambles | wear: scuff\" was not used: There is no Crag Wolf Pelt among the party's gear.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 319,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"! craft <script>window.__pwned=2</script> | with: <script>window.__pwned=2</script> | result: legendary\" was not used: There is no recipe for <script>window.pwned=2</script>.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 319,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"~ item Chitin Plate | equip: Dov\" was not used: The line changes nothing about Chitin Plate.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 326,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"~ item Gnawed Bone | equip: Wessel\" was not used: The line changes nothing about Gnawed Bone.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 332,
+  "kind": "warning",
+  "text": "[Story Suite] npc-state-delta: \"~ npc Marrit | trust: high\" was not used: Trust: \"high\" is not +N, -N or =N.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 333,
+  "kind": "warning",
+  "text": "[Story Suite] story-director: \"+ world hasOwnProperty — hasOwnProperty | state: hasOwnProperty | factions: hasOwnProperty\" was not used: \"+ world hasOwnProperty — hasOwnProperty | state: hasOwnProperty | factions: hasOwnProperty\": \"hasownproperty\" is not a state; write looming, ongoing or resolved.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 336,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"~ item Inspector's Chit | equip: Brannoc\" was not used: The line changes nothing about Inspector's Chit.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 337,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"~ item Fang | equip: Wessel\" was not used: The line changes nothing about Fang.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 338,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"~ item Tough Trophy — torn by brambles | wear: tear\" was not used: There is no Tough Trophy among the party's gear.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 343,
+  "kind": "warning",
+  "text": "The message had a swipe that is not a string. It has has been set to ''. Object",
+  "loc": "http://127.0.0.1:8262/script.js"
+ },
+ {
+  "step": 346,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"! craft pitch torches\" was not used: Wessel does not know how to make Pitch Torches: the story has to teach the recipe first (`+ recipe Pitch Torches | from: …`).",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 346,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"- leave Brannoc — had enough of wolves\" was not used: Brannoc's leaving is already waiting for the reader.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 346,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"! repair Inspector's Chit | at: smith\" was not used: There is no Inspector's Chit among the party's gear.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 347,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"! refine Crag Wolf Pelt | at: smith | with: Small Monster Core\" was not used: There is no Crag Wolf Pelt among the party's gear.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 347,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"! encounter 1 Salt-crew Tough | rank: __proto__\" was not used: \"proto\" is not a rank: write one of F, E, D, C, B, A, S, or a tier.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 350,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"! craft Camp Stew | with: nothing | by: __proto__ | roll: -50 | result: masterwork\" was not used: proto is not in the party.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 353,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"~ item Hatchet | wear: -999\" was not used: There is no Hatchet in the inventory.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 353,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"~ item Wolf-pelt Mantle | equip:\" was not used: There is no Wolf-pelt Mantle in the inventory.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 354,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"! craft --> | with: --> | result: legendary\" was not used: There is no recipe for -->.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 355,
+  "kind": "warning",
+  "text": "[Story Suite] npc-state-delta: \"~ npc Ketter | meter: -7\" was not used: \"meter\" is not a meter (meters: trust, affection, desire, tension).",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 359,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"! craft Healing Salve | result: masterwork\" was not used: Wessel does not know how to make Healing Salve: the story has to teach the recipe first (`+ recipe Healing Salve | from: …`).",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 360,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"~ item Lucky Bone Die | equip: Brannoc\" was not used: The line changes nothing about Lucky Bone Die.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 361,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"+ skill Wessel — River Sense: reads currents and weather | taught by: Marrit\" was not used: Wessel already knows River Sense.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 362,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"! repair Lucky Bone Die | at: tailor\" was not used: There is no Lucky Bone Die among the party's gear.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 365,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"! refine Bandage | at: smith | with: Crag Wolf Fang x2\" was not used: There is no Bandage among the party's gear.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 365,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"+ coin 4 silver 6 copper | from: Brannoc\" was not used: \"4 silver 6 copper\" holds more than one number: write it in one coin or in copper (+ coin 35).",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 372,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"! encounter   hasOwnProperty | tier: hasOwnProperty\" was not used: \"hasOwnProperty\" is not a tier: write trivial, weak, even, strong or deadly.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 372,
+  "kind": "warning",
+  "text": "[Story Suite] npc-state-delta: \"+ milestone The Debt Paid — they stood the night watch side by side\" was not used: The Debt Paid already has the milestone “they stood the night watch side by side”.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 378,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"+ effect Salt Courage | for: two hours\" was not used: Salt Courage: say what it acts on (on: perception, stealth, DEX, attack, defence, all checks…).",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 380,
+  "kind": "warning",
+  "text": "[Story Suite] story-director: \"+ route East Bluff — East Bluff | hours: 4 | kind: trail\" was not used: \"+ route East Bluff — East Bluff | hours: 4 | kind: trail\" leads from a place to itself.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 380,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"! encounter 1 Cellar Rat Swarm | rank: -1\" was not used: \"-1\" is not a rank: write one of F, E, D, C, B, A, S, or a tier.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 382,
+  "kind": "warning",
+  "text": "[Story Suite] story-director: \"+ route Old Lantern Post to Gate Forge | hours: two\" was not used: \"+ route Old Lantern Post to Gate Forge | hours: two\" needs two places: + route Place — Other Place.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 383,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"! craft constructor | with: constructor | result: legendary\" was not used: There is no recipe for constructor.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 385,
+  "kind": "warning",
+  "text": "[Story Suite] npc-state-delta: \"~ npc Ketter | trust: high\" was not used: Trust: \"high\" is not +N, -N or =N.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 386,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"+ effect Soaked Through | for: two hours\" was not used: Soaked Through: say what it acts on (on: perception, stealth, DEX, attack, defence, all checks…).",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 386,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"? check stealth — \"; DROP TABLE items; -- | dc: 0x7fffffff | roll: 20 | result: critical success\" was not used: The difficulty is easy, normal, hard or a number from 1 to 40.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 387,
+  "kind": "warning",
+  "text": "[Story Suite] story-block: \"+ coin 1.5 gold | from: Old Tamsin\" was not used: \"1.5\" is not a whole amount.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 387,
+  "kind": "warning",
+  "text": "[Story Suite] No module keeps \"money\", so \"+ money 7 silver | from: Brannoc\" was not used.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ },
+ {
+  "step": 389,
+  "kind": "warning",
+  "text": "[Story Suite] rpg-battle: \"~ wound Wessel — a slip on the wet stones | harm: wound\" was not used: That changes nothing for Wessel.",
+  "loc": "http://127.0.0.1:8262/scripts/extensions/third-party/Story_block/src/v2/turn.js"
+ }
+]
