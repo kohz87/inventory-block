@@ -1,0 +1,4 @@
+seed 1001: 0 viol, 145 msgs, 3 cps, 423068 B, 118 writes {}
+seed 1002: 0 viol, 157 msgs, 4 cps, 502349 B, 116 writes {}
+seed 1003: 0 viol, 199 msgs, 5 cps, 636156 B, 135 writes {}
+seed 1004: 0 viol, 150 msgs, 3 cps, 448077 B, 108 writes {}
