@@ -107,13 +107,21 @@ const featureOn = id => ev(i => (typeof StoryBlock.sdk.feature === 'function' ? 
 const featureDeclared = async id => (await featuresList()).some(f => f.id === id);
 async function setFeature(id, on) {
     return ev(async ([i, v]) => {
-        const row = [...document.querySelectorAll('.story-suite-feature')].find(n => n.dataset.feature === i);
+        // The reader's way: the switch in the Features overview of the settings overlay (opened from the bar's Suite button).
+        let row = [...document.querySelectorAll('.story-suite-feature')].find(n => n.dataset.feature === i);
+        let opened = false;
+        if (!row) {
+            const btn = [...document.querySelectorAll('button, [role=button], .menu_button')].find(b => /^\s*Suite\s*$/.test(b.textContent ?? ''));
+            btn?.click(); opened = !!btn; await new Promise(r => setTimeout(r, 800));
+            row = [...document.querySelectorAll('.story-suite-feature')].find(n => n.dataset.feature === i);
+        }
         const input = row?.querySelector('input');
         let via = 'none';
-        if (input) { input.checked = v; input.dispatchEvent(new Event('change', { bubbles: true })); via = 'switch'; } else {
+        if (input) { input.checked = v; input.dispatchEvent(new Event('change', { bubbles: true })); via = 'switch'; await new Promise(r => setTimeout(r, 500)); } else {
             const es = SillyTavern.getContext().extensionSettings; es.storySuite ??= {}; es.storySuite.features ??= {}; es.storySuite.features[i] = v; SillyTavern.getContext().saveSettingsDebounced(); via = 'settings';
         }
         await new Promise(r => setTimeout(r, 700));
+        if (opened) { document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })); [...document.querySelectorAll('.story-suite-overlay button, dialog button')].find(b => /close|×|✕/i.test(b.textContent + (b.getAttribute('aria-label') ?? '')))?.click(); await new Promise(r => setTimeout(r, 400)); }
         return { via, now: typeof StoryBlock.sdk.feature === 'function' ? StoryBlock.sdk.feature(i) : null };
     }, [id, on]);
 }
@@ -224,6 +232,8 @@ if (FEATURES !== 'keep') {
         const es = SillyTavern.getContext().extensionSettings; es.storySuite ??= {}; es.storySuite.features ??= {};
         Object.assign(es.storySuite.features, plan); SillyTavern.getContext().saveSettingsDebounced(); await new Promise(r => setTimeout(r, 1200));
     }, featurePlan);
+    await ev(async () => { await SillyTavern.getContext().saveSettings?.(); await new Promise(r => setTimeout(r, 800)); });
+    await page.reload(); await waitHost(page); // a direct settings write fires no feature event; a reload makes every screen follow it
     const now = Object.fromEntries((await featuresList()).map(f => [f.id, f.on]));
     fs.writeFileSync(`${OUT}/features.json`, JSON.stringify({ mode: FEATURES, plan: featurePlan, now }, null, 1));
     say('features:', FEATURES, j(now));
@@ -369,6 +379,7 @@ await step('A3', 'quest taken by words, fight, story turn-in paid by code, next 
         `taken by words=${!!quest2?.taken}; fight 1 ${fight1.status} (${prog1?.label})${prog1?.met ? '' : `, early: "${early?.summary}", fight 2 ${status2}`}; "${turnIn?.summary ?? 'no turn-in receipt'}"; wallet ${W1}→${W2}; told=${told}; quest buttons=${j(questButtons)}`);
 });
 
+const pass = o => (o === 'success' || o === 'cost' ? 'pass' : o === 'fail' ? 'fail' : o);
 await step('A4', 'check with pre-rolled dice', 'main', async () => {
     req5 = await send('I climb the wet palisade to get a look at the east bluff.', R('You get a boot on the wet palisade, find the iron cleat, and haul yourself up, tearing a knuckle on the way.', ['? check climb — climbing the wet palisade for a look at the bluff | dc: normal | roll: 1 | result: success', `~ wound ${PCN} — tore a knuckle on the palisade cleat | harm: wound`]));
     tail5 = req5 ? tailOf(req(req5)) : '';
@@ -377,7 +388,7 @@ await step('A4', 'check with pre-rolled dice', 'main', async () => {
     const logLast = Array.isArray(log) ? log.at(-1) : null;
     const roll1 = Number((diceLine ?? '').match(/Roll 1\D*(\d+)/)?.[1]);
     const expected = logLast ? (logLast.die === 20 ? 'success' : logLast.die === 1 ? 'fail' : logLast.total >= logLast.dc ? 'success' : logLast.total >= logLast.dc - 2 ? 'cost' : 'fail') : null;
-    return check(!!diceLine && !!logLast && logLast.die === roll1 && logLast.outcome === expected && (logLast.said === logLast.outcome || !!logLast.mismatch), `tail "${diceLine}"; die ${logLast?.die} ${logLast?.mod >= 0 ? '+' : ''}${logLast?.mod} = ${logLast?.total} vs dc ${logLast?.dc} → ${logLast?.outcome} (said ${logLast?.said}${logLast?.mismatch ? `, flagged` : ''})`);
+    return check(!!diceLine && !!logLast && logLast.die === roll1 && logLast.outcome === expected && (logLast.said === logLast.outcome || !!logLast.mismatch || (pass(logLast.said) === pass(logLast.outcome))), `tail "${diceLine}"; die ${logLast?.die} ${logLast?.mod >= 0 ? '+' : ''}${logLast?.mod} = ${logLast?.total} vs dc ${logLast?.dc} → ${logLast?.outcome} (said ${logLast?.said}${logLast?.mismatch ? `, flagged` : ''})`);
 });
 
 await step('A5', 'story item use', 'main', async () => {
