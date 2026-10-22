@@ -261,3 +261,22 @@ buy/sell, quest take/decline, rank/difficulty lines, `~ npc` meters (±999, NaN)
 join/leave/skill offers, markets, all SD kinds: replay == live. Hostile numbers in every kind refused/clamped with no
 divergence. 19 corruption kinds skipped and reported with no throw, replay == live (until a new change lands on the damaged
 reply: C1-1).
+
+## Pass 4 — new beta merges: equip, loot, names, RB wave C (agent 3)
+Heads SB ff96802 (lead re-verified on 38687e1), RB ee927b0, SD a8d428f, NSD e56e356.
+### C3-7 [severity: medium] Equip on… pushes a member past their own carry limit with the piece it puts away
+Story_block src/v2/domains/inventory.js `equipOn`: carry is checked only for the new piece (`readerCarry`); pieces taken off
+get `other.owner = actor` unchecked. Real host with RPG Battle: MC carries 46/56 wearing Old Mail from the bag; equipping New
+Mail from the bag on them succeeds → 66/56, `inventory.encumbrance` lists them over. The reader's own hand-overs past the limit
+are refused by spec. Invariant 3. Fix: check the new piece with every replaced piece that changes owner in one
+`items.carry({ owner, add, move: true })`, or keep replaced bag pieces in the bag. Test
+results/tests/Story_block/c3-equipon-carry.test.js (stub carry rule: 10/20 → 30/20). Owner SB-inv.
+### Held up
+Loot picks `[0,0,1,'1']` take each thing once, second take refused; one take per regenerate version; drop doesn't reopen the
+offer; Re-read keeps the claim; deleting the loot reply consistent; replay == live; offer counts against the story budget.
+RB wave C: unknown ranks → INVALID problems, fullwidth "Ｓ" held below deadly; join levels clamped; hostile roles cleaned;
+companion stats by formula; `party.spend` with -5/1.5/1e9/"1"/0/__proto__ refused; two spends cannot both land (STALE).
+Tolerant names: plurals, articles, zero-width, case, word order, portion words land on the right item.
+Spec questions (not filed, SB-inv): parenthesised text always dropped — `Healing Potion (Greater)` adds to / finds the plain
+potion, so a fetch quest for the greater one can be met with the common one; homoglyph names (Cyrillic о) make look-alike
+separate stacks and loot's "already carried" check misses them (no minting).

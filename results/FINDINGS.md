@@ -4,6 +4,9 @@ Format: `[severity] repo: title — test path — owner area`
 
 _Pass 1 started at heads: Story_block e0fd33b, rpg_battle 924b9a3, Story_director f001974, npc_state_delta 5243d79). No findings yet._
 
+## Pass 4 (heads SB 38687e1, RB ee927b0, SD b870546, NSD e56e356)
+- [medium] Story_block: Equip on… pushes a member past their own carry limit with the piece it puts away (replaced bag piece changes owner unchecked) — results/tests/Story_block/c3-equipon-carry.test.js — SB-inv
+
 ## Pass 3 re-check (heads SB ff96802, RB ee927b0, SD a8d428f, NSD e56e356) — all 35 open SB cases and the SD time case still fail; C2-1 stays fixed
 
 ## Pass 2 (heads SB cb2d70e, RB 924b9a3, SD a8d428f, NSD 5243d79) — all open pass-1 tests re-checked: still fail except C2-1
