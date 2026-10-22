@@ -2,6 +2,11 @@
 
 Format: `[severity] repo: title — test path — owner area`
 
+## Pass 1 (in progress) — heads SB 81b5da3, RB 3510b50, SD f18d77c, NSD 1156fd7
+Code runs now (permission granted). Three breakers running: replay/saving, economy/combat, live matrix.
+- [medium] ~~Story_block: a timed-out save that reaches the server late overwrites a newer save~~ FIXED in SB 264e81c (#115); test passes (upstream copy tests/v2/break/f1-late-save-overwrites-newer.test.js) — results/tests/Story_block/f1-late-save-overwrites-newer.test.js — SB-storage
+- Re-check of the earlier cells' 29 tests on these heads: 17 still fail, 11 fixed (+1 not a finding); table in REPORT.md.
+
 Heads (v2): Story_block 0a6ed63, rpg_battle a8eca8a, Story_director 9f59baf, npc_state_delta 1156fd7.
 
 ## Pass 0 — 2026-10-22 — BLOCKED: this cell may not run the four repos' code

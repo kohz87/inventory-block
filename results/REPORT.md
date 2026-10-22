@@ -60,3 +60,33 @@ c1-damaged-spans-append, c2-continue-split-block, c3-equipon-carry, c3-features-
 c4-rescue-pristine, c4-rescue-shifted, c4-rename-midsave (todo left).
 Matrix cell: extractor-failed-no-note, SD digest-off-queries, digest-back-on, RB fight-left-condition-grows,
 "bleeding 0" on the board, Days date twice.
+
+## Pass 1 (code runs) — re-check of earlier cells' tests
+Heads: Story_block 81b5da313635e3688aa96489bc8ed81b042b5c88, rpg_battle 3510b504d51b1f038dc48496b02766a87f86f8e0,
+Story_director f18d77c01fd778469bb722e99871b7666163b455, npc_state_delta 1156fd72164ff223854097ed59d0ebf936d5dbd9.
+Suites: SB 1864 tests / 0 fail, RB 1389 / 0 fail, SD 898 / 0 fail, NSD npm test passes.
+
+F1-1 (late timed-out save) ran on 0a6ed63 and failed as predicted (file kept Ann+Bo, lost Cy). It is fixed in SB #115 (264e81c), and the upstream test passes.
+
+| cell | repo | test | on these heads |
+|---|---|---|---|
+| fuzz | SB | c1-wear-after-middle-delete | FAILS |
+| fuzz | SB | c2-coin-amount-forms | FAILS (11) |
+| fuzz | SB | c2-cut-mid-reasoning | FAILS |
+| fuzz | SB | c2-hide-masked-body | FAILS |
+| fuzz | SB | c2-spoof-marker-reread | FAILS |
+| fuzz | SB | c3-features-commit-after-off | FAILS |
+| fuzz | SB | c3-features-onblocked-off | FAILS |
+| fuzz | SB | c3-features-reread-off | FAILS |
+| fuzz | SB | c3-features-whole-context-static | FAILS |
+| fuzz | SB | c4-rename-midsave (old-name ghost copy) | FAILS (upstream keeps it as todo) |
+| matrix | SB | c2-extractor-failed-no-note | FAILS |
+| fuzz | SD | c1-time-after-middle-delete | FAILS |
+| fuzz | SD | c2-time-jump-per-reply | FAILS |
+| matrix | SD | c1-days-date-twice | FAILS |
+| matrix | SD | c2-digest-back-on | FAILS |
+| matrix | SD | c2-digest-off-queries | FAILS |
+| matrix | RB | c1-fight-left-condition-grows | FAILS |
+| fuzz | SB | c1-damaged-spans-append, c1-rewind-after-middle-delete, c1-swipe-delete-save-verify, c2-continue-split-block, c3-equipon-carry, c3-features-def-changed, c4-rescue-pristine, c4-rescue-shifted, c4-save-hang, c4-slow-reread | pass (fixed) |
+| fuzz | SD | c2-fetch-quest-story-items | pass (fixed) |
+| fuzz | RB | c1-effect-replies-after-delete | pass (was never a finding) |
