@@ -66,6 +66,8 @@ async function runSeed(seed) {
     };
     const head = () => { try { return store.head(); } catch (e) { fail('head() threw', e.message); return null; } };
     let chatN = 0;
+    const left = new Map();     // chatId -> { head, len, texts } when it was left with a change
+    const leave = () => left.set(ctx.chatId, { head: J(head()), len: ctx.chat.length, texts: ctx.chat.map(m => m.mes) });
     await openFromServer(h, server, `chat-${seed}-${chatN}`);
     await sdk.command('party.create', { name: 'Ren', preset: 'fighter' });
     await sdk.command('scene.place', { name: 'Bluewatch Village', kind: 'settlement' });
@@ -77,6 +79,19 @@ async function runSeed(seed) {
         for (let i = 0; i < 3; i++) {
             try { await within(store.flush()); break; } catch (e) { if (i === 2) fail('recover: flush keeps failing', `${label}: ${e.message}`); }
             server.release();
+        }
+        // a rescue that failed is tried again by later saves (3 tries in all)
+        for (let i = 0; i < 3 && store.dirty(); i++) { try { await within(store.flush()); } catch { /* counted below */ } }
+        for (const w of warns.splice(0)) if (/was not saved/.test(w) && !/cannot write to that chat's file/.test(w)) fail('told "not saved"', `${label}: ${w}`);
+        // chats left with a change: their file holds the head they had when left (when SillyTavern's file has their messages)
+        for (const [id, want] of left) {
+            if (id === ctx.chatId) { left.delete(id); continue; }
+            const f = server.files.get(id)?.slice(1) ?? [];
+            if (f.length === want.len && f.every((m, i) => m.mes === want.texts[i])) {
+                const disk = J(fileHead(h, server, id));
+                if (disk !== want.head) fail('#7 a chat left behind: its file != the head it had', `${label} ${id}: ${diff(want.head, disk)}`);
+            }
+            left.delete(id);
         }
         await sleep(0);
         if (store.dirty()) fail('recover: still dirty after a good flush', label);
@@ -228,6 +243,7 @@ async function runSeed(seed) {
         async newChatCard(step) {         // a fresh chat: UI commands on the greeting, then the card is edited
             chatN++;
             const id = `chat-${seed}-${chatN}`;
+            leave();
             await openFromServer(h, server, id);
             await sdk.command('party.create', { name: 'Ren', preset: 'fighter' });
             const how = r.pick(['plain', 'fail', 'window', 'hang', 'reload']);
@@ -252,10 +268,88 @@ async function runSeed(seed) {
             }
         },
         async recover() { await recover('recover'); },
+        // ---- pass 2: the shapes behind C4-1..5 -------------------------------------------------
+        async lostRequest(step) {         // C4-1: a save never answered; a command and the next reply must not wait for it
+            server.mode = 'never'; server.fails = 1;
+            let done = 0;
+            const q = ui().then(() => done++);
+            await sleep(1);
+            const p = h.send(`User ${step}.`, replyText(r, step)).then(() => done++);
+            await sleep(Number(process.env.LOSTMS ?? 1500));
+            if (done < 2) fail('C4-1 a lost save request holds the command / next generation', `${done}/2 finished after ${process.env.LOSTMS ?? 1500} ms`);
+            server.release();
+            await within(Promise.all([q, p]));
+            server.release();
+        },
+        async slowReread() {              // C4-3: same chat read again slowly with a change unsaved
+            failNext(1, '500');
+            await within(ui());
+            const before = J(head());
+            const textsKept = sameTexts();
+            const ms = process.env.SLOW ? r.pick([300, 11000]) : r.int(100, 1500);
+            log[log.length - 1] += `:${ms}`;
+            ctx.chat.splice(0, ctx.chat.length);
+            await sleep(ms);
+            const [header, ...messages] = structuredClone(server.files.get(ctx.chatId));
+            ctx.chatMetadata = header?.chat_metadata ?? {};
+            ctx.chat.push(...messages);
+            await st.eventSource.emit('chat_id_changed', ctx.chatId);
+            await recover(`${log.at(-1)} (slow re-read)`);
+            if (textsKept && J(head()) !== before) fail('#7 C4-3 slow re-read lost the change', diff(before, J(head())));
+        },
+        async renameMidFlight(step) {     // C4-2: the save reaches the server after the rename
+            if (!server.files.has(ctx.chatId)) return;
+            server.mode = r.pick(['reorder', 'hang', 'hangfail']); server.fails = 1;
+            log[log.length - 1] += `:${server.mode}`;
+            const q = ui();
+            await sleep(1);
+            const before = J(head());
+            const textsKept = sameTexts();
+            const from = ctx.chatId;
+            await renameChat(h, server, `chat-${seed}-m${step}`);
+            server.release();
+            await within(q);
+            await recover(`${log.at(-1)} (rename mid-flight)`);
+            if (server.files.has(from)) fail('C4-2 a chat file made again under the old name', from);
+            if (textsKept && J(head()) !== before) fail('#7 C4-2 rename mid-flight lost the change', diff(before, J(head())));
+        },
+        async rescueAfterDelete(step) {   // C4-4: refused save, an earlier message deleted (SillyTavern saves), another chat opened
+            if (ctx.chat.length < 4) return;
+            failNext(1, r.pick(['500', 'throw']));
+            await within(ui());
+            if (r.chance(0.8)) { await st.deleteMessage(r.int(1, ctx.chat.length - 2)); await stSave(); }
+            leave();
+            const back = ctx.chatId;
+            chatN++;
+            await openFromServer(h, server, `chat-${seed}-${chatN}`);
+            await recover(`${log.at(-1)} (rescue)`);
+            await openFromServer(h, server, back);
+            void step;
+        },
+        async rescuePristine(step) {      // C4-5: a new chat's first change rescued into its file, then a card edit
+            const back = ctx.chatId;
+            chatN++;
+            const id = `chat-${seed}-${chatN}`;
+            await openFromServer(h, server, id);
+            const how = r.pick(['fail', 'window']);
+            if (how === 'fail') { failNext(1, '500'); await within(sdk.command('scene.present', { add: `P${step}` })); }
+            else await h.bus.command('scene.present', { add: `P${step}` }, { cause: 'ui' });
+            log[log.length - 1] += `:${how}`;
+            const before = J(head());
+            chatN++;
+            await openFromServer(h, server, `chat-${seed}-${chatN}`);
+            await recover(`${log.at(-1)} (pristine rescue)`);
+            await openFromServer(h, server, id);
+            await cardEdit(h);
+            store.rebuild();
+            if (J(head()) !== before) fail('#7 C4-5 rescued pristine chat lost its state on a card edit', diff(before, J(head())));
+            await openFromServer(h, server, back);
+        },
         async bigReply(step) { await within(h.send(`User ${step}.`, replyText(r, step, true))); },
     };
     const WEIGHTS = { send: 18, ui: 6, ui2: 4, sendFail: 6, uiDuringReplySave: 5, saveDuringTimeline: 5, swipe: 6, swipeTo: 5, swipeDelete: 3,
-        swipeDeleteOld: 2, deleteLast: 4, deleteMiddle: 2, deleteCheckpoint: 2, regenerate: 3, cont: 3, reload: 4, rename: 3, newChatCard: 2, recover: 4, bigReply: 3 };
+        swipeDeleteOld: 2, deleteLast: 4, deleteMiddle: 2, deleteCheckpoint: 2, regenerate: 3, cont: 3, reload: 4, rename: 3, newChatCard: 2, recover: 4, bigReply: 3,
+        lostRequest: Number(process.env.W_LOST ?? 0.5), slowReread: 2, renameMidFlight: 2, rescueAfterDelete: 2, rescuePristine: 1.5 };
     if (process.env.PROFILE === 'cp') Object.assign(WEIGHTS, { send: 30, bigReply: 25, deleteCheckpoint: 4, swipeDeleteOld: 3, newChatCard: 0.3, deleteMiddle: 3 });
     const names = Object.keys(WEIGHTS).filter(n => !ONLY.length || ONLY.includes(n) || n === 'send');
     const total = names.reduce((s, n) => s + WEIGHTS[n], 0);

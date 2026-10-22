@@ -198,3 +198,18 @@ retrying and plain). Checkpoint rules (20 carriers / 32 KB, covers) held under d
 deletes, deleting old swipes, regenerate/continue on top. Not filed: rename without CHAT_RENAMED (known r2-2); losses when
 SillyTavern's own save fails; a fake-server reorder artefact; UX: any first Story Block save taints a new chat so SillyTavern
 stops refreshing its greeting from an edited card (only after a reader action).
+
+## Pass 3 — Features fuzz agent on pack data (agent 3)
+Heads SB cb2d70e, SD a8d428f, RB 924b9a3, NSD 5243d79. No new findings; C3-1..5 still fail.
+- Hostile pack data (#99 crafting, meter presets, money scale; #103 rank budget): 800 seeded Ersveil mutations (JSON text and
+  object), 202 accepted, 51 installed. Validation never throws, no prototype pollution, accepted packs within documented
+  limits, packs queries / inventory.economy never throw, scale held to 0.001–1000, `+ coin 999999999999` held to budget.
+  22 directed meter/craft/economy cases: 20 refused with a plain sentence (markup in describe, band words, craft notes,
+  economy note), 2 accepted by design.
+- Design question (not filed, for SB-packs2 / SB-inv): a pack rank reward may be up to MAX_SAFE_INTEGER (validate.js:864);
+  since #103, with no quest module, it becomes the per-reply story coin budget, so a shared pack lets one model line pay 9e14
+  (results/work/a3/scripts/rankprobe.mjs). Spec says pack numbers stay as written; a ceiling would close it.
+- Not filed: recipe cycles / value-positive recipes cannot mint yet (nothing reads pack recipes; a future craft command must
+  compare output value and refuse cycles).
+- Toggle fuzz re-run on new heads: 100 × 200 = 20,000 steps, 5,787 toggles, 134 digests, 0 violations. RB and NSD still
+  declare no features.

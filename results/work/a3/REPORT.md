@@ -81,3 +81,31 @@ merges; still no `features`). C3-1..4 still fail on 5ef7ead.
   - edits never re-capture; rewind/branch keep features (reader's, not the chat's) and replay matches.
 - (3) Real feature `story-director.digest` (SD #90): digest command tagged, Days screen tagged, hook skips it via `view.feature`; fuzzed with clock-setting and day-jump lines: 0 `chronicle.digest` commits while off (604 while on), replay == live through digest-off/on and deletes; turning it back on writes the missed days on the next reply from the receipts (catch-up), as SD's header says.
 - Not filed: Story_director's `chronicle.days` / `chronicle.day` queries are not tagged with the feature (they answer while the digest is off; the spec leaves that to the module).
+
+# Pass 3
+
+Heads: Story_block cb2d70e (+#103 pack rank ladder budget, #102 docs), Story_director a8d428f (#91), rpg_battle 924b9a3,
+npc_state_delta 5243d79. No new findings filed. All six C3 tests still fail on cb2d70e.
+
+## Pack data: crafting, meterPresets, economy (SB #99), ranks budget (#103)
+- scripts/packfuzz.mjs: seeded mutation of the Ersveil pack, sent both as JSON text (with a literal `"__proto__"` key sometimes) and as an object. Mutations cover recipe qty/fee/minutes/dc/craft/station/stat/known/teaches/makes, material qty/item, recipe cycles (A from B and B from A, or makes == its own material), up to 5,000 recipes, crafts fields and duplicates, meter fields/stages/needs/bands/drift, 0-100 meters, economy scale/note, rank rewards, prototype keys (`__proto__`, constructor, prototype, toString, hasOwnProperty, valueOf), unicode/RTL/NUL/5,000-char/markup strings.
+- Checks: validatePack never throws; Object.prototype is never polluted; accepted packs stay inside the documented limits (recipe and material qty safe integers of 1 or more, dc 5-40, fee and minutes 0 or more, scale 0.001-1000, meter min<max with start inside). contentOf, craftsOf and economyOf never throw. For installed packs: the packs.crafts / packs.economy / inventory.economy / packs.content queries never throw, inventory.economy stays in range, and a `+ coin 999999999999` line is held to the budget.
+- Runs: 1-200 (up to 6 mutations, host every 5th) and 1-600 (SOFT=1, 1-2 mutations, host every 2nd). 800 packs in all, 202 accepted, 51 installed in a host. No throws, no pollution, no out-of-limit numbers, no coin over budget. The only signatures were notes:
+  - **recipe-makes-own-material / recipe cycles are accepted.** Nothing consumes pack recipes yet (rpg_battle crafting is its own commission plan in trade/core.js), so "a recipe that outputs more value than its inputs" cannot mint anything today. Whatever adds a craft command later should check the output value against the inputs and refuse cycles.
+  - **Recipe records keep any extra key**, including `hasOwnProperty` and `valueOf` set to objects. This is by design: recipes are "open records" that keep extra plain data. It is harmless today, because no code calls `record.hasOwnProperty(...)`; the code uses Object.hasOwn.
+- scripts/meterprobe.mjs, directed cases. Each of these is refused with a plain sentence:
+  - a stage naming an unknown meter, or a needs value out of range;
+  - duplicate meter ids, unsorted bands, a band outside the meter's range;
+  - drift too large, or drifting toward a value outside the range;
+  - a reserved or `__proto__` meter id, start outside the range, min == max;
+  - markup in describe, a band word, a craft note or the economy note;
+  - duplicate craft stats, a bad station;
+  - an economy scale that is negative or text.
+
+  Accepted as designed: a pack craft with a default's id replaces that default, and recipe `stat` takes any uppercase names (packs may define their own stats).
+- Invariant 6: none of the new fields (craft title/note/teaches, meter describe/bands, economy note) is drawn by Story Block's UI yet (the panel only counts them). Markup in them is refused at validation (UNSAFE_HTML, or "may not hold < >").
+- **Observation (not filed; design question for SB-packs2 / SB-inv):** a pack's rank reward may go up to Number.MAX_SAFE_INTEGER (validate.js:864). Since #103, without a quest module, the first enabled pack's level-1 rank top is the per-reply story coin budget. So Ersveil with `ranks[0].reward = [0, 9007199254740991]` lets one `+ coin 900000000000000` line pay 9e14 (scripts/rankprobe.mjs). The spec says pack-written numbers stay as written, so this follows the rules as written. Still, a pack shared online sets an unbounded mint for model text. A sane ceiling on pack rank rewards, item values and start coin (for example 1e9) would close it.
+
+## Watching for real features
+- Fetched all four repos twice in this pass: still no `features:` in rpg_battle or npc_state_delta. Story_director's only feature is story-director.digest.
+- Regression on the new heads: fuzz.mjs 1-100 x 200 `--known --p2`, 20,000 steps, 5,787 toggles, 134 digests: 0 violations.

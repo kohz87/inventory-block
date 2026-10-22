@@ -41,6 +41,8 @@ export function makeServer() {
             commit();
             return new Promise(res => { const go = () => res(reply(200, { ok: true })); s.hung.push(go); setTimeout(() => { const i = s.hung.indexOf(go); if (i >= 0) { s.hung.splice(i, 1); go(); } }, 300); });
         }
+        // never answered, never written (a lost request); release() lets it fail so the harness can go on
+        if (mode === 'never') return new Promise((res, rej) => s.hung.push(() => rej(new TypeError('lost request'))));
         if (mode === 'reorder') return new Promise(res => s.hung.push(() => { commit(); res(reply(200, { ok: true })); }));
         // no write, and the answer (a failure) comes late, by itself
         if (mode === 'hangfail') return sleep(s.delay || 20).then(() => reply(500, { error: 'late' }));

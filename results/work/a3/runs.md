@@ -20,3 +20,14 @@ Scripts added: scripts/mutprobe.mjs (def changed after register), scripts/corrup
 |---|---|---|---|---|---|---|
 | 1-250 x 400 --known --p2 | 100,000 | 28,499 | 4,827 | 604 | 1 | replay!=live 9 (seed 5; C3-6 via harness corruption combo) |
 | 1-60 x 200 --p2 (all ops) | 12,000 | 3,429 | 635 | - | 60 | static-differs 841 (C3-1), onBlocked 199 (C3-2), commit-after-off 53 (C3-3), reread-while-off 16 (C3-4), replay!=live 48 + reload-changed-head 1 (C3-6, corrupt how1/how2) |
+
+## Pass 3
+Heads: Story_block cb2d70e, Story_director a8d428f, rpg_battle 924b9a3, npc_state_delta 5243d79.
+| run | size | result |
+|---|---|---|
+| packfuzz.mjs 1-200 --host=5 | 200 packs x 2 forms, 23 accepted, 3 hosted | notes only: recipe-makes-own-material 9, recipe-kept-key 6 |
+| SOFT=1 packfuzz.mjs 1-600 --host=2 | 600 packs x 2 forms, 179 accepted, 48 hosted | notes only: recipe-makes-own-material 62, recipe-kept-key 13; no throw, no pollution, no coin over budget |
+| meterprobe.mjs | 22 directed cases | 20 refused with a plain sentence, 2 accepted by design |
+| rankprobe.mjs | 1 | a pack rank reward of 9007199254740991 is the per-reply coin budget (observation) |
+| fuzz.mjs 1-100 x 200 --known --p2 (new heads) | 20,000 steps, 5,787 toggles, 134 digests | 0 violations |
+Scripts added: packfuzz.mjs, meterprobe.mjs, rankprobe.mjs.
