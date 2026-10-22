@@ -506,3 +506,7 @@ MERGED testkit RB #118, SD #115, NSD #205.
 - RB #124 and NSD #211 bump the vendored testkit VERSION to SB a2b20ac (files already matched).
 - Ran test:dot for all four on v2, one after another: all pass (RB's only red line is the existing `todo` "1 crowns").
 - SB #157: v2 merged into v2-ui (merge commit; check and test pass). The proxy refuses the GitHub merges API, so the merge was done locally and opened as a PR.
+- SB #158 (UI 1b-B: form engine `src/v2/view/form/`, schema-driven fields, validation, search; no innerHTML, guarded by form-security test) squash-merged into v2-ui → 8be6ccb. Step 1b done.
+- NSD #211 merged → 91fe8f5. RB #124 merged → d0151ee. All module testkits are now at SB a2b20ac.
+- SB #157 (v2 into v2-ui, re-merged after #158) merged with a merge commit → ee07057. The proxy refuses force-push, so the auto merge message stays.
+- UI step 3a (settings window shell, glass legacy surfaces) started on branch `ui-3a-settings-shell`, PR into v2-ui. Shots in <SP>/ui3a/.
