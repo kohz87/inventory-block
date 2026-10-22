@@ -1,0 +1,21 @@
+// Live: Stop while the <Changes> block is streaming. Is the cut-off last line captured as written?
+import { launch, openPage, openNarrator, queue, clearQueue, cmd, idle, sendText, sleep, setStream, J } from './lib.mjs';
+const errors = [];
+const browser = await launch();
+const page = await openPage(browser, { errors, stream: true });
+await openNarrator(page);
+await cmd(page, 'party.create', { name: 'Ren', preset: 'fighter' });
+await setStream(page, true);
+const names = Array.from({ length: 120 }, (_, i) => `Lantern Number ${1000 + i}`);
+clearQueue(); queue(`A cart of lanterns.\n<Changes>\n${names.map(n => `+ item ${n}`).join('\n')}\n</Changes>`);
+await sendText(page, 'I look at the cart.');
+await page.waitForFunction(() => getComputedStyle(document.querySelector('#mes_stop')).display !== 'none', null, { timeout: 5000 });
+await sleep(Number(process.env.T ?? 1500));
+await page.click('#mes_stop');
+await idle(page);
+await sleep(1000);
+const out = await page.evaluate(() => { const s = StoryBlock.sdk.view().state.domains.inventory; return Object.values(s.stacks).map(x => s.defs[x.def].name); });
+const odd = out.filter(n => !/^Lantern Number \d{4}$/.test(n));
+console.log('captured', out.length, 'of 120; cut-off names captured:', J(odd));
+console.log('last mes tail', J(await page.evaluate(() => SillyTavern.getContext().chat.at(-1).mes.slice(-160))));
+await browser.close();

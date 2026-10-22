@@ -1,0 +1,17 @@
+import { launch, openPage, openNarrator, chatId, cmd, pageHead, fileChat, headOf, sleep, J } from './lib.mjs';
+const errors = [];
+const browser = await launch();
+const page = await openPage(browser, { errors });
+await openNarrator(page);
+const id = await chatId(page);
+console.log('new chat file msgs', fileChat(id)?.length, 'record on disk', !!fileChat(id)?.[0]?.extra?.storySuite);
+console.log('party.create', J(await cmd(page, 'party.create', { name: 'Ren', preset: 'fighter' })));
+await sleep(2500);
+const f = fileChat(id);
+console.log('after 2.5 s: file msgs', f?.length, 'file head rev', headOf(f)?.meta?.rev, 'page rev', (await pageHead(page))?.meta?.rev);
+console.log('tainted', await page.evaluate(() => SillyTavern.getContext().chatMetadata?.tainted));
+await page.evaluate(async () => SillyTavern.getContext().saveChat());
+await sleep(1000);
+console.log('after explicit ctx.saveChat: file head rev', headOf(fileChat(id))?.meta?.rev);
+console.log(errors.filter(e => !/404/.test(e)).slice(0, 5));
+await browser.close();

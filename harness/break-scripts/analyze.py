@@ -3,7 +3,7 @@ import csv, json, os, sys, statistics as st
 RUN = sys.argv[1]
 rows = list(csv.DictReader(open(os.path.join(RUN, 'metrics.csv'))))
 import glob
-summary = json.load(open(sorted(glob.glob(os.path.join(RUN, 'summary-*.json')))[-1]))
+summary = json.load(open(sorted(glob.glob(os.path.join(RUN, 'summary-*.json')), key=os.path.getmtime)[-1]))
 gen = {'send', 'swipe', 'regenerate'}
 
 def f(v):

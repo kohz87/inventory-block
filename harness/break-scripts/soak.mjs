@@ -54,7 +54,7 @@ const failedRequests = [];
 // 15 MB chat saved 5 times a reply ran the driver out of memory.
 const pageSaves = () => ev(() => [window.__soak?.saves ?? 0, window.__soak?.saveBytes ?? 0]).catch(() => [0, 0]);
 async function openBrowser() {
-    ({ browser, page } = await launchRaw());
+    ({ browser, page } = await launchRaw({ port: Number(process.env.CDP_PORT ?? 9452) }));
     attach();
     page.on('response', res => { if (res.status() >= 400 && failedRequests.length < 200) failedRequests.push({ step, status: res.status(), url: res.url().slice(0, 200) }); });
 }
@@ -241,7 +241,7 @@ async function trigger(kind) {
 
 async function readerActions() {
     const did = [];
-    const r = await ev(async ({ fight, accept, roll, trade, spend, equip, craft }) => {
+    const r = await ev(async ({ fight, accept, roll, trade, spend, equip, craft, beta }) => {
         const sdk = StoryBlock.sdk;
         const out = [];
         const cmd = async (t, p) => { try { const x = await sdk.command(t, p); out.push(`${t}:${x.ok ? 'ok' : x.code}`); return x; } catch (e) { out.push(`${t}:THROW ${e.message}`); return null; } };
@@ -283,6 +283,31 @@ async function readerActions() {
             for (const o of (q('trade.orders') ?? []).filter?.(o => o.ready) ?? []) await cmd('craft.collect', { order: o.id });
         }
         if (spend) { const pc = q('party.pc'); if (pc?.points > 0) await cmd('party.spend', { actor: pc.id, points: { DEX: 1 } }); }
+        // Beta reader actions (beta-e2e): each only when some module registers the command.
+        const has = t => sdk.modules().some(m => m.commands.includes(t));
+        if (beta && has('inventory.lootTake')) {
+            const rec = SillyTavern.getContext().chat.at(-1)?.extra?.storySuite?.receipts ?? [];
+            const loot = rec.find(x => /loot/.test(x.type) && !x.data?.refused);
+            const names = Array.isArray(loot?.data?.items) ? loot.data.items.map(i => i.name).filter(Boolean) : [];
+            if (loot) await cmd('inventory.lootTake', { loot: loot.data?.loot ?? loot.data?.offer ?? loot.data?.id, offer: loot.data?.offer ?? loot.data?.id, names: names.slice(0, 2), take: names.slice(0, 2).map(name => ({ name, qty: 1 })) });
+        }
+        if (beta && has('inventory.repair') && Math.random() < 0.3) {
+            const inv = sdk.view().state.domains.inventory;
+            const worn = Object.values(inv.stacks ?? {}).find(s => s.equipped && Number(s.cond ?? s.condition ?? 100) < 100);
+            if (worn) await cmd('inventory.repair', { stack: worn.id });
+        }
+        if (beta && has('inventory.equipOn') && Math.random() < 0.15) {
+            const party = sdk.view().state.domains.party ?? {};
+            const comp = Object.values(party.actors ?? {}).find(a => a.id !== party.pc);
+            const inv = sdk.view().state.domains.inventory;
+            const piece = Object.values(inv.stacks ?? {}).find(s => !s.equipped && inv.defs?.[s.def]?.slot);
+            if (comp && piece) await cmd('inventory.equipOn', { stack: piece.id, actor: comp.id });
+        }
+        if (beta && has('craft.make') && Math.random() < 0.1) {
+            const view = q('craft.view');
+            const recipe = (view?.recipes ?? view?.known ?? [])[0];
+            if (recipe) await cmd('craft.make', { recipe: recipe.id ?? recipe.name });
+        }
         if (trade) {
             const stock = q('trade.stock', { kind: 'general' });
             const line = Array.isArray(stock?.lines) ? stock.lines[0] : Array.isArray(stock) ? stock[0] : null;
@@ -292,7 +317,7 @@ async function readerActions() {
             if (stack) await cmd('trade.sell', { stack: stack.id, qty: 1 });
         }
         return out;
-    }, { fight: chance(0.7), accept: chance(0.5), roll: chance(0.3), trade: chance(0.06), spend: chance(0.2), equip: chance(0.08), craft: chance(0.03) });
+    }, { fight: chance(0.7), accept: chance(0.5), roll: chance(0.3), trade: chance(0.06), spend: chance(0.2), equip: chance(0.08), craft: chance(0.03), beta: chance(0.8) });
     for (const x of r) { did.push(x); readerLog.set(x, (readerLog.get(x) ?? 0) + 1); }
     return did;
 }
@@ -583,6 +608,7 @@ async function oneStep() {
     fs.writeFileSync(`${RUN}/console-samples-${SEG}.json`, JSON.stringify(samples, null, 1));
 }
 while (replies < TARGET) {
+    await memoryGuard();
     try { await oneStep(); } catch (e) {
         driverErrors += 1;
         log(`step ${step} driver error: ${e.message.split('\n')[0]}`);
