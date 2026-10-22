@@ -1,3 +1,7 @@
 seed 241: 0 violations, chat 9 msgs, 1 checkpoints, 49503 bytes {}
 seed 242: 0 violations, chat 21 msgs, 1 checkpoints, 75551 bytes {}
 seed 243: 0 violations, chat 18 msgs, 0 checkpoints, 1889 bytes {}
+seed 244: 0 violations, chat 107 msgs, 3 checkpoints, 403747 bytes {}
+seed 245: 0 violations, chat 17 msgs, 1 checkpoints, 70404 bytes {}
+seed 246: 1 violations, chat 43 msgs, 0 checkpoints, 4566 bytes {"rewind refused":1}
+    {"seed":246,"step":122,"op":"rewind","what":"rewind refused","detail":"{\"ok\":false,\"code\":\"FAILED\",\"message\":\"The changes could not be taken back, so no branch was made: The change path \\\"/domains/checks/prepared/rev7\\\" does not exist (no \\\"rev7\\\").\"}"}
