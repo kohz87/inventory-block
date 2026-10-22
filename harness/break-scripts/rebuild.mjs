@@ -93,5 +93,24 @@ report.bytes = { file: fs.statSync(file).size, storySuite: ss, storySuiteInSwipe
 report.headRev = head?.meta?.rev ?? null;
 report.liveRev = live?.meta?.rev ?? null;
 report.chatMetadataKeys = Object.keys(header.chat_metadata ?? {});
+// (e) The real runtime: Story Block with all four modules and the Ersveil pack (their validators and replay
+// rules), the chat loaded as SillyTavern would after a reload. This is what a reader gets back.
+try {
+    process.env.STORY_SUITE_ROOT ??= REPOS;
+    const { webcrypto } = await import('node:crypto');
+    const { suiteHost } = await import('./suite-host.mjs');
+    const warn = console.warn; console.warn = () => {};
+    const t1 = performance.now();
+    const host = await suiteHost();
+    Object.defineProperty(globalThis, 'crypto', { value: webcrypto, configurable: true, writable: true });
+    await host.st.loadChat(chat, 'rebuild');
+    const suiteHead = host.head();
+    report.suiteMs = Math.round(performance.now() - t1);
+    report.suiteEqualsLive = live ? canon(suiteHead) === canon(live) : null;
+    if (live && !report.suiteEqualsLive) report.suiteDiff = firstDiff(suiteHead, live);
+    report.suiteProblems = (host.store.problems?.() ?? []).map(p => ({ index: p.index, why: String(p.why).slice(0, 200) })).slice(0, 10);
+    report.suiteEqualsStore = canon(suiteHead) === canon(head);
+    host.close(); console.warn = warn;
+} catch (error) { report.suiteError = String(error?.stack ?? error).slice(0, 400); }
 console.log(JSON.stringify(report, null, 1));
 if (outAt > 0) fs.writeFileSync(process.argv[outAt + 1], JSON.stringify(report, null, 1));
