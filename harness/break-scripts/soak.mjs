@@ -11,6 +11,9 @@ const { sharedPrefix } = await import(`${REPOS}/Story_block/testkit/fake-st.js`)
 
 const args = Object.fromEntries(process.argv.slice(2).map((a, i, all) => a.startsWith('--') ? [a.slice(2), all[i + 1]?.startsWith('--') || all[i + 1] === undefined ? true : all[i + 1]] : null).filter(Boolean));
 const TARGET = Number(args.replies ?? 1500);
+const RELOAD_EVERY = Number(args['reload-every'] ?? 200);
+const WINDOW = Number(args.window ?? 250);
+const FEATURE_EVERY = Number(args['feature-every'] ?? 60);
 const SEED = Number(args.seed ?? 6);
 const RUN = `${OUT}/${args.out ?? 'run'}`;
 fs.mkdirSync(`${RUN}/snap`, { recursive: true });
@@ -81,7 +84,7 @@ async function instrument() {
         const orig = window.storyBlockGenerationInterceptor;
         window.storyBlockGenerationInterceptor = async (...a) => {
             const t0 = performance.now();
-            try { return await orig(...a); } finally { s.intercept.push({ type: a[3], ms: performance.now() - t0 }); }
+            try { return await orig(...a); } finally { s.intercept.push({ type: a[3], ms: performance.now() - t0, size: a[1] }); }
         };
     });
 }
@@ -166,10 +169,12 @@ let relaunches = 0;
 process.on('unhandledRejection', error => log(`unhandled rejection in the driver: ${error?.message ?? error}`));
 let replies = Number(args.replies0 ?? 0), stuck = 0, stuckReloads = 0, driverErrors = 0, heldBack = 0;
 let prevReq = null;
+let droppedHistory = 0;
+const staticByFeatures = {};
 let prevStatic = null, prevNsdStatic = null, prevSys = null;
 const staticChanges = [];
 const csv = fs.createWriteStream(`${RUN}/metrics.csv`, { flags: RESUME ? 'a' : 'w' });
-const COLS = ['step', 'action', 'ok', 'replies', 'chat_len', 'req', 'latency_ms', 'total_ms', 'capture_ms', 'intercept_ms', 'static_sha', 'static_len', 'static_changed', 'nsd_static_sha', 'sys_prefix_sha', 'sb_tail_chars', 'sb_tail_tokens', 'nsd_tail_chars', 'shared_prefix_pct', 'prefix_chars', 'req_chars', 'chat_file_bytes', 'storysuite_bytes', 'head_bytes', 'rev', 'heap_used', 'heap_after_gc', 'dom_nodes', 'ss_cards', 'mes_nodes', 'saves', 'save_bytes', 'receipts', 'problems', 'console_err', 'console_warn', 'page_errors', 'stuck', 'extra_calls', 'reader_actions'];
+const COLS = ['step', 'action', 'ok', 'replies', 'chat_len', 'req', 'latency_ms', 'total_ms', 'capture_ms', 'intercept_ms', 'static_sha', 'static_len', 'static_changed', 'nsd_static_sha', 'sys_prefix_sha', 'sb_tail_chars', 'sb_tail_tokens', 'nsd_tail_chars', 'shared_prefix_pct', 'prefix_chars', 'req_chars', 'chat_file_bytes', 'storysuite_bytes', 'head_bytes', 'rev', 'heap_used', 'heap_after_gc', 'dom_nodes', 'ss_cards', 'mes_nodes', 'saves', 'save_bytes', 'receipts', 'problems', 'console_err', 'console_warn', 'page_errors', 'stuck', 'extra_calls', 'ctx_size', 'hist_msgs', 'has_user', 'req_tok_est', 'tail_in_req', 'dropped_history', 'prompt_features', 'reader_actions'];
 if (!RESUME) csv.write(`${COLS.join(',')}\n`);
 const problemCodes = new Map();
 const readerLog = new Map();
@@ -353,7 +358,8 @@ async function uiTour(kind) {
 // Features (F100) as a reader switches them: the Story Suite settings (wand menu), the feature's row.
 // Cards and the status strip go off for a while and back on; the static prompt part must not change
 // (none of Story Block's features carries prompt text).
-const FEATURES_CYCLE = ['story-block.cards', 'story-block.hud', 'story-block.cards', 'story-block.extractor'];
+// Confirm soak: the switches merged since (choices and chatter carry prompt text; recovery and the digest do not).
+const FEATURES_CYCLE = (process.env.SOAK_FEATURES ?? 'story-block.choices,story-block.chatter,rpg-battle.recovery,story-block.cards,story-block.choices,story-director.digest,rpg-battle.recovery,story-block.hud,story-block.chatter,story-block.cards,story-director.digest,story-block.hud').split(',');
 let featureTurn = 0;
 const featureOff = new Set();
 async function toggleFeature() {
@@ -491,7 +497,7 @@ async function reload() {
 const tStart = Date.now();
 let lastReload = replies;
 let lastRebuild = replies;
-let lastWindow = Math.floor(replies / 250);
+let lastWindow = Math.floor(replies / WINDOW);
 // Keep at least 3 GB free: pause the soak (between steps) while the machine is lower.
 const memAvail = () => { try { return Number(/MemAvailable:\s+(\d+)/.exec(fs.readFileSync('/proc/meminfo', 'utf8'))[1]) * 1024; } catch { return Infinity; } };
 let pausedSec = 0;
@@ -518,6 +524,7 @@ async function oneStep() {
     else if (roll < 0.24 && chatLen > 30) action = 'cut';
     else if (roll < 0.245 && chatLen > 10 && lastIsAi) action = 'rewind';
     actionCounts[action] = (actionCounts[action] ?? 0) + 1;
+    const featBefore = await ev(() => (StoryBlock.sdk.features?.() ?? []).filter(f => f.prompt && f.on).map(f => f.id).sort().join(';')).catch(() => '');
     const [savesBefore, bytesBefore] = await pageSaves();
     const errBefore = consoleErr, warnBefore = consoleWarn, pageErrBefore = pageErrors;
     const turnsIndex = await ev(() => window.__soak.turns.length);
@@ -543,7 +550,7 @@ async function oneStep() {
     if (step % 25 === 0) readerActs.push(await uiTour('tabs'));
     if (step % 40 === 0) readerActs.push(await uiTour('game'));
     if (step % 15 === 0) readerActs.push(await uiTour('cards'));
-    if (step % 60 === 30) readerActs.push(await toggleFeature());
+    if (step % FEATURE_EVERY === FEATURE_EVERY / 2) readerActs.push(await toggleFeature());
     await page.waitForTimeout(450); // lets the 400 ms UI save land in this step
 
     const m = await ev(({ turnsIndex, interceptIndex, heavy, gc }) => {
@@ -577,6 +584,8 @@ async function oneStep() {
             cards: document.querySelectorAll('.ss-card').length,
             mes: document.querySelectorAll('#chat .mes').length,
             pwned: window.__pwned ?? null,
+            promptFeatures: (StoryBlock.sdk.features?.() ?? []).filter(f => f.prompt && f.on).map(f => f.id).sort().join(';'),
+            ctxSize: s.intercept.slice(interceptIndex).map(x => x.size).filter(Boolean).at(-1) ?? '',
             blank: !document.querySelector('#chat') || document.querySelectorAll('#chat .mes').length === 0,
         };
     }, { turnsIndex, interceptIndex, heavy: step % 50 === 0, gc: step % 25 === 0 });
@@ -584,6 +593,7 @@ async function oneStep() {
     if (m.pwned) log(`!!! window.__pwned = ${m.pwned} at step ${step}`);
     if (m.blank) log(`!!! blank chat at step ${step}`);
 
+    let histCols = { hist_msgs: '', has_user: '', req_tok_est: '', tail_in_req: '', dropped_history: '' };
     let reqCols = { req: '', static_sha: '', static_len: '', static_changed: '', nsd_static_sha: '', sys_prefix_sha: '', sb_tail_chars: '', sb_tail_tokens: '', nsd_tail_chars: '', shared_prefix_pct: '', prefix_chars: '', req_chars: '' };
     if (res.mainReq) {
         const msgs = res.mainReq.body.messages ?? [];
@@ -606,6 +616,7 @@ async function oneStep() {
         if (prevNsdStatic !== null && sha(nsdSt) !== prevNsdStatic) staticChanges.push({ step, req: res.mainReq.n, action, part: 'nsd', from: prevNsdStatic, to: sha(nsdSt) });
         if (prevSys !== null && sha(sysPrefix) !== prevSys) staticChanges.push({ step, req: res.mainReq.n, action, part: 'system-prefix', from: prevSys, to: sha(sysPrefix) });
         if (prevStatic === null) fs.writeFileSync(`${RUN}/snap/static-first.txt`, st);
+        (staticByFeatures[featBefore] ??= {})[staticSha] = (staticByFeatures[featBefore][staticSha] ?? 0) + 1;
         prevStatic = staticSha; prevNsdStatic = sha(nsdSt); prevSys = sha(sysPrefix);
         const sp = prevReq ? sharedPrefix(prevReq.messages, msgs) : { percent: '', chars: '' };
         prevReq = res.mainReq.body;
@@ -614,6 +625,13 @@ async function oneStep() {
             sb_tail_chars: sbTail.length, sb_tail_tokens: Math.ceil(sbTail.length / 4), nsd_tail_chars: nsdTail.length,
             shared_prefix_pct: sp.percent, prefix_chars: sp.chars, req_chars: JSON.stringify(msgs).length,
         };
+        // History in the request (B-final-1: at 4k most requests held no history and no user message).
+        const hist = msgs.filter(x => x.role !== 'system');
+        const hasUser = msgs.some(x => x.role === 'user');
+        const histCount = hist.length;
+        const dropped = !hasUser || histCount < Math.min(2, Math.max(0, m.chatLen - 1)) ? 1 : 0;
+        histCols = { hist_msgs: histCount, has_user: hasUser ? 1 : 0, req_tok_est: Math.ceil(JSON.stringify(msgs).length / 4), tail_in_req: sbTail.length > 0 ? 1 : 0, dropped_history: dropped };
+        if (dropped) { droppedHistory += 1; log(`!!! request ${res.mainReq.n} at step ${step} (${action}) dropped history: ${histCount} chat messages, user ${hasUser}`); }
         if (res.mainReq.noStatic) log(`!!! request ${res.mainReq.n} at step ${step} has no static part`);
         if (step % 100 === 1) fs.writeFileSync(`${RUN}/snap/tail-${step}.txt`, tailMsg);
     }
@@ -624,24 +642,24 @@ async function oneStep() {
         step, action, ok: res.ok ? 1 : 0, replies, chat_len: m.chatLen, ...reqCols, latency_ms: res.latency, total_ms: res.total, capture_ms: m.capture, intercept_ms: m.intercept,
         chat_file_bytes: fileBytes, storysuite_bytes: m.ssBytes, head_bytes: m.headBytes, rev: m.rev, heap_used: m.heap, heap_after_gc: m.afterGc, dom_nodes: m.dom, ss_cards: m.cards, mes_nodes: m.mes,
         saves: savesNow - savesBefore, save_bytes: bytesNow - bytesBefore, receipts: m.receipts, problems: m.problems.length, console_err: consoleErr - errBefore, console_warn: consoleWarn - warnBefore,
-        page_errors: pageErrors - pageErrBefore, stuck, extra_calls: servedExtra(), reader_actions: [note, ...readerActs].filter(Boolean).join(' ').replace(/,/g, ';'),
+        page_errors: pageErrors - pageErrBefore, stuck, extra_calls: servedExtra(), ...histCols, ctx_size: m.ctxSize, prompt_features: featBefore, reader_actions: [note, ...readerActs].filter(Boolean).join(' ').replace(/,/g, ';'),
     };
     csv.write(`${COLS.map(c => String(row[c] ?? '').replace(/[\n,]/g, ' ')).join(',')}\n`);
     if (step % 25 === 0) log(`step ${step} replies ${replies} chat ${m.chatLen} file ${fileBytes} heap ${m.heap} dom ${m.dom} err ${consoleErr} warn ${consoleWarn} pageerr ${pageErrors} stuck ${stuck} static changes ${staticChanges.length} elapsed ${Math.round((Date.now() - tStart) / 1000)}s`);
-    if (replies - lastReload >= 200) {
+    if (replies - lastReload >= RELOAD_EVERY) {
         lastReload = replies; log(`reload at reply ${replies}`);
         const a = await snapshot(`r${replies}-before-reload`); await reload(); const b = await snapshot(`r${replies}-after-reload`);
         fs.appendFileSync(`${RUN}/reloads.jsonl`, `${JSON.stringify({ replies, step, before: a, after: b, same: a === b })}\n`);
         if (a !== b) log(`!!! head changed across the reload at reply ${replies}: ${a} → ${b}`);
         lastRebuild = replies;
     } else if (replies - lastRebuild >= 100) { lastRebuild = replies; await snapshot(`n${replies}`); }
-    if (Math.floor(replies / 250) > lastWindow) {
-        lastWindow = Math.floor(replies / 250);
+    if (Math.floor(replies / WINDOW) > lastWindow) {
+        lastWindow = Math.floor(replies / WINDOW);
         try { execFileSync('bash', [new URL('./progress.sh', import.meta.url).pathname, RUN, args.label ?? args.out ?? 'run'], { stdio: 'ignore', timeout: 180000 }); log(`progress pushed at reply ${replies}`); } catch (e) { log(`progress push failed: ${e.message.split('\n')[0]}`); }
     }
     await memoryGuard();
     if (step % 500 === 0) await page.screenshot({ path: `${RUN}/snap/screen-${step}.png` });
-    fs.writeFileSync(`${RUN}/summary-${SEG}.json`, JSON.stringify({ step, replies, stuck, stuckReloads, driverErrors, heldBack, relaunches, pausedSec, featureOff: [...featureOff], actionCounts, consoleErr, consoleWarn, pageErrors, staticChanges, problemCodes: Object.fromEntries([...problemCodes].sort((a, b) => b[1] - a[1])), readerLog: Object.fromEntries(readerLog), consoleKinds: Object.fromEntries([...consoleKinds].sort((a, b) => b[1] - a[1])), gen: gen.stats, failedRequests: failedRequests.slice(0, 100), elapsedSec: Math.round((Date.now() - tStart) / 1000), chatId, chatFile }, null, 1));
+    fs.writeFileSync(`${RUN}/summary-${SEG}.json`, JSON.stringify({ step, replies, droppedHistory, staticByFeatures, stuck, stuckReloads, driverErrors, heldBack, relaunches, pausedSec, featureOff: [...featureOff], actionCounts, consoleErr, consoleWarn, pageErrors, staticChanges, problemCodes: Object.fromEntries([...problemCodes].sort((a, b) => b[1] - a[1])), readerLog: Object.fromEntries(readerLog), consoleKinds: Object.fromEntries([...consoleKinds].sort((a, b) => b[1] - a[1])), gen: gen.stats, failedRequests: failedRequests.slice(0, 100), elapsedSec: Math.round((Date.now() - tStart) / 1000), chatId, chatFile }, null, 1));
     fs.writeFileSync(`${RUN}/console-samples-${SEG}.json`, JSON.stringify(samples, null, 1));
 }
 while (replies < TARGET) {

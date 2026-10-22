@@ -1,3 +1,7 @@
+// Confirm soak (2026-10-22): also coins (`+ coin N silver`), `+ xp minor|major|milestone`, `? choice` and
+// `~ chatter`, stray change lines in the story near the block (~1 reply in 10), quests straight to Active
+// (`+ quest` with no hook first), and story-time moves (forward, long, set back) for RPG Battle's recovery.
+//
 // Seeded reply generator for the b6-soak run (beta kinds added by beta-e2e: `? loot`, `~ item | wear:`,
 // `! craft`, `+ effect` / `- effect`, lone foes and `| boss: yes` encounters, equip lines, day-crossing time skips): plausible Ersveil story text plus a <Changes> block whose
 // lines are ~70% valid, ~20% sloppy (drift, typos, wrong kinds) and ~10% hostile, covering every module:
@@ -111,7 +115,7 @@ export function createGen(seed = 1) {
     const int = (lo, hi) => lo + Math.floor(r() * (hi - lo + 1));
     let clockDay = 12;
     let clockMin = 6 * 60 + 40;
-    const stats = { lines: 0, valid: 0, sloppy: 0, hostile: 0, kinds: {}, noBlock: 0, nsd: 0, nsdBad: 0 };
+    const stats = { lines: 0, valid: 0, sloppy: 0, hostile: 0, kinds: {}, noBlock: 0, nsd: 0, nsdBad: 0, stray: 0, strayBad: 0, strayOnly: 0, choices: 0, chatter: 0, timeMoves: 0, directQuests: 0 };
 
     const dateText = (addMin = 0) => {
         const total = clockMin + addMin;
@@ -120,6 +124,38 @@ export function createGen(seed = 1) {
         let h = Math.floor(m / 60); const mm = m % 60; const ap = h >= 12 ? 'pm' : 'am'; h = h % 12 || 12;
         return `${MONTHS[0]} ${Math.min(day, 30)}, ${String(h).padStart(2, '0')}:${String(mm).padStart(2, '0')} ${ap}`;
     };
+    // Story time moves that drive RPG Battle's recovery (rpg-battle.recovery: 5 % an hour, 6 h or more is a full
+    // rest; a clock set back heals nothing). The generator keeps its own idea of the clock.
+    const timeMove = () => {
+        const roll = r();
+        if (roll < 0.12) { const back = int(30, 300); clockMin -= back; return `~ time ${dateText(0)}`; }      // set back
+        if (roll < 0.30) { const fwd = int(20, 240); clockMin += fwd; return `~ time ${dateText(0)}`; }
+        const step = pick(['10m', '20m', '30m', '40m', '1h', '1h', '2h', '3h', '5h', '6h', '7h', '8h', '14h']);
+        clockMin += /h$/.test(step) ? Number(step.slice(0, -1)) * 60 : Number(step.slice(0, -1));
+        return `! time +${step}`;
+    };
+    const CHOICES = ['Follow the tracks to the culvert', 'Ask Fenna about the ledger', 'Wait for dark and slip past the gate', 'Buy a round and listen', 'Head back to the Guild office', 'Climb the palisade', 'Talk the inspector down', 'Rest by the brazier', 'Check the granary cellar'];
+    const CHATTER = ['…he walks like a man who has run before', 'twenty marks a day and still no questions, good', 'that stick is no walking stick', 'if the wolves come tonight we are short two spears', 'I should never have signed that ledger', 'the levy will take the lot of us'];
+    function extras(h) {
+        const out = [];
+        if (chance(0.3)) {
+            if (chance(0.1)) out.push(...pick([
+                () => Array.from({ length: 6 }, (_, i) => `? choice Option ${i + 1}`),
+                () => [`? choice ${pick(HOSTILE_NAMES)}`, `? choice ${pick(CHOICES)}`],
+                () => [`? choice ${'Run '.repeat(60)}`, '? choice    '],
+            ])());
+            else for (const c of new Set(Array.from({ length: int(2, 4) }, () => pick(CHOICES)))) out.push(`? choice ${c}`);
+        }
+        if (chance(0.3)) {
+            if (chance(0.1)) out.push(...pick([
+                () => Array.from({ length: 5 }, (_, i) => `~ chatter ${pick(MEETERS)}: thought ${i}`),
+                () => [`~ chatter ${pick(HOSTILE_NAMES)}: ${pick(HOSTILE_NAMES)}`],
+                () => ['~ chatter nobody in particular'],
+            ])());
+            else for (let i = 0, n = int(1, 3); i < n; i += 1) out.push(`~ chatter ${pick(h.present?.length ? h.present : MEETERS)}: ${pick(CHATTER)}`);
+        }
+        return out;
+    }
     const drift = name => (DRIFT[name] && chance(0.6) ? pick(DRIFT[name]) : name.toLowerCase());
 
     // ---- valid line makers: each returns { kind, line } -------------------------------------------
@@ -193,6 +229,14 @@ export function createGen(seed = 1) {
             () => ({ kind: 'key', line: `+ item ${pick(['Warden\'s Signet', 'Drowned Saint\'s Relic', 'Sealer\'s Brass Seal', 'Moonveil Pearl'])} | qty: 1 | note: ${pick(['pressed into Wessel\'s hand', 'an old man\'s parting gift'])}` }),
             () => ({ kind: 'quest', line: `~ quest ${pick(h.quests?.length ? h.quests : [q.name])} | met: ${pick(['yes', 'no'])}` }),
             () => ({ kind: 'present', line: `+ present ${pick(MEETERS)}` }),
+            // ---- confirm soak: kinds merged after the final soak (coins, story XP, quests straight to Active) ----
+            () => ({ kind: 'coin', line: `+ coin ${int(1, 6)} silver | from: ${pick(NPCS)}` }),
+            () => ({ kind: 'coin', line: `+ coin ${int(5, 40)} copper | from: ${pick(NPCS)}` }),
+            () => ({ kind: 'coin', line: `+ coin 1 gold | from: ${pick(['Watch-Captain Rorke', 'a grateful bargemaster', 'Fenna'])}` }),
+            () => ({ kind: 'coin', line: `- coin ${int(1, 3)} silver | to: ${pick(['the Stray Oar', 'Watch Stores', 'a ferryman'])}` }),
+            () => ({ kind: 'xp', line: `+ xp ${pick(['minor', 'minor', 'minor', 'major', 'milestone'])} — ${pick(['cleared the cellar', 'talked the inspector down', 'held the gate through the night', 'found the ferry bell', 'kept the salt crew honest'])}` }),
+            () => { const qq = pick(QUESTS); return { kind: 'quest', line: `+ quest ${qq.name} — ${qq.goal} | giver: ${qq.giver} | goal: ${qq.target ? `kill ${qq.target}` : qq.goal} | reward: ${qq.reward}` }; },
+            () => ({ kind: 'time', line: timeMove() }),
         ];
         // Arc-specific lines first (a quest being taken or turned in this reply).
         if (plan.take) return { kind: 'quest', line: `+ quest ${q.name} — ${q.goal} | giver: ${q.giver} | goal: ${q.target ? `kill ${q.target}` : q.goal} | reward: ${q.reward}${chance(0.5) ? ` | rank: ${pick(RANKS.slice(0, 3))}` : ''}` };
@@ -269,6 +313,17 @@ export function createGen(seed = 1) {
             () => `+ effect ${pick(EFFECTS)[0]} — x | on: luck | for: 2h | who: Wesel`,
             () => `! encounter 1 ${pick(BOSSES)} | boss: maybe`,
             () => `~ item ${pick(GEAR)} | equip: on`,
+            () => `+ coin ${int(1, 5)} silver ${int(1, 9)} copper | from: ${pick(NPCS)}`,   // two coins in one line
+            () => `+ coin ${int(1, 5)} platinum | from: ${pick(NPCS)}`,                       // not this world's coin
+            () => `+ coin 1.5 gold | from: ${pick(NPCS)}`,
+            () => `+ coin ${int(2, 9)} Silvers | from: ${pick(NPCS)}`,
+            () => `+ xp huge — ${pick(['a big day', 'the wolves'])}`,
+            () => `~ xp minor — x`,
+            () => `+ xp — nothing much`,
+            () => `? choice`,
+            () => `~ chatter thinks the stick is a sword`,                                     // no name
+            () => `~ chatter : nothing`,
+            () => `? choices Run | Hide`,
         ];
         return pick(variants)();
     }
@@ -334,6 +389,14 @@ export function createGen(seed = 1) {
             () => `! encounter ${num} ${pick(FOES)} | boss: yes`,
             () => `~ item ${pick(GEAR)} | equip: ${n}`,
             () => `+ quest ${pick(QUESTS).name} — x | giver: Fenna | rank: ${pick(['S', 'SSS', n])} | reward: 3000 marks`,
+            () => `+ coin ${pick(['999', '50', '1e6', num])} gold | from: the dragon hoard`,
+            () => `- coin -${int(1, 99)} silver | to: ${pick(NPCS)}`,
+            () => `+ xp ${pick(['99999', 'legendary', n, 'milestone | amount: 99999'])} — x`,
+            () => `+ xp milestone — ${n}`,
+            () => `? choice ${n}`,
+            () => `~ chatter ${n}: ${n}`,
+            () => `~ chatter Fenna: ${'a thought that never ends '.repeat(30)}`,
+            () => `! time +${pick(['720h', '-48h', '0m', num + 'h'])}`,
         ];
         return pick(variants)();
     }
@@ -384,7 +447,8 @@ export function createGen(seed = 1) {
         arc.since += 1;
         // Arc progress: idle → offered (hook) → taken (+ quest) → fight lines → met/turn-in → idle.
         const kinds = [];
-        if (arc.stage === 'idle' && chance(0.15)) { arc.quest = pick(QUESTS); plan.quest = arc.quest; arc.stage = 'offered'; arc.since = 0; kinds.push('offer'); }
+        if (arc.stage === 'idle' && chance(0.05)) { arc.quest = pick(QUESTS); plan.quest = arc.quest; arc.stage = 'taken'; arc.since = 0; plan.take = true; kinds.push('take', 'direct'); stats.directQuests += 1; }
+        else if (arc.stage === 'idle' && chance(0.12)) { arc.quest = pick(QUESTS); plan.quest = arc.quest; arc.stage = 'offered'; arc.since = 0; kinds.push('offer'); }
         else if (arc.stage === 'offered' && arc.since > 1 && chance(0.4)) { arc.stage = 'taken'; arc.since = 0; plan.take = true; kinds.push('take'); }
         else if (arc.stage === 'taken' && arc.since > 2 && chance(0.25)) { arc.stage = 'idle'; plan.turnIn = arc.quest.name; kinds.push('turnin'); }
         else if (arc.stage === 'taken' && !arc.quest.foe && chance(0.2)) { plan.met = arc.quest.name; }
@@ -418,15 +482,31 @@ export function createGen(seed = 1) {
         }
         if (plan.take && !lines.some(l => l.startsWith('+ quest'))) lines.unshift(valid(h, { quest: plan.quest, take: true }).line);
         if (plan.turnIn && !lines.some(l => l.startsWith('- quest'))) lines.unshift(`- quest ${plan.turnIn} — turned in`);
+        if (chance(0.25)) { lines.push(timeMove()); stats.timeMoves += 1; }
+        const ex = extras(h);
+        stats.choices += ex.filter(l => l.startsWith('? choice')).length; stats.chatter += ex.filter(l => l.startsWith('~ chatter')).length;
+        lines.push(...ex);
+        // Stray change lines (Story Block reads a whole grammar line near the block): about 1 reply in 10 writes
+        // one in the story's last paragraph, or after the block; 1 in 4 of those is close but wrong (a STRAY Problem).
+        let stray = null, strayAfter = false;
+        if (chance(0.1)) {
+            stats.stray += 1;
+            if (chance(0.25)) { stats.strayBad += 1; stray = pick([`+ itme Torch | qty: 1`, `! encounter wolves`, `+ coin three | from: Fenna`, `~ quest | met: yes`]); }
+            else stray = pick([() => valid(h, { quest: plan.quest }).line, () => `! encounter ${int(1, 4)} ${pick(FOES)} — ${pick(['out of the reeds', 'at the culvert mouth'])} | tier: ${pick(['weak', 'even'])} | stakes: normal`, () => `+ coin ${int(1, 4)} silver | from: ${pick(NPCS)}`, () => `+ item ${pick(PACK_ITEMS)} | qty: 1`, () => timeMove()])();
+            strayAfter = chance(0.3);
+        }
         stats.lines += lines.length;
         const styleRoll = r();
         const style = styleRoll < 0.9 ? 'normal' : pick(['lower', 'fence', 'twice', 'unclosed', 'think']);
+        if (stray && !strayAfter) story = `${story}\n${stray}`;
         let reply = story;
         if (style === 'think') reply = `<think>\nThe reader wants action. Maybe:\n<Changes>\n+ coin 500 | from: thinking\n</Changes>\n</think>\n${reply}`;
         if (lines.length) reply += changesText(lines, style);
         else stats.noBlock += 1;
+        if (stray && !lines.length) stats.strayOnly += 1;
+        if (stray && strayAfter) reply += `\n\n${stray}`;
         if (chance(0.35)) reply += nsdBlock(h);
-        return { user, reply, meta: { lines: lines.length, style, take: Boolean(plan.take), turnIn: plan.turnIn ?? null, offer: kinds.includes('offer') } };
+        return { user, reply, meta: { lines: lines.length, style, take: Boolean(plan.take), direct: kinds.includes('direct'), turnIn: plan.turnIn ?? null, offer: kinds.includes('offer'), stray: stray ? (strayAfter ? 'after' : 'before') : null } };
     }
 
     return { next, stats, rnd: r, pick, chance, int };

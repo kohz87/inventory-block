@@ -15,6 +15,7 @@ export const MOCK_LOG = E.MOCK_LOG ?? `${SP}/inst/${INST}/log`;
 export const ST_DATA = E.ST_DATA ?? `${SP}/inst/${INST}/data`;
 export const PACK = `${REPOS}/Story_block/examples/packs/ersveil-bluewatch/pack.json`;
 export const CHAR_NAME = 'Ersveil';
+export const CONTEXT = Number(E.SOAK_CONTEXT ?? 0) || 0;
 
 let qn = 0;
 export const queue = text => fs.writeFileSync(`${MOCK_Q}/${String(Date.now()).padStart(15, '0')}-${String(++qn).padStart(6, '0')}.txt`, text);
@@ -35,14 +36,16 @@ export async function waitHost(page) {
 }
 
 export async function connectMock(page) {
-    await page.evaluate(async url => {
+    await page.evaluate(async ({ url, ctxSize }) => {
         const $ = window.jQuery;
         $('#main_api').val('openai').trigger('change'); await new Promise(r => setTimeout(r, 400));
         $('#chat_completion_source').val('custom').trigger('change'); await new Promise(r => setTimeout(r, 400));
         $('#custom_api_url_text').val(url).trigger('input');
         $('#custom_model_id').val('mock-model').trigger('input');
         $('#stream_toggle').prop('checked', false).trigger('change');
+        // Context size (confirm soak: 16k; the earlier soaks ran at SillyTavern's default 4,095).
+        if (ctxSize) { $('#openai_max_context').val(ctxSize).trigger('input'); await new Promise(r => setTimeout(r, 200)); }
         $('#api_button_openai').trigger('click');
         await new Promise(r => setTimeout(r, 2500));
-    }, MOCK_URL);
+    }, { url: MOCK_URL, ctxSize: CONTEXT });
 }

@@ -9,7 +9,7 @@ const FIRST = [
     'You came up the river road with a walking stick, a pack and a name the Guild clerk wrote down without looking up. Fenna, the clerk, said there is work for anyone who will take twenty marks a day and not ask why the last one left.',
     'The Guild office is one room, a board and a counter scarred by a hundred knives. Three notices are pinned to the board. Fenna is watching you read them.',
 ].join('\n\n');
-const { browser, page } = await launchRaw({ port: 9393 });
+const { browser, page } = await launchRaw({ port: Number(process.env.CDP_PORT ?? 9393) + 1 });
 const errors = [];
 page.on('pageerror', e => errors.push(`pageerror ${e.message.slice(0, 300)}`));
 page.on('console', m => { if (['error', 'warning'].includes(m.type())) errors.push(`console.${m.type()} ${m.text().slice(0, 300)}`); });
