@@ -1,0 +1,15 @@
+import * as D from './drv.mjs';
+const p = await D.page();
+await D.size(p, 390);
+const s = await D.send(p, 'I walk into the alley.', D.R('Three bandits block the alley.', ['! encounter 3 Bandit — blocking the alley | tier: even | stakes: normal']));
+console.log('send', s.ok);
+const r = await p.ev(async () => { const W = ms => new Promise(r => setTimeout(r, ms)); const pn = document.querySelector('#story_suite_v2_panel'); if (pn.hidden) document.querySelector('.story-suite-bar-story').click(); await W(500); [...document.querySelectorAll('#story_suite_v2_panel .story-suite-tab')].find(x => /^Fight/.test(x.textContent.trim()))?.click(); await W(900); const b = document.querySelector('#story_suite_v2_panel [data-command="combat.start"]'); b?.click(); await W(1500); return { started: !!b, session: StoryBlock.sdk.query('combat.session')?.status }; });
+console.log(JSON.stringify(r));
+console.log('panel', JSON.stringify(await D.audit(p)));
+await p.shot(`${D.OUT}/shots/s3-board-390-panel.jpg`, 45);
+await p.ev(async () => { document.querySelector('#story_suite_v2_panel .story-suite-sheet-close')?.click(); document.querySelector('.story-suite-bar-game').click(); await new Promise(r => setTimeout(r, 800)); [...document.querySelectorAll('.ss-gameview-nav .ss-gameview-navitem')].find(b => /Fight/.test(b.textContent))?.click(); await new Promise(r => setTimeout(r, 900)); });
+console.log('game', JSON.stringify(await D.audit(p)));
+await p.shot(`${D.OUT}/shots/s3-board-390-game.jpg`, 45);
+const dead = await D.clickAll(p, '.ss-gameview-body', 'drop|remove|delete|flee|give up|surrender|finish|end');
+console.log('board clicks', JSON.stringify(dead));
+p.close();

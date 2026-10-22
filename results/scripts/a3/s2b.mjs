@@ -1,0 +1,10 @@
+import * as D from './drv.mjs';
+const p = await D.page();
+const s = await D.send(p, 'I accept: I take on the Pinball Rivalry and the Arcade Tickets job.', D.R('"Deal," Mira grins.', ['+ quest Pinball Rivalry — beat Mira at pinball | giver: Mira | goal: Beat Mira 3 times at pinball | reward: you pick the next date', '+ quest Arcade Tickets — win tickets for Mira\'s plush | giver: Mira | goal: Collect 50 tickets | reward: a hug']));
+console.log(s.ok);
+const W = ms => new Promise(r => setTimeout(r, ms));
+console.log(JSON.stringify(await p.ev(async () => { const W = ms => new Promise(r => setTimeout(r, ms)); const pn = document.querySelector('#story_suite_v2_panel'); if (pn.hidden) document.querySelector('.story-suite-bar-story').click(); await W(500); const out = {}; for (const t of ['Quests', 'Director']) { [...document.querySelectorAll('#story_suite_v2_panel .story-suite-tab')].find(x => x.textContent.trim() === t).click(); await W(800); out[t] = document.querySelector('#story_suite_v2_panel .story-suite-pane').innerText.replace(/\s+/g, ' ').slice(0, 1200); } out.q = StoryBlock.sdk.query('quest.progress', { key: 'Pinball Rivalry' }); out.q2 = StoryBlock.sdk.query('quest.progress', { key: 'Arcade Tickets' }); out.card = [...document.querySelectorAll('#chat .mes.last_mes [class*=story-suite], #chat .mes.last_mes [class*=sd-]')].map(e => e.innerText.replace(/\s+/g, ' ')).join(' | ').slice(0, 800); document.querySelector('.story-suite-bar-game').click(); await W(900); out.home = document.querySelector('.ss-gameview-body').innerText.replace(/\s+/g, ' ').slice(0, 800); document.querySelector('.ss-gameview-close').click(); return out; }), null, 1));
+await p.shot(`${D.OUT}/shots/s2-quests-fightword.jpg`, 45);
+const n = D.reqNums().at(-1); const b = D.readReq(n); const all = b.messages.filter(m => m.role === 'system').map(m => m.content).join('\n');
+console.log((all.match(/.{0,80}\b(fights?|foes?|beaten|combat|encounter)\b.{0,60}/gi) ?? []).join('\n'));
+p.close();

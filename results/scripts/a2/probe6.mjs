@@ -1,0 +1,28 @@
+// a2 probe 6: a click's story-vouched payout when the head carrier is the greeting (no reply yet).
+import { readFileSync } from 'node:fs';
+const ROOT = '/home/user/cell/a2';
+const { createHost } = await import(`${ROOT}/Story_block/testkit/index.js`);
+const SD = await import(`${ROOT}/Story_director/src/v2/module.js`);
+const RB = await import(`${ROOT}/rpg_battle/src/v2/module.js`);
+console.warn = () => {};
+let sdk = null;
+const sd = SD.createModule({ host: { settings: id => sdk?.settings(id) ?? null, substitute: t => sdk?.substitute(t) } });
+const rb = RB.createModule({ settings: () => sdk?.settings(RB.MODULE_ID) ?? {} });
+const greeting = process.argv[2] ?? 'Bluewatch.\n\n<Changes>\n~ place Bluewatch Village | kind: settlement\n+ coin 1000\n+ quest Torch Run — bring the watch a torch | goal: bring 1 Torch | reward: 1000 gold | giver: Fenna\n</Changes>';
+const host = await createHost({ modules: [rb, sd], st: { greeting } });
+sdk = host.sdk; globalThis.StoryBlock = { apiVersion: 2, ready: Promise.resolve(sdk), sdk };
+const coin = () => host.head()?.domains?.inventory?.wallets?.party?.coin ?? 0;
+console.log('after greeting coin', coin(), 'budget', JSON.stringify(sdk.query('inventory.storyBudget')), 'headIndex', host.store.headIndex(), 'sid', host.store.carrierSid?.(0));
+console.log(JSON.stringify((await sdk.command('party.create', { name: 'Wessel', preset: 'fighter' })).ok));
+const quests = host.head().domains.director?.threads ?? host.head().domains.director;
+const st = sdk.query('trade.stock', { kind: 'general' });
+const torch = st.items.find(i => /torch/i.test(i.def.name));
+console.log('torch', torch?.def.id, torch?.price, JSON.stringify((await sdk.command('trade.buy', { shop: st.shop, def: torch?.def.id, qty: 1 })).message ?? 'ok'));
+const ids = Object.values(host.head().domains.director?.quests ?? {}).map(q => q.id ?? q.key);
+const list = JSON.stringify(host.head().domains.director).match(/"id":"(qu_[0-9a-z]+)"/g);
+console.log('quest ids', list?.slice(0, 3));
+const qid = list?.[0]?.split('"')[3];
+const c0 = coin();
+const fin = await sdk.command('quest.finish', { id: qid });
+console.log('finish', fin.ok, fin.receipt?.summary ?? fin.message, 'gain', coin() - c0, 'budget', JSON.stringify(sdk.query('inventory.storyBudget')));
+host.close();

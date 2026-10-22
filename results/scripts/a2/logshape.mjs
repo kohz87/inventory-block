@@ -1,0 +1,14 @@
+import { heroParty } from '/home/user/cell/a2/rpg_battle/scripts/balance-lib.mjs';
+import { readEncounter } from '/home/user/cell/a2/rpg_battle/src/v2/combat/encounter.js';
+import { buildSetup, fightNumbers } from '/home/user/cell/a2/rpg_battle/src/v2/combat/setup.js';
+import { fightRules } from '/home/user/cell/a2/rpg_battle/src/v2/combat/stored.js';
+import { startFight, actInPlace } from '/home/user/cell/a2/rpg_battle/src/combat.js';
+import { DEFAULT_BESTIARY } from '/home/user/cell/a2/rpg_battle/src/enemies.js';
+console.warn = () => {};
+const read = readEncounter({ op: '!', kind: 'encounter', name: '3 Ogre', text: '', labels: { tier: 'even' } }, { bestiary: DEFAULT_BESTIARY });
+const built = buildSetup({ id: 'fi_00000001', seed: 3, offer: { foes: read.foes, stakes: 'normal' }, party: heroParty('fighter', 5), chatBestiary: [], numbers: fightNumbers({}) });
+const rules = fightRules(built.setup);
+const f = startFight({ ...built.setup, rules });
+actInPlace(f, { type: 'auto' }, rules);
+console.log(f.status, JSON.stringify(f.log.slice(0, 12), null, 0));
+console.log(f.log.filter(e => /stun|daze/.test(JSON.stringify(e))).slice(0, 10).map(e => JSON.stringify(e)).join('\n'));

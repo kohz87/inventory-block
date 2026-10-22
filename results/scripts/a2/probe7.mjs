@@ -1,0 +1,24 @@
+// a2 probe 7: one reply's budget across a click's vouched quest payout and a later edit of that reply that adds coin.
+import { started, rebuilt } from '/home/user/cell/a2/rpg_battle/tests/v2/break/helpers/suite.js';
+console.warn = () => {};
+const host = await started({ seed: 11 });
+const quest = '+ quest Torch Run — the watch needs a torch | goal: bring 1 Torch | reward: 400 marks | giver: Fenna';
+const text = 'Fenna asks for a torch.';
+await host.send('Any work?', host.reply(text, [quest]));
+const idx = host.store.headIndex();
+const st = host.q('trade.stock', { kind: 'Watch Stores' });
+const torch = st.items.find(i => /torch/i.test(i.def.name));
+console.log('buy', (await host.cmd('trade.buy', { shop: st.shop, def: torch.def.id, qty: 1 })).ok);
+const thread = JSON.stringify(host.head().domains.director).match(/"id":"(th_[0-9a-z]+)"/)?.[1];
+console.log('accept', JSON.stringify((await host.cmd('quest.take', { id: thread })).message ?? 'ok'));
+const c0 = host.wallet();
+const fin = await host.cmd('quest.finish', { id: thread });
+console.log('finish', fin.ok, fin.receipt?.summary ?? fin.message, 'gain', host.wallet() - c0, JSON.stringify(host.q('inventory.storyBudget')));
+const c1 = host.wallet();
+await host.st.editMessage(idx, host.reply(text + ' She also pays you up front.', [quest, '+ coin 400']));
+console.log('reread', JSON.stringify(await host.sdk.reread(idx)).slice(0, 300));
+console.log('after edit wallet gain since before finish', host.wallet() - c0, JSON.stringify(host.q('inventory.storyBudget')), 'problems', JSON.stringify(host.store.problems?.() ?? []).slice(0, 300));
+console.log(host.receipts().slice(-8).map(r => r.summary + ' ' + (r.problem ?? '')).join('\n')); console.log('turn problems', JSON.stringify(host.turn.problems?.()));
+const cold = await rebuilt(host);
+console.log('rebuild wallet', cold.domains.inventory.wallets.party.coin, 'live', host.wallet());
+host.close();
