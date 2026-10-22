@@ -53,7 +53,7 @@ for cell in CELLS:
         'heads': info.get('heads'), 'counts': {s: sum(1 for r in info['rows'].values() if r['status'] == s) for s in ('PASS', 'FAIL', 'SKIP')},
         'rows': {k: v['status'] for k, v in info['rows'].items()}, 'static': info['static'], 'rebuild': info['rebuild'],
         'console_unclassified': len(info['console']['unclassified']), 'finished': info['finished'],
-        'config': info.get('run'), 'at': datetime.datetime.utcnow().strftime('%Y-%m-%d %H:%M UTC'),
+        'config': info.get('run'), 'at': datetime.datetime.now(datetime.timezone.utc).strftime('%Y-%m-%d %H:%M UTC'),
     }
     md = [f'# {tag}', '', f"config: `{json.dumps(info.get('run'))}`", f"heads: `{json.dumps(info.get('heads'))}`",
           f"static prompt: {info['static']['requests']} requests, {info['static']['distinct']} distinct, {info['static']['changes']} change(s)",

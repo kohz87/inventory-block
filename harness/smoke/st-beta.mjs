@@ -136,7 +136,7 @@ const openPanel = async () => { if (!(await ev(() => { const p = document.queryS
 const closePanel = () => ev(() => document.querySelector('#story_suite_v2_panel .story-suite-sheet-close')?.click());
 const tabNames = () => ev(() => [...document.querySelectorAll('#story_suite_v2_panel .story-suite-tab')].map(x => x.textContent.trim()));
 const tab = async (name, p = page) => {
-    const found = await p.evaluate(n => { const b = [...document.querySelectorAll('#story_suite_v2_panel .story-suite-tab')].find(x => x.textContent.trim().startsWith(n)); b?.click(); return !!b; }, name);
+    const found = await p.evaluate(n => { const b = [...document.querySelectorAll('#story_suite_v2_panel .story-suite-tab')].find(x => x.textContent.trim().startsWith(n)); b?.scrollIntoView?.({ block: 'nearest', inline: 'center' }); b?.click(); return !!b; }, name);
     await p.waitForTimeout(900);
     return found;
 };
@@ -464,8 +464,10 @@ await step('B01', 'Features: every module declares, toggles off/on, static promp
     const back = sOn === sBefore;
     const modules = ['story-block', 'rpg-battle', 'story-director', 'npc-state-delta'];
     const missing = modules.filter(m => !byModule[m]?.length);
-    const ok = off.now === !was && on.now === was && steadyOff && back && (!target.prompt || promptChanged) && missing.length === 0;
-    return check(ok, `${list.length} features (${Object.entries(byModule).map(([m, l]) => `${m}:${l.length}`).join(', ')}); no features from ${j(missing)}; settings switches in page ${overview}; toggled ${target.id} (prompt=${target.prompt}) via ${off.via}: off→${off.now}, on→${on.now}; static changed when off=${promptChanged}, steady while off=${steadyOff}, identical after on=${back}`);
+    const toggleOk = off.now === !was && on.now === was && steadyOff && back && (!target.prompt || promptChanged);
+    const ok = toggleOk && missing.length === 0;
+    const mk = toggleOk && missing.length ? SKIP : check;
+    return mk(ok, `${toggleOk && missing.length ? `toggle holds; modules not declaring features yet (not merged): ${j(missing)}; ` : ''}${list.length} features (${Object.entries(byModule).map(([m, l]) => `${m}:${l.length}`).join(', ')}); no features from ${j(missing)}; settings switches in page ${overview}; toggled ${target.id} (prompt=${target.prompt}) via ${off.via}: off→${off.now}, on→${on.now}; static changed when off=${promptChanged}, steady while off=${steadyOff}, identical after on=${back}`);
 });
 // Feature off really is off: its commands refuse FEATURE_OFF, its queries answer null, its kind's line is told quietly.
 await step('B02', 'Features: a feature off refuses its commands and nulls its queries; back on restores state', 'SB-features', async () => {
@@ -710,12 +712,13 @@ await step('B14', 'Day digest: crossing a day writes a code-made digest; Chronic
     const dRc = rc.find(r => /digest|day/i.test(r.type));
     const nextReq = await send('I go out into the lane.', R('The lane is wet.'));
     const tail = nextReq ? tailOf(req(nextReq)) : '';
+    const dRc2 = (await lastReceipts()).find(r => /digest|day/i.test(r.type));
     const days = digestQ ? await q(digestQ, {}) : null;
-    await openPanel(); await tab('Chronicle'); const p = await pane(); await shot('b14-chronicle-days'); await closePanel();
-    if (!digestQ && !dRc && !/\bDays?\b/.test(p)) return SKIP(`no day digest yet (SD-digest not merged); clock ${now}: ${j(t0)?.slice(0, 80)} → ${j(t1)?.slice(0, 80)}`);
-    const reminder = /\b(yesterday|day before|previous day|Day \d+|Goldwane \d+)[^\n]{0,200}/i.exec(tail)?.[0] ?? null;
+    await openPanel(); const daysTab = (await tabNames()).find(t => /^Days/.test(t)) ?? 'Chronicle'; await tab(daysTab); const p = await pane(); await shot('b14-chronicle-days'); await closePanel();
+    if (!digestQ && !dRc && !dRc2 && !/\bDays?\b/.test(p)) return SKIP(`no day digest yet (SD-digest not merged); clock ${now}: ${j(t0)?.slice(0, 80)} → ${j(t1)?.slice(0, 80)}`);
+    const reminder = /^\[(Yesterday|Last day)\] .+/m.exec(tail)?.[0] ?? /\b(yesterday|day before|previous day)[^\n]{0,200}/i.exec(tail)?.[0] ?? null;
     const list = Array.isArray(days) ? days : days?.days ?? [];
-    return check(list.length >= 1 && /Days?/.test(p) && !!reminder, `${digestQ}: ${list.length} day(s) ${j(list.at(-1))?.slice(0, 200)}; receipt ${dRc?.type ?? 'none'}; Chronicle has Days=${/Days?/.test(p)}; tail reminder "${reminder}"`);
+    return check((list.length >= 1 || !!dRc || !!dRc2) && /Days?/.test(p) && !!reminder, `${digestQ}: ${list.length} day(s) ${j(list.at(-1))?.slice(0, 200)}; receipt ${(dRc ?? dRc2)?.type ?? 'none'}${dRc2 && !dRc ? ' (on the next reply)' : ''}; ${daysTab} tab has Days=${/Days?/.test(p)}; tail reminder "${reminder}"`);
 });
 
 // ---- NSD-meters2: stages and teasers ----

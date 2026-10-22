@@ -34,6 +34,8 @@ REPOS="$REPOS" CDP_PORT=$CDP VIEW=$VIEW PACK_MODE=$PACK_MODE FEATURES=$FEATURES 
 code=$?
 echo "{\"tag\":\"$TAG\",\"exit\":$code,\"VIEW\":\"$VIEW\",\"PACK_MODE\":\"$PACK_MODE\",\"FEATURES\":\"$FEATURES\",\"ECON\":\"$ECON\",\"MODULES\":\"$MODULES\",\"SEED_SETTINGS\":\"$SEED_SETTINGS\"}" > "$SP/beta-e2e/scenario/$TAG/run.json" 2>/dev/null
 cp "$ROOT/st.log" "$SP/beta-e2e/scenario/$TAG/st.log" 2>/dev/null
+# Keep the mock's request log (the next run on this slot deletes $ROOT).
+mkdir -p "$SP/beta-e2e/scenario/$TAG/mocklog" && cp "$ROOT/log/"req-*.json "$SP/beta-e2e/scenario/$TAG/mocklog/" 2>/dev/null
 stop
 echo "DONE $TAG exit $code"
 tail -3 "$SP/beta-e2e/run-$TAG.out"
