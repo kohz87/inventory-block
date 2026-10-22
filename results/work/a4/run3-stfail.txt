@@ -1,0 +1,32 @@
+seed 2001: 0 viol, 19 msgs, 1 cps, 50673 B, 106 writes {}
+seed 2002: 0 viol, 13 msgs, 1 cps, 27534 B, 129 writes {}
+seed 2003: 0 viol, 7 msgs, 1 cps, 23723 B, 116 writes {}
+seed 2004: 0 viol, 18 msgs, 1 cps, 48781 B, 102 writes {}
+seed 2005: 0 viol, 22 msgs, 1 cps, 63332 B, 100 writes {}
+seed 2006: 0 viol, 64 msgs, 2 cps, 180439 B, 117 writes {}
+seed 2007: 0 viol, 58 msgs, 2 cps, 170472 B, 107 writes {}
+seed 2008: 0 viol, 1 msgs, 1 cps, 4454 B, 101 writes {}
+seed 2009: 0 viol, 36 msgs, 1 cps, 102714 B, 106 writes {}
+seed 2010: 1 viol, 26 msgs, 1 cps, 66507 B, 107 writes {"#N rename lost state (file lacked messages)":1}
+    {"seed":2010,"step":34,"op":"rename:window","what":"#7 rename lost state (file lacked messages)","detail":"/meta/rev: 47 -> 46; /domains/scene/present/1: \"W34\" -> undefined"}
+seed 2011: 1 viol, 20 msgs, 1 cps, 50805 B, 94 writes {"#N reload lost state (file lacked messages)":1}
+    {"seed":2011,"step":19,"op":"reload","what":"#7 reload lost state (file lacked messages)","detail":"/meta/rev: 19 -> 14; /domains/chronicle/events/ev_beee6ddt: {\"id\":\"ev_beee6ddt\",\"name\":\"Storm 3\",\"summary\":\"a storm comes\",\"state\" -> undefined; /domains/director/threads/th_g4w4p6sb: {\"id\":\"th_g4w4p6sb\",\"kind\":\"hook\",\"key\":\"Rumor 67\",\"summary\":\"an open  -> undefined; /domains/director/keys/rumor 67: \"th_g4w4p6sb\" -> undefined; /domains/director/problems/15.0: {\"rev\":15,\"turn\":1,\"kind\":\"time\",\"severity\":\"warn\",\"key\":\"+1h\",\"op\":\"! -> undefined"}
+seed 2012: 0 viol, 47 msgs, 2 cps, 157435 B, 111 writes {}
+seed 2013: 0 viol, 12 msgs, 1 cps, 35965 B, 103 writes {}
+seed 2014: 0 viol, 25 msgs, 1 cps, 76148 B, 98 writes {}
+seed 2015: 0 viol, 11 msgs, 1 cps, 35078 B, 107 writes {}
+seed 2016: 3 viol, 1 msgs, 1 cps, 3792 B, 103 writes {"#N clean store, file != live head (file messages differ)":3}
+    {"seed":2016,"step":7,"op":"saveDuringTimeline:hangfail:deleteLast","what":"#7 clean store, file != live head (file messages differ)","detail":"7:saveDuringTimeline:hangfail:deleteLast: file 7 live 6 /meta/rev: 8 -> 14; /domains/checks/prepared/rev9: undefined -> {\"for\":6,\"rolls\":[9,7],\"rev\":9}; /domains/chronicle/events/ev_5nbsxom0: undefined -> {\"id\":\"ev_5nbsxom0\",\"name\":\"Storm 1\",\"summary\":\"a storm comes\",\"state\"; /domains/director/threads/th_g5eapa2m: undefined -> {\"id\":\"th_g5eapa2m\",\"kind\":\"hook\",\"key\":\"Rumor 79\",\"summary\":\"an open ; /domains/director/keys/rumor 79: undefined -> \"th_g5eapa2m\" | ok:chat-2016-0:6 ok:chat-2016-0:8 ok:"}
+    {"seed":2016,"step":8,"op":"swipeTo","what":"#7 clean store, file != live head (file messages differ)","detail":"8:swipeTo: file 7 live 6 /meta/rev: 8 -> 14; /domains/checks/prepared/rev9: undefined -> {\"for\":6,\"rolls\":[9,7],\"rev\":9}; /domains/chronicle/events/ev_5nbsxom0: undefined -> {\"id\":\"ev_5nbsxom0\",\"name\":\"Storm 1\",\"summary\":\"a storm comes\",\"state\"; /domains/director/threads/th_g5eapa2m: undefined -> {\"id\":\"th_g5eapa2m\",\"kind\":\"hook\",\"key\":\"Rumor 79\",\"summary\":\"an open ; /domains/director/keys/rumor 79: undefined -> \"th_g5eapa2m\" | ok:chat-2016-0:6 ok:chat-2016-0:8 ok:chat-2016-0:8 ok:chat-2016-0:8 "}
+    {"seed":2016,"step":9,"op":"swipeDelete","what":"#7 clean store, file != live head (file messages differ)","detail":"9:swipeDelete: file 7 live 6 /meta/rev: 8 -> 14; /domains/checks/prepared/rev9: undefined -> {\"for\":6,\"rolls\":[9,7],\"rev\":9}; /domains/chronicle/events/ev_5nbsxom0: undefined -> {\"id\":\"ev_5nbsxom0\",\"name\":\"Storm 1\",\"summary\":\"a storm comes\",\"state\"; /domains/director/threads/th_g5eapa2m: undefined -> {\"id\":\"th_g5eapa2m\",\"kind\":\"hook\",\"key\":\"Rumor 79\",\"summary\":\"an open ; /domains/director/keys/rumor 79: undefined -> \"th_g5eapa2m\" | ok:chat-2016-0:6 ok:chat-2016-0:8 ok:chat-2016-0:8 ok:chat-2016-"}
+seed 2017: 0 viol, 69 msgs, 2 cps, 173822 B, 111 writes {}
+seed 2018: 0 viol, 61 msgs, 2 cps, 183108 B, 118 writes {}
+seed 2019: 0 viol, 47 msgs, 2 cps, 147579 B, 131 writes {}
+seed 2020: 0 viol, 3 msgs, 1 cps, 6214 B, 122 writes {}
+
+SUMMARY
+1	#N rename lost state (file lacked messages) [rename]	2010@34:rename:window
+1	#N reload lost state (file lacked messages) [reload]	2011@19:reload
+1	#N clean store, file != live head (file messages differ) [saveDuringTimeline]	2016@7:saveDuringTimeline:hangfail:deleteLast
+1	#N clean store, file != live head (file messages differ) [swipeTo]	2016@8:swipeTo
+1	#N clean store, file != live head (file messages differ) [swipeDelete]	2016@9:swipeDelete

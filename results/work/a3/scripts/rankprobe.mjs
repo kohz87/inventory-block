@@ -1,0 +1,12 @@
+import fs from 'node:fs';
+const A = '/home/user/cell/a3';
+const { createHost } = await import(`${A}/Story_block/testkit/index.js`);
+console.warn = () => {};
+const p = JSON.parse(fs.readFileSync(`${A}/Story_block/examples/packs/ersveil-bluewatch/pack.json`, 'utf8'));
+console.log(JSON.stringify(p.content.ranks.slice(0, 2)));
+p.content.ranks[0].reward = [0, 9007199254740991];
+const h = await createHost();
+const inst = await h.packs.packs.install(JSON.stringify(p));
+console.log('installed', inst.ok);
+await h.send('Chest.', 'Coins.\n<Changes>\n+ coin 900000000000000\n</Changes>');
+console.log('coin', h.head().domains.inventory.wallets?.party?.coin);

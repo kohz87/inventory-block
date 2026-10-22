@@ -12,7 +12,7 @@ const L = [];
 for (let i = 0; i < N; i++) L.push(`+ quest Fetch${i} — a job | giver: Fenna | goal: Bring 3 Rope | reward: 5000 gold | rank: S`);
 await say(L);
 for (const t of Object.values(h.head().domains.director.threads)) { const r = await h.cmd('quest.take', { id: t.id }); if (!r.ok) console.log('take', t.key, r.code, r.message); }
-const T = ['+ item Rope | qty: 20'];
+await say(['+ item Rope | qty: 20']); const T = [];
 for (let i = 0; i < N; i++) T.push(`- quest Fetch${i} — turned in`);
 await say(T);
 console.log(JSON.stringify(Object.values(h.head().domains.director.threads).map(t=>[t.key,t.status,!!t.taken])));

@@ -8,6 +8,11 @@ _Pass 1 started at heads: Story_block e0fd33b, rpg_battle 924b9a3, Story_directo
 - [low] Story_block: changing a module's def.features after register makes sdk.features()/feature()/features.set() and the settings Features list throw — results/tests/Story_block/c3-features-def-changed.test.js — SB-features
 
 ## Pass 1 (heads SB e0fd33b, RB 924b9a3, SD f001974, NSD 5243d79)
+- [medium] Story_block: a save the server never answers blocks later saves, the reader's commands and the next generation forever (no write timeout) — results/tests/Story_block/c4-save-hang.test.js — SB-storage
+- [medium] Story_block: an unsaved change is dropped untold when the same chat takes >10 s to re-read (persist.js marks saved after 50 waits) — results/tests/Story_block/c4-slow-reread.test.js — SB-storage
+- [medium] Story_block: the #95 markUsed fix misses rescued saves; a rescued first change on a greeting-only chat is lost on card edit/rename — results/tests/Story_block/c4-rescue-pristine.test.js — SB-storage
+- [low] Story_block: a save in flight across a rename lands under the old name (ghost chat; renamed chat lacks the change) — results/tests/Story_block/c4-rename-midsave.test.js — SB-storage
+- [low] Story_block: rescue finds the changed message by its old index; after a delete it reports a saved change as lost — results/tests/Story_block/c4-rescue-shifted.test.js — SB-storage
 - [high] ~~Story_director: fetch quests of story-minted items pay past the per-reply budget, many turn-ins per reply (300 coin at level 1 / 1380 with rank S)~~ FIXED in SD a8d428f (#91), test passes — results/tests/Story_director/c2-fetch-quest-story-items.test.js — SD-ranks (quests)
 - [medium] Story_block: a <Changes> block split across a Continue loses the continuation's lines and leaves raw markup visible — results/tests/Story_block/c2-continue-split-block.test.js — main (SB capture/turn)
 - [medium] Story_block: a reply cut off mid-reasoning applies the draft block inside the unclosed <think> — results/tests/Story_block/c2-cut-mid-reasoning.test.js — main (SB capture)

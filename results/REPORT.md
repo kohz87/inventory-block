@@ -146,3 +146,55 @@ C3-6 was a duplicate of agent 1's C1-1 (record spans out of step; pending agent 
 Fuzz pass 2: 250 seeds × 400 steps = 100,000 steps, 28,499 toggles, 4,827 off-kind lines, 604 day digests, with edits,
 5 corruption kinds + reload, rewind, branch, Re-read, toggles mid-generation and during a gated command save: only known
 signatures. Real feature story-director.digest: 0 digest commits while off, 604 on; replay == live across toggles/deletes.
+
+## Pass 1 — Storage and save paths (agent 4)
+Heads Story_block e0fd33b (re-run on 5ef7ead and by the lead on cb2d70e: all 5 tests fail), rpg_battle 924b9a3,
+Story_director f001974, npc_state_delta 5243d79. The storage-tuning PR has not appeared (open SB PRs #100 beta.1 prep,
+#104 inventory wear/repair, #105 widgets). Write-up by the lead from the agent's report (it could not write .md files).
+
+Harness: testkit host, all four modules; saves through the real chat-file.js to a fake server with modes ok, throw, sync
+throw, 500, integrity, hang (written on arrival, answered late), hangfail (late 500), reorder; SillyTavern's own save
+modelled after each generation, delete and swipe. Checks after every step: fresh store over the live chat == live head (#1);
+clean store with nothing in flight has the live head on disk (#7); file == live after recovery; reload/rename/card edit keep
+the head. Runs: 200 × 100 mixed (0 on #1/#7; 4 "still dirty after a good flush" = stale-index rescue, C4-4 class);
+40 × 150 checkpoint-heavy (0; chats of 145–200 messages, 110 checkpoints); 20 × 80 with SillyTavern's own saves failing too
+(5, all SillyTavern's own loss). All 5 findings came from directed probes, not the fuzz.
+
+### C4-1 [severity: medium] A save the server never answers blocks everything after it
+Story_block src/v2/chat-file.js write() has no timeout. While one save is unanswered, later saves, the reader's command and
+the next generation wait forever (the interceptor's before-reply flush never returns; no prompt is built; nothing told).
+Invariants 4, 7. Fix: AbortController timeout on write/read, treated as a failed save (told, retried).
+Test results/tests/Story_block/c4-save-hang.test.js. Owner SB-storage.
+
+### C4-3 [severity: medium] An unsaved change is dropped when the same chat takes over ~10 s to be read again
+SillyTavern reloadCurrentChat with the chat array empty: after 50 waits of 200 ms persist.js sets `saved = goal` without
+writing; the change disappears from page and file, untold (a 3 s load keeps it). Invariant 7. Fix: when the waits run out,
+keep the change dirty/orphaned, never mark it clean. Test results/tests/Story_block/c4-slow-reread.test.js. Owner SB-storage.
+
+### C4-5 [severity: medium] The r3-1 fix (#95 markUsed) does not cover rescued saves
+New greeting-only chat; the first reader action's save is refused; the reader opens another chat; the rescue writes the
+record with the file's untainted header. After reopening, a card edit or rename regenerates the greeting and the state is
+lost (page and file). Same with a bus command still in the 400 ms window. Invariant 7. Fix: `markUsed(header.chat_metadata,
+messages)` in storeSaving.rescue before file.write. Test results/tests/Story_block/c4-rescue-pristine.test.js. Owner SB-storage.
+
+### C4-2 [severity: low] A save that reaches the server after a rename lands under the old name
+Request sent before the rename, arriving after: the server writes `<old name>.jsonl` (ghost chat), the renamed chat (page and
+file) lacks the change; store clean, nothing told. Invariant 7. Fix: in store.renamed(), mark a save in flight to the old
+name dirty again with the new name as target. Test results/tests/Story_block/c4-rename-midsave.test.js. Owner SB-storage.
+
+### C4-4 [severity: low] Rescue finds the changed message by its old index
+A save is refused, the reader deletes an earlier message (SillyTavern saves the chat with records), then opens another chat:
+the rescue fails 3 times and reports "…no longer holds message 6" though the file holds the change. Risk (not reproduced):
+send_date is per minute, so a stale index could match another reply and write the wrong record. Fix: match by sid/swipe mark;
+count it saved when the file copy already holds the same sid and rev. Test results/tests/Story_block/c4-rescue-shifted.test.js.
+Owner SB-storage.
+
+### Held up
+r3-1 fixed for plain cases (b2 test passes): card edit after a plain/refused/late save, a 400 ms-window bus command (record
+carried onto the new greeting), reload. Failed/retried saves in all modes across several replies and commands keep every
+reply and command once the server recovers (UI command during a reply's save, two commands in one tick, late/failing saves
+during swipe/swipeTo/swipe delete/deletes, same-chat fast reload with a refused change, rename with CHAT_RENAMED in window,
+retrying and plain). Checkpoint rules (20 carriers / 32 KB, covers) held under deleting the checkpoint carrier, middle
+deletes, deleting old swipes, regenerate/continue on top. Not filed: rename without CHAT_RENAMED (known r2-2); losses when
+SillyTavern's own save fails; a fake-server reorder artefact; UX: any first Story Block save taints a new chat so SillyTavern
+stops refreshing its greeting from an edited card (only after a reader action).

@@ -25,3 +25,18 @@ seed 1024: 0 viol, 187 msgs, 3 cps, 522362 B, 128 writes {}
 seed 1025: 0 viol, 166 msgs, 4 cps, 537494 B, 121 writes {}
 seed 1026: 0 viol, 146 msgs, 2 cps, 406603 B, 119 writes {}
 seed 1027: 0 viol, 154 msgs, 2 cps, 402822 B, 115 writes {}
+seed 1028: 0 viol, 146 msgs, 4 cps, 438140 B, 122 writes {}
+seed 1029: 0 viol, 120 msgs, 1 cps, 327220 B, 116 writes {}
+seed 1030: 0 viol, 92 msgs, 2 cps, 256962 B, 113 writes {}
+seed 1031: 0 viol, 9 msgs, 1 cps, 25758 B, 116 writes {}
+seed 1032: 0 viol, 28 msgs, 1 cps, 86470 B, 115 writes {}
+seed 1033: 0 viol, 159 msgs, 2 cps, 437648 B, 119 writes {}
+seed 1034: 0 viol, 137 msgs, 3 cps, 403773 B, 109 writes {}
+seed 1035: 0 viol, 144 msgs, 2 cps, 399301 B, 123 writes {}
+seed 1036: 0 viol, 125 msgs, 2 cps, 350875 B, 102 writes {}
+seed 1037: 0 viol, 157 msgs, 2 cps, 458536 B, 116 writes {}
+seed 1038: 0 viol, 146 msgs, 2 cps, 428308 B, 120 writes {}
+seed 1039: 0 viol, 15 msgs, 1 cps, 60172 B, 119 writes {}
+seed 1040: 0 viol, 135 msgs, 2 cps, 368348 B, 111 writes {}
+
+SUMMARY

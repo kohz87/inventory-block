@@ -1,0 +1,2 @@
+a4 pass 1 (SB e0fd33b): run1 mixed 200 seeds (31-230) x 100 -> 0 #1/#7, 4 stale-index rescue; run2 PROFILE=cp 40 x 150 -> 0;
+run3 STFAIL=1 20 x 80 -> 5 (SillyTavern's own loss). Re-run: nice -n 10 node scripts/sfuzz.mjs <from> <to> <steps>

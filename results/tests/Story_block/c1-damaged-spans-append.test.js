@@ -26,7 +26,7 @@ test('C1-1: a reader action on a reply with a damaged record survives a cold reb
     const done = await h.sdk.command('scene.present', { add: 'Ann' });
     assert.equal(done.ok, true, done.message);
     assert.deepEqual(h.head().domains.scene.present, ['Ann'], 'live: Ann is present');
-    const cold = createStore({ chat: () => JSON.parse(JSON.stringify(h.ctx.chat)), save: async () => {} }).head();
+    const cold = createStore({ chat: () => JSON.parse(JSON.stringify(h.ctx.chat)), save: async () => {}, scratch: name => h.registry.scratch(name) }).head();
     assert.deepEqual(cold?.domains?.scene?.present, ['Ann'],
         `a cold rebuild from the chat keeps the reader's action (actual: ${JSON.stringify(cold?.domains?.scene?.present)}; rev live ${h.head().meta.rev}, cold ${cold?.meta?.rev})`);
     assert.equal(cold.meta.rev, h.head().meta.rev, 'and the same rev');

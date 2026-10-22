@@ -1,0 +1,13 @@
+seed 221: 0 violations, chat 10 msgs, 1 checkpoints, 39961 bytes {}
+seed 222: 0 violations, chat 21 msgs, 1 checkpoints, 70345 bytes {}
+seed 223: 0 violations, chat 36 msgs, 1 checkpoints, 146153 bytes {}
+seed 224: 0 violations, chat 57 msgs, 0 checkpoints, 5940 bytes {}
+seed 225: 0 violations, chat 36 msgs, 1 checkpoints, 126915 bytes {}
+seed 226: 0 violations, chat 27 msgs, 1 checkpoints, 89709 bytes {}
+seed 227: 0 violations, chat 37 msgs, 1 checkpoints, 144709 bytes {}
+seed 228: 0 violations, chat 14 msgs, 1 checkpoints, 38991 bytes {}
+seed 229: 0 violations, chat 13 msgs, 1 checkpoints, 57060 bytes {}
+seed 230: 0 violations, chat 41 msgs, 2 checkpoints, 164526 bytes {}
+
+SUMMARY
+ui commands {"quest.decline":{"ok":9,"no":0,"codes":{}},"party.rest":{"ok":12,"no":2,"codes":{"FAILED":2},"msg":{"FAILED":"There is no state to change yet."}},"scene.present":{"ok":7,"no":17,"codes":{"NOT_FOUND":11,"FAILED":6},"msg":{"NOT_FOUND":"Cy is not in the scene.","FAILED":"There is no state to change yet."}},"party.learnSkill":{"ok":7,"no":9,"codes":{"REFUSED":5,"NOT_FOUND":4},"msg":{"REFUSED":"Ren already knows Power Strike.","NOT_FOUND":"\"Quick Shot\" is not in the skill library."}},"inventory.split":{"ok":6,"no":13,"codes":{"REFUSED":13},"msg":{"REFUSED":"There is only one Knife; it cannot be split."}},"inventory.transfer":{"ok":0,"no":15,"codes":{"REFUSED":15},"msg":{"REFUSED":"Cane-Blade is already with the party."}},"item.equip":{"ok":3,"no":0,"codes":{}},"inventory.equip":{"ok":2,"no":0,"codes":{}},"inventory.drop":{"ok":7,"no":0,"codes":{}},"npc.set":{"ok":9,"no":0,"codes":{}},"item.use":{"ok":0,"no":6,"codes":{"REFUSED":6},"msg":{"REFUSED":"The Lamp Oil is not something to use."}},"trade.sell":{"ok":6,"no":2,"codes":{"REFUSED":2},"msg":{"REFUSED":"No market here (Old Mill). Trade in a settlement, or with a trader on the road."}},"scene.place":{"ok":16,"no":1,"codes":{"FAILED":1},"msg":{"FAILED":"There is no state to change yet."}},"trade.buy":{"ok":3,"no":6,"codes":{"NOT_ENOUGH":6},"msg":{"NOT_ENOUGH":"There is only one Short Sword."}},"npc.adjust":{"ok":0,"no":20,"codes":{"REFUSED":12,"FAILED":8},"msg":{"REFUSED":"Meters move with the story and with NPC State Delta's scans; the dossier editor sets them by hand.","FAILED":"There is no state to change yet."}},"quest.take":{"ok":14,"no":0,"codes":{}},"check.resolve":{"ok":11,"no":5,"codes":{"FAILED":5},"msg":{"FAILED":"There is no state to change yet."}},"party.acceptOffer":{"ok":3,"no":0,"codes":{}},"craft.commission":{"ok":0,"no":3,"codes":{"REFUSED":2,"NOT_ENOUGH":1},"msg":{"REFUSED":"The Coarse Salt is not a material a piece can be made from.","NOT_ENOUGH":"There is only 1 Crag Wolf Fang."}},"party.dismissOffer":{"ok":2,"no":0,"codes":{}}}

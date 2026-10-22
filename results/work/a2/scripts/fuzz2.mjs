@@ -111,8 +111,8 @@ function caps(host, before, after, { text, think, sentinel }) {
     }
     if (after.actors > before.actors + 1) out.push(`ACTORS +${after.actors - before.actors} in one reply`);
     if (think) {
-        if (Object.values(after.defs).some(d => d.name?.includes(sentinel))) out.push('REASONING READ: sentinel item made');
-        if (Object.keys(after.meters).some(k => k.includes(sentinel.toLowerCase()))) out.push('REASONING READ: sentinel npc made');
+        if (Object.entries(after.defs).some(([id, d]) => !before.defs[id] && d.name?.includes(sentinel))) out.push('REASONING READ: sentinel item made');
+        if (Object.keys(after.meters).some(k => !before.meters[k] && k.includes(sentinel.toLowerCase()))) out.push('REASONING READ: sentinel npc made');
     }
     if (before.minutes !== null && after.minutes !== null && after.minutes - before.minutes > 30 * 1440 * 4) out.push(`TIME +${Math.round((after.minutes - before.minutes) / 1440)}d in one reply (> 4 × maxJump)`);
     return out;

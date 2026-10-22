@@ -407,7 +407,8 @@ async function runSeed(seed) {
             // first block (revs of deleted carriers leave a gap; b2 r2/r3 lost time on this oracle)
             const first = Math.min(...recs.map(x => x.rev));
             const prevC = carriers(ctx.chat).filter(j => j < i).at(-1);
-            const wantRev = rec.rev > first ? rec.rev - 1 : (prevC === undefined ? 0 : store.at(prevC)?.meta?.rev ?? 0);
+            const cpRev = readRecord(ctx.chat[i])?.checkpoint?.meta?.rev;
+            const wantRev = rec.rev > first ? rec.rev - 1 : Number.isInteger(cpRev) ? cpRev : (prevC === undefined ? 0 : store.at(prevC)?.meta?.rev ?? 0);
             const res = await sdk.rewind({ index: i, beforeRev: rec.rev });
             recorded.delete(k);
             tagAll();
@@ -467,7 +468,9 @@ async function runSeed(seed) {
             else if (how === 'opsJunk') rec.ops = r.pick(['ops', 5, { a: 1 }, [null, 1, 'x']]);
             else if (how === 'receiptsJunk') rec.receipts = r.pick(['r', [null], [{ rev: 'x' }]]);
             else if (how === 'sidJunk') rec.sid = r.pick([null, 5, '', 'sw_dup']);
-            // a hand-edited chat file: it is what is on disk, and the chat is opened from it
+            // a hand-edited chat file: it is what is on disk, and the chat is opened from it; the shown swipe's
+            // swipe_info copy is edited alike (else a later swipe back brings the undamaged copy: harness noise)
+            if (how !== 'swipeInfo' && Array.isArray(m.swipe_info) && m.swipe_info[m.swipe_id]) m.swipe_info[m.swipe_id].extra = structuredClone(m.extra);
             forgetFrom(i);
             const file = structuredClone(ctx.chat);
             await st.loadChat(file, ctx.chatId);
