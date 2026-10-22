@@ -453,3 +453,8 @@ MERGED testkit RB #118, SD #115, NSD #205.
   UI stage (untouched): NSD card portrait/space, game-view card height, Choices rows+fold, settings overlay.
   AFTER-BETA: custom trackers (+Studio), Studio, UI stage, dedicated SB session, changes card content, NSD 404, timing tests count work, fighter growth, matchup balance, end-of-reply turn-in edge, RB extension point for other modules' bonuses (class demo module idea).
   No v2 -> main merge until the user's own test. Tags: user creates (proxy refuses).
+12:2x USER live batch 4 (RB): use item missing; fight doesn't clear after a turn; debuffs tick only by battle rounds not story time; random uncommon shop items?; skill xp no increase; default terms EXP/Level (Soul terms lorebook-only). -> RB live-fix agent (~2h, status at 45m; items 2/4 investigate first).
+  USER: item 6 void (Soul terms come from their pack, correct). Told agent.
+  USER: 5 = skill use counter stuck at 1/5 after use (bug, sent). 4 = uncommon stock fine; AFTER-BETA feature 'odd finds': seeded rare item in unlikely shop (low chance, per keeper per story day, price by worth).
+12:5x MERGED SB #148 (53e3b5b Use on…), RB #119 (49661af: fights settle before next reply, conditions tick 10 story min/round, items.useOn, skill uses shown). Shops report: equipment rarity by town tier, seeded; odd finds -> trade/core.js stockOf (after-beta). Testkit PRs SD/NSD -> 53e3b5b.
+13:0x MERGED testkit SD #116 (c416a6f), NSD #206 (b2a375e). CURRENT v2 HEADS: SB 53e3b5b, RB 49661af, SD c416a6f, NSD b2a375e. AFTER-BETA += odd finds (rare item in unlikely shop, trade/core.js stockOf).
