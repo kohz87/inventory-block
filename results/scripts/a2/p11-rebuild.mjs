@@ -1,0 +1,30 @@
+// a2 probe 11: cold rebuild == live after the economy/combat scenarios of this pass.
+import { started, rebuilt } from '/home/user/cell/a2/rpg_battle/tests/v2/break/helpers/suite.js';
+import { playOut } from '/home/user/cell/a2/rpg_battle/tests/v2/integration/helpers/host.js';
+import { isDeepStrictEqual } from 'node:util';
+console.warn = () => {};
+const host = await started({ seed: 11 });
+const check = async label => {
+  const cold = await rebuilt(host); const live = host.head();
+  const diff = Object.keys({ ...live.domains, ...cold.domains }).filter(k => !isDeepStrictEqual(live.domains[k], cold.domains[k]));
+  console.log(label, diff.length ? 'DIFF ' + diff.join(',') : 'same');
+};
+await host.send('Job.', host.reply('Fenna.', ['+ quest Drake Scales — scales | goal: bring 72 River Drake Scale | reward: 10 copper | giver: Fenna', '+ item Backpack | qty: 3', '+ item River Drake Scale | qty: 2']));
+await check('quest+goods');
+const bp = host.items().find(i => i.name === 'Backpack');
+await host.cmd('inventory.split', { stack: bp.stack, qty: 1 });
+await check('split');
+await host.send('Hunt.', host.reply('Drakes.', ['! encounter River Drake | tier: trivial']));
+const offer = host.q('combat.offers').at(-1);
+await host.cmd('combat.start', { offer: offer.id });
+await check('started');
+await playOut(host); await host.cmd('combat.end', {});
+await check('ended');
+await host.send('Capital.', host.reply('Highcrown.', ['~ place Highcrown | kind: capital']));
+for (const it of host.items().filter(i => /Scale/.test(i.name))) await host.cmd('trade.sell', { stack: it.stack, qty: it.qty, kind: 'crafter' });
+await check('sold');
+await host.send('Ogres.', host.reply('Ogres.', ['! encounter 4 Ogre; then: 4 Ogre; then: 4 Ogre | tier: trivial']));
+const o2 = host.q('combat.offers').at(-1);
+await host.cmd('combat.start', { offer: o2.id }); await playOut(host); await host.cmd('combat.end', {});
+await check('ogres');
+host.close();

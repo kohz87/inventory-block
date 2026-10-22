@@ -1,0 +1,12 @@
+import { suiteHost } from '/home/user/cell/a2/rpg_battle/tests/v2/break/helpers/suite.js';
+console.warn = () => {};
+const host = await suiteHost({ pack: false, seed: 1 });
+await host.cmd('party.create', { name: 'Wessel', preset: 'fighter' });
+await host.send('Down.', host.reply('Rats.', ['~ place Bluewatch Village | kind: settlement', '! encounter 8 Cellar Rat | tier: trivial']));
+const offer = host.q('combat.offers').at(-1);
+console.log(JSON.stringify(await host.cmd('combat.start', { offer: offer.id })).slice(0, 200));
+const s = host.q('combat.session');
+console.log(Object.keys(s), JSON.stringify(s).slice(0, 600));
+const r = await host.cmd('combat.act', { action: { type: 'attack' } });
+console.log(r.ok, r.code, r.message);
+host.close();
