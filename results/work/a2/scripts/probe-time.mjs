@@ -1,0 +1,12 @@
+import { suiteHost, withParty, seedCrypto } from './suite-host.mjs';
+console.warn = () => {};
+seedCrypto(3);
+const host = await suiteHost();
+await withParty(host);
+await host.send('hi', 'Hello.');
+await host.send('go', host.reply('Story.', Array.from({length: 5}, () => '! time +1h')));
+const idx = host.store.headIndex();
+const ops = host.store.opsAt(idx);
+for (const op of ops) console.log(op.op, op.path, JSON.stringify(op.value ?? null).length, JSON.stringify(op.value ?? null).slice(0,150));
+const rec = host.ctx.chat[idx].extra.storySuite;
+console.log('receipts', rec.receipts.map(r => [r.type, r.summary, JSON.stringify(r.data).length]));
