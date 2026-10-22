@@ -9,7 +9,7 @@ n=0
 for ((s=FROM; s<=TO; s+=CHUNK)); do
   e=$((s+CHUNK-1)); [ $e -gt $TO ] && e=$TO
   prof=${PROFILE_FIXED:-$([ $((n%2)) -eq 0 ] && echo long || echo mix)}
-  PROFILE=$prof timeout 1500 nice -n 10 node fuzz.mjs $s $e $STEPS --out=$OUTD/$TAG-$s-$e.json > $OUTD/$TAG-$s-$e.log 2>&1
+  PROFILE=$prof timeout 1500 nice -n 10 node ${FUZZ:-fuzz.mjs} $s $e $STEPS --out=$OUTD/$TAG-$s-$e.json > $OUTD/$TAG-$s-$e.log 2>&1
   echo "chunk $s-$e ($prof) exit $?" >> $OUTD/$TAG-progress.txt
   n=$((n+1))
 done

@@ -25,7 +25,13 @@ async function packSettings() {
     return structuredClone(packedSettings);
 }
 
-export async function allHost({ st = {}, settings = null, nsdNpcs = () => [], pack = false } = {}) {
+// NSD's meter settings (stages, a custom meter) for nsdSettings: true. NSD reads its settings only through the sdk
+// it registered with, so then it registers itself the live way (adapter.start → sdk.registerModule).
+export const NSD_SETTINGS = { stages: [{ meter: 'trust', at: 10, name: 'Warming' }, { meter: 'trust', at: 30, name: 'Trusted' }, { meter: 'trust', at: -10, name: 'Wary' },
+    { meter: 'affection', at: 15, name: 'Fond' }, { meter: 'bond', at: 20, name: 'Close' }, { meter: 'bond', at: -20, name: 'Estranged' }],
+    customMeters: [{ name: 'Bond', min: -50, max: 50, start: 0 }], changeCap: 15 };
+
+export async function allHost({ st = {}, settings = null, nsdNpcs = () => [], pack = false, nsdSettings = false } = {}) {
     let sdk = null;
     const rb = RB.createModule({ settings: () => sdk?.settings(RB.MODULE_ID) ?? {} });
     const sd = SD.createModule({ host: { settings: id => sdk?.settings?.(id) ?? null, substitute: t => sdk?.substitute?.(t) } });
@@ -33,10 +39,23 @@ export async function allHost({ st = {}, settings = null, nsdNpcs = () => [], pa
     const nsdDef = adapter.definition ?? null;
     const modules = [rb, sd];
     if (nsdDef) modules.push(nsdDef);
-    const s = pack ? { ...(await packSettings()), ...(settings ?? {}) } : settings;
+    let s = pack ? { ...(await packSettings()), ...(settings ?? {}) } : settings;
+    if (nsdSettings) {
+        s = structuredClone(s ?? {});
+        s.modules ??= {};
+        s.modules['npc-state-delta'] = { ...(s.modules['npc-state-delta'] ?? {}), ...structuredClone(NSD_SETTINGS) };
+        modules.pop();   // NSD registers itself below
+    }
     const host = await createHost({ modules, st, ...(s ? { settings: s } : {}) });
     sdk = host.sdk;
     globalThis.StoryBlock = { apiVersion: 2, ready: Promise.resolve(sdk), sdk };
+    if (nsdSettings) {
+        const live = NSD.createStorySuiteV2Adapter({ suiteApi: { npcs: nsdNpcs }, delta: () => ({ isEnabled: () => true, getNpc: () => null }), host: () => globalThis.StoryBlock, doc: null, timers: globalThis, logger: { warn() {} }, loadEmptyCast: async () => null });
+        live.start();
+        if (!(await live.settled())) throw new Error('NSD did not register with the testkit sdk');
+        const close = host.close;
+        host.close = () => { try { live.stop(); } catch { /* */ } close(); };
+    }
     host.nsd = !!nsdDef;
     return host;
 }

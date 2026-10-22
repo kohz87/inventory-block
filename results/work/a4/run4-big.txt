@@ -10,3 +10,5 @@ seed 3552: 0 viol, 922 msgs, 20 cps, 4043996 B, 514 writes {}
 seed 3553: 0 viol, 910 msgs, 16 cps, 3592690 B, 507 writes {}
 
 SUMMARY
+seed 3700: 0 viol, 1204 msgs, 25 cps, 5464223 B, 663 writes {}
+seed 3701: 0 viol, 1206 msgs, 23 cps, 5462789 B, 680 writes {}

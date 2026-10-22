@@ -1,0 +1,41 @@
+// Pass 2 directed: wear/cond, effects over time + middle delete, loot take, join+accept, rank foes; fresh == live each step.
+import { allHost, storeMod, seededMod } from './lib/host.mjs';
+const restore = seededMod.seedCrypto(11);
+console.warn = () => {};
+const h = await allHost({ pack: true, nsdSettings: true });
+const { sdk, store, st, ctx } = h;
+const J = v => JSON.stringify(v);
+const validate = (state, names) => names.flatMap(n => { const fn = h.registry.validator(n); try { return fn ? (fn(state?.domains?.[n], state) ?? []).map(String) : []; } catch (e) { return [String(e)]; } });
+const fresh = () => { const snap = JSON.parse(JSON.stringify(ctx.chat)); return storeMod.createStore({ chat: () => snap, save: async () => {}, validate, scratch: n => h.registry.scratch(n) }).head(); };
+const diff = (a, b) => { const out = []; const walk = (x, y, p) => { if (out.length > 4 || J(x) === J(y)) return; if (x && y && typeof x === 'object' && typeof y === 'object') { for (const k of new Set([...Object.keys(x), ...Object.keys(y)])) walk(x[k], y[k], p + '/' + k); } else out.push(`${p}: ${J(x)?.slice(0, 120)} -> ${J(y)?.slice(0, 120)}`); }; walk(a, b, ''); return out.join(' ; '); };
+const cmp = label => { const a = store.head(), b = fresh(); console.log(label.padEnd(28), J(a) === J(b) ? 'ok' : 'MISMATCH ' + diff(a, b), 'rev', a?.meta?.rev); };
+const R = (t, lines) => `${t}\n<Changes>\n${lines.join('\n')}\n</Changes>`;
+const c = async (t, p) => { const r = await sdk.command(t, p); console.log('  ', t, r.ok ? 'ok' : `${r.code} ${r.message}`.slice(0, 140)); return r; };
+await c('party.create', { name: 'Ren', preset: 'fighter' });
+await h.send('a', R('a', ['~ item Cane-Blade | wear: tear', '+ effect Keen Sight — sharp | on: perception | for: 2h | who: Ren | kind: buff', '+ join Fenna — a ranger | level: 2 | role: scout']));
+cmp('wear/effect/join');
+const D = () => store.head().domains;
+console.log('   cond', J(Object.values(D().inventory.stacks).map(s => [D().inventory.defs[s.def].name, s.cond])), 'effects', J(D().effects));
+const offer = Object.keys(D().party.offers ?? {})[0];
+if (offer) await c('party.acceptOffer', { offer });
+cmp('accept');
+await h.send('b', R('b', ['? loot Spear, Hemp Rope x3, Torch — in a chest', '! time +1h', '+ effect Shaken — scared | on: all | for: 3 replies | who: Fenna | kind: debuff', '~ npc Kael | trust: +12 | bond: +15']));
+cmp('loot/time/effect2');
+const sid = Object.keys(D().inventory.loot ?? {})[0];
+await c('inventory.lootTake', { sid, pick: [0, 1] });
+cmp('loot take');
+await h.send('c', R('c', ['! time +2h', '~ npc Kael | trust: +12 | bond: +10', '! encounter 2 Bandit — ahead | rank: E | stakes: normal']));
+cmp('time passes');
+console.log('   effects', J(Object.values(D().effects?.active ?? {}).map(e => [e.name, e.until, e.replies])), 'npc', J(D().npc.npcs.kael?.stages));
+await h.send('d', R('d', ['+ coin 3 | from: Kael']));
+await h.send('e', R('e', ['+ coin 3 | from: Kael']));
+cmp('two more');
+// middle deletes: the loot reply, the effect reply
+for (const k of [3, 3]) { await st.deleteMessage(k); cmp(`delete ${k}`); }
+await st.deleteMessage(3); await st.deleteMessage(3); cmp('delete pair 3');
+await h.swipe(R('e2', ['+ effect Haste — fast | on: DEX | for: 1 reply | who: Ren | kind: buff']));
+cmp('swipe');
+await st.swipeTo(ctx.chat.length - 1, 0); cmp('swipe back');
+await h.send('f', R('f', ['! time +1d'])); cmp('a day');
+console.log('   effects', J(Object.values(D().effects?.active ?? {}).map(e => e.name)));
+restore(); h.close(); process.exit(0);

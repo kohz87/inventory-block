@@ -39,7 +39,7 @@ const SKILLS = ['athletics', 'stealth', 'persuasion', 'STR', 'perception', 'lock
 const LONG = n => 'x'.repeat(n);
 const KIND_COUNT = {};
 function line(r, big) {
-    const pick = r.int(0, 47);
+    const pick = r.int(0, 62);
     KIND_COUNT[pick] = (KIND_COUNT[pick] ?? 0) + 1;
     switch (pick) {
         case 0: case 1: return `+ item ${r.pick(ITEMS)} | qty: ${r.int(1, 3)}${big ? ` | note: ${LONG(r.int(100, 400))}` : ''}`;
@@ -88,6 +88,20 @@ function line(r, big) {
         case 44: return `+ quest ${r.pick(['Granary Rats', 'East Bluff Wolves', 'Culvert Leeches'])} — a guild job | giver: Guild | goal: clear it | reward: ${r.int(10, 400)} coin`;
         case 45: return `? check ${r.pick(SKILLS)} — another try | dc: normal | who: Ren`;
         case 46: return `! use ${r.pick(ITEMS)} | by: ${r.pick(['Ren', 'Fenna'])} | on: ${r.pick(['Ren', 'Fenna', 'Kael'])}`;
+        // pass 2 (Wave B / party wave C / NSD stages)
+        case 47: case 48: return `? loot ${Array.from({ length: r.int(1, 4) }, () => `${r.pick(ITEMS)}${r.chance(0.3) ? ` x${r.int(2, 5)}` : ''}`).join(', ')} — ${r.pick(['on the floor', 'in a chest', 'by the body'])}`;
+        case 49: case 50: return `+ effect ${r.pick(['Keen Sight', 'Weakness', 'Iron Skin', 'Shaken', 'Haste'])} — ${r.pick(['sharper eyes', 'tired', 'tough'])} | on: ${r.pick(['perception', 'stealth', 'DEX', 'STR', 'attack', 'defence', 'all', 'nonsense'])} | for: ${r.pick(['2h', '30m', '1 day', '3 replies', '1 reply', '9999h', 'forever'])} | who: ${r.pick(['Ren', 'Fenna', 'party', 'Nobody'])} | kind: ${r.pick(['buff', 'debuff'])}${r.chance(0.2) ? ' | strength: major' : ''}`;
+        case 51: return `- effect ${r.pick(['Keen Sight', 'Weakness', 'Iron Skin', 'Shaken', 'Haste'])} | who: ${r.pick(['Ren', 'Fenna'])}`;
+        case 52: return `~ item ${r.pick(['Cane-Blade', 'Patched Oilcloth Coat', 'Spear', 'Iron Cap', 'Iron Sword', 'Gambeson'])} | wear: ${r.pick(['scuff', 'tear', 'ruin', 'shatter'])}`;
+        case 53: return `! encounter ${r.int(1, 3)} ${r.pick(['Rat', 'Wolf', 'Bandit'])} — ahead | rank: ${r.pick(['F', 'E', 'D', 'C', 'S', 'Z'])} | stakes: normal`;
+        case 54: return `+ join ${r.pick(['Fenna', 'Kael', 'Lyra'])} — ${r.pick(['a ranger', 'a healer', 'a sellsword'])} | level: ${r.pick([1, 2, 5, 40, 'x'])} | role: ${r.pick(['scout', 'healer', 'guard', 'tank', 'mage'])}`;
+        case 55: return `~ npc ${r.pick(PEOPLE)} | bond: ${r.pick(['+', '-'])}${r.int(1, 20)}${r.chance(0.5) ? ` | trust: +${r.int(1, 15)}` : ''}`;
+        case 56: return `~ npc ${r.pick(PEOPLE)} | stage: Trusted`;
+        case 57: return `! time +${r.pick(['30m', '1h', '3h', '1d'])}`;
+        case 58: return `+ item ${r.pick(['Gambeson', 'Iron Cap', 'Spear', 'Hatchet', 'Iron-bound Buckler', 'Fur-lined Cloak'])}${r.chance(0.3) ? ` | qty: ${r.int(2, 6)}` : ''}`;
+        case 59: return `+ item ${r.pick(['Hemp Rope', 'Bedroll', 'Backpack', 'Wool Blanket', 'Trail Rations'])} | qty: ${r.int(5, 20)}`;
+        case 60: return `- item ${r.pick(['rope', 'the hemp rope', 'Rope, hemp', 'a torch', 'two torches', 'Torches'])}`;
+        case 61: return `! use ${r.pick(['Minor Healing Draught', 'Mana Draught', 'Common Antidote', 'Leech-salt Pouch'])} | on: ${r.pick(['Ren', 'Fenna'])}`;
         default: return `+ item ${r.pick(ITEMS)}`;
     }
 }
@@ -106,7 +120,8 @@ async function runSeed(seed) {
     console.warn = () => {};
     console.error = (...a) => consoleErrors.push(a.map(String).join(' '));
     const usePack = process.env.PACK === '1' || (process.env.PACK === 'mix' && seed % 2 === 1);
-    const h = await allHost({ pack: usePack });
+    const useNsd = process.env.NSDSET === '1' || (process.env.NSDSET !== '0' && seed % 3 !== 0);
+    const h = await allHost({ pack: usePack, nsdSettings: useNsd });
     const { st, ctx, store, sdk, turn } = h;
     const validate = typeof h.registry.validator === 'function' ? (state, names) => names.flatMap(name => {
         const fn = h.registry.validator(name);
@@ -278,6 +293,21 @@ async function runSeed(seed) {
                 if (mats.length) choices.push(['craft.commission', { piece: r.pick(['Wolf-pelt Mantle', 'Fang Charm', 'Salt Pouch']), materials: [{ stack: r.pick(mats).id, qty: r.int(1, 3) }], crafter: r.pick(['Gate Forge', 'smith', 'apothecary', 'tanner']) }]);
             }
             for (const o of orders) choices.push(['craft.collect', { order: o }]);
+            // Wave B: Equip on…, loot picks, wear/repair (module-only: refused from a button)
+            const loot = D.inventory?.loot ?? {};
+            for (const [sid, offer] of Object.entries(loot).slice(-2)) {
+                const n = Object.keys(offer?.items ?? {}).length || 2;
+                choices.push(['inventory.lootTake', { sid, pick: [...new Set(Array.from({ length: r.int(1, 3) }, () => r.int(0, n)))] }], ['inventory.lootTake', { sid, pick: [0] }]);
+            }
+            if (st0) {
+                choices.push(['inventory.equipOn', { stack: st0.id, actor: actors.length ? r.pick(actors) : 'party' }]);
+                const gear = stacks.filter(x => defs[x.def]?.slot);
+                if (gear.length) { const g = r.pick(gear); choices.push(['inventory.equipOn', { stack: g.id, actor: actors.length ? r.pick(actors) : 'x' }], ['inventory.equipOn', { stack: g.id, actor: actors.length ? r.pick(actors) : 'x' }], [r.pick(['inventory.wear', 'inventory.repair']), { stack: g.id, amount: r.int(1, 30) }]); }
+                const usable = stacks.filter(x => defs[x.def]?.kind === 'consumable');
+                if (usable.length) choices.push(['item.use', { stack: r.pick(usable).id, target: actors.length ? r.pick(actors) : undefined }]);
+            }
+            try { const ts = sdk.query('party.toSpend', {}); for (const p of ts?.people ?? []) choices.push(['party.spend', { actor: p.id, points: { [r.pick(['STR', 'AGI', 'VIT', 'DEX'])]: 1 } }]); } catch { /* none */ }
+            for (const ef of Object.keys(D.effects?.active ?? {}).slice(0, 2)) choices.push(['party.endEffect', { effect: ef }]);
             for (const o of offers) choices.push([r.pick(['party.acceptOffer', 'party.dismissOffer']), { offer: o }]);
             if (actors.length) {
                 const a = r.pick(actors);
@@ -567,6 +597,7 @@ async function runSeed(seed) {
         turn.clearProblems();
         if (STOP && violations.length) break;
     }
+    if (process.env.FINAL) { const D = head()?.domains ?? {}; origErr('FINAL', JSON.stringify({ effects: Object.keys(D.effects?.active ?? {}).length, loot: Object.keys(D.inventory?.loot ?? {}).length, cond: Object.values(D.inventory?.stacks ?? {}).filter(x => x.cond !== undefined && x.cond !== 100).length, stages: Object.values(D.npc?.npcs ?? {}).map(n => JSON.stringify(n.stages)).join(','), companions: Object.keys(D.party?.actors ?? {}).length, enc: (() => { try { return JSON.stringify(sdk.query('inventory.encumbrance')); } catch (e) { return e.message; } })() })); }
     if (process.env.NOTICES) origErr("NOTICES", JSON.stringify(st.notices.slice(-5)), st.notices.length);
     h.close();
     console.warn = origWarn; console.error = origErr;
