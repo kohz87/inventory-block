@@ -1,0 +1,25 @@
+// Loot taken across swipe / regenerate / delete / Re-read: taken at most once per timeline; replay == live.
+import { allHost, storeMod } from './lib.mjs';
+console.warn = () => {};
+const h = await allHost({ extra: [] });
+await h.sdk.command('party.create', { name: 'Ren', preset: 'fighter' });
+const inv = () => h.head().domains.inventory;
+const count = name => Object.values(inv().stacks).filter(s => inv().defs[s.def]?.name === name).reduce((a, s) => a + s.qty, 0);
+const fresh = () => JSON.stringify(storeMod.createStore({ chat: () => structuredClone(h.ctx.chat), save: async () => {}, scratch: n => h.registry.scratch(n), validate: (st, names) => names.flatMap(n => { const f = h.registry.validator(n); return f ? (f(st.domains[n], st) ?? []) : []; }) }).head());
+const same = label => console.log(label, 'lanterns', count('Lantern'), 'replay==live', fresh() === JSON.stringify(h.head()));
+await h.send('Cellar.', 'Shelves.\n<Changes>\n? loot Lantern, Rusty Key x2 — on the shelf\n</Changes>');
+const n = h.ctx.chat.length - 1;
+const sid = Object.keys(inv().loot ?? {})[0];
+console.log('offer', JSON.stringify(inv().loot?.[sid]?.items));
+await h.send('On.', 'Later.');
+let r = await h.sdk.command('inventory.lootTake', { sid, pick: [0, 0, 1, '1'] }); console.log('take', r.ok, r.message ?? r.receipt.summary); same('after take');
+r = await h.sdk.command('inventory.lootTake', { sid, pick: [1] }); console.log('take again', r.ok, r.code);
+await h.regenerate('Later, again.'); same('after regenerate');
+r = await h.sdk.command('inventory.lootTake', { sid, pick: [0] }); console.log('take after regen', r.ok, r.code); same('');
+await h.st.swipeTo(h.ctx.chat.length - 1, 0); same('swipe back to first');
+r = await h.sdk.command('inventory.lootTake', { sid, pick: [0] }); console.log('take on swipe 0', r.ok, r.code);
+await h.sdk.command('inventory.drop', { stack: Object.values(inv().stacks).find(s => inv().defs[s.def]?.name === 'Lantern').id, qty: 1 }).then(x => console.log('drop', x.ok, x.code));
+r = await h.sdk.command('inventory.lootTake', { sid, pick: [0] }); console.log('take after drop', r.ok, r.code);
+const rr = await h.sdk.reread(n); console.log('reread', rr.ok); same('after reread of loot reply');
+r = await h.sdk.command('inventory.lootTake', { sid, pick: [0] }); console.log('take after reread', r.ok, r.code); same('');
+await h.st.deleteMessage(n); same('after deleting the loot reply');
