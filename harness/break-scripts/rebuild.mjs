@@ -5,8 +5,9 @@
 // (c) message.extra.storySuite == swipe_info[swipe_id].extra.storySuite on every carrier; (d) the store's
 // replay problems. Prints a JSON report.
 import fs from 'node:fs';
-import { createStore } from '/home/user/_break/b6-soak/Story_block/src/v2/store.js';
-import { apply } from '/home/user/_break/b6-soak/Story_block/src/v2/ops.js';
+const REPOS = process.env.SOAK_REPOS ?? '/home/user/soak';
+const { createStore } = await import(`${REPOS}/Story_block/src/v2/store.js`);
+const { apply } = await import(`${REPOS}/Story_block/src/v2/ops.js`);
 
 const [file, headFile] = process.argv.slice(2);
 const outAt = process.argv.indexOf('--json');

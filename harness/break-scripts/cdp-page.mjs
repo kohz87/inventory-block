@@ -141,6 +141,13 @@ export async function launchRaw({ width = 1440, height = 900, port = 9382 } = {}
                 await send('Input.dispatchKeyEvent', { type: 'keyUp', modifiers, key: k, code, windowsVirtualKeyCode: vk });
             },
         },
+        // A file chooser the UI opens (e.g. the Packs panel's hidden <input type=file>), filled like a reader would.
+        async setInputFiles(selector, files) {
+            const { root } = await send('DOM.getDocument', { depth: -1, pierce: true });
+            const { nodeId } = await send('DOM.querySelector', { nodeId: root.nodeId, selector });
+            if (!nodeId) throw new Error(`setInputFiles: ${selector} not found`);
+            await send('DOM.setFileInputFiles', { nodeId, files: [].concat(files) });
+        },
         async screenshot({ path: file }) {
             const r = await send('Page.captureScreenshot', { format: 'png' });
             fs.writeFileSync(file, Buffer.from(r.data, 'base64'));

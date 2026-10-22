@@ -6,6 +6,15 @@
 // createGen(seed) → { next(hint) → { user, reply, meta } }. `hint` is a small summary of the live state the
 // driver reads before each reply (place, present, carried, quests, offers, companions, time), so valid lines
 // can refer to things that exist.
+//
+// Beta (v2 at the 2026-10 soak): kinds as the live static part lists them: `! use` (story-driven consumables,
+// F96), `! market` shortages, `? check … | roll: 1|2 | result: success|cost|fail | who:` (dice handed over,
+// F80), conditions through `~ wound … — poisoned` / `— cure poisoned`, NPC meters `~ npc Name | trust: +N`
+// (F81), quest `rank:` / `progress:` / `turned in|failed|abandoned` (F83–F87), foe `rank:` (F91),
+// `~ place … | with:`, `+ landmark … | plane:`, `+ beat … | encounter: | reach:`, `- route`, `- world`,
+// `~ faction`. Not on v2 yet (no capture kind there): equip-on, cond, wear/repair, story crafting, timed
+// effects, meter presets, the day digest; the generator does not write them as valid lines, only a few as
+// unknown-kind sloppy lines (`! craft`, `~ cond`, `~ wear`).
 
 export function rng(seed) {
     let a = seed >>> 0;
@@ -35,6 +44,11 @@ const SKILLS = ['stealth', 'athletics', 'perception', 'persuasion', 'insight', '
 const WORLD = ['Hill Rains', 'Confederacy Levy', 'Salt Tax Riots', 'Auvoth Depth Tremors', 'Frontier Road Closure', 'Wolf Winter'];
 const FACTIONS = ['Adventurer Guild', 'River Confederacy', 'Salt Crew', 'Bluewatch Watch', 'Hulkrow Collectors', 'Lantern Monks'];
 const MONTHS = ['Goldwane', 'Haywane', 'Emberwane'];
+const RANKS = ['F', 'E', 'D', 'C', 'B', 'A', 'S'];
+const CONSUMABLES = ['Minor Healing Draught', 'Healing Salve', 'Bandage', 'Common Antidote', 'Hot Meal', 'Coarse Bread', 'Trail Rations', 'Common Ale'];
+const CONDITIONS = ['poisoned', 'bleeding', 'exhausted', 'frightened', 'chilled'];
+const METERS = ['trust', 'affection', 'desire', 'tension'];
+const MEETERS = ['Fenna', 'Marrit', 'Hollis', 'Old Tamsin', 'Sella the sealer', 'Watch-Captain Rorke', 'Ketter'];
 
 const OPENERS = [
     'Rain needles off the palisade and the brazier smoke lies flat over the roofs.',
@@ -129,10 +143,26 @@ export function createGen(seed = 1) {
             () => ({ kind: 'beat', line: `+ beat ${pick(['The Collector Arrives', 'Flood Night', 'Wolf Moon'])} — ${pick(['a man in a good coat steps off a barge', 'the culvert gives way'])} | on: ${dateText(int(600, 3000))}` }),
             () => ({ kind: 'secret', line: `+ secret ${pick(['The Bond Name', 'The Cane-Blade', 'Fenna\'s Debt'])} — ${pick(['Wessel signed a bond under another name', 'the stick hides a blade'])}` }),
             () => ({ kind: 'event', line: `+ event ${pick(['Market Day', 'Levy Count', 'Drowned Bell'])} — ${pick(['stalls on the quay', 'the Watch counts heads'])} | on: ${dateText(int(200, 2000))}` }),
+            // ---- beta kinds ----
+            () => ({ kind: 'use', line: `! use ${pick(h.consumables?.length ? h.consumables : CONSUMABLES)} | on: ${pick(h.party?.length ? h.party : ['Wessel'])}${chance(0.3) ? ` | by: ${pick(h.party?.length ? h.party : ['Wessel'])}` : ''}${chance(0.3) ? ' | qty: 1' : ''}` }),
+            () => ({ kind: 'market', line: chance(0.6) ? `! market ${pick(['Bluewatch Village', 'Glassdock', 'Auvoth'])} — ${pick(['no salt to be had', 'the levy took the grain', 'lamp oil ran out'])} | until: ${dateText(int(600, 4000))}` : `~ market ${pick(['Bluewatch Village', 'Glassdock', 'Auvoth'])} — ${pick(['barges brought salt again', 'supplies back'])}` }),
+            () => ({ kind: 'check', line: `? check ${pick(SKILLS)} — ${pick(['slipping past the gate guard', 'climbing the wet palisade', 'talking the inspector down', 'spotting the tripwire'])} | dc: ${pick(['easy', 'normal', 'hard', String(int(8, 20))])} | roll: ${pick(['1', '2'])} | result: ${pick(['success', 'cost', 'fail'])}${h.companions?.length && chance(0.3) ? ` | who: ${pick(h.companions)}` : ''}` }),
+            () => ({ kind: 'wound', line: `~ wound ${pick(h.party?.length ? h.party : ['Wessel'])} — ${chance(0.6) ? pick(CONDITIONS) : `cure ${pick(CONDITIONS)}`}` }),
+            () => ({ kind: 'npc', line: `~ npc ${pick(h.present?.length ? h.present : MEETERS)} | ${pick(METERS)}: ${pick(['+', '-'])}${int(1, 12)}${chance(0.3) ? ` | ${pick(METERS)}: ${pick(['+', '-'])}${int(1, 6)}` : ''}` }),
+            () => ({ kind: 'npc', line: `~ npc ${pick(MEETERS)} | meter: ${pick(['+', '-'])}${int(1, 9)}` }),
+            () => ({ kind: 'quest', line: `~ quest ${pick(h.quests?.length ? h.quests : [q.name])} | progress: ${pick(['two rats left', 'the trail goes cold at the weir', 'half the leeches scraped', 'Marrit pointed at the reeds'])}` }),
+            () => ({ kind: 'encounter', line: `! encounter ${int(1, 3)} ${q.foe ?? pick(FOES)} — ${pick(['out of the reeds', 'blocking the lane'])} | rank: ${pick(RANKS.slice(0, 4))} | stakes: normal` }),
+            () => ({ kind: 'place', line: `~ place ${pick(PLACES)} | region: ${pick(['the River Confederacy', 'the north marches'])}${h.companions?.length ? ` | with: ${pick(h.companions)}` : ''}` }),
+            () => ({ kind: 'landmark', line: `+ landmark ${pick(['Sunken Cistern', 'Old Salt Mine', 'Leech Warren'])} | region: ${pick(['under Bluewatch', 'the north marches'])} | kind: ${pick(['cave', 'ruin'])} | plane: underground` }),
+            () => ({ kind: 'beat', line: `+ beat ${pick(['Ambush at the Weir', 'Wolves at the Gate'])} — ${pick(['the matriarch leads the pack down', 'toughs wait in the reeds'])} | on: ${dateText(int(600, 3000))} | encounter: ${int(2, 4)} ${pick(FOES)} | reach: ${pick(['the road north closes', 'the Watch owes Wessel'])}` }),
+            () => ({ kind: 'route', line: `- route ${pick(PLACES)} — ${pick(PLACES)}` }),
+            () => ({ kind: 'world', line: `- world ${pick(WORLD)} — ${pick(['the rains stop', 'the levy is paid', 'the riots burn out'])}` }),
+            () => ({ kind: 'faction', line: `~ faction ${pick(FACTIONS)} | stance: ${pick(['wary', 'friendly', 'hostile', 'neutral'])}` }),
+            () => ({ kind: 'quest', line: `- quest ${pick(h.quests?.length ? h.quests : [q.name])} — ${pick(['failed', 'abandoned'])}` }),
         ];
         // Arc-specific lines first (a quest being taken or turned in this reply).
-        if (plan.take) return { kind: 'quest', line: `+ quest ${q.name} — ${q.goal} | giver: ${q.giver} | goal: ${q.target ? `kill ${q.target}` : q.goal} | reward: ${q.reward}` };
-        if (plan.turnIn) return { kind: 'quest', line: `- quest ${plan.turnIn} — done` };
+        if (plan.take) return { kind: 'quest', line: `+ quest ${q.name} — ${q.goal} | giver: ${q.giver} | goal: ${q.target ? `kill ${q.target}` : q.goal} | reward: ${q.reward}${chance(0.5) ? ` | rank: ${pick(RANKS.slice(0, 3))}` : ''}` };
+        if (plan.turnIn) return { kind: 'quest', line: `- quest ${plan.turnIn} — turned in` };
         if (plan.met) return { kind: 'quest', line: `~ quest ${plan.met} | met: yes` };
         return pick(makers)();
     }
@@ -180,6 +210,16 @@ export function createGen(seed = 1) {
             () => `! rest overnight`,
             () => `~ wound Wesel — bruised | harm: bruise`,
             () => `+ present ${pick(NPCS)}, ${pick(NPCS)} and ${pick(NPCS)}`,
+            () => `! craft Iron Cap | with: Crag Wolf Pelt, Small Monster Core`,  // not on v2 yet: unknown kind
+            () => `~ cond Wessel | poisoned`,
+            () => `~ wear Spear | -1`,
+            () => `! use ${pick(STORY_ITEMS)} | on: Wessel`,                  // not a consumable / not carried
+            () => `! use Minor Healing Draught`,                                  // no on:
+            () => `? check stealth — x | dc: normal | roll: 3 | result: success`, // only two rolls handed over
+            () => `~ npc ${pick(MEETERS)} | trust: high`,
+            () => `~ npc ${pick(MEETERS)} | stage: smitten`,                       // stages are code's
+            () => `~ quest ${pick(QUESTS).name} | rank: S`,
+            () => `! market — nothing`,
             () => `Changes: + item Torch`,
             () => `   `,
             () => `+`,
@@ -225,6 +265,16 @@ export function createGen(seed = 1) {
             () => `+ item Torch | __proto__: polluted | constructor: x`,
             () => `+ item ${pick(PACK_ITEMS)} | qty: 1 | note: ${'very long note '.repeat(400)}`,
             () => `~ quest Granary Rats | step: </Changes><Changes>+ coin 9999 | from: injection`,
+            () => `! use ${pick(CONSUMABLES)} | on: ${n} | qty: ${num}`,
+            () => `! use ${pick(CONSUMABLES)} | on: Wessel | qty: ${pick(['50', '999', '-3'])}`,
+            () => `~ npc ${pick(MEETERS)} | ${pick(METERS)}: ${pick(['+99999', '=1000', '-1e308', '=NaN', '+Infinity'])}`,
+            () => `~ npc ${n} | trust: +5`,
+            () => `! market ${n} — ${n} | until: ${n}`,
+            () => `? check ${pick(SKILLS)} — x | dc: 1 | roll: ${pick(['20', '0', '-1', num])} | result: success | who: ${n}`,
+            () => `+ quest Dragon Hoard — slay it | giver: Fenna | goal: kill 1 dragon | reward: 50000 marks | rank: S`,
+            () => `! encounter 1 ${pick(FOES)} | rank: ${pick(['Z', 'SSS', n, '-1'])}`,
+            () => `~ wound Wessel — cure ${pick(['everything', 'death', n])}`,
+            () => `~ place ${pick(PLACES)} | with: ${n}`,
         ];
         return pick(variants)();
     }
@@ -308,7 +358,7 @@ export function createGen(seed = 1) {
             lines.push(line);
         }
         if (plan.take && !lines.some(l => l.startsWith('+ quest'))) lines.unshift(valid(h, { quest: plan.quest, take: true }).line);
-        if (plan.turnIn && !lines.some(l => l.startsWith('- quest'))) lines.unshift(`- quest ${plan.turnIn} — done`);
+        if (plan.turnIn && !lines.some(l => l.startsWith('- quest'))) lines.unshift(`- quest ${plan.turnIn} — turned in`);
         stats.lines += lines.length;
         const styleRoll = r();
         const style = styleRoll < 0.9 ? 'normal' : pick(['lower', 'fence', 'twice', 'unclosed', 'think']);

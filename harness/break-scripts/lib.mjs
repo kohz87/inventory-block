@@ -1,15 +1,19 @@
-// Shared helpers for the b6-soak live runs (SillyTavern 1.19 on 8182, mock on 5182).
+// Shared helpers for the soak live runs. Paths and ports come from the environment (SOAK_* / instance.sh's
+// ST_URL, MOCK_URL, MOCK_Q, MOCK_LOG, ST_DATA); the defaults are the beta soak's instance "soak" on 8252/5252.
 import { chromium } from '/opt/node22/lib/node_modules/playwright/index.mjs';
 import fs from 'node:fs';
 
 export const SP = '/tmp/claude-0/-home-user-inventory-block/3572f065-fdf3-5cf4-88eb-a15358a57ebe/scratchpad';
-export const OUT = `${SP}/break/b6-soak`;
-export const ST_URL = 'http://127.0.0.1:8182/';
-export const MOCK_URL = 'http://127.0.0.1:5182/v1';
-export const MOCK_Q = `${SP}/inst/b6-soak/q`;
-export const MOCK_LOG = `${SP}/inst/b6-soak/log`;
-export const ST_DATA = `${SP}/inst/b6-soak/data`;
-export const PACK = '/home/user/_break/b6-soak/Story_block/examples/packs/ersveil-bluewatch/pack.json';
+const E = process.env;
+const INST = E.SOAK_INST ?? 'soak';
+export const REPOS = E.SOAK_REPOS ?? '/home/user/soak';
+export const OUT = E.SOAK_OUT ?? `${SP}/break/${INST}`;
+export const ST_URL = E.ST_URL ?? 'http://127.0.0.1:8252/';
+export const MOCK_URL = E.MOCK_URL ?? 'http://127.0.0.1:5252/v1';
+export const MOCK_Q = E.MOCK_Q ?? `${SP}/inst/${INST}/q`;
+export const MOCK_LOG = E.MOCK_LOG ?? `${SP}/inst/${INST}/log`;
+export const ST_DATA = E.ST_DATA ?? `${SP}/inst/${INST}/data`;
+export const PACK = `${REPOS}/Story_block/examples/packs/ersveil-bluewatch/pack.json`;
 export const CHAR_NAME = 'Ersveil';
 
 let qn = 0;
@@ -25,7 +29,7 @@ export async function launch({ width = 1440, height = 900 } = {}) {
 }
 
 export async function waitHost(page) {
-    await page.waitForFunction(() => window.SillyTavern?.getContext?.()?.characters?.length > 0 && window.StoryBlock?.apiVersion === 2, null, { timeout: 120000 });
+    await page.waitForFunction(() => Array.isArray(window.SillyTavern?.getContext?.()?.characters) && window.StoryBlock?.apiVersion === 2 && document.querySelector("#send_textarea") && !document.querySelector("#preloader"), null, { timeout: 120000 });
     await page.waitForFunction(() => StoryBlock.sdk.modules().length >= 4, null, { timeout: 60000 }).catch(() => {});
     await page.waitForTimeout(1500);
 }

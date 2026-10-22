@@ -3,10 +3,11 @@
 // usage: node soak.mjs --replies 1500 --seed 6 [--fresh]
 import fs from 'node:fs';
 import crypto from 'node:crypto';
-import { CHAR_NAME, MOCK_LOG, MOCK_Q, OUT, ST_DATA, ST_URL, clearQueue, connectMock, launch, queue, readReq, reqNums, waitHost } from './lib.mjs';
+import { execFileSync, spawnSync } from 'node:child_process';
+import { CHAR_NAME, MOCK_LOG, MOCK_Q, OUT, REPOS, ST_DATA, ST_URL, clearQueue, connectMock, launch, queue, readReq, reqNums, waitHost } from './lib.mjs';
 import { createGen, rng } from './gen.mjs';
 import { launchRaw } from './cdp-page.mjs';
-import { sharedPrefix } from '/home/user/_break/b6-soak/Story_block/testkit/fake-st.js';
+const { sharedPrefix } = await import(`${REPOS}/Story_block/testkit/fake-st.js`);
 
 const args = Object.fromEntries(process.argv.slice(2).map((a, i, all) => a.startsWith('--') ? [a.slice(2), all[i + 1]?.startsWith('--') || all[i + 1] === undefined ? true : all[i + 1]] : null).filter(Boolean));
 const TARGET = Number(args.replies ?? 1500);
@@ -138,7 +139,9 @@ const hint = () => ev(() => {
     const quests = Object.values(d.director?.threads ?? {}).filter(t => t?.kind === 'quest' && !t.ended).map(t => t.key ?? t.fields?.name).filter(Boolean);
     const party = d.party ?? {};
     const companions = Object.values(party.actors ?? {}).filter(a => a.id !== party.pc).map(a => a.name);
-    return { present: d.scene?.present ?? [], place: d.scene?.place?.name, carried: [...new Set(carried)], wallet, quests, companions, rev: st?.meta?.rev ?? 0 };
+    const consumables = Object.values(inv.stacks ?? {}).map(s => inv.defs?.[s.def]).filter(def => def?.kind === 'consumable').map(def => def.name);
+    const present = (d.scene?.present ?? []).map(p => (typeof p === 'string' ? p : p?.name)).filter(Boolean);
+    return { present, place: d.scene?.place?.name, carried: [...new Set(carried)], consumables: [...new Set(consumables)], wallet, quests, companions, party: Object.values(party.actors ?? {}).map(a => a.name).filter(Boolean), rev: st?.meta?.rev ?? 0 };
 });
 
 const generating = () => ev(() => { const s = document.querySelector('#mes_stop'); return Boolean(s && getComputedStyle(s).display !== 'none'); });
@@ -236,7 +239,7 @@ async function trigger(kind) {
 
 async function readerActions() {
     const did = [];
-    const r = await ev(async ({ fight, accept, roll, trade, spend }) => {
+    const r = await ev(async ({ fight, accept, roll, trade, spend, equip, craft }) => {
         const sdk = StoryBlock.sdk;
         const out = [];
         const cmd = async (t, p) => { try { const x = await sdk.command(t, p); out.push(`${t}:${x.ok ? 'ok' : x.code}`); return x; } catch (e) { out.push(`${t}:THROW ${e.message}`); return null; } };
@@ -259,7 +262,24 @@ async function readerActions() {
         } else if (fair.length > 2) await cmd('combat.dismiss', { offer: fair[0].id });
         const po = q('party.offers') ?? [];
         for (const o of po.slice(0, 2)) await cmd(accept ? 'party.acceptOffer' : 'party.dismissOffer', { offer: o.id });
-        if (roll) for (const c of (q('checks.pending') ?? []).slice(0, 1)) await cmd('check.roll', { id: c.id });
+        // Checks are rolled with the reply's own dice (F80); the reader only looks at the last one.
+        if (roll) q('checks.last');
+        // Bag management (F96: Equip, Take off stay): wear a piece of equipment, or take one off.
+        if (equip) {
+            const inv = sdk.view().state.domains.inventory;
+            const stacks = Object.values(inv.stacks ?? {});
+            const worn = stacks.find(s => s.equipped);
+            const gear = stacks.find(s => !s.equipped && inv.defs?.[s.def]?.kind === 'equipment');
+            if (worn && Math.random() < 0.4) await cmd('item.unequip', { stack: worn.id });
+            else if (gear) await cmd('item.equip', { stack: gear.id });
+        }
+        // Commission crafting at a smith (RB trade): refused when no smith is near or the materials are short.
+        if (craft) {
+            const inv = sdk.view().state.domains.inventory;
+            const mats = Object.values(inv.stacks ?? {}).filter(s => inv.defs?.[s.def]?.kind === 'material').slice(0, 2).map(s => s.id);
+            if (mats.length) await cmd('craft.commission', { piece: 'Iron Cap', materials: mats, crafter: 'smith' });
+            for (const o of (q('trade.orders') ?? []).filter?.(o => o.ready) ?? []) await cmd('craft.collect', { order: o.id });
+        }
         if (spend) { const pc = q('party.pc'); if (pc?.points > 0) await cmd('party.spend', { actor: pc.id, points: { DEX: 1 } }); }
         if (trade) {
             const stock = q('trade.stock', { kind: 'general' });
@@ -270,7 +290,7 @@ async function readerActions() {
             if (stack) await cmd('trade.sell', { stack: stack.id, qty: 1 });
         }
         return out;
-    }, { fight: chance(0.7), accept: chance(0.5), roll: chance(0.3), trade: chance(0.06), spend: chance(0.2) });
+    }, { fight: chance(0.7), accept: chance(0.5), roll: chance(0.3), trade: chance(0.06), spend: chance(0.2), equip: chance(0.08), craft: chance(0.03) });
     for (const x of r) { did.push(x); readerLog.set(x, (readerLog.get(x) ?? 0) + 1); }
     return did;
 }
@@ -298,6 +318,33 @@ async function uiTour(kind) {
         }
         return `${kind}:ok`;
     } catch (e) { return `${kind}:ERR ${e.message.slice(0, 100)}`; }
+}
+
+// Features (F100) as a reader switches them: the Story Suite settings (wand menu), the feature's row.
+// Cards and the status strip go off for a while and back on; the static prompt part must not change
+// (none of Story Block's features carries prompt text).
+const FEATURES_CYCLE = ['story-block.cards', 'story-block.hud', 'story-block.cards', 'story-block.extractor'];
+let featureTurn = 0;
+const featureOff = new Set();
+async function toggleFeature() {
+    const id = FEATURES_CYCLE[featureTurn % FEATURES_CYCLE.length];
+    featureTurn += 1;
+    const r = await ev(async id => {
+        const item = [...document.querySelectorAll('#extensionsMenu .list-group-item')].find(i => /story suite/i.test(i.textContent));
+        item?.click();
+        for (let i = 0; i < 30 && !document.querySelector(`.story-suite-feature[data-feature="${id}"] input`); i += 1) await new Promise(r => setTimeout(r, 100));
+        const input = document.querySelector(`.story-suite-feature[data-feature="${id}"] input`);
+        if (!input) return `feature:${id}:no-row`;
+        input.click();
+        await new Promise(r => setTimeout(r, 300));
+        const now = StoryBlock.sdk.feature(id);
+        document.querySelector('.popup .popup-button-close, .popup .popup-button-ok')?.click();
+        document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+        return `feature:${id}:${now ? 'on' : 'off'}`;
+    }, id);
+    if (r.endsWith(':off')) featureOff.add(id); else featureOff.delete(id);
+    await page.keyboard.press('Escape');
+    return r;
 }
 
 async function edit() {
@@ -339,6 +386,21 @@ async function snapshot(tag) {
     fs.writeFileSync(`${RUN}/snap/${tag}-head.json`, head);
     fs.copyFileSync(chatFile, `${RUN}/snap/${tag}-chat.jsonl`);
     log(`snapshot ${tag}: head ${head.length} B sha ${sha(head)} chat_len ${len} file ${fs.statSync(chatFile).size} B`);
+    rebuildCheck(tag, head);
+    return sha(head);
+}
+
+// Invariant 1: the head rebuilt from the saved file (Story Block's own store, in Node) == the live head.
+// The file copy is kept only while it is small; the report line is kept always.
+function rebuildCheck(tag, head) {
+    const t0 = Date.now();
+    const r = spawnSync(process.execPath, ['--max-old-space-size=4096', new URL('./rebuild.mjs', import.meta.url).pathname, `${RUN}/snap/${tag}-chat.jsonl`, `${RUN}/snap/${tag}-head.json`], { encoding: 'utf8', maxBuffer: 64 << 20 });
+    let rep = null;
+    try { rep = JSON.parse(r.stdout); } catch { rep = { error: (r.stderr || r.stdout || '').slice(0, 500) }; }
+    const line = { tag, replies, step, ms: Date.now() - t0, headSha: sha(head), headEqualsLive: rep.headEqualsLive, fullReplayEqualsLive: rep.fullReplayEqualsLive, headDiff: rep.headDiff ?? null, fullReplayDiff: rep.fullReplayDiff ?? null, storeProblems: (rep.storeProblems ?? []).length, storeProblemSample: (rep.storeProblems ?? []).slice(0, 3), swipeInfoMismatchCount: rep.swipeInfoMismatchCount, checkpointMismatchCount: rep.checkpointMismatchCount, replayErrorCount: rep.replayErrorCount, rebuildMs: rep.rebuildMs, bytes: rep.bytes, error: rep.error };
+    fs.appendFileSync(`${RUN}/rebuild.jsonl`, `${JSON.stringify(line)}\n`);
+    log(`rebuild ${tag}: store==live ${rep.headEqualsLive} replay==live ${rep.fullReplayEqualsLive} problems ${line.storeProblems} swipeInfo ${rep.swipeInfoMismatchCount} (${line.ms} ms)${rep.error ? ` ERROR ${rep.error.slice(0, 200)}` : ''}`);
+    try { if (fs.statSync(`${RUN}/snap/${tag}-chat.jsonl`).size > 5e6 && !/final|after-reload/.test(tag)) fs.unlinkSync(`${RUN}/snap/${tag}-chat.jsonl`); } catch { /* gone */ }
 }
 
 async function reload() {
@@ -369,6 +431,19 @@ async function reload() {
 // ------------------------------------------------------------------------------------------------
 const tStart = Date.now();
 let lastReload = replies;
+let lastRebuild = replies;
+let lastWindow = Math.floor(replies / 250);
+// Keep at least 3 GB free: pause the soak (between steps) while the machine is lower.
+const memAvail = () => { try { return Number(/MemAvailable:\s+(\d+)/.exec(fs.readFileSync('/proc/meminfo', 'utf8'))[1]) * 1024; } catch { return Infinity; } };
+let pausedSec = 0;
+async function memoryGuard() {
+    if (memAvail() >= 3 * 2 ** 30) return;
+    log(`memory: ${Math.round(memAvail() / 2 ** 20)} MB available, pausing`);
+    const t0 = Date.now();
+    while (memAvail() < 3.5 * 2 ** 30 && Date.now() - t0 < 30 * 60000) await page.waitForTimeout(10000);
+    pausedSec += Math.round((Date.now() - t0) / 1000);
+    log(`memory: resumed after ${Math.round((Date.now() - t0) / 1000)} s with ${Math.round(memAvail() / 2 ** 20)} MB available`);
+}
 let readerActs = [];
 async function oneStep() {
     step += 1;
@@ -404,6 +479,7 @@ async function oneStep() {
     if (step % 25 === 0) readerActs.push(await uiTour('tabs'));
     if (step % 40 === 0) readerActs.push(await uiTour('game'));
     if (step % 15 === 0) readerActs.push(await uiTour('cards'));
+    if (step % 60 === 30) readerActs.push(await toggleFeature());
     await page.waitForTimeout(450); // lets the 400 ms UI save land in this step
 
     const m = await ev(({ turnsIndex, interceptIndex, heavy, gc }) => {
@@ -488,10 +564,20 @@ async function oneStep() {
     };
     csv.write(`${COLS.map(c => String(row[c] ?? '').replace(/[\n,]/g, ' ')).join(',')}\n`);
     if (step % 25 === 0) log(`step ${step} replies ${replies} chat ${m.chatLen} file ${fileBytes} heap ${m.heap} dom ${m.dom} err ${consoleErr} warn ${consoleWarn} pageerr ${pageErrors} stuck ${stuck} static changes ${staticChanges.length} elapsed ${Math.round((Date.now() - tStart) / 1000)}s`);
-    if (replies - lastReload >= 200) { lastReload = replies; log(`reload at reply ${replies}`); await snapshot(`r${replies}-before-reload`); await reload(); await snapshot(`r${replies}-after-reload`); }
-    else if (step % 100 === 0) await snapshot(`s${step}`);
+    if (replies - lastReload >= 200) {
+        lastReload = replies; log(`reload at reply ${replies}`);
+        const a = await snapshot(`r${replies}-before-reload`); await reload(); const b = await snapshot(`r${replies}-after-reload`);
+        fs.appendFileSync(`${RUN}/reloads.jsonl`, `${JSON.stringify({ replies, step, before: a, after: b, same: a === b })}\n`);
+        if (a !== b) log(`!!! head changed across the reload at reply ${replies}: ${a} → ${b}`);
+        lastRebuild = replies;
+    } else if (replies - lastRebuild >= 100) { lastRebuild = replies; await snapshot(`n${replies}`); }
+    if (Math.floor(replies / 250) > lastWindow) {
+        lastWindow = Math.floor(replies / 250);
+        try { execFileSync('bash', [new URL('./progress.sh', import.meta.url).pathname, RUN, args.label ?? args.out ?? 'run'], { stdio: 'ignore', timeout: 180000 }); log(`progress pushed at reply ${replies}`); } catch (e) { log(`progress push failed: ${e.message.split('\n')[0]}`); }
+    }
+    await memoryGuard();
     if (step % 500 === 0) await page.screenshot({ path: `${RUN}/snap/screen-${step}.png` });
-    fs.writeFileSync(`${RUN}/summary-${SEG}.json`, JSON.stringify({ step, replies, stuck, stuckReloads, driverErrors, heldBack, relaunches, actionCounts, consoleErr, consoleWarn, pageErrors, staticChanges, problemCodes: Object.fromEntries([...problemCodes].sort((a, b) => b[1] - a[1])), readerLog: Object.fromEntries(readerLog), consoleKinds: Object.fromEntries([...consoleKinds].sort((a, b) => b[1] - a[1])), gen: gen.stats, failedRequests: failedRequests.slice(0, 100), elapsedSec: Math.round((Date.now() - tStart) / 1000), chatId, chatFile }, null, 1));
+    fs.writeFileSync(`${RUN}/summary-${SEG}.json`, JSON.stringify({ step, replies, stuck, stuckReloads, driverErrors, heldBack, relaunches, pausedSec, featureOff: [...featureOff], actionCounts, consoleErr, consoleWarn, pageErrors, staticChanges, problemCodes: Object.fromEntries([...problemCodes].sort((a, b) => b[1] - a[1])), readerLog: Object.fromEntries(readerLog), consoleKinds: Object.fromEntries([...consoleKinds].sort((a, b) => b[1] - a[1])), gen: gen.stats, failedRequests: failedRequests.slice(0, 100), elapsedSec: Math.round((Date.now() - tStart) / 1000), chatId, chatFile }, null, 1));
     fs.writeFileSync(`${RUN}/console-samples-${SEG}.json`, JSON.stringify(samples, null, 1));
 }
 while (replies < TARGET) {
