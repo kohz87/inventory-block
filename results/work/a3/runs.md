@@ -31,3 +31,7 @@ Heads: Story_block cb2d70e, Story_director a8d428f, rpg_battle 924b9a3, npc_stat
 | rankprobe.mjs | 1 | a pack rank reward of 9007199254740991 is the per-reply coin budget (observation) |
 | fuzz.mjs 1-100 x 200 --known --p2 (new heads) | 20,000 steps, 5,787 toggles, 134 digests | 0 violations |
 Scripts added: packfuzz.mjs, meterprobe.mjs, rankprobe.mjs.
+
+## Pass 4
+Heads: Story_block ff96802, rpg_battle ee927b0, Story_director a8d428f, npc_state_delta e56e356.
+Directed probes on the real host (all four modules): equipprobe.mjs (Equip on… vs carry limit, C3-7), lootprobe.mjs (loot across swipe / regenerate / drop / Re-read / delete, replay == live at each step), rbprobe.mjs (8 ranks, 6 join label sets, 7 spend payloads), namesprobe.mjs (12 `+ item` variants, 4 `- item`, 4 inventory.find). One finding (C3-7), the rest held or are spec notes.

@@ -109,3 +109,38 @@ npc_state_delta 5243d79. No new findings filed. All six C3 tests still fail on c
 ## Watching for real features
 - Fetched all four repos twice in this pass: still no `features:` in rpg_battle or npc_state_delta. Story_director's only feature is story-director.digest.
 - Regression on the new heads: fuzz.mjs 1-100 x 200 `--known --p2`, 20,000 steps, 5,787 toggles, 134 digests: 0 violations.
+
+# Pass 4
+
+Heads: Story_block ff96802 (Wave B #104), rpg_battle ee927b0 (party wave C #92), Story_director a8d428f, npc_state_delta
+e56e356. Still no module `features:` beyond story-director.digest and Story Block's own (now also story-block.loot,
+story-block.encumbrance, which the toggle fuzz picks up automatically).
+
+### C3-7 [severity: medium] Equip on… pushes the main character past their own carry limit with the piece it puts away
+- Repo: Story_block, src/v2/domains/inventory.js equipOn (~:476 `readerCarry(ctx, [{ defId: def.id, qty: stack.qty }], actor, true)` checks only the new piece; ~:503 `for (const other of off) other.owner = actor;` moves the replaced pieces with no check).
+- Repro (real host with RPG Battle, scripts/equipprobe.mjs): the main character (STR 9, capacity 56) carries 46 of their own and wears Old Mail from the shared bag (owner 'party'). `inventory.equipOn { stack: New Mail (in the bag), actor: pc }` → ok. New Mail (10) fits (56), then Old Mail (10) comes back into the pc's own carry: 66 of 56, and inventory.encumbrance now lists the pc at 66/56. Minimal test with a stub carry rule: results/tests/Story_block/c3-equipon-carry.test.js (Ren 10/20 → 30/20).
+- Expected: the reader's own hand-overs past the limit are refused (SPEC §7 Encumbered: "The reader's own takes, buys and hand-overs past the limit are still refused"). So either refuse, or check the new piece plus every replaced piece that changes owner (the shared bag's pieces move from 'party' to the member). Actual: accepted, member over capacity. Invariant 3 (rules set the numbers; the carry rule is bypassed by a click).
+- Fix: in equipOn, build the carry check from the new piece (when `from !== actor`) plus each `off` piece whose owner is not `actor` yet (`other.owner === 'party'`), as one `items.carry({ owner: actor, add, move: true })` before changing anything; or leave the shared bag's replaced pieces in the bag (owner stays 'party', just unequipped).
+- Test: results/tests/Story_block/c3-equipon-carry.test.js (fails on ff96802 at the load assertion)
+- Owner area: SB-inv
+
+## Pass 4 held up / notes
+- **Loot** (scripts/lootprobe.mjs, real host):
+  - `pick: [0, 0, 1, '1']` takes each thing once;
+  - a second take is REFUSED (claim);
+  - a regenerate gives a fresh take that holds once per timeline;
+  - after a drop the take is still REFUSED (one take per offer);
+  - Re-read keeps the claim;
+  - deleting the loot reply is consistent;
+  - replay == live at every step.
+
+  The offer is counted into the reply's story tally when it is read (storyItems), so loot plus `+ item` lines in one reply cannot double the budget.
+- **RB wave C** (scripts/rbprobe.mjs):
+  - Unknown ranks (`SS`, `S+`, `ZZZ`, `__proto__`, 9 letters, `-1`) are INVALID problems; `f` reads as F; fullwidth `Ｓ` is held to the highest rank that is not deadly (E).
+  - `+ join` levels 999999999, -3 and 1e3 are held to pc+2 / pc±1; the role `__proto__` or markup is cleaned to words; companion stats follow the formula (total 55 + 5×level).
+  - `party.spend` with -5, 1.5, 1e9, "1", 0 or `__proto__` is refused with a sentence and changes nothing. Spends serialize on the head (preview + commit after another command → STALE).
+  - Not reachable today: companionWeights accepts a preset object with arbitrary points (only from a caller, internal); a weight of Infinity would make the stats NaN (spreadByWeights divides Infinity by Infinity). No current caller passes one (offers keep only a preset id).
+- **Tolerant names** (scripts/namesprobe.mjs). As the spec defines it, the following all land on the existing def: plural, article, zero-width space, case, `Potion of Healing` / `Key Iron` (word order), `a coil of Rope`, `Ropes (frayed)`. These are noted as spec questions, not filed:
+  - **Parenthetical qualifiers are dropped.** `+ item Healing Potion (Greater)` adds to the Healing Potion stack, and `inventory.find('Healing Potion (Greater)')` finds the common Healing Potion. So a fetch quest for a "(Greater)" item written that way is satisfied by the lesser one. The spec says "a part in parentheses" is a portion word. Suggest dropping a parenthetical only when it holds a portion word ("(piece)", "(bundle)"), not any qualifier ("(Greater)", "(cursed)", "(empty)").
+  - **Homoglyphs make look-alike stacks.** `Healing Pоtion` with a Cyrillic о is a separate def and stack that looks identical to Healing Potion. Loot's "already carried" check and `- item` treat them as different things. cleanName folds format characters and NFC but not confusables (NFKC would fold the fullwidth forms; a confusable-skeleton key would fold Cyrillic/Greek look-alikes). Low: display confusion, not a mint, since each def keeps its own value.
+  - Diacritics (`Héaling`) are a different name, which is fine.
