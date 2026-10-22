@@ -67,7 +67,7 @@
     "MODULES": "Story_block,rpg_battle,Story_director,npc_state_delta",
     "SEED_SETTINGS": ""
    },
-   "at": "2026-10-22 00:48 UTC"
+   "at": "2026-10-22 01:04 UTC"
   },
   "c1-phone": {
    "heads": {
@@ -136,7 +136,7 @@
     "MODULES": "Story_block,rpg_battle,Story_director,npc_state_delta",
     "SEED_SETTINGS": ""
    },
-   "at": "2026-10-22 00:48 UTC"
+   "at": "2026-10-22 01:04 UTC"
   },
   "c2-off": {
    "heads": {
@@ -205,12 +205,17 @@
     "MODULES": "Story_block,rpg_battle,Story_director,npc_state_delta",
     "SEED_SETTINGS": ""
    },
-   "at": "2026-10-22 00:48 UTC"
+   "at": "2026-10-22 01:04 UTC"
   },
   "c2-half": {
-   "heads": null,
+   "heads": {
+    "Story_block": "5ef7ead",
+    "rpg_battle": "924b9a3",
+    "Story_director": "affde13",
+    "npc_state_delta": "5243d79"
+   },
    "counts": {
-    "PASS": 12,
+    "PASS": 14,
     "FAIL": 3,
     "SKIP": 18
    },
@@ -247,7 +252,9 @@
     "A8": "PASS",
     "A9": "PASS",
     "A10": "PASS",
-    "A11": "PASS"
+    "A11": "PASS",
+    "A11p": "PASS",
+    "A12": "PASS"
    },
    "static": {
     "requests": 24,
@@ -256,9 +263,18 @@
    },
    "rebuild": "PASS",
    "console_unclassified": 0,
-   "finished": false,
-   "config": null,
-   "at": "2026-10-22 00:48 UTC"
+   "finished": true,
+   "config": {
+    "tag": "p1-c2-half",
+    "exit": 0,
+    "VIEW": "desk",
+    "PACK_MODE": "ersveil",
+    "FEATURES": "random:4111",
+    "ECON": "",
+    "MODULES": "Story_block,rpg_battle,Story_director,npc_state_delta",
+    "SEED_SETTINGS": ""
+   },
+   "at": "2026-10-22 01:04 UTC"
   },
   "c3-gold": {
    "heads": {
@@ -327,7 +343,7 @@
     "MODULES": "Story_block,rpg_battle,Story_director,npc_state_delta",
     "SEED_SETTINGS": ""
    },
-   "at": "2026-10-22 00:48 UTC"
+   "at": "2026-10-22 01:04 UTC"
   },
   "c4-noRB": {
    "heads": {
@@ -396,7 +412,7 @@
     "MODULES": "Story_block,Story_director,npc_state_delta",
     "SEED_SETTINGS": ""
    },
-   "at": "2026-10-22 00:48 UTC"
+   "at": "2026-10-22 01:04 UTC"
   },
   "c4-noSD": {
    "heads": {
@@ -465,7 +481,7 @@
     "MODULES": "Story_block,rpg_battle,npc_state_delta",
     "SEED_SETTINGS": ""
    },
-   "at": "2026-10-22 00:48 UTC"
+   "at": "2026-10-22 01:04 UTC"
   },
   "c4-noNSD": {
    "heads": {
@@ -530,7 +546,77 @@
     "MODULES": "Story_block,rpg_battle,Story_director",
     "note": "run-config.sh was edited mid-run; trailer written by cell4"
    },
-   "at": "2026-10-22 00:48 UTC"
+   "at": "2026-10-22 01:04 UTC"
+  },
+  "c3-x0.1": {
+   "heads": null,
+   "counts": {
+    "PASS": 1,
+    "FAIL": 3,
+    "SKIP": 0
+   },
+   "rows": {
+    "A0": "PASS",
+    "A1": "FAIL",
+    "A2": "FAIL",
+    "A3": "FAIL"
+   },
+   "static": {
+    "requests": 0,
+    "distinct": 0,
+    "changes": 0
+   },
+   "rebuild": "?",
+   "console_unclassified": 0,
+   "finished": false,
+   "config": null,
+   "at": "2026-10-22 01:04 UTC"
+  },
+  "c4-nsdv1": {
+   "heads": null,
+   "counts": {
+    "PASS": 8,
+    "FAIL": 1,
+    "SKIP": 17
+   },
+   "rows": {
+    "A0": "PASS",
+    "A1": "PASS",
+    "A2": "PASS",
+    "A3": "PASS",
+    "A4": "PASS",
+    "A5": "PASS",
+    "A6": "PASS",
+    "A7": "PASS",
+    "B01": "SKIP",
+    "B02": "SKIP",
+    "B03": "SKIP",
+    "B04": "SKIP",
+    "B05": "SKIP",
+    "B06": "SKIP",
+    "B07": "SKIP",
+    "B08": "SKIP",
+    "B09": "SKIP",
+    "B10": "SKIP",
+    "B11": "SKIP",
+    "B12": "SKIP",
+    "B13": "SKIP",
+    "B14": "FAIL",
+    "B15": "SKIP",
+    "B16": "SKIP",
+    "B17": "SKIP",
+    "B18": "SKIP"
+   },
+   "static": {
+    "requests": 0,
+    "distinct": 0,
+    "changes": 0
+   },
+   "rebuild": "?",
+   "console_unclassified": 0,
+   "finished": false,
+   "config": null,
+   "at": "2026-10-22 01:04 UTC"
   }
  }
 }

@@ -1,10 +1,10 @@
 # p1-c2-half
 
-config: `null`
-heads: `null`
+config: `{"tag": "p1-c2-half", "exit": 0, "VIEW": "desk", "PACK_MODE": "ersveil", "FEATURES": "random:4111", "ECON": "", "MODULES": "Story_block,rpg_battle,Story_director,npc_state_delta", "SEED_SETTINGS": ""}`
+heads: `{"Story_block": "5ef7ead", "rpg_battle": "924b9a3", "Story_director": "affde13", "npc_state_delta": "5243d79"}`
 static prompt: 24 requests, 1 distinct, 0 change(s)
 rebuild == live (B20): PASS
-console: 0 lines, unclassified 0
+console: 142 lines, unclassified 0
 
 
 | row | what | owner | result | note |
@@ -42,21 +42,5 @@ console: 0 lines, unclassified 0
 | A9 | NSD hosted Cast tab; other tabs not clobbered | NSD-meters2 | PASS | Cast shows Fenna=true, meters=1, Quests kept=true |
 | A10 | map: search and zoom | main | PASS | 11 places, search ["Watch GranaryBluewatch Village · not visited"], zoom ×2.14 |
 | A11 | Chronicle tab | SD-digest | PASS | Events 1 under way Hill Rain looming the hill rain is coming down the Bluewatch Branch Bluewatch Village Bluewatch Watch Since CY 611, Goldwane 12, 06:40 am Las |
-
-**The run did not finish** (see the run log tail below).
-
-    [224s] >> PASS B20 After every beta step: live head == rebuild from the saved file — identical
-    [224s] 
-    ---- A8 static prompt byte-identical; shared prefix (main) ----
-    [224s] >> PASS A8 static prompt byte-identical; shared prefix — 24 requests, 1 distinct static part(s), 0 change(s) (feature toggles allow 2); prefix median 87.7%
-    [224s] 
-    ---- A9 NSD hosted Cast tab; other tabs not clobbered (NSD-meters2) ----
-    [231s] >> PASS A9 NSD hosted Cast tab; other tabs not clobbered — Cast shows Fenna=true, meters=1, Quests kept=true
-    [231s] 
-    ---- A10 map: search and zoom (main) ----
-    [236s] >> PASS A10 map: search and zoom — 11 places, search ["Watch GranaryBluewatch Village · not visited"], zoom ×2.14
-    [236s] 
-    ---- A11 Chronicle tab (SD-digest) ----
-    [238s] >> PASS A11 Chronicle tab — Events 1 under way Hill Rain looming the hill rain is coming down the Bluewatch Branch Bluewatch Village Bluewatch Watch Since CY 611, Goldwane 12, 06:40 am Las
-    [238s] 
-    ---- A11p phone (390 px): tabs fit, wizard fits (RB-screens2) ----
+| A11p | phone (390 px): tabs fit, wizard fits | RB-screens2 | PASS | page 390/390; tabs over the edge []; wizard {"dialog":true,"w":390} |
+| A12 | console errors | main | PASS | 55 lines; 6x SillyTavern warnings; 14x NSD sidecar 404 on a chat without one yet; 33x NSD scan got the mock's empty side answer; unclassified 2 |

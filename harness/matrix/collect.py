@@ -88,7 +88,7 @@ row_ids = []
 for c in cells:
     for rid in cur[c]['rows']:
         if rid not in row_ids: row_ids.append(rid)
-order = lambda r: (0 if r.startswith('A') else 1, r)
+order = lambda r: (0 if r.startswith('A') else 1, int(re.sub(r'\D', '', r) or 0), r)
 abbrev = {'PASS': 'PASS', 'FAIL': '**FAIL**', 'SKIP': 'SKIP'}
 md = ['# Story Suite v2 beta — live matrix', '',
       f'Newest pass: **{newest}** ({cur[cells[0]]["at"] if cells else "?"}). Heads: `{json.dumps(cur[cells[0]]["heads"]) if cells else "?"}`', '',
