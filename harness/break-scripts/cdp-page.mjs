@@ -153,6 +153,8 @@ export async function launchRaw({ width = 1440, height = 900, port = 9382 } = {}
             fs.writeFileSync(file, Buffer.from(r.data, 'base64'));
         },
         context: () => ({}),
+        // Raw protocol access (profiling).
+        cdp: (method, params, ms) => send(method, params, ms),
     };
     const browser = {
         async close() { try { ws.close(); } catch { /* closing */ } proc.kill('SIGKILL'); proc.unref(); await sleep(500); try { fs.rmSync(dir, { recursive: true, force: true }); } catch { /* temp */ } },
