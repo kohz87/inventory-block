@@ -60,7 +60,7 @@ const RECIPES = [
 ];
 const GEAR = ['Cane-Blade', 'Spear', 'Hatchet', 'Iron Cap', 'Wolf-pelt Mantle'];
 const EFFECTS = [['Keen Sight', 'sharper eyes', 'perception'], ['Steady Hands', 'the shakes are gone', 'DEX'], ['Wolf Fever', 'a hot, aching bite', 'attack'], ['Soaked Through', 'cold to the bone', 'defence'], ['Salt Courage', 'the sealer\'s blessing', 'check']];
-const LOOT = ['Bent Copper Key', 'Lamp Oil', 'Torn Map', 'Rusty Nails', 'Coarse Salt', 'Burlap Sack', 'Crag Wolf Fang', 'Small Monster Core', 'Waterskin'];
+const LOOT = ['Bent Copper Key', 'Bluecap Moss', 'Crag Wolf Pelt', 'Lamp Oil', 'Torn Map', 'Rusty Nails', 'Coarse Salt', 'Burlap Sack', 'Crag Wolf Fang', 'Small Monster Core', 'Waterskin'];
 const BOSSES = ['Crag Wolf Matriarch', 'Bog Lurker', 'River Drake'];
 
 const OPENERS = [
