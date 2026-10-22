@@ -114,3 +114,5 @@ try {
 } catch (error) { report.suiteError = String(error?.stack ?? error).slice(0, 400); }
 console.log(JSON.stringify(report, null, 1));
 if (outAt > 0) fs.writeFileSync(process.argv[outAt + 1], JSON.stringify(report, null, 1));
+// The whole report also sits next to the snapshot (kept when a big chat copy is deleted).
+try { fs.writeFileSync(file.replace(/\.jsonl$/, '') + '.rebuild.json', JSON.stringify(report)); } catch { /* read-only place */ }
