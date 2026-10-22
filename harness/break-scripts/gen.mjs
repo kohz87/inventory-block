@@ -183,6 +183,16 @@ export function createGen(seed = 1) {
             () => ({ kind: 'item', line: `~ item ${pick(h.carried?.length ? h.carried : GEAR)} | equip: ${pick(['Wessel', ...(h.companions ?? []), 'Brannoc'])}` }),
             () => ({ kind: 'time', line: `! time +${pick(['14h', '20h', '26h', '1d'])}` }),
             () => ({ kind: 'quest', line: `+ quest ${pick(QUESTS).name} — ${pick(QUESTS).goal} | giver: ${pick(['Fenna', 'Marrit'])} | rank: ${pick(['F', 'E', 'D'])}` }),
+            // ---- final soak: kinds merged after the earlier soak (recipe, refine, repair, milestone, key items, =N meters, met) ----
+            () => ({ kind: 'recipe', line: chance(0.7) ? `+ recipe ${pick(RECIPES).name} | from: ${pick(['Old Tamsin', 'a stained page', 'Sella the sealer'])} | who: Wessel` : `+ recipe ${pick(['Eel Jerky', 'Reed Sling', 'Tar Patch'])} | from: Marrit | who: Wessel | makes: ${pick(['Smoked Eel', 'Tarred Twine'])} | with: ${pick(['Live Leech x2, Coarse Salt', 'Hemp Rope, Lamp Oil'])} | craft: ${pick(['cooking', 'leather', 'alchemy'])}` }),
+            () => ({ kind: 'recipe', line: `- recipe ${pick(RECIPES).name} | who: Wessel` }),
+            () => ({ kind: 'refine', line: `! refine ${pick(h.carried?.length ? h.carried : GEAR)} | at: smith | with: ${pick(['Small Monster Core', 'Crag Wolf Fang x2', 'Rusty Nails'])}` }),
+            () => ({ kind: 'repair', line: `! repair ${pick(h.carried?.length ? h.carried : GEAR)} | at: ${pick(['smith', 'tailor'])}` }),
+            () => ({ kind: 'milestone', line: `+ milestone ${pick(['Shared Watch', 'The Debt Paid', 'First Blood Together'])} — ${pick(['they stood the night watch side by side', 'Marrit laughed at last'])}` }),
+            () => ({ kind: 'npc', line: `~ npc ${pick(MEETERS)} | ${pick(METERS)}: =${int(-40, 80)}` }),
+            () => ({ kind: 'key', line: `+ item ${pick(['Warden\'s Signet', 'Drowned Saint\'s Relic', 'Sealer\'s Brass Seal', 'Moonveil Pearl'])} | qty: 1 | note: ${pick(['pressed into Wessel\'s hand', 'an old man\'s parting gift'])}` }),
+            () => ({ kind: 'quest', line: `~ quest ${pick(h.quests?.length ? h.quests : [q.name])} | met: ${pick(['yes', 'no'])}` }),
+            () => ({ kind: 'present', line: `+ present ${pick(MEETERS)}` }),
         ];
         // Arc-specific lines first (a quest being taken or turned in this reply).
         if (plan.take) return { kind: 'quest', line: `+ quest ${q.name} — ${q.goal} | giver: ${q.giver} | goal: ${q.target ? `kill ${q.target}` : q.goal} | reward: ${q.reward}${chance(0.5) ? ` | rank: ${pick(RANKS.slice(0, 3))}` : ''}` };

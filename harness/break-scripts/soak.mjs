@@ -129,7 +129,8 @@ chatId = await ev(async CHAR_NAME => {
     });
     log('chat', chatId, 'persona', await ev(() => SillyTavern.getContext().name1), 'creation:', made);
 }
-const chatFile = `${ST_DATA}/default-user/chats/${CHAR_NAME}/${chatId}.jsonl`;
+let chatFile = `${ST_DATA}/default-user/chats/${CHAR_NAME}/${chatId}.jsonl`;
+const setChat = id => { chatId = id; chatFile = `${ST_DATA}/default-user/chats/${CHAR_NAME}/${chatId}.jsonl`; };
 
 // ------------------------------------------------------------------------------------------------
 const hint = () => ev(() => {
@@ -193,6 +194,8 @@ async function trigger(kind) {
         await ev(() => window.jQuery('#chat .mes.last_mes .swipe_right').trigger('click'));
     } else if (kind === 'regenerate') {
         await ev(() => window.jQuery('#option_regenerate').trigger('click'));
+    } else if (kind === 'continue') {
+        await ev(() => window.jQuery('#option_continue').trigger('click'));
     }
     const ok = await waitTurn(turnsBefore);
     const total = Date.now() - t0;
@@ -404,6 +407,35 @@ async function del() {
     return `del:${count}`;
 }
 
+// A reply (and its user line) cut out of the middle of the chat, not the end (/cut by index).
+async function delMiddle() {
+    const n = await ev(() => SillyTavern.getContext().chat.length);
+    if (n < 30) return 'cut:skip';
+    const at = await ev(n => { const c = SillyTavern.getContext().chat; for (let i = n - 8 - Math.floor(Math.random() * 12); i > 2; i -= 1) if (!c[i].is_user && c[i].extra?.storySuite) return i; return -1; }, n);
+    if (at < 0) return 'cut:none';
+    await ev(async at => { await SillyTavern.getContext().executeSlashCommandsWithOptions(`/cut ${at}`); }, at);
+    await page.waitForTimeout(700);
+    return `cut:${at}`;
+}
+
+// Return in time (sdk.rewind): the last reply's reader changes are taken back on a new branch.
+async function rewindLast() {
+    const r = await ev(async () => {
+        const c = SillyTavern.getContext().chat;
+        let i = c.length - 1; while (i > 0 && !(c[i] && !c[i].is_user && c[i].extra?.storySuite)) i -= 1;
+        const rec = c[i]?.extra?.storySuite;
+        if (!rec) return { note: 'rewind:no-carrier' };
+        const revs = (rec.ops ?? []).filter(o => o?.path === '/meta/rev').map(o => o.value);
+        if (revs.length < 2) return { note: `rewind:single-rev(${revs.length})` };
+        const x = await StoryBlock.sdk.rewind({ index: i, beforeRev: revs[1] });
+        return { note: `rewind:${x.ok ? 'ok' : x.code}`, id: SillyTavern.getContext().getCurrentChatId(), msg: x.ok ? '' : x.message };
+    });
+    if (r.id && r.id !== chatId) { log(`rewind: branch ${r.id} (from ${chatId})`); setChat(r.id); }
+    else if (r.msg) log(`rewind refused: ${r.msg.slice(0, 160)}`);
+    await page.waitForTimeout(800);
+    return r.note;
+}
+
 async function snapshot(tag) {
     await page.waitForTimeout(900);
     await ev(async () => { const c = SillyTavern.getContext(); await c.saveChat(); });
@@ -482,6 +514,9 @@ async function oneStep() {
     else if (roll < 0.13) action = 'delete';
     else if (roll < 0.15 && chatLen > 2) action = 'edit';
     else if (roll < 0.20 && chatLen > 2 && lastIsAi) action = 'regenerate';
+    else if (roll < 0.23 && chatLen > 2 && lastIsAi) action = 'continue';
+    else if (roll < 0.24 && chatLen > 30) action = 'cut';
+    else if (roll < 0.245 && chatLen > 10 && lastIsAi) action = 'rewind';
     actionCounts[action] = (actionCounts[action] ?? 0) + 1;
     const [savesBefore, bytesBefore] = await pageSaves();
     const errBefore = consoleErr, warnBefore = consoleWarn, pageErrBefore = pageErrors;
@@ -490,7 +525,9 @@ async function oneStep() {
     let res = { ok: true, total: '', mainReq: null, latency: '' };
     let note = '';
     try {
-        if (action === 'send' || action === 'swipe' || action === 'regenerate') res = await trigger(action);
+        if (action === 'send' || action === 'swipe' || action === 'regenerate' || action === 'continue') res = await trigger(action);
+        else if (action === 'cut') note = await delMiddle();
+        else if (action === 'rewind') note = await rewindLast();
         else if (action === 'delete') note = await del();
         else if (action === 'edit') note = await edit();
     } catch (e) {

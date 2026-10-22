@@ -3,7 +3,7 @@
 import csv, json, os, re, sys, statistics as st
 RUN, LABEL, OUT = sys.argv[1], sys.argv[2], sys.argv[3]
 rows = list(csv.DictReader(open(os.path.join(RUN, 'metrics.csv'))))
-GEN = {'send', 'swipe', 'regenerate'}
+GEN = {'send', 'swipe', 'regenerate', 'continue'}
 def f(v):
     try: return float(v)
     except: return None
