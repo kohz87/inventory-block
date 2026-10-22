@@ -4,6 +4,12 @@ Format: `[severity] repo: title — test path — owner area`
 
 _Pass 1 started at heads: Story_block e0fd33b, rpg_battle 924b9a3, Story_director f001974, npc_state_delta 5243d79). No findings yet._
 
+## Tick 01:50 re-check (heads SB d078cee incl. storage #108, RB 28a97d5, SD 9f59baf, NSD 1156fd7)
+All 20 filed SB tests and the SD time test still fail; C2-1 stays fixed. The storage PR (#108) merged as 4a1cb31 — not yet
+fuzzed (agents 1, 2, 4 were stopped). Unreviewed tests left by stopped agents (not filed, no write-up; see REPORT.md):
+results/tests/Story_block/c1-wear-after-middle-delete.test.js (fails), results/tests/Story_block/c2-spoof-marker-reread.test.js
+(fails), results/tests/Story_director/c1-time-after-middle-delete.test.js (fails), results/tests/rpg_battle/c1-effect-replies-after-delete.test.js (passes on RB 28a97d5 — not a finding).
+
 ## Pass 4 (heads SB 38687e1, RB ee927b0, SD b870546, NSD e56e356)
 - [medium] Story_block: Equip on… pushes a member past their own carry limit with the piece it puts away (replaced bag piece changes owner unchecked) — results/tests/Story_block/c3-equipon-carry.test.js — SB-inv
 

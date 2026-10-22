@@ -116,6 +116,8 @@ async function runSeed(seed) {
         if (typeof tail !== 'string' || !tail) return;
         if (tail.includes(FZ_TAIL) !== genOn('fz.tail')) fail('tail-part-vs-feature', `fz.tail ${genOn('fz.tail')}`);
         if (tail.includes('FY tail.') !== genOn('fy.all')) fail('tail-whole-vs-feature', `fy.all ${genOn('fy.all')}`);
+        if (process.env.NEEDS && tail.includes('FZ-NEEDY') !== Boolean(genOn('fz.needy'))) fail('tail-needy-vs-feature', `${genOn('fz.needy')}`);
+        if (process.env.NEEDS && tail.includes('FZ-CHAIN') !== Boolean(genOn('fz.chain'))) fail('tail-chain-vs-feature', `${genOn('fz.chain')}`);
         if (/FZ ticks \d/.test(tail) !== genOn('fz.kind')) fail('tail-kindpart-vs-feature', `fz.kind ${genOn('fz.kind')}`);
     }
     function checkAll(label) {
@@ -127,6 +129,13 @@ async function runSeed(seed) {
         H.calls.length = 0;
         const peek = sdk.query('fz.peek');
         if ((peek === null) === isOn('fz.cmd')) fail('query-vs-feature', `peek ${J(peek)} on ${isOn('fz.cmd')}`);
+        if (process.env.NEEDS) {
+            for (const f of sdk.features()) if (f.available === false && f.on) fail('unavailable-but-on', f.id);
+            const woundKind = Boolean(registry.capture('wound'));
+            if (registry.feature('fz.needy')?.available !== woundKind) fail('needy-availability', `${registry.feature('fz.needy')?.available} wound ${woundKind}`);
+            if (!lateDone && isOn('fz.missing')) fail('missing-on-before-module');
+            if (lateDone && registry.feature('fz.missing')?.available !== true) fail('missing-unavailable-after-module');
+        }
         const tab = registry.tabs().some(t => t.id === 'fz-tab');
         if (tab !== isOn('fz.cmd')) fail('tab-vs-feature');
     }
@@ -150,7 +159,20 @@ async function runSeed(seed) {
         } else if (t.problems.some(p => p.code === 'FEATURE_OFF' && /tick/i.test(p.line ?? ''))) fail('on-line-told-off');
     }
 
+    let lateDone = false;
     const OPS = {
+        async late() {
+            if (!process.env.NEEDS || lateDone) return;
+            if (!r.chance(0.2)) return;
+            await sdk.registerModule({ id: 'late', name: 'Late', version: '0.0.1', commands: { 'late.cmd': ctx => ({ summary: 'late', narrate: false }) } });
+            lateDone = true;
+        },
+        async missingCmd() {
+            if (!process.env.NEEDS) return;
+            const on = isOn('fz.missing');
+            const res = await sdk.command('fz.missingCmd', {});
+            if (on !== Boolean(res.ok)) fail('missingCmd-vs-feature', `${on} ${res.code}`);
+        },
         async toggle() {
             const id = r.pick(IDS);
             const want = r.chance(0.5);
@@ -160,7 +182,7 @@ async function runSeed(seed) {
             totalToggles += 1;
             log[log.length - 1] += ` ${id}=${want}`;
             if (ok !== want) fail('set-return', `${id} ${ok}`);
-            if (isOn(id) !== want) fail('set-not-effective', id);
+            if (isOn(id) !== (want && registry.feature(id)?.available !== false)) fail('set-not-effective', id);
             if (J(store.head()) !== before) fail('toggle-changed-state', id);
         },
         async send(step) {
@@ -309,6 +331,7 @@ async function runSeed(seed) {
         },
     };
     const weights = [['toggle', 6], ['send', 6], ['swipe', 2], ['regenerate', 2], ['cont', 1], ['swipeBack', 1], ['del', 2], ['reload', 1], ['command', 3], ['preview', 1], ['reread', 1], ['blocked', 1]];
+    if (process.env.NEEDS) weights.push(['late', 1], ['missingCmd', 2]);
     if (MID) weights.push(['edit', 2], ['corrupt', 1], ['rewind', 1], ['branch', 1], ['midsave', 2], ['reread', 1]);
     const bag = weights.flatMap(([n, w]) => Array(w).fill(n));
     for (let step = 0; step < STEPS; step++) {

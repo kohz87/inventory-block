@@ -280,3 +280,12 @@ Tolerant names: plurals, articles, zero-width, case, word order, portion words l
 Spec questions (not filed, SB-inv): parenthesised text always dropped — `Healing Potion (Greater)` adds to / finds the plain
 potion, so a fetch quest for the greater one can be met with the common one; homoglyph names (Cyrillic о) make look-alike
 separate stacks and loot's "already carried" check misses them (no minting).
+
+## Tick 01:50 — re-check on the beta wave (lead)
+Heads: Story_block d078cee (+#106 features needs, #108 storage: checkpoints every 100 / 128 KB, record kept once, old receipts
+without data; #109 one story budget; #111; #112 fuzz oracle per §2.2; gear condition keyed events), rpg_battle 28a97d5 (#88 gear,
+#89 crafting, balance wave C, #93–#95), Story_director 9f59baf (quest pay in SB's budget, chronicle day facts), npc_state_delta
+1156fd7 (meters wave C). Re-check (results/work/lead/recheck.sh): every filed test still fails except C2-1 (fixed, SD #91).
+Agents 1 (replay), 2 (capture) and 4 (storage) were stopped by the user mid pass 2, so the merged storage PR has not been fuzzed
+and their pass-2 work is unreported. Their unreviewed tests are kept but not filed: c1-wear-after-middle-delete (SB, fails),
+c2-spoof-marker-reread (SB, fails), c1-time-after-middle-delete (SD, fails), c1-effect-replies-after-delete (RB, passes now).

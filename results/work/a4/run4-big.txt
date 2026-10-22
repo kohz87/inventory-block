@@ -13,3 +13,10 @@ SUMMARY
 seed 3700: 0 viol, 1204 msgs, 25 cps, 5464223 B, 663 writes {}
 seed 3701: 0 viol, 1206 msgs, 23 cps, 5462789 B, 680 writes {}
 seed 3702: 0 viol, 1210 msgs, 25 cps, 5168622 B, 665 writes {}
+seed 3703: 0 viol, 1218 msgs, 25 cps, 5156693 B, 682 writes {}
+
+SUMMARY
+
+real	14m59.789s
+user	16m37.394s
+sys	0m39.440s

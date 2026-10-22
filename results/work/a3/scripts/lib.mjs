@@ -26,9 +26,15 @@ export function fzModule() {
             { id: 'fz.cmd', label: 'Pokes', default: false },
             { id: 'fz.flag', label: 'Flag', prompt: true },
             { id: 'fz.tail', label: 'Tail', default: false },
+            ...(process.env.NEEDS ? [
+                { id: 'fz.needy', label: 'Needs wound', needs: { kinds: ['wound'], why: 'Needs RPG Battle.' } },
+                { id: 'fz.missing', label: 'Needs nope', needs: { commands: ['late.cmd'] } },
+                { id: 'fz.chain', label: 'Needs tick', needs: { kinds: ['tick'], queries: ['fz.peek'] } },
+            ] : []),
         ],
         domains: { fzk: { initial: () => ({ ticks: {} }) }, fzc: { initial: () => ({ pokes: 0, tries: {} }) } },
         commands: {
+            ...(process.env.NEEDS ? { 'fz.missingCmd': { handler: ctx => { ctx.draft('fzc').pokes += 100; return { summary: 'Missing ran.', narrate: false }; }, feature: 'fz.missing' } } : {}),
             'fz.poke': { handler: ctx => { ctx.draft('fzc').pokes += 1; return { summary: 'Poked.', narrate: false }; }, feature: 'fz.cmd' },
             'fz.free': ctx => {
                 let code = 'ran';
@@ -62,6 +68,10 @@ export function fzModule() {
             parts: [
                 { feature: 'fz.kind', static: () => 'FZ ticks: write a tick line when a counter moves.', tail: view => ({ lines: [`FZ ticks ${Object.keys(view.state?.domains?.fzk?.ticks ?? {}).length}`] }) },
                 { feature: 'fz.tail', tail: () => ({ lines: [FZ_TAIL] }) },
+                ...(process.env.NEEDS ? [
+                    { feature: 'fz.needy', static: () => 'FZ needy static.', tail: () => ({ lines: ['FZ-NEEDY'] }) },
+                    { feature: 'fz.chain', tail: () => ({ lines: ['FZ-CHAIN'] }) },
+                ] : []),
             ],
             budget: 200,
         },
@@ -111,7 +121,7 @@ export async function allHost({ st = {}, settings = null, extra = [fzModule(), f
     const rb = RB.createModule({ settings: () => sdk?.settings(RB.MODULE_ID) ?? {} });
     const sd = SD.createModule({ host: { settings: id => sdk?.settings?.(id) ?? null, substitute: t => sdk?.substitute?.(t) } });
     const adapter = NSD.createStorySuiteV2Adapter({ suiteApi: { npcs: () => [] }, delta: () => ({ isEnabled: () => true, getNpc: () => null }), host: () => null, doc: null, logger: { warn() {} } });
-    const modules = [rb, sd];
+    const modules = process.env.NORB ? [sd] : [rb, sd];
     if (adapter.definition) modules.push(adapter.definition);
     modules.push(...extra);
     const host = await createHost({ modules, st, callModel: async () => 'none', ...(settings ? { settings } : {}) });
