@@ -13,8 +13,12 @@ import { createStore } from '../../../src/v2/store.js';
 
 test('C1-3: a rewind after a middle delete is not refused when the chat replays fine', async t => {
     t.mock.method(console, 'warn', () => {});
+    const realUUID = globalThis.crypto.randomUUID.bind(globalThis.crypto);
     const h = await started({ pack: false });
     t.after(() => h.close());
+    // suite.js's seeded crypto gives every record the same sid (sw_000000000000): give them real ones.
+    let n = 0;
+    globalThis.crypto.randomUUID = () => `${(++n).toString(16).padStart(8, '0')}-0000-4000-8000-${realUUID().slice(-12)}`;
     for (let k = 0; k < 10; k++) await h.send(`u${k}`, h.reply(`r${k}`, [`+ coin ${k + 1} | from: Kael`]));
     await h.regenerate(h.reply('r9 again', ['+ coin 2 | from: Kael']));   // a second dice cue lands on the reply before
     await h.st.deleteMessage(h.ctx.chat.length - 1);                       // the reader deletes that last reply
