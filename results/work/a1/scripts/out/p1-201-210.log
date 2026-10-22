@@ -1,0 +1,8 @@
+seed 201: 0 violations, chat 21 msgs, 1 checkpoints, 78241 bytes {}
+seed 202: 0 violations, chat 17 msgs, 1 checkpoints, 79783 bytes {}
+seed 203: 0 violations, chat 33 msgs, 1 checkpoints, 116771 bytes {}
+seed 204: 1 violations, chat 30 msgs, 1 checkpoints, 81633 bytes {"rewind refused":1}
+    {"seed":204,"step":167,"op":"rewind","what":"rewind refused","detail":"{\"ok\":false,\"code\":\"FAILED\",\"message\":\"The changes could not be taken back, so no branch was made: This chat has no story state yet.\"}"}
+seed 205: 1 violations, chat 27 msgs, 1 checkpoints, 111255 bytes {"#N rewind head rev != expected":1}
+    {"seed":205,"step":212,"op":"rewind","what":"#2 rewind head rev != expected","detail":"6 vs 0 (beforeRev 7, first 7)"}
+seed 206: 0 violations, chat 8 msgs, 1 checkpoints, 31122 bytes {}

@@ -2,10 +2,13 @@
 
 Format: `[severity] repo: title — test path — owner area`
 
-_Pass 1 in progress (heads: Story_block e0fd33b, rpg_battle 924b9a3, Story_director f001974, npc_state_delta 5243d79). No findings yet._
+_Pass 1 started at heads: Story_block e0fd33b, rpg_battle 924b9a3, Story_director f001974, npc_state_delta 5243d79). No findings yet._
+
+## Pass 2 (heads SB cb2d70e, RB 924b9a3, SD a8d428f, NSD 5243d79) — all open pass-1 tests re-checked: still fail except C2-1
+- [low] Story_block: changing a module's def.features after register makes sdk.features()/feature()/features.set() and the settings Features list throw — results/tests/Story_block/c3-features-def-changed.test.js — SB-features
 
 ## Pass 1 (heads SB e0fd33b, RB 924b9a3, SD f001974, NSD 5243d79)
-- [high] Story_director: fetch quests of story-minted items pay past the per-reply budget, many turn-ins per reply (300 coin at level 1 / 1380 with rank S) — results/tests/Story_director/c2-fetch-quest-story-items.test.js — SD-ranks (quests)
+- [high] ~~Story_director: fetch quests of story-minted items pay past the per-reply budget, many turn-ins per reply (300 coin at level 1 / 1380 with rank S)~~ FIXED in SD a8d428f (#91), test passes — results/tests/Story_director/c2-fetch-quest-story-items.test.js — SD-ranks (quests)
 - [medium] Story_block: a <Changes> block split across a Continue loses the continuation's lines and leaves raw markup visible — results/tests/Story_block/c2-continue-split-block.test.js — main (SB capture/turn)
 - [medium] Story_block: a reply cut off mid-reasoning applies the draft block inside the unclosed <think> — results/tests/Story_block/c2-cut-mid-reasoning.test.js — main (SB capture)
 - [medium] Story_block: hiding a block writes reasoning-blanked text back into the message; a mid-line <Changes> mention hides the rest of the story — results/tests/Story_block/c2-hide-masked-body.test.js — main / SB-storage

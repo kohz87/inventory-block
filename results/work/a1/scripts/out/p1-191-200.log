@@ -1,0 +1,13 @@
+seed 191: 0 violations, chat 3 msgs, 1 checkpoints, 16578 bytes {}
+seed 192: 0 violations, chat 4 msgs, 0 checkpoints, 413 bytes {}
+seed 193: 0 violations, chat 6 msgs, 1 checkpoints, 29256 bytes {}
+seed 194: 0 violations, chat 12 msgs, 0 checkpoints, 1271 bytes {}
+seed 195: 0 violations, chat 1 msgs, 1 checkpoints, 6691 bytes {}
+seed 196: 0 violations, chat 8 msgs, 1 checkpoints, 31035 bytes {}
+seed 197: 0 violations, chat 4 msgs, 1 checkpoints, 12211 bytes {}
+seed 198: 0 violations, chat 0 msgs, 0 checkpoints, 2 bytes {}
+seed 199: 0 violations, chat 2 msgs, 0 checkpoints, 206 bytes {}
+seed 200: 0 violations, chat 7 msgs, 0 checkpoints, 754 bytes {}
+
+SUMMARY
+ui commands {"npc.adjust":{"ok":0,"no":19,"codes":{"REFUSED":10,"FAILED":9},"msg":{"REFUSED":"Meters move with the story and with NPC State Delta's scans; the dossier editor sets them by hand.","FAILED":"There is no state to change yet."}},"party.rest":{"ok":16,"no":10,"codes":{"FAILED":10},"msg":{"FAILED":"There is no state to change yet."}},"inventory.transfer":{"ok":0,"no":10,"codes":{"REFUSED":10},"msg":{"REFUSED":"Knife is already with the party."}},"scene.present":{"ok":14,"no":34,"codes":{"NOT_FOUND":12,"FAILED":22},"msg":{"NOT_FOUND":"Cy is not in the scene.","FAILED":"There is no state to change yet."}},"inventory.drop":{"ok":12,"no":0,"codes":{}},"quest.take":{"ok":3,"no":0,"codes":{}},"scene.place":{"ok":12,"no":12,"codes":{"FAILED":12},"msg":{"FAILED":"There is no state to change yet."}},"check.resolve":{"ok":14,"no":9,"codes":{"FAILED":9},"msg":{"FAILED":"There is no state to change yet."}},"trade.sell":{"ok":9,"no":0,"codes":{}},"npc.set":{"ok":12,"no":16,"codes":{"FAILED":16},"msg":{"FAILED":"There is no state to change yet."}},"party.acceptOffer":{"ok":2,"no":0,"codes":{}},"party.learnSkill":{"ok":4,"no":7,"codes":{"REFUSED":3,"NOT_FOUND":4},"msg":{"REFUSED":"Ren already knows Power Strike.","NOT_FOUND":"\"Quick Shot\" is not in the skill library."}},"item.use":{"ok":0,"no":6,"codes":{"REFUSED":6},"msg":{"REFUSED":"The Whetstone is not something to use."}},"trade.buy":{"ok":1,"no":6,"codes":{"NOT_ENOUGH":6},"msg":{"NOT_ENOUGH":"The party has only 53 marks; 300 marks is needed."}},"item.equip":{"ok":3,"no":0,"codes":{}},"inventory.split":{"ok":1,"no":4,"codes":{"REFUSED":4},"msg":{"REFUSED":"There is only one Cane-Blade; it cannot be split."}},"inventory.equip":{"ok":1,"no":0,"codes":{}},"quest.decline":{"ok":1,"no":0,"codes":{}},"craft.commission":{"ok":0,"no":1,"codes":{"REFUSED":1},"msg":{"REFUSED":"The Coarse Salt is not a material a piece can be made from."}},"party.dismissOffer":{"ok":1,"no":0,"codes":{}}}

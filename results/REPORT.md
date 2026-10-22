@@ -126,3 +126,23 @@ names/labels safe in every module. `extra.reasoning` ignored; closed and mismatc
 Duplicate quest turn-ins claimed once. 150-line cap holds. `qty` parser strict (only "0020" of 50 odd forms accepted).
 Not filed: `<details>`, `<thought>`, fullwidth "think" not treated as reasoning; `<think\n>` not recognised; NSD accepts loose
 meter numbers (`5.`, `20,5`, `1 000`), clamped to 15.
+
+## Pass 2 — re-check on new heads (lead)
+Heads: Story_block cb2d70e (+#99 crafting data/meter presets/money scale, #101 extractor reasoning, #102, #103),
+Story_director a8d428f (+#90 day digest, feature story-director.digest; #91 RX-E-1), rpg_battle 924b9a3, npc_state_delta 5243d79.
+- C2-1 FIXED by Story_director #91: both tests pass on a8d428f.
+- C2-2..C2-6 and C3-1..C3-5 still fail on the new heads.
+
+## Pass 2 — Features toggle fuzz (agent 3)
+See results/work/a3/REPORT.md "Pass 2". Summary:
+### C3-5 [severity: low] A module definition changed after register makes the features calls throw
+Story_block src/v2/registry.js:368-381: `featureDecl` re-reads the module's live `def.features` on each call (incl.
+`label.trim()`). After register, `def.features[0].label = 7`, a pushed feature, or `features = null` makes `sdk.features()`,
+`sdk.feature()`, `features.list()`, `features.set()` throw TypeError; the settings Features list (host-ui.js:226) throws
+too and that kind's lines are lost. Invariant 4. Fix: freeze a copy of each feature at registration and read only that.
+Test results/tests/Story_block/c3-features-def-changed.test.js. Owner SB-features.
+C3-6 was a duplicate of agent 1's C1-1 (record spans out of step; pending agent 1's report). Not filed: register() raw throw
+(only via async sdk.registerModule; all three modules catch it — RB shows the raw message in a toast).
+Fuzz pass 2: 250 seeds × 400 steps = 100,000 steps, 28,499 toggles, 4,827 off-kind lines, 604 day digests, with edits,
+5 corruption kinds + reload, rewind, branch, Re-read, toggles mid-generation and during a gated command save: only known
+signatures. Real feature story-director.digest: 0 digest commits while off, 604 on; replay == live across toggles/deletes.

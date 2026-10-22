@@ -63,7 +63,7 @@ async function runSeed(seed) {
         signatures.set(sig, (signatures.get(sig) ?? 0) + 1);
         if (process.env.DUMPDEL && violations.length === 1) fs.writeFileSync(process.env.DUMPDEL, J(globalThis.__dels.at(-1)));
         if (process.env.DUMPCHAT && violations.length === 1) fs.writeFileSync(process.env.DUMPCHAT, J({ chat: ctx.chat, head: store.head() }));
-        if (process.env.DUMPLOG && violations.length === 1) console.error('LOG', J(log), '\nCHAT', J(ctx.chat.map(m => [m.is_user ? 'U' : 'A', m.swipe_id, m.swipes?.length, m.mes.slice(0, 200)])));
+        if (process.env.DUMPLOG && (violations.length === 1 || sig === process.env.DUMPLOG)) console.error('LOG', J(log), '\nCHAT', J(ctx.chat.map(m => [m.is_user ? 'U' : 'A', m.swipe_id, m.swipes?.length, m.mes.slice(0, 200)])));
         if (VERBOSE) console.error('VIOLATION', seed, log.length, log.at(-1), sig, String(detail).slice(0, 300));
     };
     const turns = [];

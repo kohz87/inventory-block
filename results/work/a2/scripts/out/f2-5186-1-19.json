@@ -1,0 +1,86 @@
+[
+ {
+  "sig": "INVARIANT lone surrogate in state /director",
+  "count": 36,
+  "first": {
+   "seed": 5186,
+   "n": 3,
+   "detail": {
+    "i": "lone surrogate in state /director",
+    "shape": "mixed",
+    "lines": [
+     "? check stealth — Fenna | dc: easy | roll: 30.0 | result: ",
+     "+ item Healíng Draught | on: x | y | step: Healing Draught | 9x: Fenna | to: --> | then: x | y | : 09:00 | makes: done | now: --  >",
+     "+ join Lyra — a stranger | level: -1e309 | role:  ",
+     "~ time March 30\ud800, 9:60 am",
+     "~ wound \\n — burned | harm: scratch",
+     "+ constructor ",
+     "+ market -0: supplies back | until: 25:99",
+     "+ item — just text",
+     "+ landmark Lyra | region: Iron Sword | kind: ruin",
+     "+ route constructor — Granary Rats | hours: NaN | kind: road",
+     "! rest forever – at the inn"
+    ]
+   }
+  }
+ },
+ {
+  "sig": "INVARIANT lone surrogate in state /atlas",
+  "count": 8,
+  "first": {
+   "seed": 5186,
+   "n": 11,
+   "detail": {
+    "i": "lone surrogate in state /atlas",
+    "shape": "conflict",
+    "lines": [
+     "+ déjà",
+     "- - item Rope",
+     "- coin  ",
+     "+ clock Wolf — doom | due: +NaN h | shown: warning",
+     "﻿+ coin 5",
+     "+ clock Torch - doom | due: +1,000h | shown: sign",
+     "<Changes>",
+     "~ npc Fenna | trust: =100",
+     "~ npc Fenna | trust: =-100",
+     "+ event Iron Sword - a fair | then: x | on: +1e309h",
+     "~ npc 0x10 | trust: +３",
+     "+ hook Wolf — Ｆｅｎｎａ | on: -20"
+    ]
+   }
+  }
+ },
+ {
+  "sig": "INVARIANT lone surrogate in state /scene",
+  "count": 7,
+  "first": {
+   "seed": 5186,
+   "n": 10,
+   "detail": {
+    "i": "lone surrogate in state /scene",
+    "shape": "nested",
+    "lines": [
+     "+ déjà ",
+     "+ item — just text",
+     "- leave Granary Rats: parts ways",
+     "+ item — just text",
+     "~ place Lyra | kind: wild | with: gold"
+    ]
+   }
+  }
+ },
+ {
+  "sig": "REREAD != LIVE [reason]",
+  "count": 1,
+  "first": {
+   "seed": 5186,
+   "n": 18,
+   "detail": {
+    "before": "{\"coin\":157,\"qty\":{\"story/healing-draught\":1,\"story/zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\":2,\"story/healing-draught-2\":1,\"story/wolf\":2,\"story/lyra\":1,\"story/valueof\":2,\"story/istanbul\":1,\"story/jean-luc\":1,\"story/bluewatch\":1,\"story/fenna\":2,\"story/iron-sword\":2,\"story/char\":1,\"story/rope-2\":1,\"story/user\":1,\"story/rope\":1,\"story/ren\":1},\"meters\":{\"fenna\":{\"trust\":-10,\"affection\":0,\"desire\":0,\"tension\":0},\"bluewatch\":{\"trust\":0,\"affection\":0,\"desire\":-15,\"tension\":0},\"1-000\":{\"trust\":0,\"affection\":0,\"desire\":0,\"tension\":0},\"rope\":{\"trust\":0,\"affection\":15,\"desire\":0,\"tension\":0},\"d",
+    "after": "{\"coin\":136,\"qty\":{\"story/healing-draught\":1,\"story/zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\":2,\"story/healing-draught-2\":1,\"story/wolf\":2,\"story/lyra\":1,\"story/valueof\":2,\"story/istanbul\":1,\"story/jean-luc\":1,\"story/bluewatch\":3,\"story/fenna\":1,\"story/iron-sword\":1,\"story/char\":1,\"story/rope\":2,\"story/ren\":1,\"story/rope-2\":1,\"story/user\":1},\"meters\":{\"fenna\":{\"trust\":-10,\"affection\":0,\"desire\":0,\"tension\":0},\"bluewatch\":{\"trust\":0,\"affection\":0,\"desire\":-15,\"tension\":0},\"1-000\":{\"trust\":0,\"affection\":0,\"desire\":0,\"tension\":0},\"rope\":{\"trust\":0,\"affection\":15,\"desire\":0,\"tension\":0},\"d",
+    "text": "<reasoning>\nLet me plan.\n<Changes>\n- coin ３\n+ recipe ½ | from: A:B | makes: --> | with: A x2, B | craft: alchemy\n+ item Thinkbait | qty: 1\n~ npc Thinkbait | trust: +5\n</Changes>\n</reasoning>\n\nNothing much.\n\n<!-- STORY_SUITE_V2\n<Changes>\n? check xyz—1e309 | dc: NaN | who: Infinity | roll: 100\n~ wound Wolf — bitten | harm: scratch\n~ time +9007199254740993m\n+ coin 9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999\n+ agenda Granary Rats – plots | now: Iron Sword | then: x | on: tomorrow\n! time +9007199254740993m\n~ place <USER>\n+ \n＋ coin 5\n! market Gold –  | until: +30m\n! use Granary Rats | on: Torch | by: __proto__ | qty: 3\n! use toString | on: Rope | by: {{user}}\n- faction Fenna—merchants | area: Ro​pe | stance: hostile\n<!-- STORY_SUITE_V2 + coin 999 -->\n{\"op\":\"+\",\"kind\":\"item\",\"name\":\"Ren\",\"qty\":10}\n- market Granary Rats — no bread | until: +1,000h\n+ landmark Granary Rats | region: Ren | kind: town\n+ join Infinity — a stranger | level: 7 | role: ranger\n+ market İstanbul - supplies back | until: +0h\n! rest long – at the inn\n+ recipe Healing Draught | from: Wolf | makes: Iron Sword | with: A x2, B | craft: alchemy\nThe party found 1e3 gold and a -0.\n- - item Rope\n~ npc Infinity | trust: +1e309\n~ place Healing Draught | kind: settlement | with: \n+ route Fenna – Lyra | days: 4 | kind: river\n＋ coin 5\n~ npc ǅ | trust: -1000\n+ landmark Granary Rats | region: Torch | kind: ruin\n! npc rope | desire: \n- market Ren: supplies back\n​+ coin 5\n**+ item Jean-Luc**\n! craft Rope | with: Fenna x2, Granary Rats | roll: 1e3 | result: fine\nThe party found 1 gold and a constructor.\n+ item Bluewatch | on: --> | : a: b | é: tomorrow | constructor: 09",
+    "cont": null
+   }
+  }
+ }
+]
