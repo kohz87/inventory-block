@@ -3,7 +3,14 @@
 Format: `[severity] repo: title — test path — owner area`
 Heads: SB 6ae03aa, RB 73b3cbb, SD ad7d396, NSD 37addac. Full write-ups are in REPORT.md.
 
-_In progress: a3 (live) is still running._
+Totals: critical 0 · high 0 · medium 14 · low 16 (30 findings; 29 failing `node:test` files, 1 live only). Every test was re-run by the lead on a clean clone of these heads and fails on an assertion.
+Last pass's 14 findings: all fixed on these heads (2 old tests are obsolete after the fix, see REPORT.md). All 27 earlier-cell c1–c4 tests now pass.
+
+## a3: live settings and screens (390 and 1440 px; SB alone, with each module, all four)
+- [medium] Story_block: unload saving checks the 64 KiB keepalive limit against characters, not bytes; a CJK/emoji chat of ~21k–61k chars is sent with keepalive, Chromium refuses it ("Failed to fetch") and the reader is not asked — results/tests/Story_block/a3-keepalive-counts-chars-not-bytes.test.js — SB-storage (unload / chat-file)
+- [medium] Story_block: the Diagnostics report (Copy/Save) contains chat text: Problem messages name story items, people and places ("There is no NOPEMARK_9 in the inventory."), and a stray quote mark breaks scrubLine's pairing — results/tests/Story_block/a3-diagnostics-problems-leak-chat-text.test.js — SB-diagnostics
+- [low] Story_block: Diagnostics keeps common key shapes from settings text verbatim (32-char mixed-case key, AWS key id, short `sk-` key) — results/tests/Story_block/a3-diagnostics-key-shapes-kept.test.js — SB-diagnostics
+- [low] rpg_battle: "Create your character" never shows on the card under a reply (RB added to a chat that already has replies: the card has no RB part) — live only: results/scripts/a3/replycard.mjs, cards-reload.mjs — RB-screens2
 
 ## a1: capture, display kinds, replay (each test re-run by the lead on a clean clone; all fail on assertions)
 - [medium] Story_block: a line of dialogue like "+ coin 5, she said, …" is taken from the story as a change line; the coin is paid and the line disappears — results/tests/Story_block/a1-stray-dialogue-coin.test.js — SB-capture (#123)

@@ -1,0 +1,27 @@
+[sd-390] modules story-block,story-director
+[sd-390] r1 true
+[sd-390] r2 true
+[sd-390] xss null overflow {"sw":390,"iw":390,"over":false}
+[sd-390]   tabs: Quests, Scene, Inventory, Map, Chronicle, Days, Director
+[sd-390]   panel-Quests: clicked 1
+[sd-390]   panel-Scene: clicked 0
+[sd-390]   panel-Inventory: clicked 1
+[sd-390]   panel-Map: clicked 5
+[sd-390]   panel-Chronicle: clicked 0
+[sd-390]   panel-Days: clicked 0
+[sd-390]   panel-Director: clicked 0
+[sd-390]   game screens: Home, Quests, Scene, Inventory, Map, Chronicle, Days, Director
+[sd-390]   game-Home: clicked 2
+[sd-390]   game-Quests: clicked 1
+[sd-390]   game-Scene: clicked 0
+[sd-390]   game-Inventory: clicked 1
+[sd-390]   game-Map: clicked 5
+[sd-390]   game-Chronicle: clicked 0
+[sd-390]   game-Days: clicked 0
+[sd-390]   game-Director: clicked 0
+[sd-390]   settings folds opened: 15
+[sd-390]   settings: clicked 24
+[sd-390]   cards opened: 5
+[sd-390] walk problems 0
+[sd-390] xss after walk null
+[sd-390] ERRORS 0 []

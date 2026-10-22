@@ -1,0 +1,30 @@
+// Are the cards under replies drawn again after a reload (same modules / modules added)?
+import { open, newChat, send, R, sleep, ourErrors, clearQueue, setExts, reloadReady } from './lib.mjs';
+const ADD = process.argv[2] === 'add';
+clearQueue();
+const { browser, page, errors, ev } = await open({ width: 1440, exts: ADD ? ['Story_block'] : ['Story_block', 'rpg_battle', 'Story_director', 'npc_state_delta'] });
+const log = (...a) => console.log(`[cards-${ADD ? 'add' : 'same'}]`, ...a);
+const cards = () => ev(() => [...document.querySelectorAll('#chat .mes')].map(m => m.getAttribute('mesid') + ':' + m.querySelectorAll('[class*="story-suite"], [class*="ss-"], .rb').length));
+if (!ADD) { await ev(() => [...document.querySelectorAll('button')].find(b => b.offsetParent && /^create$/i.test(b.textContent.trim()))); }
+const chatId = await newChat(page);
+if (!ADD) await ev(() => StoryBlock.sdk.command('creation.finish', { name: 'User', race: 'rpg-battle/human', talents: [], points: { STR: 4, VIT: 3, AGI: 3 } })).catch(e => log('cmd', e.message));
+log('r1', await send(page, 'hi', R('The quay.', ['~ place Quay | kind: dock', '+ item Rope | qty: 1'])));
+log('before reload', JSON.stringify(await cards()));
+if (ADD) setExts(['Story_block', 'rpg_battle', 'Story_director', 'npc_state_delta']);
+await reloadReady(page);
+const cur = await ev(() => SillyTavern.getContext().getCurrentChatId());
+log('chat after reload', cur === chatId ? 'same chat' : `other: ${cur} vs ${chatId}`);
+if (cur !== chatId) await ev(async id => { const c = SillyTavern.getContext(); const i = c.characters.findIndex(x => x.name === 'The Narrator'); await c.selectCharacterById(String(i)); await new Promise(r => setTimeout(r, 2500)); await c.openCharacterChat(id); await new Promise(r => setTimeout(r, 3500)); }, chatId);
+await sleep(2000);
+log('after reload', JSON.stringify(await cards()));
+await ev(async () => { for (const d of document.querySelectorAll('#chat .mes details:not([open])')) d.open = true; await new Promise(r => setTimeout(r, 800)); });
+log('card text', JSON.stringify(await ev(() => document.querySelector('#chat .mes.last_mes .mes_text')?.parentElement?.innerText.replace(/\s+/g, ' ').slice(0, 800))));
+log('card buttons', JSON.stringify(await ev(() => [...document.querySelectorAll('#chat .mes.last_mes button')].map(b => b.textContent.trim().slice(0, 30) + (b.offsetParent ? '' : '(hidden)')))));
+await ev(() => [...document.querySelectorAll('#chat .mes.last_mes button')].find(b => b.textContent.trim() === 'Status')?.click()); await sleep(1200);
+log('status text', JSON.stringify(await ev(() => document.querySelector('#chat .mes.last_mes')?.innerText.replace(/\s+/g, ' ').slice(0, 600))));
+log('status buttons', JSON.stringify(await ev(() => [...document.querySelectorAll('#chat .mes.last_mes button')].map(b => b.textContent.trim().slice(0, 30) + (b.offsetParent ? '' : '(hidden)')))));
+const nb = await ev(() => { const b = [...document.querySelectorAll('#chat .mes.last_mes button')].find(b => /create/i.test(b.textContent)); if (!b) return 'none'; b.click(); return 'clicked'; }); await sleep(1500); log('card create', nb, 'dialogs', await ev(() => document.querySelectorAll('.ss-dialog').length));
+await page.screenshot({ path: '/home/user/cell/a3/out/shots/card-status-1440.jpg', type: 'jpeg', quality: 45 });
+log('widgets', JSON.stringify(await ev(() => [...document.querySelectorAll('#chat .mes ss-widget, #chat .mes [data-widget]')].map(w => w.getAttribute('name') ?? w.dataset.widget))));
+log('ERRORS', JSON.stringify(ourErrors(errors).filter(e => !/dossier/.test(e))));
+await browser.close();

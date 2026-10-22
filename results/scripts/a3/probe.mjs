@@ -1,0 +1,11 @@
+import { open, newChat, send, R, sleep, overflow, ourErrors, OUT } from './lib.mjs';
+const { browser, page, errors, ev } = await open({ width: 1440 });
+console.log('mods', await ev(() => StoryBlock.sdk.modules().map(m => m.id).join(',')));
+await newChat(page);
+await ev(() => document.querySelector('.story-suite-bar-settings')?.click()); await sleep(1500);
+console.log(await ev(() => { const o = document.querySelector('#story_suite_v2_overlay'); if (!o) return 'no overlay ' + [...document.querySelectorAll('[class*=story-suite-bar]')].map(b => b.className).join(';');
+  const walk = (el, d) => [...el.querySelectorAll(':scope > details, :scope > * > details, :scope > * > * > details')].map(x => '  '.repeat(d) + (x.querySelector(':scope > summary')?.textContent.trim().slice(0, 60)) + ' [' + (x.dataset.fold || x.className) + ']\n' + walk(x, d + 1)).join('');
+  return walk(o, 0); }));
+await page.screenshot({ path: `${OUT}/shots/probe-settings.png` });
+console.log(ourErrors(errors).join('\n'));
+await browser.close();

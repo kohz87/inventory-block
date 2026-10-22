@@ -1,0 +1,17 @@
+[sb-1440] modules story-block
+[sb-1440] r1 true
+[sb-1440] r2 true
+[sb-1440] xss null overflow {"sw":1440,"iw":1440,"over":false}
+[sb-1440]   tabs: Scene, Inventory
+[sb-1440]   panel-Scene: clicked 0
+[sb-1440]   panel-Inventory: clicked 1
+[sb-1440]   game screens: Home, Scene, Inventory
+[sb-1440]   game-Home: clicked 2
+[sb-1440]   game-Scene: clicked 0
+[sb-1440]   game-Inventory: clicked 1
+[sb-1440]   settings folds opened: 8
+[sb-1440]   settings: clicked 18
+[sb-1440]   cards opened: 5
+[sb-1440] walk problems 0
+[sb-1440] xss after walk null
+[sb-1440] ERRORS 0 []

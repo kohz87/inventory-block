@@ -1,0 +1,17 @@
+[sb-390] modules story-block
+[sb-390] r1 true
+[sb-390] r2 true
+[sb-390] xss null overflow {"sw":390,"iw":390,"over":false}
+[sb-390]   tabs: Scene, Inventory
+[sb-390]   panel-Scene: clicked 0
+[sb-390]   panel-Inventory: clicked 1
+[sb-390]   game screens: Home, Scene, Inventory
+[sb-390]   game-Home: clicked 2
+[sb-390]   game-Scene: clicked 0
+[sb-390]   game-Inventory: clicked 1
+[sb-390]   settings folds opened: 8
+[sb-390]   settings: clicked 18
+[sb-390]   cards opened: 5
+[sb-390] walk problems 0
+[sb-390] xss after walk null
+[sb-390] ERRORS 0 []

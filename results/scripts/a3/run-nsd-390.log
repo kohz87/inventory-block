@@ -1,0 +1,29 @@
+[nsd-390] modules npc-state-delta,story-block
+[nsd-390] r1 true
+[nsd-390] r2 true
+[nsd-390] xss null overflow {"sw":390,"iw":390,"over":false}
+[nsd-390]   tabs: Scene, Inventory, Cast
+[nsd-390]   panel-Scene: clicked 0
+[nsd-390]   panel-Inventory: clicked 1
+[nsd-390]   panel-Cast: clicked 1
+[nsd-390]   game screens: Home, Scene, Cast, Inventory
+[nsd-390]   game-Home: clicked 2
+[nsd-390]   game-Scene: clicked 0
+[nsd-390]   game-Cast: clicked 1
+[nsd-390]   game-Inventory: clicked 1
+[nsd-390]   settings folds opened: 22
+[nsd-390]   !! settings: over=false sw=390/390 off=[] blanks=["input#story_suite_feature_overview_npc-state-delta.stages. tiny 1x1","input#story_suite_feature_overview_npc-state-delta.drift. tiny 1x1","input#story_suite_feature_overview_npc-state-delta.presets. tiny 1x1","input#story_suite_feature_overview_story-block.hud. tiny 1x1","input#story_suite_feature_overview_story-block.cards. tiny 1x1","input#story_suite_feature_overview_story-block.preroll. tiny 1x1"] words=[]
+[nsd-390]   settings: clicked 48
+[nsd-390]   cards opened: 5
+[nsd-390] walk problems 1
+[nsd-390] xss after walk null
+[nsd-390] ERRORS 8 [
+ "console.error [NPC State Delta] dossier scan failed Error: No message generated\n    at Object.generateRaw (http://127.0.0.1:8301/script.js:4147:15)\n    at async dispatchScannerRequest (http://127.0.0.1:8301/scripts/extensions/third-party/npc_state_delta/scanner-routing.js:228:26)\n    at async invoke (http://127.0.0.1:8301/scripts/extensions/third-party/npc_state_delta/src/scanner-request.js:50:21)\n    at async  @ v2/diagnostics.js",
+ "console.error [NPC State Delta] dossier scan failed Error: No message generated\n    at Object.generateRaw (http://127.0.0.1:8301/script.js:4147:15)\n    at async dispatchScannerRequest (http://127.0.0.1:8301/scripts/extensions/third-party/npc_state_delta/scanner-routing.js:228:26)\n    at async invoke (http://127.0.0.1:8301/scripts/extensions/third-party/npc_state_delta/src/scanner-request.js:50:21)\n    at async  @ v2/diagnostics.js",
+ "console.error [NPC State Delta] dossier scan failed Error: No message generated\n    at Object.generateRaw (http://127.0.0.1:8301/script.js:4147:15)\n    at async dispatchScannerRequest (http://127.0.0.1:8301/scripts/extensions/third-party/npc_state_delta/scanner-routing.js:228:26)\n    at async invoke (http://127.0.0.1:8301/scripts/extensions/third-party/npc_state_delta/src/scanner-request.js:50:21)\n    at async  @ v2/diagnostics.js",
+ "console.error [NPC State Delta] dossier scan failed Error: No message generated\n    at Object.generateRaw (http://127.0.0.1:8301/script.js:4147:15)\n    at async dispatchScannerRequest (http://127.0.0.1:8301/scripts/extensions/third-party/npc_state_delta/scanner-routing.js:228:26)\n    at async invoke (http://127.0.0.1:8301/scripts/extensions/third-party/npc_state_delta/src/scanner-request.js:50:21)\n    at async  @ v2/diagnostics.js",
+ "console.error [NPC State Delta] dossier scan failed Error: No message generated\n    at Object.generateRaw (http://127.0.0.1:8301/script.js:4147:15)\n    at async dispatchScannerRequest (http://127.0.0.1:8301/scripts/extensions/third-party/npc_state_delta/scanner-routing.js:228:26)\n    at async invoke (http://127.0.0.1:8301/scripts/extensions/third-party/npc_state_delta/src/scanner-request.js:50:21)\n    at async  @ v2/diagnostics.js",
+ "console.error [NPC State Delta] dossier scan failed Error: No message generated\n    at Object.generateRaw (http://127.0.0.1:8301/script.js:4147:15)\n    at async dispatchScannerRequest (http://127.0.0.1:8301/scripts/extensions/third-party/npc_state_delta/scanner-routing.js:228:26)\n    at async invoke (http://127.0.0.1:8301/scripts/extensions/third-party/npc_state_delta/src/scanner-request.js:50:21)\n    at async  @ v2/diagnostics.js",
+ "console.error [NPC State Delta] dossier scan failed Error: No message generated\n    at Object.generateRaw (http://127.0.0.1:8301/script.js:4147:15)\n    at async dispatchScannerRequest (http://127.0.0.1:8301/scripts/extensions/third-party/npc_state_delta/scanner-routing.js:228:26)\n    at async invoke (http://127.0.0.1:8301/scripts/extensions/third-party/npc_state_delta/src/scanner-request.js:50:21)\n    at async  @ v2/diagnostics.js",
+ "console.error [NPC State Delta] dossier scan failed Error: No message generated\n    at Object.generateRaw (http://127.0.0.1:8301/script.js:4147:15)\n    at async dispatchScannerRequest (http://127.0.0.1:8301/scripts/extensions/third-party/npc_state_delta/scanner-routing.js:228:26)\n    at async invoke (http://127.0.0.1:8301/scripts/extensions/third-party/npc_state_delta/src/scanner-request.js:50:21)\n    at async  @ v2/diagnostics.js"
+]

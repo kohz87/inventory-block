@@ -1,0 +1,26 @@
+[rb-1440] modules rpg-battle,story-block
+[rb-1440] create created
+[rb-1440] r1 true
+[rb-1440] r2 true
+[rb-1440] xss null overflow {"sw":1440,"iw":1440,"over":false}
+[rb-1440]   tabs: Party, Scene, Inventory, Crafting, Fight, Trade
+[rb-1440]   panel-Party: clicked 0
+[rb-1440]   panel-Scene: clicked 0
+[rb-1440]   panel-Inventory: clicked 4
+[rb-1440]   panel-Crafting: clicked 0
+[rb-1440]   panel-Fight: clicked 0
+[rb-1440]   panel-Trade: clicked 25
+[rb-1440]   game screens: Home, Party, Scene, Inventory, Crafting, Fight, Trade
+[rb-1440]   game-Home: clicked 2
+[rb-1440]   game-Party: clicked 0
+[rb-1440]   game-Scene: clicked 0
+[rb-1440]   game-Inventory: clicked 6
+[rb-1440]   game-Crafting: clicked 0
+[rb-1440]   game-Fight: clicked 0
+[rb-1440]   game-Trade: clicked 24
+[rb-1440]   settings folds opened: 18
+[rb-1440]   settings: clicked 28
+[rb-1440]   cards opened: 5
+[rb-1440] walk problems 0
+[rb-1440] xss after walk null
+[rb-1440] ERRORS 0 []

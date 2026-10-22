@@ -1,0 +1,56 @@
+Story Suite diagnostics
+Made 2026-10-22T06:04:02.856Z
+
+== Versions ==
+SillyTavern: SillyTavern 1.19.0 'HEAD' (7e8663c)
+Story Block: 2.0.0-alpha.2
+NPC State Delta (npc-state-delta): 1.2.19
+RPG Battle (rpg-battle): 2.0.0-alpha.1
+Story Director (story-director): 2.0.0-alpha.1
+
+== Features ==
+13 of 19 on.
+On: npc-state-delta.stages, npc-state-delta.presets, rpg-battle.effects, rpg-battle.recovery, rpg-battle.wear, rpg-battle.refine, rpg-battle.crafting, story-block.hud, story-block.cards, story-block.savepoints, story-block.loot, story-block.encumbrance, story-director.digest
+Off: npc-state-delta.drift, story-block.preroll, story-block.extractor, story-block.inspector, story-block.choices, story-block.chatter
+
+== Settings ==
+Keys that name a key, token, password, address or other secret are left out.
+Story Suite: {"tailBudget":1500,"contextShare":40,"maxChangeLines":150}
+npc-state-delta: {"changeCap":15,"customMeters":[],"stages":[],"ladder":[],"conflictAt":50,"demoteAfter":3,"presets":[],"note":"short sk-FAKE12345"}
+rpg-battle: {"party.startPoints":10,"party.statCap":99,"party.pointsPerLevel":4,"party.xpBase":100,"party.maxLevel":99,"party.activeSkills":6,"party.autoSpend":true,"party.maxCompanions":3,"party.xpName":"SETMARK_XP AKIA…(fake AWS example id)","party.levelName":"","party.ranks":[],"party.levelsPerRank":0,"creation.maxTalents":2,"creation.builtInChoices":true,"items.carryLimit":true,"items.carrySize":100,"items.carryItems":[],"combat.turnOrder":"timeline","combat.speedOffset":10,"combat.hitBase":75,"combat.hitPerPoint":3,"combat.fieldPerMember":4,"combat.fieldMax":9,"trade.placePrices":[],"trade.shortagePrices":150,"trade.guessPrices":false,"screens.cardOnlyChanged":false}
+story-block: {"currency":"SETMARK_CUR","currencyPlural":"","currencyShort":"","storyCoinPerReply":0,"economyScale":"0","coins":[],"coinDisplay":"mixed","chatterInPrompt":false,"assistClassifier":false,"assistExtractor":false,"assistProfile":"[removed]"}
+story-director: {"tracker.calendar.preset":"pack","tracker.calendar.era":"era Xq7L…(fake 32-char key)","tracker.calendar.months":[{"name":"January","days":31},{"name":"February","days":28},{"name":"March","days":31},{"name":"April","days":30},{"name":"May","days":31},{"name":"June","days":30},{"name":"July","days":31},{"name":"August","days":31},{"name":"September","days":30},{"name":"October","days":31},{"name":"November","days":30},{"name":"December","days":31}],"tracker.calendar.daysPerMonth":30,"tracker.calendar.leapYears":true,"tracker.calendar.partsOfDay":{"dawn":360,"morning":540,"noon":720,"afternoon":900,"dusk":1140,"evening":1140,"night":1320,"midnight":0,"sunrise":360,"daybreak":360,"sunset":1140,"sundown":1140},"tracker.dormantReplies":15,"tracker.dormantDays":30,"tracker.dueSoonDays":3,"tracker.maxJump":30,"quests.followLadder":true,"time.recapHours":6,"time.lapses":true,"atlas.map.north":"up","atlas.map.east":"right","atlas.map.kmPerUnit":"1","atlas.map.roadFactor":"1.25","atlas.map.era":"pre-modern","chronicle.digestDays":14,"chronicle.digestKeep":120,"chronicle.digestTail":true,"tracker.calendar.week":""}
+  left out: openaiApiKey
+
+== Prompt size ==
+Estimated at four characters a token. Instructions: 2,280. This reply's part: 10 of 200. In all: 2,290.
+  story-suite: instructions 1,275, this reply 0
+  npc-state-delta: instructions 57, this reply 0
+  rpg-battle: instructions 424, this reply 0
+  story-block: instructions 54, this reply 10
+  story-director: instructions 469, this reply 0
+Context size: 4,095 tokens (300 for the reply). Story Suite's share: 1,518 of 3,795 (40%); the context is too small.
+
+== Problems (the last 20) ==
+None.
+
+== Saving ==
+Failing now: no. Unsaved changes: no. Waiting to read the file back after a timed-out save: no.
+Failed saves this page load: 0.
+
+== This chat ==
+Messages: 3. Replies: 1. Replies with a Story Suite record: 1. Size: about 3 KB.
+
+== Recent Story Suite errors ==
+- [NPC State Delta] dossier scan failed Error: No message generated
+- [NPC State Delta] dossier scan failed Error: No message generated
+
+== NPC State Delta (its own) ==
+Delta on: yes. Auto scan: yes. Full scan every turn: no. One-pass narration capture: no.
+Connection Profiles: 0 usable for text.
+Scanner route: the current roleplay connection.
+Scanner output limit: the default per pass.
+Calls this page load: 2 sent (current connection 2, profile 0); succeeded 0, failed 2, timed out 0, cancelled 0, refused before sending 0; in flight 0.
+Last call: automatic dossier scan, through the current connection, sent, failure (PROVIDER_ERROR), 0.0 s, asked for 1800 tokens, 68 s ago.
+Dossiers in this chat: 0 active, 0 archived, 0 present.
+Hosted in Story Block: yes. Settings panel in the overlay: yes.
