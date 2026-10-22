@@ -1,7 +1,7 @@
 // A combined Story Suite v2 host on Story Block's own (latest) testkit: SB core (scene, inventory,
 // packs, events, assist), RPG Battle, Story Director and NPC State Delta's v2 adapter definition,
 // registered together as the integration tests do. Seeded crypto so runs replay.
-const ROOT = process.env.BREAK_ROOT ?? '/home/user/_break/b1-capture-r3';
+const ROOT = process.env.BREAK_ROOT ?? '/home/user/cell/a2';
 
 const { createHost } = await import(`${ROOT}/Story_block/testkit/index.js`);
 const RB = await import(`${ROOT}/rpg_battle/src/v2/module.js`);

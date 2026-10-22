@@ -1,10 +1,19 @@
-// b2-timeline: seeded chaos over the chat timeline on the testkit with all four modules.
+// c1 (cell a1): seeded chaos over the chat timeline on the testkit with all four modules, every capture
+// kind on v2 and the UI commands of all four modules. Adapted from harness/break/b2-timeline/fuzz.mjs.
 import fsSync from 'node:fs';
-// usage: node fuzz.mjs <seedFrom> <seedTo> <steps> [--stop] [--only=op,op]
-// After every step: #1 rebuild == live (oracle strict replay + fresh store), #2 recorded states,
-// #7 saved chat == live when clean.
+// usage: B2ROOT=<clones> node fuzz.mjs <seedFrom> <seedTo> <steps> [--stop] [--only=op,op] [--out=file.json]
+//   env PACK=0|1|mix (Ersveil pack; mix = odd seeds), ORACLE=1 (also the strict oracle per carrier),
+//   ATEVERY=n (fresh.at(i) == live.at(i) for every carrier every n steps, default 5), SWALLOW=1 (ST-swallowed saves).
+// After every step: #1 fresh store (runtime's validate + scratch) head == live head, #1b per carrier,
+// #2 recorded states, #7 saved chat == live when clean.
 import { allHost, persist, storeMod, fakeSt, seededMod } from './lib/host.mjs';
-const B = process.env.B2ROOT ?? '/home/user/_break/b2-timeline';
+const B = process.env.B2ROOT ?? '/home/user/cell/a1';
+const OUT = (process.argv.find(a => a.startsWith('--out=')) ?? '').slice(6);
+const ORACLE = process.env.ORACLE === '1';
+const AT_EVERY = Number(process.env.ATEVERY ?? 5);
+const CMD_STATS = {};
+const FAST = process.env.FAST === '1';   // fewer real-time waits (saveFail/slowRace rarer)
+const OPCOUNT = {};
 const { rebuildAt } = await import(`${B}/Story_block/tests/v2/qa/helpers/oracle.js`);
 const { readRecord } = persist;
 const { createStore } = storeMod;
@@ -23,35 +32,69 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
 const isCarrier = m => m && typeof m === 'object' && !m.is_user;
 const carriers = chat => chat.map((m, i) => (isCarrier(m) ? i : -1)).filter(i => i >= 0);
 
-const ITEMS = ['Rope', 'Lamp', 'Iron Key', 'Apple', 'Torch', 'Minor Healing Draught', 'Iron Sword'];
-const PLACES = ['Bluewatch Village', 'The Weir', 'Old Mill'];
-const PEOPLE = ['Fenna', 'Kael', 'Lyra'];
+const ITEMS = ['Rope', 'Lamp', 'Iron Key', 'Apple', 'Torch', 'Minor Healing Draught', 'Iron Sword', 'Crag Wolf Pelt', 'Coarse Salt', 'Burlap Sack', 'Healing Salve', 'Common Antidote', 'Bandage', 'Spear', 'Iron Cap', 'Gambeson', 'Lamp Oil', 'Crag Wolf Fang', 'Ração Ölü', '<b>Bold</b>'];
+const PLACES = ['Bluewatch Village', 'The Weir', 'Old Mill', 'Auvoth', 'Gate Forge', 'East Bluff', 'North Culvert'];
+const PEOPLE = ['Fenna', 'Kael', 'Lyra', 'Marrit'];
+const SKILLS = ['athletics', 'stealth', 'persuasion', 'STR', 'perception', 'lockpicking'];
 const LONG = n => 'x'.repeat(n);
-
+const KIND_COUNT = {};
 function line(r, big) {
-    switch (r.int(0, 16)) {
+    const pick = r.int(0, 47);
+    KIND_COUNT[pick] = (KIND_COUNT[pick] ?? 0) + 1;
+    switch (pick) {
         case 0: case 1: return `+ item ${r.pick(ITEMS)} | qty: ${r.int(1, 3)}${big ? ` | note: ${LONG(r.int(100, 400))}` : ''}`;
         case 2: return `- item ${r.pick(ITEMS)} | qty: ${r.int(1, 2)}`;
         case 3: return `+ coin ${r.int(1, 30)} | from: ${r.pick(PEOPLE)}`;
         case 4: return `- coin ${r.int(1, 12)} | to: ${r.pick(PEOPLE)}`;
-        case 5: return `~ place ${r.pick(PLACES)} | kind: settlement`;
+        case 5: return `~ place ${r.pick(PLACES)} | kind: ${r.pick(['settlement', 'wild', 'dungeon'])}${r.chance(0.3) ? ` | region: north` : ''}${r.chance(0.2) ? ` | with: ${r.pick(PEOPLE)}` : ''}`;
         case 6: return `${r.pick(['+', '-'])} present ${r.pick(PEOPLE)}`;
-        case 7: return `+ quest Find ${r.pick(ITEMS)} — a job | giver: ${r.pick(PEOPLE)} | goal: get it | reward: 10 coin`;
-        case 8: return `+ hook Rumor ${r.int(1, 9)} — an open thread`;
-        case 9: return `! time +${r.int(1, 5)}h`;
-        case 10: return `~ wound Ren — a fall | harm: ${r.pick(['scratch', 'wound'])}`;
-        case 11: return `+ faction Guild ${r.int(1, 4)} — merchants | stance: neutral`;
-        case 12: return `+ landmark ${r.pick(['Old Tower', 'Ruined Gate', 'Moss Cave'])} | region: north | kind: ruin`;
+        case 7: return `+ quest Find ${r.pick(ITEMS)} — a job | giver: ${r.pick(PEOPLE)} | goal: get it | reward: ${r.int(5, 60)} coin${r.chance(0.4) ? ` | ${r.pick(['rank: F', 'rank: E', 'difficulty: hard', 'difficulty: nightmare', 'rank: Z'])}` : ''}${r.chance(0.3) ? ' | due: tomorrow, 18:00' : ''}`;
+        case 8: return `+ hook Rumor ${r.int(1, 9)} — an open thread${r.chance(0.5) ? ` | giver: ${r.pick(PEOPLE)} | reward: ${r.int(5, 50)} coin` : ''}`;
+        case 9: return `! time +${r.int(1, 5)}${r.pick(['h', 'h', 'd', 'm'])}`;
+        case 10: return `~ wound Ren — a fall | harm: ${r.pick(['scratch', 'wound', 'severe', 'grievous'])}`;
+        case 11: return `+ faction Guild ${r.int(1, 4)} — merchants | stance: ${r.pick(['neutral', 'hostile', 'friendly'])}${r.chance(0.3) ? ' | area: north' : ''}`;
+        case 12: return `+ landmark ${r.pick(['Old Tower', 'Ruined Gate', 'Moss Cave'])} | region: north | kind: ruin${r.chance(0.2) ? ' | plane: underground' : ''}`;
         case 13: return `+ world Storm ${r.int(1, 3)} — a storm comes | state: looming`;
-        case 14: return `? check athletics — climb | dc: easy | who: Ren`;
-        case 15: return `! rest short — by the fire`;
+        case 14: return `? check ${r.pick(SKILLS)} — climb | dc: ${r.pick(['easy', 'normal', 'hard', String(r.int(5, 25))])}${r.chance(0.4) ? ` | roll: ${r.int(1, 2)}` : ''}${r.chance(0.4) ? ` | result: ${r.pick(['success', 'fail'])}` : ''} | who: ${r.pick(['Ren', 'Ren', 'Fenna'])}`;
+        case 15: return `! rest ${r.pick(['short', 'long'])} — by the fire`;
+        case 16: return `~ wound ${r.pick(['Ren', 'Fenna'])} — ${r.pick(['poisoned', 'cure poisoned', 'bleeding', 'cure bleeding', 'a rest | heal: wound', 'a salve | heal: scratch'])}`;
+        case 17: return `! use ${r.pick(['Minor Healing Draught', 'Healing Salve', 'Bandage', 'Common Antidote', 'Torch'])}${r.chance(0.6) ? ` | on: ${r.pick(['Ren', 'Fenna'])}` : ''}${r.chance(0.3) ? ` | qty: ${r.int(1, 2)}` : ''}`;
+        case 18: return `+ join ${r.pick(['Fenna', 'Kael'])} — a ranger | level: ${r.int(1, 4)} | role: ${r.pick(['scout', 'healer', 'guard'])}`;
+        case 19: return `- leave ${r.pick(['Fenna', 'Kael'])} — goes home`;
+        case 20: return `+ skill ${r.pick(['Ren', 'Fenna'])} — ${r.pick(['Power Strike', 'Quick Shot', 'Mend'])}: does a thing | taught by: ${r.pick(PEOPLE)}`;
+        case 21: return r.chance(0.6) ? `! market ${r.pick(PLACES)} — salt is short | until: ${r.pick(['tomorrow', '3 days'])}` : `~ market ${r.pick(PLACES)} — supplies back`;
+        case 22: return `~ npc ${r.pick(PEOPLE)} | trust: ${r.pick(['+', '-'])}${r.int(1, 12)}${r.chance(0.5) ? ` | affection: ${r.pick(['+', '-'])}${r.int(1, 9)}` : ''}${r.chance(0.2) ? ` | tension: +${r.int(1, 30)}` : ''}`;
+        case 23: return `~ quest Find ${r.pick(ITEMS)} | ${r.pick(['progress: halfway', 'met: yes', 'met: no'])}`;
+        case 24: return `- quest Find ${r.pick(ITEMS)} — ${r.pick(['turned in', 'failed', 'abandoned'])}`;
+        case 25: return `+ agenda ${r.pick(PEOPLE)} — plots | now: ${r.pick(PLACES)} | then: moves | on: tomorrow, 09:00`;
+        case 26: return `+ event Fair ${r.int(1, 3)} — a fair | then: ends | on: tomorrow, 12:00`;
+        case 27: return `+ clock Doom ${r.int(1, 3)} — bad things | due: tomorrow, 18:00 | shown: ${r.pick(['none', 'sign', 'warning'])}`;
+        case 28: return `+ beat Twist ${r.int(1, 3)} — a turn | on: tomorrow, 10:00 | reach: changes things`;
+        case 29: return `+ secret Hidden ${r.int(1, 3)} — not yet`;
+        case 30: return `~ time ${r.pick(['tomorrow, 08:00', 'day 3, 14:00', '12:30', 'next week'])}`;
+        case 31: return `${r.pick(['+', '-'])} route ${r.pick(PLACES)} — ${r.pick(PLACES)} | ${r.pick(['hours: 2', 'days: 1.5', 'hours: 0'])} | kind: ${r.pick(['road', 'river', 'trail'])}`;
+        case 32: return `~ world Storm ${r.int(1, 3)} — it worsens`;
+        case 33: return `- world Storm ${r.int(1, 3)} — it passed`;
+        case 34: return `~ faction Guild ${r.int(1, 4)} | stance: hostile`;
+        case 35: return `- faction Guild ${r.int(1, 4)}`;
+        case 36: return `~ item ${r.pick(ITEMS)} | note: ${r.pick(['dented', 'wet', 'glowing'])}`;
+        case 37: return `+ coin ${r.int(1, 99999)} | from: ${r.pick(PEOPLE)}`;
+        case 38: return `+ item ${r.pick(ITEMS)} | qty: ${r.pick([-3, 0, 999, 1.5, 'lots'])}`;
+        case 39: return `~ npc ${r.pick(PEOPLE)} | trust: ${r.pick(['+999', '-999', 'NaN', '+0', '50'])}`;
+        case 40: return `! encounter ${r.int(1, 2)} ${r.pick(['Rat', 'Wolf'])} — near | tier: ${r.pick(['trivial', 'weak'])} | stakes: normal`;
+        case 41: return `+ present ${r.pick(['Ann', 'Bo', 'Cy', '{{user}}', '  '])}`;
+        case 42: return `~ place ${r.pick(['Gate Forge', 'Watch Granary', 'Bluewatch Village'])} | kind: settlement | region: River Confederacy`;
+        case 43: return `+ item ${r.pick(['Crag Wolf Pelt', 'Coarse Salt', 'Burlap Sack'])} | qty: ${r.int(1, 4)}`;
+        case 44: return `+ quest ${r.pick(['Granary Rats', 'East Bluff Wolves', 'Culvert Leeches'])} — a guild job | giver: Guild | goal: clear it | reward: ${r.int(10, 400)} coin`;
+        case 45: return `? check ${r.pick(SKILLS)} — another try | dc: normal | who: Ren`;
+        case 46: return `! use ${r.pick(ITEMS)} | by: ${r.pick(['Ren', 'Fenna'])} | on: ${r.pick(['Ren', 'Fenna', 'Kael'])}`;
         default: return `+ item ${r.pick(ITEMS)}`;
     }
 }
 function replyText(r, step, big = false) {
     const story = `Reply ${step}: the story goes on.`;
     if (r.chance(0.15)) return story;
-    const lines = Array.from({ length: r.int(1, 5) }, () => line(r, big));
+    const lines = Array.from({ length: r.int(1, 6) }, () => line(r, big));
     return `${story}\n<Changes>\n${lines.join('\n')}\n</Changes>`;
 }
 
@@ -62,7 +105,8 @@ async function runSeed(seed) {
     const consoleErrors = [];
     console.warn = () => {};
     console.error = (...a) => consoleErrors.push(a.map(String).join(' '));
-    const h = await allHost();
+    const usePack = process.env.PACK === '1' || (process.env.PACK === 'mix' && seed % 2 === 1);
+    const h = await allHost({ pack: usePack });
     const { st, ctx, store, sdk, turn } = h;
     const validate = typeof h.registry.validator === 'function' ? (state, names) => names.flatMap(name => {
         const fn = h.registry.validator(name);
@@ -103,14 +147,24 @@ async function runSeed(seed) {
     function check(label, { expectRecorded = true, skip = new Set() } = {}) {
         const chat = ctx.chat;
         const idx = carriers(chat);
-        // #1 oracle per carrier
-        for (const i of idx) {
+        // #1 oracle per carrier (strict; known to lack rebase/scratch: opt-in)
+        if (ORACLE) for (const i of idx) {
             let live;
             try { live = store.at(i); } catch (e) { fail(`at(${i}) threw`, e.message); continue; }
             const want = rebuildAt(chat, i).state;
             if (J(live) !== J(want)) fail(`#1 at(${i}) != strict rebuild`, `${label}`);
         }
-        const fresh = mkStore(() => structuredClone(chat));
+        const snap = structuredClone(chat);
+        const fresh = mkStore(() => snap);
+        // #1b every carrier: a cold rebuild's state at that point == the live store's
+        if (AT_EVERY > 0 && (log.length % AT_EVERY === 0)) {
+            for (const i of idx) {
+                let live, cold;
+                try { live = J(store.at(i)); } catch (e) { fail(`at(${i}) threw`, e.message); continue; }
+                try { cold = J(fresh.at(i)); } catch (e) { fail(`fresh at(${i}) threw`, e.message); continue; }
+                if (live !== cold) { fail('#1b fresh.at(i) != live.at(i)', `${label} i=${i}/${chat.length}: ${diff(live, cold)}`); break; }
+            }
+        }
         if (J(fresh.head()) !== J(head())) {
             fail('#1 fresh store head != live head', `${label}: live->fresh ${diff(J(head()), J(fresh.head()))} | fresh problems ${J(fresh.problems())} live problems ${J(store.problems())}`);
             if (process.env.DUMPFRESH && !globalThis.__dumped) { globalThis.__dumped = 1; fsSync.writeFileSync('dumps/fresh.json', JSON.stringify({ chat, live: head(), fresh: fresh.head(), log }, null, 1)); }
@@ -134,7 +188,8 @@ async function runSeed(seed) {
         // #7: clean store => last save holds the live head
         if (!store.dirty() && files.has(ctx.chatId)) {
             const saved = files.get(ctx.chatId);
-            const savedHead = mkStore(() => structuredClone(saved)).head();
+            const savedSnap = structuredClone(saved);
+            const savedHead = mkStore(() => savedSnap).head();
             if (J(savedHead) !== J(head())) fail('#7 clean store but saved head != live head', `${label}: ${diff(J(head()), J(savedHead))}`);
         }
     }
@@ -192,14 +247,57 @@ async function runSeed(seed) {
             const m = ctx.chat.at(-1); m.name = r.pick(['Fenna', 'Kael']);
         },
         async ui() {
-            const head0 = head();
-            const stacks = Object.values(head0?.domains?.inventory?.stacks ?? {});
+            // UI commands of all four modules between replies, payloads from the live head.
+            const hd = head();
+            const D = hd?.domains ?? {};
+            const stacks = Object.values(D.inventory?.stacks ?? {});
+            const defs = D.inventory?.defs ?? {};
+            const party = D.party ?? {};
+            const actors = Object.keys(party.actors ?? {});
+            const offers = Object.keys(party.offers ?? {});
+            const threads = Object.values(D.director?.threads ?? {});
+            const orders = Object.keys(D.trade?.orders ?? {});
+            const st0 = stacks.length ? r.pick(stacks) : null;
             const who = r.pick(['Ann', 'Bo', 'Cy']);
-            const choices = [['scene.present', { add: who }], ['scene.present', { remove: who }]];
-            if (stacks.length) choices.push(['inventory.drop', { stack: r.pick(stacks).id, qty: 1 }]);
+            const choices = [['scene.present', { add: who }], ['scene.present', { remove: who }],
+                ['scene.place', { name: r.pick(PLACES), kind: 'settlement' }],
+                ['party.rest', { kind: r.pick(['short', 'long']) }],
+                ['check.resolve', { skill: r.pick(SKILLS), dc: r.pick(['easy', 'hard', 12]) }],
+                ['npc.adjust', { name: r.pick(PEOPLE), meters: { trust: r.int(-5, 5) } }],
+                ['npc.set', { name: r.pick(PEOPLE), meters: { affection: r.int(0, 50) } }]];
+            if (st0) {
+                const def = defs[st0.def];
+                choices.push(['inventory.drop', { stack: st0.id, qty: 1 }], ['inventory.split', { stack: st0.id, qty: 1 }],
+                    ['inventory.transfer', { stack: st0.id, to: actors.length > 1 ? r.pick(actors) : 'party' }],
+                    ['trade.sell', { stack: st0.id, qty: 1 }], ['item.use', { stack: st0.id }]);
+                if (def?.slot) choices.push(st0.equipped ? ['item.unequip', { stack: st0.id }] : ['item.equip', { stack: st0.id }],
+                    st0.equipped ? ['inventory.unequip', { stack: st0.id }] : ['inventory.equip', { stack: st0.id }]);
+                if (actors.length > 1) choices.push(['item.give', { stack: st0.id, to: r.pick(actors) }]);
+                const mats = stacks.filter(x => /Pelt|Salt|Sack|Fang|Lamp Oil/.test(defs[x.def]?.name ?? ''));
+                if (mats.length) choices.push(['craft.commission', { piece: r.pick(['Wolf-pelt Mantle', 'Fang Charm', 'Salt Pouch']), materials: [{ stack: r.pick(mats).id, qty: r.int(1, 3) }], crafter: r.pick(['Gate Forge', 'smith', 'apothecary', 'tanner']) }]);
+            }
+            for (const o of orders) choices.push(['craft.collect', { order: o }]);
+            for (const o of offers) choices.push([r.pick(['party.acceptOffer', 'party.dismissOffer']), { offer: o }]);
+            if (actors.length) {
+                const a = r.pick(actors);
+                choices.push(['party.spend', { actor: a, points: { [r.pick(['STR', 'AGI', 'VIT'])]: 1 } }], ['party.learnSkill', { actor: a, name: r.pick(['Power Strike', 'Quick Shot', 'Mend']) }]);
+                if (actors.length > 1) choices.push(['party.removeCompanion', { actor: actors.find(x => x !== party.pc) }]);
+            }
+            for (const t of threads.slice(0, 6)) choices.push([r.pick(['quest.take', 'quest.decline', 'quest.abandon', 'quest.finish']), { id: t.id }]);
+            try {
+                const m = sdk.query('trade.market');
+                if (m?.open) {
+                    const stock = sdk.query('trade.stock', { kind: r.pick(['Watch Stores', 'general', 'smith', 'apothecary']) });
+                    const item = stock?.items?.length ? r.pick(stock.items) : null;
+                    if (item) choices.push(['trade.buy', { shop: stock.shop, def: item.def.id, qty: r.int(1, 2) }]);
+                }
+            } catch { /* no market */ }
             const [t, p] = r.pick(choices);
-            await sdk.command(t, p);
-            if (r.chance(0.4)) await sleep(450);       // let the scheduled save fire
+            const res = await sdk.command(t, p);
+            const c = (CMD_STATS[t] ??= { ok: 0, no: 0, codes: {} });
+            if (res?.ok) c.ok++; else { c.no++; c.codes[res?.code ?? '?'] = (c.codes[res?.code ?? '?'] ?? 0) + 1; (c.msg ??= {})[res?.code ?? '?'] ??= String(res?.message ?? '').slice(0, 140); }
+            log[log.length - 1] += `:${t}${res?.ok ? '' : '!'}`;
+            if (r.chance(FAST ? 0.03 : 0.15)) await sleep(450);       // let the scheduled save fire
         },
         async swipe(step) { if (lastIsCarrier() && ctx.chat.length > 1) await h.swipe(replyText(r, step)); },
         async stSwipe(step) {      // SillyTavern's own new-swipe path (non-streaming saveReply)
@@ -297,13 +395,18 @@ async function runSeed(seed) {
             const recs = readRecord(ctx.chat[i]).receipts;
             const rec = r.pick(recs);
             const k = key(ctx.chat[i]);
+            // the rev expected after it: rec.rev - 1 inside the record, else the state before this carrier's
+            // first block (revs of deleted carriers leave a gap; b2 r2/r3 lost time on this oracle)
+            const first = Math.min(...recs.map(x => x.rev));
+            const prevC = carriers(ctx.chat).filter(j => j < i).at(-1);
+            const wantRev = rec.rev > first ? rec.rev - 1 : (prevC === undefined ? 0 : store.at(prevC)?.meta?.rev ?? 0);
             const res = await sdk.rewind({ index: i, beforeRev: rec.rev });
             recorded.delete(k);
             tagAll();
             lastSavedChatId = null;
             if (res?.ok) {
                 // expected: state before i + the kept ops, i.e. the head's rev is rec.rev - 1
-                if (head()?.meta?.rev !== rec.rev - 1) fail('#2 rewind head rev != beforeRev-1', `${head()?.meta?.rev} vs ${rec.rev - 1}`);
+                if (head()?.meta?.rev !== wantRev) fail('#2 rewind head rev != expected', `${head()?.meta?.rev} vs ${wantRev} (beforeRev ${rec.rev}, first ${first})`);
             } else if (res?.code !== 'STALE') {
                 fail('rewind refused', J(res));
                 if (process.env.DUMP) { const fs = await import('node:fs'); fs.writeFileSync('dump-rewind.json', JSON.stringify({ i, beforeRev: rec.rev, chat: ctx.chat, old: st.chats }, null, 1)); }
@@ -334,7 +437,8 @@ async function runSeed(seed) {
             const i = r.pick(idx);
             const m = ctx.chat[i];
             const rec = m.extra.storySuite;
-            const how = r.pick(['v', 'noOps', 'truncOps', 'badOp', 'swipeInfo', 'noCheckpoint', 'emptyCheckpoint', 'narratedJunk', 'spansJunk', 'string']);
+            const how = r.pick(['v', 'noOps', 'truncOps', 'badOp', 'swipeInfo', 'noCheckpoint', 'emptyCheckpoint', 'narratedJunk', 'spansJunk', 'string',
+                'cpRevString', 'cpNoDomains', 'cpCopied', 'nullRecord', 'arrayRecord', 'opsJunk', 'receiptsJunk', 'sidJunk', 'cpDomainJunk']);
             log[log.length - 1] += `:${how}@${i}`;
             if (how === 'v') rec.v = r.pick([1, '2', 3, null]);
             else if (how === 'noOps') delete rec.ops;
@@ -346,6 +450,15 @@ async function runSeed(seed) {
             else if (how === 'narratedJunk') rec.narrated = [null, 5, { a: 1 }];
             else if (how === 'spansJunk') rec.spans = 'nope';
             else if (how === 'string') m.extra.storySuite = JSON.stringify(rec).slice(0, 50);
+            else if (how === 'cpRevString') { if (rec.checkpoint?.meta) rec.checkpoint.meta.rev = String(rec.checkpoint.meta.rev); }
+            else if (how === 'cpNoDomains') { if (rec.checkpoint) delete rec.checkpoint.domains; }
+            else if (how === 'cpDomainJunk') { if (rec.checkpoint?.domains) rec.checkpoint.domains[r.pick(Object.keys(rec.checkpoint.domains))] = r.pick([null, 5, 'x', []]); }
+            else if (how === 'cpCopied') { const other = idx.filter(j => j !== i && readRecord(ctx.chat[j])?.checkpoint); if (other.length) rec.checkpoint = structuredClone(readRecord(ctx.chat[r.pick(other)]).checkpoint); }
+            else if (how === 'nullRecord') m.extra.storySuite = null;
+            else if (how === 'arrayRecord') m.extra.storySuite = [rec];
+            else if (how === 'opsJunk') rec.ops = r.pick(['ops', 5, { a: 1 }, [null, 1, 'x']]);
+            else if (how === 'receiptsJunk') rec.receipts = r.pick(['r', [null], [{ rev: 'x' }]]);
+            else if (how === 'sidJunk') rec.sid = r.pick([null, 5, '', 'sw_dup']);
             // a hand-edited chat file: it is what is on disk, and the chat is opened from it
             forgetFrom(i);
             const file = structuredClone(ctx.chat);
@@ -354,8 +467,7 @@ async function runSeed(seed) {
             return 'nocheck2';
         },
         async saveFail(step) {
-            saveMode = r.pick(['fail', 'swallow']);
-            if (process.env.NOSWALLOW && saveMode === 'swallow') saveMode = 'fail';
+            saveMode = process.env.SWALLOW === '1' ? r.pick(['fail', 'swallow']) : 'fail';
             const mode = saveMode;
             log[log.length - 1] += `:${mode}`;
             await sdk.command('scene.present', { add: `P${step}` });
@@ -408,16 +520,20 @@ async function runSeed(seed) {
         slowRace: 2, bigReply: 3, death: 1 };
     if (process.env.PROFILE === 'cp') Object.assign(WEIGHTS, { send: 30, bigReply: 25, group: 5, deleteMany: 0.2, newChat: 0, corrupt: 0, deleteMiddle: 1, death: 0.5, saveFail: 0.5 });
     if (process.env.PROFILE === 'long') Object.assign(WEIGHTS, { send: 30, bigReply: 8, deleteMany: 0.3, newChat: 0.1, deleteLast: 3, corrupt: 0.5 });
+    if (FAST) Object.assign(WEIGHTS, { saveFail: 0.4, slowRace: 0.4 });
     const names = Object.keys(WEIGHTS).filter(n => !ONLY.length || ONLY.includes(n));
     const total = names.reduce((s, n) => s + WEIGHTS[n], 0);
     for (let step = 0; step < STEPS; step++) {
         let x = r() * total, op = names[0];
         for (const n of names) { x -= WEIGHTS[n]; if (x < 0) { op = n; break; } }
+        // RB holds every generation back without a hero (a rewind before party.create takes it away): make one again
+        if (ctx.chat.length && !head()?.domains?.party?.pc) { await sdk.command('party.create', { name: 'Ren', preset: 'fighter' }).catch(() => null); OPCOUNT.heroAgain = (OPCOUNT.heroAgain ?? 0) + 1; await store.flush().catch(() => {}); tagAll(); const hi0 = store.headIndex(); if (hi0 >= 0) recorded.set(key(ctx.chat[hi0]), J(head())); }
         const hiBefore = store.headIndex();
         const prevKey = hiBefore >= 0 ? key(ctx.chat[hiBefore]) : null;
         const dumpAt = process.env.DUMPAT ? process.env.DUMPAT.split(',').map(Number) : [];
         const fsx = dumpAt.length ? await import('node:fs') : null;
         if (dumpAt.includes(step)) fsx.writeFileSync(`dump-${seed}-${step}-before.json`, JSON.stringify({ op, chat: ctx.chat, recorded: [...recorded] }, null, 1));
+        OPCOUNT[op] = (OPCOUNT[op] ?? 0) + 1;
         const out = await wrap(op, () => OPS[op](step));
         if (dumpAt.includes(step)) fsx.writeFileSync(`dump-${seed}-${step}-after.json`, JSON.stringify({ op, chat: ctx.chat, chatId: ctx.chatId, file: files.get(ctx.chatId), dirty: store.dirty() }, null, 1));
         tagAll();
@@ -439,6 +555,7 @@ async function runSeed(seed) {
         turn.clearProblems();
         if (STOP && violations.length) break;
     }
+    if (process.env.NOTICES) origErr("NOTICES", JSON.stringify(st.notices.slice(-5)), st.notices.length);
     h.close();
     console.warn = origWarn; console.error = origErr;
     restore();
@@ -456,8 +573,10 @@ for (let seed = SEED_FROM; seed <= SEED_TO; seed++) {
     if (process.env.LOG) console.log(out.log.map((o, i) => `${i}:${o}`).join(" "));
     all.push(...out.violations);
 }
+if (OUT) fsSync.writeFileSync(OUT, JSON.stringify({ args, env: { PACK: process.env.PACK, PROFILE: process.env.PROFILE }, violations: all.map(v => ({ ...v, detail: v.detail.slice(0, 300) })), cmdStats: CMD_STATS, kinds: KIND_COUNT, ops: OPCOUNT }));
 const byKind = {};
 for (const v of all) { const k = v.what.replace(/\d+/g, 'N'); (byKind[k] ??= []).push(`${v.seed}@${v.step}:${v.op}`); }
 console.log('\nSUMMARY');
+console.log('ui commands', JSON.stringify(CMD_STATS));
 for (const [k, list] of Object.entries(byKind)) console.log(`${list.length}\t${k}\t${list.slice(0, 6).join(' ')}`);
 process.exit(0);

@@ -1,0 +1,14 @@
+import { allHost, H } from './lib.mjs';
+const h = await allHost();
+console.log(h.sdk.features().map(f => [f.id, f.on, f.prompt]));
+console.log(await h.sdk.command('party.create', { name: 'Ren', preset: 'fighter' }));
+const t = [];
+h.sdk.on('turn', x => t.push(x));
+await h.send('hi', 'Story.\n<Changes>\n~ tick Alpha | n: 3\n+ tock Beta\n</Changes>');
+console.log(JSON.stringify(h.head().domains.fzk), JSON.stringify(h.head().domains.fzc), t.at(-1).problems);
+h.features.set('fz.kind', false);
+await h.send('hi', 'Story.\n<Changes>\n~ tick Gamma | n: 3\n</Changes>');
+console.log(JSON.stringify(h.head().domains.fzk), t.at(-1).problems);
+console.log(await h.sdk.command('fz.poke', {}), h.sdk.query('fz.peek'));
+console.log(await h.sdk.command('fz.free', {}));
+console.log(H.calls.slice(-5));

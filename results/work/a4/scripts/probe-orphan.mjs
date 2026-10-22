@@ -1,0 +1,26 @@
+// Replies whose saves failed, then another chat is opened: is the story rescued into the old chat's file?
+import { makeServer, allHost, openFromServer, fileHead, sleep, J } from './lib.mjs';
+const told = [];
+console.warn = (...a) => told.push(a.map(String).join(' ').slice(0, 200));
+const server = makeServer();
+const h = await allHost({ server });
+const { ctx, sdk, store } = h;
+const mode = process.argv[2] ?? 'reply';
+await openFromServer(h, server, 'A');
+await sdk.command('party.create', { name: 'Ren', preset: 'fighter' });
+await h.send('Hi', 'Hello.\n<Changes>\n+ item Rope\n</Changes>');
+await store.flush();
+server.mode = '500'; server.fails = 100;
+if (mode === 'reply') await h.send('More', 'Here.\n<Changes>\n+ item Lamp\n</Changes>');
+else await sdk.command('scene.present', { add: 'Ann' });
+const live = J(h.head());
+console.log('A live items', Object.keys(h.head().domains.inventory.defs), 'present', J(h.head().domains.scene.present), 'dirty', store.dirty());
+server.fails = 0;
+await openFromServer(h, server, 'B');
+await store.flush().catch(e => console.log('flush err', e.message));
+await sleep(5000);
+console.log('dirty', store.dirty(), 'log', server.log.join(' '));
+const disk = fileHead(h, server, 'A');
+console.log('A on disk items', Object.keys(disk.domains.inventory.defs), 'present', J(disk.domains.scene.present), 'same as live', J(disk) === live);
+console.log('told', told.filter(t => /Story/.test(t)));
+process.exit(0);

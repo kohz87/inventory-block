@@ -1,0 +1,13 @@
+import { suiteHost, withParty } from './suite-host.mjs';
+console.warn = () => {};
+const h = await suiteHost();
+await withParty(h);
+const coin = () => h.q('inventory.wallet', { owner: 'party' }).coin ?? 0;
+const say = async (user, lines, text='Story.') => { const before = coin(); let t; const off = h.events.on('turn', x => { t = x; }); await h.send(user, h.reply(text, lines)); off();
+  console.log('coin', before, '->', coin(), '|', (t?.problems ?? []).map(p => `${p.code}: ${String(p.message).slice(0, 200)}`)); };
+await say('hi', ['~ place Bluewatch | kind: settlement']);
+await say('Yes, I will take the job.', [`+ quest Errand — a job I accepted | giver: Fenna | goal: Find the lost ring | reward: 5000 gold | rank: S`]);
+await say('done', [`- quest Errand — turned in`]);
+await say('Yes, I will take the job.', [`+ quest Fetch — a job I accepted | giver: Fenna | goal: Bring 3 Rope | reward: 5000 gold | rank: S`]);
+await say('done', ['+ item Rope | qty: 3', `- quest Fetch — turned in`, '+ coin 50']);
+h.close();
