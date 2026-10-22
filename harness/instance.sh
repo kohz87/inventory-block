@@ -17,7 +17,7 @@ for pair in "$@"; do
   ln -s "$path" "$EXT/$ext"
 done
 if ! curl -s --max-time 3 -o /dev/null "http://127.0.0.1:$PORT/"; then
-  (cd "$SP/st/app" && nohup node server.js --port "$PORT" --dataRoot "$ROOT/data" > "$ROOT/st.log" 2>&1 &)
+  (cd "$SP/st/app" && SILLYTAVERN_BACKUPS_CHAT_THROTTLEINTERVAL=${SILLYTAVERN_BACKUPS_CHAT_THROTTLEINTERVAL:-300000} nohup node server.js --port "$PORT" --dataRoot "$ROOT/data" > "$ROOT/st.log" 2>&1 &)
 fi
 if ! curl -s --max-time 3 -o /dev/null "http://127.0.0.1:$MPORT/"; then
   (nohup node "$SP/mock/queue.mjs" "$ROOT/q" "$ROOT/log" "$MPORT" > "$ROOT/mock.log" 2>&1 &)

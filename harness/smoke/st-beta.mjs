@@ -5,7 +5,11 @@
 // Every beta step first probes for its feature (a query that answers, a command or a capture kind some module
 // registers, an sdk function): a feature not merged yet is SKIP, never FAIL. Rows: PASS | FAIL | SKIP.
 // usage: node st-beta.mjs [--tag name]   (env from inst-beta-e2e.env: ST_URL MOCK_URL MOCK_Q MOCK_LOG)
+// Matrix knobs (env): CDP_PORT (desktop page; the phone page takes CDP_PORT+1), VIEW=desk|phone (the main page's
+// width: 1440 or 390), PACK_MODE=ersveil|none, FEATURES=keep|all|off|random:<seed>, ECON=<money scale>,
+// MODULES_EXPECTED=<n> (how many modules to wait for; 4).
 import fs from 'node:fs';
+import crypto from 'node:crypto';
 import { launchRaw } from './cdp-page.mjs';
 
 const SP = process.env.SP ?? '/tmp/claude-0/-home-user-inventory-block/3572f065-fdf3-5cf4-88eb-a15358a57ebe/scratchpad';
@@ -18,6 +22,12 @@ const TAG = args.tag ?? new Date().toISOString().slice(0, 16).replace(/[:T]/g, '
 const OUT = `${SP}/beta-e2e/scenario/${TAG}`;
 const SHOTS = `${OUT}/shots`;
 fs.mkdirSync(SHOTS, { recursive: true });
+const CDP_PORT = Number(process.env.CDP_PORT ?? 9451);
+const VIEW = process.env.VIEW ?? 'desk';
+const PACK_MODE = process.env.PACK_MODE ?? 'ersveil';
+const FEATURES = process.env.FEATURES ?? 'keep';
+const ECON = process.env.ECON ? Number(process.env.ECON) : null;
+const MODULES_EXPECTED = Number(process.env.MODULES_EXPECTED ?? 4);
 const T0 = Date.now();
 const out = [];
 const rows = [];
@@ -56,7 +66,7 @@ async function step(id, title, owner, fn) {
 // ---- page --------------------------------------------------------------------------------------------
 clearQueue();
 REQ_BASE = Math.max(0, ...reqNames().map(n => Number(n.match(/\d+/)[0])));
-let { browser, page } = await launchRaw({ width: 1440, height: 900, port: 9451 });
+let { browser, page } = await launchRaw(VIEW === 'phone' ? { width: 390, height: 844, port: CDP_PORT, mobile: true, scale: 2 } : { width: 1440, height: 900, port: CDP_PORT });
 const errors = [];
 const watch = (p, tag) => {
     p.on('pageerror', e => errors.push(`${tag} pageerror ${e.message}`));
@@ -69,7 +79,7 @@ const ev = (fn, a, ms = 90000) => withTimeout(page.evaluate(fn, a), ms, String(f
 const shot = async (name, p = page) => { try { await p.screenshot({ path: `${SHOTS}/${name}.png` }); } catch (e) { say(`   [shot failed] ${name}: ${e.message}`); } };
 const waitHost = async (p = page) => {
     await p.waitForFunction(() => window.SillyTavern?.getContext?.()?.characters?.length > 0 && window.StoryBlock?.apiVersion === 2, null, { timeout: 120000 });
-    await p.waitForFunction(() => StoryBlock.sdk.modules().length >= 4, null, { timeout: 60000 }).catch(() => {});
+    await p.waitForFunction(n => StoryBlock.sdk.modules().length >= n, MODULES_EXPECTED, { timeout: 60000 }).catch(() => {});
     await p.waitForTimeout(2000);
 };
 const connect = (p = page) => p.evaluate(async url => {
@@ -163,6 +173,14 @@ let mainChat, spareChat, pc;
 await step('A0', 'pack installs through Story Block\'s importer', 'SB-packs2', async () => {
     const mods = await ev(() => StoryBlock.sdk.modules().map(m => ({ id: m.id, version: m.version, features: m.features ?? null })));
     say('   modules:', j(mods));
+    if (PACK_MODE === 'none') {
+        const res = await ev(async () => {
+            const mod = await import('/scripts/extensions/third-party/Story_block/src/v2/packs/index.js');
+            for (const p of mod.packs.list()) await mod.packs.remove(p.id);
+            return mod.packs.list().map(p => p.id);
+        });
+        return check(res.length === 0, `no pack (built-in defaults); packs left ${j(res)}`);
+    }
     const packText = fs.readFileSync(PACK, 'utf8');
     const res = await ev(async packText => {
         const mod = await import('/scripts/extensions/third-party/Story_block/src/v2/packs/index.js');
@@ -174,6 +192,54 @@ await step('A0', 'pack installs through Story Block\'s importer', 'SB-packs2', a
     say('   pack install:', j(res));
     return check(res.install.ok, res.install.ok ? `installed; ${res.after.join(' ')}` : `refused: ${j(res.install.errors)}`);
 });
+
+// The scenario's character card: made once per data folder.
+say('narrator:', await ev(async () => {
+    const ctx = SillyTavern.getContext();
+    if (ctx.characters.some(c => c.name === 'The Narrator')) return 'there';
+    const form = new FormData();
+    form.append('ch_name', 'The Narrator');
+    form.append('description', 'The narrator of a low-fantasy frontier story. Writes in second person, grounded and concrete.');
+    form.append('first_mes', 'The barge noses toward the Bluewatch quay.');
+    for (const k of ['personality', 'scenario', 'mes_example', 'creator_notes', 'tags']) form.append(k, '');
+    form.append('talkativeness', '0.5'); form.append('fav', 'false');
+    const headers = ctx.getRequestHeaders(); delete headers['Content-Type'];
+    const res = await fetch('/api/characters/create', { method: 'POST', headers, body: form });
+    await ctx.getCharacters?.(); await new Promise(r => setTimeout(r, 1500));
+    return res.ok ? 'created' : `create failed ${res.status}`;
+}));
+// Feature configuration (FEATURES): every declared feature on, off, or a seeded random half on.
+let featurePlan = null;
+if (FEATURES !== 'keep') {
+    const list = await featuresList();
+    let seed = Number(FEATURES.split(':')[1] ?? 0) >>> 0;
+    const rnd = () => { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 2 ** 32; };
+    const ids = list.map(f => f.id).sort();
+    let onSet;
+    if (FEATURES === 'all') onSet = new Set(ids);
+    else if (FEATURES === 'off') onSet = new Set();
+    else { const shuffled = ids.map(id => [rnd(), id]).sort((a, b) => a[0] - b[0]).map(x => x[1]); onSet = new Set(shuffled.slice(0, Math.ceil(ids.length / 2))); }
+    featurePlan = Object.fromEntries(ids.map(id => [id, onSet.has(id)]));
+    await ev(async plan => {
+        const es = SillyTavern.getContext().extensionSettings; es.storySuite ??= {}; es.storySuite.features ??= {};
+        Object.assign(es.storySuite.features, plan); SillyTavern.getContext().saveSettingsDebounced(); await new Promise(r => setTimeout(r, 1200));
+    }, featurePlan);
+    const now = Object.fromEntries((await featuresList()).map(f => [f.id, f.on]));
+    fs.writeFileSync(`${OUT}/features.json`, JSON.stringify({ mode: FEATURES, plan: featurePlan, now }, null, 1));
+    say('features:', FEATURES, j(now));
+}
+// Money scale (F104): the pack's economy.scale or the Settings economyScale; probed after.
+let econApplied = null;
+if (ECON !== null) {
+    econApplied = await ev(async v => {
+        const es = SillyTavern.getContext().extensionSettings; es.storySuite ??= {};
+        es.storySuite.economyScale = v; es.storySuite.modules ??= {}; es.storySuite.modules['story-block'] ??= {}; es.storySuite.modules['story-block'].economyScale = v;
+        SillyTavern.getContext().saveSettingsDebounced(); await new Promise(r => setTimeout(r, 1000));
+        try { return StoryBlock.sdk.query('inventory.economy', {}); } catch (e) { return `ERR ${e.message}`; }
+    }, ECON);
+    say('economy:', ECON, j(econApplied));
+}
+const SCALE = econApplied && typeof econApplied === 'object' && Number(econApplied.scale) > 0 ? Number(econApplied.scale) : 1;
 
 await connect();
 await ev(async () => { const ctx = SillyTavern.getContext(); await ctx.selectCharacterById(String(ctx.characters.findIndex(c => c.name === 'The Narrator'))); await new Promise(r => setTimeout(r, 2000)); });
@@ -367,7 +433,7 @@ await step('A7', 'swipe, delete-middle, rewind', 'main', async () => {
     const onBranch = { wallet: coinOf(await wallet()), quest: (await q('director.thread', { key: 'Granary Rats' }))?.status };
     await ev(async main => { await SillyTavern.getContext().openCharacterChat(main); await new Promise(r => setTimeout(r, 3000)); }, mainChat);
     const back = { wallet: coinOf(await wallet()), messages: await ev(() => SillyTavern.getContext().chat.length) };
-    const rewindOk = rw.ok && W2 - W1 === 50 && onBranch.wallet === pre.wallet - 50 && onBranch.quest !== 'resolved' && back.wallet === pre.wallet && back.messages === pre.messages;
+    const rewindOk = rw.ok && W2 - W1 === Math.round(50 * SCALE) && onBranch.wallet === pre.wallet - (W2 - W1) && onBranch.quest !== 'resolved' && back.wallet === pre.wallet && back.messages === pre.messages;
     return check(swipeOk && checksAfter === (checksBefore ?? 0) - 1 && lr.same && rewindOk, `swipe ${swipeOk ? 'follows' : `WRONG A=${j(swA)} B=${j(swB)} back=${j(swBack)}`}; delete-middle checks ${checksBefore}→${checksAfter}, live==rebuild ${lr.same}${lr.same ? '' : ` (${lr.differing})`}; rewind ${rw.ok ? `branch wallet ${onBranch.wallet} (was ${pre.wallet}), quest ${onBranch.quest}, main kept ${back.wallet}` : `${rw.code} ${rw.message}`}`);
 });
 
@@ -381,12 +447,15 @@ await step('B01', 'Features: every module declares, toggles off/on, static promp
     say('   features:', j(byModule));
     const overview = await ev(() => document.querySelectorAll('.story-suite-feature').length);
     // A module feature that changes the prompt (preferred), else any non-core feature.
-    const target = list.find(f => f.moduleId !== 'story-block' && f.prompt && f.on) ?? list.find(f => f.moduleId !== 'story-block' && f.on) ?? list.find(f => f.on);
-    if (!target) return FAIL(`no feature is on: ${j(list)}`);
-    const off = await setFeature(target.id, false);
+    const target = list.find(f => f.moduleId !== 'story-block' && f.prompt && f.on) ?? list.find(f => f.moduleId !== 'story-block' && f.on) ?? list.find(f => f.on)
+        ?? list.find(f => f.moduleId !== 'story-block' && f.prompt) ?? list[0];
+    if (!target) return FAIL(`no feature declared: ${j(list)}`);
+    // Flip it and flip it back (with every feature off the flip is on → off).
+    const was = target.on;
+    const off = await setFeature(target.id, !was);
     const rOff = await send('I sit by the brazier and listen to the rain.', R('Rain ticks on the brazier hood.', ['! time +10m']));
     const off2 = await send('I keep listening.', R('Nothing changes for a while.'));
-    const on = await setFeature(target.id, true);
+    const on = await setFeature(target.id, was);
     const rOn = await send('I stand up and stretch.', R('Your knees crack.'));
     const sOff = rOff ? staticOf(req(rOff)) : null; const sOff2 = off2 ? staticOf(req(off2)) : null; const sOn = rOn ? staticOf(req(rOn)) : null;
     const sBefore = req5 ? staticOf(req(req5)) : null;
@@ -395,7 +464,7 @@ await step('B01', 'Features: every module declares, toggles off/on, static promp
     const back = sOn === sBefore;
     const modules = ['story-block', 'rpg-battle', 'story-director', 'npc-state-delta'];
     const missing = modules.filter(m => !byModule[m]?.length);
-    const ok = off.now === false && on.now === true && steadyOff && back && (!target.prompt || promptChanged) && missing.length === 0;
+    const ok = off.now === !was && on.now === was && steadyOff && back && (!target.prompt || promptChanged) && missing.length === 0;
     return check(ok, `${list.length} features (${Object.entries(byModule).map(([m, l]) => `${m}:${l.length}`).join(', ')}); no features from ${j(missing)}; settings switches in page ${overview}; toggled ${target.id} (prompt=${target.prompt}) via ${off.via}: off→${off.now}, on→${on.now}; static changed when off=${promptChanged}, steady while off=${steadyOff}, identical after on=${back}`);
 });
 // Feature off really is off: its commands refuse FEATURE_OFF, its queries answer null, its kind's line is told quietly.
@@ -406,13 +475,14 @@ await step('B02', 'Features: a feature off refuses its commands and nulls its qu
     const target = list.find(f => want.includes(f.id)) ?? list.find(f => f.moduleId === 'rpg-battle');
     if (!target) return SKIP(`none of ${want.join(', ')} declared yet`);
     const before = stateJSON(await headState());
+    const wasOn = target.on;
     await setFeature(target.id, false);
     const probes = { 'story-block.encumbrance': ['q', 'inventory.encumbrance'], 'story-block.loot': ['c', 'inventory.lootTake'], 'rpg-battle.crafting': ['c', 'craft.make'], 'rpg-battle.wear': ['q', 'items.condition'], 'rpg-battle.effects': ['q', 'party.effects'] };
     const [kind, name] = probes[target.id] ?? [null, null];
     let answer = null;
     if (kind === 'q') answer = await q(name, {});
     if (kind === 'c') answer = await cmd(name, {});
-    await setFeature(target.id, true);
+    await setFeature(target.id, wasOn);
     const after = stateJSON(await headState());
     const offOk = kind === null ? true : kind === 'q' ? answer === null : answer?.code === 'FEATURE_OFF';
     return check(offOk && before === after, `${target.id} off: ${name ?? '(no probe)'} → ${j(answer)?.slice(0, 160)}; state untouched by off/on=${before === after}`);
@@ -729,6 +799,13 @@ await step('B19', 'Storage: saves per reply ≤ 2, record kept once (no swipe_in
     return check(meanSaves <= 2 && twice === 0, note);
 });
 
+// ---- F104 money scale ----
+await step('B21', 'Money scale: pack economy.scale / Settings economyScale scales built-in prices and rewards', 'SB-packs2', async () => {
+    if (ECON === null) return SKIP('ECON not set for this configuration');
+    if (!econApplied || typeof econApplied !== 'object') return SKIP(`inventory.economy not there (F104 not merged): ${j(econApplied)?.slice(0, 120)}`);
+    return check(Number(econApplied.scale) === ECON && W2 - W1 === Math.round(50 * ECON), `inventory.economy ${j(econApplied)?.slice(0, 160)}; Granary Rats paid ${W2 - W1} (50 × ${ECON} = ${Math.round(50 * ECON)})`);
+});
+
 // ---- after all the beta steps: replay == live ----
 await step('B20', 'After every beta step: live head == rebuild from the saved file', 'main', async () => {
     const lr = await liveEqualsRebuild(mainChat);
@@ -742,6 +819,7 @@ await step('A8', 'static prompt byte-identical; shared prefix', 'main', async ()
     // Feature toggles (B01) legitimately change it; count runs of identical parts.
     let changes = 0; for (let i = 1; i < statics.length; i += 1) if (statics[i] !== statics[i - 1]) changes += 1;
     const distinct = [...new Set(statics)];
+    fs.writeFileSync(`${OUT}/static-hashes.txt`, mains.map((n, i) => `${n} ${crypto.createHash('sha256').update(statics[i]).digest('hex').slice(0, 16)} ${statics[i].length}`).join('\n') + '\n');
     const togglesExpected = rows.find(r => r.id === 'B01')?.status === 'SKIP' ? 0 : 2;
     const prefixes = [];
     for (let i = 1; i < mains.length; i += 1) prefixes.push(sharedPrefix(req(mains[i - 1]).messages, req(mains[i]).messages).percent);
@@ -799,7 +877,7 @@ await step('A11', 'Chronicle tab', 'SD-digest', async () => {
 });
 
 await step('A11p', 'phone (390 px): tabs fit, wizard fits', 'RB-screens2', async () => {
-    const { browser: b2, page: phone } = await launchRaw({ width: 390, height: 844, port: 9452, mobile: true, scale: 2 });
+    const { browser: b2, page: phone } = await launchRaw({ width: 390, height: 844, port: CDP_PORT + 1, mobile: true, scale: 2 });
     try {
         watch(phone, 'phone');
         await phone.goto(ST_URL); await waitHost(phone); await connect(phone);
@@ -844,7 +922,9 @@ await step('A12', 'console errors', 'main', async () => {
 
 // ---- summary ----
 const count = s => rows.filter(r => r.status === s).length;
-const md = [`# beta live scenario ${TAG}`, '', `heads: ${Object.entries(heads).map(([k, v]) => `${k} ${v}`).join(', ')}`, '', `PASS ${count('PASS')} · FAIL ${count('FAIL')} · SKIP ${count('SKIP')}`, '', '| step | what | owner | result | note |', '|---|---|---|---|---|',
+const config = { VIEW, PACK_MODE, FEATURES, ECON, MODULES: await ev(() => StoryBlock.sdk.modules().map(m => `${m.id}@${m.version}`)).catch(() => '?') };
+fs.writeFileSync(`${OUT}/config.json`, JSON.stringify({ ...config, featurePlan, econApplied }, null, 1));
+const md = [`# beta live scenario ${TAG}`, '', `config: ${j(config)}`, '', `heads: ${Object.entries(heads).map(([k, v]) => `${k} ${v}`).join(', ')}`, '', `PASS ${count('PASS')} · FAIL ${count('FAIL')} · SKIP ${count('SKIP')}`, '', '| step | what | owner | result | note |', '|---|---|---|---|---|',
     ...rows.map(r => `| ${r.id} | ${r.title} | ${r.owner} | ${r.status} | ${String(r.note).replace(/\|/g, '/').slice(0, 400)} |`)].join('\n');
 fs.writeFileSync(`${OUT}/result.md`, md + '\n');
 fs.writeFileSync(`${OUT}/heads.json`, JSON.stringify(heads));
