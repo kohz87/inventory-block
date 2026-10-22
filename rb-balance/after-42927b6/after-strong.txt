@@ -1,0 +1,4 @@
+tier            L1       L5      L10      L20      L40      L60
+strong         44%      31%      25%      22%      17%      18%
+on target: 878/3360 cells (26.1 %)
+3360 cells × 200 seeds in 551 s

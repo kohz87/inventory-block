@@ -1,0 +1,4 @@
+tier            L1       L5      L10      L20      L40      L60
+deadly         98%      94%      93%      89%      89%      88%
+on target: 3084/3360 cells (91.8 %)
+3360 cells × 200 seeds in 522 s

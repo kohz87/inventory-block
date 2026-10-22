@@ -1,0 +1,4 @@
+tier            L1       L5      L10      L20      L40      L60
+even           34%      29%      19%      16%      16%      13%
+on target: 716/3360 cells (21.3 %)
+3360 cells × 200 seeds in 553 s

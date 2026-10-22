@@ -1,0 +1,4 @@
+tier            L1       L5      L10      L20      L40      L60
+weak           98%      98%      96%      96%      93%      93%
+on target: 4828/5040 cells (95.8 %)
+5040 cells × 200 seeds in 1058 s

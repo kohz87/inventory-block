@@ -1,0 +1,4 @@
+tier            L1       L5      L10      L20      L40      L60
+trivial        98%      99%      96%      96%      94%      93%
+on target: 4845/5040 cells (96.1 %)
+5040 cells × 200 seeds in 1038 s
