@@ -7,3 +7,5 @@ One line per 200-reply window (medians over send/swipe/regenerate/continue repli
 | replies | saves/send | MB up/send (med) | chat file MB | send→request ms (med) | capture ms (med) | prompt build ms (med) | heap after GC MB (max) | DOM nodes (end) | rebuild==live (runtime) | stuck (cum.) | dropped history (cum.) |
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | 1–200 | 3.99 | 4.08 | 2.20 | 1,186 | 486 | 421 | 214.0 | 24,123 | 3/3 | 0 | 0 |
+| 201–400 | 3.99 | 11.76 | 4.05 | 1,738 | 1,013 | 665 | 286.6 | 28,037 | 4/4 | 0 | 0 |
+
