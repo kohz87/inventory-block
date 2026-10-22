@@ -6,3 +6,7 @@ seed 204: 1 violations, chat 30 msgs, 1 checkpoints, 81633 bytes {"rewind refuse
 seed 205: 1 violations, chat 27 msgs, 1 checkpoints, 111255 bytes {"#N rewind head rev != expected":1}
     {"seed":205,"step":212,"op":"rewind","what":"#2 rewind head rev != expected","detail":"6 vs 0 (beforeRev 7, first 7)"}
 seed 206: 0 violations, chat 8 msgs, 1 checkpoints, 31122 bytes {}
+seed 207: 1 violations, chat 37 msgs, 1 checkpoints, 167893 bytes {"rewind refused":1}
+    {"seed":207,"step":246,"op":"rewind","what":"rewind refused","detail":"{\"ok\":false,\"code\":\"FAILED\",\"message\":\"The changes could not be taken back, so no branch was made: The change path \\\"/domains/checks/prepared/rev10\\\" does not exist (no \\\"rev10\\\").\"}"}
+seed 208: 0 violations, chat 59 msgs, 3 checkpoints, 247918 bytes {}
+seed 209: 0 violations, chat 8 msgs, 0 checkpoints, 825 bytes {}

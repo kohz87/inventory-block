@@ -200,6 +200,39 @@ async function runSeed(seed) {
             }
             const raw = JSON.stringify(host.ctx.chat.at(-1)?.mes ?? '');
             if (/<Changes>/i.test(host.ctx.chat.at(-1)?.mes ?? '') && !/STORY_SUITE_V2/.test(raw) && !rep.think && style.wrap !== 'think') note(`BARE BLOCK LEFT VISIBLE [${shape}]`, seed, n, { mes: String(host.ctx.chat.at(-1).mes).slice(0, 1500), text: text.slice(0, 1500), cont: rep.cont, wrap: style.wrap });
+            // Long-chat variant: swipes, regenerates, swipe-backs and middle deletes between hostile replies.
+            if (process.env.FUZZ_LONG) {
+                const roll = gen.r();
+                let op = null;
+                try {
+                    if (roll < 0.10) {
+                        op = gen.r.pick(['swipe', 'regenerate']);
+                        const again = gen.reply();
+                        await (op === 'swipe' ? host.swipe(again.text) : host.regenerate(again.text));
+                        for (const c of caps(host, before, snapshot(host), { text: again.text, think: again.think, sentinel: gen.SENTINEL })) note(`CAP after ${op} ${c.replace(/\d+/g, 'N')}`, seed, n, { c, text: again.text.slice(0, 2000) });
+                        if (op === 'swipe' && gen.r.chance(0.5)) { op = 'swipe-back'; await host.st.swipeTo(host.ctx.chat.length - 1, 0); }
+                    } else if (roll < 0.16) {
+                        op = 'delete';
+                        const chat = host.ctx.chat;
+                        const users = chat.map((m, i) => (m.is_user ? i : -1)).filter(i => i > 2 && i < chat.length - 2);
+                        if (users.length) { const u = gen.r.pick(users); await host.st.deleteMessage(u + 1); await host.st.deleteMessage(u); }
+                    }
+                } catch (e) { note(`TIMELINE EXCEPTION ${op} ${String(e?.message).slice(0, 100)}`, seed, n, { stack: e?.stack?.split('\n').slice(0, 5).join(' | ') }); }
+                if (op) {
+                    for (const i of invariants(host)) if (!/lone surrogate/.test(i)) note(`INVARIANT after ${op} ${i.replace(/\d+/g, 'N').slice(0, 140)}`, seed, n, { i });
+                    const live = JSON.stringify(host.head());
+                    host.store.rebuild();
+                    if (live !== JSON.stringify(host.head())) note(`REBUILD != LIVE after ${op}`, seed, n, {});
+                }
+                if (n % 50 === 49) {
+                    const fresh = await suiteHost();
+                    await fresh.st.loadChat(structuredClone(host.ctx.chat));
+                    const a = host.head().domains; const b = fresh.head()?.domains ?? {};
+                    const diff = Object.keys(a).filter(d => JSON.stringify(a[d]) !== JSON.stringify(b[d]));
+                    if (diff.length) note(`MID FRESH REPLAY != LIVE ${diff.join(',')}`, seed, n, { diff, problems: fresh.store.problems().slice(0, 3) });
+                    fresh.close();
+                }
+            }
         }
         await host.send('and then?', 'Quiet.');
         const statics = host.statics();

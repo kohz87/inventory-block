@@ -21,3 +21,7 @@ seed 1020: 0 viol, 140 msgs, 3 cps, 425759 B, 121 writes {}
 seed 1021: 0 viol, 151 msgs, 2 cps, 385765 B, 120 writes {}
 seed 1022: 0 viol, 176 msgs, 3 cps, 503563 B, 131 writes {}
 seed 1023: 0 viol, 126 msgs, 3 cps, 410384 B, 115 writes {}
+seed 1024: 0 viol, 187 msgs, 3 cps, 522362 B, 128 writes {}
+seed 1025: 0 viol, 166 msgs, 4 cps, 537494 B, 121 writes {}
+seed 1026: 0 viol, 146 msgs, 2 cps, 406603 B, 119 writes {}
+seed 1027: 0 viol, 154 msgs, 2 cps, 402822 B, 115 writes {}
