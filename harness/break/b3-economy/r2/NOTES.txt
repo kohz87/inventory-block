@@ -1,0 +1,20 @@
+b3-economy round 2 notes
+Heads: Story_block 2f17c2c, rpg_battle 2f52c80, Story_director 1303ac9, npc_state_delta 06cfc70
+Clones: /home/user/_break/b3-economy-r2/
+
+Round-1 tests: all 28 pass in the repos' tests/v2/break, and so do my unchanged originals.
+ - The rpg_battle claim-collision test was changed to host.internal (it is a module call now); the original click version passes too.
+ - b3-suite-quest-delete was not merged (it needs siblings). Run from my helpers, it passes.
+Checker (conservation-sbfix4.mjs, STORY_SUITE_ROOT=/home/user/_break/b3-economy-r2):
+ - run-honest: seed 11, 300 steps, timeline on.
+   - 0 leaks except "model-minted" goods, 5 of them: story pack items (e.g. 3 Minor Healing Draughts sell for 5850 against a 400 coin budget).
+   - commission-mints is gone.
+ - run-cheats: seed 5, 200 steps, cheats and timeline on.
+   - Only "model-minted" (7).
+   - No click, sign, timeline, rebuild or out-of-reach flags.
+   - delete-sale and delete-middle-take are both clean.
+ - Some "fight" model-minted flags are false positives: loot from the same step.
+New findings: r2-1 .. r2-7 (see the final reply). Tests are in r2/tests/<repo>/, and every one fails now.
+Probes are in r2/probes. Run them from Story_block/tests/v2/break/ (they import ./helpers/suite.js).
+Note: Story_director's vendored Story Block (37ecd6d) does not serve Ersveil's ranks to quest.ranks, so SD's tests see the built-in ladder (F top 50). My SD tests read the ladder from quest.ranks, so they hold either way.
+Caveat: helpers/suite.js rebuilt() builds the store without the runtime's validate, so a 'rebuild differs' seen with it after a skipped block is a harness artifact. The real runtime (runtime.js:210) passes validate. r2-3 asserts only the live state.

@@ -1,0 +1,39 @@
+b2-timeline re-break r2 notes (heads: Story_block 2f17c2c, rpg_battle 2f52c80, Story_director 1303ac9, npc_state_delta 06cfc70)
+Clones: /home/user/_break/b2-timeline-r2/. Instance b2-timeline 8181/5181 (stopped).
+
+Harness changes for r2: lib/host.mjs, fuzz.mjs, live/lib.mjs, live/chaos.mjs read B2ROOT; UI ops use scene.present /
+inventory.drop (wallet.* is refused from buttons since #76); fuzz's fresh/saved stores get the registry validators
+(counter rebase needs them, else false #1 alarms); cue-on-previous-carrier skipped in #2 (RB checks.prepare on regenerate).
+
+Testkit fuzz r2: 86 seeds (mix 70 x 150, long 16 x 300, cp 4 x 400). Remaining alarms are all harness or hand-corruption:
+corrupt badOp/string records + later UI command; oracle has no rebase; rewind rev expectation after middle deletes;
+testkit fake leaves an empty swipe on an aborted swipe. Rewind now refuses without branching (FIXED B-8).
+
+Live r2: chaos seed 6, 320 steps (84 send, 27 swipe right, 30 left, 16 regen, 18 cont, 19 del-last, 7 del-middle,
+11 swipe deletes, 7 edits, 23 UI bursts, 7 rapid send, 10 rapid swipe, 9 swipe-during-gen, 4 del-during-gen, 13 stop,
+5 reload-mid, 7 reload, 2 switch-mid, 7 ui-then-switch, 4 two-tabs, 2 deaths, 1 branch, 2 chat deletes). out-6/findings.json.
+ - 0 UI commands lost on a chat switch (round 1: 8/8). 0 stuck generations.
+ - #1/#7: 3 times after a swipe right: page head one rev ahead of the replay (checks domain) = r2-3.
+ - #2 "deleteLast" alarms: a cue (checks.prepare) committed on the previous reply before the next one; harness.
+ - two tabs: 4/4 the stale tab's save drops the other tab's reply (SillyTavern last-writer-wins; force:false + same integrity).
+ - console: SillyTavern TypeError StreamingProcessor (switch/delete mid-stream), "signal is aborted without reason" (stop).
+
+Live probes r2:
+ - probe-wipe SLOW (UI command then other chat at 100-300 ms, slow chat load): B untouched, A kept. FIXED.
+ - probe-r2-save: refused save -> Story Block toast "The story could not be saved: the server answered 500", retried,
+   on disk after unroute. Unload right after a click: kept in 18 KB / 615 KB / 3.3 MB chats. ST's own saveChat in the
+   same tick as a UI command (3.3 MB, 6 MB chats): 8/8 kept.
+ - Per-command cost (saved before the answer): 18 KB 16-33 ms; 615 KB 129-269 ms; 3.3 MB 408-677 ms; 6.0 MB 627-856 ms.
+   Burst of 10 parallel commands: 99 ms / 1.2 s / 1.7 s / 2.7 s. sdk.view() 0 ms.
+ - Chat-file writes per reply: 4 full-file POSTs (new chat 4.5-9.4 KB; 3.3 MB chat: 4 x 3.3 MB, last one 5.7 s after send).
+ - Built chats (r2/make-big.mjs, real records): 50 replies 0.6 MB, 200 replies 3.3 MB, 300 replies 6.0 MB (~20 KB per exchange).
+ - Mid-stream chat switch (probe-switch-stream): A's streamed reply lands in chat B, uncaptured, bare block, in B's file
+   (2/10); otherwise lost with SillyTavern's TypeError. The NEXT ordinary reply in A was uncaptured 6/8, then 2/4:
+   cause = dry-run GENERATION_STARTED between the reader's GENERATION_STARTED and its interceptor (r2-1). Reproduced
+   without any chat switch: probe-dryrace 3/12 replies sent ~1 s after the previous one; probe-lines first reply 1/1.
+ - probe-swipe-r2 (plain swipes only) did not show r2-3: the swipe's capture line put rev back in line; it shows when
+   the swipe reply has no change lines (or a UI/cue-only record).
+
+Testkit probes r2 (held): sdk.reread racing delete / send / swipe (refused CONFLICT or consistent; message on the
+delete race names the wrong reason); counter rebase sequences; covers after an early delete (head from scratch 2 ms at
+600 messages); marks under Continue with trimmed/renamed openings.

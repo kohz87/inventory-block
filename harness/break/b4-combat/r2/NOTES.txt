@@ -1,0 +1,28 @@
+b4-combat round 2 — working notes (the findings themselves are in the hand-back reply)
+
+Clones: /home/user/_break/b4-combat-r2/ (Story_block 2f17c2c, rpg_battle 2f52c80, Story_director 1303ac9, npc_state_delta 06cfc70)
+Vendored testkit in rpg_battle: da54eaf. Tests were run with it AND after `sync-testkit` from SB 2f17c2c.
+Full suites with SB 2f17c2c testkit: rpg_battle 1146 tests, 0 fail; Story_director 793 tests, 1 fail
+(tests/v2/break/sd-fix1.test.js "a scene move without | kind: back to a known settlement…" -> B4r2-5).
+
+tests/rpg_battle/*.test.js -> drop into rpg_battle/tests/v2/break/ (helpers.js: same as round 1, uses host.internal)
+tests/Story_director/*.test.js -> drop into Story_director/tests/v2/break/ (needs testkit synced from SB 2f17c2c)
+harness/: fuzz-cache.mjs (fight cache vs fresh replay, deep-frozen, 25 seeds x 60 random steps: held),
+  probe-*.mjs (aba, opening, sid, cont, dupe, partysize, stun, mix, level), r1-*.mjs (round-1 probes re-run)
+sim/: fresh-*.jsonl (repo balance-sim, seeds 5000-5199, calibration foes; partial: counts 1-4/6/9 for Wolf and Giant Rat),
+  other-*.jsonl (seeds 5000-5099; Skeleton, Orc, Troll, Ash Wraith, Bog Hound; counts 1,3,5),
+  level10/level20.jsonl (synthetic levelled PC, 100 seeds), r1-balance-100.jsonl (round-1 sim, v2/v1).
+
+Observations not filed:
+- Positional dice: the model still orders its check lines, so with both dice in the tail it can put a throwaway check
+  (dc 1) first to burn a bad Roll 1. Needs a second check, so this is a design limit rather than a code hole.
+- Wolf and Giant Rat project to identical foes at a tier (same numbers seed for seed), so the calibration's six foes are
+  fewer distinct creatures than they look.
+- creatureSlug: "Creature xq4cl7" (Latin) and "狼" share the key creature-xq4cl7 (crafted only).
+- combat.act without `session` is still accepted ("an older caller"); a pack screen that omits it bypasses the guard.
+- The opening (combat.start's automatic turns) also uses MP/SP and skills, but only pools are synced; items are the only
+  thing lost (B4r2-1).
+- party.spend mid-fight: until the next action the HUD shows the raised cur (181/206) while the board has 85/110.
+- party.create {replace} while dead still makes a living character without Return (round 1 note, unchanged).
+- The cost of a plain Story Block command grows with chat length (3 ms -> 9.4 ms over 400 commands: the fake ST copies
+  the whole chat each save; the real one posts it). This is b6's area. RPG Battle's own share of an action is about 3 ms now.

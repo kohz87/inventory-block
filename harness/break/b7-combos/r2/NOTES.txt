@@ -1,0 +1,41 @@
+b7-combos round 2 (r2) notes
+============================
+Heads: Story_block 2f17c2c, rpg_battle 2f52c80, Story_director 1303ac9, npc_state_delta 06cfc70.
+v1 main: rpg_battle defbcdf (0.5.52), Story_director 1273686 (0.9.47), Story_block bbd4599 (0.9.31), npc_state_delta f6e92f5.
+Clones: /home/user/_break/b7-combos-r2/ (v2) and /home/user/_break/b7-combos-r2/v1/ (main).
+Probes: /home/user/_break/b7-combos-r2/probe/*.mjs   Live drivers: /home/user/_break/b7-combos-r2/live/*.mjs (mock2.mjs = queue mock + NSD own-request routing + SCAN_DELAY_MS).
+Live: SillyTavern 1.19 on 8183, mock on 5183 (stopped at the end).
+
+Version/mix runs at testkit level (module test suites with the testkit synced from another Story Block):
+- RB 2f52c80 on SB a1cf5b1 (round-1 host, also "2.0.0-alpha.1"): 1138 pass, 2 fail
+  (break/b2-timeline-claims B-b2-timeline-10, integration F80 dice: claim keys fall back to index:swipe without ctx.carrier.sid).
+- SD 1303ac9 on SB a1cf5b1: 791 pass, 1 fail (the machine-specific vendored-equality test only).
+- RB/SD on SB 2f17c2c: RB 1140/0, SD 791/1 (same env-specific test).
+- SB 2f17c2c full suite: 1530 pass, 5 fail = only the new r2 tests below.
+- Round-1 chat (old SB+RB+SD+NSD defs) opened on r2 builds: no init for unchanged modules; NSD gains `npc` → module.init.npc-state-delta {domains:["npc"]} only;
+  active fight finishes, quest pays, replay == live, fresh-host replay == live.
+- Settings: round-1 fuzz (stored values, 36+NSD fields) unchanged; settings.set junk on every list field (NSD customMeters/stages, RB placePrices,
+  SD months) stores lists unvalidated but nothing throws or leaks NaN/markup into the prompt. SD calendar with 5000 custom months: ~8 s per reply
+  (1000 months: 40 ms/reply) - list length uncapped, not filed (unrealistic by hand).
+
+Live matrix r2 (console errors per scenario)
+- 16 subsets (s1): all boot; captures place/present/item whenever SB is on. Only console noise left: "Settings not ready, scheduling another save"
+  (ST), "Extension … did not load. Missing required extensions" (ST dependency check), NSD sidecar 404s (unhosted: up to ~20 per run; hosted: 1).
+  No "RangeError: There is no message -1", no "could not be set up in this chat" anywhere (B-8 fixed).
+- Mixes (s2): M1 v2 SB + v1 RB 0.5.52/SD 0.9.47/NSD main: no page errors, v1 modules inject nothing (prompt has only SB static + NSD capture).
+  M2 v1 SB + v2 modules: drawer lines as before. M3/M4 (one v1 module): clean. M5 (NSD main): clean.
+- s7 NSD capture: unterminated <!--npc_state_delta before <Changes>: Bread x2 + coin captured (B-3 fixed). `- present Fenna` → npc.present [] and
+  scene.present [] together; NSD dossier injection no longer presents her (B-11 fixed). Prefix between main requests 79-86 %, SB static 7507 constant.
+  Console: "[NPC State Delta] dossier backfill failed Error: No message generated" / "focused relationship batch failed" (mock returns '' for NSD calls).
+- s8 NSD UI hosted: Cast tab draws (476 chars) after redraws (B-12 fixed); corrupt sidecar → Cast says "This chat's dossiers are still loading." (R2-5);
+  console.error Could not hydrate … invalid JSON (expected). Unhosted: launcher visible, 16 inline cast nodes.
+- s6 removal: RB off/back static 7507→5061→7507, SD off/back 7507→4157→7507, SB off: 3 hidden STORY_SUITE_V2 blocks reach the model
+  (documented regex not installed in this profile; by design now), back: state intact (rev 17).
+- s4 group/switch: per-chat state intact, group PC Gwen + member reply captured, back to A exact. No head-listener RangeError.
+- s10 Cast clobber: Party tab (rpg-battle/party) shows NSD Cast markup after a 'npc-state-delta:cast-rendered' event and after reloadCurrentChat (R2-3).
+- s9 hosted scanner result vs swipe (scan delayed 8 s): not concluded - the swipe click did not fire in the driver and the scan admitted no slice
+  entry (mock returns no evaluator output). Untested; worth a targeted check: forwardRelationshipChangesToHost commits npc.adjust onto whatever
+  carrier/swipe is head when the scan finishes (index.js:908-931, no swipe/sid guard), cause 'ui'.
+- Observations, not filed: NSD presence now follows scene.present only; SB #75 empties scene.present on every `~ place` unless the line says
+  `with: …`, so an NPC who walks along drops out of NSD's injection/Cast until a `+ present` line. npc.set / npc.adjust are ui commands (not internal)
+  with a caller-chosen `reply` for the per-reply cap: a pack screen button could move meters (b5/b3 area).

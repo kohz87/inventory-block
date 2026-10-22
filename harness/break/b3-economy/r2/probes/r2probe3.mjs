@@ -1,0 +1,10 @@
+import { started } from './helpers/suite.js';
+const h = await started({ seed: 3 });
+const names = Array.from({ length: 6 }, (_, i) => `Errand ${String.fromCharCode(65 + i)}`);
+const w0 = h.wallet();
+const lines = names.flatMap(name => [`+ quest ${name} — a quick errand | giver: Fenna | goal: carry the parcel to the mill | difficulty: nightmare | reward: 99999 marks`, `~ quest ${name} | met: yes`, `- quest ${name} — done`]);
+await h.send(`I take ${names.join(', ')}.`, h.reply('Fenna has errands, and they are quick.', lines));
+console.log('one reply, paid', h.wallet() - w0);
+console.log(h.sdk.receipts().filter(r => r.index === h.ctx.chat.length - 1).map(r => r.receipt.summary.slice(0, 120)).join('\n'));
+console.log(names.map(n => [n, h.q('director.thread', { key: n })?.taken, h.q('director.thread', { key: n })?.status]));
+h.close();

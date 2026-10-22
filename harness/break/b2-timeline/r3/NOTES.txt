@@ -1,0 +1,21 @@
+b2-timeline round 3 (heads Story_block c93d9b6, rpg_battle 924b9a3, Story_director 5b44f3b, npc_state_delta 676d30f)
+Clones /home/user/_break/b2-timeline-r3/. Instance 8181/5181 stopped.
+Repo break suites: Story_block 116/116, rpg_battle 67/67 pass.
+
+r2-1 dry runs: FIXED. My r2 test passes; live probe-dryrace 0/12 (0.85-1.1 s re-sends) + 0/16; after a mid-stream switch the next reply was captured 8/8.
+r2-3 swipe marks: FIXED. My r2 test passes; live line-less swipes keep checks.prepare on each swipe, page head == replay == file; chaos 0 #1/#7.
+r2-2 rename: FIXED. The fix rides on CHAT_RENAMED; my original test (no CHAT_RENAMED) still fails by construction, the moved test emits it and passes.
+  Live, chat with a reply: a change whose save was being retried and a UI change made in the same moment both end up in the renamed file; no toast, no old file.
+
+NEW r3-1: a greeting-only (pristine) chat loses its record when SillyTavern's createOrEditCharacter regenerates the greeting
+  (character card edit, renameChat). Live: party.create + scene.present, then one word added to the description -> party gone in page and file.
+  Test: r3/tests/Story_block/b2-timeline-r3-pristine-greeting.test.js (fails).
+
+Fuzz r3: 84 seeds (60x150, 16x300, 8x400). After passing the runtime's new `scratch` option to the harness stores, fresh == live again.
+  Remaining alarms: strict oracle (no rebase / new replay rules), rewind expectation after deletes, corrupted records.
+Live chaos r3 seed 7: 330 steps, incl. 8 quickSend (~1 s re-send), 10 renames, 16 swipes during gen, 9 reloads, 5 reload-mid, 4 switch-mid.
+  0 stuck, 0 #1/#7. #2 alarms are harness (a UI command added before the rename; cue on the previous reply).
+  Two tabs 2/2 last-writer-wins (SillyTavern). SillyTavern TypeError on delete/switch mid-stream.
+
+Writes per reply: 3 (was 4). 3.3 MB chat: 3.34 + 3.43 + 3.53 MB, the last at 5.0 s; new chat 4.5 / 7.5 / 9.5 KB. A UI action: 1 write.
+Not covered: per-UI-command latency at 6 MB again; reread races on r3; group chats live.

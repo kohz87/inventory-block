@@ -1,0 +1,18 @@
+process.env.B2ROOT='/home/user/_break/b2-timeline-r2';
+const { storeMod } = await import('../lib/host.mjs');
+import fs from 'node:fs';
+const before = JSON.parse(fs.readFileSync('dumps/dump-44-295-before.json')).chat;
+const after = JSON.parse(fs.readFileSync('dumps/dump-44-295-after.json')).chat;
+const at = before.findIndex((m, i) => JSON.stringify(m) !== JSON.stringify(after[i]));
+console.log('deleted index', at, 'len', before.length, '->', after.length);
+const J = JSON.stringify;
+const chat = structuredClone(before);
+const live = storeMod.createStore({ chat: () => chat, save: async () => {} });
+const h0 = live.head();
+chat.splice(at, 1);
+live.rebuild();
+const h1 = live.head();
+const fresh = storeMod.createStore({ chat: () => structuredClone(chat), save: async () => {} }).head();
+console.log('live after delete == fresh', J(h1) === J(fresh));
+const fresh2 = storeMod.createStore({ chat: () => structuredClone(after), save: async () => {} }).head();
+console.log('fresh(after dump) == fresh(spliced)', J(fresh2) === J(fresh), 'chat equal', J(chat) === J(after.map(m => { const c = { ...m }; delete c.__fz; return c; })));
