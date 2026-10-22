@@ -510,3 +510,6 @@ MERGED testkit RB #118, SD #115, NSD #205.
 - NSD #211 merged → 91fe8f5. RB #124 merged → d0151ee. All module testkits are now at SB a2b20ac.
 - SB #157 (v2 into v2-ui, re-merged after #158) merged with a merge commit → ee07057. The proxy refuses force-push, so the auto merge message stays.
 - UI step 3a (settings window shell, glass legacy surfaces) started on branch `ui-3a-settings-shell`, PR into v2-ui. Shots in <SP>/ui3a/.
+- SB #159 (UI 3a: settings window shell `src/v2/view/settings/` (window, sections, bodies map, search), `openSettingsOverlay` replaced by `openSettingsWindow`, glass side sheet and game view under Panel style Glass only) squash-merged into v2-ui → 81627f4.
+- 3a review decisions (defaults, told to user, open to change): search goes in the rail and Close top right (as in the concept); a new "Look" section (Panel style, Glass strength, Font) comes first; Versions stays under Modules. HUD strip and dialog mount are still opaque (later step).
+- 3b started (same agent): layout fixes, Look section, Features on the form engine. Branch `ui-3b-features`.
