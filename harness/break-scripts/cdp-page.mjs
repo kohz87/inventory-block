@@ -11,8 +11,8 @@ import path from 'node:path';
 
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
-export async function launchRaw({ width = 1440, height = 900, port = 9382 } = {}) {
-    const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'b6-chrome-'));
+export async function launchRaw({ width = 1440, height = 900, port = 9451, mobile = false, scale = 1 } = {}) {
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'beta-e2e-chrome-'));
     const proc = spawn('/opt/pw-browsers/chromium', [
         '--headless=new', '--no-sandbox', `--remote-debugging-port=${port}`, `--user-data-dir=${dir}`, '--no-proxy-server', '--no-first-run',
         '--no-default-browser-check', '--disable-gpu', '--enable-precise-memory-info', '--js-flags=--expose-gc',
@@ -80,7 +80,10 @@ export async function launchRaw({ width = 1440, height = 900, port = 9382 } = {}
     await send('Runtime.enable');
     await send('Log.enable');
     await send('Inspector.enable').catch(() => {});
-    await send('Emulation.setDeviceMetricsOverride', { width, height, deviceScaleFactor: 1, mobile: false });
+    await send('Emulation.setDeviceMetricsOverride', { width, height, deviceScaleFactor: scale, mobile });
+    if (mobile) await send('Emulation.setTouchEmulationEnabled', { enabled: true }).catch(() => {});
+    // window.prompt/alert/confirm would block Runtime.evaluate: accept them at once.
+    ws.addEventListener('message', ev => { try { const m = JSON.parse(ev.data); if (m.method === 'Page.javascriptDialogOpening') send('Page.handleJavaScriptDialog', { accept: true, promptText: globalThis.__promptText ?? '' }).catch(() => {}); } catch { /* ignore */ } });
 
     async function evaluate(fn, arg) {
         const expression = `(${fn.toString()})(${arg === undefined ? '' : JSON.stringify(arg)})`;

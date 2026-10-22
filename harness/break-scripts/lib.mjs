@@ -3,13 +3,14 @@ import { chromium } from '/opt/node22/lib/node_modules/playwright/index.mjs';
 import fs from 'node:fs';
 
 export const SP = '/tmp/claude-0/-home-user-inventory-block/3572f065-fdf3-5cf4-88eb-a15358a57ebe/scratchpad';
-export const OUT = `${SP}/break/b6-soak`;
-export const ST_URL = 'http://127.0.0.1:8182/';
-export const MOCK_URL = 'http://127.0.0.1:5182/v1';
-export const MOCK_Q = `${SP}/inst/b6-soak/q`;
-export const MOCK_LOG = `${SP}/inst/b6-soak/log`;
-export const ST_DATA = `${SP}/inst/b6-soak/data`;
-export const PACK = '/home/user/_break/b6-soak/Story_block/examples/packs/ersveil-bluewatch/pack.json';
+export const OUT = process.env.SOAK_OUT ?? `${SP}/break/b6-soak`;
+export const ST_URL = process.env.ST_URL ?? 'http://127.0.0.1:8182/';
+export const MOCK_URL = process.env.MOCK_URL ?? 'http://127.0.0.1:5182/v1';
+export const MOCK_Q = process.env.MOCK_Q ?? `${SP}/inst/b6-soak/q`;
+export const MOCK_LOG = process.env.MOCK_LOG ?? `${SP}/inst/b6-soak/log`;
+export const ST_DATA = process.env.ST_DATA ?? `${SP}/inst/b6-soak/data`;
+export const REPOS = process.env.REPOS ?? '/home/user/_break/b6-soak';
+export const PACK = `${REPOS}/Story_block/examples/packs/ersveil-bluewatch/pack.json`;
 export const CHAR_NAME = 'Ersveil';
 
 let qn = 0;

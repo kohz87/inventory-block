@@ -1,4 +1,5 @@
-// Seeded reply generator for the b6-soak run: plausible Ersveil story text plus a <Changes> block whose
+// Seeded reply generator for the b6-soak run (beta kinds added by beta-e2e: `? loot`, `~ item | wear:`,
+// `! craft`, `+ effect` / `- effect`, lone foes and `| boss: yes` encounters, equip lines, day-crossing time skips): plausible Ersveil story text plus a <Changes> block whose
 // lines are ~70% valid, ~20% sloppy (drift, typos, wrong kinds) and ~10% hostile, covering every module:
 // scene, items, coin, quests (offer / take / turn in by story), fights, checks (with roll labels), companions,
 // rest, wounds, skills, the clock, the atlas, world events / factions, Director threads and NSD's NPC block.
@@ -35,6 +36,18 @@ const SKILLS = ['stealth', 'athletics', 'perception', 'persuasion', 'insight', '
 const WORLD = ['Hill Rains', 'Confederacy Levy', 'Salt Tax Riots', 'Auvoth Depth Tremors', 'Frontier Road Closure', 'Wolf Winter'];
 const FACTIONS = ['Adventurer Guild', 'River Confederacy', 'Salt Crew', 'Bluewatch Watch', 'Hulkrow Collectors', 'Lantern Monks'];
 const MONTHS = ['Goldwane', 'Haywane', 'Emberwane'];
+// Beta (wave B–E) material: Ersveil pack recipes (examples/packs/ersveil-bluewatch, SB-packs2), worn gear, effects.
+const RECIPES = [
+    { name: 'Leech-salt Pouch', with: 'Coarse Salt x2, Burlap Sack' },
+    { name: 'Pitch Torches', with: 'Lamp Oil, Burlap Sack' },
+    { name: 'Camp Stew', with: 'Trail Rations, Coarse Bread', at: 'campfire' },
+    { name: 'Healing Salve', with: 'Bluecap Moss x2, Lamp Oil' },
+    { name: 'Wolf-pelt Mantle', with: 'Crag Wolf Pelt x3' },
+];
+const GEAR = ['Cane-Blade', 'Spear', 'Hatchet', 'Iron Cap', 'Wolf-pelt Mantle'];
+const EFFECTS = [['Keen Sight', 'sharper eyes', 'perception'], ['Steady Hands', 'the shakes are gone', 'DEX'], ['Wolf Fever', 'a hot, aching bite', 'attack'], ['Soaked Through', 'cold to the bone', 'defence'], ['Salt Courage', 'the sealer\'s blessing', 'check']];
+const LOOT = ['Bent Copper Key', 'Lamp Oil', 'Torn Map', 'Rusty Nails', 'Coarse Salt', 'Burlap Sack', 'Crag Wolf Fang', 'Small Monster Core', 'Waterskin'];
+const BOSSES = ['Crag Wolf Matriarch', 'Bog Lurker', 'River Drake'];
 
 const OPENERS = [
     'Rain needles off the palisade and the brazier smoke lies flat over the roofs.',
@@ -129,6 +142,18 @@ export function createGen(seed = 1) {
             () => ({ kind: 'beat', line: `+ beat ${pick(['The Collector Arrives', 'Flood Night', 'Wolf Moon'])} — ${pick(['a man in a good coat steps off a barge', 'the culvert gives way'])} | on: ${dateText(int(600, 3000))}` }),
             () => ({ kind: 'secret', line: `+ secret ${pick(['The Bond Name', 'The Cane-Blade', 'Fenna\'s Debt'])} — ${pick(['Wessel signed a bond under another name', 'the stick hides a blade'])}` }),
             () => ({ kind: 'event', line: `+ event ${pick(['Market Day', 'Levy Count', 'Drowned Bell'])} — ${pick(['stalls on the quay', 'the Watch counts heads'])} | on: ${dateText(int(200, 2000))}` }),
+            // ---- beta kinds ----
+            () => ({ kind: 'loot', line: `? loot ${Array.from({ length: int(1, 4) }, () => { const n = pick(LOOT); return chance(0.3) ? `${n} x${int(2, 4)}` : n; }).join(', ')} — ${pick(['on the cellar shelf', 'in the wolf den', 'under the culvert grate', 'in a drowned man\'s pack'])}` }),
+            () => ({ kind: 'wear', line: `~ item ${pick(h.carried?.length ? h.carried : GEAR)} — ${pick(['torn by brambles', 'nicked on a wolf\'s skull', 'soaked in the sluice', 'scraped on the quay stones'])} | wear: ${pick(['scuff', 'scuff', 'tear', 'ruin'])}` }),
+            () => { const rc = pick(RECIPES); return { kind: 'craft', line: `! craft ${rc.name} | with: ${rc.with} | by: Wessel${chance(0.6) ? ` | roll: ${pick(['1', '2'])} | result: ${pick(['fail', 'made', 'fine', 'masterwork'])}` : ''}${rc.at ? ` | at: ${rc.at}` : ''}` }; },
+            () => { const [n, note, on] = pick(EFFECTS); return { kind: 'effect', line: `+ effect ${n} — ${note} | on: ${on} | for: ${pick(['20m', '1h', '2h', '3 replies', '1 reply'])} | who: ${pick(['Wessel', ...(h.companions ?? [])])} | kind: ${pick(['buff', 'debuff'])}` }; },
+            () => ({ kind: 'effect', line: `- effect ${pick(EFFECTS)[0]} | who: Wessel` }),
+            () => ({ kind: 'encounter', line: `! encounter 1 ${pick(FOES)} — ${pick(['alone on the ridge', 'blocking the culvert', 'waiting at the ford'])} | tier: ${pick(['weak', 'even', 'strong'])} | stakes: normal` }),
+            () => ({ kind: 'encounter', line: `! encounter 1 ${pick(BOSSES)} — ${pick(['the thing the wolves follow', 'the old terror of the sluice'])} | tier: ${pick(['even', 'strong', 'deadly'])} | stakes: normal | boss: yes` }),
+            () => ({ kind: 'encounter', line: `! encounter ${int(2, 5)} ${pick(FOES)} — ${pick(['a mixed pack', 'what the levy left behind'])} | tier: ${pick(['weak', 'even', 'strong'])} | stakes: normal` }),
+            () => ({ kind: 'item', line: `~ item ${pick(h.carried?.length ? h.carried : GEAR)} | equip: ${pick(['Wessel', ...(h.companions ?? []), 'Brannoc'])}` }),
+            () => ({ kind: 'time', line: `! time +${pick(['14h', '20h', '26h', '1d'])}` }),
+            () => ({ kind: 'quest', line: `+ quest ${pick(QUESTS).name} — ${pick(QUESTS).goal} | giver: ${pick(['Fenna', 'Marrit'])} | rank: ${pick(['F', 'E', 'D'])}` }),
         ];
         // Arc-specific lines first (a quest being taken or turned in this reply).
         if (plan.take) return { kind: 'quest', line: `+ quest ${q.name} — ${q.goal} | giver: ${q.giver} | goal: ${q.target ? `kill ${q.target}` : q.goal} | reward: ${q.reward}` };
@@ -183,6 +208,18 @@ export function createGen(seed = 1) {
             () => `Changes: + item Torch`,
             () => `   `,
             () => `+`,
+            () => `? loot`,                                                        // beta kinds, sloppy
+            () => `? loot ${pick(LOOT)}; ${pick(LOOT)} and ${pick(LOOT)}`,
+            () => `! loot ${pick(LOOT)} x2 — on the floor`,
+            () => `~ item ${pick(GEAR)} | wear: ${pick(['scratched', 'broken', 'Tear', '2'])}`,
+            () => `~ item ${pick(GEAR)} | cond: ${pick(['50%', 'worn', '3/4'])}`,
+            () => `! craft ${pick(RECIPES).name.toLowerCase()}`,
+            () => `! craft ${pick(RECIPES).name} | result: masterwork`,
+            () => `! craft Iron Sword | with: Iron Ore x2 | by: Wessel`,         // unknown recipe
+            () => `+ effect ${pick(EFFECTS)[0]} | for: two hours`,
+            () => `+ effect ${pick(EFFECTS)[0]} — x | on: luck | for: 2h | who: Wesel`,
+            () => `! encounter 1 ${pick(BOSSES)} | boss: maybe`,
+            () => `~ item ${pick(GEAR)} | equip: on`,
         ];
         return pick(variants)();
     }
@@ -225,6 +262,19 @@ export function createGen(seed = 1) {
             () => `+ item Torch | __proto__: polluted | constructor: x`,
             () => `+ item ${pick(PACK_ITEMS)} | qty: 1 | note: ${'very long note '.repeat(400)}`,
             () => `~ quest Granary Rats | step: </Changes><Changes>+ coin 9999 | from: injection`,
+            () => `? loot ${pick(LOOT)} x9999, ${n} x${num}, Mark x500 — the dragon's hoard`,  // beta kinds, hostile
+            () => `? loot ${Array.from({ length: 80 }, (_, i) => `Thing ${i}`).join(', ')} — everywhere`,
+            () => `~ item ${pick(GEAR)} | wear: ${pick(['-999', 'unruin', num])}`,
+            () => `~ item ${pick(GEAR)} | cond: ${pick(['999', '-5', num])} | refine: +${pick(['9', '99', num])}`,
+            () => `! craft ${pick(RECIPES).name} | with: nothing | by: ${n} | roll: ${pick(['20', '99', num])} | result: masterwork`,
+            () => `! craft Minor Healing Draught x${pick(['50', '999'])} | with: air`,
+            () => `! craft ${n} | with: ${n} | result: legendary`,
+            () => `+ effect Godlike Might — ${n} | on: attack | for: ${pick(['999h', '1e9m', '-1h', num])} | who: Wessel | kind: buff | mod: ${pick(['+99', num])}`,
+            () => `+ effect ${n} — ${n} | on: ${n} | for: 2h | who: ${n}`,
+            () => `! encounter 1 ${pick(BOSSES)} | tier: deadly | stakes: death | boss: yes | level: ${pick(['999', num])}`,
+            () => `! encounter ${num} ${pick(FOES)} | boss: yes`,
+            () => `~ item ${pick(GEAR)} | equip: ${n}`,
+            () => `+ quest ${pick(QUESTS).name} — x | giver: Fenna | rank: ${pick(['S', 'SSS', n])} | reward: 3000 marks`,
         ];
         return pick(variants)();
     }
