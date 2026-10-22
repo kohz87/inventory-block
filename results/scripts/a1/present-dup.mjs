@@ -1,0 +1,11 @@
+const { createHost } = await import('/home/user/cell/a1/Story_block/testkit/index.js');
+const { createStore } = await import('/home/user/cell/a1/Story_block/src/v2/store.js');
+console.warn = () => {};
+const h = await createHost();
+const B = l => `Text.\n\n<Changes>\n${l.join('\n')}\n</Changes>`;
+await h.send('A.', B(['+ present Marrit']));
+await h.send('B.', B(['- present Marrit']));
+await h.send('C.', B(['+ present Marrit', '+ coin 5']));
+console.log('before', JSON.stringify(h.head().domains.scene.present), h.sdk.query('inventory.wallet', { owner: 'party' }).coin);
+await h.st.deleteMessage(4); await h.st.deleteMessage(3);
+console.log('after delete B', JSON.stringify(h.head().domains.scene.present), h.sdk.query('inventory.wallet', { owner: 'party' }).coin, JSON.stringify(h.store.problems().map(p => p.why ?? p.message)));

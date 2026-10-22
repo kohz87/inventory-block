@@ -1,0 +1,24 @@
+const { suiteHost } = await import('/home/user/cell/a1/rpg_battle/tests/v2/break/helpers/suite.js');
+console.warn = () => {}; console.error = () => {};
+const COINS = [{ name: 'copper', value: 1 }, { name: 'silver', value: 10 }, { name: 'gold', value: 100 }];
+const h = await suiteHost({ seed: 7, settings: { modules: { 'story-block': { coins: COINS, storyCoinPerReply: 50 } } } });
+await h.cmd('party.create', { name: 'Wessel', preset: 'fighter' });
+const xp = () => h.q('party.pc').xp;
+const R = (x, l) => h.reply(x, l);
+await h.send('Start.', R('Morning.', ['~ place Bluewatch Village | kind: settlement']));
+let b = xp(), c = h.wallet();
+await h.send('Go.', R('Win.', ['+ xp major — held the gate', '+ coin 4 silver']));
+console.log('reply: xp', xp() - b, 'coin', h.wallet() - c);
+await h.cont(R(' More.', ['+ xp milestone — more', '+ coin 4 silver']));
+console.log('cont: xp', xp() - b, 'coin', h.wallet() - c);
+await h.cont(' Again.\n\n+ xp major — stray\n+ coin 4 silver');
+console.log('cont stray: xp', xp() - b, 'coin', h.wallet() - c);
+await h.swipe(R('Alt.', ['+ xp minor — a', '+ xp minor — b', '+ xp minor — c']));
+console.log('swipe: xp', xp() - b, h.turn.problems().slice(-1).map(p => p.code));
+await h.st.swipeTo(h.ctx.chat.length - 1, 0);
+console.log('back to swipe 0: xp', xp() - b, 'coin', h.wallet() - c);
+// Re-read
+const live = JSON.stringify(h.head());
+await h.sdk.reread(h.ctx.chat.length - 1);
+console.log('reread same?', JSON.stringify(h.head()) === live, 'xp', xp() - b, 'coin', h.wallet() - c);
+h.close();

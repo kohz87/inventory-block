@@ -1,0 +1,18 @@
+const { suiteHost } = await import('/home/user/cell/a1/rpg_battle/tests/v2/break/helpers/suite.js');
+console.warn = () => {}; console.error = () => {};
+const h = await suiteHost({ seed: 2, nsdNpcs: [{ name: 'Fenna' }] });
+await h.cmd('party.create', { name: 'Wessel', preset: 'fighter' });
+console.log(Object.keys(h.head().domains));
+const R = (t, l) => h.reply(t, l);
+await h.send('A.', R('Fenna is here.', ['+ present Fenna']));
+await h.send('B.', R('Chat.', ['~ npc Fenna | trust: +2']));
+const dom = Object.keys(h.head().domains).find(k => /npc/.test(k));
+const fen = () => { const d = h.head().domains[dom]; return JSON.stringify(Object.values(d?.npcs ?? d ?? {}).map(n => ({ m: n.meters, t: n.turn })).slice(0, 2)); };
+console.log(dom, fen());
+await h.send('C.', R('Help.', ['~ npc Fenna | trust: +25']));
+console.log('C', fen(), 'len', h.ctx.chat.length);
+await h.st.deleteMessage(4); await h.st.deleteMessage(3);
+console.log('after delete', fen(), JSON.stringify(h.store.problems().map(p => p.why ?? p.message)).slice(0, 400));
+await h.send('D.', R('More help.', ['~ npc Fenna | trust: +25']));
+console.log('D at', h.ctx.chat.length - 1, fen(), h.turn.problems().slice(-1).map(p => p.message.slice(0, 140)));
+h.close();

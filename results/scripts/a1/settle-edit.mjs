@@ -1,0 +1,18 @@
+const { suiteHost } = await import('/home/user/cell/a1/rpg_battle/tests/v2/break/helpers/suite.js');
+console.warn = () => {}; console.error = () => {};
+const h = await suiteHost({ seed: 3 });
+await h.cmd('party.create', { name: 'Wessel', preset: 'fighter' });
+const R = (t, l) => h.reply(t, l);
+const days = () => JSON.stringify(Object.keys(h.head().domains.chronicle?.days ?? {}));
+await h.send('Start.', R('Morning.', ['~ place Bluewatch Village | kind: settlement', '+ present Fenna']));
+await h.send('Talk.', R('Fenna talks.', ['~ npc Fenna | trust: +2']));
+await h.send('Sleep.', R('A day passes.', ['! time +1d']));
+const i = h.ctx.chat.length - 1;
+await h.send('Wake.', R('Morning again.', []));
+console.log('days', days(), 'time', h.q('director.time')?.minutes);
+await h.st.editMessage(i, 'No time passes.');
+await h.sdk.reread(i);
+console.log('after edit+reread days', days(), 'time', h.q('director.time')?.minutes, 'board', JSON.stringify(h.q('chronicle.days'))?.slice(0, 200));
+await h.send('Next.', R('Later.', []));
+console.log('after next reply days', days());
+h.close();

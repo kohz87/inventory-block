@@ -1,0 +1,12 @@
+const { suiteHost } = await import('/home/user/cell/a1/rpg_battle/tests/v2/break/helpers/suite.js');
+console.warn = () => {}; console.error = () => {};
+const h = await suiteHost({ seed: 2 });
+await h.cmd('party.create', { name: 'Wessel', preset: 'fighter' });
+const R = (t, l) => h.reply(t, l);
+await h.send('A.', R('Village.', ['~ place Bluewatch Village | kind: settlement']));
+await h.send('B.', R('Outpost.', ['~ place Wolfmere Outpost | kind: outpost']));
+await h.send('C.', R('Road.', ['+ route Bluewatch Village — Wolfmere Outpost']));
+console.log('routes', Object.keys(h.head().domains.atlas.routes ?? {}).length);
+await h.st.deleteMessage(4); await h.st.deleteMessage(3);
+console.log('after delete B', Object.keys(h.head().domains.atlas.routes ?? {}).length, JSON.stringify(h.store.problems().map(p => p.why ?? p.message)));
+h.close();

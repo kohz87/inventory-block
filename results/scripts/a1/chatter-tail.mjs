@@ -1,0 +1,14 @@
+const { createHost } = await import('/home/user/cell/a1/Story_block/testkit/index.js');
+console.warn = () => {};
+const h = await createHost({ settings: { modules: { 'story-block': { chatterInPrompt: true } } } });
+h.features.set('story-block.chatter', true);
+const sys = () => h.st.requests.at(-1).chat.filter(m => m.role === 'system').map(m => m.content).join('\n---\n');
+await h.send('Hi.', 'Road.\n\n<Changes>\n~ chatter Fenna: he will not last <b>x</b>\n~ chatter Kael: ' + 'z'.repeat(400) + '\n</Changes>');
+await h.send('Next.', 'More.');
+const s1 = sys();
+console.log('tail has chatter:', /Inner chatter last reply/.test(s1), (s1.match(/\[Inner chatter[^\n]*/) ?? [''])[0].slice(0, 260));
+await h.swipe('Swiped.');
+console.log('after swipe, same reply answered:', /Fenna: he will not last/.test(sys()));
+h.features.set('story-block.chatter', false);
+await h.send('Again.', 'Quiet.');
+console.log('feature off -> no chatter tail:', !/Inner chatter last reply/.test(sys()));

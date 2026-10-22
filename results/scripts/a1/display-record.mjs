@@ -1,0 +1,17 @@
+const SB = '/home/user/cell/a1/Story_block';
+const { createHost } = await import(`${SB}/testkit/index.js`);
+const { readRecord } = await import(`${SB}/src/v2/persist.js`);
+const { createReplyExtras } = await import(`${SB}/src/v2/extras-ui.js`);
+console.warn = () => {};
+const h = await createHost();
+h.features.set('story-block.choices', true); h.features.set('story-block.chatter', true);
+await h.send('Hi.', 'Road.');
+await h.send('Go.', 'The gate.\n\n<Changes>\n? choice Climb the wall\n? choice Knock\n~ chatter Fenna: hm\n</Changes>');
+const i = h.ctx.chat.length - 1;
+console.log('record?', JSON.stringify(readRecord(h.ctx.chat[i])));
+const { displayLines } = await import(`${SB}/src/v2/extras.js`);
+const ex = createReplyExtras({ ctx: h.ctx, doc: { querySelector: () => null, querySelectorAll: () => [] }, display: mes => displayLines(mes, { entryOf: w => h.registry.capture(w), max: 150 }), featureOn: id => h.features.on(id) });
+console.log('extrasAt', JSON.stringify(ex.extrasAt(i)));
+await h.send('Go.', 'The yard.\n\n<Changes>\n? choice Run\n+ coin 3\n</Changes>');
+console.log('extrasAt with a state line', JSON.stringify(ex.extrasAt(h.ctx.chat.length - 1)));
+h.close();

@@ -1,0 +1,14 @@
+const { suiteHost } = await import('/home/user/cell/a1/rpg_battle/tests/v2/break/helpers/suite.js');
+console.warn = () => {}; console.error = () => {};
+const h = await suiteHost({ seed: 5 });
+await h.cmd('party.create', { name: 'Wessel', preset: 'fighter' });
+const n = () => JSON.stringify(h.head().domains.director.turn);
+await h.send('Start.', h.reply('Morning.', ['~ place Bluewatch Village | kind: settlement']));
+console.log('after reply', n());
+await h.cont(h.reply(' More.', ['! time +1h']));
+console.log('after continue', n());
+await h.cont(h.reply(' More.', ['! time +1h']));
+console.log('after continue2', n());
+await h.send('Next.', h.reply('Later.', ['! time +1h']));
+console.log('next reply', n());
+h.close();

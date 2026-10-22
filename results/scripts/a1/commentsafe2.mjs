@@ -1,0 +1,14 @@
+const { suiteHost } = await import('/home/user/cell/a1/rpg_battle/tests/v2/break/helpers/suite.js');
+console.warn = () => {}; console.error = () => {};
+const J = v => JSON.stringify(v);
+const h = await suiteHost({ seed: 4 });
+await h.cmd('party.create', { name: 'Wessel', preset: 'fighter' });
+await h.send('Hi.', h.reply('Road.', ['~ place Bluewatch Village | kind: settlement']));
+await h.send('Go.', h.reply('Minke asks.', ['+ quest Granary Rats -- clear the cellar | giver: Minke | goal: bring 10 rat tails', '! encounter 3 Weir Rat -- cellar pack | tier: weak', '+ item Rope -- frayed']));
+const pick = () => ({ threads: Object.values(h.head().domains.director?.threads ?? {}).map(t => t.name ?? t.title), offers: (h.q('combat.offers') ?? []).map(o => o.text), items: h.q('inventory.items').map(i => i.name) });
+const a = pick();
+console.log('live  ', J(a));
+await h.sdk.reread(h.ctx.chat.length - 1);
+const b = pick();
+console.log('reread', J(b), J(a) === J(b) ? 'SAME' : 'DIFF');
+h.close();

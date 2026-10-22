@@ -1,0 +1,20 @@
+const { suiteHost, rebuilt } = await import('/home/user/cell/a1/rpg_battle/tests/v2/break/helpers/suite.js');
+console.warn = () => {}; console.error = () => {};
+const J = v => JSON.stringify(v);
+const h = await suiteHost({ seed: 9, pack: false });
+await h.cmd('party.create', { name: 'Wessel', preset: 'fighter' });
+const st = () => { const p = h.head().domains.party; const a = h.q('party.pc'); return `hp ${a.hp?.cur ?? a.hp} rested ${p.rested} time ${h.q('director.time')?.minutes}`; };
+const R = (t, l) => h.reply(t, l);
+await h.send('A.', R('Morning.', ['~ time March 3, 8:00 am']));
+await h.send('B.', R('Fall.', ['~ wound Wessel — fell | harm: severe']));
+await h.send('C.', R('Walk.', ['! time +3h']));
+await h.send('D.', R('Rest.', []));
+console.log('before', st());
+// delete the first clock set (A reply and its user message)
+await h.st.deleteMessage(2); await h.st.deleteMessage(1);
+console.log('after delete A', st(), 'problems', J(h.store.problems().map(p => p.why ?? p.message)).slice(0, 400));
+console.log('rebuilt==live', J(await rebuilt(h)) === J(h.head()));
+await h.send('E.', R('Hours.', ['! time +2h']));
+await h.send('F.', R('More.', []));
+console.log('later', st());
+h.close();

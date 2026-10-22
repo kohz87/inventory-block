@@ -1,0 +1,10 @@
+const { createHost } = await import('/home/user/cell/a1/Story_block/testkit/index.js');
+const { readRecord } = await import('/home/user/cell/a1/Story_block/src/v2/persist.js');
+console.warn = () => {};
+const h = await createHost();
+await h.send('Hi.', 'Road.\n\n<Changes>\n+ coin 1\n</Changes>');
+const s0 = readRecord(h.ctx.chat.at(-1))?.sid;
+await h.swipe('Other.\n\n<Changes>\n+ coin 2\n</Changes>');
+const s1 = readRecord(h.ctx.chat.at(-1))?.sid;
+await h.cont(' More.\n\n<Changes>\n+ coin 1\n</Changes>');
+console.log('swipe0', s0, 'swipe1', s1, 'after continue', readRecord(h.ctx.chat.at(-1))?.sid);

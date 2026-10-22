@@ -1,0 +1,13 @@
+const { suiteHost } = await import('/home/user/cell/a1/rpg_battle/tests/v2/break/helpers/suite.js');
+console.warn = () => {}; console.error = () => {};
+const h = await suiteHost({ seed: 8 });
+await h.send('Start.', h.reply('Morning.', ['+ xp major — before any character', '+ coin 5']));
+console.log('receipts', JSON.stringify((h.ctx.chat.at(-1).extra?.storySuite?.receipts ?? []).map(r => [r.type, r.summary])));
+console.log('problems', JSON.stringify(h.turn.problems()));
+console.log('notices', JSON.stringify(h.st.notices));
+await h.cmd('party.create', { name: 'Wessel', preset: 'fighter' });
+const pc = () => { const p = h.q('party.pc'); return `lvl ${p.level} xp ${p.xp}`; };
+console.log(pc());
+await h.send('Go.', h.reply('Things happen.', ['+ xp MAJOR']));
+console.log(pc());
+h.close();

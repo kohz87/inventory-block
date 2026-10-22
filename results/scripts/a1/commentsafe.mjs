@@ -1,0 +1,10 @@
+const SB = '/home/user/cell/a1/Story_block';
+const { createHost } = await import(`${SB}/testkit/index.js`);
+console.warn = () => {};
+const h = await createHost();
+await h.send('Hi.', 'Road.');
+await h.send('Go.', 'The hall.\n\n<Changes>\n+ item Rope | note: tied -- twice\n</Changes>');
+const note = () => Object.values(h.head().domains.inventory.stacks).map(s => s.note);
+console.log('live', note(), JSON.stringify(h.ctx.chat.at(-1).mes));
+await h.turn.reread(h.ctx.chat.length - 1);
+console.log('reread', note());

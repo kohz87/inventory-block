@@ -1,0 +1,16 @@
+const { createHost } = await import('/home/user/cell/a1/Story_block/testkit/index.js');
+console.warn = () => {};
+const coin = h => h.sdk.query('inventory.wallet', { owner: 'party' }).coin ?? 0;
+let h = await createHost();
+await h.send('Hi.', 'Road.');
+await h.send('Go.', 'A purse.\n\n+ coin 1', { stopped: true });
+await h.cont('2\n\nThe end.');
+console.log('stopped+cont live', coin(h), h.turn.problems().map(p => p.code).join(','), JSON.stringify(h.ctx.chat.at(-1).mes));
+await h.turn.reread(h.ctx.chat.length - 1);
+console.log(' reread', coin(h));
+h.close();
+h = await createHost();
+await h.send('Hi.', 'Road.');
+await h.send('Go.', 'Fish.\n\n<Changes>\n+ coin 5 fish\n</Changes>');
+console.log('+ coin 5 fish ->', coin(h));
+h.close();

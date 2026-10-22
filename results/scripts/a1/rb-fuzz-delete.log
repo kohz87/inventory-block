@@ -1,0 +1,172 @@
+TAP version 13
+# Subtest: FUZZ_DELETE seed 1 (30 replies): middle deletes rebuild to the live head and skip no valid block
+ok 1 - FUZZ_DELETE seed 1 (30 replies): middle deletes rebuild to the live head and skip no valid block
+  ---
+  duration_ms: 2940.868235
+  type: 'test'
+  ...
+# Subtest: FUZZ_DELETE seed 2 (30 replies): middle deletes rebuild to the live head and skip no valid block
+ok 2 - FUZZ_DELETE seed 2 (30 replies): middle deletes rebuild to the live head and skip no valid block
+  ---
+  duration_ms: 3762.150807
+  type: 'test'
+  ...
+# Subtest: FUZZ_DELETE seed 3 (30 replies): middle deletes rebuild to the live head and skip no valid block
+ok 3 - FUZZ_DELETE seed 3 (30 replies): middle deletes rebuild to the live head and skip no valid block
+  ---
+  duration_ms: 805.997502
+  type: 'test'
+  ...
+# Subtest: FUZZ_DELETE seed 4 (30 replies): middle deletes rebuild to the live head and skip no valid block
+ok 4 - FUZZ_DELETE seed 4 (30 replies): middle deletes rebuild to the live head and skip no valid block
+  ---
+  duration_ms: 2433.333083
+  type: 'test'
+  ...
+# Subtest: FUZZ_DELETE seed 5 (30 replies): middle deletes rebuild to the live head and skip no valid block
+ok 5 - FUZZ_DELETE seed 5 (30 replies): middle deletes rebuild to the live head and skip no valid block
+  ---
+  duration_ms: 1628.360174
+  type: 'test'
+  ...
+# Subtest: FUZZ_DELETE seed 6 (30 replies): middle deletes rebuild to the live head and skip no valid block
+ok 6 - FUZZ_DELETE seed 6 (30 replies): middle deletes rebuild to the live head and skip no valid block
+  ---
+  duration_ms: 1655.351674
+  type: 'test'
+  ...
+# Subtest: FUZZ_DELETE seed 7 (30 replies): middle deletes rebuild to the live head and skip no valid block
+ok 7 - FUZZ_DELETE seed 7 (30 replies): middle deletes rebuild to the live head and skip no valid block
+  ---
+  duration_ms: 1466.370437
+  type: 'test'
+  ...
+# Subtest: FUZZ_DELETE seed 8 (30 replies): middle deletes rebuild to the live head and skip no valid block
+ok 8 - FUZZ_DELETE seed 8 (30 replies): middle deletes rebuild to the live head and skip no valid block
+  ---
+  duration_ms: 2884.604241
+  type: 'test'
+  ...
+# Subtest: FUZZ_DELETE seed 9 (30 replies): middle deletes rebuild to the live head and skip no valid block
+ok 9 - FUZZ_DELETE seed 9 (30 replies): middle deletes rebuild to the live head and skip no valid block
+  ---
+  duration_ms: 1448.100746
+  type: 'test'
+  ...
+# Subtest: FUZZ_DELETE seed 10 (30 replies): middle deletes rebuild to the live head and skip no valid block
+ok 10 - FUZZ_DELETE seed 10 (30 replies): middle deletes rebuild to the live head and skip no valid block
+  ---
+  duration_ms: 1716.133092
+  type: 'test'
+  ...
+# Subtest: FUZZ_DELETE seed 11 (30 replies): middle deletes rebuild to the live head and skip no valid block
+ok 11 - FUZZ_DELETE seed 11 (30 replies): middle deletes rebuild to the live head and skip no valid block
+  ---
+  duration_ms: 909.044936
+  type: 'test'
+  ...
+# Subtest: FUZZ_DELETE seed 12 (30 replies): middle deletes rebuild to the live head and skip no valid block
+ok 12 - FUZZ_DELETE seed 12 (30 replies): middle deletes rebuild to the live head and skip no valid block
+  ---
+  duration_ms: 1446.12488
+  type: 'test'
+  ...
+# Subtest: FUZZ_DELETE seed 13 (30 replies): middle deletes rebuild to the live head and skip no valid block
+ok 13 - FUZZ_DELETE seed 13 (30 replies): middle deletes rebuild to the live head and skip no valid block
+  ---
+  duration_ms: 681.482085
+  type: 'test'
+  ...
+# Subtest: FUZZ_DELETE seed 14 (30 replies): middle deletes rebuild to the live head and skip no valid block
+ok 14 - FUZZ_DELETE seed 14 (30 replies): middle deletes rebuild to the live head and skip no valid block
+  ---
+  duration_ms: 1516.087506
+  type: 'test'
+  ...
+# Subtest: FUZZ_DELETE seed 15 (30 replies): middle deletes rebuild to the live head and skip no valid block
+ok 15 - FUZZ_DELETE seed 15 (30 replies): middle deletes rebuild to the live head and skip no valid block
+  ---
+  duration_ms: 1607.074251
+  type: 'test'
+  ...
+# Subtest: FUZZ_DELETE seed 16 (30 replies): middle deletes rebuild to the live head and skip no valid block
+ok 16 - FUZZ_DELETE seed 16 (30 replies): middle deletes rebuild to the live head and skip no valid block
+  ---
+  duration_ms: 1744.879306
+  type: 'test'
+  ...
+# Subtest: FUZZ_DELETE seed 17 (30 replies): middle deletes rebuild to the live head and skip no valid block
+ok 17 - FUZZ_DELETE seed 17 (30 replies): middle deletes rebuild to the live head and skip no valid block
+  ---
+  duration_ms: 857.850174
+  type: 'test'
+  ...
+# Subtest: FUZZ_DELETE seed 18 (30 replies): middle deletes rebuild to the live head and skip no valid block
+ok 18 - FUZZ_DELETE seed 18 (30 replies): middle deletes rebuild to the live head and skip no valid block
+  ---
+  duration_ms: 1108.726436
+  type: 'test'
+  ...
+# Subtest: FUZZ_DELETE seed 19 (30 replies): middle deletes rebuild to the live head and skip no valid block
+ok 19 - FUZZ_DELETE seed 19 (30 replies): middle deletes rebuild to the live head and skip no valid block
+  ---
+  duration_ms: 1008.091941
+  type: 'test'
+  ...
+# Subtest: FUZZ_DELETE seed 20 (30 replies): middle deletes rebuild to the live head and skip no valid block
+ok 20 - FUZZ_DELETE seed 20 (30 replies): middle deletes rebuild to the live head and skip no valid block
+  ---
+  duration_ms: 1355.772926
+  type: 'test'
+  ...
+# Subtest: FUZZ_DELETE seed 21 (30 replies): middle deletes rebuild to the live head and skip no valid block
+ok 21 - FUZZ_DELETE seed 21 (30 replies): middle deletes rebuild to the live head and skip no valid block
+  ---
+  duration_ms: 1044.74629
+  type: 'test'
+  ...
+# Subtest: FUZZ_DELETE seed 22 (30 replies): middle deletes rebuild to the live head and skip no valid block
+ok 22 - FUZZ_DELETE seed 22 (30 replies): middle deletes rebuild to the live head and skip no valid block
+  ---
+  duration_ms: 2226.948844
+  type: 'test'
+  ...
+# Subtest: FUZZ_DELETE seed 23 (30 replies): middle deletes rebuild to the live head and skip no valid block
+ok 23 - FUZZ_DELETE seed 23 (30 replies): middle deletes rebuild to the live head and skip no valid block
+  ---
+  duration_ms: 1510.877441
+  type: 'test'
+  ...
+# Subtest: FUZZ_DELETE seed 24 (30 replies): middle deletes rebuild to the live head and skip no valid block
+ok 24 - FUZZ_DELETE seed 24 (30 replies): middle deletes rebuild to the live head and skip no valid block
+  ---
+  duration_ms: 1286.752113
+  type: 'test'
+  ...
+# Subtest: FUZZ_DELETE seed 3 (40 replies): middle deletes rebuild to the live head and skip no valid block
+ok 25 - FUZZ_DELETE seed 3 (40 replies): middle deletes rebuild to the live head and skip no valid block
+  ---
+  duration_ms: 1391.108068
+  type: 'test'
+  ...
+# Subtest: FUZZ_DELETE seed 11 (40 replies): middle deletes rebuild to the live head and skip no valid block
+ok 26 - FUZZ_DELETE seed 11 (40 replies): middle deletes rebuild to the live head and skip no valid block
+  ---
+  duration_ms: 1741.200695
+  type: 'test'
+  ...
+# Subtest: FUZZ_DELETE seed 23 (40 replies): middle deletes rebuild to the live head and skip no valid block
+ok 27 - FUZZ_DELETE seed 23 (40 replies): middle deletes rebuild to the live head and skip no valid block
+  ---
+  duration_ms: 2777.06101
+  type: 'test'
+  ...
+1..27
+# tests 27
+# suites 0
+# pass 27
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 45259.703527

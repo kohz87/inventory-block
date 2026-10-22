@@ -1,0 +1,12 @@
+const SB = '/home/user/cell/a1/Story_block';
+const { createHost } = await import(`${SB}/testkit/index.js`);
+console.warn = () => {};
+const h = await createHost();
+const coin = () => h.sdk.query('inventory.wallet', { owner: 'party' }).coin ?? 0;
+await h.send('Hi.', 'Road.');
+await h.send('Go.', 'The hall.\n\n<Changes>\n~ place Bluewatch Village\n</Changes>');
+await h.cont('\n\n+ coin 7\n\nOne.\n\nTwo.\n\nThree.\n\nFour.\n\n<Changes>\n+ coin 1\n</Changes>');
+console.log('live', coin(), h.turn.problems().map(p => p.code + ':' + p.line));
+console.log(JSON.stringify(h.ctx.chat.at(-1).mes));
+await h.turn.reread(h.ctx.chat.length - 1);
+console.log('reread', coin());

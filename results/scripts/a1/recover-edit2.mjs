@@ -1,0 +1,23 @@
+const { suiteHost } = await import('/home/user/cell/a1/rpg_battle/tests/v2/break/helpers/suite.js');
+console.warn = () => {}; console.error = () => {};
+const h = await suiteHost({ seed: 3 });
+await h.cmd('party.create', { name: 'Wessel', preset: 'fighter' });
+const st = () => { const p = h.head().domains.party; const a = h.q('party.pc'); return `hp ${a.hp?.cur ?? a.hp}/${a.hp?.max} rested ${p.rested} time ${h.q('director.time')?.minutes}`; };
+const R = (t, l) => h.reply(t, l);
+await h.send('Start.', R('Morning.', ['~ place Bluewatch Village | kind: settlement']));
+await h.send('Fall.', R('Wessel falls.', ['~ wound Wessel — fell | harm: severe']));
+console.log('wounded', st());
+await h.send('Sleep.', R('They sleep the day away.', ['! time +8h']));
+console.log('after time', st());
+await h.send('Wake.', R('Morning again.', []));
+console.log('after next reply (cue)', st());
+const recv = h.ctx.chat.map((m, i) => [i, (m.extra?.storySuite?.receipts ?? []).filter(r => r.type === 'party.recover').map(r => r.summary)]).filter(x => x[1].length);
+console.log('recover receipts', JSON.stringify(recv));
+// Edit the reply that wrote the time: the time line goes.
+const i = recv.find(x => /hours pass/.test(x[1][0]))[0];
+await h.st.editMessage(i, h.reply('A short nap.', ['! time +1h']));
+await h.sdk.reread(i);
+console.log('after edit+reread of', i, st());
+const { rebuilt } = await import('/home/user/cell/a1/rpg_battle/tests/v2/break/helpers/suite.js');
+console.log('rebuilt == live', JSON.stringify(await rebuilt(h)) === JSON.stringify(h.head()));
+h.close();

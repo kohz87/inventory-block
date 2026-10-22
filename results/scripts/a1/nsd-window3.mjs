@@ -1,0 +1,16 @@
+const { suiteHost, rebuilt } = await import('/home/user/cell/a1/rpg_battle/tests/v2/break/helpers/suite.js');
+console.warn = () => {}; console.error = () => {};
+const h = await suiteHost({ seed: 2, nsdNpcs: [{ name: 'Fenna' }] });
+await h.cmd('party.create', { name: 'Wessel', preset: 'fighter' });
+const R = (t, l) => h.reply(t, l);
+const fen = () => JSON.stringify(Object.values(h.head().domains.npc?.npcs ?? {}).map(n => ({ trust: n.meters?.trust, turn: n.turn })));
+await h.send('A.', R('Fenna is here.', ['+ present Fenna', '~ npc Fenna | trust: +1']));
+await h.send('B.', R('Rain.', ['~ place Bluewatch Village | kind: settlement']));
+await h.send('C.', R('Insult.', ['~ npc Fenna | trust: -25']));
+console.log('C', fen(), 'len', h.ctx.chat.length);
+await h.st.deleteMessage(4); await h.st.deleteMessage(3);
+console.log('after delete B', fen(), JSON.stringify(h.store.problems().map(p => p.why ?? p.message)));
+await h.send('D.', R('More help.', ['~ npc Fenna | trust: +25']));
+console.log('D at', h.ctx.chat.length - 1, fen(), JSON.stringify(h.turn.problems().slice(-2).map(p => p.message.slice(0, 160))));
+console.log('rebuilt==live', JSON.stringify(await rebuilt(h)) === JSON.stringify(h.head()));
+h.close();
