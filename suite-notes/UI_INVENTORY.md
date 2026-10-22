@@ -24,3 +24,8 @@ Total ≈ 20 h (12–30 h); settings form engine is the main cost.
 - RB return/card.js widget ORPHANED: death "Return in time" card never drawn → placed in template (fix-cand-rb, pre-beta)
 
 ## Hand-built widgets inside templated screens (~20; large: SB inspector, SB map, RB fight board, SD atlas)
+
+## From the beta live test (2026-10-22), for the UI stage
+- World → Now present cards (NSD's cards): the portrait takes too much room, so the text becomes a wall; in the game view the card is too narrow and tall.
+- Choices (CYOA) under a reply: one option per row, folded by default.
+- Suite settings overlay: part of the redesign (item 1 above).
