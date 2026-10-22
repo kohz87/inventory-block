@@ -4,3 +4,4 @@ st-first.log
 break/b6-soak/
 beta-e2e/
 inst-*.env
+*.out
