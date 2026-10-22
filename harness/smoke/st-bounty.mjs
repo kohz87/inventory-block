@@ -1,0 +1,16 @@
+import { open, S } from './demo-common.mjs';
+import fs from 'node:fs';
+const h = await open({ width: 1440, height: 1000 });
+const { page, ev } = h;
+const r4 = fs.readFileSync(`${S}/demo/r4.txt`, 'utf8');
+const withDirector = lines => r4.replace(/<Director>[\s\S]*?<\/Director>/, `<Director>\n${lines}\n</Director>`);
+await h.openNarrator('The Narrator - 2026-10-18@09h00m00s000ms');
+await h.dock();
+await h.turn(withDirector('+ hook Wolf pelts — the tanner pays for pelts | reward: 2 silver each | type: bounty | difficulty: hard\n+ hook Courier run — a sealed letter for Brightwater | reward: 6 copper | type: contract\n+ hook River stranger — who pulled Ren from the sump'), 'I read the board.');
+await page.waitForTimeout(2000);
+await h.turn(withDirector('~ Wolf pelts — step: tracking the pack\n~ Courier run — step: on the road north\n~ River stranger — step: asked around at the inn'), 'I take the bounty and the contract.');
+await page.waitForTimeout(2500);
+await h.tab('ext:story-director-quests'); await page.waitForTimeout(800);
+console.log('quests tab:', await ev(() => [...document.querySelectorAll('.story-director-quests .story-director-section.is-quest-group')].map(g => `${g.querySelector('.story-director-sub span').textContent}: ${[...g.querySelectorAll('.story-director-record-key')].map(n => n.textContent).join(', ')}`).join(' | ')));
+console.log('errors:', h.errors.join('\n') || 'none');
+await h.browser.close();

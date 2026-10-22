@@ -1,0 +1,27 @@
+import { open, S } from './demo-common.mjs';
+import fs from 'node:fs';
+const h = await open({ width: 1440, height: 1000 });
+const { page, ev } = h;
+const toasts = [];
+await page.exposeFunction('__toast', t => toasts.push(t));
+await ev(() => { const o = window.toastr.success; window.toastr.success = function (m, ...rest) { window.__toast(String(m)); return o.call(this, m, ...rest); }; });
+const r4 = fs.readFileSync(`${S}/demo/r4.txt`, 'utf8').replace(/<XP>[\s\S]*?<\/XP>\n?/, '');
+const at = (time, lines) => r4.replace('1203, March 3, 09:50 am', time).replace(/<Director>[\s\S]*?<\/Director>/, `<Director>\n${lines}\n</Director>`);
+await h.openNarrator('The Narrator - 2026-10-18@09h00m00s000ms');
+await h.dock();
+const sheetXp = () => ev(() => { const chat = SillyTavern.getContext().chat; for (let i = chat.length - 1; i >= 0; i--) { const m = chat[i].mes.match(/XP:[^\n|]*/); if (m) return `#${i} ${m[0]}`; } return 'none'; });
+const quest = () => ev(() => { const t = window.StoryDirector?.tracker?.() ?? null; const r = t?.records?.find(x => /grey wolf/i.test(x.key)); return r ? `${r.kind}/${r.status}${r.resolved ? ' (' + r.resolved.reason + ')' : ''}` : 'none'; });
+await h.turn(at('CY 611, Goldwane 12, 07:00 am', '+ hook Lone Grey Wolf — Hunt the lone wolf killing sheep past the western ditch | giver: Verna | reward: 1 gold'), 'I ask Verna about work.');
+await page.waitForTimeout(2500);
+console.log('hook:', await quest(), '·', await sheetXp());
+await h.turn(at('CY 611, Goldwane 12, 08:45 am', "+ quest Lone Grey Wolf — Hunt the wolf pack preying on Gerrick's sheepfold | type: bounty | giver: Verna | goal: Slay the pack | reward: 1 gold | due: Goldwane 12, 06:00 pm | difficulty: ordinary\n- hook Lone Grey Wolf — Hunt the lone wolf killing sheep past the western ditch"), "I'll take the wolf bounty.");
+await page.waitForTimeout(3500);
+console.log('after accept:', await quest(), '·', await sheetXp());
+console.log('toasts:', toasts.filter(t => /Quest done/.test(t)).join(' | ') || 'none');
+// Roll back: edit the reply to drop the closing line.
+await ev(async () => { const ctx = SillyTavern.getContext(); const i = ctx.chat.length - 1; const m = ctx.chat[i]; m.mes = m.mes.replace(/\n- hook Lone Grey Wolf[^\n]*/, ''); m.swipes[m.swipe_id] = m.mes; await ctx.saveChat(); await ctx.eventSource.emit(ctx.eventTypes.MESSAGE_EDITED, i); await ctx.reloadCurrentChat(); });
+await page.waitForTimeout(2500);
+console.log('director now:', await ev(() => (SillyTavern.getContext().chat.at(-1).mes.match(/<Director>[\s\S]*?<\/Director>/) ?? [''])[0].replace(/\n/g, ' / ')));
+console.log('after edit:', await quest(), '·', await sheetXp());
+console.log('errors:', h.errors.join('\n') || 'none');
+await h.browser.close();

@@ -1,0 +1,12 @@
+import { open, S } from './demo-common.mjs';
+import fs from 'node:fs';
+const h = await open({ width: 1440, height: 1000 });
+const { page, ev } = h;
+const r4 = fs.readFileSync(`${S}/demo/r4.txt`, 'utf8').replace(/<XP>[\s\S]*?<\/XP>\n?/, '');
+const at = (time, lines) => r4.replace('1203, March 3, 09:50 am', time).replace(/<Director>[\s\S]*?<\/Director>/, `<Director>\n${lines}\n</Director>`);
+await h.openNarrator('The Narrator - 2026-10-18@16h00m00s000ms');
+await h.turn(at('CY 611, Goldwane 12, 01:15 pm', '+ hook Lime Kiln Bats — Clear the carrion bats in the old lime kiln | giver: Elke | reward: 5 silver\n+ hook Drake Shallows — Kill the swamp drake taking geese | giver: Elke | reward: 2 gold'), 'Any more work?');
+await page.waitForTimeout(2500);
+console.log('tabs:', await ev(() => [...document.querySelectorAll('.story-block-sidebar-tab')].map(t => `${t.dataset.tabId}${t.dataset.groupStart ? '|' : ''}`).join(' ')));
+console.log('errors:', h.errors.join('\n') || 'none');
+await h.browser.close();

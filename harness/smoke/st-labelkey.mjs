@@ -1,0 +1,16 @@
+import { open, S } from './demo-common.mjs';
+import fs from 'node:fs';
+const h = await open({ width: 1440, height: 1000 });
+const { page, ev } = h;
+const r4 = fs.readFileSync(`${S}/demo/r4.txt`, 'utf8');
+const withDirector = lines => r4.replace(/<Director>[\s\S]*?<\/Director>/, `<Director>\n${lines}\n</Director>`);
+await h.openNarrator('The Narrator - 2026-10-18@09h00m00s000ms');
+await h.dock();
+await h.turn(withDirector('! Encounter — 4 timber wolves attack at the fold'), 'I face them.');
+await page.waitForTimeout(2500);
+await h.tab('ext:story-director'); await page.waitForTimeout(800);
+console.log('warnings:', await ev(() => [...document.querySelectorAll('.story-block-pane')].find(n => n.style.display !== 'none')?.innerText.match(/Warnings[\s\S]{0,200}/)?.[0] ?? 'none'));
+const note = await ev(async () => { const ctx = SillyTavern.getContext(); await window.storyDirectorInterceptor(ctx.chat, 8000, () => {}, 'normal'); return ctx.extensionPrompts?.story_director?.value ?? ''; });
+console.log('corrections:', note.split('\n').filter(l => /Corrections/.test(l)).join('\n') || 'none');
+console.log('errors:', h.errors.join('\n') || 'none');
+await h.browser.close();

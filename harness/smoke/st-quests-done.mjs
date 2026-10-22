@@ -1,0 +1,33 @@
+import { open, S } from './demo-common.mjs';
+import fs from 'node:fs';
+const h = await open({ width: 1440, height: 1000 });
+const { page, ev } = h;
+const side = file => page.screenshot({ path: `${S}/shots/${file}.png`, clip: { x: 1090, y: 40, width: 350, height: 950 } });
+const r4 = fs.readFileSync(`${S}/demo/r4.txt`, 'utf8');
+const withDirector = lines => r4.replace(/<Director>[\s\S]*?<\/Director>/, `<Director>\n${lines}\n</Director>`);
+await h.openNarrator('The Narrator - 2026-10-18@09h00m00s000ms');
+await h.dock();
+await h.turn(withDirector('+ quest Sheep-killer — kill the wolf taking Garrow\'s flock | giver: Garrow | reward: 2 silver | step: track it to the den | difficulty: normal\n+ quest Herb run — twelve moonleaf for the healer | giver: Mother Ysolde | reward: 5 copper | difficulty: easy'), 'I take both jobs.');
+await page.waitForTimeout(2500);
+await h.tab('ext:story-director-quests'); await page.waitForTimeout(800);
+console.log('tabs:', await ev(() => [...document.querySelectorAll('.story-block-sidebar-tab')].map(t => t.dataset.tabId).join(',')));
+console.log('open quests:', await ev(() => [...document.querySelectorAll('.story-director-quests .story-director-record.is-quest:not(.is-finished) .story-director-record-key')].map(n => n.textContent).join(', ')));
+// The model writes the step as done.
+await h.turn(withDirector('~ Sheep-killer — step: done'), 'We bring Garrow the wolf\'s head.');
+await page.waitForTimeout(2500);
+await h.tab('ext:story-director-quests'); await page.waitForTimeout(800);
+console.log('after step done:', await ev(() => ({ open: [...document.querySelectorAll('.story-director-quests .story-director-record.is-quest:not(.is-finished) .story-director-record-key')].map(n => n.textContent), finished: [...document.querySelectorAll('.story-director-record.is-finished')].map(n => n.textContent) })));
+await h.tab('ext:rpg-party'); await page.waitForTimeout(800);
+console.log('rpg offers:', await ev(() => [...document.querySelectorAll('.rpg-battle-offer-text')].map(n => n.textContent).join(' || ')));
+// The reader closes the other with the button.
+await h.tab('ext:story-director-quests'); await page.waitForTimeout(800);
+await ev(() => document.querySelector('.story-director-quest-done')?.click()); await page.waitForTimeout(300);
+console.log('armed:', await ev(() => document.querySelector('.story-director-quest-done')?.textContent));
+await side('sd-quest-done-armed');
+await ev(() => document.querySelector('.story-director-quest-done')?.click()); await page.waitForTimeout(2000);
+console.log('after button:', await ev(() => ({ open: [...document.querySelectorAll('.story-director-quests .story-director-record.is-quest:not(.is-finished) .story-director-record-key')].map(n => n.textContent), finished: [...document.querySelectorAll('.story-director-record.is-finished')].map(n => n.textContent), empty: document.querySelector('.story-director-empty-text')?.textContent })));
+console.log('director block:', await ev(() => { const m = SillyTavern.getContext().chat.at(-1).mes; return (m.match(/<Director>[\s\S]*?<\/Director>/) ?? [''])[0].replace(/\n/g, ' / '); }));
+await h.tab('ext:rpg-party'); await page.waitForTimeout(800);
+console.log('rpg offers after:', await ev(() => [...document.querySelectorAll('.rpg-battle-offer-text')].map(n => n.textContent).join(' || ')));
+console.log('errors:', h.errors.join('\n') || 'none');
+await h.browser.close();

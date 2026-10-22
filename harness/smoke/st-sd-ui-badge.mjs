@@ -1,0 +1,14 @@
+import { open, S } from './demo-common.mjs';
+const h = await open({ width: 390, height: 844 });
+const { page, ev } = h;
+await h.openNarrator('The Narrator - 2026-10-18@09h00m00s000ms');
+await h.dock();
+await ev(() => document.querySelector('#story_block_handle')?.click());
+await page.waitForTimeout(800);
+await h.tab('ext:story-director-quests'); await page.waitForTimeout(900);
+await ev(() => { const pills = [...document.querySelectorAll('button, [role="tab"]')].filter(n => /Quests/.test(n.textContent)); pills[0]?.scrollIntoView({ inline: 'center', block: 'nearest' }); });
+await page.waitForTimeout(400);
+console.log('pill:', await ev(() => [...document.querySelectorAll('button, [role="tab"]')].filter(n => /Quests/.test(n.textContent)).map(n => n.textContent.replace(/\s+/g, ' ').trim())[0]));
+await page.screenshot({ path: `${S}/uiux/sd-after/mobile-quests-badge.png` });
+console.log('errors:', h.errors.join('\n') || 'none');
+await h.browser.close();

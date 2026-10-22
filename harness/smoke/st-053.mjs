@@ -1,0 +1,14 @@
+import { open } from './demo-common.mjs';
+const h = await open({ width: 1440, height: 1000 });
+const { page, ev } = h;
+await h.openNarrator('The Narrator - 2026-10-18@01h44m00s947ms');
+await h.dock();
+await h.turn('A second razor dog circles out of the gorse.\n<Encounter>razor dog (strong); then: feral ditch-dog</Encounter>', 'I get up.');
+await page.waitForTimeout(3000);
+console.log('fight btn:', await ev(() => [...document.querySelectorAll('.story-block-pane button')].map(b => b.textContent.trim() + (b.disabled ? '(disabled:' + b.title + ')' : '')).join(', '))); await h.tab('ext:rpg-battle'); console.log('btns:', await ev(() => [...document.querySelectorAll('.story-block-pane button')].filter(b => b.offsetParent).map(b => b.textContent.trim() + (b.disabled ? '(disabled ' + b.title + ')' : '')).join(', '))); await h.click('^Fight\\?$'); await page.waitForTimeout(3000);
+console.log('toasts:', await ev(() => document.querySelector('#toast-container')?.innerText ?? 'none')); console.log('hp:', await ev(() => (window.StoryBlock.getBlock('Party')?.text || '').split('\n').filter(l => /HP|State/.test(l)).join(' / '))); console.log('setup:', (await h.pane()).slice(0, 380));
+await h.click('^Start$'); await page.waitForTimeout(1500);
+console.log('cards:', await ev(() => [...document.querySelectorAll('.story-block-pane .rpg-battle-card.is-enemy')].map(c => c.innerText.replace(/\s+/g, ' ').slice(0, 60)).join(' | ')));
+await ev(async () => { const ctx = SillyTavern.getContext(); ctx.chat.splice(ctx.chat.length - 2, 2); await ctx.saveChat(); await ctx.reloadCurrentChat(); });
+console.log('errors:', h.errors.join('\n') || 'none');
+await h.browser.close();

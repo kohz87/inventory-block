@@ -1,0 +1,32 @@
+import { chromium } from '/opt/node22/lib/node_modules/playwright/index.mjs';
+const out = process.argv[2];
+const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium', args: ['--no-proxy-server'] });
+const page = await browser.newPage({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+await page.goto('http://127.0.0.1:8123/', { waitUntil: 'domcontentloaded' });
+await page.waitForFunction(() => window.SillyTavern?.getContext?.()?.characters?.length > 0, null, { timeout: 60000 });
+await page.evaluate(async () => { const ctx = SillyTavern.getContext(); await ctx.selectCharacterById(String(ctx.characters.findIndex(c => c.name === 'Seraphina'))); });
+await page.waitForFunction(() => SillyTavern.getContext().chat?.length > 0, null, { timeout: 20000 });
+await page.waitForTimeout(1500);
+const cdp = await page.context().newCDPSession(page);
+const drag = async (sel, dy) => {
+  const b = await page.locator(sel).first().boundingBox();
+  const x = b.x + 60, y0 = b.y + b.height / 2;
+  await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x, y: y0 }] });
+  for (let i = 1; i <= 10; i++) await cdp.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x, y: y0 + i * dy / 10 }] });
+  await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+  await page.waitForTimeout(600);
+};
+const state = () => page.evaluate(() => { const s = document.querySelector('#story_block_sidebar'); const b = s.getBoundingClientRect(); return `${s.classList.contains('is-open') ? 'open' : 'closed'}/${s.dataset.sheet} top=${Math.round(b.top)} h=${Math.round(b.height)}`; });
+await page.locator('#story_block_handle').tap(); await page.waitForTimeout(500);
+console.log('opened', await state());
+await drag('.story-block-sidebar-grip', -250); console.log('grip up', await state());
+await page.screenshot({ path: out + '/sheet-full2.png' });
+await drag('.story-block-sidebar-head', 130); console.log('head down', await state());
+await drag('.story-block-sidebar-head', -130); console.log('head up', await state());
+await drag('.story-block-sidebar-head', 400); console.log('head long down', await state());
+await page.locator('#story_block_handle').tap(); await page.waitForTimeout(500);
+await drag('.story-block-sidebar-grip', -250);
+await page.touchscreen.tap(195, 40); await page.waitForTimeout(600); console.log('scrim tap', await state());
+console.log(await version());
+async function version() { return page.evaluate(() => document.querySelector('.story-block-sidebar-grip')?.title); }
+await browser.close();

@@ -1,0 +1,26 @@
+import { chromium } from '/opt/node22/lib/node_modules/playwright/index.mjs';
+const S = '/tmp/claude-0/-home-user-inventory-block/3572f065-fdf3-5cf4-88eb-a15358a57ebe/scratchpad';
+const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium', args: ['--no-proxy-server'] });
+const page = await browser.newPage({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+page.on('pageerror', e => console.log('pageerror ' + e.message));
+page.on('console', m => { if (/RPG Battle\]/.test(m.text()) && !/loaded/.test(m.text())) console.log(m.type(), m.text().slice(0, 160)); });
+await page.goto('http://127.0.0.1:8123/', { waitUntil: 'domcontentloaded' });
+await page.waitForFunction(() => window.SillyTavern?.getContext?.()?.characters?.length > 0 && typeof window.rpgBattleInterceptor === 'function', null, { timeout: 60000 });
+await page.evaluate(async () => { const ctx = SillyTavern.getContext(); await ctx.selectCharacterById(String(ctx.characters.findIndex(c => c.name === 'Seraphina'))); });
+await page.waitForTimeout(2500);
+// No model here: the flavour call fails and the template creature is used.
+await page.evaluate(() => { const original = window.SillyTavern.getContext; window.SillyTavern.getContext = () => ({ ...original(), generateRaw: async () => { throw new Error('no model in test'); } }); });
+await page.locator('#story_block_handle').click(); await page.waitForTimeout(400);
+await page.evaluate(() => document.querySelector('.story-block-sidebar-tab[data-tab-id="ext:rpg-battle"]')?.click()); await page.waitForTimeout(400);
+await page.evaluate(() => document.querySelector('.rpg-battle-start')?.click()); await page.waitForTimeout(400);
+await page.fill('.rpg-battle-enemy-name', 'Bog Wight');
+await page.selectOption('.rpg-battle-enemy-count', '2');
+await page.waitForTimeout(300);
+console.log('setup new tag:', await page.evaluate(() => document.querySelector('.rpg-battle-tab')?.innerText.match(/new/i)?.[0] ?? 'none'));
+await page.evaluate(() => document.querySelector('.rpg-battle-begin')?.click());
+await page.waitForFunction(() => document.querySelector('.rpg-battle-tab')?.dataset.mode === 'fight', null, { timeout: 40000 }).catch(() => {});
+console.log('mode:', await page.evaluate(() => document.querySelector('.rpg-battle-tab')?.dataset.mode));
+console.log('cards:', JSON.stringify(await page.evaluate(() => [...document.querySelectorAll('.rpg-battle-card.is-enemy')].map(c => c.innerText.replace(/\s+/g, ' ').slice(0, 70)))));
+await page.screenshot({ path: `${S}/shots/rpg-gen-fight.png` });
+console.log('bestiary:', JSON.stringify(await page.evaluate(() => (SillyTavern.getContext().chatMetadata.rpgBattle?.bestiary ?? []).map(e => ({ name: e.name, template: e.template, role: e.role, skills: (e.skills ?? []).map(s => s.name ?? s), flavoured: e.flavoured })))));
+await browser.close();

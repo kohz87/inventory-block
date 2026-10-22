@@ -1,0 +1,17 @@
+import { open } from './demo-common.mjs';
+const h = await open({ width: 1440, height: 1000 });
+const { page, ev } = h;
+await h.openNarrator('The Narrator - 2026-10-18@09h00m00s000ms');
+await page.waitForTimeout(1500);
+console.log('api:', await ev(() => Object.keys(globalThis.NPCStateDelta || {}).filter(k => /npc|add|edit|dossier|state/i.test(k)).join(',')));
+await ev(() => { window.prompt = () => 'Elke'; });
+await ev(() => globalThis.NPCStateDelta.addNpc());
+await page.waitForTimeout(1500);
+const npc = await ev(() => { const s = globalThis.NPCStateDelta.getState(); const n = (s.npcs || []).find(x => x.name === 'Elke'); return n ? { id: n.id, rel: n.relationship } : null; });
+console.log('npc:', JSON.stringify(npc));
+await ev(id => globalThis.NPCStateDelta.openEditor(id), npc.id);
+await page.waitForTimeout(1500);
+console.log('inputs:', await ev(() => [...document.querySelectorAll('.popup input, .popup textarea, .popup select')].filter(n => n.offsetParent).slice(0, 40).map(n => `${n.id || n.name || n.className}`).join(' | ')));
+console.log('buttons:', await ev(() => [...document.querySelectorAll('.popup button, .popup .menu_button, .popup-button-ok')].filter(n => n.offsetParent).map(n => n.textContent.trim() || n.className).join(' | ')));
+console.log('errors:', h.errors.join('\n') || 'none');
+await h.browser.close();

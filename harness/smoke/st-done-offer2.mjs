@@ -1,0 +1,46 @@
+import { open, S } from './demo-common.mjs';
+import fs from 'node:fs';
+const Q = `${S}/mock/q`;
+const h = await open({ width: 1440, height: 1000 });
+const { page, ev } = h;
+await ev(async () => {
+  const $ = window.jQuery;
+  $('#main_api').val('openai').trigger('change'); await new Promise(r => setTimeout(r, 500));
+  $('#chat_completion_source').val('custom').trigger('change'); await new Promise(r => setTimeout(r, 500));
+  $('#custom_api_url_text').val((window.__MOCK_URL || 'http://127.0.0.1:5099/v1')).trigger('input');
+  $('#custom_model_id').val('mock-model').trigger('input');
+  $('#stream_toggle').prop('checked', false).trigger('change');
+  $('#api_button_openai').trigger('click');
+  $('#oai_max_context_unlocked').prop('checked', true).trigger('input').trigger('change'); await new Promise(r => setTimeout(r, 300));
+  $('#openai_max_context').val(120000).trigger('input'); $('#openai_max_context_counter').val(120000).trigger('input');
+});
+await page.waitForTimeout(4000);
+const r4 = fs.readFileSync(`${S}/demo/r4.txt`, 'utf8').replace(/<XP>[\s\S]*?<\/XP>\n?/, '');
+const at = (time, lines) => r4.replace('1203, March 3, 09:50 am', time).replace(/<Director>[\s\S]*?<\/Director>/, `<Director>\n${lines}\n</Director>`);
+const director = () => ev(() => (SillyTavern.getContext().chat.at(-1).mes.match(/<Director>[\s\S]*?<\/Director>/) ?? ['none'])[0].replace(/\n/g, ' / '));
+const quests = async label => {
+  await h.tab('ext:story-director-quests'); await page.waitForTimeout(800);
+  console.log(label, '·', await h.pane());
+};
+const send = async (text, reply, n) => {
+  fs.writeFileSync(`${Q}/1.txt`, reply);
+  await page.fill('#send_textarea', text);
+  await page.click('#send_but');
+  await page.waitForFunction(k => SillyTavern.getContext().chat.length >= k && /Director/.test(SillyTavern.getContext().chat.at(-1).mes), n, { timeout: 60000 });
+  await page.waitForTimeout(1500);
+};
+await h.openNarrator('The Narrator - 2026-10-18@09h00m00s000ms');
+await h.dock();
+await h.turn(at('CY 611, Goldwane 12, 07:00 am', "+ hook Barrow-Viper Clearing — Clear the viper pit by the old barrow | giver: Verna | reward: 2 silver\n+ hook Wolfhound Hunt — Burl's hunt rides out at dawn | giver: Burl | reward: 1 gold | due: Goldwane 12, 06:00 pm\n+ hook Rat Culling — rats in the granary | giver: Danique | reward: 4 copper | due: Goldwane 12, 06:00 pm"), 'I ask around for work.');
+await page.waitForTimeout(2000);
+await quests('1 offers only:');
+const n = await ev(() => SillyTavern.getContext().chat.length);
+await send("I'll be at the wolfhound kennels for Burl's hunt. First I head out to the barrow and start killing the vipers.", at('CY 611, Goldwane 12, 09:00 am', '~ Barrow-Viper Clearing — now: at the pit mouth'), n + 2);
+await send('I hand the skins to Verna.', at('CY 611, Goldwane 12, 07:00 pm', '! Barrow-Viper Clearing — cleared pit, 10 skins turned in to Verna\n~ Quests: North Levee Vipers — step: completed, voucher paid\n+ hook Viper Bile Market — Tanner Karr or Greta may pay for remaining 7 pelts and 8 fangs'), n + 4);
+console.log('3 director:', await director());
+await quests('3 after done:');
+console.log('SD questsDoneAt:', await ev(() => JSON.stringify(globalThis.StoryDirector.questsDoneAt(SillyTavern.getContext().chat.length - 1))));
+await h.tab('ext:rpg-party'); console.log('party:', (await h.pane()).slice(0, 300));
+console.log('toasts:', await ev(() => [...document.querySelectorAll('#toast-container .toast')].map(t => t.textContent).join(' || ') || 'none'));
+console.log('errors:', h.errors.join('\n') || 'none');
+await h.browser.close();

@@ -1,0 +1,22 @@
+import { chromium } from '/opt/node22/lib/node_modules/playwright/index.mjs';
+const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium', args: ['--no-proxy-server'] });
+const page = await browser.newPage();
+page.on('console', m => { if (/RPG Battle|error/i.test(m.text())) console.log('console:', m.type(), m.text().slice(0, 300)); });
+await page.goto('http://127.0.0.1:8123/', { waitUntil: 'domcontentloaded' });
+await page.waitForFunction(() => window.StoryBlock?.apiVersion === 1 && window.StorySuite?.providers().some(p => p.id === 'rpg-battle') && typeof window.rpgBattleInterceptor === 'function', null, { timeout: 60000 });
+await page.waitForTimeout(3000);
+console.log(await page.evaluate(async () => {
+  const ctx = SillyTavern.getContext();
+  await ctx.selectCharacterById(String(ctx.characters.findIndex(c => c.name === 'Seraphina')));
+  await new Promise(r => setTimeout(r, 3000));
+  ctx.chat.push({ name: 'User', is_user: true, is_system: false, mes: 'I go to the ditch.', send_date: Date.now(), extra: {} });
+  const calls = []; const orig = ctx.setExtensionPrompt; const c2 = SillyTavern.getContext(); calls.push('same ctx fn: ' + (c2.setExtensionPrompt === orig));
+  const wrap = (...a) => { calls.push(a[0] + ' = ' + String(a[1]).slice(0, 60)); return orig(...a); };
+  ctx.setExtensionPrompt = wrap;
+  await window.rpgBattleInterceptor(ctx.chat, 8000, () => {}, 'normal');
+  ctx.setExtensionPrompt = orig; window.__calls = calls;
+  ctx.chat.pop();
+  const p = ctx.extensionPrompts;
+  return JSON.stringify({ calls: window.__calls, keys: Object.keys(p), fight: Boolean(ctx.chatMetadata.rpgBattle?.fight), meta: Object.keys(ctx.chatMetadata.rpgBattle ?? {}), enabled: window.StorySuite.has('rpg-battle'), rules: p.rpg_battle_rules, handoff: p.rpg_battle?.value?.slice(0, 80), pending: ctx.chatMetadata.rpgBattle?.pending ?? null, party: Boolean(window.StoryBlock.getBlock('Party')?.text) }, null, 1);
+}));
+await browser.close();

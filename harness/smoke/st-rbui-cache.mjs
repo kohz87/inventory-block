@@ -1,0 +1,42 @@
+import { open, S } from './demo-common.mjs';
+import fs from 'node:fs';
+const Q = process.env.MOCK_Q, LOG = process.env.MOCK_LOG;
+const h = await open({ width: 1440, height: 1000 });
+const { page, ev } = h;
+await ev(async (url) => {
+  const $ = window.jQuery;
+  $('#main_api').val('openai').trigger('change'); await new Promise(r => setTimeout(r, 500));
+  $('#chat_completion_source').val('custom').trigger('change'); await new Promise(r => setTimeout(r, 500));
+  $('#custom_api_url_text').val(url).trigger('input');
+  $('#custom_model_id').val('mock-model').trigger('input');
+  $('#stream_toggle').prop('checked', false).trigger('change');
+  $('#api_button_openai').trigger('click');
+}, process.env.MOCK_URL);
+await page.waitForTimeout(4000);
+const r3 = fs.readFileSync(`${S}/demo/r3.txt`, 'utf8').replace(/<Encounter>[\s\S]*?<\/Encounter>/, '');
+await h.openNarrator('The Narrator - 2026-10-18@09h00m00s000ms');
+const reqs = () => fs.readdirSync(LOG).filter(f => /^req-\d+\.json$/.test(f)).sort((a, b) => Number(a.match(/\d+/)[0]) - Number(b.match(/\d+/)[0]));
+const send = async (text, reply) => {
+  const before = reqs().length;
+  fs.writeFileSync(`${Q}/1.txt`, reply);
+  const n = await ev(() => SillyTavern.getContext().chat.length);
+  await page.fill('#send_textarea', text);
+  await page.click('#send_but');
+  await page.waitForFunction(k => SillyTavern.getContext().chat.length >= k, n + 2, { timeout: 60000 });
+  await page.waitForTimeout(2500);
+  // The reply's own request: the first one logged after sending that carries the chat.
+  const fresh = reqs().slice(before).map(f => JSON.parse(fs.readFileSync(`${LOG}/${f}`, 'utf8'))).filter(r => Array.isArray(r.messages) && r.messages.some(m => /I walk|I look/.test(m.content ?? '')));
+  return fresh[0];
+};
+const a = await send('I walk on.', r3.replace('Half full', 'Half full.'));
+const b = await send('I look around.', r3);
+const flat = r => r.messages.map(m => `${m.role}:${m.content}`).join('\n\u0001');
+const A = flat(a), B = flat(b);
+let i = 0; while (i < A.length && A[i] === B[i]) i++;
+const where = r => r.messages.map(m => m.content).findIndex(c => /story_suite|<Wounds>|Lasting conditions/.test(c ?? ''));
+const same = b.messages.map((m, k) => (a.messages[k] && a.messages[k].content === m.content && a.messages[k].role === m.role ? '=' : 'x')).join('');
+const rbTail = b.messages.findIndex(m => /Foes this story has met|Purse:|Fight hand-off|Battle resolved/.test(m.content ?? ''));
+console.log('messages same/changed:', same, '· rb static at', b.messages.findIndex(m => /<Wounds>, a line each/.test(m.content ?? '')), '· rb tail at', rbTail, 'of', b.messages.length);
+console.log(JSON.stringify({ prefix: i, len: B.length, pct: Math.round(i / B.length * 1000) / 10, msgs: b.messages.length, rbStatic: b.messages.findIndex(m => /<Wounds>, a line each/.test(m.content ?? '')), firstDiff: B.slice(Math.max(0, i - 80), i + 120) }));
+console.log('errors:', h.errors.join('\n') || 'none');
+await h.browser.close();

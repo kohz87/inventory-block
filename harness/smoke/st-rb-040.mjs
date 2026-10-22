@@ -1,0 +1,33 @@
+import { open, S } from './demo-common.mjs';
+import fs from 'node:fs';
+const h = await open({ width: 1440, height: 1000 });
+const { page, ev } = h;
+const base = fs.readFileSync(`${S}/demo/r3.txt`, 'utf8').replace(/<Encounter>[\s\S]*?<\/Encounter>/, '')
+  .replace('Waterskin | 1 | Half full', 'Waterskin | 1 | Half full\nBone Charm | 1 | common · LUK +1, slot: accessory\n\n[Lyra > Herbs]\nMinor Healing Draught | 2 | heal 20\nWolfsbane | 3 | material');
+const inv = () => ev(() => { const c = SillyTavern.getContext(); return (c.chat.at(-1).mes.match(/<Inventory>[\s\S]*?<\/Inventory>/) ?? [''])[0]; });
+await h.openNarrator('The Narrator - 2026-10-18@11h00m00s000ms');
+await h.dock();
+await h.turn(base, 'We rest at the weir.');
+await page.waitForTimeout(2500);
+await h.tab('ext:rpg-party'); await page.waitForTimeout(800);
+await h.click('^Party$'); await page.waitForTimeout(400);
+await h.click('^Give item'); await page.waitForTimeout(600);
+console.log('giveable:', await ev(() => [...document.querySelectorAll('.rpg-battle-give-item')].map(li => li.innerText.replace(/\s+/g, ' ')).join(' | ')));
+await ev(() => [...document.querySelectorAll('.rpg-battle-give-item')].find(li => /Bone Charm/.test(li.textContent))?.querySelector('.rpg-battle-give-confirm')?.click());
+await page.waitForTimeout(1500);
+console.log('inventory:', (await inv()).split('\n').filter(l => /Lyra|Bone Charm|Draught|Wolfsbane/.test(l)).join(' / '));
+console.log('party block Lyra equipped line:', await ev(() => /## Lyra[\s\S]*?Equipped:/.test(window.StoryBlock.getBlock('Party')?.text ?? '')));
+await h.click('^Trade'); await page.waitForTimeout(600);
+console.log('owners:', await ev(() => [...document.querySelectorAll('.rpg-trade-owner option')].map(o => o.textContent).join(', ')));
+await ev(() => { const s = document.querySelector('.rpg-trade-owner'); s.value = s.options[1].value; s.dispatchEvent(new Event('change', { bubbles: true })); }); await page.waitForTimeout(800);
+console.log('her sellable:', await ev(() => [...document.querySelectorAll('.rpg-trade-sell-list .rpg-trade-item-name')].map(n => n.textContent).join(', ')));
+// A fight: her potions are hers.
+const enc = base.replace('</Inventory>', '</Inventory>\n<Encounter>\n2 wolf (weak)\n</Encounter>');
+await h.click('^Party$');
+await h.turn(enc, 'Wolves!'); await page.waitForTimeout(2500);
+await h.tab('ext:rpg-battle'); await page.waitForTimeout(800);
+await h.click('^Fight'); await page.waitForTimeout(2000);
+await h.click('^Start'); await page.waitForTimeout(1500);
+console.log('fight items:', await ev(() => JSON.stringify((SillyTavern.getContext().chatMetadata.rpgBattle?.fight?.setup?.party ?? []).map(u => [u.name, u.items.map(i => i.name), u.matk]))));
+console.log('errors:', h.errors.join('\n') || 'none');
+await h.browser.close();

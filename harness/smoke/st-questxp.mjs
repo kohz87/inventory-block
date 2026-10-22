@@ -1,0 +1,27 @@
+import { open, S } from './demo-common.mjs';
+import fs from 'node:fs';
+const h = await open({ width: 1440, height: 1000 });
+const { page, ev } = h;
+const toasts = [];
+await page.exposeFunction('__toast', t => toasts.push(t));
+await ev(() => { const o = window.toastr.success; window.toastr.success = function (m, ...rest) { window.__toast(String(m)); return o.call(this, m, ...rest); }; });
+const r4 = fs.readFileSync(`${S}/demo/r4.txt`, 'utf8').replace(/<XP>[\s\S]*?<\/XP>\n?/, '');
+const withDirector = lines => r4.replace(/<Director>[\s\S]*?<\/Director>/, `<Director>\n${lines}\n</Director>`);
+await h.openNarrator('The Narrator - 2026-10-18@09h00m00s000ms');
+await h.dock();
+const xp = () => ev(() => document.querySelector('.rpg-battle-member-card.is-you .rpg-battle-xp-text, .rpg-battle-member-card.is-you [data-meter="xp"]')?.textContent ?? '');
+const sheetXp = () => ev(() => (SillyTavern.getContext().chat.at(-1).mes.match(/XP:[^\n|]*/) ?? [''])[0]);
+await h.turn(withDirector('+ quest Sheep-killer — kill the wolf | giver: Garrow | reward: 2 silver | difficulty: normal'), 'I take the job.');
+await page.waitForTimeout(2500);
+console.log('before:', await sheetXp());
+await h.turn(withDirector('- Sheep-killer — the wolf is dead, Garrow paid'), 'We bring the head to Garrow.');
+await page.waitForTimeout(3500);
+console.log('after:', await sheetXp());
+console.log('toasts:', toasts.filter(t => /Quest done/.test(t)).join(' | ') || 'none');
+await h.tab('ext:rpg-party'); await page.waitForTimeout(800);
+console.log('offers shown:', await ev(() => [...document.querySelectorAll('.rpg-battle-offer-text')].map(n => n.textContent).join(' || ') || 'none'));
+// A re-render must not award twice.
+await ev(() => window.StoryBlock?.refresh?.()); await page.waitForTimeout(1500);
+console.log('after refresh:', await sheetXp(), '· toasts:', toasts.filter(t => /Quest done/.test(t)).length);
+console.log('errors:', h.errors.join('\n') || 'none');
+await h.browser.close();

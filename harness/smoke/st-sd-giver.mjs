@@ -1,0 +1,50 @@
+import { open, S } from './demo-common.mjs';
+import fs from 'node:fs';
+const Q = `${S}/mock/q`;
+const h = await open({ width: 1440, height: 1000 });
+const { page, ev } = h;
+await ev(async () => {
+  const $ = window.jQuery;
+  $('#main_api').val('openai').trigger('change'); await new Promise(r => setTimeout(r, 500));
+  $('#chat_completion_source').val('custom').trigger('change'); await new Promise(r => setTimeout(r, 500));
+  $('#custom_api_url_text').val((window.__MOCK_URL || 'http://127.0.0.1:5099/v1')).trigger('input');
+  $('#custom_model_id').val('mock-model').trigger('input');
+  $('#stream_toggle').prop('checked', false).trigger('change');
+  $('#api_button_openai').trigger('click');
+});
+await page.waitForTimeout(4000);
+const r4 = fs.readFileSync(`${S}/demo/r4.txt`, 'utf8').replace(/<XP>[\s\S]*?<\/XP>\n?/, '');
+const at = (time, lines) => r4.replace('1203, March 3, 09:50 am', time).replace(/<Director>[\s\S]*?<\/Director>/, `<Director>\n${lines}\n</Director>`);
+await h.openNarrator('The Narrator - 2026-10-18@13h00m00s000ms');
+await h.dock();
+await h.turn(at('1203, March 3, 10:00 am', "+ hook Weir Eels — Clear the eels fouling the weir | giver: Lyra | reward: 3 silver\n+ hook Kael's Proof — Bring Kael proof of the wolf | giver: Captain Kael | reward: 4 silver"), 'Anything else here?');
+await page.waitForTimeout(2500);
+await h.tab('ext:story-director-quests'); await page.waitForTimeout(800);
+await ev(() => { const d = document.querySelector('.story-director-fold.is-offered'); if (d) d.open = true; });
+const state = await ev(() => [...document.querySelectorAll('.is-offered .story-director-record')].map(n => `${n.querySelector('.story-director-record-key')?.textContent}: take ${n.querySelector('.story-director-offer-take')?.disabled ? 'waits' : 'ready'}${n.querySelector('.story-director-offer-away') ? ` (${n.querySelector('.story-director-offer-away').textContent})` : ''}`).join(' | '));
+console.log('offers:', state);
+// "I'm with them" for Kael, then take both.
+await ev(() => { const n = [...document.querySelectorAll('.is-offered .story-director-record')].find(x => /Kael/.test(x.textContent)); const b = n.querySelector('.story-director-offer-with'); b.checked = true; b.dispatchEvent(new Event('change')); });
+await page.waitForTimeout(400);
+console.log('kael after tick:', await ev(() => [...document.querySelectorAll('.is-offered .story-director-record')].find(x => /Kael/.test(x.textContent))?.querySelector('.story-director-offer-take')?.disabled ? 'waits' : 'ready'));
+await ev(() => [...document.querySelectorAll('.is-offered .story-director-record')].find(x => /Kael/.test(x.textContent))?.querySelector('.story-director-offer-take')?.click());
+await page.waitForTimeout(600);
+// What's sent, in the Director tab.
+await h.tab('ext:story-director'); await page.waitForTimeout(800);
+await ev(() => document.querySelector('.story-director-reveal, .story-director-lock button')?.click());
+await page.waitForTimeout(600);
+const sent = await ev(() => { const d = document.querySelector('.story-director-fold.is-sent'); if (!d) return 'no fold'; d.open = true; d.dispatchEvent(new Event('toggle')); return d.textContent.replace(/\s+/g, ' ').slice(0, 400); });
+console.log('what\'s sent:', sent);
+// A real reply, then the note must be gone.
+fs.writeFileSync(`${Q}/1.txt`, at('1203, March 3, 11:00 am', "~ Kael's Proof — step: carrying the pelt"));
+const n = await ev(() => SillyTavern.getContext().chat.length);
+await page.fill('#send_textarea', 'I walk to the post.');
+await page.click('#send_but');
+await page.waitForFunction(k => SillyTavern.getContext().chat.length >= k && /Director/.test(SillyTavern.getContext().chat.at(-1).mes), n + 2, { timeout: 60000 });
+await page.waitForTimeout(2500);
+console.log('reply director:', await ev(() => (SillyTavern.getContext().chat.at(-1).mes.match(/<Director>[\s\S]*?<\/Director>/) ?? ['none'])[0].replace(/\n/g, ' / ')));
+console.log('note after reply:', JSON.stringify(await ev(() => SillyTavern.getContext().extensionPrompts?.story_director?.value ?? '(no entry)')));
+await h.tab('ext:story-director-quests'); await page.waitForTimeout(800);
+console.log('quests:', (await h.pane()).slice(0, 200));
+console.log('errors:', h.errors.join('\n') || 'none');
+await h.browser.close();

@@ -1,0 +1,15 @@
+import { open, S } from './demo-common.mjs';
+const h = await open({ width: 1440, height: 1000 });
+const { page, ev } = h;
+await ev(() => { for (const d of document.querySelectorAll('.story-suite-fold[data-fold="combat"], .story-suite-fold[data-fold="party"]')) d.open = true; });
+console.log('combat:', await ev(() => document.querySelector('.rpg-battle-hit-preview')?.textContent));
+console.log('points row:', await ev(() => document.querySelector('#rpg_battle_points_per_level')?.value));
+await ev(() => { const n = document.querySelector('#rpg_battle_points_per_level'); n.value = '8'; n.dispatchEvent(new Event('change')); });
+await page.waitForTimeout(300);
+console.log('rules points:', await ev(() => SillyTavern.getContext().extensionSettings['rpgBattle']?.pointsPerLevel));
+await ev(() => { const n = document.querySelector('#rpg_battle_points_per_level'); n.value = '4'; n.dispatchEvent(new Event('change')); });
+const panel = page.locator('.story-suite-fold[data-fold="combat"]');
+await panel.scrollIntoViewIfNeeded().catch(() => {});
+await panel.screenshot({ path: `${S}/shots/combat-settings.png` }).catch(e => console.log('shot', e.message));
+console.log('errors:', h.errors.join('\n') || 'none');
+await h.browser.close();

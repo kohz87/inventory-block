@@ -1,0 +1,14 @@
+import { open, S } from './demo-common.mjs';
+import fs from 'node:fs';
+const h = await open({ width: 1440, height: 1000 });
+const { page, ev } = h;
+const r4 = fs.readFileSync(`${S}/demo/r4.txt`, 'utf8');
+const withDirector = lines => r4.replace(/<Director>[\s\S]*?<\/Director>/, `<Director>\n${lines}\n</Director>`);
+await h.openNarrator('The Narrator - 2026-10-18@09h00m00s000ms');
+await h.dock();
+await h.turn(withDirector('+ quest Sheepfold Wolves — Cull up to 4 timber wolves | type: contract, giver: Nelke/Herders, goal: return right wolf ears, reward: 2 silver per head, due: Goldwane 12'), 'I take the sheepfold bounty.');
+await page.waitForTimeout(2500);
+await h.tab('ext:story-director-quests'); await page.waitForTimeout(800);
+console.log(await ev(() => [...document.querySelectorAll('.story-director-quests .story-director-section.is-quest-group')].map(g => `${g.querySelector('.story-director-sub span').textContent}: ${[...g.querySelectorAll('.story-director-record')].map(r => r.innerText.replace(/\s+/g, ' ')).join(' || ')}`).join('\n')));
+console.log('errors:', h.errors.join('\n') || 'none');
+await h.browser.close();

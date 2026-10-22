@@ -1,0 +1,37 @@
+import { chromium } from '/opt/node22/lib/node_modules/playwright/index.mjs';
+const S = '/tmp/claude-0/-home-user-inventory-block/3572f065-fdf3-5cf4-88eb-a15358a57ebe/scratchpad';
+const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium', args: ['--no-proxy-server'] });
+const page = await browser.newPage({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+const logs = [];
+page.on('pageerror', e => logs.push('pageerror ' + e.message));
+page.on('console', m => { if (/RPG Battle|error/i.test(m.text())) logs.push(m.type() + ': ' + m.text()); });
+await page.goto('http://127.0.0.1:8123/', { waitUntil: 'domcontentloaded' });
+await page.waitForFunction(() => window.SillyTavern?.getContext?.()?.characters?.length > 0 && window.StoryBlock?.apiVersion === 1, null, { timeout: 60000 });
+await page.waitForTimeout(2500);
+console.log('loaded:', await page.evaluate(() => ({ interceptor: typeof window.rpgBattleInterceptor, sb: window.StoryBlock.version, blocks: window.StoryBlock.listBlocks().filter(b => b.kind === 'kept').map(b => b.tag + ':' + b.owner) })));
+await page.evaluate(async () => { const ctx = SillyTavern.getContext(); await ctx.selectCharacterById(String(ctx.characters.findIndex(c => c.name === 'Seraphina'))); });
+await page.waitForFunction(() => SillyTavern.getContext().chat?.length > 0, null, { timeout: 20000 });
+await page.evaluate(async () => {
+  const ctx = SillyTavern.getContext();
+  for (const block of ctx.extensionSettings.storyBlock.blocks) block.enabled = ['inventory', 'world-state', 'dice'].includes(block.id);
+  ctx.chat.splice(1);
+  delete ctx.chatMetadata.rpgBattle;
+  ctx.chat.push({ name: 'User', is_user: true, is_system: false, send_date: Date.now(), mes: 'I draw my sword.' });
+  ctx.chat.push({ name: 'Seraphina', is_user: false, is_system: false, send_date: Date.now(), mes: 'Goblins burst from the brush.\n<!-- STORY_BLOCKS_V1\n<Blocks>\n<Inventory>\n[Equipment > Weapons]\nIron Longsword | 1 | equipped · uncommon · ATK +6, DEX -1\n[Consumables]\nHealing Draught | 2 | heal 30\n</Inventory>\n</Blocks>\n-->', swipes: null });
+  await ctx.saveChat(); await ctx.reloadCurrentChat();
+});
+await page.waitForTimeout(2000);
+await page.locator('#story_block_handle').click(); await page.waitForTimeout(500);
+console.log('tabs:', await page.evaluate(() => [...document.querySelectorAll('.story-block-sidebar-tab')].map(t => t.dataset.tabId)));
+await page.evaluate(() => document.querySelector('.story-block-sidebar-tab[data-tab-id="ext:rpg-battle"]')?.click()); await page.waitForTimeout(500);
+console.log('mode:', await page.evaluate(() => document.querySelector('.rpg-battle-tab')?.dataset.mode));
+await page.screenshot({ path: `${S}/shots/rpg-create.png` });
+// Create: fighter preset, name.
+await page.fill('.rpg-battle-tab input[type="text"]', 'Ren');
+await page.evaluate(() => [...document.querySelectorAll('.rpg-battle-preset')][0]?.click()); await page.waitForTimeout(200);
+await page.evaluate(() => document.querySelector('.rpg-battle-create')?.click()); await page.waitForTimeout(1500);
+console.log('after create mode:', await page.evaluate(() => document.querySelector('.rpg-battle-tab')?.dataset.mode), '\n', await page.evaluate(() => window.StoryBlock.getBlock('Character')?.text));
+await page.screenshot({ path: `${S}/shots/rpg-idle.png` });
+console.log('inv after create:', JSON.stringify(await page.evaluate(() => window.StoryBlock.getBlock('Inventory')?.text)), await page.evaluate(() => SillyTavern.getContext().chat.length));
+console.log(logs.join('\n'));
+await browser.close();

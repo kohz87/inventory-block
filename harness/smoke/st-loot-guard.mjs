@@ -1,0 +1,30 @@
+import { open, S } from './demo-common.mjs';
+import fs from 'node:fs';
+const h = await open({ width: 1440, height: 1000 });
+const { page, ev } = h;
+const base = fs.readFileSync(`${S}/demo/r3.txt`, 'utf8');
+const r3 = base.replace('Short Sword | 1 | Equipped · Common · ATK +4 · Notched near the guard', 'Short Sword | 1 | Equipped · Common · ATK +4, fire · Notched near the guard');
+await h.openNarrator('The Narrator - 2026-10-18@09h00m00s000ms');
+await h.dock();
+await h.turn(r3, 'I draw the sword.');
+await page.waitForTimeout(3000);
+await h.tab('ext:rpg-battle'); await page.waitForTimeout(800);
+await h.click('^Fight'); await page.waitForTimeout(3000);
+await h.click('^Start'); await page.waitForTimeout(1500);
+const onHit = await ev(() => { const s = SillyTavern.getContext().chatMetadata.rpgBattle; return JSON.stringify(s?.fight?.setup?.party?.map(p => [p.name, p.onHit])); });
+console.log('party onHit:', onHit);
+for (let i = 0; i < 40; i++) { if (!(await h.click('^Auto'))) break; await page.waitForTimeout(600); }
+const pane = await h.pane();
+console.log('gear lines:', (pane.match(/[^.]*by Ren's gear\./g) ?? []).slice(0, 3).join(' / ') || 'none in pane');
+await h.click('^Done'); await page.waitForTimeout(1500);
+const st = await ev(() => { const s = SillyTavern.getContext().chatMetadata.rpgBattle; return { guard: s?.lootGuard && { origin: s.lootGuard.origin, items: s.lootGuard.items.map(i => `${i.name} ${i.rarity} ${JSON.stringify(i.stats)} ${i.tags ?? ''}`) }, log: (s?.last?.result?.log ?? []).filter(e => /gear/.test(e.text)).length }; });
+console.log('guard:', JSON.stringify(st));
+const sb = () => ev(() => { const c = SillyTavern.getContext(); const m = c.chat[c.chat.length - 1].mes; return (m.match(/<Inventory>[\s\S]*?<\/Inventory>/) ?? [''])[0]; });
+console.log('origin inventory:\n' + await sb());
+// The narrating reply: its Inventory as before the fight, the loot left out.
+const narr = base.replace(/<Encounter>[\s\S]*?<\/Encounter>/, '').replace('The pack', 'The last wolf falls. The pack');
+await h.turn(narr, 'I wipe the blade.');
+await page.waitForTimeout(3000);
+console.log('narrating inventory:\n' + await sb());
+console.log('errors:', h.errors.join('\n') || 'none');
+await h.browser.close();

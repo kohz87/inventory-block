@@ -1,0 +1,27 @@
+import { chromium } from '/opt/node22/lib/node_modules/playwright/index.mjs';
+const SP = '/tmp/claude-0/-home-user-inventory-block/3572f065-fdf3-5cf4-88eb-a15358a57ebe/scratchpad';
+const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium', args: ['--no-proxy-server'] });
+const mobile = await browser.newPage({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, deviceScaleFactor: 2 });
+await mobile.goto(process.env.ST_URL, { waitUntil: 'domcontentloaded' });
+await mobile.waitForFunction(() => window.SillyTavern?.getContext?.()?.characters?.length > 0 && window.StoryBlock?.apiVersion === 2, null, { timeout: 90000 });
+await mobile.waitForTimeout(2500);
+const id = process.argv[2];
+await mobile.evaluate(async id => {
+    const ctx = SillyTavern.getContext();
+    await ctx.selectCharacterById(String(ctx.characters.findIndex(c => c.name === 'The Narrator')));
+    await new Promise(r => setTimeout(r, 2000));
+    if (id) await ctx.openCharacterChat(id);
+    await new Promise(r => setTimeout(r, 2500));
+}, id);
+await mobile.tap('.story-suite-bar-story');
+await mobile.waitForTimeout(800);
+console.log(await mobile.evaluate(() => { const p = document.querySelector('#story_suite_v2_panel'); const r = p.getBoundingClientRect(); return JSON.stringify({ hidden: p.hidden, display: getComputedStyle(p).display, z: getComputedStyle(p).zIndex, r, top: document.elementFromPoint(195, 600)?.className }); }));
+await mobile.screenshot({ path: `${SP}/uiux/v2/mobile-panel-inventory.png` });
+await mobile.evaluate(() => document.querySelector('#story_suite_v2_panel .story-suite-sheet-close')?.click());
+await mobile.tap('.story-suite-bar-game');
+await mobile.waitForTimeout(800);
+await mobile.screenshot({ path: `${SP}/uiux/v2/mobile-gameview.png` });
+await mobile.evaluate(() => document.querySelector('.ss-gameview-navitem[data-ss-target="story-block/inventory"]')?.click());
+await mobile.waitForTimeout(600);
+await mobile.screenshot({ path: `${SP}/uiux/v2/mobile-gameview-inventory.png` });
+await browser.close();

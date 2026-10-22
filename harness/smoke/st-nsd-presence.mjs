@@ -1,0 +1,24 @@
+import { open } from './demo-common.mjs';
+const h = await open({ width: 1440, height: 1000 });
+const { ev, page } = h;
+await h.openNarrator('The Narrator - 2026-10-18@09h00m00s000ms');
+await page.waitForTimeout(1500);
+const ws = (present, offscreen) => `**📅 Time:** 1203, March 3, 10:30 am | **🌤 Loc:** Harrowford | Guild hall | **🌡 Wx:** Rain\n\n---\n\n**🧍 Ren:**\n* *Outfit:* Torn cloak\n\n---\n\n**👥 NPCs Present:**\n${present.map(n => `**${n}:**\n* *Outfit:* coat\n* *Mood:* wary`).join('\n')}\n\n---\n**📡 Off-Screen:**\n${offscreen.map(n => `* ${n} — somewhere else`).join('\n')}\n\n---\n**🎬 Scene Phase:** Breather`;
+const turn = (prose, present, offscreen, capture) => ev(async ([p, w, c]) => {
+  const ctx = SillyTavern.getContext();
+  Object.assign(ctx.extensionSettings.npc_state_delta, { enabled: true, autoScan: true, narrationCapture: true, fullScanEveryTurn: false, scanEvery: 9 });
+  ctx.chat.push({ name: ctx.name1, is_user: true, is_system: false, send_date: new Date().toISOString(), mes: 'I go on.', extra: {} });
+  await ctx.eventSource.emit(ctx.eventTypes.GENERATION_AFTER_COMMANDS, 'normal', {}, false);
+  const mes = `${p}\n\n<!-- STORY_BLOCKS_V1\n<Blocks>\n<World_State>\n${w}\n</World_State>\n</Blocks>\n-->\n<!-- npc_state_delta\n${c}\n-->`;
+  const reply = { name: 'The Narrator', is_user: false, is_system: false, send_date: new Date().toISOString(), mes, swipes: [mes], swipe_id: 0, extra: {} };
+  ctx.chat.push(reply); ctx.addOneMessage(reply);
+  await ctx.eventSource.emit(ctx.eventTypes.MESSAGE_RECEIVED, ctx.chat.length - 1);
+  await new Promise(r => setTimeout(r, 3500));
+  const state = window.NPCStateDelta.getState();
+  return (state.npcs || []).filter(n => ['Brecht', 'Verna'].includes(n.name)).map(n => `${n.name}:${n.present ? 'present' : 'away'}`).join(' ');
+}, [prose, ws(present, offscreen), JSON.stringify(capture)]);
+const npc = (name, present) => ({ name, present, identityKind: 'proper_name', dossierSignal: 'high', dossierReason: 'named', directInteraction: true, relationshipDelta: { trust: 0, affection: 0, desire: 0, tension: 0 } });
+console.log('in the alley:', await turn('Brecht swings the tiller. Verna watches from the Guild door.', ['Brecht', 'Verna'], [], { npcs: [npc('Brecht', true), npc('Verna', true)] }));
+console.log('moved on   :', await turn('Brecht lay in the mud as you walked off. At the Guild, Verna looks up from her ledger.', ['Verna'], ['Brecht'], { npcs: [npc('Brecht', true), npc('Verna', true)] }));
+console.log('errors:', h.errors.join('\n') || 'none');
+await h.browser.close();

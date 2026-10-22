@@ -1,0 +1,18 @@
+import { chromium } from '/opt/node22/lib/node_modules/playwright/index.mjs';
+const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium', args: ['--no-proxy-server'] });
+const page = await browser.newPage({ viewport: { width: 390, height: 900 }, isMobile: true, hasTouch: true });
+const errors = [];
+page.on('pageerror', e => errors.push(e.message));
+await page.goto('http://127.0.0.1:8123/', { waitUntil: 'domcontentloaded' });
+await page.waitForFunction(() => window.StoryBlock?.apiVersion === 1 && document.documentElement.dataset.npcStateDeltaStoryBlock === '1', null, { timeout: 60000 });
+await page.waitForTimeout(3000);
+const state = () => page.evaluate(() => { const n = document.querySelector('#npc_state_delta_dossier_launcher'); return `${n ? getComputedStyle(n).display : 'missing'} flag=${document.documentElement.dataset.npcStateDeltaLauncher}`; });
+console.log('with Story Block:', await state());
+await page.evaluate(() => { const c = document.querySelector('#npc_state_delta_launcher_with_story_block'); c.checked = true; c.dispatchEvent(new Event('change', { bubbles: true })); });
+await page.waitForTimeout(400);
+console.log('kept:', await state());
+await page.evaluate(() => { const c = document.querySelector('#npc_state_delta_launcher_with_story_block'); c.checked = false; c.dispatchEvent(new Event('change', { bubbles: true })); });
+await page.waitForTimeout(400);
+console.log('back to hidden:', await state());
+console.log('errors:', errors.join('\n') || 'none');
+await browser.close();

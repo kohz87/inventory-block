@@ -1,0 +1,47 @@
+// Exploration: new Ersveil chat, persona Wessel, kit character, one reply; dumps the request.
+import fs from 'node:fs';
+import { CHAR_NAME, OUT, clearQueue, connectMock, launch, queue, readReq, reqNums, waitHost, ST_URL } from './lib.mjs';
+
+const { browser, page } = await launch();
+const errors = [];
+page.on('pageerror', e => errors.push(`pageerror ${e.message}`));
+page.on('console', m => { if (['error', 'warning'].includes(m.type())) errors.push(`console.${m.type()} ${m.text().slice(0, 300)}`); });
+await page.goto(ST_URL, { waitUntil: 'domcontentloaded' });
+await waitHost(page);
+await connectMock(page);
+clearQueue();
+const ev = (fn, a) => page.evaluate(fn, a);
+console.log(await ev(async CHAR_NAME => {
+    const ctx = SillyTavern.getContext();
+    ctx.powerUserSettings.personas['user-default.png'] = 'Wessel';
+    await ctx.executeSlashCommandsWithOptions('/persona Wessel');
+    await ctx.selectCharacterById(String(ctx.characters.findIndex(c => c.name === CHAR_NAME)));
+    await new Promise(r => setTimeout(r, 1500));
+    await ctx.executeSlashCommandsWithOptions('/newchat');
+    await new Promise(r => setTimeout(r, 2500));
+    const c = SillyTavern.getContext();
+    return `${c.name1} / ${c.name2} chat=${c.getCurrentChatId()} n=${c.chat.length} domains=${Object.keys(StoryBlock.sdk.view().state?.domains ?? {}).join(',')}`;
+}, CHAR_NAME));
+await page.keyboard.press('Escape');
+await ev(() => document.querySelector('.ss-dialog-close')?.click());
+const content = await ev(() => StoryBlock.sdk.query('creation.content'));
+console.log('presets', JSON.stringify(content?.presets)?.slice(0, 800));
+const p = content.presets[0];
+const fin = await ev(async p => { const r = await StoryBlock.sdk.command('creation.finish', { name: 'Wessel', preset: p.id, race: p.race, talents: p.talents, points: p.points }); return r.ok ? r.receipt.summary : `${r.code} ${r.message}`; }, p);
+console.log('finish', fin);
+console.log('modules', await ev(() => JSON.stringify(StoryBlock.sdk.modules().map(m => [m.id, m.kinds]))));
+const reply = 'Fenna looks up from her ledger.\n\n<Changes>\n+ present Fenna\n~ place Guild Office | kind: building\n</Changes>';
+queue(reply);
+const before = await ev(() => SillyTavern.getContext().chat.length);
+await page.fill('#send_textarea', 'I walk to the Guild office.');
+await page.click('#send_but');
+await page.waitForFunction(n => { const c = SillyTavern.getContext().chat; return c.length >= n + 2 && !c.at(-1).is_user && c.at(-1).mes; }, before, { timeout: 20000 }).catch(e => console.log('wait fail', e.message));
+await page.waitForTimeout(2500);
+const n = reqNums().at(-1);
+const body = readReq(n);
+fs.writeFileSync(`${OUT}/run/explore-req.json`, JSON.stringify(body, null, 1));
+for (const [i, m] of body.messages.entries()) console.log(i, m.role, JSON.stringify(String(m.content).slice(0, 160)), String(m.content).length);
+console.log('last', JSON.stringify(await ev(() => { const m = SillyTavern.getContext().chat.at(-1); return { mes: m.mes, rc: m.extra?.storySuite?.receipts?.map(r => r.type + ':' + r.summary) }; })));
+console.log('problems', JSON.stringify(await ev(() => StoryBlock.sdk.query?.('host.problems') ?? null).catch(e => e.message)));
+console.log('errors', errors.filter(e => !e.includes('screens could not follow')).join('\n'));
+await browser.close();

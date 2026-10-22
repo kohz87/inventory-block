@@ -1,0 +1,26 @@
+import { open, S } from './demo-common.mjs';
+import fs from 'node:fs';
+const h = await open({ width: 1440, height: 1000 });
+const { page, ev } = h;
+const r4 = fs.readFileSync(`${S}/demo/r4.txt`, 'utf8').replace(/<XP>[\s\S]*?<\/XP>\n?/, '');
+const at = (time, lines) => r4.replace('1203, March 3, 09:50 am', time).replace(/<Director>[\s\S]*?<\/Director>/, `<Director>\n${lines}\n</Director>`);
+const quests = async label => { await h.tab('ext:story-director-quests'); await page.waitForTimeout(800); console.log(label, '·', (await h.pane()).slice(0, 160)); };
+await h.openNarrator('The Narrator - 2026-10-18@09h00m00s000ms');
+await h.dock();
+console.log('start messages:', await ev(() => SillyTavern.getContext().chat.length));
+await h.turn(at('CY 611, Goldwane 12, 07:00 am', "+ quest Lone Grey Wolf — Hunt the wolf pack | type: bounty | giver: Verna | reward: 1 gold\n+ quest Rat Granary — clear the rats | giver: Danique | reward: 4 copper"), "I'll take the wolf bounty and the rat job.");
+for (let i = 0; i < 24; i++) await h.turn(at(`CY 611, Goldwane 12, 0${(i % 9) + 1}:${String(i).padStart(2, '0')} pm`, `~ Guild Post Closure — step: boat ${i}`), `I wait ${i}.`);
+await page.waitForTimeout(2000);
+await ev(() => SillyTavern.getContext().saveMetadata?.());
+await page.waitForTimeout(1500);
+console.log('checkpoints:', await ev(() => JSON.stringify((SillyTavern.getContext().chatMetadata.storyDirector?.checkpoints ?? []).map(p => ({ message: p.message, records: p.tracker.records.length, bytes: JSON.stringify(p).length })))));
+await quests('before:');
+// Delete the 16 oldest messages outright (the quest's own reply among them), then reload.
+await ev(async () => { const ctx = SillyTavern.getContext(); ctx.chat.splice(0, 16); await ctx.saveChat(); await ctx.reloadCurrentChat(); });
+await page.waitForTimeout(3000);
+console.log('messages now:', await ev(() => SillyTavern.getContext().chat.length));
+await h.turn(at('CY 611, Goldwane 13, 06:00 pm', '~ Lone Grey Wolf — step: turn in voucher'), 'I go.');
+await page.waitForTimeout(1500);
+await quests('after deleting:');
+console.log('errors:', h.errors.join('\n') || 'none');
+await h.browser.close();

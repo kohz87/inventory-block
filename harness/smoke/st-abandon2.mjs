@@ -1,0 +1,41 @@
+import { open, S } from './demo-common.mjs';
+import fs from 'node:fs';
+const h = await open({ width: 1440, height: 1000 });
+const { page, ev } = h;
+const r4 = fs.readFileSync(`${S}/demo/r4.txt`, 'utf8');
+const withDirector = lines => r4.replace(/<Director>[\s\S]*?<\/Director>/, `<Director>\n${lines}\n</Director>`);
+await h.openNarrator('The Narrator - 2026-10-18@09h00m00s000ms');
+await h.dock();
+// One turn the way SillyTavern runs it: the user message, every interceptor, then the reply.
+const turn = (mes, user) => ev(async ([m, u]) => {
+  const ctx = SillyTavern.getContext();
+  ctx.chat.push({ name: ctx.name1, is_user: true, is_system: false, send_date: new Date().toISOString(), mes: u, extra: {} });
+  await window.storyDirectorInterceptor(ctx.chat, 8000, () => {}, 'normal');
+  const note = ctx.extensionPrompts?.story_director?.value ?? '';
+  ctx.chat.push({ name: 'The Narrator', is_user: false, is_system: false, send_date: new Date().toISOString(), mes: m, swipes: [m], swipe_id: 0, extra: {} });
+  await ctx.saveChat(); await ctx.reloadCurrentChat();
+  await ctx.eventSource.emit(ctx.eventTypes.MESSAGE_RECEIVED, ctx.chat.length - 1);
+  await ctx.eventSource.emit(ctx.eventTypes.CHARACTER_MESSAGE_RENDERED, ctx.chat.length - 1);
+  return note;
+}, [mes, user]);
+const card = () => ev(() => { const n = [...document.querySelectorAll('.story-director-section .story-director-record.is-quest')].find(x => /Grain Run/.test(x.textContent)); return n ? n.querySelector('.story-director-record-head').innerText.replace(/\n/g, ' ') : 'not active'; });
+await turn(withDirector('+ quest Grain Run — haul grain to the mill | type: side | giver: Jarm | reward: 3 silver'), 'I accept the grain run for Jarm.');
+await page.waitForTimeout(2000);
+await h.tab('ext:story-director-quests'); await page.waitForTimeout(600);
+console.log('accepted:', await card());
+const flag = () => ev(() => [...document.querySelectorAll('.story-director-section .story-director-record.is-quest')].find(x => /Grain Run/.test(x.textContent))?.querySelector('.story-director-quest-abandon, .story-director-quest-keep')?.click());
+await flag(); await page.waitForTimeout(250); await flag(); await page.waitForTimeout(500);
+console.log('after Abandon:', await card(), '| message box:', JSON.stringify(await ev(() => document.querySelector('#send_textarea')?.value)));
+const note = await turn(withDirector('~ Grain Run — now: the cart creaks along'), 'I look at the sky.');
+console.log('note part:', note.split('\n').find(l => l.startsWith('Abandoned')) ?? 'none');
+await page.waitForTimeout(2500);
+console.log('reply block:', await ev(() => (SillyTavern.getContext().chat.at(-1).mes.match(/<Director>[\s\S]*?<\/Director>/) ?? [''])[0].replace(/\n/g, ' / ')));
+await h.tab('ext:story-director-quests'); await page.waitForTimeout(600);
+console.log('after the reply:', await card());
+// Delete that reply: the abandon is taken back.
+await ev(async () => { const ctx = SillyTavern.getContext(); ctx.chat.pop(); await ctx.saveChat(); await ctx.reloadCurrentChat(); await ctx.eventSource.emit(ctx.eventTypes.MESSAGE_DELETED, ctx.chat.length); });
+await page.waitForTimeout(1500);
+await h.tab('ext:story-director'); await h.tab('ext:story-director-quests'); await page.waitForTimeout(600);
+console.log('after deleting it:', await card());
+console.log('errors:', h.errors.join('\n') || 'none');
+await h.browser.close();

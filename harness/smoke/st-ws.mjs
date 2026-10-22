@@ -1,0 +1,23 @@
+import { chromium } from '/opt/node22/lib/node_modules/playwright/index.mjs';
+import { readFileSync } from 'node:fs';
+const ws = readFileSync(new URL('./ws-sample.txt', import.meta.url), 'utf8');
+const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium', args: ['--no-proxy-server'] });
+const page = await browser.newPage({ viewport: { width: 800, height: 1000 }, isMobile: true, hasTouch: true, deviceScaleFactor: 1 });
+await page.goto('http://127.0.0.1:8123/', { waitUntil: 'domcontentloaded' });
+await page.waitForFunction(() => window.SillyTavern?.getContext?.()?.characters?.length > 0, null, { timeout: 60000 });
+await page.evaluate(async () => { const ctx = SillyTavern.getContext(); await ctx.selectCharacterById(String(ctx.characters.findIndex(c => c.name === 'Seraphina'))); });
+await page.waitForFunction(() => SillyTavern.getContext().chat?.length > 0, null, { timeout: 20000 });
+await page.waitForTimeout(1200);
+await page.evaluate(async ws => {
+  const ctx = SillyTavern.getContext(); const i = ctx.chat.length - 1;
+  ctx.chat[i].mes = 'The iron bar dropped.\n<!-- STORY_BLOCKS_V1\n<Blocks>\n<World_State>\n' + ws + '\n</World_State>\n</Blocks>\n-->';
+  await ctx.eventSource.emit(ctx.eventTypes.MESSAGE_EDITED, i); await ctx.eventSource.emit(ctx.eventTypes.CHARACTER_MESSAGE_RENDERED, i);
+}, ws);
+await page.waitForTimeout(1000);
+await page.locator('#story_block_handle').tap(); await page.waitForTimeout(600);
+await page.locator('.story-block-sidebar-tab[data-tab-id="block:world-state"]').tap(); await page.waitForTimeout(400);
+await page.screenshot({ path: 'shots/ws-v055-a.png' });
+await page.evaluate(() => { const p = [...document.querySelectorAll('.story-block-sidebar-panel > .story-block-pane')].find(n => n.style.display !== 'none'); p.scrollTop = 900; });
+await page.waitForTimeout(300);
+await page.screenshot({ path: 'shots/ws-v055-b.png' });
+await browser.close();

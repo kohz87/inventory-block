@@ -1,0 +1,32 @@
+import { chromium } from '/opt/node22/lib/node_modules/playwright/index.mjs';
+const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium', args: ['--no-proxy-server'] });
+const page = await browser.newPage({ viewport: { width: 1200, height: 900 } });
+const errors = [];
+page.on('pageerror', e => errors.push('pageerror ' + e.message));
+await page.goto('http://127.0.0.1:8123/', { waitUntil: 'domcontentloaded' });
+await page.waitForFunction(() => window.StoryBlock?.apiVersion === 1 && window.StoryDirector && window.SillyTavern?.getContext?.()?.characters?.length > 0, null, { timeout: 60000 });
+await page.waitForTimeout(3000);
+const ev = (fn, a) => page.evaluate(fn, a);
+await ev(async () => { const ctx = SillyTavern.getContext(); await ctx.selectCharacterById(String(ctx.characters.findIndex(c => c.name === 'Seraphina'))); await ctx.executeSlashCommandsWithOptions('/newchat'); });
+await page.waitForTimeout(3000);
+const say = (mes, user) => ev(async ([m, u]) => {
+  const ctx = SillyTavern.getContext();
+  ctx.chat.push({ name: 'User', is_user: true, is_system: false, send_date: Date.now(), mes: u });
+  ctx.chat.push({ name: 'Seraphina', is_user: false, is_system: false, send_date: Date.now(), mes: m, swipes: null });
+  await ctx.saveChat(); await ctx.reloadCurrentChat();
+  await ctx.eventSource.emit(ctx.eventTypes?.MESSAGE_RECEIVED ?? ctx.event_types.MESSAGE_RECEIVED, ctx.chat.length - 1);
+  return ctx.chat.length - 1;
+}, [mes, user]);
+await say('Lieke mentions a beast taking sheep.\n<Director>\n+ hook Sheep-killer — Beast taking sheep by the drainage ditch\n</Director>', 'Any work?');
+await page.waitForTimeout(1200);
+await say('You put your mark on the roll.\n<Director>\n~ Sheep-killer — giver: Hobb | reward: 4 silver | difficulty: easy | type: bounty\n</Director>', 'I take the bounty.');
+await page.waitForTimeout(1200);
+if (await ev(() => document.querySelector('#story_block_sidebar')?.dataset.mode) !== 'docked') { await page.locator('#story_block_handle').click().catch(() => {}); await page.waitForTimeout(500); }
+console.log('tabs:', await ev(() => [...document.querySelectorAll('.story-block-sidebar-tab')].map(t => t.dataset.tabId).join(',')));
+await ev(() => [...document.querySelectorAll('.story-block-sidebar-tab')].find(t => /quest/i.test(t.dataset.tabId))?.click()); await page.waitForTimeout(800);
+console.log('quests pane:', await ev(() => { const p = [...document.querySelectorAll('.story-block-pane')].find(n => n.style.display !== 'none'); return (p?.dataset.tabId ?? '') + ' :: ' + (p?.innerText ?? '').replace(/\s+/g, ' ').slice(0, 300); }));
+const done = await say('The beast lies dead.\n<Director>\n- Hook Sheep-killer — slain at the ditch\n</Director>', 'I bring the jaw back.');
+await page.waitForTimeout(1500);
+console.log('questsDoneAt:', JSON.stringify(await ev(i => window.StoryDirector.questsDoneAt(i), done)));
+console.log('errors:', errors.length ? errors.join('\n') : 'none');
+await browser.close();

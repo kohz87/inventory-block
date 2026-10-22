@@ -1,0 +1,30 @@
+import { chromium } from '/opt/node22/lib/node_modules/playwright/index.mjs';
+const out = process.argv[2];
+const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium', args: ['--no-proxy-server'] });
+const page = await browser.newPage({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+await page.goto('http://127.0.0.1:8123/', { waitUntil: 'domcontentloaded' });
+await page.waitForFunction(() => window.SillyTavern?.getContext?.()?.characters?.length > 0, null, { timeout: 60000 });
+await page.evaluate(async () => { const ctx = SillyTavern.getContext(); await ctx.selectCharacterById(String(ctx.characters.findIndex(c => c.name === 'Seraphina'))); });
+await page.waitForFunction(() => SillyTavern.getContext().chat?.length > 0, null, { timeout: 20000 });
+await page.waitForTimeout(1500);
+await page.locator('#story_block_handle').tap();
+await page.waitForTimeout(500);
+// Pull the grip up with a real touch drag.
+const grip = await page.locator('.story-block-sidebar-grip').boundingBox();
+const cdp = await page.context().newCDPSession(page);
+const x = grip.x + grip.width / 2, y0 = grip.y + grip.height / 2;
+await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x, y: y0 }] });
+for (let i = 1; i <= 10; i++) await cdp.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x, y: y0 - i * 25 }] });
+await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+await page.waitForTimeout(600);
+const info = await page.evaluate(() => {
+  const side = document.querySelector('#story_block_sidebar');
+  const r = el => { if (!el) return null; const b = el.getBoundingClientRect(); return [Math.round(b.left), Math.round(b.top), Math.round(b.width), Math.round(b.height)]; };
+  const close = side.querySelector('.story-block-sidebar-close');
+  const cr = close?.getBoundingClientRect();
+  const hit = cr ? document.elementFromPoint(cr.left + cr.width / 2, cr.top + cr.height / 2) : null;
+  return { sheet: side.dataset.sheet, open: side.classList.contains('is-open'), side: r(side), head: r(side.querySelector('.story-block-sidebar-head')), close: r(close), closeDisplay: close && getComputedStyle(close).display, closeOnTop: hit ? Boolean(hit.closest('.story-block-sidebar-close')) : null, hitEl: hit && (hit.id || hit.className), grip: r(side.querySelector('.story-block-sidebar-grip')), scrollTop: side.querySelector('.story-block-sidebar-panel')?.scrollTop };
+});
+console.log(JSON.stringify(info));
+await page.screenshot({ path: out + '/sheet-full.png' });
+await browser.close();

@@ -1,0 +1,21 @@
+import { open, S } from './demo-common.mjs';
+import fs from 'node:fs';
+const h = await open({ width: 1180, height: 820 });
+const { page, ev } = h;
+const base = fs.readFileSync(`${S}/demo/r3.txt`, 'utf8').replace(/<Encounter>[\s\S]*?<\/Encounter>/, '')
+  .replace('Harrowford outskirts | The Old Weir', 'Bluewatch Village | Adventurer Guild Post');
+const delta = base.replace(/<Inventory>[\s\S]*?<\/Inventory>/, '<Inventory>\n[Loot]\n+ Even Trophy | 2\n+ Cellar Rat Tail | 6 | material · AGI, poison\n~ Rope | 1 | 30 ft, frayed\n</Inventory>');
+const trade = async () => { await h.tab('ext:rpg-party'); await page.waitForTimeout(600); await ev(() => document.querySelectorAll('.rpg-battle-page')[1]?.click()); await page.waitForTimeout(800); };
+await h.openNarrator('The Narrator - 2026-10-18@09h00m00s000ms');
+await h.dock().catch(() => {});
+await h.turn(base, 'I go to the guild post.');
+await page.waitForTimeout(2000);
+await h.turn(delta, 'I loot.');
+await page.waitForTimeout(2500);
+console.log('getBlock:', await ev(() => globalThis.StoryBlock.getBlock('Inventory')?.text));
+console.log('last mes inv:', await ev(() => (SillyTavern.getContext().chat.at(-1).mes.match(/<Inventory>[\s\S]*?<\/Inventory>/) ?? [''])[0]));
+await trade();
+console.log('trade:', (await h.pane()).slice(0, 300));
+await page.screenshot({ path: `${S}/uiux/rb-fix2/purse-before.png` });
+console.log('errors:', h.errors.join('\n') || 'none');
+await h.browser.close();

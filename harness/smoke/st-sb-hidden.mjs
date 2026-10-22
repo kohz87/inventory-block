@@ -1,0 +1,17 @@
+import { open, S } from './demo-common.mjs';
+import fs from 'node:fs';
+const h = await open({ width: 1440, height: 1000 });
+const { page, ev } = h;
+const r4 = fs.readFileSync(`${S}/demo/r4.txt`, 'utf8').replace(/<XP>[\s\S]*?<\/XP>\n?/, '').replace('1203, March 3, 09:50 am', 'CY 611, Goldwane 20, 03:33 pm');
+await h.openNarrator('The Narrator - 2026-10-18@09h00m00s000ms');
+await h.dock();
+const idx = await h.turn(r4, 'I look around.');
+await page.waitForTimeout(1200);
+await h.turn('Ren nods and walks on. (no blocks this time)', 'I walk.');
+await page.waitForTimeout(1200);
+await ev(async i => { const ctx = SillyTavern.getContext(); for (let k = 0; k <= i; k++) ctx.chat[k].is_system = true; await ctx.saveChat(); await ctx.reloadCurrentChat(); }, idx);
+await page.waitForTimeout(3000);
+await h.tab('block:world-state');
+console.log('world state time:', ((await h.pane()).match(/Time:[^·]*?(am|pm)/) ?? ['none'])[0]);
+console.log('errors:', h.errors.join('\n') || 'none');
+await h.browser.close();

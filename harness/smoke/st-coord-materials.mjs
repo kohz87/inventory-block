@@ -1,0 +1,23 @@
+import { open, S } from './demo-common.mjs';
+import fs from 'node:fs';
+const h = await open({ width: 1440, height: 1000 });
+const { page, ev } = h;
+const base = fs.readFileSync(`${S}/demo/r3.txt`, 'utf8').replace(/<Encounter>[\s\S]*?<\/Encounter>/, '')
+  .replace('Waterskin | 1 | Half full', 'Waterskin | 1 | Half full\nBurlap Sack | 2 | empty\nWolf Core | 11 | Dull cloudy beast cores\nWolf Fang | 2\n\n[Loot]\nRat Tail | 5\nBrood-Mother Skull | 1 | uncommon material\n\n[Consumables]\nMinor Healing Draught | 2 | heal 20');
+await h.openNarrator('The Narrator - 2026-10-18@09h00m00s000ms');
+await h.dock();
+await h.turn(base, 'I head to the craftsmen.');
+await page.waitForTimeout(2500);
+await h.tab('ext:rpg-party'); await page.waitForTimeout(800);
+await ev(() => [...document.querySelectorAll('.rpg-battle-page')].find(b => /Trade/.test(b.textContent))?.click());
+await page.waitForTimeout(800);
+const opts = await ev(() => [...document.querySelectorAll('select.rpg-trade-person option')].map(o => `${o.value}=${o.textContent}`));
+console.log('trader choices:', opts.join(' | '));
+const crafter = opts.map(o => o.split('=')[0]).find(v => /kind:crafter|kind:smith/.test(v));
+await ev(v => { const s = document.querySelector('select.rpg-trade-person'); s.value = v; s.dispatchEvent(new Event('change', { bubbles: true })); }, crafter);
+await page.waitForTimeout(800);
+const section = await ev(() => { const h = [...document.querySelectorAll('.rpg-battle-sub, .rpg-trade-section, section')].find(n => /Commission/.test(n.textContent) && n.querySelector('.rpg-trade-item')); return h ? [...h.querySelectorAll('.rpg-trade-item-name')].map(n => n.textContent).join(', ') : 'section not found'; });
+console.log('commission materials:', section);
+await page.screenshot({ path: `${S}/uiux/commission/materials-desktop.png` });
+console.log('errors:', h.errors.join('\n') || 'none');
+await h.browser.close();

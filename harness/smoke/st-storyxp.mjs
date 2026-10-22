@@ -1,0 +1,24 @@
+import { open, S } from './demo-common.mjs';
+import fs from 'node:fs';
+const h = await open({ width: 1440, height: 1000 });
+const { page, ev } = h;
+const toasts = [];
+await page.exposeFunction('__toast', t => toasts.push(t));
+await ev(() => { for (const k of ['warning', 'success', 'info']) { const o = window.toastr[k]; window.toastr[k] = function (m, ...rest) { window.__toast(`${k}: ${String(m).replace(/<[^>]+>/g, ' ')}`); return o.call(this, m, ...rest); }; } });
+const reply = fs.readFileSync(`${S}/smoke/brecht-reply.txt`, 'utf8');
+const sheetXp = () => ev(() => { const chat = SillyTavern.getContext().chat; for (let i = chat.length - 1; i >= 0; i--) { const m = chat[i].mes.match(/XP:[^\n|]*/); if (m) return `#${i} ${m[0].trim()}`; } return 'none'; });
+await h.openNarrator('The Narrator - 2026-10-18@09h00m00s000ms');
+await h.dock();
+console.log('before:', await sheetXp());
+await h.turn(reply, 'I kill Brecht, then run off to sell the rats and see Verna.');
+await page.waitForTimeout(3000);
+console.log('after:', await sheetXp());
+console.log('toasts:', toasts.join(' || '));
+await h.tab('ext:rpg-party'); await page.waitForTimeout(800);
+console.log('Award? shown:', /Award\?/.test(await h.pane()));
+// Swipe the reply away for one with no XP line.
+await ev(async (t) => { const ctx = SillyTavern.getContext(); const i = ctx.chat.length - 1; const m = ctx.chat[i]; m.swipes.push(t); m.swipe_id = m.swipes.length - 1; m.mes = t; m.extra = {}; await ctx.eventSource.emit(ctx.eventTypes.MESSAGE_SWIPED, i); await ctx.saveChat(); await ctx.reloadCurrentChat(); await ctx.eventSource.emit(ctx.eventTypes.MESSAGE_RECEIVED, i); await ctx.eventSource.emit(ctx.eventTypes.CHARACTER_MESSAGE_RENDERED, i); }, 'You walk on to the Guildhall.');
+await page.waitForTimeout(2500);
+console.log('after swipe:', await sheetXp());
+console.log('errors:', h.errors.join('\n') || 'none');
+await h.browser.close();

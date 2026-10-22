@@ -1,0 +1,20 @@
+import { open, S } from './demo-common.mjs';
+import fs from 'node:fs';
+const h = await open({ width: 1440, height: 1000 });
+const { page, ev } = h;
+const r3 = fs.readFileSync(`${S}/demo/r3.txt`, 'utf8').replace(/<Encounter>[\s\S]*?<\/Encounter>/, '<Encounter>\nGranary Cellar Rats (EG1 swarm, weak)\n</Encounter>');
+await h.openNarrator('The Narrator - 2026-10-18@09h00m00s000ms');
+await h.dock();
+await h.turn(r3, 'I climb down into the cellar.');
+await page.waitForTimeout(3000);
+await h.tab('ext:rpg-battle'); await page.waitForTimeout(800);
+console.log('offer:', ((await h.pane()).match(/fight is starting[^.]*|Granary[^·]*/i) ?? ['?'])[0].slice(0, 120));
+await h.click('^Fight'); await page.waitForTimeout(3000);
+await h.click('^Start'); await page.waitForTimeout(1500);
+console.log('enemies:', ((await h.pane()).match(/ENEMIES[\s\S]{0,80}/) ?? ['?'])[0].replace(/\s+/g, ' '));
+for (let i = 0; i < 30; i++) { if (!(await h.click('^Auto'))) break; await page.waitForTimeout(700); }
+await h.click('^Done'); await page.waitForTimeout(1500);
+const handoff = await ev(() => SillyTavern.getContext().chatMetadata.rpgBattle?.pending?.handoff ?? '');
+console.log('hand-off:', handoff.split('\n').filter(l => /Foes|defeated|Swarm|Rat/i.test(l)).join(' | ') || handoff.slice(0, 200));
+console.log('errors:', h.errors.join('\n') || 'none');
+await h.browser.close();
