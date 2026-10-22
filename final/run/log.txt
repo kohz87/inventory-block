@@ -1,0 +1,141 @@
+[02:08:02] chat Ersveil - 2026-10-22@02h07m59s358ms persona Wessel creation: Wessel (Human; Shadow-bent and River-born; Cane Draw, Shadow Cut) is ready.
+[02:08:34] step 25 replies 24 chat 39 file 207009 heap 70025522 dom 13094 err 27 warn 36 pageerr 0 stuck 0 static changes 0 elapsed 32s
+[02:09:15] step 50 replies 47 chat 81 file 450358 heap 92173070 dom 16721 err 51 warn 64 pageerr 1 stuck 0 static changes 0 elapsed 74s
+[02:09:56] step 75 replies 69 chat 108 file 566590 heap 87605491 dom 18773 err 74 warn 95 pageerr 1 stuck 0 static changes 0 elapsed 115s
+[02:10:11] rewind: branch Ersveil - 2026-10-22@02h07m59s358ms - Branch #1 (from Ersveil - 2026-10-22@02h07m59s358ms)
+[02:10:45] step 100 replies 89 chat 130 file 710286 heap 90325800 dom 19480 err 98 warn 129 pageerr 2 stuck 0 static changes 0 elapsed 164s
+[02:11:08] snapshot n100: head 74364 B sha 0b0e4949b832 chat_len 149 file 849958 B
+[02:11:08] rebuild n100: store==live true replay==live false problems 0 swipeInfo 0 (138 ms)
+[02:11:37] step 125 replies 112 chat 163 file 967148 heap 89130312 dom 21981 err 121 warn 156 pageerr 2 stuck 0 static changes 2 elapsed 215s
+[02:12:32] step 150 replies 135 chat 193 file 1203762 heap 116676482 dom 24328 err 145 warn 187 pageerr 3 stuck 0 static changes 2 elapsed 270s
+[02:13:42] step 175 replies 160 chat 227 file 1375874 heap 180693396 dom 27222 err 170 warn 220 pageerr 3 stuck 0 static changes 2 elapsed 341s
+[02:14:58] step 200 replies 181 chat 247 file 1493471 heap 145605313 dom 28905 err 194 warn 247 pageerr 3 stuck 0 static changes 2 elapsed 416s
+[02:15:57] rewind: branch Ersveil - 2026-10-22@02h07m59s358ms - Branch #2 (from Ersveil - 2026-10-22@02h07m59s358ms - Branch #1)
+[02:16:05] reload at reply 200
+[02:16:07] snapshot r200-before-reload: head 96458 B sha 743c5e6ffcb9 chat_len 279 file 1763887 B
+[02:16:07] rebuild r200-before-reload: store==live true replay==live false problems 0 swipeInfo 0 (201 ms)
+[02:16:15] reload: chat after reload was undefined; reopening Ersveil - 2026-10-22@02h07m59s358ms - Branch #2
+[02:16:23] snapshot r200-after-reload: head 96458 B sha 743c5e6ffcb9 chat_len 279 file 1763887 B
+[02:16:23] rebuild r200-after-reload: store==live true replay==live false problems 0 swipeInfo 0 (193 ms)
+[02:16:40] step 225 replies 205 chat 287 file 1790973 heap 85421642 dom 18290 err 220 warn 273 pageerr 4 stuck 0 static changes 8 elapsed 518s
+[02:18:02] step 250 replies 227 chat 319 file 1969824 heap 101286811 dom 20872 err 245 warn 300 pageerr 4 stuck 0 static changes 8 elapsed 600s
+[02:19:34] step 275 replies 249 chat 350 file 2355169 heap 118596266 dom 23547 err 269 warn 332 pageerr 5 stuck 0 static changes 10 elapsed 692s
+[02:19:39] progress pushed at reply 250
+[02:20:59] step 300 replies 274 chat 386 file 2500120 heap 103252231 dom 26290 err 294 warn 367 pageerr 5 stuck 0 static changes 10 elapsed 778s
+[02:22:29] step 325 replies 299 chat 424 file 2652288 heap 242479113 dom 29163 err 319 warn 397 pageerr 5 stuck 0 static changes 10 elapsed 868s
+[02:22:35] snapshot n300: head 119310 B sha 0dbfb78d8850 chat_len 426 file 2661487 B
+[02:22:35] rebuild n300: store==live false replay==live false problems 0 swipeInfo 0 (259 ms)
+[02:24:15] step 350 replies 323 chat 464 file 3236262 heap 171163438 dom 32231 err 343 warn 429 pageerr 6 stuck 0 static changes 10 elapsed 974s
+[02:26:13] step 375 replies 347 chat 505 file 3438242 heap 196626222 dom 35314 err 367 warn 462 pageerr 6 stuck 0 static changes 10 elapsed 1091s
+[02:28:17] step 400 replies 368 chat 532 file 3564657 heap 115754141 dom 37432 err 390 warn 498 pageerr 7 stuck 0 static changes 10 elapsed 1216s
+[02:28:37] rewind: branch Ersveil - 2026-10-22@02h07m59s358ms - Branch #3 (from Ersveil - 2026-10-22@02h07m59s358ms - Branch #2)
+[02:30:09] step 425 replies 390 chat 568 file 3867862 heap 95210793 dom 21202 err 415 warn 525 pageerr 7 stuck 0 static changes 10 elapsed 1328s
+[02:30:46] reload at reply 400
+[02:30:47] snapshot r400-before-reload: head 123688 B sha aa63791ce335 chat_len 582 file 3903924 B
+[02:30:48] rebuild r400-before-reload: store==live true replay==live false problems 0 swipeInfo 0 (296 ms)
+[02:30:56] reload: chat after reload was undefined; reopening Ersveil - 2026-10-22@02h07m59s358ms - Branch #3
+[02:31:05] snapshot r400-after-reload: head 123688 B sha aa63791ce335 chat_len 582 file 3903924 B
+[02:31:05] rebuild r400-after-reload: store==live true replay==live false problems 0 swipeInfo 0 (327 ms)
+[02:32:09] step 450 replies 415 chat 610 file 4004093 heap 99821159 dom 20735 err 440 warn 548 pageerr 8 stuck 0 static changes 10 elapsed 1448s
+[02:32:24] rewind: branch Ersveil - 2026-10-22@02h07m59s358ms - Branch #4 (from Ersveil - 2026-10-22@02h07m59s358ms - Branch #3)
+[02:33:53] step 475 replies 438 chat 644 file 4143155 heap 96031747 dom 20785 err 465 warn 581 pageerr 8 stuck 0 static changes 10 elapsed 1551s
+[02:36:05] step 500 replies 463 chat 684 file 4300401 heap 189000381 dom 24129 err 490 warn 609 pageerr 8 stuck 0 static changes 10 elapsed 1683s
+[02:38:03] step 525 replies 485 chat 713 file 4585552 heap 129569013 dom 25727 err 514 warn 632 pageerr 9 stuck 0 static changes 10 elapsed 1801s
+[02:39:11] snapshot n500: head 153720 B sha 813d7dec281c chat_len 737 file 4661730 B
+[02:39:12] rebuild n500: store==live true replay==live false problems 0 swipeInfo 0 (759 ms)
+[02:39:14] progress pushed at reply 500
+[02:40:00] step 550 replies 509 chat 753 file 4721676 heap 169378790 dom 28767 err 539 warn 658 pageerr 9 stuck 0 static changes 10 elapsed 1918s
+[02:42:22] step 575 replies 533 chat 787 file 4846390 heap 238631831 dom 31262 err 563 warn 686 pageerr 10 stuck 0 static changes 10 elapsed 2061s
+[02:44:32] step 600 replies 555 chat 819 file 4943662 heap 106426194 dom 33677 err 587 warn 722 pageerr 10 stuck 0 static changes 10 elapsed 2190s
+[02:46:57] step 625 replies 579 chat 854 file 5076696 heap 106673000 dom 36306 err 611 warn 751 pageerr 10 stuck 0 static changes 10 elapsed 2335s
+[02:49:09] rewind: branch Ersveil - 2026-10-22@02h07m59s358ms - Branch #5 (from Ersveil - 2026-10-22@02h07m59s358ms - Branch #4)
+[02:49:56] reload at reply 600
+[02:49:58] snapshot r600-before-reload: head 157980 B sha f3d60721c18c chat_len 891 file 5238626 B
+[02:49:59] rebuild r600-before-reload: store==live true replay==live false problems 0 swipeInfo 0 (905 ms)
+[02:50:07] reload: chat after reload was undefined; reopening Ersveil - 2026-10-22@02h07m59s358ms - Branch #5
+[02:50:19] snapshot r600-after-reload: head 157980 B sha f3d60721c18c chat_len 891 file 5238626 B
+[02:50:20] rebuild r600-after-reload: store==live true replay==live false problems 0 swipeInfo 0 (996 ms)
+[02:50:36] step 650 replies 602 chat 895 file 5569606 heap 93744461 dom 17925 err 636 warn 774 pageerr 11 stuck 0 static changes 10 elapsed 2555s
+[02:52:39] step 675 replies 625 chat 934 file 5556105 heap 99890194 dom 21367 err 660 warn 798 pageerr 11 stuck 0 static changes 10 elapsed 2677s
+[02:55:21] step 700 replies 648 chat 970 file 5703552 heap 112186394 dom 24966 err 685 warn 834 pageerr 12 stuck 0 static changes 10 elapsed 2839s
+[02:58:28] step 725 replies 673 chat 1004 file 5887504 heap 115549562 dom 27882 err 710 warn 870 pageerr 12 stuck 0 static changes 10 elapsed 3027s
+[02:59:06] rewind: branch Ersveil - 2026-10-22@02h07m59s358ms - Branch #6 (from Ersveil - 2026-10-22@02h07m59s358ms - Branch #5)
+[03:01:15] step 750 replies 692 chat 1029 file 5974566 heap 119340807 dom 19555 err 731 warn 886 pageerr 13 stuck 0 static changes 10 elapsed 3193s
+[03:02:04] snapshot n700: head 174525 B sha 944bbfd80647 chat_len 1041 file 6041538 B
+[03:02:05] rebuild n700: store==live true replay==live false problems 0 swipeInfo 0 (956 ms)
+[03:03:57] step 775 replies 717 chat 1069 file 6213878 heap 156151102 dom 22589 err 756 warn 923 pageerr 13 stuck 0 static changes 10 elapsed 3356s
+[03:06:28] step 800 replies 738 chat 1100 file 6500646 heap 119938005 dom 24892 err 779 warn 956 pageerr 13 stuck 0 static changes 10 elapsed 3507s
+[03:07:54] progress pushed at reply 750
+[03:09:39] step 825 replies 762 chat 1145 file 6740601 heap 123433945 dom 28334 err 803 warn 992 pageerr 14 stuck 0 static changes 10 elapsed 3698s
+[03:13:10] step 850 replies 787 chat 1189 file 6939610 heap 126111553 dom 31683 err 828 warn 1021 pageerr 14 stuck 0 static changes 10 elapsed 3908s
+[03:15:09] reload at reply 800
+[03:15:11] snapshot r800-before-reload: head 163826 B sha 51b6e4a75d4e chat_len 1205 file 7050684 B
+[03:15:12] rebuild r800-before-reload: store==live true replay==live false problems 0 swipeInfo 0 (1209 ms)
+[03:15:20] reload: chat after reload was undefined; reopening Ersveil - 2026-10-22@02h07m59s358ms - Branch #6
+[03:15:31] snapshot r800-after-reload: head 163826 B sha 51b6e4a75d4e chat_len 1205 file 7050684 B
+[03:15:32] rebuild r800-after-reload: store==live true replay==live false problems 0 swipeInfo 0 (1222 ms)
+[03:17:33] step 875 replies 812 chat 1225 file 7137258 heap 131145918 dom 20007 err 861 warn 1057 pageerr 15 stuck 0 static changes 10 elapsed 4171s
+[03:22:05] step 900 replies 835 chat 1262 file 7489209 heap 130080771 dom 23099 err 885 warn 1094 pageerr 15 stuck 0 static changes 10 elapsed 4444s
+[03:27:45] step 925 replies 857 chat 1296 file 7627741 heap 131048269 dom 25877 err 908 warn 1121 pageerr 15 stuck 0 static changes 10 elapsed 4784s
+[03:34:24] step 950 replies 881 chat 1331 file 7809812 heap 133376643 dom 28805 err 932 warn 1153 pageerr 16 stuck 0 static changes 10 elapsed 5183s
+[03:38:35] snapshot n900: head 190981 B sha cb5eeba7e98b chat_len 1365 file 7901172 B
+[03:38:36] rebuild n900: store==live true replay==live false problems 0 swipeInfo 0 (1434 ms)
+[03:40:21] step 975 replies 906 chat 1375 file 7953155 heap 139091751 dom 32600 err 957 warn 1179 pageerr 16 stuck 0 static changes 10 elapsed 5540s
+[03:45:50] step 1000 replies 928 chat 1406 file 8087048 heap 139768439 dom 33577 err 980 warn 1219 pageerr 17 stuck 0 static changes 10 elapsed 5869s
+[03:50:26] step 1025 replies 952 chat 1445 file 8447541 heap 141305896 dom 36485 err 1003 warn 1265 pageerr 17 stuck 0 static changes 10 elapsed 6145s
+[03:55:25] step 1050 replies 977 chat 1481 file 8639035 heap 159975341 dom 39150 err 1028 warn 1297 pageerr 18 stuck 0 static changes 10 elapsed 6443s
+[04:00:01] step 1075 replies 998 chat 1512 file 8758653 heap 145996190 dom 41486 err 1050 warn 1322 pageerr 18 stuck 0 static changes 10 elapsed 6719s
+[04:00:19] reload at reply 1000
+[04:00:21] snapshot r1000-before-reload: head 189818 B sha 9141fb8da432 chat_len 1514 file 8766367 B
+[04:00:22] rebuild r1000-before-reload: store==live true replay==live false problems 0 swipeInfo 0 (1087 ms)
+[04:00:29] reload: chat after reload was undefined; reopening Ersveil - 2026-10-22@02h07m59s358ms - Branch #6
+[04:00:40] snapshot r1000-after-reload: head 189818 B sha 9141fb8da432 chat_len 1514 file 8766367 B
+[04:00:41] rebuild r1000-after-reload: store==live true replay==live false problems 0 swipeInfo 0 (935 ms)
+[04:00:43] progress pushed at reply 1000
+[04:03:35] step 1100 replies 1022 chat 1544 file 8883593 heap 183892967 dom 19802 err 1075 warn 1360 pageerr 18 stuck 0 static changes 10 elapsed 6934s
+[04:07:16] step 1125 replies 1046 chat 1578 file 9052118 heap 173831195 dom 23421 err 1099 warn 1385 pageerr 19 stuck 0 static changes 10 elapsed 7154s
+[04:11:24] step 1150 replies 1070 chat 1614 file 9203218 heap 262946613 dom 26418 err 1124 warn 1423 pageerr 19 stuck 0 static changes 10 elapsed 7402s
+[04:16:13] step 1175 replies 1094 chat 1652 file 9529009 heap 224784218 dom 29596 err 1155 warn 1451 pageerr 20 stuck 0 static changes 10 elapsed 7691s
+[04:17:09] snapshot n1100: head 200784 B sha 71ec95924a51 chat_len 1664 file 9566466 B
+[04:17:10] rebuild n1100: store==live true replay==live false problems 0 swipeInfo 0 (1046 ms)
+[04:20:55] step 1200 replies 1119 chat 1694 file 9699498 heap 159936395 dom 33250 err 1180 warn 1486 pageerr 20 stuck 0 static changes 10 elapsed 7973s
+[04:26:44] step 1225 replies 1142 chat 1730 file 9886423 heap 160444245 dom 36239 err 1204 warn 1521 pageerr 20 stuck 0 static changes 10 elapsed 8323s
+[04:32:37] step 1250 replies 1167 chat 1772 file 10096063 heap 160651619 dom 37788 err 1229 warn 1558 pageerr 21 stuck 0 static changes 10 elapsed 8675s
+[04:37:58] step 1275 replies 1191 chat 1805 file 10299308 heap 214574236 dom 40343 err 1254 warn 1595 pageerr 21 stuck 0 static changes 10 elapsed 8996s
+[04:39:58] reload at reply 1200
+[04:40:00] snapshot r1200-before-reload: head 206719 B sha a372e66c7e78 chat_len 1813 file 10348343 B
+[04:40:02] rebuild r1200-before-reload: store==live true replay==live false problems 0 swipeInfo 0 (1282 ms)
+[04:40:09] reload: chat after reload was undefined; reopening Ersveil - 2026-10-22@02h07m59s358ms - Branch #6
+[04:40:23] snapshot r1200-after-reload: head 206719 B sha a372e66c7e78 chat_len 1813 file 10348343 B
+[04:40:24] rebuild r1200-after-reload: store==live true replay==live false problems 0 swipeInfo 0 (1233 ms)
+[04:42:36] step 1300 replies 1216 chat 1835 file 10668908 heap 204454779 dom 20090 err 1279 warn 1630 pageerr 22 stuck 0 static changes 10 elapsed 9274s
+[04:45:56] step 1325 replies 1239 chat 1872 file 10798445 heap 169656105 dom 22888 err 1303 warn 1646 pageerr 22 stuck 0 static changes 10 elapsed 9474s
+[04:48:01] progress pushed at reply 1250
+[04:50:17] step 1350 replies 1263 chat 1907 file 10959606 heap 180808450 dom 25551 err 1328 warn 1671 pageerr 23 stuck 0 static changes 10 elapsed 9736s
+[04:53:44] rewind: branch Ersveil - 2026-10-22@02h07m59s358ms - Branch #7 (from Ersveil - 2026-10-22@02h07m59s358ms - Branch #6)
+[04:54:43] step 1375 replies 1284 chat 1940 file 11085318 heap 222652302 dom 19073 err 1352 warn 1697 pageerr 23 stuck 0 static changes 10 elapsed 10001s
+[04:57:30] snapshot n1300: head 197034 B sha 4ee9f28f99b2 chat_len 1966 file 11158108 B
+[04:57:31] rebuild n1300: store==live true replay==live false problems 0 swipeInfo 0 (1255 ms)
+[04:59:16] step 1400 replies 1309 chat 1980 file 11205709 heap 209884998 dom 22461 err 1377 warn 1730 pageerr 23 stuck 0 static changes 10 elapsed 10274s
+[05:05:13] step 1425 replies 1332 chat 2013 file 11394469 heap 208968528 dom 25315 err 1401 warn 1754 pageerr 24 stuck 0 static changes 10 elapsed 10631s
+[05:10:28] step 1450 replies 1355 chat 2050 file 11772270 heap 184626312 dom 28312 err 1425 warn 1791 pageerr 24 stuck 0 static changes 10 elapsed 10946s
+[05:14:05] rewind: branch Ersveil - 2026-10-22@02h07m59s358ms - Branch #8 (from Ersveil - 2026-10-22@02h07m59s358ms - Branch #7)
+[05:14:56] step 1475 replies 1376 chat 2078 file 11898448 heap 183334821 dom 18965 err 1449 warn 1819 pageerr 25 stuck 0 static changes 10 elapsed 11214s
+[05:18:32] step 1500 replies 1399 chat 2119 file 12027825 heap 186248262 dom 22053 err 1474 warn 1836 pageerr 25 stuck 0 static changes 10 elapsed 11430s
+[05:18:40] reload at reply 1400
+[05:18:42] snapshot r1400-before-reload: head 211373 B sha 9151c7bc8d7e chat_len 2121 file 12025805 B
+[05:18:43] rebuild r1400-before-reload: store==live true replay==live false problems 0 swipeInfo 0 (1471 ms)
+[05:18:51] reload: chat after reload was undefined; reopening Ersveil - 2026-10-22@02h07m59s358ms - Branch #8
+[05:19:06] snapshot r1400-after-reload: head 211373 B sha 9151c7bc8d7e chat_len 2121 file 12025805 B
+[05:19:08] rebuild r1400-after-reload: store==live true replay==live false problems 0 swipeInfo 0 (1629 ms)
+[05:22:35] step 1525 replies 1421 chat 2151 file 12153839 heap 191906893 dom 19869 err 1499 warn 1866 pageerr 25 stuck 0 static changes 10 elapsed 11674s
+[05:24:25] rewind: branch Ersveil - 2026-10-22@02h07m59s358ms - Branch #9 (from Ersveil - 2026-10-22@02h07m59s358ms - Branch #8)
+[05:26:16] step 1550 replies 1442 chat 2183 file 12277481 heap 188187301 dom 19848 err 1524 warn 1904 pageerr 26 stuck 0 static changes 10 elapsed 11894s
+[05:30:21] step 1575 replies 1466 chat 2223 file 12430780 heap 190705042 dom 22896 err 1549 warn 1936 pageerr 26 stuck 0 static changes 10 elapsed 12139s
+[05:34:29] step 1600 replies 1489 chat 2252 file 12806011 heap 243753232 dom 25217 err 1573 warn 1969 pageerr 27 stuck 0 static changes 10 elapsed 12387s
+[05:36:34] snapshot n1500: head 217323 B sha 7bfde8dcb5d8 chat_len 2272 file 12868323 B
+[05:36:35] rebuild n1500: store==live true replay==live false problems 0 swipeInfo 0 (1334 ms)
+[05:36:37] progress pushed at reply 1500
+[05:36:39] snapshot final: head 217323 B sha 7bfde8dcb5d8 chat_len 2272 file 12868323 B
+[05:36:41] rebuild final: store==live true replay==live false problems 0 swipeInfo 0 (1274 ms)
+[05:36:41] done {"replies":1500,"steps":1612,"stuck":0,"consoleErr":1584,"consoleWarn":1981,"pageErrors":27,"staticChanges":10}
