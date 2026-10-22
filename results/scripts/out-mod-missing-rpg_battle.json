@@ -1,0 +1,79 @@
+{
+ "tag": "missing-rpg_battle",
+ "hasSb": true,
+ "modules": [
+  "npc-state-delta@1.2.19",
+  "story-block@2.0.0-alpha.2",
+  "story-director@2.0.0-alpha.1"
+ ],
+ "features": [
+  "story-block.hud=true",
+  "story-block.cards=true",
+  "story-block.preroll=true",
+  "story-block.extractor=true"
+ ],
+ "needs": [],
+ "surfaces": {
+  "features": {
+   "story-block.hud": true,
+   "story-block.cards": true,
+   "story-block.preroll": true,
+   "story-block.extractor": true
+  },
+  "hud": [
+   " CY 611, Goldwane 12, 07:00 am <b>Nowhere</b>"
+  ],
+  "cards": 12,
+  "notes": [],
+  "problems": [],
+  "tabs": {
+   "Quests": 135,
+   "Scene": 91,
+   "Inventory": 511,
+   "Map": 239,
+   "Cast": 182,
+   "Chronicle": 122,
+   "Director": 237
+  },
+  "game": {
+   "Home": 188,
+   "Quests": 142,
+   "Scene": 97,
+   "Inventory": 521,
+   "Map": 243,
+   "Chronicle": 132,
+   "Director": 247
+  },
+  "xss": null,
+  "rawMarkup": 0
+ },
+ "home": "Home WHERE <b>Nowhere</b> · River Confederacy CY 611, Goldwane 12, 7:00 am PURSE AND PACK 444 marks · 8 things carried QUESTS Granary Rats Offered — Kill 6 cellar rats Progress 0 / 6",
+ "overlay": [
+  "Story Suiteprompt",
+  "Featuresevery module",
+  "NPC State Deltanpc-state-delta",
+  "ScanningConnection, cadence and admission",
+  "Roster & continuityInjection, lifecycle and stale cleanup",
+  "Calendar & birthdaysFantasy months and optional campaign clock",
+  "Source of truthSharing with other story extensions",
+  "Portrait generationImage Generation prompts and style",
+  "Scanner rulesAdvanced relationship, memory and behavior rubrics",
+  "AdvancedScan context, output and injection limits, branch handling",
+  "What's sentThe text your next reply gets, and its size",
+  "Data & maintenanceBackup, diagnostics and this chat",
+  "Story Blockstory-block",
+  "Story Directorstory-director"
+ ],
+ "reply": {
+  "receipts": [
+   "capture.npc",
+   "capture.time",
+   "capture.item",
+   "capture.quest"
+  ],
+  "card": "Changed this reply +1 Wet Rope · 1 line not applied",
+  "problems": []
+ },
+ "errors": [],
+ "allErrors": []
+}

@@ -1,0 +1,77 @@
+{
+ "tag": "missing-npc_state_delta",
+ "hasSb": true,
+ "modules": [
+  "rpg-battle@2.0.0-alpha.1",
+  "story-block@2.0.0-alpha.2",
+  "story-director@2.0.0-alpha.1"
+ ],
+ "features": [
+  "story-block.hud=true",
+  "story-block.cards=true",
+  "story-block.preroll=true",
+  "story-block.extractor=true"
+ ],
+ "needs": [],
+ "surfaces": {
+  "features": {
+   "story-block.hud": true,
+   "story-block.cards": true,
+   "story-block.preroll": true,
+   "story-block.extractor": true
+  },
+  "hud": [
+   "U User Lv 1 HP 82 / 82 MP 40 / 40 CY 611, Goldwane 12, 07:00 am <b>Nowhere</b>"
+  ],
+  "cards": 12,
+  "notes": [],
+  "problems": [],
+  "tabs": {
+   "Party": 344,
+   "Quests": 135,
+   "Scene": 91,
+   "Inventory": 511,
+   "Map": 239,
+   "Fight": 87,
+   "Items": 357,
+   "Trade": 90,
+   "Chronicle": 122,
+   "Director": 237
+  },
+  "game": {
+   "Home": 264,
+   "Party": 350,
+   "Quests": 142,
+   "Scene": 97,
+   "Inventory": 521,
+   "Map": 243,
+   "Fight": 93,
+   "Items": 364,
+   "Trade": 96,
+   "Chronicle": 132,
+   "Director": 247
+  },
+  "xss": null,
+  "rawMarkup": 0
+ },
+ "home": "Home U User Level 1 HP 82 / 82 MP 40 / 40 SP 33 / 33 FIGHT Ahead: 3 Cellar Rat WHERE <b>Nowhere</b> · River Confederacy CY 611, Goldwane 12, 7:00 am PURSE AND PACK 444 marks · 8 things carried QUESTS Granary Rats Offered — Kill 6 cellar rats Progress 0 / 6",
+ "overlay": [
+  "Story Suiteprompt",
+  "Featuresevery module",
+  "RPG Battlerpg-battle",
+  "Story Blockstory-block",
+  "Story Directorstory-director"
+ ],
+ "reply": {
+  "receipts": [
+   "capture.encounter",
+   "capture.time",
+   "capture.item",
+   "capture.quest"
+  ],
+  "card": "Changed this reply +1 Wet Rope · 1 line not applied",
+  "problems": []
+ },
+ "errors": [],
+ "allErrors": []
+}

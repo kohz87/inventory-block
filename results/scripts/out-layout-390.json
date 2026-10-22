@@ -1,0 +1,625 @@
+{
+ "W": 390,
+ "tabs": {
+  "Party": {
+   "doc": {
+    "scrollW": 390,
+    "clientW": 390,
+    "bodyScrollW": 390
+   },
+   "sideways": [
+    "story-suite-tabs:1028>366"
+   ],
+   "offRight": [
+    "Inventory@403",
+    "Map@483",
+    "Cast@564",
+    "Fight@647",
+    "Items@732",
+    "Trade@823",
+    "Chronicle@936",
+    "Director@1040"
+   ],
+   "controls": 15,
+   "small": [
+    "Use or set aside 340x20"
+   ],
+   "smallCount": 1,
+   "motion": []
+  },
+  "Quests": {
+   "doc": {
+    "scrollW": 390,
+    "clientW": 390,
+    "bodyScrollW": 390
+   },
+   "sideways": [
+    "story-suite-tabs:1028>366"
+   ],
+   "offRight": [
+    "Inventory@403",
+    "Map@483",
+    "Cast@564",
+    "Fight@647",
+    "Items@732",
+    "Trade@823",
+    "Chronicle@936",
+    "Director@1040"
+   ],
+   "controls": 13,
+   "small": [],
+   "smallCount": 0,
+   "motion": []
+  },
+  "Scene": {
+   "doc": {
+    "scrollW": 390,
+    "clientW": 390,
+    "bodyScrollW": 390
+   },
+   "sideways": [
+    "story-suite-tabs:1028>366"
+   ],
+   "offRight": [
+    "Inventory@403",
+    "Map@483",
+    "Cast@564",
+    "Fight@647",
+    "Items@732",
+    "Trade@823",
+    "Chronicle@936",
+    "Director@1040"
+   ],
+   "controls": 12,
+   "small": [],
+   "smallCount": 0,
+   "motion": []
+  },
+  "Inventory": {
+   "doc": {
+    "scrollW": 390,
+    "clientW": 390,
+    "bodyScrollW": 390
+   },
+   "sideways": [
+    "story-suite-tabs:1028>366"
+   ],
+   "offRight": [
+    "Inventory@403",
+    "Map@483",
+    "Cast@564",
+    "Fight@647",
+    "Items@732",
+    "Trade@823",
+    "Chronicle@936",
+    "Director@1040"
+   ],
+   "controls": 31,
+   "small": [
+    "Show only things whose name ha 226x24",
+    "Everything Quest items Equipme 92x22",
+    "Any Common Uncommon Rare Epic  81x22",
+    "INPUT 15x15",
+    "Equip 67x24",
+    "Drop 63x24",
+    "Equip 67x24",
+    "Drop 63x24",
+    "Drop 63x24",
+    "Drop 63x24"
+   ],
+   "smallCount": 12,
+   "motion": []
+  },
+  "Map": {
+   "doc": {
+    "scrollW": 390,
+    "clientW": 390,
+    "bodyScrollW": 390
+   },
+   "sideways": [
+    "story-suite-tabs:1028>366",
+    "sd-map-layers:1456>366"
+   ],
+   "offRight": [
+    "Inventory@403",
+    "Map@483",
+    "Cast@564",
+    "Fight@647",
+    "Items@732",
+    "Trade@823",
+    "Chronicle@936",
+    "Director@1040"
+   ],
+   "controls": 39,
+   "small": [
+    "Ledgerford (City, River Confed 8x8",
+    "Glassdock (Port, River Confede 8x8",
+    "Ninebarge Crossing (Town, Rive 8x8",
+    "Coinwater (City, River Confede 8x8",
+    "Pearlbank (City, River Confede 8x8",
+    "Saltledger Quay (Port, River C 8x8",
+    "Thousand Sails (City, River Co 8x8",
+    "Wheatwake (Town, River Confede 8x8",
+    "Mirage City (City, River Confe 8x8",
+    "Black Iron Riverhold (Fortress 8x8"
+   ],
+   "smallCount": 10,
+   "motion": []
+  },
+  "Cast": {
+   "doc": {
+    "scrollW": 390,
+    "clientW": 390,
+    "bodyScrollW": 390
+   },
+   "sideways": [
+    "story-suite-tabs:1028>366"
+   ],
+   "offRight": [
+    "Inventory@403",
+    "Map@483",
+    "Cast@564",
+    "Fight@647",
+    "Items@732",
+    "Trade@823",
+    "Chronicle@936",
+    "Director@1040"
+   ],
+   "controls": 13,
+   "small": [],
+   "smallCount": 0,
+   "motion": []
+  },
+  "Fight": {
+   "doc": {
+    "scrollW": 390,
+    "clientW": 390,
+    "bodyScrollW": 390
+   },
+   "sideways": [
+    "story-suite-tabs:1028>366"
+   ],
+   "offRight": [
+    "Inventory@403",
+    "Map@483",
+    "Cast@564",
+    "Fight@647",
+    "Items@732",
+    "Trade@823",
+    "Chronicle@936",
+    "Director@1040"
+   ],
+   "controls": 14,
+   "small": [],
+   "smallCount": 0,
+   "motion": []
+  },
+  "Items": {
+   "doc": {
+    "scrollW": 390,
+    "clientW": 390,
+    "bodyScrollW": 390
+   },
+   "sideways": [
+    "story-suite-tabs:1028>366"
+   ],
+   "offRight": [
+    "Inventory@403",
+    "Map@483",
+    "Cast@564",
+    "Fight@647",
+    "Items@732",
+    "Trade@823",
+    "Chronicle@936",
+    "Director@1040"
+   ],
+   "controls": 14,
+   "small": [],
+   "smallCount": 0,
+   "motion": []
+  },
+  "Trade": {
+   "doc": {
+    "scrollW": 390,
+    "clientW": 390,
+    "bodyScrollW": 390
+   },
+   "sideways": [
+    "story-suite-tabs:1028>366"
+   ],
+   "offRight": [
+    "Inventory@403",
+    "Map@483",
+    "Cast@564",
+    "Fight@647",
+    "Items@732",
+    "Trade@823",
+    "Chronicle@936",
+    "Director@1040"
+   ],
+   "controls": 52,
+   "small": [],
+   "smallCount": 0,
+   "motion": []
+  },
+  "Chronicle": {
+   "doc": {
+    "scrollW": 390,
+    "clientW": 390,
+    "bodyScrollW": 390
+   },
+   "sideways": [
+    "story-suite-tabs:1028>366"
+   ],
+   "offRight": [
+    "Inventory@403",
+    "Map@483",
+    "Cast@564",
+    "Fight@647",
+    "Items@732",
+    "Trade@823",
+    "Chronicle@936",
+    "Director@1040"
+   ],
+   "controls": 18,
+   "small": [],
+   "smallCount": 0,
+   "motion": []
+  },
+  "Director": {
+   "doc": {
+    "scrollW": 390,
+    "clientW": 390,
+    "bodyScrollW": 390
+   },
+   "sideways": [
+    "story-suite-tabs:1028>366"
+   ],
+   "offRight": [
+    "Inventory@403",
+    "Map@483",
+    "Cast@564",
+    "Fight@647",
+    "Items@732",
+    "Trade@823",
+    "Chronicle@936",
+    "Director@1040"
+   ],
+   "controls": 12,
+   "small": [],
+   "smallCount": 0,
+   "motion": []
+  }
+ },
+ "game": {
+  "Home": {
+   "doc": {
+    "scrollW": 390,
+    "clientW": 390,
+    "bodyScrollW": 390
+   },
+   "sideways": [
+    "ss-gameview-nav:704>390"
+   ],
+   "offRight": [
+    "Fight@448",
+    "Items@512",
+    "Trade@576",
+    "Chronicle@640",
+    "Director@704"
+   ],
+   "controls": 12,
+   "small": [],
+   "smallCount": 0,
+   "motion": []
+  },
+  "Party": {
+   "doc": {
+    "scrollW": 390,
+    "clientW": 390,
+    "bodyScrollW": 390
+   },
+   "sideways": [
+    "ss-gameview-nav:704>390"
+   ],
+   "offRight": [
+    "Fight@448",
+    "Items@512",
+    "Trade@576",
+    "Chronicle@640",
+    "Director@704"
+   ],
+   "controls": 15,
+   "small": [
+    "Use or set aside 340x20"
+   ],
+   "smallCount": 1,
+   "motion": []
+  },
+  "Quests": {
+   "doc": {
+    "scrollW": 390,
+    "clientW": 390,
+    "bodyScrollW": 390
+   },
+   "sideways": [
+    "ss-gameview-nav:704>390"
+   ],
+   "offRight": [
+    "Fight@448",
+    "Items@512",
+    "Trade@576",
+    "Chronicle@640",
+    "Director@704"
+   ],
+   "controls": 13,
+   "small": [],
+   "smallCount": 0,
+   "motion": []
+  },
+  "Scene": {
+   "doc": {
+    "scrollW": 390,
+    "clientW": 390,
+    "bodyScrollW": 390
+   },
+   "sideways": [
+    "ss-gameview-nav:704>390"
+   ],
+   "offRight": [
+    "Fight@448",
+    "Items@512",
+    "Trade@576",
+    "Chronicle@640",
+    "Director@704"
+   ],
+   "controls": 12,
+   "small": [],
+   "smallCount": 0,
+   "motion": []
+  },
+  "Inventory": {
+   "doc": {
+    "scrollW": 390,
+    "clientW": 390,
+    "bodyScrollW": 390
+   },
+   "sideways": [
+    "ss-gameview-nav:704>390"
+   ],
+   "offRight": [
+    "Fight@448",
+    "Items@512",
+    "Trade@576",
+    "Chronicle@640",
+    "Director@704"
+   ],
+   "controls": 31,
+   "small": [
+    "Show only things whose name ha 226x24",
+    "Everything Quest items Equipme 92x22",
+    "Any Common Uncommon Rare Epic  81x22",
+    "INPUT 15x15",
+    "Equip 67x24",
+    "Drop 63x24",
+    "Equip 67x24",
+    "Drop 63x24",
+    "Drop 63x24",
+    "Drop 63x24"
+   ],
+   "smallCount": 12,
+   "motion": []
+  },
+  "Map": {
+   "doc": {
+    "scrollW": 390,
+    "clientW": 390,
+    "bodyScrollW": 390
+   },
+   "sideways": [
+    "sd-map-layers:1456>366",
+    "ss-gameview-nav:704>390"
+   ],
+   "offRight": [
+    "Bluewatch Village@499",
+    "Highmark Empire@632",
+    "River Confederacy: core cities@840",
+    "River Confederacy: locks/conne@1091",
+    "Shornmarch@1191",
+    "Silver Mark@1284",
+    "Valegard@1362",
+    "underground@1468"
+   ],
+   "controls": 39,
+   "small": [
+    "Ledgerford (City, River Confed 8x8",
+    "Glassdock (Port, River Confede 8x8",
+    "Ninebarge Crossing (Town, Rive 8x8",
+    "Coinwater (City, River Confede 8x8",
+    "Pearlbank (City, River Confede 8x8",
+    "Saltledger Quay (Port, River C 8x8",
+    "Thousand Sails (City, River Co 8x8",
+    "Wheatwake (Town, River Confede 8x8",
+    "Mirage City (City, River Confe 8x8",
+    "Black Iron Riverhold (Fortress 8x8"
+   ],
+   "smallCount": 10,
+   "motion": []
+  },
+  "Fight": {
+   "doc": {
+    "scrollW": 390,
+    "clientW": 390,
+    "bodyScrollW": 390
+   },
+   "sideways": [
+    "ss-gameview-nav:704>390"
+   ],
+   "offRight": [
+    "Fight@448",
+    "Items@512",
+    "Trade@576",
+    "Chronicle@640",
+    "Director@704"
+   ],
+   "controls": 14,
+   "small": [],
+   "smallCount": 0,
+   "motion": []
+  },
+  "Items": {
+   "doc": {
+    "scrollW": 390,
+    "clientW": 390,
+    "bodyScrollW": 390
+   },
+   "sideways": [
+    "ss-gameview-nav:704>390"
+   ],
+   "offRight": [
+    "Fight@448",
+    "Items@512",
+    "Trade@576",
+    "Chronicle@640",
+    "Director@704"
+   ],
+   "controls": 14,
+   "small": [],
+   "smallCount": 0,
+   "motion": []
+  },
+  "Trade": {
+   "doc": {
+    "scrollW": 390,
+    "clientW": 390,
+    "bodyScrollW": 390
+   },
+   "sideways": [
+    "ss-gameview-nav:704>390"
+   ],
+   "offRight": [
+    "Fight@448",
+    "Items@512",
+    "Trade@576",
+    "Chronicle@640",
+    "Director@704"
+   ],
+   "controls": 52,
+   "small": [],
+   "smallCount": 0,
+   "motion": []
+  },
+  "Chronicle": {
+   "doc": {
+    "scrollW": 390,
+    "clientW": 390,
+    "bodyScrollW": 390
+   },
+   "sideways": [
+    "ss-gameview-nav:704>390"
+   ],
+   "offRight": [
+    "Fight@448",
+    "Items@512",
+    "Trade@576",
+    "Chronicle@640",
+    "Director@704"
+   ],
+   "controls": 18,
+   "small": [],
+   "smallCount": 0,
+   "motion": []
+  },
+  "Director": {
+   "doc": {
+    "scrollW": 390,
+    "clientW": 390,
+    "bodyScrollW": 390
+   },
+   "sideways": [
+    "ss-gameview-nav:704>390"
+   ],
+   "offRight": [
+    "Fight@448",
+    "Items@512",
+    "Trade@576",
+    "Chronicle@640",
+    "Director@704"
+   ],
+   "controls": 12,
+   "small": [],
+   "smallCount": 0,
+   "motion": []
+  }
+ },
+ "extra": {
+  "keyboard": {
+   "focusable": 12,
+   "noVisibleFocus": 0,
+   "sample": []
+  },
+  "escapeClosesGame": true,
+  "chat": {
+   "doc": {
+    "scrollW": 390,
+    "clientW": 390,
+    "bodyScrollW": 390
+   },
+   "sideways": [],
+   "offRight": [],
+   "controls": 15,
+   "small": [
+    "Message Actions 22x20",
+    "Edit 24x20",
+    "Message Actions 22x20",
+    "Edit 24x20",
+    "Message Actions 22x20",
+    "Edit 24x20",
+    "Message Actions 22x20",
+    "Edit 24x20",
+    "Message Actions 22x20",
+    "Edit 24x20"
+   ],
+   "smallCount": 10,
+   "motion": []
+  },
+  "hud": {
+   "doc": {
+    "scrollW": 390,
+    "clientW": 390,
+    "bodyScrollW": 390
+   },
+   "sideways": [],
+   "offRight": [],
+   "controls": 3,
+   "small": [],
+   "smallCount": 0,
+   "motion": []
+  },
+  "overlay": {
+   "doc": {
+    "scrollW": 390,
+    "clientW": 390,
+    "bodyScrollW": 390
+   },
+   "sideways": [],
+   "offRight": [],
+   "controls": 104,
+   "small": [
+    "on 1x1",
+    "on 1x1",
+    "on 1x1",
+    "on 1x1",
+    "inline-drawer-icon fa-solid fa 23x23",
+    "on 1x1",
+    "on 1x1",
+    "on 1x1",
+    "on 1x1",
+    "on 1x1"
+   ],
+   "smallCount": 16,
+   "motion": []
+  }
+ },
+ "errors": []
+}
