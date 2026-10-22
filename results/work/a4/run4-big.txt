@@ -1,0 +1,12 @@
+seed 3400: 0 viol, 622 msgs, 9 cps, 2306757 B, 355 writes {}
+seed 3401: 0 viol, 633 msgs, 12 cps, 2381139 B, 364 writes {}
+seed 3402: 0 viol, 615 msgs, 6 cps, 2023303 B, 349 writes {}
+seed 3403: 0 viol, 612 msgs, 13 cps, 2387194 B, 353 writes {}
+
+SUMMARY
+seed 3550: 0 viol, 911 msgs, 18 cps, 3773181 B, 514 writes {}
+seed 3551: 0 viol, 941 msgs, 22 cps, 4289007 B, 520 writes {}
+seed 3552: 0 viol, 922 msgs, 20 cps, 4043996 B, 514 writes {}
+seed 3553: 0 viol, 910 msgs, 16 cps, 3592690 B, 507 writes {}
+
+SUMMARY

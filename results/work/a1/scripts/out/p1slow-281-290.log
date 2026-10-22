@@ -1,0 +1,13 @@
+seed 281: 0 violations, chat 36 msgs, 2 checkpoints, 189704 bytes {}
+seed 282: 0 violations, chat 64 msgs, 2 checkpoints, 208427 bytes {}
+seed 283: 0 violations, chat 6 msgs, 1 checkpoints, 37501 bytes {}
+seed 284: 0 violations, chat 62 msgs, 2 checkpoints, 268534 bytes {}
+seed 285: 0 violations, chat 8 msgs, 1 checkpoints, 39934 bytes {}
+seed 286: 0 violations, chat 15 msgs, 1 checkpoints, 43612 bytes {}
+seed 287: 0 violations, chat 13 msgs, 1 checkpoints, 39905 bytes {}
+seed 288: 0 violations, chat 35 msgs, 1 checkpoints, 126582 bytes {}
+seed 289: 0 violations, chat 45 msgs, 2 checkpoints, 189343 bytes {}
+seed 290: 0 violations, chat 14 msgs, 1 checkpoints, 37891 bytes {}
+
+SUMMARY
+ui commands {"trade.sell":{"ok":8,"no":4,"codes":{"REFUSED":4},"msg":{"REFUSED":"No market here (Auvoth). Trade in a settlement, or with a trader on the road."}},"npc.set":{"ok":17,"no":0,"codes":{}},"scene.place":{"ok":16,"no":0,"codes":{}},"inventory.drop":{"ok":10,"no":0,"codes":{}},"quest.take":{"ok":15,"no":0,"codes":{}},"party.acceptOffer":{"ok":3,"no":0,"codes":{}},"party.rest":{"ok":16,"no":0,"codes":{}},"item.use":{"ok":0,"no":5,"codes":{"REFUSED":5},"msg":{"REFUSED":"The Torch is not something to use."}},"inventory.transfer":{"ok":0,"no":8,"codes":{"REFUSED":8},"msg":{"REFUSED":"Whetstone is already with the party."}},"trade.buy":{"ok":8,"no":5,"codes":{"NOT_ENOUGH":5},"msg":{"NOT_ENOUGH":"There is only one Short Sword."}},"scene.present":{"ok":17,"no":11,"codes":{"NOT_FOUND":11},"msg":{"NOT_FOUND":"Bo is not in the scene."}},"check.resolve":{"ok":16,"no":0,"codes":{}},"npc.adjust":{"ok":0,"no":21,"codes":{"REFUSED":21},"msg":{"REFUSED":"Meters move with the story and with NPC State Delta's scans; the dossier editor sets them by hand."}},"craft.commission":{"ok":1,"no":7,"codes":{"REFUSED":6,"NOT_ENOUGH":1},"msg":{"REFUSED":"No market here (East Bluff). Trade in a settlement, or with a trader on the road.","NOT_ENOUGH":"There is only 1 Coarse Salt."}},"party.learnSkill":{"ok":4,"no":8,"codes":{"REFUSED":6,"NOT_FOUND":2},"msg":{"REFUSED":"Ren already knows Power Strike.","NOT_FOUND":"\"Quick Shot\" is not in the skill library."}},"inventory.equip":{"ok":2,"no":0,"codes":{}},"quest.decline":{"ok":8,"no":0,"codes":{}},"inventory.split":{"ok":1,"no":5,"codes":{"REFUSED":5},"msg":{"REFUSED":"There is only one Whetstone; it cannot be split."}},"party.dismissOffer":{"ok":2,"no":0,"codes":{}},"item.equip":{"ok":1,"no":0,"codes":{}}}

@@ -22,7 +22,7 @@ const FAILS = ['throw', 'sync', '500', 'integrity', 'hangfail'];
 
 function line(r, big) {
     switch (r.int(0, 8)) {
-        case 0: case 1: return `+ item ${r.pick(ITEMS)} | qty: ${r.int(1, 3)}${big ? ` | note: ${'x'.repeat(r.int(200, 900))}` : ''}`;
+        case 0: case 1: return `+ item ${r.pick(ITEMS)} | qty: ${r.int(1, 3)}${big ? ` | note: ${'x'.repeat(process.env.BIGNOTE ? r.int(1500, 4000) : r.int(200, 900))}` : ''}`;
         case 2: return `- item ${r.pick(ITEMS)} | qty: 1`;
         case 3: return `+ coin ${r.int(1, 30)} | from: ${r.pick(PEOPLE)}`;
         case 4: return `${r.pick(['+', '-'])} present ${r.pick(PEOPLE)}`;
@@ -158,6 +158,12 @@ async function runSeed(seed) {
         },
     };
 
+    // PREFILL=N: a long chat first (big replies, so the 32 KB trigger fires as well as the 20-carrier one)
+    for (let i = 0; i < Number(process.env.PREFILL ?? 0); i++) {
+        await h.send(`Pre ${i}.`, replyText(r, `p${i}`, r.chance(0.5)));
+        if (r.chance(0.08)) await h.swipe(replyText(r, `ps${i}`));
+    }
+    if (process.env.PREFILL) { await store.flush().catch(() => {}); check('prefill'); }
     const OPS = {
         async send(step) { await within(h.send(`User ${step}.`, replyText(r, step, r.chance(0.2)))); },
         async ui() { await within(ui()); },
@@ -268,6 +274,17 @@ async function runSeed(seed) {
             }
         },
         async recover() { await recover('recover'); },
+        async deleteFirst() {             // the greeting / first carrier deleted
+            if (ctx.chat.length < 3) return;
+            await st.deleteMessage(0);
+            await stSave();
+        },
+        async reloadClean() {             // rebuild from the saved file == live
+            await recover('pre-reload');
+            const before = J(head());
+            await openFromServer(h, server, ctx.chatId);
+            if (J(head()) !== before) fail('#1 rebuild from file != live', diff(before, J(head())));
+        },
         // ---- pass 2: the shapes behind C4-1..5 -------------------------------------------------
         async lostRequest(step) {         // C4-1: a save never answered; a command and the next reply must not wait for it
             server.mode = 'never'; server.fails = 1;
@@ -350,8 +367,9 @@ async function runSeed(seed) {
     const WEIGHTS = { send: 18, ui: 6, ui2: 4, sendFail: 6, uiDuringReplySave: 5, saveDuringTimeline: 5, swipe: 6, swipeTo: 5, swipeDelete: 3,
         swipeDeleteOld: 2, deleteLast: 4, deleteMiddle: 2, deleteCheckpoint: 2, regenerate: 3, cont: 3, reload: 4, rename: 3, newChatCard: 2, recover: 4, bigReply: 3,
         lostRequest: Number(process.env.W_LOST ?? 0.5), slowReread: 2, renameMidFlight: 2, rescueAfterDelete: 2, rescuePristine: 1.5 };
+    if (process.env.PROFILE === 'big') { for (const k of Object.keys(WEIGHTS)) WEIGHTS[k] = 0; Object.assign(WEIGHTS, { send: 4, bigReply: 4, swipe: 3, swipeDeleteOld: 3, swipeDelete: 2, deleteCheckpoint: 5, deleteFirst: 2, deleteMiddle: 3, deleteLast: 2, reloadClean: 4, ui: 2, sendFail: 1, regenerate: 1 }); }
     if (process.env.PROFILE === 'cp') Object.assign(WEIGHTS, { send: 30, bigReply: 25, deleteCheckpoint: 4, swipeDeleteOld: 3, newChatCard: 0.3, deleteMiddle: 3 });
-    const names = Object.keys(WEIGHTS).filter(n => !ONLY.length || ONLY.includes(n) || n === 'send');
+    const names = Object.keys(WEIGHTS).filter(n => WEIGHTS[n] > 0 && (!ONLY.length || ONLY.includes(n) || n === 'send'));
     const total = names.reduce((s, n) => s + WEIGHTS[n], 0);
     for (let step = 0; step < STEPS; step++) {
         let x = r() * total, op = names[0];

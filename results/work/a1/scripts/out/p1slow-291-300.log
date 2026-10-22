@@ -1,0 +1,13 @@
+seed 291: 0 violations, chat 9 msgs, 1 checkpoints, 42724 bytes {}
+seed 292: 0 violations, chat 2 msgs, 1 checkpoints, 3854 bytes {}
+seed 293: 0 violations, chat 14 msgs, 1 checkpoints, 55314 bytes {}
+seed 294: 0 violations, chat 28 msgs, 1 checkpoints, 111389 bytes {}
+seed 295: 0 violations, chat 16 msgs, 0 checkpoints, 1717 bytes {}
+seed 296: 0 violations, chat 1 msgs, 1 checkpoints, 10461 bytes {}
+seed 297: 0 violations, chat 0 msgs, 0 checkpoints, 2 bytes {}
+seed 298: 0 violations, chat 37 msgs, 1 checkpoints, 133609 bytes {}
+seed 299: 0 violations, chat 3 msgs, 1 checkpoints, 28016 bytes {}
+seed 300: 0 violations, chat 10 msgs, 1 checkpoints, 39823 bytes {}
+
+SUMMARY
+ui commands {"scene.present":{"ok":15,"no":29,"codes":{"NOT_FOUND":20,"FAILED":9},"msg":{"NOT_FOUND":"Ann is not in the scene.","FAILED":"There is no state to change yet."}},"quest.decline":{"ok":5,"no":0,"codes":{}},"inventory.equip":{"ok":5,"no":0,"codes":{}},"scene.place":{"ok":17,"no":3,"codes":{"FAILED":3},"msg":{"FAILED":"There is no state to change yet."}},"party.rest":{"ok":13,"no":9,"codes":{"FAILED":9},"msg":{"FAILED":"There is no state to change yet."}},"check.resolve":{"ok":13,"no":12,"codes":{"FAILED":12},"msg":{"FAILED":"There is no state to change yet."}},"npc.adjust":{"ok":0,"no":17,"codes":{"FAILED":3,"REFUSED":14},"msg":{"FAILED":"There is no state to change yet.","REFUSED":"Meters move with the story and with NPC State Delta's scans; the dossier editor sets them by hand."}},"npc.set":{"ok":11,"no":11,"codes":{"FAILED":11},"msg":{"FAILED":"There is no state to change yet."}},"inventory.drop":{"ok":8,"no":0,"codes":{}},"item.use":{"ok":0,"no":14,"codes":{"REFUSED":14},"msg":{"REFUSED":"The Iron Sword is not something to use."}},"party.learnSkill":{"ok":5,"no":12,"codes":{"REFUSED":5,"NOT_FOUND":7},"msg":{"REFUSED":"Ren already knows Power Strike.","NOT_FOUND":"\"Quick Shot\" is not in the skill library."}},"inventory.transfer":{"ok":0,"no":10,"codes":{"REFUSED":10},"msg":{"REFUSED":"Spear is already with the party."}},"trade.buy":{"ok":5,"no":5,"codes":{"NOT_ENOUGH":5},"msg":{"NOT_ENOUGH":"The party has only 0 gold; 18 gold is needed."}},"party.dismissOffer":{"ok":4,"no":0,"codes":{}},"inventory.split":{"ok":1,"no":11,"codes":{"REFUSED":11},"msg":{"REFUSED":"There is only one <b>Bold</b>; it cannot be split."}},"craft.commission":{"ok":0,"no":5,"codes":{"REFUSED":5},"msg":{"REFUSED":"No market here. Trade in a settlement, or with a trader on the road."}},"item.equip":{"ok":3,"no":0,"codes":{}},"trade.sell":{"ok":7,"no":0,"codes":{}},"quest.take":{"ok":6,"no":0,"codes":{}}}

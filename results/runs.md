@@ -7,3 +7,4 @@
 | 1 | | same | a4 storage | 200×100 + 40×150 cp + 20×80 stfail | 0 inv 1/7 from fuzz; 5 from probes | 5 |
 | 2 | | SB 5ef7ead SD affde13 | a3 features (+edits, corruption, rewind, branch, Re-read, mid-gen/mid-save toggles) | 250×400 (100,000 steps, 28,499 toggles) | 1 seed (= C1-1) | 1 (C3-5) |
 | 3 | | SB cb2d70e SD a8d428f | a3 pack-data fuzz + toggle re-run | 800 pack mutations; 100×200 (20,000 steps) | 0 | 0 |
+| 1 | | SB e0fd33b RB 924b9a3 SD f001974 NSD 5243d79 | a1 replay (31 kinds, 25 UI cmds, 23 timeline ops, 19 corruption kinds) | 200×300 (60,000 steps) | 87 alarms; harness ones fixed | 3 (C1-1..3) |

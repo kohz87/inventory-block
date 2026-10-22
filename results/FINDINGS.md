@@ -4,10 +4,15 @@ Format: `[severity] repo: title — test path — owner area`
 
 _Pass 1 started at heads: Story_block e0fd33b, rpg_battle 924b9a3, Story_director f001974, npc_state_delta 5243d79). No findings yet._
 
+## Pass 3 re-check (heads SB ff96802, RB ee927b0, SD a8d428f, NSD e56e356) — all 35 open SB cases and the SD time case still fail; C2-1 stays fixed
+
 ## Pass 2 (heads SB cb2d70e, RB 924b9a3, SD a8d428f, NSD 5243d79) — all open pass-1 tests re-checked: still fail except C2-1
 - [low] Story_block: changing a module's def.features after register makes sdk.features()/feature()/features.set() and the settings Features list throw — results/tests/Story_block/c3-features-def-changed.test.js — SB-features
 
 ## Pass 1 (heads SB e0fd33b, RB 924b9a3, SD f001974, NSD 5243d79)
+- [medium] Story_block: deleting an earlier swipe makes the next save fail verification falsely; store.flush() and sdk.rewind() throw — results/tests/Story_block/c1-swipe-delete-save-verify.test.js — SB-storage
+- [medium] Story_block: after a middle delete, rewinding the head reply is refused though the chat replays fine (truncate replays strictly, not as replay) — results/tests/Story_block/c1-rewind-after-middle-delete.test.js — SB-storage (store/rewind)
+- [low] Story_block: a change written onto a reply whose record is damaged works live but is lost on reload/cold rebuild — results/tests/Story_block/c1-damaged-spans-append.test.js — SB-storage
 - [medium] Story_block: a save the server never answers blocks later saves, the reader's commands and the next generation forever (no write timeout) — results/tests/Story_block/c4-save-hang.test.js — SB-storage
 - [medium] Story_block: an unsaved change is dropped untold when the same chat takes >10 s to re-read (persist.js marks saved after 50 waits) — results/tests/Story_block/c4-slow-reread.test.js — SB-storage
 - [medium] Story_block: the #95 markUsed fix misses rescued saves; a rescued first change on a greeting-only chat is lost on card edit/rename — results/tests/Story_block/c4-rescue-pristine.test.js — SB-storage

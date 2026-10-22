@@ -1,0 +1,9 @@
+a1 pass 1 (SB e0fd33b RB 924b9a3 SD f001974 NSD 5243d79): 200 seeds (101-300) x 300 steps = 60,000 steps, chunks of 10,
+nice -n 10, timeout 1500; profiles long/default alternating, Ersveil pack on odd seeds; 101-280 FAST=1, 281-300 full timing.
+Ops: send 14947, swipeTo 4920, ui 4819, swipe 4249, bigReply 3228, regenerate 3027, stSwipe 3020, cont 2480, reload 2387,
+deleteLast 2355, group 1842, rewind 1821, deleteMiddle 1806, swipeDelete 1783, editReply 1773, branch 1213, editUser 1153,
+deleteMany 736, corrupt 717, death 619, newChat 376, slowRace 365, saveFail 364 (heroAgain 9061).
+31 capture kinds; 25 UI commands. Alarms: 36 #7 (harness stSave, fixed; rest C1-1), 27 #1 (C1-1), 11 rewind refused
+(6 C1-3, 4 hand-damaged, 1 harness), 5 #2 (C1-1 / harness corrupt mirror, fixed), 3 #7 reload (C1-1), 2 group (harness),
+2 rewind rev (harness), 1 threw in rewind (C1-2).
+Re-run: FAST=1 ATEVERY=10 ./run-pass.sh <from> <to> <steps> 10 <tag>; node classify.mjs out <tag>

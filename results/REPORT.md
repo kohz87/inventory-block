@@ -213,3 +213,51 @@ Heads SB cb2d70e, SD a8d428f, RB 924b9a3, NSD 5243d79. No new findings; C3-1..5 
   compare output value and refuse cycles).
 - Toggle fuzz re-run on new heads: 100 × 200 = 20,000 steps, 5,787 toggles, 134 digests, 0 violations. RB and NSD still
   declare no features.
+
+## Pass 1 — Replay fuzz at scale (agent 1)
+Heads SB e0fd33b, RB 924b9a3, SD f001974, NSD 5243d79; all 4 tests re-verified failing by the lead on SB ff96802.
+Write-up by the lead from the agent's report (subagents could not write .md files). Counts in runs.md.
+
+### C1-2 [severity: medium] Deleting an earlier swipe makes the next save "fail" verification; store.flush() and sdk.rewind() throw
+Story_block src/v2/store.js:129-141 (`verify.after` reads `swipe_info[token.swipe]`), store.js:718-727 (rebuild re-stamps
+shifted records via persist.restamp, persist.js:166-173, which skips write(), so `lastWrite` keeps the old swipe index),
+rewind.js:77 (`await store.flush()` outside any try). Repro: a reply with swipes 0 and 1, swipe 1 captured last and saved;
+go to swipe 0 and delete it as SillyTavern's deleteSwipe does (splice swipes and swipe_info, show old swipe 1 as 0, emit
+MESSAGE_SWIPE_DELETED); store re-stamps, is dirty; `store.flush()`. Actual: chat written, then verification throws "The story
+was saved, but message 4 no longer holds its latest changes (change none instead of 2); the story stays marked unsaved" —
+a false save error; `sdk.rewind()` throws instead of `{ok:false}` (RB's return-in-time shows the raw error). Fuzz seed 120.
+Invariants 7, 4. Fix: route restamp writes through write() (or update lastWrite); verify the shown swipe by sid not index;
+wrap rewind.js:77 and return fail('FAILED'). Test results/tests/Story_block/c1-swipe-delete-save-verify.test.js (2). SB-storage.
+
+### C1-3 [severity: medium] After a middle delete, rewinding the head reply is refused although the chat replays fine
+Story_block src/v2/store.js:682 truncate: `step(base, ops)` applies kept ops strictly in one go, without `{ replayed: true }`
+(no gone-key remove pass-over, no rule c) and not block by block; rewind.js:73's dry run refuses. Repro (all four modules,
+tests/v2/break/helpers/suite.js): PC + 11 replies each with `+ coin`; regenerate the last (a second checks.prepare lands on
+the reply before), delete it; RB checks.prepare prunes the oldest dice entry (MAX_PREPARED 8) with `remove
+/domains/checks/prepared/revN`; delete the middle reply that added that entry and its user message. Chat replays with no
+Problem; `sdk.rewind({ index: head, beforeRev: <last checks.prepare rev> })` → `{ok:false, FAILED, 'The changes could not be
+taken back… "/domains/checks/prepared/rev7" does not exist'}`. Fuzz: 6/200 seeds (148, 158, 180, 207, 246 checks/prepared;
+239 /domains/director/threads/<id>/rev). Invariant 2. Fix: truncate replays each kept chunk as replay does
+(`step(state, chunk, { replayed: true })`, skip+report failing chunks) or reuse replayRecord on the cut record.
+Test results/tests/Story_block/c1-rewind-after-middle-delete.test.js. SB-storage (store/rewind); RB's prune is correct.
+
+### C1-1 [severity: low] A change written onto a reply whose record is damaged is kept live but lost on reload
+Story_block src/v2/store.js:531 append (`spans: [...(spansOf(record) ?? []), { n: added.length, … }]`), :385-392 spansOf
+(null when story spans don't add up), :395-408 blocksOf (all ops one block when spans don't fit); Continue path the same.
+Repro: a reply with `+ item Rope` and `+ coin 5 | from: Kael`; hand-edit the file so one op no longer applies (`replace
+/domains/nope/x`, spans one short); loadChat (record skipped, Problem listed — correct); reader runs `scene.present
+{add:'Ann'}` landing on that reply (a cue or Continue does the same). Live has Ann; cold rebuild `present: []` (new ops
+appended with spans [{n:2}] against 5 ops → one failing block; two receipts with the same rev). Invariants 1, 7.
+Fix: when spansOf is null keep old ops as their own block `[{ n: record.ops.length, story: true }, { n: added.length, … }]`
+(also Continue / Re-read), or give the carrier a fresh record and keep the damaged one aside. Also store.js:529 spreads a
+string `ops` into one-character "ops" (agent 3). Test results/tests/Story_block/c1-damaged-spans-append.test.js. SB-storage.
+
+### Held up
+Cold-rebuild head (runtime validate + scratch) == live after every step; fresh.at(i) == live.at(i) every 10th step; recorded
+points restored exactly — over 60,000 steps apart from C1-1/C1-3. Ops: swipe left/right/new, swipe delete, regenerate,
+Continue, delete last/many/middle, edits of replies and user messages, branch, reload from saved JSON, return-in-time after a
+death, group (two carriers in a row), save failures, save/generation races. Crafting (commission/time/collect), trade
+buy/sell, quest take/decline, rank/difficulty lines, `~ npc` meters (±999, NaN), `! use`, `? check`, wounds/conditions,
+join/leave/skill offers, markets, all SD kinds: replay == live. Hostile numbers in every kind refused/clamped with no
+divergence. 19 corruption kinds skipped and reported with no throw, replay == live (until a new change lands on the damaged
+reply: C1-1).
