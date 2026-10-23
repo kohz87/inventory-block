@@ -706,3 +706,8 @@ MERGED testkit RB #118, SD #115, NSD #205.
   - the Arc card cluttered, the Problems tag cut (writer C);
   - the Trade header misaligned with its rows, and lists too wide (writer D);
   - lead-spotted: a stray "⌃⌃" scroll cue over the rows, and the wide game view body stretching to 2000px → cap at ~1120px, centred (writer A).
+- Concept v26: the desktop game view as a centred window (like Settings) over the dimmed chat, mocked → awaiting the USER. Writer A's width cap is on HOLD.
+- USER feedback 3:
+  - the HUD strip is too close to the input → an ~8px gap (writer B);
+  - the HUD shows party data only → remove SD's time and place pills (writer C);
+  - the Status fold: add weather and coordinates, keep time/place/goal, no inner bordered box (writer B; it routes back if SD owns the card).
