@@ -8,7 +8,7 @@ Every name below is a proposal; section 9 lists what is still open.
 
 | Area | Owner | Notes |
 |---|---|---|
-| Story state, turns, records, replay, save points, inventory (stacks), the hub UI, sockets | SB | Save points stay in SB (round 2). |
+| Story state, turns, records, replay, save points, inventory (stacks), the hub UI, sockets | SB | Save points stay in SB (round 2); the purse moves to RB (section 9). |
 | World, places, area danger tier, clock, weather, NPC agendas, arcs, goals and threads, factions (optional), non-combat checks | SD | Genre-neutral. Its own roll structure and settings. |
 | Rules: classes, skills, pathways, stats, levels and XP, gear rules (slots, hands, requirements, weight), combat, crafting, trade and shops, quests, companions and summons, death rules, difficulty | RB | Requires SD. Quests move here from SD. |
 | Relationships (trust, stage, traits), dossiers | NSD | A companion's sheet is RB's, its relationship NSD's. |
@@ -34,6 +34,8 @@ the clock is SD's and RB asks for it; a thread is SD's until RB upgrades it to a
 | `world.place` | `{ id, name, kind, tier }` | shops, foe pools, rarity |
 | `world.areaTier` | `0..N` for a place id | power budget clamp, rarity cap |
 | `threads.list` | SD's goals and threads, `{ id, title, giver, state }` | upgrading a thread to a quest |
+| `journal.day` | SD's journal entry for a story day, `{ day, title, lines }` | the waking-scene recap after a death |
+| `threads.close` (command) | closes a thread as a journal record with RB's quest outcome | quest done, failed or expired |
 | `checks.roll` (optional) | SD's non-combat roll | RB adds stat modifiers via `rules.modifier` |
 
 ### RB offers (queries)
@@ -42,12 +44,12 @@ the clock is SD's and RB asks for it; a thread is SD's until RB upgrades it to a
 `return.*`. SD's checks and NSD's social checks read `rules.modifier`; they never read RB's domains.
 
 ### RB offers (commands, each a recorded op with a receipt)
-Kept: `combat.*`, `item.*`, `trade.*`, `craft.*`, `party.recover`. New: `class.choose`, `path.choose`, `skill.train`,
+Kept: `combat.*`, `item.*`, `trade.*`, `craft.*`, `party.recover`. Moved in: `purse.*` (from SB). New: `class.choose`, `path.choose`, `skill.train`,
 `stats.spend`, `quest.accept|abandon|turnIn`, `companion.recruit|dismiss|control`, `summon.end`, `death.resolve`.
 Choices (class, path) are deterministic commands; the narrator only gets a tail line and can never make or change one.
 
 ### SB offers RB
-`inventory.*` (stacks), `purse.*` (see open question 1), `savepoint.list|make|restore`, the `cards` socket, `active` tabs.
+`inventory.*` (stacks), `savepoint.list|make|restore` (plus the daily automatic save, section 9), the `cards` socket, `active` tabs.
 
 ## 4. RB state shapes (domains)
 
@@ -60,6 +62,7 @@ actors:     { [id]: { name, kind: 'pc'|'companion'|'summon', level, xp, stats: {
 progress:   { [actorId]: { nextPromotion: 10|20|30|null, nextStep: 40..90|null, waiting: bool } }
 quests:     { [id]: { from: threadId|null, kind: 'main'|'bounty'|'repeatable'|'timed'|'chain', giver, goal, reward,
                       requires, due: { day, minute }|null, state: 'offered'|'active'|'done'|'failed'|'expired' } }
+purse:      { coins: n, history: [{ day, delta, why }] (capped) }   // moved from SB; display units from the pack or Terms
 training:   { [actorId]: { skill, trainer, cost, until } | null }
 death:      { pending: null | { actor, cause: 'battle'|'narrative', check, outcome } , memory: 'deja-vu'|'none'|'full' }
 combat, trade, craft: as today (c24e93d), re-pointed at the new sheets.
@@ -79,7 +82,7 @@ Stats as today: RB's `STATS` (src/rules.js) is 7: STR, VIT, AGI, DEX, INT, LUK, 
 - Weight encumbrance. Rarity random up to epic by area tier; legendary only from packs; unique named items allowed.
 - Death: in battle HP 0 = downed; a party wipe = PC death; a downed companion recovers after the fight with an injury.
   In narrative a lethal event goes to a code check: dead or gravely injured unless an intervention. PC death = back to the
-  latest save point (manual, or automatic at danger points), state restored, chat kept with a faded-timeline marker,
+  latest save point (manual, or the automatic save of the previous story day), state restored, chat kept with a faded-timeline marker,
   the narrator writes the waking scene; memory: déjà vu (default), none (setting), full (pack option).
   Companion death is permanent (code decides).
 - Difficulty setting (if cheap). The RB prompt part varies with the situation under an adjustable cap.
@@ -115,13 +118,12 @@ nothing is converted. A v2 save without `rulesVersion: 2` is refused with a noti
 4. The CI matrix script and one workflow per repo.
 5. Fixture states for track C (RB UI): a fresh PC, a mid-path party, a promotion waiting, a fight on, a death pending.
 
-## 9. Open questions (for the user)
+## 9. Decided (USER, answers to the draft's open questions)
 
-1. The purse: the earlier after-beta item moved money SB → RB; round 2 of the rebuild keeps inventory and purse in SB.
-   Proposal: the purse stays in SB (it is a stack-like store), and RB owns prices, sinks and rewards through `purse.*`.
-2. Save points: SB keeps them; does RB need an automatic save before every danger point (fight start, lethal check), or
-   only when SD flags the area as dangerous?
-3. Summons: do they count against the PC + 2 limit? Proposal: no, they are temporary units outside the party.
-4. Stats: the decisions say "the same 6 stats", but RB has 7 (STR, VIT, AGI, DEX, INT, LUK, CHA). Keep all 7, or drop one
-   (CHA, if social checks move to NSD's dossier)? And may a rules pack rename them (labels only)?
-5. Quests that come from SD threads: does SD's thread close when RB's quest is done, or stay as SD's record?
+1. Anything RPG-related is RB's: money (the purse, prices, rewards, sinks) moves to RB; SB keeps the item stacks.
+2. The automatic save point is the start of the previous narrative day (SD's clock): at each new story day SB keeps a
+   save of the day before, tied to SD's journal entry for that day, so the waking scene can recap it. Manual saves stay.
+   PC death returns to the latest of: the last manual save, or the previous day's automatic save.
+3. Summons do not count against the PC + 2 limit; they are temporary units outside the party.
+4. Keep all 7 stats (STR, VIT, AGI, DEX, INT, LUK, CHA). A rules pack may rename them (labels only).
+5. When RB's quest from a thread ends, SD keeps the thread as a journal record (closed, with the quest's outcome).
