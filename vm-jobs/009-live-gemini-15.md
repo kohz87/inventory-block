@@ -37,3 +37,22 @@ Real model: use ONLY the SillyTavern connection profile named `gemini-3.8-flash`
 
 ## Update (after the first report): blocked on the profile
 Correct call: don't copy secrets. The VM owner will add the Gemini key and the `gemini-3.8-flash` profile to the test instance (data root ~/story_suite/vm-test-data/009, port 8011) through SillyTavern's own UI. When the owner says it's done, re-run from step 2. Use that data root and start SillyTavern on 8011 for the owner if they ask.
+
+## Update: the reply budget is now up to 100 (owner's decision, 23 Oct)
+The VM owner has fixed the preset, and the model replies now. The owner also says the character was not actually created: check in the UI that it exists before going on, and create it there if it doesn't. Persona: use the instance's own persona if the owner already allowed it; otherwise "Tester".
+
+New budget: up to **100** replies with `gemini-3.8-flash`, swipes and retries included. This run replaces the 30-reply run planned for step 8, so cover more:
+1. Replies 1–15: the original list (a quest, two NPCs, travel, an item, a small fight, spending points).
+2. Replies 16–40:
+   - a longer fight with several turns, using a skill;
+   - craft or order something, and sell something (Trade);
+   - make a save point;
+   - talk to one NPC three more times (check Delta's stage and meters change);
+   - finish or abandon a quest.
+3. Replies 41–60:
+   - swipe one reply twice (check the state follows the chosen swipe);
+   - delete the last message and check the state rolls back;
+   - load the save point.
+4. Replies 61–100 (stop earlier if everything is clean by 80): free play through 3+ places and 3+ quests. Note any drift: the state disagreeing with the story, duplicated NPCs, a stuck quest, a wrong time or weather.
+5. Record what step 5 asked for after replies 1, 5, 10, 15, 25, 40, 60 and the last one. Take screenshots (phone 390 and desktop 1280) after 15, 40 and the last.
+6. In the report: replies used; per module, a yes/partly/no with one line why; every bug, with the reply number and a short description (a few words of chat at most); errors with counts; average and slowest reply time; drift notes. Check your own claims against the screenshots before reporting.
