@@ -790,3 +790,5 @@ MERGED testkit RB #118, SD #115, NSD #205.
   4. Confirm D's choices: the Fight tab shows only during a fight or an offer; its red dot = your move or an offer.
   Optional: #177's 'Gear on Party' link and focus into the folds (need an SB open-screen hook).
   Then: the Sol final review of v2, fixes, the 2.0.0-beta.2 bump in all four repos.
+- MERGED SB #179 (47b2806: changes-card tiles, the cards socket, active tabs, folded-line fix, v2 merged in) and RB #130 (c24e93d: lean EQUIPMENT, item.equip, battle card, Fight tab active). CURRENT v2 HEADS: SB 47b2806, RB c24e93d, SD 8072d60, NSD b906544.
+- Phase 0 draft: suite-notes/RB_PHASE0.md (3ab00c3): ownership, CI matrix, the module interface, RB state shapes, rules constants, pack schema v2, migration, deliverables, 5 open questions. Found: RB has 7 stats (STR, VIT, AGI, DEX, INT, LUK, CHA, src/rules.js:7), not 6 → open question 4. VM job 013 = Sol xhigh review of the draft against the four v2 heads.
