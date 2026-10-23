@@ -677,3 +677,12 @@ MERGED testkit RB #118, SD #115, NSD #205.
 - Job 010 (Codex, #173): merge after fixes. 4 blockers: the More trap outlives the panel close/destroy; wide-row switch loses focus; redraw drops the focused tile; programmatic nav leaves the scrim open. Nits: revealIn on tiles; three 0,3,0 selectors. → nav writer.
 - USER: use Sol 6.1 at xhigh effort (Codex CLI) for extensive reviews. Job 011: a full read-only review of the v2 UI stage across the 4 repos (all commits since 21 Oct). Later review jobs use Sol.
 - SB #173 (nav, header, fonts, section label, buttons, keyboard fixes) merged into v2 (6728000, head c26131c, CI green). Codex's 4 blockers + 2 nits fixed with tests. Polish writer told to merge v2. Job 011 (Sol) reviews v2 including #173.
+- SB #174 (polish) merged into v2 (614a146, head 1657766, CI green; 2532 tests pass).
+  - Shipped: sliders restyled; the Diagnostics report folded; the credit spaced on a glass card; pack tags (packs/kind.js); the HUD strip with room (0px clipping at 1280/390); helper-text rhythm of ≥6px.
+  - Lead checked the HUD shot.
+- Step 8 list +=:
+  - muted help text on the DESKTOP settings window over a busy background reads 2.9–3.2:1 in all six looks (the phone is fine at 4.8+); the Diagnostics credit is 3.98 on light Glass. Fix: a desktop settings surface or a stronger --ss-muted;
+  - the SD place pill in the HUD is low on desktop;
+  - RB HUD item: a 4px gap between name and bars, min-width 0 on .bars, an outdated comment;
+  - unused legacy story-suite-slider in host-ui.js.
+- UI build stage COMPLETE on v2 (SB 614a146, RB ed0baac, SD a221a0e, NSD e68e64a). Remaining: Sol review (job 011) → fixes → beta.2.
