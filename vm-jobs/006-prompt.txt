@@ -1,0 +1,17 @@
+Review this pull request read-only. Do not edit, commit or push anything.
+
+Repository: rpg_battle (a SillyTavern extension). PR #126 merges branch ui-6-skills-creation into v2. It is UI step 6:
+- the Skills block on the Party card as a tree-ready widget (rpg-battle.skill-tree, src/v2/screens/skill-tree.js): the node shape { id, name, icon, tier, level, max, uses, state, requires, closedBy, hint, ... }, five states (locked, available, learned, maxed, closed), a branching layout with SVG links drawn through createElementNS, and an indented list fallback on narrow cards;
+- character creation restyled on Story Block's glass look (tiles, rows, a registration card, steppers, a "Points left" pill, an SVG stat radar rpg-battle.stat-radar with a text alternative).
+The game logic (commands, payloads, caps, points) must be unchanged.
+
+Check for, and report with file:line:
+1. Logic changes hidden in the restyle: anything that changes what a command sends, the point maths, the caps, or saved data.
+2. Unsafe DOM: innerHTML, insertAdjacentHTML or DOMParser with any model- or pack-supplied text (skill names, race names, hints), and missing escaping.
+3. The tree: cycles in `requires`, missing parents, a closed node that still allows Use, links drawn to nodes that are not shown, and very wide tiers.
+4. Phone use: scrollIntoView or a bare .focus() (they must use Story Block's scroll helpers), fixed widths that overflow 360 px, and tap targets under 40 px.
+5. Accessibility: buttons without names, the radar's text alternative, aria-current or aria-pressed on choices, and keyboard reach of the steppers.
+6. CSS that only works through specificity luck against Story Block's .ss-* rules (0,1,0), and colours hard-coded instead of tokens.
+7. Tests that were weakened rather than updated.
+
+End with a verdict: "merge", "merge after fixes" or "do not merge", with the BLOCKING items listed first.
