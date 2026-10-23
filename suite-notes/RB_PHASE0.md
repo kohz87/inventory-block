@@ -57,7 +57,7 @@ Choices (class, path) are deterministic commands; the narrator only gets a tail 
 party:      { pc, members: [actorId] (PC + up to 2 active), reserve: [actorId], control: { [actorId]: 'ai'|'manual' } }
 actors:     { [id]: { name, kind: 'pc'|'companion'|'summon', level, xp, stats: { STR, VIT, AGI, DEX, INT, LUK, CHA }, unspent,
                       hp, mp, sp, conditions: [...], gear: { [slot]: stackId }, classPath: [classId] (tier 0..3),
-                      skills: { [skillId]: { uses, form: skillOrBranchId, steps: 0..2 } }, active: [skillId] (≤ 3),
+                      skills: { [skillId]: { uses, form: skillOrBranchId, steps: 0..2 } } (exactly the current class's 3),
                       summonOf?, expires? } }
 progress:   { [actorId]: { nextPromotion: 10|20|30|null, nextStep: 40..90|null, waiting: bool } }
 quests:     { [id]: { from: threadId|null, kind: 'main'|'bounty'|'repeatable'|'timed'|'chain', giver, goal, reward,
@@ -72,10 +72,14 @@ Stats as today: RB's `STATS` (src/rules.js) is 7: STR, VIT, AGI, DEX, INT, LUK, 
 ## 5. Rules constants (from the user's decisions)
 
 - Level cap 99. Soul Class choices at levels 0, 10, 20, 30 (basic, primary, intermediate, advanced). Each class gives 3
-  skills; skills are inherited along the path; 3 active at a time.
+  skills, and a character always has exactly 3: a class change swaps the old class's 3 for the new class's 3, which are
+  already stronger (USER). Nothing is inherited; there is no active/inactive split. The new skills start at 0/5
+  (implied by the 5/5 promotion rule). Proposal: a new class's skill may name the skill it replaces (`replaces`, for
+  display and the narration line). The pathways from 40 evolve the advanced (tier 3) class's 3 skills.
 - Promotion needs the level AND all 3 of the current class's skills at 5/5. Every skill caps at 5/5.
 - From 40, every 10 levels (40–90): one pathway step for one skill, 3 choices = 1 generated power-up + 2 written branches;
-  each skill takes 2 steps; a step also needs the current form at 5/5. XP keeps flowing while waiting.
+  each skill takes 2 steps; a step also needs the current form at 5/5. XP keeps flowing while waiting. Accepted (USER):
+  step 2 branches from whichever form step 1 chose, so per advanced class 24 written + 12 generated choices.
 - Skill uses come from combat, from validated narrative lines, and from training (time skip with a trainer, costs money
   and SD time), capped per reply and per story day.
 - Stat points are the player's to spend. No respec, ever. Gear has stat requirements, not class locks; 2H and dual wield.
