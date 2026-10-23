@@ -757,3 +757,17 @@ MERGED testkit RB #118, SD #115, NSD #205.
   - Proposed: a skill lattice (3 choices per step drawn from shared per-tier pools) and/or variant rules to bound node count; "each class gives 3 skills, skills evolve along their own 3-choice pathways" (USER option 5) under discussion.
 - RB rebuild, round 3 (USER): level cap 99. Soul Class choices at levels 0/10/20/30 (basic/primary/intermediate/advanced), each class giving its 3 skills. From 40, every 10 levels: one pathway step for one skill (3 choices), each skill progressing twice, so 6 steps (40–90) and every skill reaches its final form. Proposal under discussion: of each step's 3 choices, 1 is the straight power-up (generated) and 2 are branches (written), about 24 written + 12 generated per advanced class, ~650 written per pack.
 - RB rebuild, round 4 (USER): promotion (10/20/30) needs the level AND all 3 class skills at 5/5; pathway steps after 40 also need the current form at 5/5. XP keeps flowing while waiting. Skill uses come from combat, from narrative use (code-validated lines), and from training (a time-skip with a trainer, events). Caps per reply and per story day; trainers cost money and time (SD clock). The Party card shows the promotion checklist.
+- RB rebuild, round 5 (USER):
+  - (1) Factions and reputation = an optional SD feature (genre-neutral).
+  - (2) Summons and pets are temporary combat units.
+  - (3) Permanent death in narrative and battle (companions; guard: code decides death).
+  - (4) Stat points are player-chosen.
+  - (5) Rarity: random up to epic by area tier; legendary only from packs; unique named items allowed.
+  - (6) Money sinks included (mostly narrative, deducted by validated lines).
+  - (7) All quest types (bounty, repeatable, timed, chains), expiring on SD's clock.
+  - (8) Difficulty setting in RB if cheap.
+  - (9) Crafting open to anyone, scaled by stats.
+  - (10) Level-ups, promotions and skill steps are narrated (tail line).
+  - (11) No respec, ever.
+  - (12) RB prompt part varies with the situation under an adjustable cap.
+  Seams agreed in principle: companion sheet RB / relationship NSD; shop RB keyed by SD place; SD owns the clock (RB asks); item defs RB/pack, stacks SB.
