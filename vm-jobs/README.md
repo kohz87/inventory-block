@@ -4,7 +4,7 @@ The Story Suite coordinator (a cloud session) posts jobs here. The VM session ru
 
 ## Protocol
 - Jobs are files `NNN-<name>.md`, numbered in order. Run each job once, in number order.
-- After running one, send its result to the coordinator session (SendMessage; look it up with ListAgents, its name starts with `inventory-block-`). Start the message with `VM JOB NNN:`.
+- After running one, send its result to the coordinator session with SendMessage. In ListAgents it is the session titled "Inventory block UI options" (use the name and ref exactly as your ListAgents prints them). Start the message with `VM JOB NNN:`.
 - Also write the result to `~/story_suite/vm-results/NNN.md` on the VM.
 - Keep a list of done job numbers in `~/story_suite/vm-results/DONE` so a restart doesn't run a job twice.
 - Check for new jobs by running `git -C ~/story_suite/inventory-block pull -q` every 5 minutes while idle.
