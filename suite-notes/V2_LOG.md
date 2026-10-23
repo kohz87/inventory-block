@@ -620,3 +620,14 @@ MERGED testkit RB #118, SD #115, NSD #205.
   - level = an accent badge (star + number) on the portrait, then Name, with "Tier · Class" muted beneath;
   - the side panel uses the same bottom bar (4 + More) as the phone, at full height on desktop and tablet;
   - the current tab is an accent icon (solid, soft glow) with a dot: no pill, no labels on the bar (aria-label on each), on both phone and panel.
+- USER approved concept v25:
+  - Phosphor line icons with small labels under them; the current tab = solid accent icon + glow + dot, on phone, panel and desktop;
+  - the side panel at full height with the same bottom bar;
+  - the desktop row uses icons + labels;
+  - the hero has a level badge (star + number) and a "class · title" line;
+  - armour is dropped from the desktop hero.
+  Delegated:
+  - PR 1, icons + header → VM job 007 (argon-high, branch ui-7-phosphor);
+  - PR 2, nav + More + panel + desktop row → a Haiku writer here (branch ui-7-nav), coding against the icon interface (svgIcon / tabIcon / iconNode 'ph-x' and 'ph-x:fill').
+  Reviews: Codex on the VM, then the lead.
+- RB #126 (step 6) open, CI green, live contrast all ≥6.0 → VM job 006 (Opus review).
