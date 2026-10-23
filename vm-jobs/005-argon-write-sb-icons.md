@@ -31,3 +31,7 @@ The job can take a while. If you can, run step 3 in the background and carry on 
 - Correct call: don't use --dangerously-skip-permissions. Wait for the VM owner to add a narrow allow rule for agy's command tool, scoped to /tmp/icons7. Then re-run step 3.
 - Commit trailer: the prompt no longer asks for one, so leave commit messages without trailer lines.
 - GO (the VM owner granted agy's command permission, 23 Oct ~11:40 SGT): re-run step 3 in the existing /tmp/icons7 now, then do steps 4–7.
+- GO 2 (the VM owner has added Antigravity's permissions.allow rules, ~12:10 SGT):
+  - First a quick check in /tmp/icons7: `agy -p "run: npm --version and git status, then stop"`. If it is still refused, report that and stop.
+  - If it works, re-run step 3, then do steps 4–7.
+  - Antigravity must not push. You do the push in step 5, after the checks.
