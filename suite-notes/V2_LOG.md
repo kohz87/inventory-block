@@ -748,3 +748,10 @@ MERGED testkit RB #118, SD #115, NSD #205.
   - SD = full GM: world, time, NPCs, arcs, narrative and non-combat checks. RB = rules: Soul Class 1–4 class system (pack-defined trees, permanent path choice, past SC4 only stat mastery), skills inherited along the path with 3 active, the same 6 stats, 8 slots, 2H and dual wield, stat requirements on gear instead of class limits, companions with full sheets and an AI/manual toggle (party = PC + 2 active), weight encumbrance, combat (kept) and its maths, crafting, trade, QUESTS (moved from SD, so SD stays genre-neutral), SAVE POINTS (moved from SB), XP/levels. SB = inventory plus the hub.
   - Fixed structure only; content stays generative and validated by code. Fresh start; the standard pack doubles as the Studio baseline.
   - Skills per pathway: Classless 3→9→27 (39), then Primary, Intermediate and Advanced 9→27 (36 each) = 147 per pathway, about 1,443 per pack across all 40 classes. Content scale is a concern: proposed base skills plus variant rules.
+- RB rebuild, round 2 (USER):
+  - Save points stay in SB.
+  - SD = genre-neutral goal/thread tracking; RB upgrades an accepted thread into a quest (rewards, XP, requirements, turn-in).
+  - SD gets its own roll structure and settings, independent of RB; RB optionally supplies stat modifiers by query.
+  - Generated content is bounded by lore and area: the area's danger tier (SD world) sets the foe pool and power budget, and RB clamps.
+  - Companion AI is code. Each skill declares its scaling stat.
+  - Proposed: a skill lattice (3 choices per step drawn from shared per-tier pools) and/or variant rules to bound node count; "each class gives 3 skills, skills evolve along their own 3-choice pathways" (USER option 5) under discussion.
