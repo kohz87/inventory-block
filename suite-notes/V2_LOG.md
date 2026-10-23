@@ -780,3 +780,13 @@ MERGED testkit RB #118, SD #115, NSD #205.
   - C. RB UI: built against the contract's state shapes with fixture states; wired to B at the end.
   - D. Studio (Codex).
   Pack content is written early to the schema and balanced after B. Shared files (module registration, settings, CHANGELOG) belong to the lead, who stitches them at merge time. Merge order: phase 0 → A → B → C wiring → integration/CI matrix → user test. Estimate: about 6–8 working days.
+- Writer D done: RB #130 (ui-8f-action-cards, 088b91a, CI green): lean EQUIPMENT (slot tiles, tap to arm, tap to unequip, collapsible members), item.equip {stack,to}, the battle card (foes by kind, round, your move, Fight/Flee/Later), the Fight tab `active` with a red dot for your move or an offer. Real-chat check with SB ui-8e-cards at 390/1280, dark and light: ok. The start card is built but not shown (see below).
+- SB ui-8e-cards: the folded card line lost its second 46px indent (34e11c8); v2 (#177) merged in, CHANGELOG conflict only (d45cf8a). Merge order: SB #179 first (RB #130 needs the cards socket), then RB #130.
+- USER (2% quota left, ~16h to reset): start phase 0 now as a draft document, committed section by section; Sol reviews it on the VM overnight.
+- PENDING UI FIXES (after the reset, before beta.2):
+  1. Start card: a greeting card is read-only (only the newest reply's card acts) and RB's canGenerate blocks every reply until a character exists, so the card can never act. Proposal: the greeting's card acts while no reply follows it; Create opens the creation wizard (a card action that opens a dialog, not only a screen). RB then drops its index-0 guard.
+  2. SD under v2: `sb.registerBlock is not a function` (Story_director/index.js:2128), another v1 call to guard.
+  3. Lean EQUIPMENT live check: 360/412, Glass/Solid/Follow ST, contrast, 70-character names; the RB HUD contrast (unconfirmed) in the same run.
+  4. Confirm D's choices: the Fight tab shows only during a fight or an offer; its red dot = your move or an offer.
+  Optional: #177's 'Gear on Party' link and focus into the folds (need an SB open-screen hook).
+  Then: the Sol final review of v2, fixes, the 2.0.0-beta.2 bump in all four repos.
