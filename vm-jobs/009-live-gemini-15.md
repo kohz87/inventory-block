@@ -63,3 +63,6 @@ The owner says the replies so far are plain narration: Story Suite isn't taking 
 2. Confirm the assistant replies carry the suite's records, i.e. Diagnostics shows "Replies with a Story Suite record" going up, and the reply note under each reply shows changes.
 3. If the extensions aren't enabled or loaded, report exactly what you see and wait for the owner. Don't install or enable anything outside the four ~/story_suite checkouts.
 Only then go on with the replies. Replies sent without the suite active don't count towards the job's checks.
+
+## CANCELLED (owner's decision, 23 Oct): don't run any more of this job
+Stop now. Send no more replies. Stop any browser or driver you started. Leave the :8000 instance as the owner set it up. Report "VM JOB 009: cancelled" with the number of replies actually sent. Codex review jobs (010 and later) continue as normal.
