@@ -596,3 +596,17 @@ MERGED testkit RB #118, SD #115, NSD #205.
   - game glyphs only inside framed skill tiles: a white rounded tile with an accent border, a level badge at the bottom, a check badge top-right;
   - tiers stacked with a label and a short connector.
   Possible input for the step 6 skill tiles → asking the USER.
+- SB #171 (5b) merged into v2 (be1c68f, head ab35d9c, CI green).
+  - Shipped:
+    - tab option A, with the current-tab edge token (Follow ST light now 8.7:1);
+    - bag rows as glass cards;
+    - the persona avatar falls back to ST's global user_avatar / default_persona;
+    - the HUD strip fits its width;
+    - ss.status counter;
+    - primary button states.
+  - Not done: the EXP bar (no reliable field), Scene cards, the inventory tile grid.
+  - Open: on phone the strip's end fade leaves one label at 1.75–2.47:1 (a scroll cue; it goes away with the nav rework); RB's HUD cuts MP/SP at 360 with a long place; RB's persona reader has the same user_avatar gap.
+- USER: icons = the extension's own nav and UI only; skill and item art comes from packs. The options sheet (Lucide line, Phosphor line, two-tone and solid) has been sent; waiting on the pick.
+- USER asked about moving navigation to the bottom like the reference. The phone already has a bottom glass pill (it scrolls, with a fade). Proposal:
+  - phone: 4 pinned + More (sheet), no scrolling; the current tab is an accent icon with a label and a dot;
+  - desktop: keep the top tab row.
