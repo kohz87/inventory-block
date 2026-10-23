@@ -712,3 +712,10 @@ MERGED testkit RB #118, SD #115, NSD #205.
   - the HUD shows party data only → remove SD's time and place pills (writer C);
   - the Status fold: add weather and coordinates, keep time/place/goal, no inner bordered box (writer B; it routes back if SD owns the card).
 - USER approved concept v26: the desktop/tablet game view is a centred window like Settings (desktop min(1200px, 92vw) × min(900px, 90vh); tablet 16px margin; phone full screen), with a scrim, Escape/close/scrim click, scroll lock, and part of the modal stack → writer A (replaces the width cap).
+- Merged writer C's three PRs:
+  - RB #127 (f9b8307): HUD gap and min-width, persona fallback, testkit at SB 10c6c93;
+  - SD #124 (3f741c3): v1 glue off under v2, map 44px coarse tap areas, HUD pills removed, quest cards with nowrap pills and a 3-column grid, chronicle summary on its own line, arc card, problem tags, testkit;
+  - NSD #213 (b906544): launcher hidden while the game view is open, the present card without meters (Mood/Condition/Look, chatter below), testkit; prompts untouched.
+  Lead reviewed the non-vendor diffs.
+  - Open: RB HUD contrast is still unconfirmed (no party state in the sandbox) → the USER's live test. RB's currency "1 crown" test fails on the baseline too (pre-existing; CI green). The rpg_battle tests/v2/qa/vendor copy isn't covered by sync.
+- USER ideas: (1) a create-character card under the first message; (2) battle pop-up window with the Fight tab shown only during a fight. Proposed: after beta, #2 mocked first; #1 could go into beta via writer D if the USER wants.
