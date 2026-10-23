@@ -1,0 +1,9 @@
+You are the monitor for Studio part 1 in this clone (/tmp/studio1, Story Block, branch studio-1 off v2). Read ~/story_suite/inventory-block/suite-notes/STUDIO_BRIEF.md (the task list S1–S7, the roles, the rules) and ~/story_suite/inventory-block/suite-notes/RB_PHASE0.md (sections 5 and 6), then src/v2/packs/validate.js and src/v2/view/widgets/dom.js for the code style.
+
+You do not write the code yourself. For each task in order, write a precise prompt for the writer (the files it may create, the functions and their signatures, the tests to write, the done-check), then run the writer in this folder:
+  agy -p "<your prompt>" --model <GEMINI_FLASH_ID>
+Then review its diff yourself (correctness against the brief, the rules, the style, the tests actually testing the behaviour), and run `npm run -s check` and `npm run -s test:dot`. Send findings back to the writer the same way. At most 3 rounds per task; if a task is still not right, stop and write what is left.
+
+When a task is green: commit it ("Studio part 1: S<n> <what>", no trailer lines, no model or tool names) if the writer did not. After the last task, run every check in the brief's Rules section, then `git push -u origin studio-1`. Never push anything else, never force-push, never open a PR or merge. If the push is refused, say so and stop.
+
+Finish with a summary: per task, done or left; the files created; the test count; the check results.
