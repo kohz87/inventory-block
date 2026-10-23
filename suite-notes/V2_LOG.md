@@ -666,3 +666,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
   - Proposed for after beta, pending the USER:
     - Money: move the coin system and "what the story may pay" to RB; SB keeps just the currency word from the narrative.
     - Move the NSD preset/scanner setup out of SB's settings and into NSD.
+- USER: the Money move to RB and the NSD preset move into NSD both go on the after-beta list (not blockers).
