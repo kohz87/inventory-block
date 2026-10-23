@@ -1,0 +1,16 @@
+You are reviewing a pull request in this checkout (Story Block, a SillyTavern extension). The PR branch is checked out. Compare it with origin/v2 (`git diff origin/v2...HEAD`). Do NOT modify any file. Report only.
+
+Read CLAUDE.md, docs/dev/ui-and-screens.md and docs/v2/WIDGETS.md first for the conventions: glass tokens --ss-*, blocks such as ss.hero and ss.tabs, scroll helpers in src/v2/view/scroll.js, and the rule that scrollIntoView and bare .focus() are banned in view code.
+
+Check, and verify each claim in the code:
+1. Behaviour changes that shouldn't be there: screen ids, nav keyboard paths, open/close commands, what Home shows. Removing the Packs card and the hero card from Home is intended.
+2. CSS specificity: Story Block's .ss-* rules are 0,1,0. Any state marker (current tab, selected, tone) that needs to win must be more specific. Look for :where() state rules that would lose.
+3. Glass only under Panel style Glass. Solid and "Follow SillyTavern" must stay opaque, and the phone layers must be Glass-only.
+4. Phone: anything that can overflow at 360–412px, long unbroken names in the header (name, place, weather) and tags, and scrolling that could move the page behind a fixed window.
+5. The Show all / Show less cap: aria-expanded, keyboard, state kept across redraws, no internal scrollbar.
+6. The --ss-rule token: defined for dark, light and Follow SillyTavern, and used by .ss-section-label.
+7. Security: no innerHTML, outerHTML, insertAdjacentHTML or eval; story text set as text.
+8. Tests: do they assert behaviour (DOM: clicks, keys, focus, the portrait fallback chain), or only CSS text? Any weakened or deleted test?
+9. Docs and CHANGELOG match the diff.
+
+Output: a verdict (merge as is / merge after fixes / needs rework), then numbered findings, most severe first. Each finding needs file:line, what is wrong, a concrete failure scenario, the smallest fix, and BLOCKING or NIT. Only report what you verified in the code; mark anything else "unsure". End with a short paragraph on code quality.
