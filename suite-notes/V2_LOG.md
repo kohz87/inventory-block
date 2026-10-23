@@ -638,3 +638,8 @@ MERGED testkit RB #118, SD #115, NSD #205.
   - The stage sits on the name's line; meters are inside each card.
   - Contrast all ≥5.38 (Range method). The earlier light failure was a scrim left up by the probe.
 - SB #172 (icons + level badge) opened by the lead → VM job 008 (Codex). Job 009: live run with Gemini, 15 replies, on merged v2.
+- RB #126 (step 6) merged into v2 (ed0baac, head 2fb7411, CI green).
+  - Codex's 4 blockers are fixed: the tree is its own container; only drawn nodes get links, with "+N more"; cycle links are dropped; the list indent caps at 4 with "step N".
+  - The stepper tap-target note belongs to SB's vendored styles → step 8 item.
+- SB #172: Codex job 008 found 3 blockers (badge overflow, the 12-char level cut losing the number for screen readers, muted-line contrast on Solid). Fixed in 12f8fac: the .ss-hero-face cell, heroLevel taking the whole level, the line in --ss-text.
+- Job 009 blocked: the fresh data root has no profile, and the VM rightly didn't copy secrets → the USER sets up the key/profile in the test instance.
