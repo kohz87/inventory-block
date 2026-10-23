@@ -1,0 +1,15 @@
+Review this pull request read-only. Do not edit, commit or push anything.
+
+Repository: Story Block (a SillyTavern extension). PR #173 merges ui-7-nav into v2. It adds the shared screen bar (src/v2/view/screen-bar.js):
+- on a phone and in the Story panel: 4 pinned screens plus More, which opens a sheet with focus trap, Escape and focus return;
+- on the wide game view: one row.
+It also wires the bar into mounts/screen.js, host-ui.js and ui-host.js; makes the Story panel a full-height side sheet from 760px (host.css, mounts.css); sets the font token once on the suite roots; centres the section label rule on the capitals; restyles button.ss-button (12px radius, 44px); restacks the hero header; and adds a Follow-SillyTavern accent-as-text mix.
+
+Check, and report with file:line:
+1. Focus and keyboard: the trap can be escaped or can lose focus; focus doesn't return after the sheet closes or after a redraw while it's open; scrollIntoView or a bare .focus() is used (it must use src/v2/view/scroll.js); aria-current, aria-expanded and accessible names are wrong.
+2. Listeners, observers or the sheet are leaked on redraw, unmount or destroy; the scrim is left open on navigation.
+3. Unsafe DOM with module- or pack-supplied titles (screen titles, icons).
+4. Layout: the panel sheet covering SillyTavern's own controls or the message box; the bar overlapping content with no spacer; safe-area handling; pinned order not following the reader's saved tab order or hidden tabs.
+5. CSS: rules not scoped like their neighbours or heavier than two classes (apart from the documented 0,5,1 button chain); hard-coded colours where tokens exist; the font rule overriding fonts it shouldn't (inputs, code, SillyTavern's own UI outside the suite roots).
+6. Tests weakened rather than updated (many existing tests were changed for the new markup).
+End with a verdict: "merge", "merge after fixes" or "do not merge", with the BLOCKING items first.
