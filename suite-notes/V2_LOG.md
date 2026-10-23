@@ -631,3 +631,5 @@ MERGED testkit RB #118, SD #115, NSD #205.
   - PR 2, nav + More + panel + desktop row → a Haiku writer here (branch ui-7-nav), coding against the icon interface (svgIcon / tabIcon / iconNode 'ph-x' and 'ph-x:fill').
   Reviews: Codex on the VM, then the lead.
 - RB #126 (step 6) open, CI green, live contrast all ≥6.0 → VM job 006 (Opus review).
+- USER: build the icons in this session (argon may be weak at SVG). VM job 007 cancelled (never started). The lead builds ui-7-phosphor: 48 Phosphor icons (regular + fill), iconFor (the suite's full ids win, then the screen's own icon, then the tail), the level badge, the class · title line.
+- VM job 006: Opus stopped when its quota ran out. Codex fallback: merge after fixes, 4 BLOCKING items (narrow cards keep the grid, hidden nodes keep links, cycle links drawn, deep list indent overflows 360) → the step 6 writer. Remaining reviews (step 7, step 8) use Codex; the Opus quota is spent.
