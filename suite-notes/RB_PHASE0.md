@@ -8,7 +8,7 @@ Every name below is a proposal; section 9 lists what is still open.
 
 | Area | Owner | Notes |
 |---|---|---|
-| Story state, turns, records, replay, save points, inventory (stacks), the hub UI, sockets | SB | Save points stay in SB (round 2); the purse moves to RB (section 9). |
+| Story state, turns, records, replay, save points, inventory (stacks), the hub UI, sockets | SB | Save points stay in SB (round 2); the purse stays in SB, RB supplies its values and may supersede its currency (section 9). |
 | World, places, area danger tier, clock, weather, NPC agendas, arcs, goals and threads, factions (optional), non-combat checks | SD | Genre-neutral. Its own roll structure and settings. |
 | Rules: classes, skills, pathways, stats, levels and XP, gear rules (slots, hands, requirements, weight), combat, crafting, trade and shops, quests, companions and summons, death rules, difficulty | RB | Requires SD. Quests move here from SD. |
 | Relationships (trust, stage, traits), dossiers | NSD | A companion's sheet is RB's, its relationship NSD's. |
@@ -44,12 +44,12 @@ the clock is SD's and RB asks for it; a thread is SD's until RB upgrades it to a
 `return.*`. SD's checks and NSD's social checks read `rules.modifier`; they never read RB's domains.
 
 ### RB offers (commands, each a recorded op with a receipt)
-Kept: `combat.*`, `item.*`, `trade.*`, `craft.*`, `party.recover`. Moved in: `purse.*` (from SB). New: `class.choose`, `path.choose`, `skill.train`,
+Kept: `combat.*`, `item.*`, `trade.*`, `craft.*`, `party.recover`. Offers `purse.currency` (denominations and display that supersede SB's plain coins). New: `class.choose`, `path.choose`, `skill.train`,
 `stats.spend`, `quest.accept|abandon|turnIn`, `companion.recruit|dismiss|control`, `summon.end`, `death.resolve`.
 Choices (class, path) are deterministic commands; the narrator only gets a tail line and can never make or change one.
 
 ### SB offers RB
-`inventory.*` (stacks), `savepoint.list|make|restore` (plus the daily automatic save, section 9), the `cards` socket, `active` tabs.
+`inventory.*` (stacks), `purse.*` (RB writes through it), `savepoint.list|make|restore` (plus the daily automatic save, section 9), the `cards` socket, `active` tabs.
 
 ## 4. RB state shapes (domains)
 
@@ -62,7 +62,7 @@ actors:     { [id]: { name, kind: 'pc'|'companion'|'summon', level, xp, stats: {
 progress:   { [actorId]: { nextPromotion: 10|20|30|null, nextStep: 40..90|null, waiting: bool } }
 quests:     { [id]: { from: threadId|null, kind: 'main'|'bounty'|'repeatable'|'timed'|'chain', giver, goal, reward,
                       requires, due: { day, minute }|null, state: 'offered'|'active'|'done'|'failed'|'expired' } }
-purse:      { coins: n, history: [{ day, delta, why }] (capped) }   // moved from SB; display units from the pack or Terms
+currency:   { units: [{ id, name, per }] } | null   // RB's currency over SB's purse; null = SB's plain coins
 training:   { [actorId]: { skill, trainer, cost, until } | null }
 death:      { pending: null | { actor, cause: 'battle'|'narrative', check, outcome } , memory: 'deja-vu'|'none'|'full' }
 combat, trade, craft: as today (c24e93d), re-pointed at the new sheets.
@@ -120,7 +120,9 @@ nothing is converted. A v2 save without `rulesVersion: 2` is refused with a noti
 
 ## 9. Decided (USER, answers to the draft's open questions)
 
-1. Anything RPG-related is RB's: money (the purse, prices, rewards, sinks) moves to RB; SB keeps the item stacks.
+1. The purse stays in SB (stacks and coins, works without RB). Anything RPG-related is RB's: prices, rewards, sinks and
+   values come from RB, and RB may supersede SB's plain purse with its own currency (denominations, display) through
+   `purse.currency` while RB is on.
 2. The automatic save point is the start of the previous narrative day (SD's clock): at each new story day SB keeps a
    save of the day before, tied to SD's journal entry for that day, so the waking scene can recap it. Manual saves stay.
    PC death returns to the latest of: the last manual save, or the previous day's automatic save.
