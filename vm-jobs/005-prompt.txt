@@ -1,0 +1,24 @@
+You are working in a clone of Story Block (a SillyTavern extension), on branch ui-7-icons off v2. Task: UI step 7, game icons from game-icons.net (CC BY 3.0) as an inline SVG icon set, with Font Awesome kept as the fallback.
+
+Read first: src/v2/view/widgets/dom.js (iconNode), src/v2/view/mounts/common.js (icon), src/v2/view/widgets/nav.js (how items carry `icon`), docs/v2/WIDGETS.md, CHANGELOG.md. Match the surrounding code: its comment density, naming, plain ES modules, no build step, no new dependencies.
+
+Build:
+1. src/v2/view/icons/set.js: a frozen map id -> { path, author, source } where `path` is the SVG path data (viewBox 0 0 512 512). Take the icons from the official repo https://github.com/game-icons/icons (svg/1x1/<author>/<name>.svg). Drop the full-square background path that those files start with (the black 512x512 rect, e.g. "M0 0h512v512H0z"), keep only the glyph path(s); join several paths into one `d`. Ids are short kebab-case words prefixed `gi-` (gi-home, gi-party ...).
+   The set (about 40), pick the clearest game-icons glyph for each:
+   - game view tabs: home, party, inventory (bag), quests (scroll), world (globe or castle), map, fight (crossed swords), crafting (anvil or hammer), trade (scales or coins), chronicle (book), director (theater masks or clapperboard), dossiers (folder or id card)
+   - items: weapon (sword), armor (breastplate), shield, helmet, accessory (ring), consumable (potion), food, material (ore), tool, key, quest item (seal or wax tablet), gold (coins), gem
+   - stats and status: health (heart), mana (crystal or magic swirl), stamina (lightning or running), strength (fist), agility (feather or boot), intellect (brain), defense (shield wall), luck (clover), level up (up arrow star), experience (star)
+   - skills: skill (spell book), locked (padlock), learned (check seal), closed (crossed circle)
+   - misc: settings (gears), save (floppy or bookmark), dice (d20), weather (cloud), time (hourglass), place (signpost)
+2. src/v2/view/icons/index.js: `hasIcon(id)`, `svgIcon(doc, id, className)` that builds the element with doc.createElementNS('http://www.w3.org/2000/svg', ...) only (svg + one path, viewBox, fill="currentColor", aria-hidden="true", focusable="false", width/height 1em). Never innerHTML, never insertAdjacentHTML, never DOMParser.
+3. iconNode (widgets/dom.js) and icon (mounts/common.js): a `gi-` id that hasIcon knows draws the SVG; anything else keeps today's Font Awesome behaviour exactly. An unknown `gi-` id falls back to the existing default FA icon. Do not change call sites' output for FA names.
+4. A default map from the game view's tab ids to gi- ids (one exported frozen object in icons/index.js) and use it where the game view's tabs and bottom nav take their icon when the screen gives none. Do not edit nav.js styles (another change is restyling the tabs right now); touch nav.js only if the icon lookup itself lives there, and keep that diff to the lookup.
+5. CSS: `.ss-icon-svg { width: 1em; height: 1em; vertical-align: -0.125em; flex: none; }` in src/v2/view/glass.css, scoped like the neighbouring rules. Colour comes from currentColor so it follows every theme.
+6. Credits: ICONS-CREDITS.md at the repo root listing every icon: id, game-icons name, author, link, "CC BY 3.0 https://creativecommons.org/licenses/by/3.0/". Add one line to the settings footer or About/diagnostics text that already lists credits (there is none yet: add a "Credits" section to README.md, and the same line in the settings Diagnostics or About text if one exists): "Icons from game-icons.net by their authors, CC BY 3.0." Also a short section in docs/v2/WIDGETS.md: how to name a gi- icon, the fallback, how to add one.
+7. Tests (the repo's own runner, see package.json): every id in the set has a non-empty path with no "<", no quotes, only path-data characters, and no 512 square background; svgIcon builds an svg element with one path, currentColor, aria-hidden, focusable=false, and uses no innerHTML (assert on the source file too); iconNode with a gi- id gives the svg, with an FA name gives the same <i> as before, with an unknown gi- id gives the default FA icon; every tab id in the default map resolves; ICONS-CREDITS.md lists every id in the set.
+8. CHANGELOG under "Unreleased": one entry for the icon set and the credit.
+
+Rules: no model names in any file, and none in commit messages except the two trailer lines below. No network calls at runtime (the paths are inlined). Do not touch other modules or main. Run `npm run -s check` (or the repo's lint/validate script) and `npm run -s test:dot` and make them pass. Commit with a clear message whose body ends with the two lines:
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01Qp9gtHxXEZNRVLhbUujNYu
+Then print a summary: files changed, icon ids with their game-icons names and authors, and the test result.
