@@ -616,3 +616,7 @@ MERGED testkit RB #118, SD #115, NSD #205.
   - a screen opened from More takes over the More slot.
   Desktop keeps the top tab row.
 - USER: the hero's "Soul Class · Lv · Class" pill is too cramped → concept v19: separate wrapping chips (Lv as an accent chip, then class and title chips).
+- USER, concept v20–21:
+  - level = an accent badge (star + number) on the portrait, then Name, with "Tier · Class" muted beneath;
+  - the side panel uses the same bottom bar (4 + More) as the phone, at full height on desktop and tablet;
+  - the current tab is an accent icon (solid, soft glow) with a dot: no pill, no labels on the bar (aria-label on each), on both phone and panel.
