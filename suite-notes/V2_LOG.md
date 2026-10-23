@@ -686,3 +686,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
   - RB HUD item: a 4px gap between name and bars, min-width 0 on .bars, an outdated comment;
   - unused legacy story-suite-slider in host-ui.js.
 - UI build stage COMPLETE on v2 (SB 614a146, RB ed0baac, SD a221a0e, NSD e68e64a). Remaining: Sol review (job 011) → fixes → beta.2.
+- SB #175 merged (10c6c93): README "How modules connect": a table of the sockets (queries, commands, domains, context, capture, hooks/on, screens/widgets/settings, features), three rules, and links; checked against registry.js and sdk.js. After-beta += RPG system contract (Story Block owns it; RB is the first implementation; contract tests), RB extension points, creator kit.
