@@ -701,3 +701,8 @@ MERGED testkit RB #118, SD #115, NSD #205.
   - (3) SD Chronicle "today so far": the summary on its own line (SD → writer C);
   - (4) RB Sell rows: the price beside the name, buttons in a fixed aligned column (writer D);
   - (5) the game header shows the card image, not the persona: ST's user_avatar isn't on the context/window → find a reliable persona source (SB → writer B).
+- USER UI feedback 2:
+  - quest rows squashed ("rea/dy" pill wraps) → SD quest cards with a nowrap pill header and a card grid on wide (writer C);
+  - the Arc card cluttered, the Problems tag cut (writer C);
+  - the Trade header misaligned with its rows, and lists too wide (writer D);
+  - lead-spotted: a stray "⌃⌃" scroll cue over the rows, and the wide game view body stretching to 2000px → cap at ~1120px, centred (writer A).
