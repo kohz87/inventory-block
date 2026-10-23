@@ -727,3 +727,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
 - RB #128 merged (24315e9): the trade price sits beside the name, the Sell/All columns are fixed at 72px, the section label is aligned with the rows (measured equal), sections capped at 720px, contrast ≥4.71.
 - The EQUIPPED section is drawn by SB inventory.js, not RB → new writer E (ui-8g-equipped, SB) builds the paper-doll card.
 - Writer D: RB action cards wait for writer A's ui-8e-cards API.
+- USER (phone, game view Home): a stray red 'b' badge in the header = the bleeding condition rendered without an icon (game-header maps conditions with no icon or time left) → writer B: an icon map plus time left, inline in the text group; a stray bar before the name (ST heading style leaking) → writer B; Home quests card cluttered → writer E.
