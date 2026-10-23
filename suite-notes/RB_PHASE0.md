@@ -636,7 +636,7 @@ ItemDef values, origin tags and event templates. Replacing an installed pack can
 | Quest progress / finish | Kills after acceptance, SB collect stacks, SD visit proof, validated story proof. At now>=deadline expire before turn-in; unset clock holds timed actions. Recheck giver/place/requirements. Consume items, pay SB wallet/stacks and RB XP, update rpg and SD close/journal in one transaction. Overweight reward holds all payout. |
 | Rewards / repeat | Story credit reduces only the same reward's remaining coin. party.grantXp uses {quest,amount,claim}; zero XP omits the call; retain {quest,difficulty} legacy and {actor,amount} combat variants. Epoch/thread/instance settlement key. Fresh th_ for each repeat/chain offer; cooldown starts terminal minute, next chain only after done, no auto-accept. |
 | Lethal / recovery (P10) | Propose d20+VIT modifier vs15 for non-wipe lethal events: success gravely injured, failure dead; validated intervention saves. Propose1HP/1440-minute injury/−2 STR+AGI checks after recovery. RB records sealed batch/results before native effects; PC death restores via SB protocol §8. |
-| Party / summons (P11) | PC+2 durable active; excess recruits reserve; summons/pets temporary and outside that limit/carry/wipe rescue. Proposed cap6, fight-end/downed dismissal. Only a trusted paid form/pet event can summon; no narrative stat payload. |
+| Party / summons (P11) | PC+2 durable active; excess recruits reserve; summons/pets temporary and outside that limit/carry/wipe rescue. In combat: cap 6, fight-end/downed dismissal (USER). Outside combat a summon/pet may remain in the narrative as story presence, with no combat sheet until a fight starts. Only a trusted paid form/pet event can summon; no narrative stat payload. |
 | Currency / sinks (P14) | SB owns base-unit balances/formatting, ready RB supplies validated optional currency override and RPG caps; missing/invalid data uses the fallback described in §3. No conversion on display change. |
 
 No respec; stat/class/path choices are player-issued, including companions. AI/manual is combat
@@ -1031,7 +1031,7 @@ Coordinator procedure:
    previous-day start or more-recent manual. Manual wins exact cursor tie. Cursor order uses surviving
    carrier/block/op order, not revision alone; swipes and deleted saves lose eligibility. If no
    previous-day anchor exists, proposed initial fallback; missing saved bytes/participant holds
-   SNAPSHOT_UNAVAILABLE, never substitutes another save. Proposed cap20 manual descriptors; at the limit make returns LIMITED. New UI host
+   SNAPSHOT_UNAVAILABLE, never substitutes another save. Cap 10 manual descriptors (USER); at the limit make returns LIMITED. New UI host
    timeline.forget({snapshot:Id}) -> {ok:true,forgotten:Id} records carrier-bound loss of eligibility;
    unknown target NOT_FOUND, pinned active return REFUSED. It never deletes still-referenced
    payload/native bytes. No forget/replan may move the death target silently.
@@ -1377,7 +1377,11 @@ visible, and may be changed without reopening an accepted rule.
 
 ## 12. For the user
 
-These are the remaining proposals, with recommendations; none is already approved. B-only
+DECIDED (USER, 2026-10-24): every proposal below is approved as recommended, with two changes: P11, the six-unit
+limit and the fight-end dismissal apply to combat; outside combat a summon or pet may still exist in the narrative if the
+story needs it. P13, the manual-save cap is 10 (not 20).
+
+These were the remaining proposals, with recommendations. B-only
 record/interpreter work is in the [backlog](RB_TRACK_B_DESIGN.md) and must pass its merge tests.
 P20 (revisit) and P21 (wave healing) are retired: no respec and retained combat maths settle them.
 There is no question about wipe checks, class-swap strength, healing maths or XP divisibility.
@@ -1394,9 +1398,9 @@ There is no question about wipe checks, class-swap strength, healing maths or XP
 | P08 | Expiry at now>=due before settlement; atomic rewards/closure; overweight hold; repeat/chain fresh offers | Approve. |
 | P09 | Standalone SD check actors/settings, explicit optional RB links and at most one RB/NSD contribution | Approve; preserve topic/talent/item/effect/burden adapter; RB absence uses standalone policy. |
 | P10 | Non-wipe DC15 VIT lethal check,1HP/24-hour/−2 STR+AGI injury and sealed simultaneous batches | Approve; wipe bypass is decided and excluded from this proposal. |
-| P11 | Reserve/active roster commands, six temporary units, fight-end dismissal, reserves/temporary excluded from wipe rescue | Approve. |
+| P11 | Reserve/active roster commands, six temporary units, fight-end dismissal, reserves/temporary excluded from wipe rescue | DECIDED with a change: the six-unit limit and fight-end dismissal apply in combat; outside combat a summon/pet may remain in the narrative. |
 | P12 | Guarded root blocks, canonical source map, suffix reconciliation and retained recorded draws/results | Approve host guarantees in §6 and B5 predicate design; no automatic replacement choices/dice. |
-| P13 | Initial fallback without previous-day anchor, skipped-day anchors, cap20 manual saves, tie/ancestry order and full native protocol/text exclusion | Approve; decided previous-day/more-recent-manual policy stays fixed; missing bytes hold. |
+| P13 | Initial fallback without previous-day anchor, skipped-day anchors, cap 10 manual saves (USER), tie/ancestry order and full native protocol/text exclusion | Approve; decided previous-day/more-recent-manual policy stays fixed; missing bytes hold. |
 | P14 | Ready RB currency override through SB formatting and level-based credit/debit caps, no balance conversion | Approve; cap=max(1,round(1000*level*inventory.economy().scale)); SB fallback remains. |
 | P15 | Normal-only first release; situation-dependent prompt cap500..8000/default2000 | Recommend normal-only and stated cap; memory options stay as decided. |
 | P16 | Keep shipped public {cur,max} pools and private loss bookkeeping | Approve; numeric resets absolute. |
