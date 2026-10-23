@@ -738,3 +738,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
   - RB item.equip {stack, to};
   - SB Inventory 'Equip on…' fold → writer E.
   The 8 slots (main/off hand, head, body, legs, feet, acc 1/2) need a RB rules split plus save migration → USER to decide (beta now vs after); the interim tiles show the rules' real 6 slots with the user's names.
+- SB #178 merged (2ed43a8): Sol #1 (settings panel survives a redraw), #3 (pack CSS escape refused), #6 (warn/bad text tokens ≥5.6 in all looks), #8 (stale pack screens/CSS); desktop help text ≥5.16; phone tap targets 44px; legacy slider removed; persona portrait read from the selected persona row; condition badges with icons and time left; hero name bar reset; HUD 8px above the input. The Status card is SD's (status-card.js) → writer C, fix-8i-status.
