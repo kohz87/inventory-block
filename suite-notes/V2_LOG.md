@@ -633,3 +633,8 @@ MERGED testkit RB #118, SD #115, NSD #205.
 - RB #126 (step 6) open, CI green, live contrast all ≥6.0 → VM job 006 (Opus review).
 - USER: build the icons in this session (argon may be weak at SVG). VM job 007 cancelled (never started). The lead builds ui-7-phosphor: 48 Phosphor icons (regular + fill), iconFor (the suite's full ids win, then the screen's own icon, then the tail), the level badge, the class · title line.
 - VM job 006: Opus stopped when its quota ran out. Codex fallback: merge after fixes, 4 BLOCKING items (narrow cards keep the grid, hidden nodes keep links, cycle links drawn, deep list indent overflows 360) → the step 6 writer. Remaining reviews (step 7, step 8) use Codex; the Opus quota is spent.
+- NSD #212 merged into v2 (e68e64a, head e8b0037, CI green).
+  - The HTML sinks are converted (rows, meters, Cast notes built through the DOM; the remaining roster HTML escapes names).
+  - The stage sits on the name's line; meters are inside each card.
+  - Contrast all ≥5.38 (Range method). The earlier light failure was a scrim left up by the probe.
+- SB #172 (icons + level badge) opened by the lead → VM job 008 (Codex). Job 009: live run with Gemini, 15 replies, on merged v2.
