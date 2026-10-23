@@ -695,3 +695,9 @@ MERGED testkit RB #118, SD #115, NSD #205.
   - B, fix-8b-settings-theme (SB): 1, 3, 6, 8, SB tap target, desktop muted help and credit contrast, the legacy slider.
   - C, fix-8c-* (RB/SD/NSD): SD blockInText guard, SD map tap targets, NSD launcher overlap, RB HUD gap, RB HUD contrast re-measure, RB persona fallback, testkit sync.
   After the merges: a Sol re-review → beta.2.
+- USER UI feedback (live on their ST):
+  - (1) Equipped → a paper-doll card: portrait/name block on the left, a 2×4 slot grid on the right (RB; new writer D, ui-8d-gear-sell);
+  - (2) Present NPC card: no meters; Mood/Condition/Look inside, inner chatter below the card with spacing (NSD → writer C);
+  - (3) SD Chronicle "today so far": the summary on its own line (SD → writer C);
+  - (4) RB Sell rows: the price beside the name, buttons in a fixed aligned column (writer D);
+  - (5) the game header shows the card image, not the persona: ST's user_avatar isn't on the context/window → find a reliable persona source (SB → writer B).
