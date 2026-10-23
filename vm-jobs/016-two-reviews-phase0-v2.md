@@ -1,12 +1,12 @@
 # 016: two independent reviews of the RB phase 0 draft v2 (Sol and Argon), read-only
 
-WAIT FOR GO. Run this only after the lead has checked job 015's revision and merged it into the notes; the lead adds a
-line "GO (…)" below when it is ready. Until then, skip this job.
+GO (lead): run this as soon as job 015 has pushed branch `vm-phase0-v2`; it reviews that branch directly. If 015 ends
+without a push, skip this job and say so.
 
 Both reviewers get the same prompt and the same files, and neither sees the other's output. Nothing is edited or pushed.
 
 1. Fresh clones: `rm -rf /tmp/p0r && mkdir /tmp/p0r && cd /tmp/p0r`, then inventory-block on
-   `claude/hopeful-babbage-tipaw8` and the four modules on `v2` (as in job 013, step 1). Print every HEAD.
+   `vm-phase0-v2` (job 015's push) and the four modules on `v2` (as in job 013, step 1). Print every HEAD.
 2. Sol (read-only): in /tmp/p0r,
    `codex exec --skip-git-repo-check --sandbox read-only -m gpt-6.1-sol -c model_reasoning_effort="xhigh" "$(cat ~/story_suite/inventory-block/vm-jobs/016-prompt.txt)" > ~/story_suite/vm-results/016-sol.md 2>&1`
 3. Argon, in a SEPARATE fresh copy so it can't see Sol's output: `cp -r /tmp/p0r /tmp/p0r-argon`, then in /tmp/p0r-argon:
