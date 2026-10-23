@@ -728,3 +728,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
 - The EQUIPPED section is drawn by SB inventory.js, not RB → new writer E (ui-8g-equipped, SB) builds the paper-doll card.
 - Writer D: RB action cards wait for writer A's ui-8e-cards API.
 - USER (phone, game view Home): a stray red 'b' badge in the header = the bleeding condition rendered without an icon (game-header maps conditions with no icon or time left) → writer B: an icon map plus time left, inline in the text group; a stray bar before the name (ST heading style leaking) → writer B; Home quests card cluttered → writer E.
+- USER: equipment belongs to RB. SB Inventory drops its EQUIPPED section (bag items keep a 'Worn by' tag, plus a 'Gear on Party' link when RB is installed; no equipment concept without RB) → writer E. The paper-doll card moves to RB's Party screen (portrait/name + 2-col slot grid, filled-slot actions, empty-slot Equip… chooser) → writer D (ui-8h-party-gear), then the action cards.
