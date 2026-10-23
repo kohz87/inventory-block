@@ -667,3 +667,8 @@ MERGED testkit RB #118, SD #115, NSD #205.
     - Money: move the coin system and "what the story may pay" to RB; SB keeps just the currency word from the narrative.
     - Move the NSD preset/scanner setup out of SB's settings and into NSD.
 - USER: the Money move to RB and the NSD preset move into NSD both go on the after-beta list (not blockers).
+- SB #173 (nav) open, CI green, head f3b91ae.
+  - Measured: bar icon/label/dot spread 0px; section rule 0.08px off cap centre; portrait centring ≤0.01px; Nunito in 60/60 samples; every current label, the level badge and the class line ≥4.5 in all six looks; keyboard passed; no sideways scroll.
+  - Lead checked the 390 and 1280 shots.
+  - → VM job 010 (Codex). Writer fixing the close button's focus ring on open.
+- Step 8 list += NSD dossier launcher (the "state" chip, #npc_state_delta_dossier_launcher) overlaps the game view's close button at narrow widths.
