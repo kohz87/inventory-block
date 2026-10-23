@@ -724,3 +724,6 @@ MERGED testkit RB #118, SD #115, NSD #205.
   - SB socket: `cards` in the module def; the card shape; actions command/open/Later; tabs with `active()` (only while active, badge, temporary pinned slot) → writer A (ui-8e-cards), with the changes-card fix.
   - RB start and battle cards and an active-only Fight screen → writer D, after its gear/sell PR (ui-8f-action-cards).
 - USER: the "Changed this reply" card shipped as rows, not the concept's tile grid (and the check row breaks: icon above the text) → writer A: a tile grid (2/3/4 columns), check rows with a d20 tile and tone, muted assist lines.
+- RB #128 merged (24315e9): the trade price sits beside the name, the Sell/All columns are fixed at 72px, the section label is aligned with the rows (measured equal), sections capped at 720px, contrast ≥4.71.
+- The EQUIPPED section is drawn by SB inventory.js, not RB → new writer E (ui-8g-equipped, SB) builds the paper-doll card.
+- Writer D: RB action cards wait for writer A's ui-8e-cards API.
