@@ -3,6 +3,21 @@
 For: the VM. Codex (Sol) is the monitor; Gemini Flash (through Antigravity, `agy`) writes. The lead (the cloud
 coordinator) opens the PR, has it reviewed and merges. Nothing in this brief merges anything.
 
+## Frozen contract first (read this before the tasks)
+
+The phase 0 contract is frozen: `suite-notes/RB_PHASE0.md`. Its section 7 (pack schema v2, with the embedded JSON
+Schema) and section 10 "D: schema and Studio engine" are authoritative and supersede the format details in the tasks
+below wherever they differ. In particular:
+- S1 = the contract's embedded JSON Schema as `src/v2/packs/rules-v2.schema.json`, exported from new
+  `src/v2/packs/rules-v2.js`; S2 = the checker, normalisation and stable export of section 7 in that file (closure
+  checks, the 24 written + 12 generated graph, exactly 3 skills, SB id formats, `xpPerLevel` a multiple of ten).
+- Fixtures (S2 and S6) = the valid and invalid lists in section 10 D, plus `smallRulesPack()` from the golden fixture
+  seed in section 10.
+- Registering the `rules` pack kind in SB's pack loader is track E, not Studio: create new files only, never edit
+  `packs/validate.js` or `limits.js`. Until E lands, the checker is called directly and the SB import test is skipped
+  with a note.
+- Styled screens wait for the lead's mocks.
+
 ## What Studio is
 
 Studio is the creator kit's editor for packs: a creator builds a rules pack (classes, skills, branches, items, foes) and

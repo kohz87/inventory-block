@@ -2,8 +2,11 @@
 
 This job lifts the read-only rule for one work folder and one branch per repo: Codex and Antigravity may edit files in
 /tmp/s1work, and the monitor may push branch `studio-1` of kohz87/Story_block and of kohz87/Story_studio. Nothing else:
-no PR, no merge, no other branch or repo. The brief is `~/story_suite/inventory-block/suite-notes/STUDIO_BRIEF.md`;
-read it first. It can take a few hours.
+no PR, no merge, no other branch or repo. The brief is `~/story_suite/inventory-block/suite-notes/STUDIO_BRIEF.md` (its "Frozen contract first" section
+wins over the rest), with the frozen contract `suite-notes/RB_PHASE0.md` sections 7 and 10 D; read them first.
+UNBLOCKED (lead, after the phase 0 freeze ff30f81). Permissions (USER): the VM's SillyTavern is a throwaway, so agy may run
+with --dangerously-skip-permissions for this job; the writer still never pushes (the monitor pushes only `studio-1`).
+Delete the old /tmp/studio1 first. It can take a few hours.
 
 1. `git -C ~/story_suite/inventory-block pull -q` (the commit with this file or later).
 2. Two clones side by side:
