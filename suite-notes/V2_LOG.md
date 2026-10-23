@@ -585,3 +585,8 @@ MERGED testkit RB #118, SD #115, NSD #205.
 - SD #123 round 2 (405df30): desktop contrast passes; on phone the pills and the World empty states are still open → sent back. The current tab in Follow ST light belongs to SB's tab strip → added to the 5b tab option A work.
 - Job 005: the narrow Antigravity allow rules failed 4 times (headless mode auto-denies an unlisted command target). The USER then granted --dangerously-skip-permissions to the VM session directly, for this run. The VM still runs the step 4 checks and does the push itself. The lead reviews ui-7-icons before any merge.
 - Quota at 93% (Fri 11:21 SGT). The icons moved to the VM, so only step 8 still needs the quota check (hold it past the reset if usage is above ~97%).
+- SD #123 merged into v2 (a221a0e, head a2d43fe, CI green).
+  - Round 3: the phone audit had sampled CSS-pixel boxes against device-pixel shots (Pixel 7 DPR ~2.6). Corrected: the pills are 13.1:1, and the empty states and all six looks pass at 360/390/412 with blur on and off.
+  - HUD and map chips: an ellipsis with a 75-character place.
+  - SB leftovers → 5b: tab labels at 4.17:1 on dark Glass (412, blur off), the current tab in Follow ST light, sideways scroll on the HUD strip, and a 502 resource error in live runs.
+  - The RB HUD reading of 3.08/2.89 was likely the same DPR bug.
