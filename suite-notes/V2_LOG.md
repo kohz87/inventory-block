@@ -659,3 +659,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
   → Added to the nav writer's PR, with measured acceptance (centre-y within 1–2px, computed font-family per look) and before/after shots.
 - Job 009: the USER found the real cause, the preset (not the connection), and fixed it; the model now replies.
   - USER: the character was NOT created, although the VM reported "created by API". Lesson: VM reports need verifying; ask it to confirm in the UI.
+- USER: job 009's reply budget raised to up to 100; this replaces step 8's 30-reply run. Job file updated with wider coverage (long fight, crafting/trade, save and load, swipe and delete rollback, drift notes).
