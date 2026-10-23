@@ -34,3 +34,6 @@ Real model: use ONLY the SillyTavern connection profile named `gemini-3.8-flash`
    - anything that looked broken in the screenshots.
    Don't paste chat text beyond a few words per finding.
 8. Stop SillyTavern and the browser. Keep the test data root, so the step 8 run can reuse the character.
+
+## Update (after the first report): blocked on the profile
+Correct call: don't copy secrets. The VM owner will add the Gemini key and the `gemini-3.8-flash` profile to the test instance (data root ~/story_suite/vm-test-data/009, port 8011) through SillyTavern's own UI. When the owner says it's done, re-run from step 2. Use that data root and start SillyTavern on 8011 for the owner if they ask.
