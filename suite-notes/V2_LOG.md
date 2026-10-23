@@ -687,3 +687,11 @@ MERGED testkit RB #118, SD #115, NSD #205.
   - unused legacy story-suite-slider in host-ui.js.
 - UI build stage COMPLETE on v2 (SB 614a146, RB ed0baac, SD a221a0e, NSD e68e64a). Remaining: Sol review (job 011) → fixes → beta.2.
 - SB #175 merged (10c6c93): README "How modules connect": a table of the sockets (queries, commands, domains, context, capture, hooks/on, screens/widgets/settings, features), three rules, and links; checked against registry.js and sdk.js. After-beta += RPG system contract (Story Block owns it; RB is the first implementation; contract tests), RB extension points, creator kit.
+- Job 011 (Sol: gpt-6.1-sol, xhigh, read-only, on SB 6728000 / RB ed0baac / SD a221a0e / NSD e68e64a). Verdict: don't ship beta.2 until the blockers are fixed.
+  - BLOCKING: (1) a settings refresh detaches Delta's panel; (2) a stale wizard submits into another chat; (3) pack CSS escapes its screen (`:root ~ *`); (4) editing a wizard field destroys the focused control; (5) the game view isn't in the modal stack (Tab escapes, one Escape closes two layers); (6) light warn/bad text 1.8/2.56:1.
+  - SHOULD-FIX: (7) widget cleanup is skipped on dialog removal; (8) stale pack screens/CSS; (9) phone tap targets <40px (SD map, SB host.css:42); (10) module testkits at 69c6145.
+  Writers:
+  - A, fix-8a-dialogs (SB): 2, 4, 5, 7.
+  - B, fix-8b-settings-theme (SB): 1, 3, 6, 8, SB tap target, desktop muted help and credit contrast, the legacy slider.
+  - C, fix-8c-* (RB/SD/NSD): SD blockInText guard, SD map tap targets, NSD launcher overlap, RB HUD gap, RB HUD contrast re-measure, RB persona fallback, testkit sync.
+  After the merges: a Sol re-review → beta.2.
