@@ -1,0 +1,29 @@
+You are working in a clone of Story Block (a SillyTavern extension), on branch ui-7-phosphor off v2. Task: UI step 7, part 1 — the extension's own icon set (Phosphor) and the game view header's level badge. Match the surrounding code: its comment density, naming, plain ES modules, no build step, no runtime dependency, no network at runtime.
+
+Read first: src/v2/view/widgets/dom.js (iconNode, faClasses), src/v2/view/mounts/common.js (icon), src/v2/view/widgets/hero.js, src/v2/view/game-header.js, src/v2/view/glass.css, docs/v2/WIDGETS.md, CHANGELOG.md.
+
+1. Icon data: src/v2/view/icons/set.js — a frozen map id -> { regular, fill } where each value is the SVG path data (all <path d> of the file joined with a space; viewBox 0 0 256 256) from the npm package @phosphor-icons/core@2.1.1 (MIT): assets/regular/<name>.svg and assets/fill/<name>-fill.svg. Get the package with `npm pack @phosphor-icons/core@2.1.1` into a temp folder; never add it to package.json. Ids are `ph-<name>`. The set (exact Phosphor names):
+   house, users-three, backpack, scroll, globe-hemisphere-west, map-trifold, sword, hammer, scales, book-open, film-slate, identification-card, map-pin, gear-six, bookmark-simple, x, caret-left, caret-right, dots-three-outline, magnifying-glass, clock, cloud-sun, heart, drop, lightning, caret-double-up, coins, dice-five, lock-simple, check-circle, x-circle, warning, info, package, download-simple, arrow-counter-clockwise, star, sparkle, list, plus, minus, trash, pencil-simple, eye, eye-slash, chat-circle-dots, user, crown.
+   If a file has elements other than <path>, convert them only if trivial; otherwise report it and leave that icon out.
+2. src/v2/view/icons/index.js:
+   - `hasIcon(id)`;
+   - `svgIcon(doc, id, { weight = 'regular', className = '' } = {})`: builds <svg class="ss-icon-svg {className}" viewBox="0 0 256 256" width="1em" height="1em" fill="currentColor" aria-hidden="true" focusable="false" data-icon="{id}"> with one <path>, using doc.createElementNS only (never innerHTML, insertAdjacentHTML or DOMParser); returns null for an unknown id;
+   - `TAB_ICONS`: a frozen map from the game view's screen and tab ids to ph- ids. Map both full ids and tails: home→ph-house, party→ph-users-three, inventory→ph-backpack, quests→ph-scroll, world→ph-globe-hemisphere-west, map→ph-map-trifold, fight→ph-sword, crafting→ph-hammer, trade→ph-scales, chronicle→ph-book-open, director→ph-film-slate, cast/dossiers→ph-identification-card, scene→ph-map-pin, savepoints→ph-bookmark-simple, settings→ph-gear-six; full ids such as story-block/home, rpg-battle/party, story-director/world, npc-state-delta/cast — look the real ids up with git grep of the screens' and tabs' `id:`;
+   - `tabIcon(id)`: full id first, then the tail after the last "/", else ''.
+3. iconNode (widgets/dom.js) and icon (mounts/common.js): a known `ph-` id draws svgIcon. A `ph-` id ending in `:fill` (e.g. `ph-house:fill`) draws the fill weight. An unknown `ph-` id falls back to the default Font Awesome icon (fa-table-columns). Everything else keeps today's behaviour exactly (Font Awesome names, https:/data: images, short glyphs). Also route src/v2/view/settings/tabs-list.js's tab row icon through iconNode (it builds an <i> with fa-solid today), and use tabIcon(id) wherever a game view screen or tab is drawn with no icon of its own (mounts/screen.js nav items, mounts/tab.js addTab).
+4. CSS in glass.css, scoped like the neighbouring rules: `.ss-icon-svg { width: 1em; height: 1em; vertical-align: -0.125em; flex: none; }`.
+5. Header (game-header.js + hero.js), per the approved concept:
+   - the level is a small accent badge on the bottom edge of the portrait: the `ph-star:fill` icon and the number (e.g. 12), with aria-label "Level 12" using the Terms' level word;
+   - under the name, one muted line "<class> · <title>" (the parts that exist, joined with " · "; it wraps, with no chips);
+   - the old pill that combined class, level and title goes.
+   Keep the 40-character cuts, and keep it working at 360 px with a 74-character class and title. Badge colours: the accent token for the fill and a text colour with at least 4.5:1 on it (check both schemes; use an existing token or add one in theme.js for both schemes).
+6. Credits: ICONS-CREDITS.md at the root: "Phosphor Icons (https://phosphoricons.com), MIT License", the full MIT licence text with Phosphor's copyright line from the package's LICENSE, and the list of ids. A one-line Credits section in README.md, and the same line in DIAGNOSTICS_TEXT (src/v2/host-ui.js, `credits`) shown in Settings → Diagnostics.
+7. Tests (node --test, the repo's runner):
+   - every set entry has non-empty regular and fill paths made only of path-data characters (no "<", no quotes);
+   - svgIcon builds an svg with one path, currentColor, aria-hidden, focusable=false, and the source of icons/index.js has no innerHTML, insertAdjacentHTML or DOMParser;
+   - iconNode with a ph- id, with `:fill`, with an unknown ph- id, with an FA name (the same <i> as before), with an image, and with a glyph;
+   - every TAB_ICONS value resolves;
+   - the header: the badge text and aria-label, the class · title line, and a 74-character fixture cut.
+8. CHANGELOG under "Unreleased": one entry.
+
+Rules: no model names in any file or commit message. Do not touch other repos or main. Run `npm run -s check` and `npm run -s test:dot` and make them pass. Commit with a clear message, with no trailer lines. Then print a summary: the files changed, any icons left out, and the test result.
