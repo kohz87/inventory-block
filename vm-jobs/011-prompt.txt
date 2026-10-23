@@ -1,0 +1,16 @@
+Review read-only. Do not edit, commit or push anything.
+
+You are reviewing the UI stage of Story Suite v2: four SillyTavern extensions checked out side by side in this folder (Story_block, rpg_battle, Story_director, npc_state_delta), each on branch v2. Story Block is the host: state, the glass design system (src/v2/view/: glass.css, mounts.css, host.css, theme.js, widgets/, mounts/, settings/, scroll.js, icons/), the game view, the Story panel and the settings window. The other three draw their screens with Story Block's widgets and tokens.
+
+The scope is the UI stage, meaning every commit on v2 since 2026-10-21 in each repo (`git log --since=2026-10-21 v2`). Read the diffs and the files they touch.
+
+Look hard for real defects, and give each one file:line, a concrete reproduction (inputs or steps → wrong result) and a fix:
+1. Correctness: state or command logic changed by a "UI" commit; payloads, caps, points or saved data altered; swipe and rollback behaviour broken.
+2. Security: HTML parsing (innerHTML, insertAdjacentHTML, outerHTML, DOMParser, template strings fed to HTML) with model-, pack- or user-supplied text; unsafe URLs in src or href; style injection.
+3. Phone use: scrollIntoView or a bare .focus() (src/v2/view/scroll.js has the helpers); a fixed width that overflows 360px; tap targets under 40px; focus traps that leak; keyboard (Enter/Space/Escape/Tab) paths that fail; visualViewport and safe-area handling.
+4. Lifecycle: listeners, observers or timers not removed on redraw, unmount or destroy; stale closures after a chat switch.
+5. Theming: colours hard-coded instead of --ss-* tokens; rules heavier than two classes (Story Block's .ss-* are 0,1,0, and modules must not lose to them by accident); the Glass/Solid/Follow-SillyTavern × light/dark combinations where a token isn't defined; contrast pairs under 4.5:1 that you can calculate from the tokens.
+6. Cross-module contracts: a module calling a Story Block API that v2 doesn't export (for example `sb.blockInText` in Story_director's index.v1.js); vendored testkit copies out of date; duplicated CSS fighting across modules.
+7. Tests weakened rather than updated, or tests that claim something they don't assert.
+
+Rank the findings: BLOCKING (wrong behaviour, unsafe, data loss, inaccessible), SHOULD-FIX, NIT. Don't pad the list. Say what you couldn't check (no browser layout). End with one overall verdict for shipping 2.0.0-beta.2.
