@@ -771,3 +771,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
   - (11) No respec, ever.
   - (12) RB prompt part varies with the situation under an adjustable cap.
   Seams agreed in principle: companion sheet RB / relationship NSD; shop RB keyed by SD place; SD owns the clock (RB asks); item defs RB/pack, stacks SB.
+- Death (USER): in battle, HP 0 = downed, not dead. In narrative, a lethal event = dead or gravely injured unless an intervening event saves them, decided by a code-run check. PC death = back to the last save point (SB), as if nothing happened (companions alive again). Proposed: a party wipe counts as PC death; a downed companion recovers after the fight with an injury condition.
