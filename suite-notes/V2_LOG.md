@@ -590,3 +590,9 @@ MERGED testkit RB #118, SD #115, NSD #205.
   - HUD and map chips: an ellipsis with a 75-character place.
   - SB leftovers → 5b: tab labels at 4.17:1 on dark Glass (412, blur off), the current tab in Follow ST light, sideways scroll on the HUD strip, and a 502 resource error in live runs.
   - The RB HUD reading of 3.08/2.89 was likely the same DPR bug.
+- USER: scrap the icon set. Compared with a reference game UI, the raw filled glyphs look bad. ui-7-icons (2e151b2 + afc0ac7) is not merged and no PR is opened; the branch is left as is (no deletes). Step 7 is dropped. Font Awesome stays everywhere.
+- From the reference:
+  - line icons for the chrome (clock, pin, gear, nav);
+  - game glyphs only inside framed skill tiles: a white rounded tile with an accent border, a level badge at the bottom, a check badge top-right;
+  - tiers stacked with a label and a short connector.
+  Possible input for the step 6 skill tiles → asking the USER.
