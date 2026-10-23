@@ -26,3 +26,7 @@ The job can take a while. If you can, run step 3 in the background and carry on 
    - whether the push worked.
    Put the full argon output in the results file, not the message.
 7. Delete /tmp/icons7 only if the push worked.
+
+## Update (after the first VM report)
+- Correct call: don't use --dangerously-skip-permissions. Wait for the VM owner to add a narrow allow rule for agy's command tool, scoped to /tmp/icons7. Then re-run step 3.
+- Commit trailer: the prompt no longer asks for one, so leave commit messages without trailer lines.

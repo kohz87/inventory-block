@@ -18,7 +18,5 @@ Build:
 7. Tests (the repo's own runner, see package.json): every id in the set has a non-empty path with no "<", no quotes, only path-data characters, and no 512 square background; svgIcon builds an svg element with one path, currentColor, aria-hidden, focusable=false, and uses no innerHTML (assert on the source file too); iconNode with a gi- id gives the svg, with an FA name gives the same <i> as before, with an unknown gi- id gives the default FA icon; every tab id in the default map resolves; ICONS-CREDITS.md lists every id in the set.
 8. CHANGELOG under "Unreleased": one entry for the icon set and the credit.
 
-Rules: no model names in any file, and none in commit messages except the two trailer lines below. No network calls at runtime (the paths are inlined). Do not touch other modules or main. Run `npm run -s check` (or the repo's lint/validate script) and `npm run -s test:dot` and make them pass. Commit with a clear message whose body ends with the two lines:
-Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
-Claude-Session: https://claude.ai/code/session_01Qp9gtHxXEZNRVLhbUujNYu
+Rules: no model names in any file or commit message. No network calls at runtime (the paths are inlined). Do not touch other modules or main. Run `npm run -s check` (or the repo's lint/validate script) and `npm run -s test:dot` and make them pass. Commit with a clear message (no trailer lines).
 Then print a summary: files changed, icon ids with their game-icons names and authors, and the test result.
