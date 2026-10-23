@@ -672,3 +672,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
   - Lead checked the 390 and 1280 shots.
   - → VM job 010 (Codex). Writer fixing the close button's focus ring on open.
 - Step 8 list += NSD dossier launcher (the "state" chip, #npc_state_delta_dossier_launcher) overlaps the game view's close button at narrow widths.
+- #173 at 9f561a5: real keyboard bug fixed. Enter on the Story/Game/Settings bar buttons clicked twice (ST's handler plus the browser's activation) → the Story toggle opened and closed; the Game view opened then its focused close button got the second click. Fix: cancel the browser's Enter activation on those buttons; a keyboard open focuses the close button one task later. Lead reviewed the diff. Waiting on Codex job 010.
