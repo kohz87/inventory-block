@@ -804,3 +804,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
 - Job 016 GO now: runs right after 015 pushes vm-phase0-v2, reviewing that branch (the lead's faithfulness check moves after both reviews, after the reset).
 - USER: Argon trial now: job 017 = Gemini 4 Argon high on job 013's exact prompt and inputs (notes 4116ddb, the same four heads), read-only, alongside 015. The lead compares 013 vs 017 after the reset; Argon's extra findings go into the v2 revision.
 - USER: job 017 removed (Argon has 49% weekly quota left; keep it for the one review in job 016).
+- VM JOB 015 DONE: Sol's phase 0 v2 at origin/vm-phase0-v2 c2ebc56 (RB_PHASE0.md rewritten, RB_PHASE0_APIS.md new; code repos untouched). Per Sol, all 9 blocking items addressed; track handoffs, extraction map, CI matrix, fixtures and the end-to-end restoration scenario included. 15 proposals for the user (P01–P15, section 12). Next: job 016 (Sol + Argon reviews of that branch), then the lead's check after the reset.
