@@ -643,3 +643,6 @@ MERGED testkit RB #118, SD #115, NSD #205.
   - The stepper tap-target note belongs to SB's vendored styles → step 8 item.
 - SB #172: Codex job 008 found 3 blockers (badge overflow, the 12-char level cut losing the number for screen readers, muted-line contrast on Solid). Fixed in 12f8fac: the .ss-hero-face cell, heroLevel taking the whole level, the line in --ss-text.
 - Job 009 blocked: the fresh data root has no profile, and the VM rightly didn't copy secrets → the USER sets up the key/profile in the test instance.
+- SB #172 (icons + level badge) merged into v2 (9ef43db, head 12f8fac, CI green).
+- A container restart killed the nav writer and its servers; resumed it with instructions to merge origin/v2 and push early.
+- Job 009: the USER told the VM the :8000 instance is throwaway, so the VM uses it (deviating from the separate data root, with the owner's OK). Profile present; character "Guild Clerk Oyla"; run in progress.
