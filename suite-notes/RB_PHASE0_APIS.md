@@ -28,10 +28,10 @@ Additional exact current signatures behind the v4 host/lifecycle work:
 
 | Existing signature | Current behavior / source |
 |---|---|
-| `sdk.modules()` | `[{id,name,version,domains,commands,kinds,tabs,features}]` in registry order; advertises every registered command, no lifecycle status. SB src/v2/sdk.js:372. |
+| `sdk.modules()` | `[{id,name,version,domains,commands,kinds,tabs,features}]` in module-ID order (SB registry.js:362); advertises every registered command, no lifecycle status. SB src/v2/sdk.js:372. |
 | `newRecordId()` | `sw_${randomId().replace(/-/g,'').slice(0,12)}`; randomId emits UUID hex. SB src/v2/persist.js:53; src/id.js:2. Source mapping is new; domain regex remains eight-base36. |
 | `fightRunner(view=null)` | Reads live sdk.modules and accepts any other module declaring combat.*; otherwise probes combat.foesBeaten/session/offers through view.query. SD src/v2/module.js:194. |
-| `precheck(ctx,payload={})` | assist.precheck reads `{key,line}`, claims message, calls capture.check; if result lacks outcome and names pending check, calls legacy check.roll `{id:pending}`, swallowing UNKNOWN_COMMAND. SB src/v2/assist/classifier.js:140/:147/:152. |
+| `precheck(ctx,payload={})` | assist.precheck reads `{key,line}`, claims message, calls capture.check; if result lacks outcome and names pending check, calls legacy check.roll `{id:pending}`, swallowing UNKNOWN_COMMAND. SB src/v2/assist/classifier.js:134 (definition), :140/:147/:152. |
 | `itemDef(item)` | Copies id/name/kind/rarity/value/stack/slot/stats/effect/tags/note, optional carry; no hands/requires/weight. SB src/v2/packs/content.js:20. |
 
 ### RB combat and bestiary
@@ -413,7 +413,7 @@ native history/evidence/applied event IDs. NSD preset runtime is already NSD-own
 ### Proposed API migrations and all affected runtime callers
 
 No alias silently replaces a shipped payload. Additive query fields retain old ones. Changed
-semantics below are proposals in contract §12; legacy
+semantics below are approved in contract §12 (Approved recommendations, subject to the P11/P13 corrections in V2_LOG.md (USER, 2026-10-24); implementation remains pending); legacy
 runtime reads old characters unchanged, fresh rules-v2 uses adapters. All listed caller files
 must migrate in the same track or remain explicitly legacy-only; registration/settings go to
 lead integration. Tests using these interfaces join that track's regression run.

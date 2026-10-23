@@ -1,10 +1,9 @@
 # RB rebuild, phase 0: contract draft v4
 
-Status: revision for the user; not frozen or implemented. Sources: [V2_LOG.md](V2_LOG.md),
-lines 747–814. Later USER entries win. Active proposal numbers are in §12 (P20/P21 retired); none is a decision.
-All choices beyond §11, including the typed interfaces and fixtures, are
-**Proposal (needs the user):** the recommendations indexed in §12. They are implementation
-targets, not accepted decisions or claims about shipped capabilities. The confirmed
+Status: accepted by the user; frozen after the 021 fixes; not implemented. Sources: [V2_LOG.md](V2_LOG.md),
+lines 747–816. Later USER entries win. §12: Approved recommendations, subject to the P11/P13 corrections in V2_LOG.md (USER, 2026-10-24); implementation remains pending. (P20/P21 retired).
+All choices beyond §11, including the typed interfaces and fixtures, are the approved recommendations indexed in §12
+(USER, 2026-10-24, with the P11/P13 corrections). They are implementation targets, not claims about shipped capabilities. The confirmed
 three-skill swap and 24 written + 12 generated pathway graph are decisions, not proposals.
 
 The [API appendix](RB_PHASE0_APIS.md) lists retained names, payloads, projections and file:line.
@@ -151,7 +150,7 @@ stats.spend/quest.accept/quest.turnIn/companion.recruit/dismiss/control map resp
 atlas.place/here, director.threads/thread, party.spend, quest.take/finish and shipped party
 roster commands; no alias registrations. savepoint.* is new. return.point/status/cue are
 shipped, but rules-v2 restoration is an explicit §8 migration. New rules.* queries do not
-replace existing party.* wire shapes. All typed API/state changes below are proposals.
+replace existing party.* wire shapes. All typed API/state changes below are approved implementation targets (§12), not shipped yet.
 
 Proposal (needs the user): **P01 — pack and definition transport.** Add registered
 `content.rules` (§7); pin one resolved ruleset per character timeline. Link extra item rules
@@ -221,8 +220,8 @@ only the retained genre-neutral SD fields; reward/target/met mechanics are not g
 
 | New SD writer payload (all include write) | Issuer → result; behavior / failures |
 |---|---|
-| `threads.offer {thread:RecordId,kind:ThreadKind,key:Text120,summary:Text600,fields:Record<string,string>,expectedHash:null,quest?:Quest}` | SD capture/system or nested RB repeat/chain offer → `{thread,hash}`. SD inserts fresh th_ ID, key index, active/offer:true, taken/ended/target/reward:null, acceptance:null, host rev/order; optional quest must have id=thread and state offered. Unknown fields INVALID, occupied ID/key CONFLICT, thread limits LIMITED. |
-| `threads.accept {thread:RecordId,expectedHash:Hash,acceptance?:RecordId,quest?:Quest}` | Player UI command (including templates/tests), SD validated player-intent capture, or nested RB quest.take inheriting that authority → `{thread,hash,accepted:true,linked:boolean}`. Atomically clears offer, stamps taken/rev and acceptance Source/cursor/minute/proof, optionally installs active Quest with matching id and acceptance cursor/minute. No separate link call after acceptance. |
+| `threads.offer {thread:RecordId,kind:ThreadKind,key:Text120,summary:Text600,fields:Record<string,string>,expectedHash:null,quest?:Quest}` (`quest` only from RB: see the note under this table) | SD capture/system or nested RB repeat/chain offer → `{thread,hash}`. SD inserts fresh th_ ID, key index, active/offer:true, taken/ended/target/reward:null, acceptance:null, host rev/order; optional quest must have id=thread and state offered. Unknown fields INVALID, occupied ID/key CONFLICT, thread limits LIMITED. |
+| `threads.accept {thread:RecordId,expectedHash:Hash,acceptance?:RecordId,quest?:Quest}` (`quest` only from RB) | Player UI command (including templates/tests), SD validated player-intent capture, or nested RB quest.take inheriting that authority → `{thread,hash,accepted:true,linked:boolean}`. Atomically clears offer, stamps taken/rev and acceptance Source/cursor/minute/proof, optionally installs active Quest with matching id and acceptance cursor/minute. No separate link call after acceptance. |
 | `threads.link {thread:RecordId,quest:Quest,expectedHash:Hash}` | Nested RB only → `{thread,instance,hash}`. Only an already accepted, active generic thread without rpg; quest must be active and inherit its original acceptance cursor/minute. An unaccepted offer uses accept instead. |
 | `threads.questWrite {thread:RecordId,quest:Quest,expectedHash:Hash}` | Nested RB only → `{thread,instance,hash}`. Replaces only the existing extension, preserving id/template/instance; outer target/reward/ready/owed become compatibility projections, never independently editable payouts. |
 | `threads.close {thread:RecordId,expectedHash:Hash,instance:Int<1,1000000>,outcome:'done'\|'failed'\|'expired'\|'abandoned',reason:Text240,settlement:RecordId}` | Nested RB only → `{thread,instance,outcome,settlement,hash}`. Requires matching terminal rpg settlement in the shared transaction; resolves outer thread, stamps ended/rev and appends one outcome journal entry. expired maps to outer failed; rpg/journal retain expired. |
@@ -239,6 +238,11 @@ Neutral acceptance works with **SB+SD alone**: player `threads.accept` or SD's t
 adapter accepts an offered hook/goal without reading party/rules/quest APIs. It writes no rpg,
 target/reward/owed remain null, and generic SD progress/closure/journal continue. No new quest
 buttons: story-only acceptance remains the ordinary quest flow; commands remain for templates/tests.
+Quest extensions: on threads.offer and threads.accept, `quest` is allowed only when `ctx.caller === 'rpg-battle'` and RB
+is ready; otherwise the command is REFUSED before any mutation. SD capture/system and player-UI callers send neutral
+payloads or delegate to RB's quest.take. Tests (track E/A): a forged `quest` from SD capture, from the UI and from a
+third module is refused with RB ready and with RB absent; RB's own quest.take still links.
+
 Story cause alone is insufficient: SD records an active `acceptance` proof bound to this thread
 and the reader's explicit words (ctx.chat.lastUser / active history); accept verifies that proof.
 UI acceptance publishes proof of the selected player action; story acceptance proves the reader's
@@ -390,6 +394,8 @@ Display `place.region` remains text; it never silently changes policy membership
 | `atlas.dangerSet {write:RecordId,scope:'world'\|'region'\|'place',key:Id\|null,policy:AreaPolicy\|null,expectedHash:Hash}` | Player settings UI → `{scope,key,hash:Hash}`. World key=null, region key known rg_, place key canonical; null removes override. Does not also change membership. |
 | `atlas.canonical({id?:string,name?:Text80})` | Read-only → `{id:Id,name:Text80,atlasId:RecordId\|null,regionId:RecordId\|null,source:'pack'\|'atlas'}\|null`. id wins, omitted both means current scene; unknown/ambiguous ref returns null. |
 
+Canonical resolution inspects every pack candidate before name de-duplication (today SD atlas/world.js:49 drops
+duplicates); test: two packs sharing a place name resolve to two distinct canonical ids.
 For pack places, canonical id is the normalized content.places definition ID **before and
 after materialization**. SD packWorld must retain SB's id (today it drops it), and ensurePlace
 records pl_→pack.<id>/<slug> in placeRefs on visit/edit/landmark/route creation. Non-pack places
@@ -532,7 +538,7 @@ type Constants = {
   classBudget:[12,24,36,48];pathBudgetIncrement:12;
   deathDc:15;injuryMinutes:1440;injuryCheckPenalty:-2;temporaryLimit:6;
   promptChars:Int<500,8000>;difficulty:'normal';clockMinutesPerDay:1440;
-}; // proposal defaults P02/P03/P06/P10/P11/P15/P19, not user decisions
+}; // approved defaults P02/P03/P06/P10/P11/P15/P19 (§12; P11 combat-only)
 type RulesIdentity = {packKey:string;packVersion:string;packHash:Hash;
   schema:2;engine:'rb-rules-2';constantsHash:Hash};
 type Source = {sid:RecordId;swipeKey:RecordId;evidence:RecordId;ordinal:Int<0,1000000>};
@@ -644,7 +650,7 @@ control only. Crafting stays open to anyone with materials/recipe/station and de
 scaling; keep crafting/commission maths. Narrate each level/promotion/step once. SD checks have
 standalone actors/settings and optional RB/NSD contributions (§3), with no mandatory party lookup.
 Internal progression/power formulas, requirement/proof semantics, condition timing and temporary
-unit materialization are B3/B4. Settings P15 and mastery P19 remain proposals in §12. P20's
+unit materialization are B3/B4. Settings P15 and mastery P19 are approved in §12. P20's
 revisit and P21's wave-heal alternatives are settled by the existing no-respec/keep-maths decisions.
 
 ## 6. Replay recording
@@ -669,6 +675,15 @@ recorded inputs/draws. Throws/malformed response fails closed. Host checks epoch
 integrity; owner checks its versioned predicate and inputHash. The exact RB closed records,
 canonical inputHash and combat terminal-prefix predicate are [B5](RB_TRACK_B_DESIGN.md), not
 unfinished host assumptions. No handlers, content generation or fresh rolls in ordinary replay.
+
+Proof submission (new SB, track E): `ctx.proof({kind, payload, parents?}) -> {id, payloadHash}`, callable only by the
+owner of `kind` (SD: visit/acceptance/event; RB: kill/use/rescue/story) inside a command's root transaction. Payloads are
+closed per kind (SD acceptance: `{thread, selection|words}`; SD check: `{check, actor, stat, dc}`); SB stamps id, Source
+and payloadHash. An identical retry in the same root returns the same id; the same key with a changed payload is
+CONFLICT. Failures: INVALID (shape), NOT_FOUND (parent), REFUSED (wrong owner or kind, or reader intent the host did not
+see). Nested commands in the same root resolve its validated pending proofs; public queries see committed proofs only.
+A rolled-back root publishes nothing. Tests: accept and roll each succeed once in one root; a rollback publishes no
+proof; a forged reader intent is refused.
 
 New SB `story.evidence({ids?:RecordId[]}) -> Proof[]` returns active visible code-validated
 proof, default all in source order, unknown omitted, malformed args []. Owners submit typed
@@ -1031,7 +1046,7 @@ Coordinator procedure:
    previous-day start or more-recent manual. Manual wins exact cursor tie. Cursor order uses surviving
    carrier/block/op order, not revision alone; swipes and deleted saves lose eligibility. If no
    previous-day anchor exists, proposed initial fallback; missing saved bytes/participant holds
-   SNAPSHOT_UNAVAILABLE, never substitutes another save. Cap 10 manual descriptors (USER); at the limit make returns LIMITED. New UI host
+   SNAPSHOT_UNAVAILABLE, never substitutes another save. Cap 10 manual descriptors (USER); at the limit make returns LIMITED (test: ten saves succeed, the eleventh returns LIMITED). New UI host
    timeline.forget({snapshot:Id}) -> {ok:true,forgotten:Id} records carrier-bound loss of eligibility;
    unknown target NOT_FOUND, pinned active return REFUSED. It never deletes still-referenced
    payload/native bytes. No forget/replan may move the death target silently.
@@ -1372,8 +1387,8 @@ approved formulas, not a divergent validator.
 | Upgraded thread stays SD journal, closed with quest outcome | 795(5) |
 | Separate tracks/folders; lead shared integration; later Studio repo split and hold for freeze | 777–782, 797–802 |
 
-Proposals do not override these decisions. Their unanswered numbers/edge policies remain
-visible, and may be changed without reopening an accepted rule.
+§12's approved recommendations sit under these decisions and never override them; a later change to one of their
+numbers needs a USER line in V2_LOG.md and does not reopen an accepted rule.
 
 ## 12. For the user
 

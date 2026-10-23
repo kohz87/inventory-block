@@ -5,7 +5,7 @@ These are the four RB-internal findings from the last review, one entry per item
 They are **required design and acceptance work before track B's PR merges**, not additional
 phase 0 blockers. Host interfaces, owner writes, pack transport and native participation remain
 in phase 0; B must implement against E's tested host gates. Proposals below refer to numbered
-questions in phase 0 §12 and remain unapproved. A missing decision cannot be filled silently.
+questions in phase 0 §12: Approved recommendations, subject to the P11/P13 corrections in V2_LOG.md (USER, 2026-10-24); implementation remains pending. A missing decision cannot be filled silently.
 
 Binding constraints throughout: exactly three current skills; swaps inherit nothing; permanent
 paths/no respec; pack authors alone decide whether replacement skills are stronger; cap99;
@@ -164,9 +164,11 @@ Post-fight rounds carry the exact SD ending minute: each remaining round lasts t
 as today, instead of resetting its anchor on read/reload. Unknown clock must follow an explicit
 held policy in B's design, never wall time. No wave heal or free dual-wield action is added.
 
-Temporary units use a separate roster (candidate cap6); owner-level/class/template, proposed
-statShare/poolShare and fight/round expiry are frozen inputs. They have no permanent awards,
-carry capacity or wipe rescue; fight-end/downed dismisses them. Reserves cannot rescue a wipe.
+Temporary units use a separate combat roster; its cap is six. Owner-level/class/template, statShare/poolShare and
+fight/round expiry are frozen inputs. They have no permanent awards, carry capacity or wipe rescue. Fight-end/downed
+dismissal removes the combat sheet only; fight-end does not remove a narrative summon/pet presence, and neither
+restriction caps narrative presence outside combat (USER, P11). Reserves cannot rescue a wipe. Test: a summon keeps
+its narrative presence across fight end while its combat sheet is cleared.
 
 **Acceptance before B merges.** Mixed foe-damage/ally-heal form selects two legal targets and
 charges once; malformed/wrong-side/duplicate effects refuse atomically. Stable skill/form IDs
