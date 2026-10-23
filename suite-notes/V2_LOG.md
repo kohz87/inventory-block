@@ -652,3 +652,8 @@ MERGED testkit RB #118, SD #115, NSD #205.
   - Re-measure the RB HUD with the DPR method.
   - RB persona reader's user_avatar gap.
 - The nav writer (ui-7-nav, 310f436) is partial: the bar, the More sheet and the panel are built; 390 dark: labels ≥5.66, keyboard passed. Sent back: make focus distinct from current, the "state" badge overlap, the hero selectors, the full matrix, the PR.
+- USER (390 shot of ui-7-nav):
+  - the bar's icons and dots are out of alignment;
+  - the fonts are mixed (Nunito vs ST's font on body lines);
+  - the portrait and name are misaligned in the compact header.
+  → Added to the nav writer's PR, with measured acceptance (centre-y within 1–2px, computed font-family per look) and before/after shots.
