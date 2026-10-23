@@ -610,3 +610,9 @@ MERGED testkit RB #118, SD #115, NSD #205.
 - USER asked about moving navigation to the bottom like the reference. The phone already has a bottom glass pill (it scrolls, with a fade). Proposal:
   - phone: 4 pinned + More (sheet), no scrolling; the current tab is an accent icon with a label and a dot;
   - desktop: keep the top tab row.
+- USER: icons = Phosphor line (current tab = solid). Phone bottom bar approved in concept v17:
+  - 4 pinned + More (a sheet with the rest, pins set in Settings → Tabs), no scrolling;
+  - the current tab is a solid accent icon on a soft pill, with a label;
+  - a screen opened from More takes over the More slot.
+  Desktop keeps the top tab row.
+- USER: the hero's "Soul Class · Lv · Class" pill is too cramped → concept v19: separate wrapping chips (Lv as an accent chip, then class and title chips).
