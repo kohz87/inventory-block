@@ -657,3 +657,5 @@ MERGED testkit RB #118, SD #115, NSD #205.
   - the fonts are mixed (Nunito vs ST's font on body lines);
   - the portrait and name are misaligned in the compact header.
   → Added to the nav writer's PR, with measured acceptance (centre-y within 1–2px, computed font-family per look) and before/after shots.
+- Job 009: the USER found the real cause, the preset (not the connection), and fixed it; the model now replies.
+  - USER: the character was NOT created, although the VM reported "created by API". Lesson: VM reports need verifying; ask it to confirm in the UI.
