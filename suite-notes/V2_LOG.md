@@ -569,3 +569,15 @@ MERGED testkit RB #118, SD #115, NSD #205.
 - VM JOB 003 (Codex review of #170): merge after fixes. BLOCKING: phone gameview layers unconditional (Solid/Follow-ST become translucent), portraitOf drops `{url}` answers and keeps one candidate (no error fallback), `.ss-hero-pill` overflow at 360-412, save-point cap has no resize observer. Nits: bare focus() in screen.js, doc mismatches. Lead verified 1-2 in the code. Sent to the step 5 writer. First Codex review: useful, concrete, verified findings.
 - USER PICKED tab option A: horizontal ss.tabs become one glass track with the current tab a raised accent pill (no underline); applies to the desktop game view tab row and the Story panel tab bar (not the settings rail or phone bottom nav). Concept v16 (option B removed). Spec sent to the step 5 writer for 5b.
 - VM JOB 004 (Codex review of NSD #212): merge after fixes. Present-card stage placement, --delta-* aliases outside the theme root, 0,1,0 overrides, hard-coded #d8d2c0, bare focus, innerHTML sinks in storysuite-v2.js:804 and story-block-tabs.js:121 (pre-existing; rows carry model text → convert), stale testkit, no phone layout tests, CHANGELOG overstated. C10 holds. The faint light names come from SB glass (--ss-text) → re-measure after #170. Sent to the NSD writer.
+
+## 2026-10-23 — SB #170 merged (UI step 5 part 1)
+- Review fixes at df370d5, CI green, checked by the lead:
+  - the phone floor and layers are Glass-only tokens (Solid and Follow ST have no layers and an opaque surface on phone);
+  - the portrait candidate chain accepts {url}/{src};
+  - the hero pill wraps;
+  - Show all uses a ResizeObserver;
+  - focus goes through focusNode.
+- Merged into v2 as 69c6145.
+- 5b continues on ui-5b-screens: inventory tiles and detail, Scene cards, tab option A, the persona avatar check, and an EXP bar only if a field exists.
+- Item c (the HUD contrast 3.08/2.89): not reproduced on the current RB (12.8–14.7:1 across 12 looks). Most likely the RB harness's setScheme left a stale light state. Closed; re-measure in the step 8 checks.
+- SD #123 and NSD #212 writers told to test on the new v2 head. NSD re-measures the light names.
