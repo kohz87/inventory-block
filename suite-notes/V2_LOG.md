@@ -803,3 +803,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
 - USER: the phase 0 v2 gets two independent reviews (job 016, waits for the lead's GO after 015 is checked and merged): Sol xhigh and Gemini 4 Argon high, same prompt, separate copies, read-only. Doubles as the Argon-vs-Sol trial for the orchestrator role.
 - Job 016 GO now: runs right after 015 pushes vm-phase0-v2, reviewing that branch (the lead's faithfulness check moves after both reviews, after the reset).
 - USER: Argon trial now: job 017 = Gemini 4 Argon high on job 013's exact prompt and inputs (notes 4116ddb, the same four heads), read-only, alongside 015. The lead compares 013 vs 017 after the reset; Argon's extra findings go into the v2 revision.
+- USER: job 017 removed (Argon has 49% weekly quota left; keep it for the one review in job 016).
