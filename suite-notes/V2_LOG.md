@@ -646,3 +646,9 @@ MERGED testkit RB #118, SD #115, NSD #205.
 - SB #172 (icons + level badge) merged into v2 (9ef43db, head 12f8fac, CI green).
 - A container restart killed the nav writer and its servers; resumed it with instructions to merge origin/v2 and push early.
 - Job 009: the USER told the VM the :8000 instance is throwaway, so the VM uses it (deviating from the separate data root, with the owner's OK). Profile present; character "Guild Clerk Oyla"; run in progress.
+- Step 8 list:
+  - SD index.v1.js:281/283 calls sb.blockInText without a guard. In the nav writer's live run it threw "sb.blockInText is not a function" (the v2 SB API has no blockInText). Guard it, or keep the v1 path off under v2.
+  - RB stepper tap targets (SB vendored styles) under 40px.
+  - Re-measure the RB HUD with the DPR method.
+  - RB persona reader's user_avatar gap.
+- The nav writer (ui-7-nav, 310f436) is partial: the bar, the More sheet and the panel are built; 390 dark: labels ≥5.66, keyboard passed. Sent back: make focus distinct from current, the "state" badge overlap, the hero selectors, the full matrix, the PR.
