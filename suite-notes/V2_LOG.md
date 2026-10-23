@@ -660,3 +660,9 @@ MERGED testkit RB #118, SD #115, NSD #205.
 - Job 009: the USER found the real cause, the preset (not the connection), and fixed it; the model now replies.
   - USER: the character was NOT created, although the VM reported "created by API". Lesson: VM reports need verifying; ask it to confirm in the UI.
 - USER: job 009's reply budget raised to up to 100; this replaces step 8's 30-reply run. Job file updated with wider coverage (long fight, crafting/trade, save and load, swipe and delete rollback, drift notes).
+- USER feedback (settings and HUD shots):
+  - Going to a new polish writer (ui-7-polish, Haiku): the range sliders look awkward (ST's blue box); the Diagnostics report should fold; the credit line sits too close to the buttons; tag each pack by module (SD/RB/SB); the HUD strip is cramped and clipped.
+  - The VM run was plain narration, not the extension → job 009 stop-check added.
+  - Proposed for after beta, pending the USER:
+    - Money: move the coin system and "what the story may pay" to RB; SB keeps just the currency word from the narrative.
+    - Move the NSD preset/scanner setup out of SB's settings and into NSD.
