@@ -56,3 +56,10 @@ New budget: up to **100** replies with `gemini-3.8-flash`, swipes and retries in
 4. Replies 61–100 (stop earlier if everything is clean by 80): free play through 3+ places and 3+ quests. Note any drift: the state disagreeing with the story, duplicated NPCs, a stuck quest, a wrong time or weather.
 5. Record what step 5 asked for after replies 1, 5, 10, 15, 25, 40, 60 and the last one. Take screenshots (phone 390 and desktop 1280) after 15, 40 and the last.
 6. In the report: replies used; per module, a yes/partly/no with one line why; every bug, with the reply number and a short description (a few words of chat at most); errors with counts; average and slowest reply time; drift notes. Check your own claims against the screenshots before reporting.
+
+## STOP-CHECK before any more replies (owner's report: the run isn't using the extension)
+The owner says the replies so far are plain narration: Story Suite isn't taking part. Before sending more:
+1. In the :8000 page, confirm the Story Suite bar (Story, Game view, Suite) is above the message box, and that Settings → Diagnostics lists Story Block, rpg_battle, Story Director and npc_state_delta, all on v2.
+2. Confirm the assistant replies carry the suite's records, i.e. Diagnostics shows "Replies with a Story Suite record" going up, and the reply note under each reply shows changes.
+3. If the extensions aren't enabled or loaded, report exactly what you see and wait for the owner. Don't install or enable anything outside the four ~/story_suite checkouts.
+Only then go on with the replies. Replies sent without the suite active don't count towards the job's checks.
