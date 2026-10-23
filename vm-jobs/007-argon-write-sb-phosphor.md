@@ -20,3 +20,6 @@ This is the same kind of writer job as 005: Antigravity may edit files in the cl
    - any icons left out;
    - whether the push worked.
 7. Delete /tmp/ph7 only if the push worked.
+
+## CANCELLED (owner's decision): don't run this job
+The coordinator builds the icon set itself. If you've already started, stop. Don't push `ui-7-phosphor`, delete /tmp/ph7, and report "VM JOB 007: cancelled". Job 006 is unchanged: run it.
