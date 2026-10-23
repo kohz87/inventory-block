@@ -94,7 +94,7 @@ RB gates through `sdk.query`, `view.query` or `ctx.query`; never import SB's int
 runner. Only `requires.storyBlock` is enforced today; other dependency keys are ignored with
 warnings (SB `src/v2/registry.js:301`, `:405`). Do not claim `requires.storyDirector` works.
 
-Proposal (needs the user): **P22 — dependency lifecycle.** Track E adds
+Approved (USER, §12): **P22 — dependency lifecycle.** Track E adds
 `requires.peers:{'story-director':range}` to RB, checking registered module IDs/versions,
 including prereleases. Keep requires.storyBlock; do not pretend requires.storyDirector works.
 Missing/disabled/incompatible peers reserve names but leave RB dormant. Cycles refuse activation.
@@ -152,7 +152,7 @@ roster commands; no alias registrations. savepoint.* is new. return.point/status
 shipped, but rules-v2 restoration is an explicit §8 migration. New rules.* queries do not
 replace existing party.* wire shapes. All typed API/state changes below are approved implementation targets (§12), not shipped yet.
 
-Proposal (needs the user): **P01 — pack and definition transport.** Add registered
+Approved (USER, §12): **P01 — pack and definition transport.** Add registered
 `content.rules` (§7); pin one resolved ruleset per character timeline. Link extra item rules
 by SB `def.id` into RB's immutable definition table, not copied stack metadata. Replacing an
 installed pack at the same version cannot change a running timeline.
@@ -202,7 +202,7 @@ type QuestView = Quest & {ready:boolean; blocked:Text240[]; remainingMinutes:Cou
 // rules.progress({actor?:Id}) -> ProgressView|null.
 ```
 
-Proposal (needs the user): **P23 — SD thread writers and neutral acceptance.** SD owns
+Approved (USER, §12): **P23 — SD thread writers and neutral acceptance.** SD owns
 `director.threads`, `director.keys` and a new `director.writes` retry ledger. RB never drafts
 them. `ThreadKind` is the shipped agenda/event/hook/quest/clock/beat/secret union (SD
 tracker/convert.js:18). Generic goals may use hook; a thread with `rpg` is selected by that
@@ -260,7 +260,7 @@ visible digest, visible facts, then saved visible scene. Missing day returns `mi
 title `Day <day>`, saved-scene line or `[]`; no hidden-event recap. Current digest queries can
 return null when disabled (SD `chronicle/queries.js:13`), so this adapter is new work.
 
-Proposal (needs the user): **P09 — independent checks.** Transfer the checks domain,
+Approved (USER, §12): **P09 — independent checks.** Transfer the checks domain,
 check capture and shipped check interfaces to SD. Merely moving files is insufficient: RB
 checks/commands.js:106 requires party.actor/pc, and checks/modifiers.js:5 includes topic
 skills/talents/items, effects and burden. SD gets its own settings and new state
@@ -274,7 +274,7 @@ from policy hashes. With no SD actor/default, checks.roll returns NOT_FOUND and 
 neutral actor creation; this never becomes an RB dependency. All new policy writes require player UI
 or the explicitly allowed creation caller, never narration-selected links/bonuses.
 
-Proposal (needs the user): **P24 — populate identities and rule inputs through their owners.**
+Approved (USER, §12): **P24 — populate identities and rule inputs through their owners.**
 These are new APIs, not reinterpretations of shipped payloads. Mutating entries below use the
 same host-persisted write/fingerprint retry rule as P23, in their owner's ledger; no-op retries
 precede hash checks. Unknown fields INVALID, unknown refs NOT_FOUND, wrong issuer REFUSED,
@@ -368,7 +368,7 @@ training records are [B3/B6](RB_TRACK_B_DESIGN.md); capture never chooses death/
 recruitment offer when omitted; old free-form skill grants cannot bypass the three-skill rule.
 The lead removes SD quest registrations before RB registers their retained names.
 
-Proposal (needs the user): **P14 — currency and money policy.** `purse.currency({})` returns
+Approved (USER, §12): **P14 — currency and money policy.** `purse.currency({})` returns
 `Currency|null`. SB validates and gives an enabled RB override precedence, then falls back to
 its existing settings/pack/default resolver. Invalid RB data blocks RB money mutations while
 SB fallback display remains usable. RB settings override pack currency in its resolved policy.
@@ -661,7 +661,7 @@ Re-read replans marked steps on its carrier, then replays later carriers (store.
 trimReceipts removes **all** data after 200 carriers (persist.js:262, :268). No current host
 mechanism checks these guards. The following P12/P13 changes are mandatory track E gates.
 
-Proposal (needs the user): **P12 — guarded blocks and suffix reconciliation.** Extend
+Approved (USER, §12): **P12 — guarded blocks and suffix reconciliation.** Extend
 transaction spans to `{n,story,id:RecordId,module:string,source:Source,guard:Guard|null,
 claims:string[],evidence:Proof[],boundaries:{cursor:Cursor,prefixHash:Hash,payloadHash:Hash}[],
 operation:{type:string,payload:Json},recorded:Json,result:Json,
@@ -927,7 +927,7 @@ to start day10; §11 records both. Current bookmarks create/open branches (SB re
 this retained-chat restore. There are no shipped return.save/load/checkpoint/clear/back or
 sdk.rewindTo APIs at the pins.
 
-Proposal (needs the user): **P13 — snapshot/participant mechanics and edge cases.** All APIs
+Approved (USER, §12): **P13 — snapshot/participant mechanics and edge cases.** All APIs
 in this section are new track E/NSD work, not permission for RB to draft other owners' state.
 Clock-boundary markers are new host work too. New synchronous
 `ctx.clockBoundary({minute:Minute,source:Source}) -> {cursor:Cursor,prefixHash:Hash}` is callable
