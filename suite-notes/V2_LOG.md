@@ -731,3 +731,10 @@ MERGED testkit RB #118, SD #115, NSD #205.
 - USER: equipment belongs to RB. SB Inventory drops its EQUIPPED section (bag items keep a 'Worn by' tag, plus a 'Gear on Party' link when RB is installed; no equipment concept without RB) → writer E. The paper-doll card moves to RB's Party screen (portrait/name + 2-col slot grid, filled-slot actions, empty-slot Equip… chooser) → writer D (ui-8h-party-gear), then the action cards.
 - Job 012 (Sol, #176): merge after fixes. 4 blockers (layout widget leak/orphan layers, panel hide/destroy leaves dialogs, Tab at fold summary, keyboard vs paint order) + 3 P2 → writer A, on fix-8a-dialogs first. USER at 97%: continue existing work only; no new work.
 - RB #129 merged (f27cdf7): EQUIPMENT paper-doll on Party (slots from items.slots: weapon, off-hand, armour, worn, 2 accessories; filled tile actions; empty-tile Equip…; 44px; contrast ≥5.38). Follow-up in ui-8f: threshold 380px so the 1280 window goes side by side. Give stays on the paper-doll (it's how companions get gear); removed only from SB's bag list.
+- USER: lean Party equipment → writer D:
+  - no character block, only slot tiles (name, stats, condition bar);
+  - tap once to arm (red), tap again to unequip; no Take off/Drop/Give;
+  - collapsible member cards (lead expanded);
+  - RB item.equip {stack, to};
+  - SB Inventory 'Equip on…' fold → writer E.
+  The 8 slots (main/off hand, head, body, legs, feet, acc 1/2) need a RB rules split plus save migration → USER to decide (beta now vs after); the interim tiles show the rules' real 6 slots with the user's names.
