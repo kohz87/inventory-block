@@ -30,3 +30,4 @@ The job can take a while. If you can, run step 3 in the background and carry on 
 ## Update (after the first VM report)
 - Correct call: don't use --dangerously-skip-permissions. Wait for the VM owner to add a narrow allow rule for agy's command tool, scoped to /tmp/icons7. Then re-run step 3.
 - Commit trailer: the prompt no longer asks for one, so leave commit messages without trailer lines.
+- GO (the VM owner granted agy's command permission, 23 Oct ~11:40 SGT): re-run step 3 in the existing /tmp/icons7 now, then do steps 4–7.
