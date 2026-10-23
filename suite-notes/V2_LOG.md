@@ -711,3 +711,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
   - the HUD strip is too close to the input → an ~8px gap (writer B);
   - the HUD shows party data only → remove SD's time and place pills (writer C);
   - the Status fold: add weather and coordinates, keep time/place/goal, no inner bordered box (writer B; it routes back if SD owns the card).
+- USER approved concept v26: the desktop/tablet game view is a centred window like Settings (desktop min(1200px, 92vw) × min(900px, 90vh); tablet 16px margin; phone full screen), with a scrim, Escape/close/scrim click, scroll lock, and part of the modal stack → writer A (replaces the width cap).
