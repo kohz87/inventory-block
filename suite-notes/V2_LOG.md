@@ -1050,3 +1050,7 @@ MERGED testkit RB #118, SD #115, NSD #205.
 - VM: 027 resume 1 running on account A since 14:49 UTC (Sol writing); testkit re-synced to SB d23ab1f (RB 4262f67, SD 13e9b45). LEAD: leave RB tests/v2/qa/vendor alone per the repo rule.
 - E6a round 3 at 0e01674 (merged E5 d23ab1f and E1 86e5a0f; one store.js conflict, both sides kept): durable() everywhere with announcements after flush; chat-bound operations → STALE; reachesBranch shared with E5 (touchesProof now uses it) for /domains/savepoints; participants rechecked in the commit section; registry warning fixed. timeline-principles 30 tests (28 fail on old src); all fuzzes and modules green. VM JOB 035 (Sol re-check) alongside 027 on A if room, else first on B.
 - USER: monitor one more round before changing the blocking rule. Reviews now tag each finding [normal play] / [damaged file] for tracking only (035 prompt + WRITER_RULES); decision after this round.
+- VM JOB 035 (Sol, account A, E6a 0e01674): MERGE AFTER FIXES. HOLDS: reserved branch, participants at commit, the E1 merge. Open:
+  A. queued announcements outlive their chat/receipt after a failed flush, then a chat switch or delete;
+  B. the barrier isn't chat-bound and flush rejection skips the identity check (chat B blocked by A's barrier).
+  Tags (lead's classification; the VM didn't tag): both [normal play], rare, needing a failed save. Round 4 principle: all in-memory timeline state is chat-owned (announcements also receipt-bound), dropped on chat change, validated before use; identity checked on every flush path.
