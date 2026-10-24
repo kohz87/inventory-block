@@ -920,3 +920,11 @@ MERGED testkit RB #118, SD #115, NSD #205.
 - USER: account A out of quota → 028 and 027 both on account B now. 030 and 029 queue on B, or on A once it resets.
 - Studio icons: Story_studio #3 merged (assets/icons). 20 drawn SVGs (logo and app mark, tier 0–3 badges told apart by shape and number, written/generated/base form marks, classes/shops/trainers rail marks, budget gauge, cascade-remove, undo/redo, open/export, two empty states), plus SB_ICONS reusing 8 of SB's vendored Phosphor icons (MIT); tests check structure and colours. Lead reviewed the contact sheet: legible at 16px in both themes; the mix of Phosphor outline and drawn stroke reads consistently enough, so it stays. Part 2 brief updated: the built file must carry Phosphor's MIT notice.
 - E5 round 3 at 233fa16: touchesProof (root, /meta, /meta/proofs/** paths and from) → legacy blocks without their own proof refused (REPLAY_PREREQUISITE); guarded blocks may only add their own pins or write the record with just their own pins (proofWriteProblem); visibility from applied meta.proofs. tests/v2/evidence-mutation.test.js (repros a/b + variants, forged pins, 6 ownership variants, revert-to-fail); a hostile-legacy-block step added to the fuzz. Suite, fuzz 60+60, modules green. Next: merge main + E1 03c3ca0, then a short Sol re-check (job 031) covering P1 and the merge.
+- VM JOB 030 (Sol, account B, E1 03c3ca0): MERGE AFTER FIXES. HOLDS: receipt remap, shown-swipe delete (all variants), modern checkpoint covers, aside migration. Blocking:
+  (1) orphan quarantine bypassed: intact spans still run; truncate keeps unattributed ops (coin 0→1, survives reload);
+  (2) rewritten legacy checkpoints without covers stay unchecked (36 vs a true 32);
+  (3) hidden swipes' checkpoints trusted after an earlier Re-read → a removed coin and claim come back.
+  LEAD DIRECTION (round 5):
+  (A) a checkpoint is trusted only on an exact current-prefix hash match (incremental per-carrier chain); no stored prefix hash → never trusted;
+  (B) quarantine decided per record up front in one function used by replay, replan, reconcile, truncate and rewind; truncate refuses rather than keep unattributed ops.
+  Fuzz invariants: trusted checkpoint = full replay; orphan → no effect; new hidden-swipe and legacy-checkpoint steps; the excluded swipe case un-skipped. Sent to E1's writer.
