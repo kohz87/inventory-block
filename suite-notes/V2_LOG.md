@@ -1117,3 +1117,8 @@ MERGED testkit RB #118, SD #115, NSD #205.
   (1) VM jobs 043 (E6b, Sol writes) and 044 (B6 death/return, Sol writes) written, both WAITING until E6a merges. Claude keeps track E's last rounds, track B slice 4, the reviews and integration.
   (2) WRITER_RULES: merge a track E package when a re-check finds no [silent wrong state]; [fails safe] items become "E follow-ups" for integration. Tracks A and B keep the full standard.
 - E6a round 5 at 29011bf: identity stamped at enqueue (foreign work → STALE before start); per-chat running counts; unfinished-journal chats barred on open; recover lowers/raises the barrier around its story look. Known limit: one host-wide queue. Principles tests 56 (6/14 new fail on old src). All green. VM JOB 041 READY (first in queue), with the stopping-rule tags.
+- VM JOB 041 (Sol, account B, E6a 29011bf): MERGE AFTER FIXES. Both repros hold (every entry point STALE after a switch). One blocker [normal play][silent wrong state]: recover's temporary barrier drop emits `modules: ready`, and a listener grants XP against inconsistent state (139 vs 43). Round 6: never lower the barrier inside recover; an internal inspection read path; publish readiness once, after recovery.
+- E FOLLOW-UPS (integration, [fails safe]):
+  - E6a: participant callback timeout/cancellation (a hung callback keeps a chat barred);
+  - E1: Re-read heals corrupted claims [damaged file];
+  - E5: before-checkpoint owner pick [damaged file] (if not fixed by the round 7 redesign).
