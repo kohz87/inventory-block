@@ -1106,3 +1106,10 @@ MERGED testkit RB #118, SD #115, NSD #205.
   - [damaged file] the same path regenerates corrupted claims.
   Round 7 principle: Re-read stamping moves a kept block's position only; a non-intact kept block stays exactly as stored. Non-blocking: proxy coverage, registry recognising replayQueries, document that purity is a promise. NOTE: the escape hatch wouldn't fix these (Re-read stamping, not checkpoint trust), so a targeted round 7 it is.
 - Trial tag tally (rounds after the USER's "monitor one more round"): E6a r3 2N, E6a r4 2N, E5 r5 1N+1D, E1 r6 1N+1D, B s3 4N → 10 normal-play vs 2 damaged-file blockers. Damaged-file findings are a minority; the tag rule would save little.
+- VM JOB 039 (Sol, account B, E5 19a074e): MERGE AFTER FIXES. Both earlier repros hold. Blocking:
+  - A [normal play]: flattened reply-wide matching swaps same-key, same-parent proofs after a Continue;
+  - B [normal play]: a refused replan publishes before guardHolds;
+  - C [damaged file]: before-checkpoint evidence takes the first candidate, not the applied owner.
+  LEAD DIRECTION (round 7): derive proof ids from the originating block's own stable identity (line key or step key + source block, plus an ordinal within the block), so blocks can't collide and no cross-block matching is needed; ask before coding if it conflicts with the §6 proof-id rule. Publish only after guard acceptance. Checkpoints carry the applied ownership map. Remove the Continue exemption from the fuzz.
+- Tag tally update: E5 r6 → 2N + 1D. Running total of this trial: 12 normal vs 3 damaged.
+- VM: 027 continues on account B now.
