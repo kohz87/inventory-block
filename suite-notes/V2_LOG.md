@@ -1054,3 +1054,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
   A. queued announcements outlive their chat/receipt after a failed flush, then a chat switch or delete;
   B. the barrier isn't chat-bound and flush rejection skips the identity check (chat B blocked by A's barrier).
   Tags (lead's classification; the VM didn't tag): both [normal play], rare, needing a failed save. Round 4 principle: all in-memory timeline state is chat-owned (announcements also receipt-bound), dropped on chat change, validated before use; identity checked on every flush path.
+- USER: weekly 23%. Codex account B resets 16:25 UTC (00:25 SGT), not 18:15. B's queue: the E1 r6 / E5 r5 / E6a r4 re-checks as they land (reviews first), then 027 continues if A runs out, then 029 resume 1.
