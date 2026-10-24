@@ -1025,3 +1025,14 @@ MERGED testkit RB #118, SD #115, NSD #205.
   3. ancestor writes (replace /domains) forge savepoints;
   4. a broken participant registered after prepare isn't rechecked at commit.
   Round 3 direction is by principle: one flush-and-rethrow helper everywhere, announce after durability; chat identity bound to every write and cleanup → STALE; the reserved-path ancestor rule shared with E5's touchesProof; recheck participants inside the commit section. Non-blocking: a false settings.rules warning.
+- Track B slice 2 review (Sonnet, #141 d513452): MERGE AFTER FIXES. Slice 1 fixes hold; the fold is replay-safe (394 ms vs 968 ms per reply at 2,400 attempts; 487 ms vs 2,273 ms rebuild); flags not forgeable. Blocking:
+  B1 skill.use charges from the raw pool;
+  B2 paid+cite double attempt;
+  B3 a re-recorded key after a fold wedges settle;
+  B4 bounds bypass via negative-stat refund (+ add value ceiling);
+  B5 pin leaks (cards, terms/ranks, cardContext, import, recovery);
+  B6 rulesParts lacks training;
+  B7 party.create/import/creation.import make classless stuck characters in pinned chats.
+  Also: N1/N2/N5/N8/N10/N16 (register rules.sheet), cleanup. Sent to the B writer (fix on slice 2, merge into slice 3).
+  TODO (lead/E/D): an SB read-only query exposing {resolved, rulesHash, packHash, constantsHash, defs} + progression for activation; store resolved once by rulesHash (not in every checkpoint); a control run for the inventory stack replay problems after a middle delete → file with E; afterCapture only runs after a reply with a line (cite/click/combat attempts wait) — note for combat wiring.
+  Track C at integration: drop `frozen` from the rules.item fixture; C08 fixture 4 companions; the party tab's Accept must send `class` in pinned chats.
