@@ -1,0 +1,11 @@
+Re-check Story Block PR #194 (this checkout, branch track-e/e5-evidence), track E5 proof and evidence. Your re-check at d23ab1f left 3 gaps; round 5 (head 134c4dd, after merging E1 86e5a0f) fixes them by one rule: what a guard sees during any walk is exactly the blocks applied so far from the walk's real base, counted once, published only after apply; every op is shape-checked before rebasing. Diff: `git diff d23ab1f..HEAD` minus the E1 merge; tests/v2/evidence-walk.test.js; the evidence-fuzz oracle now models duplicates. E1 is in round 6 — don't re-report E1's open items unless E5 worsens them. Read-only; don't run the whole suite; reproduce with single tests or small scripts. Keep it short.
+
+1. False duplicates in the checkpoint walk: walkSuffix seeds from the walk's own base. Re-run the checkpointEvery 2 early-point reconcile (NO_LONGER_DONE removal). HOLDS / NOT FIXED.
+2. Refused kept collider: stamp() no longer publishes; publish(span) only after apply. Re-run the Re-read collider repro. HOLDS / NOT FIXED.
+3. Legacy blocks: step() runs opShapeProblem on all ops before rebasing; unknown op / missing value behind an absent `within` holder. HOLDS / NOT FIXED.
+4. The new own-id rule (pickId: a planned-again block keeps one of its own replaced ids when its key derives it). Can it ever give a block an id another applied block owns, or change an id across an unchanged Re-read?
+Then anything newly broken; no-proof stores byte-identical.
+
+For every finding, add a tag: [normal play] (swipe, delete, Re-read, Continue, reload, crash, settings change, chat switch) or [damaged file] (needs a hand-edited or corrupted chat file). Tags are for tracking; keep blocking judgments as before.
+
+Output: verdict (MERGE / MERGE AFTER FIXES / NOT READY), items 1–4, new BLOCKING items (what, why, file:line, the fix, tag), non-blocking headlines. No model names in your output.
