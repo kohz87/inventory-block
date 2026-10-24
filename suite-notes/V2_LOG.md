@@ -824,3 +824,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
   (2) Studio part 2: the lead provides mocks before it starts; icons/SVG/visual assets are made by the Claude side (the other models are weaker at SVG), not by the Studio writers.
   (3) The user's next full test is after stage 5 (integration of the rebuilt RB), not at beta.2.
 - v1 branches created at today's main (USER yes): Story_block bbd4599, rpg_battle defbcdf, Story_director 1273686, npc_state_delta f6e92f5. v1 users install that branch; main takes v2 at beta.2.
+- STAGE 1 started (quota reset): writers W1 start card (SB+RB, fix-8j-start-card), W2 SD v1 guard (fix-8j-v1-guard), W3 lean equipment live check (RB fix-8j-equipment-check); lead opened SB #180 docs-rb-contract (docs/v2/contract/: RB_CONTRACT.md, RB_CONTRACT_APIS.md, RB_TRACK_B_DESIGN.md, README; code links pinned to SB 47b2806 / RB c24e93d / SD 8072d60 / NSD b906544).
