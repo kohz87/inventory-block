@@ -1074,3 +1074,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
   Root: the reply-wide replacement set treated as ownership. Round 6 principle: per-block ownership; other blocks' ids reserved; colliding replans refused before apply/publish; an unchanged Re-read keeps every id (fuzz invariant).
 - VM: account A out at 15:37 UTC (back ≈19:37 by the 4-hour rule). 038 stopped with no verdict → first on B at 16:25. 027 partial: RB track-a 4eca8b3 (A1/A3 quest adapters and terminal outcomes), SD track-a 20e097f (A2 neutral thread writers); continues on B after 038.
 - Tag tally so far (USER's one-more-round trial): E6a r3 → 2 normal; E5 r5 → 1 normal, 1 damaged (+2 damaged items fixed). E1 r6 pending.
+- USER correction: the current reset times stand (A ≈19:22 UTC, B 16:25 UTC); the 4-hour rule applies only to future outages without a stated time.

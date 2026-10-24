@@ -3,8 +3,8 @@
 Rules: reviews before writing. Use whichever Codex account has quota (README "Codex accounts"). A job listed as WAITING
 has no file yet or isn't ready; skip it. Report each finished job as `VM JOB NNN:` and add it to DONE.
 
-Accounts: A ran out at 15:37 UTC → available ≈19:37 UTC (03:37 SGT); B resets 16:25 UTC (00:25 SGT).
-When an account runs out: it is available again 4 hours after the moment it ran out (README). The VM updates this line.
+Accounts (USER): A resets ≈19:22 UTC (03:22 SGT); B resets 16:25 UTC (00:25 SGT). These stated times stand.
+For FUTURE outages with no stated time: available again 4 hours after the moment it ran out (README). The VM updates this line.
 
 Order:
 1. 036 — DONE (reported 15:37 UTC).
