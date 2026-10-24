@@ -1,0 +1,14 @@
+Re-check Story Block PR #195 (this checkout, branch track-e/e6a-timeline), track E6a timeline and restore. You reviewed it at 5a522ad (NOT READY, 8 blocking). The writer reports all fixed at 098d2b2 after merging E5 5e31419 (which holds E1 03c3ca0). E6a's own change: `git diff origin/track-e/e5-evidence...HEAD`; the round-2 diff: `git diff 5a522ad..HEAD` minus the E5 merge (1b8db2f). E1 and E5 are in their own fix rounds — don't re-report their open items unless E6a depends on or worsens them. Read-only; don't run the whole suite; reproduce with single tests or small scripts. Keep it short.
+
+For each of your 8, HOLDS or NOT FIXED (reproduction, file:line, fix):
+1. Durability: nothing activated before a durable commit; success (incl. savepoint.complete) only after the final flush; flush failure propagates. Re-run your crash-after-activation repro.
+2. Races: head, source and chat rechecked in one synchronous section with the journal and commit (make, activate, nativeEvent). Re-run your interleavings.
+3. Reserved `savepoints` domain (ordinary ops refused from non-host blocks); participant identity stamped from the registering module; npc.identity bound to the event's participant.
+4. Failed participant registration → SNAPSHOT_UNAVAILABLE; schema and exact prepared checkpoint id + hash verified.
+5. Payload hash covers payload + proofs; lost or altered proof bytes → SNAPSHOT_UNAVAILABLE.
+6. Enumeration from registry names (absent() enforced); day-start restore overlays dayStarts and recomputes previousDay.
+7. withRuleOverlay (timeline/overlay.js) applies restored rule settings per chat before global; batchResults.resolve({id,state}) → {id,hash,bytes} verified and pinned (DEPENDENCY_UNAVAILABLE / NOT_FOUND / CONFLICT).
+8. Epoch gate compares only fields the guard carries.
+Also: the `erases` option added to E5's proofWriteProblem (evidence.js) for the host restore only — can any non-host block reach it? recover() takes {} + authority; guardEnv byte-identical for a guarded chat that never uses the timeline (hostOwned flag on the core replay hook).
+
+Then anything newly broken. Output: verdict (MERGE / MERGE AFTER FIXES / NOT READY), the items, new BLOCKING items (what, why, file:line, the fix), non-blocking headlines. No model names in your output.
