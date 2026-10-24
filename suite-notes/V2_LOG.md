@@ -950,3 +950,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
   - Setup must probe through SB module status (E2), not rules.party → C fixing.
   - Creation-wizard wiring of the class step is the lead's, at integration.
   Sent to the B and C writers. Review of #139 after B's slice lands, so the stubs swap for the real queries.
+- E5 at 5e31419: merged main (licence) + E1 03c3ca0; one conflict (replayBlocks: E1 orphan rule, then guarded ? replayGuarded : replayLegacy). Suite, fuzz 60+60, E1 prop 1–300, modules green. VM JOB 031 (Sol re-check of E5 P1 + merge) written; queue 031 before 029. E5 takes E1 round 5 by merge later.
