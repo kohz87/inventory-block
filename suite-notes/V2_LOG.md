@@ -965,3 +965,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
     - afterCapture combiner and registration gated on preflight → lead at integration;
     - ledger compaction later.
   - Sonnet review of #140 running.
+- Track B slice 2 started (same writer), branch track-b/rules-slice2 off slice 1, draft PR based on slice 1: entry points (creation.finish milestone-0, party.addCompanion, skill-use payer, combat end, training completion), rules.party/flags, skill.train, party.setActive, summon.end, B3 (ItemRule, generation bounds, generated def+rule+grant), the training package (place, fee, session, offers). Slice 3 = B4 combat; B6 death/return after E6a; slice 4 = SD checks/danger + NSD participant.
