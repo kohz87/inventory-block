@@ -1041,3 +1041,9 @@ MERGED testkit RB #118, SD #115, NSD #205.
   (2) a rejected kept collider publishes its bytes into walkProofs during a Re-read;
   (3) legacy blocks skip opShapeProblem before rebasing, so siblings of a malformed op apply silently.
   Round 5 principle: walk evidence = blocks applied so far from the walk's real base, counted once, published only after apply; shape-check every op before rebasing. Also fix the EVIDENCE.md:150 doc and make the fuzz oracle model duplicates. Merge E1 86e5a0f first.
+- VM JOB 034 (Sol, account A, E1 86e5a0f): MERGE AFTER FIXES. HOLDS: alternating swipes (40 switches → 1 reconcile); legacy benchmark (2,000 replies first load 855 ms, then about 15 ms per reply). Earlier repros pass. Blocking:
+  (a) the prefix hash omits replay inputs (receipt guard, source.logical/evidence);
+  (b) quarantine checked after Re-read filtering and renumbering;
+  (c) guard queries read suffix receipts and live settings/currency.
+  Round 6 direction: one replay-input function feeds both the hash and replay; guards pure over a prefix-only context, external facts recorded at plan time; quarantine classified on the original record before any transform. Escape hatch: never trust a checkpoint across a guarded block (measure both). Commit prop.mjs.
+- VM: 027 resume 1 (track A, Sol writes) starts on account A now.
