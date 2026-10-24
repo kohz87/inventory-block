@@ -1083,3 +1083,10 @@ MERGED testkit RB #118, SD #115, NSD #205.
   - the fuzz is committed as scripts/fuzz-replay.mjs.
   Bench, 2,000 guarded replies (A vs escape hatch B): first load 446 vs 2,327 ms; middle delete 1,810 vs 1,239; Re-read near the end 818 vs 6,215; no-change rebuild 55 vs 1,017. Suite 3045/0; diff harness same 19; fuzz 1–300 clean; modules green.
   API: modules whose guards call queries must declare replayQueries → TODO track A/B (and SD/NSD if they guard) at integration. VM JOB 037 READY after 038 on B.
+- Track B slice 3 review (Sonnet, #143 cd58f01): MERGE AFTER FIXES. Old engine byte-unchanged (incl. mid-fight v1 chats); pinned maths match v1; replay safe; BatchResult verifies with E6a helpers; 5–9 ms per act. Blocking, all [normal play]:
+  1. combat.start unguarded (a deleted promotion leaves the fight alive);
+  2. loot priced after lootHeld + a scale-blind value ceiling → combat.end wedged forever;
+  3. summoned units earn mastery;
+  4. fight XP ignores the pinned xpPerLevel.
+  Plus the loot-registration guard, summon counting/eviction, session-keyed end, cleanAction, carried strength map, loot reason text. Sent to the B writer; slice 4 (SD checks/danger + NSD participant) next; B6 after E6a.
+- Tag tally (trial): B slice 3 → 4 normal, 0 damaged blocking (+1 damaged non-blocking).
