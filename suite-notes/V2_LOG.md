@@ -1116,3 +1116,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
 - USER: proceed with (1) more writing on the VM and (2) the track E stopping rule.
   (1) VM jobs 043 (E6b, Sol writes) and 044 (B6 death/return, Sol writes) written, both WAITING until E6a merges. Claude keeps track E's last rounds, track B slice 4, the reviews and integration.
   (2) WRITER_RULES: merge a track E package when a re-check finds no [silent wrong state]; [fails safe] items become "E follow-ups" for integration. Tracks A and B keep the full standard.
+- E6a round 5 at 29011bf: identity stamped at enqueue (foreign work → STALE before start); per-chat running counts; unfinished-journal chats barred on open; recover lowers/raises the barrier around its story look. Known limit: one host-wide queue. Principles tests 56 (6/14 new fail on old src). All green. VM JOB 041 READY (first in queue), with the stopping-rule tags.

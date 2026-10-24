@@ -1,0 +1,10 @@
+Re-check Story Block PR #195 (this checkout, branch track-e/e6a-timeline), track E6a timeline and restore. Your re-check at dcb371f left 2 blockers (a queued make's identity captured at dequeue ran in chat B; a global running count suppressed chat A's recovery). Round 5 (head 29011bf; `git diff dcb371f..HEAD`; tests/v2/timeline-principles.test.js, now 56; docs/v2/TIMELINE.md) applies: chat identity stamped at enqueue (exclusive), foreign work → STALE before it starts; per-chat running counts; a chat with an unfinished journal is barred the instant it opens (settle() from ensureModules), recover lowers/raises the barrier around its synchronous story look. Stated limit: one host-wide queue, so B's held operation delays A's recovery (A stays barred meanwhile). Read-only; don't run the whole suite; reproduce with single tests or small scripts. Keep it short.
+
+1. Re-run both repros; try every entry point (make, savepoint.make via the bus, forget, prepare, activate, abort, recover, nativeEvent, nativeMutation) enqueued in A then run after a switch. HOLDS / NOT FIXED.
+2. Is the barrier-lowering inside recover a window where a command could slip through (any await between lower and raise)?
+3. Is the host-wide queue limit acceptable (A barred, not corrupted) — or can a long-held operation in B leave A permanently barred?
+Then anything newly broken.
+
+STOPPING RULE (lead): tag every blocking finding with BOTH (a) [normal play] or [damaged file], and (b) [silent wrong state] (normal play ends with wrong story/module state and no Problem, refusal or failure shown) or [fails safe] (refusal, STALE/FAILED, Problem, inactive block, lost notice, damaged file, performance). The lead merges when no [silent wrong state] remains; [fails safe] items become integration follow-ups.
+
+Output: verdict (MERGE / MERGE AFTER FIXES / NOT READY), items 1–3, BLOCKING items (what, why, file:line, the fix, both tags), non-blocking headlines. No model names in your output.

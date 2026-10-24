@@ -7,6 +7,7 @@ Accounts (USER): A resets ≈19:22 UTC (03:22 SGT); B resets 16:25 UTC (00:25 SG
 For FUTURE outages with no stated time: available again 4 hours after the moment it ran out (README). The VM updates this line.
 
 Order (run top to bottom):
+0. 041 — Sol re-check of E6a round 5 (read-only, short). READY — run before continuing 027.
 4. 027 Resume 1 — track A, Sol writes (027-resume1.txt). IN PROGRESS (RB 4eca8b3, SD 20e097f): continue after the three re-checks.
 5. 043 — E6b write (Sol). WAITING until E6a merges (the lead flips it to READY).
 6. 044 — B6 death/return write (Sol). WAITING until E6a merges.
