@@ -9,5 +9,5 @@ pushed. Per the README test rule: no suite run first (CI covers the head); run s
 3. Report as VM JOB 025: the head, the verdict, each item's HOLDS/NOT FIXED, and every BLOCKING item in full.
 4. Delete /tmp/rev191c.
 
-SCHEDULE (USER: Codex has 6% of its 5-hour window left): don't start this now. Run it first thing at the next Codex reset.
+SCHEDULE (USER: Codex has 6% of its 5-hour window left): don't start this now. Run it first thing at the next Codex reset, 22:22 SGT (14:22 UTC) today.
 A Sol re-check of E5 (job 026) will follow in that same window, once E5 has merged E1.
