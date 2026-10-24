@@ -970,3 +970,10 @@ MERGED testkit RB #118, SD #115, NSD #205.
   - B1: a skipped duplicate hides an applied proof, because the index counts stored spans before checking whether they applied → the projection must come only from applied blocks, in apply order, with ownership collisions refused;
   - B2: a malformed op (null) crashes story.evidence → validate op shape before dereferencing; malformed blocks fail closed.
   Sent to E5's writer (round 4). Job 029 is next on the VM.
+- VM JOB 027 PARTIAL (account B; stopped 12:57 UTC, "model at capacity").
+  - Heads: RB track-a 9c1aea7, SD track-a d2615a7.
+  - Done: A1 373943e (RB quest mechanics and settlement planner), A2 8db9cdb (SD thread retry and neutral acceptance), A3 3510630 (RB objectives on neutral threads), A4 07eb0a3 (RB eight-slot planner), A5 2ecea6f (NSD audit).
+  - Left: A6 is a WIP, unreviewed.
+  - VM checks: RB 1714/0, SD 1093/0; no lead-owned commits.
+  - The commit titles ("pure planner", "prepare", "discover") suggest the end-to-end retirement of SD's payout paths may be partial → a Sonnet coverage review of both branches against the extraction map is running; the 027 resume is written from its to-do list.
+- VM: job 029 (Studio part 2) running on account B.
