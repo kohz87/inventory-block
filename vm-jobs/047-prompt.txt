@@ -1,0 +1,9 @@
+Re-check Story Block PR #195 (this checkout, branch track-e/e6a-timeline), track E6a. Your re-check at 29639d6 left (1) [normal play][silent wrong state] replacement proof published before guardHolds, and (2) [damaged file] two pending entries dropping the barrier. Round 7 (head 7884e27): merged E5 3467c97 (guard-then-publish in replanned(), the epoch/rules gate inside guardHolds); tests/v2/timeline-replan.test.js for (1); recover refuses a journal with more than one unfinished change (touches nothing, stays barred, announces nothing, FAILED naming the entries) for (2). Read-only; don't run the whole suite; reproduce with single tests or small scripts. Keep it short.
+
+1. Re-run both repros. HOLDS / NOT FIXED.
+2. Can recover's refusal of a multi-entry journal ever trap a chat permanently in normal play (is there a reachable path to two unfinished entries without a damaged file)? If yes, that's [fails safe] but say what recovers it.
+Then anything newly broken.
+
+STOPPING RULE: tag every blocking finding with BOTH (a) [normal play] or [damaged file], and (b) [silent wrong state] or [fails safe]. The lead merges when no [silent wrong state] remains.
+
+Output: verdict, items 1–2, BLOCKING items (what, why, file:line, the fix, both tags), non-blocking headlines. No model names in your output.

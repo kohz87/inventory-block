@@ -1,0 +1,7 @@
+Re-check Story Block PR #197 (this checkout, branch track-e/ctx-seams, off main = E1). Your review at 1d2dfe9 asked for changes (replans UNSUPPORTED; saved cursors drifting from placement; process-history ids). v2 (head 1b15c6c): block id = blockIdOf = hash(reply canonical pair, operation key, rank among the reply's blocks of that operation), bumped on rank collision; stored blocks keep their ids; ctx.cursor() works for replans (by ordinal) and new blocks (by rank); op/rev = current placement; the store enforces only {sid, swipeKey, block}; reading a cursor without making a guarded block fails; REPLAY.md: compare saved cursors by {sid, swipeKey, block} only. Read-only; don't run the whole suite. Keep it short.
+
+1. Re-run your three repros (replan after edit+Re-read; kept block moved by Re-read vs saved cursor; remove/re-add/reload/Re-read id). HOLDS / NOT FIXED.
+2. "Bumped on rank collision": can a bump make an id depend on history again (e.g. after a delete of the earlier block)? Is the id still stable across reload and an unchanged Re-read?
+3. Track A's settlement compares acceptance cursors by {sid, swipeKey, block}: any normal-play case where that identity changes while the accepted line didn't (or stays while it did)?
+
+Tag findings with both tags as for E6a. Output: verdict, items 1–3, BLOCKING items, non-blocking headlines. No model names in your output.

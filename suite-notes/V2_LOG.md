@@ -1166,3 +1166,6 @@ MERGED testkit RB #118, SD #115, NSD #205.
   - RB: R1 companions linked to the PC's actor (CONFLICT).
   - Cross-slice: RB guards ask party.actor/actors + story.evidence → declare replayQueries and forward them in module.js (48/187 tests fail on main's testkit); story.evidence allowed after E5.
   LEAD DECISIONS: interim foe budget = stat total ≤ 35 + 10 + 4·(level−1), level ≤ area ceiling, reject not clamp; rollLoot carries def; foeNamed by ref or a unique name; standalone SD's first-actor UI → track C. Sent to the B writer (RB → SD → NSD).
+- E6a round 7 at 7884e27: merged E5 3467c97 (guard-then-publish lands; the gate inside guardHolds); the replan repro test; recover refuses multi-entry journals (barred, silent, FAILED). All green except evidence-fuzz seed 4 at 120 steps, which fails identically on E5 3467c97 → sent to E5's writer.
+- ctx-seams v2 at 1b15c6c: blockIdOf = hash(canonical pair, operation key, rank), rank bumped on collision; cursor works for replans; the store enforces {sid, swipeKey, block}; unguarded cursor reads fail. Conflicts with E5/E6a in commands.js/store.js/turn.js → whoever merges second resolves (seams merges main after E5 and E6a).
+- VM JOB 047 (both re-checks) READY after 046.
