@@ -50,3 +50,14 @@ Delete the old /tmp/studio1 first. It can take a few hours.
   into `main`, not v2. Story_studio is unchanged.
 - Run step 4 again with 014-prompt.txt plus 014-resume2.txt appended (the second file says what changes).
 - Then steps 5–7 as written. Report as VM JOB 014.
+
+## Resume 3 (lead, after S3 stalled at its third writer round)
+- First: in /tmp/s1work/Story_studio commit the uncommitted S3 work as "WIP Studio part 1 S3: 1 test failing" (no
+  trailer lines) and push `studio-1` there (with the two vendor commits). The lead opens Story Block's S1–S2 PR now.
+- S3 is close (one failing depth fixture, case-sensitive route reference indexing): Sol finishes S3 itself, like S2.
+- Then S4–S7: Gemini writes, Sol monitors, as before.
+- Run step 4 again with 014-prompt.txt plus 014-resume2.txt plus this line appended: "Resume 3: S1 and S2 are done and
+  pushed; S3 is a pushed WIP on Story_studio studio-1 with one failing test (depth-16 primitive leaves under the shared
+  safety checker) and case-sensitive route reference indexing. You finish S3 yourself (no agy), then S4-S7 with Gemini
+  as writer and you as monitor."
+- Then steps 5–7 as written. Report as VM JOB 014.
