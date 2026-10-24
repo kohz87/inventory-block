@@ -1036,3 +1036,8 @@ MERGED testkit RB #118, SD #115, NSD #205.
   Also: N1/N2/N5/N8/N10/N16 (register rules.sheet), cleanup. Sent to the B writer (fix on slice 2, merge into slice 3).
   TODO (lead/E/D): an SB read-only query exposing {resolved, rulesHash, packHash, constantsHash, defs} + progression for activation; store resolved once by rulesHash (not in every checkpoint); a control run for the inventory stack replay problems after a middle delete → file with E; afterCapture only runs after a reply with a line (cite/click/combat attempts wait) — note for combat wiring.
   Track C at integration: drop `frozen` from the rules.item fixture; C08 fixture 4 companions; the party tab's Accept must send `class` in pinned chats.
+- VM JOB 033 (Sol, account A, E5 d23ab1f): MERGE AFTER FIXES. B1's final projection holds; 33 basic malformed-op cases fail closed. Open:
+  (1) the checkpoint walk is seeded from the head's checkpoint → an early-point reconcile counts a parent twice → its dependent step is removed permanently;
+  (2) a rejected kept collider publishes its bytes into walkProofs during a Re-read;
+  (3) legacy blocks skip opShapeProblem before rebasing, so siblings of a malformed op apply silently.
+  Round 5 principle: walk evidence = blocks applied so far from the walk's real base, counted once, published only after apply; shape-check every op before rebasing. Also fix the EVIDENCE.md:150 doc and make the fuzz oracle model duplicates. Merge E1 86e5a0f first.
