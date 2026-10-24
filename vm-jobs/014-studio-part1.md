@@ -28,3 +28,14 @@ Delete the old /tmp/studio1 first. It can take a few hours.
 6. Report as VM JOB 014: both branch heads, the baseline and final test results, the check results, one line per task
    S1–S7 (done / left, with what is left), and anything the monitor stopped on. Full output stays in the results file.
 7. Keep /tmp/s1work until the lead acknowledges 014.
+
+## Resume (lead, after the Codex credit stop at 01:04 UTC on 2026-10-24)
+- Now, before waiting: in /tmp/s1work/Story_block commit the unfinished S2 as
+  "WIP Studio part 1 S2: unreviewed, syntax error at rules-v2.js:667" (no trailer lines) and
+  `git push -u origin studio-1`, so S1 and the WIP are safe off the VM. Keep /tmp/s1work. Check that ~/.gemini is
+  writable for the user running agy (the read-only file system errors).
+- Resume NOT BEFORE 2026-10-24 04:15 UTC (12:15 SGT), when Codex has credits again. Re-run step 4 with the same prompt
+  plus this line appended: "Resume: S1 is committed (73bc880) and S2 is a pushed WIP commit with a syntax error at
+  rules-v2.js:667. Start by reviewing S1 and the S2 WIP against the frozen contract, fix S2 with the writer, then
+  continue with S3–S7. The WIP commit stays in the history; later commits fix it."
+- Then steps 5–7 as written.
