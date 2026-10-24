@@ -928,3 +928,13 @@ MERGED testkit RB #118, SD #115, NSD #205.
   (A) a checkpoint is trusted only on an exact current-prefix hash match (incremental per-carrier chain); no stored prefix hash → never trusted;
   (B) quarantine decided per record up front in one function used by replay, replan, reconcile, truncate and rewind; truncate refuses rather than keep unattributed ops.
   Fuzz invariants: trusted checkpoint = full replay; orphan → no effect; new hidden-swipe and legacy-checkpoint steps; the excluded swipe case un-skipped. Sent to E1's writer.
+- VM JOB 028 (Sol, account B; A ran out mid-run; E6a 5a522ad): NOT READY, 8 blocking:
+  1. failed commit flush lets a retry activate natives without a durable commit; returns report success before the final flush;
+  2. commit races (activate yields after the head check; nativeEvent never rechecks);
+  3. forgeable savepoints domain, participant identity and npc.identity ownership;
+  4. invalid participant declarations dropped silently; wrong checkpoint ID accepted on a hash match;
+  5. missing proof-pin bytes become {} → the saved proof is erased;
+  6. manifest skips domains absent from state and payload; a day-start restore loses its dayStarts entry;
+  7. effectiveSettings not restored; BatchResult bytes not resolved or verified;
+  8. epoch gate rejects legacy guards without epoch.
+  Sol agrees with decisions 1–9 (with conditions). NSD clean both ways. Sent to E6a's writer (round 2), incl. a guarded no-timeline compat fix. Later: pruning (200 KB × 40 saves = 8.55 MB), callback timeouts. E6b: participants after swipe/delete, history within a reply.
