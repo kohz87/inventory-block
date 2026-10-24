@@ -6,11 +6,11 @@ has no file yet or isn't ready; skip it. Report each finished job as `VM JOB NNN
 Accounts (USER): A resets ≈19:22 UTC (03:22 SGT); B resets 16:25 UTC (00:25 SGT). These stated times stand.
 For FUTURE outages with no stated time: available again 4 hours after the moment it ran out (README). The VM updates this line.
 
-Order:
-1. 036 — DONE (reported 15:37 UTC).
-2. 037 — Sol re-check of E1 round 6 (read-only). READY — run on B right after 038 (or alongside it).
-3. 038 — Sol re-check of E6a round 4 (read-only, short). READY — run FIRST on B (stopped on A at 15:37, no verdict).
-4. 027 Resume 1 — track A, Sol writes (027-resume1.txt). IN PROGRESS (RB 4eca8b3, SD 20e097f): continue on B after 038.
+Order (run top to bottom):
+1. 038 — Sol re-check of E6a round 4 (read-only, short). READY — FIRST on B (stopped on A at 15:37, no verdict).
+2. 037 — Sol re-check of E1 round 6 (read-only). READY — alongside or right after 038.
+3. 039 — Sol re-check of E5 round 6 (read-only). READY.
+4. 027 Resume 1 — track A, Sol writes (027-resume1.txt). IN PROGRESS (RB 4eca8b3, SD 20e097f): continue after the three re-checks.
 5. 029 Resume 1 — Studio part 2. READY after 027 (or alongside, if a second account has room).
 
-6. 039 — Sol re-check of E5 round 6 (read-only). READY — run after 038 and 037, before continuing 027.
+Done: 036 (15:37 UTC).
