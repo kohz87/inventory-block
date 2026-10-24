@@ -15,3 +15,7 @@ SCHEDULE (USER: Codex has 5% left for 138 minutes): start at 17:19 SGT (09:19 UT
 (track E waits on this review; Studio does not).
 
 CHANGE (lead): an independent review found fix-first issues and E1 is being reworked. Do NOT run this at 17:19. Run job 014 resume 4 at 17:19 instead. Run this review only when the lead adds a GO line here naming the fixed head.
+GO (lead): E1's fixes are in. Review head bfafe29 (or later) of track-e/e1-replay. Run it in the next Codex window
+after job 014's resume 4 work (or alongside, if the window allows). Add to the prompt: "An earlier independent review
+found 10 issues, all fixed at bfafe29 (see docs/v2/REPLAY.md and tests/v2/replay-review.test.js); check those fixes hold
+and look for what that review missed."
