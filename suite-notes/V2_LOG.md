@@ -823,3 +823,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
   (1) At the beta.2 release, merge v2 into main in all four repos (PRs, merge commits, no force); from then on main is the development branch and v2 is retired. Lead's proposal: keep the current main as a `v1` branch/tag first, so v1 users can stay on it.
   (2) Studio part 2: the lead provides mocks before it starts; icons/SVG/visual assets are made by the Claude side (the other models are weaker at SVG), not by the Studio writers.
   (3) The user's next full test is after stage 5 (integration of the rebuilt RB), not at beta.2.
+- v1 branches created at today's main (USER yes): Story_block bbd4599, rpg_battle defbcdf, Story_director 1273686, npc_state_delta f6e92f5. v1 users install that branch; main takes v2 at beta.2.
