@@ -23,8 +23,9 @@ the behaviour. Don't copy their templating syntax (`{{ }}`, `sc-for`, `sc-if`, `
 - **Type:** Nunito, with a system fallback. Studio is offline, so ship no web-font request. Use the system stack
   `Nunito, system-ui, sans-serif`, and embed the font only if its licence allows and the size stays under 300 KB. Otherwise
   use the fallback alone.
-- **Icons:** from `src/assets/` (the icon PR, assets/icons). Until it merges, use the names in `docs/ASSETS.md` on that
-  branch, so swapping in the files changes nothing else.
+- **Icons:** from `src/assets/` (merged on main, see `docs/ASSETS.md`): 20 drawn Studio files in `ASSETS`, plus `SB_ICONS`,
+  which maps 8 names to Story Block's vendored Phosphor icons (MIT). The single-file build inlines those Phosphor paths, so
+  `dist/story-studio.html` must carry Phosphor's MIT notice (a credits section in the built file, and in `docs/ASSETS.md`).
 
 ## Screens and behaviour
 
