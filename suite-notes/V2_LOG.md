@@ -1091,3 +1091,9 @@ MERGED testkit RB #118, SD #115, NSD #205.
   Plus the loot-registration guard, summon counting/eviction, session-keyed end, cleanAction, carried strength map, loot reason text. Sent to the B writer; slice 4 (SD checks/danger + NSD participant) next; B6 after E6a.
 - Tag tally (trial): B slice 3 → 4 normal, 0 damaged blocking (+1 damaged non-blocking).
 - E5 round 6 at 19a074e (fix + merge of E1 r6 95955ca): per-block id ownership; others reserved; colliding replans refused before apply/publish; unchanged-Re-read id invariant in the turn fuzz (old src fails seed 7). Merge note: story.evidence made the one host query any guard may ask on replay (pure over the prefix pins) — a small change to E1's rule; Sol checks it in 039. VM JOB 039 READY after 038/037.
+- Track B slice 3 fixes at 87baffa (#143): combat.start guarded; registrable() shared by registerItem, its guard and fight loot, run on the hook-priced def, with scale-aware value ceilings (nothing in combat.end can fail on loot); summons earn nothing; foe XP follows the pinned xpPerLevel; area {place,tier,scale} in buildEnd; summon counting and eviction by age; session-keyed end; v1 cleanAction; progress.carried (and sealed bytes now record real strength); loot reason/cause and "Couldn't be kept here" text; storeBatch no overwrite, only fight batches pruned; one pin reader and validator. Contract-additions paragraph in progress.md. 13 new tests fail on cd58f01.
+- Track B slice 4 started:
+  - SD branch track-b/sd-checks: checks, links, atlas region/danger/canonical/candidates, policies, journal.day, plus E7b (a capture.check→checks.roll patch for SB, lead-applied);
+  - NSD branch track-b/nsd-participant: the restore participant on E6a's registry, npc.identity per C19; registration patch lead-owned; NSD prompts byte-identical;
+  - RB slice 4: areaTier wiring, foe adapters, elements.
+  B6 after E6a.
