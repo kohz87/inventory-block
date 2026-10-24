@@ -8,3 +8,6 @@ pushed. Per the README test rule: no suite run first (CI covers the head); run s
 2. In /tmp/rev191c: `codex exec --skip-git-repo-check --sandbox read-only -m gpt-6.1-sol -c model_reasoning_effort="xhigh" "$(cat ~/story_suite/inventory-block/vm-jobs/025-prompt.txt)" > ~/story_suite/vm-results/025-sol.md 2>&1`
 3. Report as VM JOB 025: the head, the verdict, each item's HOLDS/NOT FIXED, and every BLOCKING item in full.
 4. Delete /tmp/rev191c.
+
+SCHEDULE (USER: Codex has 6% of its 5-hour window left): don't start this now. Run it first thing at the next Codex reset.
+A Sol re-check of E5 (job 026) will follow in that same window, once E5 has merged E1.
