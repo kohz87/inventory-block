@@ -1000,3 +1000,12 @@ MERGED testkit RB #118, SD #115, NSD #205.
   B owns the shared B5 envelope helper (buildGuard), A imports it (027 addendum). SB must expose resolved/rulesHash/packHash/progression before activation (E/D task).
 - Track A items (A4 + the B2 slot bug) → Sonnet writer on RB branch track-a-items off track-a, draft PR based on track-a.
 - E5 round 4 at d23ab1f: projection from applied blocks in apply order; first applier owns a proof id, later claimants don't apply; {all:true} reserves ids; pre-checkpoint 'first listed keeps the id'; opShapeProblem on every op, malformed → Problem, no throw. evidence-owner tests + 2 fuzz steps; all runs green. VM JOB 033 (Sol re-check) after 032 on account A.
+- Track B: slice 1 fixed at 3f27e56 (#140): clock holds, no choices with any fight session, the hash takes day, epoch from guard.epoch (genesis ep_00000000), form→skill check, buildGuard exported, cleanup.
+  Slice 2 is RB #141 (draft, d513452, base slice 1):
+  - entry points: creation.finish and party.addCompanion record class; `! skill-use` and skill.use; recordCombatUses; training via rules.settle {session};
+  - commands and queries: rules.party/flags/item/training (real), skill.train, party.setActive, summon.end, rules.flagSet (SD event proof, claimed once), rules.registerItem as the single generated-item route (B3 bounds frozen in rules/bounds.js, tier from atlas, reject not clamp, never legendary, ≤1000 rules);
+  - the pin overrides xpPerLevel, level cap, start points, points per level and stat cap everywhere;
+  - ledger = a guarded fold into progress.sealed past 300 attempts (inside rules.settle); non-earning attempts dropped; {dropped:true} past 4000.
+  - It hooks into creation, party and sheets files (no lead-owned commit).
+  - Gaps: flag and template schemas; story-line equipment refused until track A's slot mapping (asked the A items writer to export it); SB must expose resolved/rulesHash/packHash/progression.
+  - Sonnet review of #141 running. Slice 3 (B4 combat) after the review.
