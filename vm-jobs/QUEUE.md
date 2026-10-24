@@ -8,7 +8,7 @@ For FUTURE outages with no stated time: available again 4 hours after the moment
 
 Order (run top to bottom):
 0a. 046 — Sol re-check of E5 round 7 (read-only). READY — alongside or right after 045.
-4. 027 — track A. Resume 1 FINISHED 17:36 UTC (RB 0a4f8ee, SD 2ba4acd). The lead is reviewing; a Resume 2 follows from the review. Don't start it yet.
+4. 027 Resume 2 — track A (027-resume2.txt). READY — run next, before 029 continues (029 may finish its current run first).
 5. 043 — E6b write (Sol). WAITING until E6a merges (the lead flips it to READY).
 6. 044 — B6 death/return write (Sol). WAITING until E6a merges.
 7. 029 Resume 2 — Studio part 2 T3–T7 (T1, T2 done; head 2aba688). READY after 045; yields to 043/044 once they're READY.

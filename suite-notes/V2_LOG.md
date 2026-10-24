@@ -1152,3 +1152,10 @@ MERGED testkit RB #118, SD #115, NSD #205.
   - E6a 29639d6: MERGE AFTER FIXES. The ready-listener repro holds. (1) [normal play][silent wrong state]: replacement proof published before guardHolds, the same bug E5 fixed in round 7 → merge E5 3467c97 and add the repro. (2) [damaged file]: two injected pending entries drop the barrier between them → small fix now.
   - ctx-seams #197: REQUEST CHANGES. Replans UNSUPPORTED; saved cursors drift from placement; block ids depend on process history. DIRECTION: block = hash(sid/swipeKey, operation, rank), the same derivation as E5's proof ids; op/rev = current placement; saved cursors compare by {sid, swipeKey, block}.
   Both to the E6a writer (E6a first).
+- Track A review 2 (Sonnet): SD MERGE AFTER FIXES; RB NOT READY. Blocking:
+  - B-1: guards ask cross-owner queries, so nothing stores on the E1-enforcing host (17 RB / 11 SD fixtures fail on it);
+  - B-2: guard inputs hash the whole party, inventory and clock text, so unrelated deletes retract payouts;
+  - B-3: CI red (cross-repo imports);
+  - B-4: the quest prompt didn't move;
+  - B-5: same-reply story coin double-pays.
+  The #142 trial merge is clean. LEAD DECISIONS: port SD's old quest prompt verbatim into RB; port story-credit dedupe (no deferral); threads.intent becomes a contract addition. Merge order E5 → D1 seams → B → A. VM 027 Resume 2 written (027-resume2.txt), READY before 029's continuation; B3-dependent parts wait for B on main.

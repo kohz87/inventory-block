@@ -47,3 +47,6 @@ do NOT edit `src/v2/items/` here. Everything else is this resume. **Sol writes i
   also RB's second vendor `tests/v2/qa/vendor`.
 - Re-run step 2 with 027-prompt.txt plus `vm-jobs/027-resume1.txt` appended. Then steps 3–5. Report as VM JOB 027.
 - ANSWER (lead, 14:55 UTC): leave RB's `tests/v2/qa/vendor` as it is. The repo rule wins (it's an older pinned copy the sync must not touch); re-syncing only the testkit was right.
+
+## Resume 2 (lead, from the second review)
+- Per QUEUE.md (before 029's continuation; track A is on the critical path). Re-run step 2 with 027-prompt.txt plus `vm-jobs/027-resume2.txt` appended. Then steps 3–5. Report as VM JOB 027.
