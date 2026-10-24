@@ -34,3 +34,15 @@ settlement guards look like) and Story Block's `docs/v2/REPLAY.md` + `docs/v2/EV
 4. Report as VM JOB 027: both heads, test and check results, one line per task A1–A6 (done / left, with what's left), the
    lead-owned patch commits (hashes), the A5 audit result, which Codex account ran it, and anything Sol stopped on.
 5. Keep /tmp/awork until the lead acknowledges 027.
+
+## Resume 1 (lead, after the capacity stop at 12:57 UTC and the coverage review)
+The coverage review (Sonnet, read-only) found that A1–A3 are pure planners and helpers only: nothing is registered, nothing in SD is retired,
+no P23 writer exists, there's no guarded settlement, and A4's planner isn't wired. Track A is NOT close to done; this resume is the real
+integration. A4 (the eight-slot wiring in RB `src/v2/items/` + the equipPlan slot bug) moves to the lead's side on branch `track-a-items`;
+do NOT edit `src/v2/items/` here. Everything else is this resume. **Sol writes it itself (no agy/Gemini for track A).**
+
+- When: on account A after job 032 (and any other re-check jobs queued), then continue on account B after its reset (≈18:15 UTC).
+  On a quota or capacity stop: commit WIP ("WIP track A <task>", no trailer lines, no process notes in titles), push, report.
+- First: re-sync the testkit in RB and SD from Story Block `origin/track-e/e5-evidence` (head 5e31419 or later), vendor-only commits;
+  also RB's second vendor `tests/v2/qa/vendor`.
+- Re-run step 2 with 027-prompt.txt plus `vm-jobs/027-resume1.txt` appended. Then steps 3–5. Report as VM JOB 027.
