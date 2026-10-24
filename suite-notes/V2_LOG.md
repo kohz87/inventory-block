@@ -986,3 +986,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
   - Studio part 2 waits for Codex (not on the test's critical path).
   - Ask the USER for both accounts' reset times.
 - USER: account A resets in ~69 min (≈14:25 UTC). Sol reviews stay on Codex (no Sonnet substitution); queue on A: pending re-checks (E1 r5, E5 r4, E6a r2 as they land) → 027 resume → 029 resume (written).
+- USER: account B resets ~18:15 UTC (02:15 SGT). Until then only account A (from ~14:22 UTC): re-checks first; 027 and 029 resumes share what's left of A's window, and spill onto B after 18:15.
