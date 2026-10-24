@@ -1066,3 +1066,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
   - Touches src/combat.js (+40/-5), combat/index.js and setup.js.
   - Gaps: batchResults wiring in module.js (lead, integration); carried condition strength past 8 fights; foe adapters/resistances; story equipment pending slotsForLegacy.
   - Sonnet review of #143 running. Next: B6 death/return after E6a merges; slice 4 = SD checks/danger + NSD participant.
+- E6a round 4 at dcb371f: announcements carry chat + receipt and are revalidated before telling; the barrier records its owning chat, settle() drops foreign ones (on chat open, every operation, head(), stale cleanup); rejected flush checks identity → STALE. Principles tests 42 (10/12 new sweeps fail on old src). All green. VM JOB 038 READY in QUEUE.
