@@ -977,3 +977,11 @@ MERGED testkit RB #118, SD #115, NSD #205.
   - VM checks: RB 1714/0, SD 1093/0; no lead-owned commits.
   - The commit titles ("pure planner", "prepare", "discover") suggest the end-to-end retirement of SD's payout paths may be partial → a Sonnet coverage review of both branches against the extraction map is running; the 027 resume is written from its to-do list.
 - VM: job 029 (Studio part 2) running on account B.
+- VM JOB 029 PARTIAL (account B out of credits at 13:10 UTC; A is out too).
+  - Story_studio studio-2 ffa2c42 (WIP) on T1 7f1230f (offline build shell and themes). Main already holds the icons (#3, 59f5353).
+  - T2 (classes screen) is a WIP and unreviewed; T3–T7 not started.
+- NO CODEX QUOTA on either account. Plan until a reset:
+  - Sol's reviews (E1 r5, E5 r4, E6a r2 re-checks) switch to Sonnet reviewers on Claude, as the user allowed during beta.2;
+  - the track A resume goes to Claude or the next Codex window, depending on the coverage review's size;
+  - Studio part 2 waits for Codex (not on the test's critical path).
+  - Ask the USER for both accounts' reset times.
