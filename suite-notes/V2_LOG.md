@@ -1047,3 +1047,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
   (c) guard queries read suffix receipts and live settings/currency.
   Round 6 direction: one replay-input function feeds both the hash and replay; guards pure over a prefix-only context, external facts recorded at plan time; quarantine classified on the original record before any transform. Escape hatch: never trust a checkpoint across a guarded block (measure both). Commit prop.mjs.
 - VM: 027 resume 1 (track A, Sol writes) starts on account A now.
+- VM: 027 resume 1 running on account A since 14:49 UTC (Sol writing); testkit re-synced to SB d23ab1f (RB 4262f67, SD 13e9b45). LEAD: leave RB tests/v2/qa/vendor alone per the repo rule.
