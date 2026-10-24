@@ -1016,3 +1016,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
   - Lead-owned f9fb9f0 registers an interim rules.sheet (delete with B3).
   - LEAD DECISION: §9 forbids guessing, not the reader choosing. A bare accessory → either accessory slot. worn → [head, body, legs, feet], hands → [weapon, offhand], waist → accessory slots, each wearable with an explicit targetSlot, otherwise REFUSED with a choice list exposed in items.canWear for C's picker. Export slotsForLegacy for B's registerItem.
   - SB follow-up (small): the apply-side plan check must require moves from the durable owner.
+- Track B slice 3 (B4 combat) started: branch track-b/rules-slice3 off slice 2, draft PR based on slice 2. Actions/effects/conditions on rules v2; a sealed BatchResult with bytes and hash for E6a's batchResults.resolve; combat end via recordCombatUses and the single party.grantXp {actor,amount}; unpinned chats keep today's engine.
