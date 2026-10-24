@@ -8,7 +8,7 @@ For FUTURE outages with no stated time: available again 4 hours after the moment
 
 Order:
 1. 036 — DONE (reported 15:37 UTC).
-2. E1 round 6 re-check — WAITING (writer working; the lead adds job 037 when it lands).
+2. 037 — Sol re-check of E1 round 6 (read-only). READY — run on B right after 038 (or alongside it).
 3. 038 — Sol re-check of E6a round 4 (read-only, short). READY — run FIRST on B (stopped on A at 15:37, no verdict).
 4. 027 Resume 1 — track A, Sol writes (027-resume1.txt). IN PROGRESS (RB 4eca8b3, SD 20e097f): continue on B after 038.
 5. 029 Resume 1 — Studio part 2. READY after 027 (or alongside, if a second account has room).

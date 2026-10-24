@@ -1075,3 +1075,11 @@ MERGED testkit RB #118, SD #115, NSD #205.
 - VM: account A out at 15:37 UTC (back ≈19:37 by the 4-hour rule). 038 stopped with no verdict → first on B at 16:25. 027 partial: RB track-a 4eca8b3 (A1/A3 quest adapters and terminal outcomes), SD track-a 20e097f (A2 neutral thread writers); continues on B after 038.
 - Tag tally so far (USER's one-more-round trial): E6a r3 → 2 normal; E5 r5 → 1 normal, 1 damaged (+2 damaged items fixed). E1 r6 pending.
 - USER correction: the current reset times stand (A ≈19:22 UTC, B 16:25 UTC); the 4-hour rule applies only to future outages without a stated time.
+- E1 round 6 at 95955ca (option A, not the escape hatch):
+  - replayInputsOf(record) feeds the prefix hash, and a recording-proxy test fails on any other read;
+  - pure guards on replay (state/recorded/payload/hash; queries only from the module's declared `replayQueries`, others throw; outside facts recorded at plan time); a guarded block is stored only if its guard holds under the replay context (else FAILED);
+  - quarantine classified on the stored record first;
+  - extra fixes: blockIntact before replanning; truncate keeps its own Problems;
+  - the fuzz is committed as scripts/fuzz-replay.mjs.
+  Bench, 2,000 guarded replies (A vs escape hatch B): first load 446 vs 2,327 ms; middle delete 1,810 vs 1,239; Re-read near the end 818 vs 6,215; no-change rebuild 55 vs 1,017. Suite 3045/0; diff harness same 19; fuzz 1–300 clean; modules green.
+  API: modules whose guards call queries must declare replayQueries → TODO track A/B (and SD/NSD if they guard) at integration. VM JOB 037 READY after 038 on B.
