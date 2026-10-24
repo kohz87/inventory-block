@@ -18,7 +18,7 @@ behaviour for old stores, old packs and modules that don't use the new APIs, and
 | E4 inventory seams | purse.currency / rules.moneyPolicy delegation with SB fallback; inventory.definitions + inventory.registerDefinition + rules.registerItem routing; rules.equipPlan validation in inventory.equip / equipOn / item capture | `src/v2/domains/inventory.js`, `money.js`, `packs/content.js` (definitions only) and their tests | — | Sonnet | Sonnet + lead |
 | E7a matrix runner | shared testkit/matrix runner and versioned vendor sync; every positive/negative combination of §2 with real modules | `testkit/matrix/` (new), `scripts/matrix.mjs` (new), `scripts/sync-testkit.mjs` | — (uses today's modules first, gains rows as E lands) | Sonnet | lead |
 | E5 proof and evidence | ctx.proof contract; story.evidence projection, owner/kind checks, parent pins, retention through trim/reload/snapshots | `src/v2/commands.js`, `store.js`, `persist.js` (after E1 merges), new `src/v2/evidence.js` | E1 | Sonnet | Sonnet + lead |
-| E6 timeline and restore | sdk.timeline head/methods/participant registry; internal savepoint.restore host block; all-domain payload/version manifest; batch-result pin; participant prefix map; active-history projection + participant head barrier; ctx.clockBoundary; savepoint.contract | `src/v2/rewind.js`, new `src/v2/timeline/`, `store.js` (after E1/E5), `sdk.js` (after E2) | E1, E2, E5 | Sonnet | Sol xhigh (VM) + lead |
+| E6 timeline and restore (split, USER: E6a then E6b) | sdk.timeline head/methods/participant registry; internal savepoint.restore host block; all-domain payload/version manifest; batch-result pin; participant prefix map; active-history projection + participant head barrier; ctx.clockBoundary; savepoint.contract | `src/v2/rewind.js`, new `src/v2/timeline/`, `store.js` (after E1/E5), `sdk.js` (after E2) | E1, E2, E5 | Sonnet | Sol xhigh (VM) + lead |
 | E3 rules pack kind | register content.rules (limits.js / validate.js), name+slug wrapping, invoke the D checker before wrapping, lookup/count/installed classification, rb-rules-v2 capability; validator opt-in scope for creatures/quests | `src/v2/packs/limits.js`, `validate.js`, `installed.js`, `kind.js` and their tests | Studio S2 (`src/v2/packs/rules-v2.js`) merged | Sonnet | Sonnet + lead |
 | E7b assist checks migration | capture.check → SD checks.roll once, no legacy check.roll probe | `src/v2/assist/` | SD's checks.roll (track B, P09) | later, with B | — |
 
@@ -35,3 +35,12 @@ behaviour for old stores, old packs and modules that don't use the new APIs, and
 Every §10 E row's "Required tests" exist and pass; old stores/packs/modules unchanged (SB's whole suite plus RB, SD
 and NSD run against the new host, as before beta.2); the matrix runner (E7a) covers the §2 rows; each PR reviewed
 as above; the lead merges in order and adds the CHANGELOG lines. Then tracks A, B and C start on main.
+
+## E6 split (USER)
+
+- E6a timeline and restore primitive: sdk.timeline head/methods/participant registry; the internal savepoint.restore
+  host block; the all-domain payload/version manifest; the batch-result pin; the canonical participant prefix map;
+  the epoch/rulesHash host check left as an E6 gate by E1. Starts after E1 and E5 merge.
+- E6b active history and boundaries: the active-history projection and participant head-selection barrier;
+  ctx.clockBoundary logical markers inside SD clock transactions; savepoint.contract. Starts after E6a merges
+  (shared files). Each gets its own review.
