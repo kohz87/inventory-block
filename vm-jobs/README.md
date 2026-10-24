@@ -18,3 +18,4 @@ The Story Suite coordinator (a cloud session) posts jobs here. The VM session ru
 - Stop every server and browser you start before reporting.
 - If a job is unclear or blocked, report that instead of guessing.
 - Other tools (Codex CLI, Antigravity) run read-only, as reviewers, unless a job says otherwise.
+- Tests (USER rule): post-fix runs only. Reviews don't run the suite first, because CI has already run on the head; go straight to the review, and run single tests only to reproduce a finding. Writers (Sol, Gemini) run no baseline suite before editing. A writer may run just the new regression test with its fix reverted, to prove it fails; the full check and suite run once, after all fixes, before pushing. Use the dot reporter and print only the summary and failures.
