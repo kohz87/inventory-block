@@ -85,3 +85,4 @@ Delete the old /tmp/studio1 first. It can take a few hours.
   writes S4, S5, S6 and S7 itself, directly (no agy for this resume). Same rules, tests and checks. If the 5-hour window
   runs out mid-way: stop at a clean point, commit (WIP if needed), push Story_studio studio-1, and schedule the rest for
   the start of the next window; carry on from there without waiting for the lead.
+- ORDER CHANGE (lead): job 022 is on hold until E1's fixes land; start resume 4 at 17:19 SGT on its own.

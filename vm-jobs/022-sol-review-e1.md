@@ -13,3 +13,5 @@ or pushed. If Codex stops on quota, schedule this for the next window and say so
 
 SCHEDULE (USER: Codex has 5% left for 138 minutes): start at 17:19 SGT (09:19 UTC) today. Run this before job 014's resume 4
 (track E waits on this review; Studio does not).
+
+CHANGE (lead): an independent review found fix-first issues and E1 is being reworked. Do NOT run this at 17:19. Run job 014 resume 4 at 17:19 instead. Run this review only when the lead adds a GO line here naming the fixed head.
