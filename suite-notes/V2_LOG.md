@@ -1113,3 +1113,6 @@ MERGED testkit RB #118, SD #115, NSD #205.
   LEAD DIRECTION (round 7): derive proof ids from the originating block's own stable identity (line key or step key + source block, plus an ordinal within the block), so blocks can't collide and no cross-block matching is needed; ask before coding if it conflicts with the §6 proof-id rule. Publish only after guard acceptance. Checkpoints carry the applied ownership map. Remove the Continue exemption from the fuzz.
 - Tag tally update: E5 r6 → 2N + 1D. Running total of this trial: 12 normal vs 3 damaged.
 - VM: 027 continues on account B now.
+- USER: proceed with (1) more writing on the VM and (2) the track E stopping rule.
+  (1) VM jobs 043 (E6b, Sol writes) and 044 (B6 death/return, Sol writes) written, both WAITING until E6a merges. Claude keeps track E's last rounds, track B slice 4, the reviews and integration.
+  (2) WRITER_RULES: merge a track E package when a re-check finds no [silent wrong state]; [fails safe] items become "E follow-ups" for integration. Tracks A and B keep the full standard.

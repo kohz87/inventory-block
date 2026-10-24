@@ -11,3 +11,7 @@
 - Never force-push, rebase a shared branch, or delete branches; merge main with a merge commit.
 - Agents never merge; the lead merges.
 - Reviews (lead, trial): every finding carries a tag, [normal play] (swipe, delete, Re-read, Continue, reload, crash, settings change, chat switch) or [damaged file] (needs a hand-edited or corrupted chat file). Blocking judgments are unchanged for now; the USER decides after one more round whether [damaged file] findings stop blocking merges.
+- STOPPING RULE for track E (USER approved, 24 Oct): reviewers mark each blocking finding as either
+  [silent wrong state] (in normal play: swipe, delete, Re-read, Continue, reload, crash, settings change, chat switch, failed save) the story or a module ends up with wrong state with no Problem, refusal or failure shown, or
+  [fails safe] (a refusal, STALE/FAILED, a Problem, an inactive block, a lost notice, a damaged-file case, or a performance issue).
+  The lead merges a track E package when a re-check finds no [silent wrong state]. [fails safe] items become tracked fixes for integration (V2_LOG "E follow-ups"). Tracks A and B keep the full standard (every blocking item is fixed before merge).
