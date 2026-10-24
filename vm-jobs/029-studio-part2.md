@@ -30,3 +30,6 @@ push `studio-2` and report so the lead can write a resume.
 ## Resume 2 (lead, after T2 at 2aba688)
 - After any READY re-check jobs in QUEUE.md. Re-run step 2 with 029-prompt.txt plus this line appended: "Resume 2: T1 (7f1230f) and T2 (2aba688) are done and pushed. Continue with T3 (skill paths), T4 (schema forms), T5 (problems, open/export/autosave), T6 (part 1 follow-ups), T7 (browser tests, CI, docs), in that order."
 - Then steps 3–4. Report as VM JOB 029.
+
+## Resume 3 (lead, after T3 at WIP c6c7c2a, 20:28 UTC)
+- After 049 on whichever account has quota. Re-run step 2 with 029-prompt.txt plus this line appended: "Resume 3: T1 (7f1230f) and T2 (2aba688) are done. T3 (skill paths) is a pushed WIP at c6c7c2a, verified (skills 17 tests, full 272/0) but unreviewed. Review T3 against the brief and the StudioSkill mock first (12 forms in base/step 1/step 2 columns, generated forms dashed and read-only, budget bar flags budget-closure, lower tiers as a list), fix it with the writer, then T4 (schema forms), T5 (problems, open/export/autosave), T6 (part 1 follow-ups), T7 (browser tests, CI, docs), in that order."
