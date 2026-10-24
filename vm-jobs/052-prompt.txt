@@ -1,0 +1,13 @@
+Re-check Story Block PR #194 (this checkout, branch track-e/e5-evidence), track E5, round 10 (head 84e1475; `git diff 6ece80c..HEAD`; docs/v2/EVIDENCE.md). Two [normal play][silent wrong state] findings since 6ece80c:
+(A, your job 051) two identical steps that gave no proof while a gate was shut both took occurrence 0 when the shutting reply was deleted (store.js reruns), so one effect instead of two.
+(B, found on ctx-seams, E5's rule) two identical guarded lines, a click on the first, delete the first line + Re-read: the survivor took occurrence 0 and the click stayed.
+Round 10: one allocator, `allocator(record, also)` in evidence.js, is the only place a new occurrence is chosen (seeded from record.source.taken plus standing blocks, advanced per number handed out, nothing written until the plan is stored); reconcile keeps one per record (out.alloc), Re-read kept steps use keptAlloc. Re-read: `reusePlan(...).ambiguous(planned)` groups planned proof blocks by operation key; a group whose count changed is retired and the Re-read planned once more (at most twice) with fresh numbers for every block of that key, dependents hidden with the guard Problem; unchanged counts keep k-th reuse; other keys untouched. Read-only; don't run the whole suite; reproduce with single tests or small scripts. Keep it short.
+
+1. Re-run A and B (also A through Re-read placement; B with a line inserted before the original). HOLDS / NOT FIXED.
+2. Is there any allocation site left outside `allocator`? Can two blocks in one plan, or two plans across a reconcile and a Re-read, ever get the same occurrence for one operation? Is the two-pass Re-read clean (receipts, problems, steps reset; no state from pass 1 leaking; no third pass needed)?
+3. Unchanged Re-read and reload keep every id; P1a, P2 (byte-identical no-proof stores), P1b still hold.
+Then anything newly broken.
+
+STOPPING RULE: tag every blocking finding with BOTH (a) [normal play] or [damaged file], and (b) [silent wrong state] or [fails safe]. The lead merges when no [normal play][silent wrong state] remains.
+
+Output: verdict, items 1–3, BLOCKING items (what, why, file:line, the fix, both tags), non-blocking headlines. No model names in your output.
