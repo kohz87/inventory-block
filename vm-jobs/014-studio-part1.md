@@ -79,3 +79,5 @@ Delete the old /tmp/studio1 first. It can take a few hours.
   directly too, then carries on.
 - Push Story_studio studio-1 after S7 (and after S4 if the run is long). Story Block's studio-1 is done (merged).
 - Run step 4 with 014-prompt.txt + 014-resume2.txt + this section as the resume note. Quota fallback as in resume 3.
+- SCHEDULE (USER: Codex has 5% left for 138 minutes): don't start resume 4 now. Start it at 17:19 SGT (09:19 UTC) today,
+  right after job 022 (Sol's review of Story Block #191), which goes first because track E waits on it.

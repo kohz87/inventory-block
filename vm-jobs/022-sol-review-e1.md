@@ -10,3 +10,6 @@ or pushed. If Codex stops on quota, schedule this for the next window and say so
 4. Report as VM JOB 022: the head, the check/test results, the verdict and every BLOCKING item in full in the message,
    the rest as headlines.
 5. Delete /tmp/rev191 and /tmp/rev191-mods.
+
+SCHEDULE (USER: Codex has 5% left for 138 minutes): start at 17:19 SGT (09:19 UTC) today. Run this before job 014's resume 4
+(track E waits on this review; Studio does not).
