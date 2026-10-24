@@ -1,0 +1,243 @@
+diff --git a/src/v2/assist/classifier.js b/src/v2/assist/classifier.js
+index 64340d2..cca23a8 100644
+--- a/src/v2/assist/classifier.js
++++ b/src/v2/assist/classifier.js
+@@ -9,20 +9,20 @@
+ //   1. claims `assist:precheck:<key>` (the key is the reader's message: its index and a hash of its
+ //      text), so the same message is never checked twice on this line of history; swiping or
+ //      deleting the carrier the claim is on takes it back, like any other change;
+-//   2. runs `capture.check` with the line, exactly as if the reply had written it (RPG Battle's
+-//      `check` kind: it makes the pending check, or, before pending checks exist, resolves it);
+-//   3. rolls it with `check.roll { id }` when step 2 left a pending check (its id in the capture's
+-//      `data.check`), with the automatic modifiers (MODULES §F16);
+-//   4. returns the roll's summary as this receipt's summary (narrate: true), so the next reply is
++//   2. runs `capture.check` with the line, exactly as if the reply had written it: the module that
++//      keeps the `check` kind (Story Director, contract P09) makes the check with its one
++//      `checks.roll`, one die, the policy's modifiers, the outcome from the die and never from the
++//      line. There is no second step and no probe for an older `check.roll` command;
++//   3. returns the roll's summary as this receipt's summary (narrate: true), so the next reply is
+ //      told the result under [Happened].
+-// Anything that fails rejects the whole transaction: no claim, no check, nothing saved.
++// Anything that fails rejects the whole transaction: no claim, no check, nothing saved. A `check`
++// kind that is not there fails the capture call, so the claim is not kept either.
+ 
+ import { extractBlock, parseChanges } from '../capture.js';
+ import { BACKGROUND, SETTING, TIMEOUT_MS, clip, estimateTokens, hashText, normalizeType, withTimeout } from './common.js';
+ 
+ export const PRECHECK = 'assist.precheck';
+ export const CHECK_KIND = 'check';
+-export const ROLL_COMMAND = 'check.roll';
+ export const claimKey = key => `assist:precheck:${key}`;
+ 
+ // The classifier's whole prompt stays within this many tokens (chars/4): the static head below plus
+@@ -119,14 +119,6 @@ export function claimed(state, key) {
+ 
+ const KEY = /^\d{1,7}-[0-9a-z]{1,7}$/;
+ 
+-// The pending check a capture made, from its data: `data.check` (or `pending`, `id`) as an id. A
+-// capture that already resolved the check (its data has an outcome) left nothing to roll.
+-export function pendingCheckId(data) {
+-    if (!data || typeof data !== 'object' || data.outcome !== undefined) return null;
+-    for (const key of ['check', 'pending', 'id']) if (typeof data[key] === 'string' && data[key]) return data[key];
+-    return null;
+-}
+-
+ /**
+  * `assist.precheck { key, line }`: the command the classifier's answer is committed through (see
+  * the top of this file). Synchronous and pure apart from ctx, like every handler (SPEC §3.2).
+@@ -138,28 +130,17 @@ export function precheck(ctx, payload = {}) {
+     if (!line) ctx.fail('INVALID', 'A pre-rolled check needs one check line with a skill and a difficulty.');
+     if (!ctx.claim(claimKey(key))) ctx.fail('CLAIMED', 'This message has already been turned into a check.');
+     const made = ctx.call(`capture.${CHECK_KIND}`, { ...line, index: 0, word: CHECK_KIND }) ?? {};
+-    const pending = pendingCheckId(made.data);
+-    let rolled = null;
+-    if (pending) {
+-        try {
+-            rolled = ctx.call(ROLL_COMMAND, { id: pending }) ?? {};
+-        } catch (error) {
+-            // Nothing ran: the check stays pending for the reader (and RPG Battle's own roll).
+-            if (error?.code !== 'UNKNOWN_COMMAND') throw error;
+-        }
+-    }
+-    const out = rolled ?? made;
+-    const summary = String(out.summary ?? '').trim() || String(made.summary ?? '').trim() || `A ${line.name} check is made.`;
+-    const outcome = out.data?.outcome;
++    const result = made.data?.v2?.result ?? made.data ?? {};
++    const outcome = result.outcome;
+     return {
+-        summary,
++        summary: String(made.summary ?? '').trim() || `A ${line.name} check is made.`,
+         narrate: true,
+         data: {
+             key,
+             skill: line.name,
+             dc: line.labels.dc,
+-            check: pending,
+-            rolled: Boolean(rolled),
++            check: typeof result.check === 'string' ? result.check : null,
++            rolled: typeof outcome === 'string',
+             outcome: typeof outcome === 'string' ? outcome : null,
+         },
+     };
+diff --git a/src/v2/assist/index.js b/src/v2/assist/index.js
+index bb924ae..34d4fd4 100644
+--- a/src/v2/assist/index.js
++++ b/src/v2/assist/index.js
+@@ -3,7 +3,7 @@
+ // `story-block.extractor`, MODULES §F100; the profile is in the settings section "Assist").
+ //
+ // * Pre-roll classifier (classifier.js), in `beforeGenerate`: the reader's new message → at most one
+-//   check line → `assist.precheck` (claim, capture.check, check.roll) committed before the reply, so
++//   check line → `assist.precheck` (claim, capture.check) committed before the reply, so
+ //   the reply narrates the roll.
+ // * After-reply extractor, the safety net (extractor.js, safety.js), in the `afterReply` hook the host
+ //   calls after each captured reply: the reply and its own lines → only the lines it missed, through the
+@@ -23,8 +23,8 @@ import { stCallModel, stChat, stChatId } from './st-adapter.js';
+ 
+ export { DEFAULTS, FEATURE_TEXT, SCHEMA, SETTING, TIMEOUT_MS, createRunLog, estimateTokens, hashText, withTimeout } from './common.js';
+ export {
+-    ANSWER_TOKENS as CLASSIFIER_ANSWER_TOKENS, CHECK_KIND, CLASSIFIER_HEAD, MESSAGE_LIMIT, PRECHECK, PROMPT_BUDGET, ROLLED_LINE, ROLL_COMMAND,
+-    checkLine, claimKey, classifierPrompt, createClassifier, normalizeDc, parseClassifierAnswer, pendingCheckId, precheck,
++    ANSWER_TOKENS as CLASSIFIER_ANSWER_TOKENS, CHECK_KIND, CLASSIFIER_HEAD, MESSAGE_LIMIT, PRECHECK, PROMPT_BUDGET, ROLLED_LINE,
++    checkLine, claimKey, classifierPrompt, createClassifier, normalizeDc, parseClassifierAnswer, precheck,
+ } from './classifier.js';
+ export { EXTRACTOR_FOOT, EXTRACTOR_HEAD, MAX_LINES, REPLY_HEAD, REPLY_LIMIT, WRITTEN_HEAD, allowedGrammar, createExtractor, extractorPrompt, grammarKind, notWritten, parseExtractorAnswer } from './extractor.js';
+ export { DEFAULT_KINDS, KIND_CHOICES, allowedKinds, refusedWhy, safeLines } from './safety.js';
+diff --git a/tests/v2/assist/classifier.test.js b/tests/v2/assist/classifier.test.js
+index 434136a..2e3004f 100644
+--- a/tests/v2/assist/classifier.test.js
++++ b/tests/v2/assist/classifier.test.js
+@@ -4,7 +4,7 @@ import test from 'node:test';
+ import assert from 'node:assert/strict';
+ import {
+     CLASSIFIER_HEAD, MESSAGE_LIMIT, PRECHECK, PROMPT_BUDGET, ROLLED_LINE, checkLine, claimKey, classifierPrompt,
+-    createAssistPart, estimateTokens, hashText, normalizeDc, parseClassifierAnswer, pendingCheckId,
++    createAssistPart, estimateTokens, hashText, normalizeDc, parseClassifierAnswer,
+ } from '../../../src/v2/assist/index.js';
+ import { NEVER, fakeModel, flush, manualTimer, on, reply, user, view } from './helpers/fakes.js';
+ 
+@@ -70,10 +70,6 @@ test('difficulties and check lines are normalized and checked', () => {
+     assert.equal(checkLine({ op: '+', kind: 'check', name: 'stealth', labels: { dc: 'hard' } }), null);
+     assert.equal(checkLine(null), null);
+     assert.equal(checkLine({ op: '?', kind: 'check', name: 'stealth', text: 'x'.repeat(400), labels: { dc: 'hard' } }).text.length, 160);
+-    assert.equal(pendingCheckId({ check: 'ck_aaaaaaaa' }), 'ck_aaaaaaaa');
+-    assert.equal(pendingCheckId({ id: 'ck_bbbbbbbb' }), 'ck_bbbbbbbb');
+-    assert.equal(pendingCheckId({ check: 'ck_aaaaaaaa', outcome: 'success' }), null, 'already resolved');
+-    assert.equal(pendingCheckId(null), null);
+ });
+ 
+ test('off (the default): nothing, and no model call', async () => {
+diff --git a/tests/v2/assist/precheck.test.js b/tests/v2/assist/precheck.test.js
+index dcb0b58..15b40e1 100644
+--- a/tests/v2/assist/precheck.test.js
++++ b/tests/v2/assist/precheck.test.js
+@@ -1,6 +1,6 @@
+ // assist.precheck on the real host (testkit createHost: registry, command bus, store, turn): the
+ // classifier's answer is committed before the reply as one system receipt that claims the message,
+-// makes the check through the check kind's capture, rolls it with check.roll, and is told to the reply.
++// makes the check through the check kind's capture (Story Director's one checks.roll), and is told to the reply.
+ import test from 'node:test';
+ import assert from 'node:assert/strict';
+ import { createHost, hostAvailable } from '../../../testkit/index.js';
+@@ -14,40 +14,26 @@ const ACTION = 'I slip past the gate guard while he looks at the cart.';
+ const CHECK = '? check stealth — slipping past the gate guard | dc: hard';
+ const DC = { easy: 8, normal: 12, hard: 15 };
+ 
+-// A stand-in for RPG Battle's checks (MODULES §F16): the `check` kind makes a pending check
+-// (`data.check` = its id); `check.roll { id }` rolls it. `pending: false` resolves at once (the
+-// party part before pending checks); `roll: false` has no check.roll.
+-function checksModule({ pending = true, roll = true, refuse = false } = {}) {
++// A stand-in for Story Director's checks (contract P09): the `check` kind is one `checks.roll`, one die, resolved at once
++// (`data.v2.result` = the check, its die and outcome). `legacy: true` also has the older `check.roll`, which must never be called.
++function checksModule({ refuse = false, legacy = false } = {}) {
+     return {
+-        id: 'rpg-battle',
+-        name: 'RPG Battle',
+-        domains: { party: { initial: () => ({ checks: {}, made: 0 }) } },
+-        commands: roll ? {
+-            'check.roll'(ctx, payload) {
+-                const party = ctx.draft('party');
+-                const check = party.checks[payload.id];
+-                if (!check || check.status !== 'pending') ctx.fail('NOT_FOUND', 'That check is not waiting.');
+-                const die = ctx.roll('1d20').total;
+-                const outcome = die >= check.dc ? 'success' : 'failure';
+-                Object.assign(check, { status: 'rolled', die, outcome });
+-                return { summary: `You try ${check.skill} (${check.what}): d20 ${die} against ${check.dc}, ${outcome}.`, data: { check: payload.id, die, outcome }, narrate: true };
+-            },
+-        } : {},
++        id: 'story-director',
++        name: 'Story Director',
++        domains: { party: { initial: () => ({ checks: {}, made: 0, legacyRolls: 0 }) } },
++        commands: legacy ? { 'check.roll'(ctx) { ctx.draft('party').legacyRolls += 1; return { summary: 'legacy', narrate: true }; } } : {},
+         capture: {
+             kinds: { check: { grammar: '? check skill — what is attempted | dc: easy|normal|hard|<number>' } },
+             apply(ctx, line) {
+-                if (refuse) ctx.fail('REFUSED', 'There is no character to make the check yet.');
++                if (refuse) ctx.fail('REFUSED', 'There is no actor to make the check yet.');
+                 const party = ctx.draft('party');
+                 const dc = DC[line.labels.dc] ?? Number(line.labels.dc);
+                 party.made += 1;
+-                if (!pending) {
+-                    const die = ctx.roll('1d20').total;
+-                    const outcome = die >= dc ? 'success' : 'failure';
+-                    return { summary: `You try ${line.name}: d20 ${die} against ${dc}, ${outcome}.`, data: { die, outcome }, narrate: true };
+-                }
++                const die = ctx.roll('1d20').total;
++                const outcome = die >= dc ? 'success' : 'failure';
+                 const id = `ck_${String(party.made).padStart(8, '0')}`;
+-                party.checks[id] = { skill: line.name, what: line.text, dc, status: 'pending' };
+-                return { summary: `A ${line.name} check waits.`, data: { check: id }, narrate: false };
++                party.checks[id] = { skill: line.name, what: line.text, dc, status: 'rolled', die, outcome };
++                return { summary: `You try ${line.name} (${line.text}): d20 ${die} against ${dc}, ${outcome}.`, data: { v2: { key: `check:${id}`, result: { check: id, die, dc, outcome } } }, narrate: false };
+             },
+         },
+     };
+@@ -97,6 +83,7 @@ test('a risky message: the check is made and rolled before the reply, and the re
+     assert.deepEqual(Object.keys(receipt.data).sort(), ['check', 'dc', 'key', 'outcome', 'rolled', 'skill']);
+     assert.equal(receipt.data.rolled, true);
+     assert.equal(receipt.data.outcome, checks[0].outcome);
++    assert.equal(receipt.data.check, Object.keys(party(host).checks)[0]);
+ 
+     const tail = tailOf(request);
+     assert.ok(tail.includes(`[Happened]\n${receipt.summary}`), tail);
+@@ -136,22 +123,15 @@ test('none, garbage or off: no receipt and nothing changes', { skip }, async ()
+     }
+ });
+ 
+-test('a check kind that resolves at once is kept as it is; without check.roll the check stays pending', { skip }, async () => {
+-    const now = await setup({ checks: { pending: false } });
+-    await now.host.send(ACTION, 'You slip by.');
+-    const resolved = now.host.ctx.chat[0].extra.storySuite.receipts.at(-1);
+-    assert.match(resolved.summary, /^You try stealth: d20 \d+ against 15/);
+-    assert.equal(resolved.data.check, null);
+-    assert.equal(resolved.data.rolled, false);
+-    now.host.close();
+-
+-    const waiting = await setup({ checks: { roll: false } });
+-    await waiting.host.send(ACTION, 'You slip by.');
+-    const left = waiting.host.ctx.chat[0].extra.storySuite.receipts.at(-1);
+-    assert.equal(left.summary, 'A stealth check waits.');
+-    assert.equal(left.data.rolled, false);
+-    assert.equal(Object.values(party(waiting.host).checks)[0].status, 'pending');
+-    waiting.host.close();
++test('one capture, one die: the check kind resolves it, and no older check.roll is ever called', { skip }, async () => {
++    const { host } = await setup({ checks: { legacy: true } });
++    await host.send(ACTION, 'You slip by.');
++    const receipt = host.ctx.chat[0].extra.storySuite.receipts.at(-1);
++    assert.match(receipt.summary, /^You try stealth \(slipping past the gate guard\): d20 \d+ against 15/);
++    assert.equal(receipt.data.rolled, true);
++    assert.equal(party(host).made, 1);
++    assert.equal(party(host).legacyRolls, 0);
++    host.close();
+ });
+ 
+ test('rejections save nothing: a refused check, a second pre-roll of the same message, a bad payload', { skip }, async () => {
+@@ -160,7 +140,7 @@ test('rejections save nothing: a refused check, a second pre-roll of the same me
+     await refused.host.send(ACTION, 'You slip by.');
+     assert.equal(refused.host.head().meta.rev, rev);
+     assert.deepEqual(refused.host.head().meta.claims, {});
+-    assert.match(refused.host.turn.problems().at(-1).message, /assist\.precheck.*There is no character/);
++    assert.match(refused.host.turn.problems().at(-1).message, /assist\.precheck.*There is no actor/);
+     refused.host.close();
+ 
+     const { host } = await setup();

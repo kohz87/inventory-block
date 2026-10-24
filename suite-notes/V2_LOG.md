@@ -1133,3 +1133,15 @@ MERGED testkit RB #118, SD #115, NSD #205.
   - Sonnet review of track A + a trial merge of #142 started.
   - D1 seams → the E6a writer, as a small SB PR off main after its round 6 (E1 is merged; epoch reads the savepoints domain when present, else genesis).
   - The VM runs 029 (Studio) now while A is reviewed.
+- Track B slice 4 done:
+  - SD #133 (c721579, lead-owned 9c67cbc registers the checks part): checks.*, director.contract, atlas.* incl. candidates, world.areaTier, journal.day; SD standalone works; stale check links can be retaken.
+  - NSD #219 (618e18a, lead-owned bdcc7a0 registration + window API, and the package support_files): participant (checkpoint/prepare/activate/abort/status/applyEvent) on E6a, npc.identity per C19. PROMPTS BYTE-IDENTICAL (measure:prompts and the injection sha256 6e135a7f… unchanged).
+  - RB #144 (7a2ec7f, base slice 3): rules.modifier; PC linked to an SD check actor at creation (atomic); foeToEngine with area validation (falls back to the v1 projection, never fails a fight start).
+  - E7b patch saved to suite-notes/patches/e7b-assist-checks.patch (applies on SB e5-evidence 5e31419; lead applies at integration).
+  LEAD DECISIONS on gaps:
+  - empty allowedFoes/allowedTags = no restriction (confirmed);
+  - elements and foe budgets deferred (pack has no fields → D later);
+  - check-kind flip and the RB check table → lead at integration;
+  - check proof kind (E5 owner table) → E follow-up;
+  - NSD paths not yet publishing nativeChange → must be fixed before NSD #219 merges (restore checkpoints would go stale), raised in the review.
+  Sonnet review of the slice 4 PRs started.
