@@ -914,3 +914,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
   - part 4: screen/theme builder over SB layouts + theme tokens, custom trackers;
   - part 5: creator kit (new module from the MIT RB/SD templates, dev mode with live checks, the testkit, AI guides, optional AI assist on the creator's own key).
   Module code is edited in the creator's own editor or AI tool; Studio scaffolds it, checks it, previews it and packages it, and never runs pack scripts.
+- Studio #2 merged: Story_studio is AGPL-3.0.
