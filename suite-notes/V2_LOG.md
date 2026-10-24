@@ -1123,3 +1123,6 @@ MERGED testkit RB #118, SD #115, NSD #205.
   - E1: Re-read heals corrupted claims [damaged file];
   - E5: before-checkpoint owner pick [damaged file] (if not fixed by the round 7 redesign).
 - E1 round 7 at f33167f: a Re-read moves only a kept block's position; non-intact kept blocks stay as stored; stronger read-field proxy test; the registry validates replayQueries; REPLAY.md: replayQueries is a purity promise. E1 accepts E5's story.evidence host replay query (answer determined by prefix pins; keep a suffix-mutation test). Fuzz editReread step (fails on 95955ca in 3/40 seeds). Suite 3048/0; diff harness same 19; fuzz 1–300 clean; modules green. VM JOB 040 READY first.
+- VM JOB 040 (Sol, account B, E1 f33167f): MERGE. No [silent wrong state]; both repros hold; 19 × 220-step fuzz runs clean. E1 MERGED into SB main (merge commit 20e1c70, not a squash, so the E5/E6a branches that contain E1 merge cleanly). Seven review rounds.
+- E FOLLOW-UPS += E1: a same-result replan replaces the whole span and clears populated evidence (store.js:1128) [damaged file][fails safe], pre-existing.
+- CHANGELOG lines for track E are batched at the end of wave 2 (E1 is now in main).
