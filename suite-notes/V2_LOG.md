@@ -1009,3 +1009,10 @@ MERGED testkit RB #118, SD #115, NSD #205.
   - It hooks into creation, party and sheets files (no lead-owned commit).
   - Gaps: flag and template schemas; story-line equipment refused until track A's slot mapping (asked the A items writer to export it); SB must expose resolved/rulesHash/packHash/progression.
   - Sonnet review of #141 running. Slice 3 (B4 combat) after the review.
+- Track A items: RB #142 (draft, base track-a, e556c45).
+  - B2 fixed; rules.equipPlan registered over an interim binding (rb-items-interim-1) until B3's frozen rules answer; item.equip only via SB inventory.equipOn with targetSlot; items.slots and items.canWear live; six-slot limits gone.
+  - Old six-slot save fixture: armour → body; worn-1 and bare accessory listed unplaced, never guessed.
+  - Non-alive actors REFUSED; another member's stack REFUSED ("hand it over first").
+  - Lead-owned f9fb9f0 registers an interim rules.sheet (delete with B3).
+  - LEAD DECISION: §9 forbids guessing, not the reader choosing. A bare accessory → either accessory slot. worn → [head, body, legs, feet], hands → [weapon, offhand], waist → accessory slots, each wearable with an explicit targetSlot, otherwise REFUSED with a choice list exposed in items.canWear for C's picker. Export slotsForLegacy for B's registerItem.
+  - SB follow-up (small): the apply-side plan check must require moves from the durable owner.
