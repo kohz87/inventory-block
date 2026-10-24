@@ -7,8 +7,8 @@ Accounts: A ran out at 20:28 UTC → back ≈00:28 UTC (08:28 SGT) by the 4-hour
 For FUTURE outages with no stated time: available again 4 hours after the moment it ran out (README). The VM updates this line.
 
 Order (run top to bottom):
-0. 049 — Sol re-checks: E6a round 8 + ctx-seams v3 (read-only). READY — the 20:28 UTC run stopped on A's quota with no verdicts; re-run both on B at ≈22:13 UTC (already set).
-1. 051 — Sol re-check: E5 round 9 (6ece80c, read-only). READY — run on B alongside 049 (three read-only reviews in parallel).
+0. 049 — DONE 22:18 UTC (E6a clear; seams changes).
+1. 051 — DONE 22:19 UTC (HOLD → E5 round 10).
 2. 027 — track A. Resume 2 FINISHED 20:02 UTC (RB 508763e, SD 168d999). WAITING: Resume 3 (B3 wiring etc.) needs track B on main; the lead adds it then.
 3. 029 Resume 3 — Studio part 2: review T3 (WIP c6c7c2a), then T4–T7. READY after 049 (B if quota remains, else A from ≈00:28 UTC). See 029-studio-part2.md "Resume 3".
 4. 043 — E6b write (Sol). WAITING until E6a merges.
