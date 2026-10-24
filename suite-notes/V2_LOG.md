@@ -1160,3 +1160,9 @@ MERGED testkit RB #118, SD #115, NSD #205.
   - B-5: same-reply story coin double-pays.
   The #142 trial merge is clean. LEAD DECISIONS: port SD's old quest prompt verbatim into RB; port story-credit dedupe (no deferral); threads.intent becomes a contract addition. Merge order E5 → D1 seams → B → A. VM 027 Resume 2 written (027-resume2.txt), READY before 029's continuation; B3-dependent parts wait for B on main.
 - VM: account B out at 18:11 UTC (back ≈22:11 UTC by the 4-hour rule). 046 and 029 resume 2 stopped with nothing to save. Queue for A at 19:22 UTC: 046 → 027 Resume 2 → 029 Resume 2.
+- Track B slice 4 review (Sonnet): all three MERGE AFTER FIXES. NSD prompts byte-identical.
+  - SD: S1 the checks domain collides with RB's (RB fails to register) → remove the registration from #133; one atomic "checks flip" release at integration (retire RB checks, register SD's, apply E7b, move modifiers/statForCheck into rules/); S2 RB-shaped slice breaks SD; S3 the pre-roll's evidence collides with the previous reply's check.
+  - NSD: N1 np_ map keyed to the chat key (rename/branch re-mints; old save points CONFLICT); N2 [normal play][silent wrong state] scan/edit/meter paths don't publish nativeMutation → stale save points (a restore drops an NPC the story keeps).
+  - RB: R1 companions linked to the PC's actor (CONFLICT).
+  - Cross-slice: RB guards ask party.actor/actors + story.evidence → declare replayQueries and forward them in module.js (48/187 tests fail on main's testkit); story.evidence allowed after E5.
+  LEAD DECISIONS: interim foe budget = stat total ≤ 35 + 10 + 4·(level−1), level ≤ area ceiling, reject not clamp; rollLoot carries def; foeNamed by ref or a unique name; standalone SD's first-actor UI → track C. Sent to the B writer (RB → SD → NSD).
