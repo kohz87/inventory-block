@@ -1,0 +1,18 @@
+Re-check Story Block PR #191 (this checkout, branch track-e/e1-replay), track E1 replay core. You reviewed it at bfafe29 and gave MERGE AFTER FIXES with 8 blocking items. The writer reports all fixed at 3509636 (after merging main); see `git diff bfafe29..HEAD`, docs/v2/REPLAY.md and tests/v2/replay-review2.test.js. Read-only: change nothing. This is a focused re-check, not a full review: keep it short.
+
+Lead decisions applied (two reverse earlier choices): an unverified surviving checkpoint is never adopted — the chat goes read-only with a Problem offering two reader-confirmed actions, "Keep the story state from the earliest saved point" and "Start this chat's story state over"; v:1, unversioned, newer and damaged records are never overwritten (start over sets older/damaged aside in extra.storySuiteAside).
+
+For each of your 8 items, say HOLDS or NOT FIXED (with a reproduction, file:line and the fix):
+1. checkpoints bypass guards — now a guardEnv (ready owners + versions) on checkpoints after guarded blocks, and block identity is the whole span;
+2. ensureInitial promoting an unchecked checkpoint — now read-only + the two confirmed actions (turn.repairActions / turn.repair(id, {confirmed}));
+3. one host-provenance classifier — span id + receipt guarded:true set by the host only, used by replay, Re-read, reconcile and rewind;
+4. guarded validators fail closed (legacy keeps grandfathering);
+5. replanned prefixHash on the staged overlay (plus store.boundaryProblems());
+6. preserve v:1 and damaged later records (absent/ours/newer/older/damaged, never written over);
+7. lineage tombstones — chatMetadata.storySuite.sourceArchive.deleted, never reissued (known limits: a delete while the page was closed isn't seen; the archive rides the next ST save rather than forcing one — say if either is unacceptable);
+8. no intermediate head on delete/swipe.
+Also check the extras: cross-carrier rev renumbering (strictly increasing, unique), and lifecycleChanged() replaying from before dependent checkpoints before a head is published. The writer says rollbacks keeping a suffix need no separate coordinator because truncate only drops the head and replaceStory already uses the shared suffix walk — agree or not.
+
+Then: anything the fixes broke or newly introduced (especially back-compat for unguarded modules and old stores, and the Problem shape change from `action` to `actions`).
+
+Output: a verdict line (MERGE / MERGE AFTER FIXES / NOT READY), the 8 items + extras each HOLDS/NOT FIXED, then any NEW BLOCKING items (what, why, file:line, the fix), then non-blocking headlines. No model names in your output.
