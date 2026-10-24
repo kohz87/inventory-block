@@ -894,3 +894,11 @@ MERGED testkit RB #118, SD #115, NSD #205.
   (2) AI connection = the creator's own endpoint and key, entered in the app and kept only in that browser, never in exported packs or logs; works with OpenAI-compatible and local servers; browser CORS limits documented per provider;
   (3) ST hand-off by files only: export a pack file, or a character card with the pack inside, which SB offers to install when the card is imported; extension settings travel as pack-suggested defaults the reader approves; Studio never edits ST directly;
   (4) dev mode for module makers through the local server, or the browser's folder access where supported.
+- USER: use MVU Game Maker (github.com/KritBlade/MVU_Game_Maker) as the reference for Studio. What it is: a ZIP holding a single 1.5 MB dist/index.html you double-click; load an existing ST card → pick a genre template → export JSON → "Download PNG card" (card data embedded in a default image) → import into ST. The GUI is customised in a separate companion, the drag-and-drop "Status Menu Builder". No AI connection in the app. Its rules run as lorebook JavaScript (Tavern Helper/MVU) and the model enforces them, at about 75k tokens a reply. Licence: AGPL-3.0 code and CC BY-NC-SA content → ideas only, never copy its code or content into our GPL-3.0 repos.
+  Studio adopts:
+  - one double-click HTML;
+  - load a card → template → export pack file or PNG card;
+  - a drag-and-drop screen builder over SB's layouts kind and widget registry, with live preview.
+  Studio differs:
+  - data-only packs and module code as the referee, not lorebook scripts and model-enforced rules (cheap prompts; no frontier model needed);
+  - an optional AI assist on the creator's own key.
