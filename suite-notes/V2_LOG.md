@@ -999,3 +999,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
   Notes: the full pin in every checkpoint (store resolved once by rulesHash, later); fuzz problems-after-reload is E1 host behaviour (told E1 for round 5).
   B owns the shared B5 envelope helper (buildGuard), A imports it (027 addendum). SB must expose resolved/rulesHash/packHash/progression before activation (E/D task).
 - Track A items (A4 + the B2 slot bug) → Sonnet writer on RB branch track-a-items off track-a, draft PR based on track-a.
+- E5 round 4 at d23ab1f: projection from applied blocks in apply order; first applier owns a proof id, later claimants don't apply; {all:true} reserves ids; pre-checkpoint 'first listed keeps the id'; opShapeProblem on every op, malformed → Problem, no throw. evidence-owner tests + 2 fuzz steps; all runs green. VM JOB 033 (Sol re-check) after 032 on account A.
