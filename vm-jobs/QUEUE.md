@@ -7,7 +7,7 @@ Accounts: A resets ≈19:22 UTC (03:22 SGT, stated by USER). B ran out at 18:11 
 For FUTURE outages with no stated time: available again 4 hours after the moment it ran out (README). The VM updates this line.
 
 Order (run top to bottom):
-2. 027 Resume 2 — track A (027-resume2.txt). READY — the review is done; run right after 046.
+2. 027 — track A. Resume 2 FINISHED 20:02 UTC (RB 508763e, SD 168d999). WAITING: Resume 3 (B3 wiring etc.) needs track B on main; the lead adds it then.
 3. 029 Resume 2 — Studio part 2 T3–T7 (head 2aba688). READY after 027; the untracked tests/dummy_probe.tmp in /tmp/s2work can be deleted.
 4. 043 — E6b write (Sol). WAITING until E6a merges.
 5. 044 — B6 death/return write (Sol). WAITING until E6a merges.
