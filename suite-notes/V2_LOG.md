@@ -1068,3 +1068,9 @@ MERGED testkit RB #118, SD #115, NSD #205.
   - Sonnet review of #143 running. Next: B6 death/return after E6a merges; slice 4 = SD checks/danger + NSD participant.
 - E6a round 4 at dcb371f: announcements carry chat + receipt and are revalidated before telling; the barrier records its owning chat, settle() drops foreign ones (on chat open, every operation, head(), stale cleanup); rejected flush checks identity → STALE. Principles tests 42 (10/12 new sweeps fail on old src). All green. VM JOB 038 READY in QUEUE.
 - USER: when a Codex account runs out, assume it's back 4 hours later (a window lasts at least 1 hour). README rule; the VM records the time on QUEUE.md's Accounts line.
+- VM JOB 036 (Sol, account A, E5 134c4dd): MERGE AFTER FIXES. HOLDS: [normal play] early reconcile; [damaged file] refused collider; [damaged file] malformed legacy ops. Blocking:
+  - [normal play] an unchanged Re-read re-salts a survivor's id and a same-key step disappears;
+  - [damaged file] a replanned collider overwrites an applied owner.
+  Root: the reply-wide replacement set treated as ownership. Round 6 principle: per-block ownership; other blocks' ids reserved; colliding replans refused before apply/publish; an unchanged Re-read keeps every id (fuzz invariant).
+- VM: account A out at 15:37 UTC (back ≈19:37 by the 4-hour rule). 038 stopped with no verdict → first on B at 16:25. 027 partial: RB track-a 4eca8b3 (A1/A3 quest adapters and terminal outcomes), SD track-a 20e097f (A2 neutral thread writers); continues on B after 038.
+- Tag tally so far (USER's one-more-round trial): E6a r3 → 2 normal; E5 r5 → 1 normal, 1 damaged (+2 damaged items fixed). E1 r6 pending.
