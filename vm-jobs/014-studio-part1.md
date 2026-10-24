@@ -81,3 +81,7 @@ Delete the old /tmp/studio1 first. It can take a few hours.
 - Run step 4 with 014-prompt.txt + 014-resume2.txt + this section as the resume note. Quota fallback as in resume 3.
 - SCHEDULE (USER: Codex has 5% left for 138 minutes): don't start resume 4 now. Start it at 17:19 SGT (09:19 UTC) today,
   right after job 022 (Sol's review of Story Block #191), which goes first because track E waits on it.
+- CHANGE (USER, after the S2–S4 stalls; Codex has 70% of its weekly quota, only the 5-hour window is tight): Sol
+  writes S4, S5, S6 and S7 itself, directly (no agy for this resume). Same rules, tests and checks. If the 5-hour window
+  runs out mid-way: stop at a clean point, commit (WIP if needed), push Story_studio studio-1, and schedule the rest for
+  the start of the next window; carry on from there without waiting for the lead.
