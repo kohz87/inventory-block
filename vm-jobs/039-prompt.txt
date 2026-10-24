@@ -1,0 +1,10 @@
+Re-check Story Block PR #194 (this checkout, branch track-e/e5-evidence), track E5 proof and evidence. Your re-check at 134c4dd left one root cause in two shapes (reply-wide replacement set treated as ownership). Round 6 (head 19a074e = the fix + a merge of E1 round 6 at 95955ca): a replanned block may take back only the ids of the proof it replaces (matched by kind and key, same parents first); every other id is reserved; a replan that would land on an applied owner's id is refused before apply and publish; an unchanged Re-read keeps every id (fuzz invariant). Diff: `git diff 134c4dd..HEAD` minus the E1 merge; tests/v2/evidence-ids.test.js; docs/v2/EVIDENCE.md. Read-only; don't run the whole suite; reproduce with single tests, small scripts or the fuzz files. Keep it short.
+
+1. Re-run both repros (unchanged Re-read re-salting a survivor; replanned collider overwriting an applied owner). HOLDS / NOT FIXED.
+2. Can the "same parents first, else first not yet taken back" matching ever swap two same-key proofs' ids across a Re-read where nothing changed, or after a Continue?
+3. The E1-round-6 merge adds ONE host query any guard may ask on replay: story.evidence (commands.js replayQuery), reading only state pins and the proofs of blocks before the guard's block. Is it truly a pure function of the prefix (no suffix, no live settings, no caches)? Does it keep E1's guarantee that the checkpoint state equals a full replay?
+Then anything newly broken; no-proof stores byte-identical.
+
+For every finding, add a tag: [normal play] (swipe, delete, Re-read, Continue, reload, crash, settings change, chat switch, failed save) or [damaged file] (needs a hand-edited or corrupted chat file). Tags are for tracking; keep blocking judgments as before.
+
+Output: verdict (MERGE / MERGE AFTER FIXES / NOT READY), items 1–3, new BLOCKING items (what, why, file:line, the fix, tag), non-blocking headlines. No model names in your output.

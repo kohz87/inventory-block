@@ -13,4 +13,4 @@ Order:
 4. 027 Resume 1 — track A, Sol writes (027-resume1.txt). IN PROGRESS (RB 4eca8b3, SD 20e097f): continue on B after 038.
 5. 029 Resume 1 — Studio part 2. READY after 027 (or alongside, if a second account has room).
 
-6. E5 round 6 re-check — WAITING (writer working; job 039 when it lands).
+6. 039 — Sol re-check of E5 round 6 (read-only). READY — run after 038 and 037, before continuing 027.
