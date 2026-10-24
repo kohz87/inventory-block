@@ -1058,3 +1058,11 @@ MERGED testkit RB #118, SD #115, NSD #205.
 - E5 round 5 at 134c4dd (merged E1 86e5a0f): walk seeded from its real base; publish only after apply; opShapeProblem on every op before rebasing; plus pickId (a planned-again block keeps its own id) found by the stricter fuzz. evidence-walk tests; the fuzz oracle now models duplicates (reverting the seeding fails 8/30 seeds). All runs green. VM JOB 036 (Sol re-check, tagged) first on account B at 16:25 UTC.
 - USER: account A out again, resets in 236 min (≈19:30 UTC / 03:30 SGT). B resets 16:25 UTC. Track A (027) continues on B after the re-checks; A takes what's left from 19:30 UTC.
 - USER: the VM polls hourly for job status and new jobs → vm-jobs/QUEUE.md (ordered, READY/WAITING/IN PROGRESS), kept current by the lead; README points to it.
+- Track B: slice 2 review fixes at beaba82 (#141), B1–B7 plus N1/N2/N5/N8/N10–N13/N16; N14 kept at >= 1 with a comment (the host reports one REPLAY_PREREQUISITE for that delete). CONTRACT ADDITION (lead): `skill.cancelTrain {actor, session}`, a player command that marks a stuck training request refused, moving no coin or time; guarded and claimed. N5 chosen as fold totals in the guard inputs.
+- Track B slice 3 (B4 combat): RB #143 (draft, cd58f01, base slice 2).
+  - Without a pin the v1 engine is unchanged (golden traces). Pinned actions come from the pinned skills/forms; closed condition records; summons; guarded combat.act/end; XP via party.grantXp {actor,amount,claim} once per fight and member.
+  - Sealed BatchResult progress.batches[id] = {hash, bytes, seq} with resolveBatch for SB's batchResults.resolve.
+  - Unregistrable loot → lootHeld. Fight fuzz.
+  - Touches src/combat.js (+40/-5), combat/index.js and setup.js.
+  - Gaps: batchResults wiring in module.js (lead, integration); carried condition strength past 8 fights; foe adapters/resistances; story equipment pending slotsForLegacy.
+  - Sonnet review of #143 running. Next: B6 death/return after E6a merges; slice 4 = SD checks/danger + NSD participant.
