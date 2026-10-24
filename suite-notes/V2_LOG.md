@@ -952,3 +952,16 @@ MERGED testkit RB #118, SD #115, NSD #205.
   Sent to the B and C writers. Review of #139 after B's slice lands, so the stubs swap for the real queries.
 - E5 at 5e31419: merged main (licence) + E1 03c3ca0; one conflict (replayBlocks: E1 orphan rule, then guarded ? replayGuarded : replayLegacy). Suite, fuzz 60+60, E1 prop 1–300, modules green. VM JOB 031 (Sol re-check of E5 P1 + merge) written; queue 031 before 029. E5 takes E1 round 5 by merge later.
 - Track C fix at 54ea4a7 (RB #139): Setup offered when rules.party exists or SB module status says rpg-battle is dormant/restore-pending; 7 dependency lines incl. an rb line; fixtures for dormant/restoring/ready/no-status RB and waiting/missing/old SD. Module status isn't a host query (sdk.modules() is an SDK method, missing from the vendored testkit), so C reads globalThis.StoryBlock.sdk.modules() guarded through RB's own rpg-battle.setupView. INTEGRATION TODO (lead): add an SB core query for module status (e.g. modules.status) so screens don't reach into globals; C then switches. rules.identity stub to gain packId/version when B lands.
+- Track B slice 1: RB #140 (draft, 2759db9, testkit vendored from SB 4f5b434).
+  - New code: src/v2/rules/, progress/ and training/ (clock math only); docs/dev/progress.md.
+  - Behaviour: mastery 35 uses = 5/5; level/XP from the pin; class.choose swaps all 3 skills at once; path.choose follows the selected-parent rule; waiting = oldest milestone, no auto-picks; every choice and settlement guarded and claimed; rules.settle replannable.
+  - Tests: fixtures C01–C06 (C06 math/cap), C14, golden ProgressView; a fuzz.
+  - Unchanged: no lead-owned commits; parts not registered.
+  - Queries added: rules.identity/classes/names/training (training: session null, offers [], caps.skills per skill → C to align).
+  - Gaps (lead):
+    - epoch placeholder until E6;
+    - checker passed in at activation;
+    - entry points for milestone-0 and paid attempts → slice 2;
+    - afterCapture combiner and registration gated on preflight → lead at integration;
+    - ledger compaction later.
+  - Sonnet review of #140 running.
