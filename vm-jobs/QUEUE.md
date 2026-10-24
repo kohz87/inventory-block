@@ -10,6 +10,7 @@ Order (run top to bottom):
 0. 049 — DONE 22:18 UTC (E6a clear; seams changes).
 1. 051 — DONE 22:19 UTC (HOLD → E5 round 10).
 1b. 052 — DONE 22:48 UTC (NOT READY → E5 round 11).
+1c. 053 — Sol re-check: E5 round 11 (18a3a24, read-only). READY — run now alongside 029 Resume 3 if B has room, else first on A from ≈00:28 UTC.
 2. 027 — track A. Resume 2 FINISHED 20:02 UTC (RB 508763e, SD 168d999). WAITING: Resume 3 (B3 wiring etc.) needs track B on main; the lead adds it then.
 3. 029 Resume 3 — Studio part 2: review T3 (WIP c6c7c2a), then T4–T7. READY after 049 (B if quota remains, else A from ≈00:28 UTC). See 029-studio-part2.md "Resume 3".
 4. 043 — E6b write (Sol). WAITING until E6a merges.
