@@ -64,3 +64,18 @@ Delete the old /tmp/studio1 first. It can take a few hours.
 - Quota fallback (USER, Codex at 41% of its window): run resume 3 now. If Codex stops on quota or credits again, don't
   retry in a loop: keep /tmp/s1work as it is, push what's committed, and schedule the resume to start at 16:45 SGT
   (08:45 UTC) today, when Codex's window resets; then continue from where it stopped.
+
+## Resume 4 (lead, after S4 stalled at Gemini's third round)
+- The fixed checker is on Story Block main (f0bc3a1; PR #192 superseded #188). Its result fields changed: `hash` is gone,
+  replaced by `rulesHash` (the contract's H) and `packHash` (the whole pack); rules packs must declare `rb-rules-v2`.
+- First: in /tmp/s1work/Story_studio commit the uncommitted S4 work as "WIP Studio part 1 S4: 1 test failing" and push
+  `studio-1` (with 431c1ea). Then re-vendor Story Block from main: in /tmp/s1work/Story_block `git fetch -q origin main &&
+  git checkout -q origin/main`, then in Story_studio `npm run sync-sb -- --from /tmp/s1work/Story_block` and commit
+  "Vendor Story Block main f0bc3a1"; fix S3's code and tests for the `hash` → `rulesHash`/`packHash` rename and the
+  capability rule (Sol does this directly), keep everything green.
+- S4: Sol finishes it directly (the failing cascade regression test, and the identity-guard bypass through numeric-string
+  paths), like S2 and S3.
+- S5–S7: Gemini writes, Sol monitors, as before. If Gemini stalls at round 3 on any of them, Sol finishes that task
+  directly too, then carries on.
+- Push Story_studio studio-1 after S7 (and after S4 if the run is long). Story Block's studio-1 is done (merged).
+- Run step 4 with 014-prompt.txt + 014-resume2.txt + this section as the resume note. Quota fallback as in resume 3.
