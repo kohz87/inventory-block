@@ -1159,3 +1159,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
   - B-4: the quest prompt didn't move;
   - B-5: same-reply story coin double-pays.
   The #142 trial merge is clean. LEAD DECISIONS: port SD's old quest prompt verbatim into RB; port story-credit dedupe (no deferral); threads.intent becomes a contract addition. Merge order E5 → D1 seams → B → A. VM 027 Resume 2 written (027-resume2.txt), READY before 029's continuation; B3-dependent parts wait for B on main.
+- VM: account B out at 18:11 UTC (back ≈22:11 UTC by the 4-hour rule). 046 and 029 resume 2 stopped with nothing to save. Queue for A at 19:22 UTC: 046 → 027 Resume 2 → 029 Resume 2.
