@@ -1126,3 +1126,10 @@ MERGED testkit RB #118, SD #115, NSD #205.
 - VM JOB 040 (Sol, account B, E1 f33167f): MERGE. No [silent wrong state]; both repros hold; 19 × 220-step fuzz runs clean. E1 MERGED into SB main (merge commit 20e1c70, not a squash, so the E5/E6a branches that contain E1 merge cleanly). Seven review rounds.
 - E FOLLOW-UPS += E1: a same-result replan replaces the whole span and clears populated evidence (store.js:1128) [damaged file][fails safe], pre-existing.
 - CHANGELOG lines for track E are batched at the end of wave 2 (E1 is now in main).
+- VM 027 Resume 1 FINISHED (account B, 17:36 UTC): RB track-a 0a4f8ee, SD track-a 2ba4acd; RB 1751/0, SD 879/0.
+  - Done: B1; A2 (old SD payouts retired); A3 (guarded atomic settlement); A5.
+  - Partial: A1 (B3 integration left); A4 pure planner only (the live part is #142); A6 (integrated matrix left).
+  - Gates: SB ctx.cursor/ctx.epoch (D1); B's buildGuard (unmerged); B3 validators and event attribution; E6 epoch; A4 live (#142).
+  - Sonnet review of track A + a trial merge of #142 started.
+  - D1 seams → the E6a writer, as a small SB PR off main after its round 6 (E1 is merged; epoch reads the savepoints domain when present, else genesis).
+  - The VM runs 029 (Studio) now while A is reviewed.
