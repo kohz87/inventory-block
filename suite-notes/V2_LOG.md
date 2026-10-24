@@ -938,3 +938,15 @@ MERGED testkit RB #118, SD #115, NSD #205.
   7. effectiveSettings not restored; BatchResult bytes not resolved or verified;
   8. epoch gate rejects legacy guards without epoch.
   Sol agrees with decisions 1–9 (with conditions). NSD clean both ways. Sent to E6a's writer (round 2), incl. a guarded no-timeline compat fix. Later: pruning (200 KB × 40 saves = 8.55 MB), callback timeouts. E6b: participants after swipe/delete, history within a reply.
+- Track C slice 1: RB #139 (draft, dce0873). Screens rpg-battle/progress, quests, roster, links, setup plus a basic-class step, for fixtures C01–C09 and C13–C19, built on SB widgets. Registration is in a separate lead-owned commit (screens/index.js only), and the screens show only while rules.party exists. 29 states × 390/1280 screenshots in scratchpad/trackc/shots. Stubs for A, B and E are listed in fixtures.js PENDING.
+  CONTRACT ADDITIONS (lead):
+  - rules.identity({}) -> {hash, packId, version};
+  - rules.classes({tier?});
+  - rules.names({refs});
+  - rules.training payload {actor, session, caps, offers};
+  - atlas.candidates({place}) (SD);
+  - UI writes send expectedHash and the host stamps write/source;
+  - ItemRule waits on B3.
+  - Setup must probe through SB module status (E2), not rules.party → C fixing.
+  - Creation-wizard wiring of the class step is the lead's, at integration.
+  Sent to the B and C writers. Review of #139 after B's slice lands, so the stubs swap for the real queries.
