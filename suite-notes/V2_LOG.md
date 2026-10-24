@@ -1177,3 +1177,9 @@ MERGED testkit RB #118, SD #115, NSD #205.
   - Flip branches: SD track-b/checks-flip (135c5d5) green; RB track-b/checks-flip (4f8463d) unfinished, 44 red.
   - INTEGRATION DECISIONS NEEDED (lead): craft's dice without RB's check table; the narrator's check instruction (drop `| result:`, since the pre-roll tells the result); the status card (track C); counting tests.
   - New SB patch suite-notes/patches/e6a-head-source.patch: head() carries the head reply's Source, so nativeMutation works in production → into E6a.
+- VM JOB 046 (Sol, account A, E5 78fd75e): NOT READY. A, B and C (owned) hold.
+  - P1a [normal play][silent wrong state]: ranks recomputed from surviving blocks, so after a prerequisite removal and two reconciles a second identical step takes the first's id and the first's dependent reactivates.
+  - P1b [damaged file][silent wrong state]: a legacy checkpoint without owned picks a skipped owner → follow-up.
+  - P2 [fails safe]: owned:[] on no-proof checkpoints changes bytes.
+  Round 8 principle: occurrence identity assigned once, stored in the span, never recomputed or compressed; new blocks take max+1. One shared helper, also for the ctx-seams block ids (same flaw).
+- E FOLLOW-UPS += E5 P1b (reconstruct ownership by prefix replay when owned is absent).
