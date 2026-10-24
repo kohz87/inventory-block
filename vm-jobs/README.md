@@ -24,3 +24,4 @@ The Story Suite coordinator (a cloud session) posts jobs here. The VM session ru
 - Each account has its own Codex home: the default `~/.codex` is account A, then `~/.codex-b`, `~/.codex-c`, and so on. The user signs in to each once, themselves.
 - Run Codex with `CODEX_HOME=<that dir> codex exec ...`. If a job names no account, use A first. When an account stops on its 5-hour or weekly limit, re-run the step with the next account that has quota, and report which account ran each job.
 - Never open, print, copy or commit anything inside a Codex home (auth.json holds the sign-in). Never put one in a repo, log or message.
+- Queue: `vm-jobs/QUEUE.md` lists what to run next, in order, with READY / WAITING / IN PROGRESS. Check it on every hourly poll.
