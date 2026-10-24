@@ -10,3 +10,5 @@ RESUME 1 — you write this yourself (no agy). The previous run produced pure pl
 7. Docs: trim tool narration from docs/dev/track-a-*.md; document what's done.
 
 Lead-owned files (RB/SD src/v2/module.js, registration, settings/feature maps, manifests): edit only in separate "lead-owned: <what>" commits, minimal. LEAD DECISION D2: track A lands as a whole (no scaffold-only PR). Same test rule, commit style and push rules as the original prompt.
+
+ADDENDUM (lead): track B owns the single B5 guard-envelope helper (RB src/v2/progress/guard.js buildGuard, exported from progress/ on branch track-b/rules-slice1). The quest settlement imports it instead of its own settlementInputs, so `source` hashes identically. If it isn't on main yet when you get there, copy nothing: code against its exported signature and note it for the lead's integration merge.

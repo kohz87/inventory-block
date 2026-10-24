@@ -994,3 +994,8 @@ MERGED testkit RB #118, SD #115, NSD #205.
   - D2: track A lands as a whole.
   - D3: §9 fresh start. Legacy SD quests stay read-only history and old owed rewards aren't paid; never two owners.
   Split: A4 + B2 (RB items) → Claude Sonnet now on branch track-a-items (unblocks track C); everything else → VM 027 resume 1, with Sol writing (no Gemini) after the re-checks on account A, continuing on B.
+- Track B slice 1 review (Sonnet): MERGE AFTER FIXES; no double credit, prerequisite or skill-count bugs; live state equals a cold rebuild. Blocking: an unset clock zeroes uses (must hold), and a choice is allowed in an unsettled fight. Fix now: hash day rather than minute; hash and check guard.epoch (pre-E6 value ep_00000000); recordAttempt form→skill check; cleanup.
+  Slice 2 must do: wire level/XP from the pin (900 XP = party lvl 10 vs pin lvl 1 today), and design the ledger fold before payers (0.5 ms per attempt per reply; LIMITED at 4000 would wedge fights).
+  Notes: the full pin in every checkpoint (store resolved once by rulesHash, later); fuzz problems-after-reload is E1 host behaviour (told E1 for round 5).
+  B owns the shared B5 envelope helper (buildGuard), A imports it (027 addendum). SB must expose resolved/rulesHash/packHash/progression before activation (E/D task).
+- Track A items (A4 + the B2 slot bug) → Sonnet writer on RB branch track-a-items off track-a, draft PR based on track-a.
