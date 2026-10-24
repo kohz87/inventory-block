@@ -1097,3 +1097,12 @@ MERGED testkit RB #118, SD #115, NSD #205.
   - NSD branch track-b/nsd-participant: the restore participant on E6a's registry, npc.identity per C19; registration patch lead-owned; NSD prompts byte-identical;
   - RB slice 4: areaTier wiring, foe adapters, elements.
   B6 after E6a.
+- VM JOB 038 (Sol, account B, E6a dcb371f): MERGE AFTER FIXES. A and B hold. Blocking, both [normal play]:
+  (1) a queued make's chat identity is captured at dequeue, so it runs in chat B;
+  (2) the global running count suppresses A's recovery and leaves no barrier.
+  Round 5 principle: queue, counters and flags per chat; identity at enqueue; a pending journal bars the chat the instant it opens.
+- VM JOB 037 (Sol, account B, E1 95955ca): MERGE AFTER FIXES. Structural fixes hold (no stored-input omission; suffix access throws; quarantine; truncate). Blocking:
+  - [normal play] Re-read stamping replaces a kept block's payload hash (store.js:1874);
+  - [damaged file] the same path regenerates corrupted claims.
+  Round 7 principle: Re-read stamping moves a kept block's position only; a non-intact kept block stays exactly as stored. Non-blocking: proxy coverage, registry recognising replayQueries, document that purity is a promise. NOTE: the escape hatch wouldn't fix these (Re-read stamping, not checkpoint trust), so a targeted round 7 it is.
+- Trial tag tally (rounds after the USER's "monitor one more round"): E6a r3 2N, E6a r4 2N, E5 r5 1N+1D, E1 r6 1N+1D, B s3 4N → 10 normal-play vs 2 damaged-file blockers. Damaged-file findings are a minority; the tag rule would save little.
