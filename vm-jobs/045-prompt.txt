@@ -1,0 +1,9 @@
+Re-check Story Block PR #195 (this checkout, branch track-e/e6a-timeline), track E6a. Your re-check at 29011bf left one blocker [normal play][silent wrong state]: recover's temporary barrier drop emitted `modules: ready` and a listener acted on inconsistent state. Round 6 (head 29639d6): recover reads the story through an internal wholeStory() in one synchronous step with commands barred and nothing announced; the barrier comes down once at the end. Also merged E5 19a074e and main (E1 20e1c70) with conflicts in store.js/registry.js (kept-block placement takes main's version plus `evidence: was.evidence`; the epoch/rules gate added to guardHolds). Read-only; don't run the whole suite; reproduce with single tests or small scripts. Keep it short.
+
+1. Re-run the synchronous-ready-listener repro. HOLDS / NOT FIXED. Stated limit: one journal with two unfinished entries can announce readiness between them — is that [silent wrong state]?
+2. The merge resolutions: anything lost from E1 (kept blocks move position only; non-intact stay as stored), E5 (publish after apply; per-block ids) or E6a?
+Then anything newly broken.
+
+STOPPING RULE: tag every blocking finding with BOTH (a) [normal play] or [damaged file], and (b) [silent wrong state] or [fails safe]. The lead merges when no [silent wrong state] remains.
+
+Output: verdict (MERGE / MERGE AFTER FIXES / NOT READY), items 1–2, BLOCKING items (what, why, file:line, the fix, both tags), non-blocking headlines. No model names in your output.

@@ -1145,3 +1145,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
   - check proof kind (E5 owner table) → E follow-up;
   - NSD paths not yet publishing nativeChange → must be fixed before NSD #219 merges (restore checkpoints would go stale), raised in the review.
   Sonnet review of the slice 4 PRs started.
+- E6a round 6 at 29639d6 (merged E5 19a074e + main 20e1c70): recover reads through internal wholeStory() with commands barred, no announcement; the barrier comes down once at the end. ctx-seams PR SB #197 (1d2dfe9, off main): ctx.cursor() (the block's first boundary; stamp refuses mismatches; UNSUPPORTED for replanned blocks), ctx.epoch (savepoints epoch else genesis). VM JOB 045 = both re-checks, READY first.

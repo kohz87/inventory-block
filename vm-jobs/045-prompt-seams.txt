@@ -1,0 +1,7 @@
+Review Story Block PR #197 (this checkout, branch track-e/ctx-seams, off main which holds E1): two host facts on the command ctx. ctx.cursor() → Cursor {sid, swipeKey, block, op, rev} (contract RB_PHASE0 §4 "type Cursor"), the block's own first boundary, computed like the store stamps it (store.blockCursor); stamp refuses to store a block anywhere but the cursor its command read; throws UNSUPPORTED for a step planned after a Re-read's kept blocks and for a replanned block. ctx.epoch → the savepoints domain epoch, else genesis ep_00000000 (replay.js epochOf, GENESIS_EPOCH). Docs: docs/v2/REPLAY.md. Read-only; don't run the whole suite. Keep it short.
+
+1. Deterministic on replay, after a Re-read, a swipe, a reload? Pure over the prefix (E1's rules)? Can a cursor ever name a position other than where the block is stored?
+2. Is UNSUPPORTED for replanned blocks acceptable, or will track A's settlement (key rb:<epoch>:<operation>:<stable-key>, acceptance cursor) hit it in normal play (a quest settled in a step replanned after an edit)? If so, propose the deterministic answer.
+3. Contract fidelity of the Cursor shape.
+
+Tag findings as for E6a (both tags). Output: verdict, items 1–3, BLOCKING items, non-blocking headlines. No model names in your output.
