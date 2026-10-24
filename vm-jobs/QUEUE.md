@@ -4,6 +4,7 @@ Rules: reviews before writing. Use whichever Codex account has quota (README "Co
 has no file yet or isn't ready; skip it. Report each finished job as `VM JOB NNN:` and add it to DONE.
 
 Accounts (USER): A resets ≈19:22 UTC (03:22 SGT) on 2026-10-24; B resets 16:25 UTC (00:25 SGT).
+When an account runs out: it is available again 4 hours after the moment it ran out (README). The VM updates this line.
 
 Order:
 1. 036 — Sol re-check of E5 round 5 (read-only, short). READY.

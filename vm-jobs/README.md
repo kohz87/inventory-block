@@ -25,3 +25,4 @@ The Story Suite coordinator (a cloud session) posts jobs here. The VM session ru
 - Run Codex with `CODEX_HOME=<that dir> codex exec ...`. If a job names no account, use A first. When an account stops on its 5-hour or weekly limit, re-run the step with the next account that has quota, and report which account ran each job.
 - Never open, print, copy or commit anything inside a Codex home (auth.json holds the sign-in). Never put one in a repo, log or message.
 - Queue: `vm-jobs/QUEUE.md` lists what to run next, in order, with READY / WAITING / IN PROGRESS. Check it on every hourly poll.
+- Codex quota timing (USER): a 5-hour window always lasts at least 1 hour, so when an account runs out, treat it as available again 4 hours after the moment it ran out. Note that time in QUEUE.md (the VM may edit only the "Accounts" line) and in your report. Don't retry that account before then; use the other one if it has quota.
