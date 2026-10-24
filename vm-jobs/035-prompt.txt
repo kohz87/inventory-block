@@ -7,4 +7,6 @@ Re-check Story Block PR #195 (this checkout, branch track-e/e6a-timeline), track
 5. The merge of E1 86e5a0f into E6a (conflict in store.js; E5's replayLegacy/orphan handling and both sides' proofs()/replansFrom kept): anything lost?
 Then anything newly broken.
 
+For every finding, add a tag: [normal play] if it can happen through ordinary use (swipe, delete, Re-read, Continue, reload, crash, settings change, chat switch), or [damaged file] if it needs a hand-edited or corrupted chat file. Tags are for the lead's tracking only; keep blocking judgments as before.
+
 Output: verdict (MERGE / MERGE AFTER FIXES / NOT READY), items 1–5, new BLOCKING items (what, why, file:line, the fix), non-blocking headlines. No model names in your output.

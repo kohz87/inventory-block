@@ -10,3 +10,4 @@
 - No model names in repos. Commit trailers as given by the lead.
 - Never force-push, rebase a shared branch, or delete branches; merge main with a merge commit.
 - Agents never merge; the lead merges.
+- Reviews (lead, trial): every finding carries a tag, [normal play] (swipe, delete, Re-read, Continue, reload, crash, settings change, chat switch) or [damaged file] (needs a hand-edited or corrupted chat file). Blocking judgments are unchanged for now; the USER decides after one more round whether [damaged file] findings stop blocking merges.
