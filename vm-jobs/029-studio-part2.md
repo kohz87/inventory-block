@@ -33,3 +33,9 @@ push `studio-2` and report so the lead can write a resume.
 
 ## Resume 3 (lead, after T3 at WIP c6c7c2a, 20:28 UTC)
 - After 049 on whichever account has quota. Re-run step 2 with 029-prompt.txt plus this line appended: "Resume 3: T1 (7f1230f) and T2 (2aba688) are done. T3 (skill paths) is a pushed WIP at c6c7c2a, verified (skills 17 tests, full 272/0) but unreviewed. Review T3 against the brief and the StudioSkill mock first (12 forms in base/step 1/step 2 columns, generated forms dashed and read-only, budget bar flags budget-closure, lower tiers as a list), fix it with the writer, then T4 (schema forms), T5 (problems, open/export/autosave), T6 (part 1 follow-ups), T7 (browser tests, CI, docs), in that order."
+
+## Reconcile + Resume 4 (lead, 23:25 UTC, after B ran out at ≈23:20)
+LEAD DECISION: keep origin/studio-2 as is (T3 2229973, T4 ecfdcb1, T5 0e24901 — the job's own per-task commits). Do not push WIP 9dbcc03, and never force-push.
+1. Save the WIP's difference from the remote head: `git diff 0e24901 9dbcc03 > ~/story_suite/vm-results/029-wip-9dbcc03.patch` (also `git diff --stat`). Then point the local branch at the remote: `git checkout -B studio-2 origin/studio-2` (local only; the WIP stays reachable as 9dbcc03, and you can tag it locally `wip-9dbcc03`).
+2. Report the patch's --stat in 029.md. If it's empty or only duplicates T3–T5, say so.
+3. Resume 4 (whichever account has quota, after any READY reviews): re-run step 2 with 029-prompt.txt plus this line appended: "Resume 4: T1–T5 are pushed (head 0e24901). A local WIP diff from the stopped run is at ~/story_suite/vm-results/029-wip-9dbcc03.patch: read it, take only hunks that belong to T6/T7 and aren't already in 0e24901, and drop the rest. Then T6 (part 1 follow-ups) and T7 (browser tests, CI, docs). The WIP run's `npm test` exited 1: the final full runs must be green, so find and fix any failure."
