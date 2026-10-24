@@ -985,3 +985,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
   - the track A resume goes to Claude or the next Codex window, depending on the coverage review's size;
   - Studio part 2 waits for Codex (not on the test's critical path).
   - Ask the USER for both accounts' reset times.
+- USER: account A resets in ~69 min (≈14:25 UTC). Sol reviews stay on Codex (no Sonnet substitution); queue on A: pending re-checks (E1 r5, E5 r4, E6a r2 as they land) → 027 resume → 029 resume (written).

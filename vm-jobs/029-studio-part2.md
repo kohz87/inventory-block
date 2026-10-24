@@ -20,3 +20,9 @@ push `studio-2` and report so the lead can write a resume.
    from file:// in Chromium with the network blocked and confirm it loads the golden pack; `git grep -n -i -E "gemini|codex|claude|antigravity|gpt" studio-2 -- src tests docs scripts` shows nothing new.
 4. Report as VM JOB 029: the head, test/build/check results, one line per brief section (done / left), the file size of
    dist/story-studio.html, and anything Sol stopped on. Keep /tmp/s2work until the lead acknowledges 029.
+
+## Resume 1 (lead, after both accounts ran out at 13:10 UTC)
+- On account A after its reset (USER: about 14:25 UTC), and only after any Sol re-check jobs waiting in the queue (reviews first).
+- Main already contains the icons (Story_studio #3, 59f5353): `git -C /tmp/s2work/Story_studio fetch -q && git merge -q origin/main` (merge commit, no rebase) if studio-2 doesn't contain 59f5353 yet.
+- Re-run step 2 with 029-prompt.txt plus this line appended: "Resume 1: T1 is done (7f1230f). T2 is a pushed WIP (ffa2c42: src/screens/classes.js, tests/classes.test.js, tests/helpers/, screens/index.js, studio.css), unreviewed. Review T2 against the brief and the Studio mock first, fix it with the writer, then T3–T7."
+- Then steps 3–4. Report as VM JOB 029.
