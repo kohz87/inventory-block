@@ -61,3 +61,6 @@ Delete the old /tmp/studio1 first. It can take a few hours.
   safety checker) and case-sensitive route reference indexing. You finish S3 yourself (no agy), then S4-S7 with Gemini
   as writer and you as monitor."
 - Then steps 5–7 as written. Report as VM JOB 014.
+- Quota fallback (USER, Codex at 41% of its window): run resume 3 now. If Codex stops on quota or credits again, don't
+  retry in a loop: keep /tmp/s1work as it is, push what's committed, and schedule the resume to start at 16:45 SGT
+  (08:45 UTC) today, when Codex's window resets; then continue from where it stopped.
