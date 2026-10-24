@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Story Studio: classes</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#7aa7ff}a:hover{color:#a9c6ff}
+</style>
+</helmet>
+<div style="width: 1280px; height: 820px; box-sizing: border-box; background: {{t.bg}}; color: {{t.text}}; font-family: {{f.body}}; display: flex; flex-direction: column; position: relative; overflow: hidden">
+  <div style="position: absolute; inset: 0; background: {{t.backdrop}}; pointer-events: none"></div>
+
+  <header style="position: relative; display: flex; align-items: center; gap: 14px; padding: 14px 20px; border-bottom: 1px solid {{t.border}}; background: {{t.nav}}; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px)">
+    <div style="font-family: {{f.display}}; font-size: 20px; font-weight: 800">Story Studio</div>
+    <div style="width: 1px; height: 24px; background: {{t.border}}"></div>
+    <label for="packname" style="font-size: 13px; color: {{t.muted}}">Pack</label>
+    <input id="packname" value="[YOUR PACK NAME]" style="min-height: 36px; width: 220px; border-radius: 10px; border: 1px solid {{t.border}}; background: {{t.field}}; color: {{t.text}}; font: inherit; font-size: 15px; padding: 0 10px">
+    <span style="font-size: 13px; color: {{t.muted}}">rules v2 · rulesHash <span style="font-family: ui-monospace, monospace; color: {{t.text}}">bbcf96a8…</span></span>
+    <div style="flex: 1"></div>
+    <button type="button" aria-label="Undo" style="width: 40px; height: 40px; border-radius: 12px; border: 1px solid {{t.border}}; background: none; color: {{t.text}}; cursor: pointer; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 14L4 9l5-5M4 9h11a5 5 0 010 10h-3"></path></svg></button>
+    <button type="button" aria-label="Redo" style="width: 40px; height: 40px; border-radius: 12px; border: 1px solid {{t.border}}; background: none; color: {{t.text}}; cursor: pointer; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14l5-5-5-5M20 9H9a5 5 0 000 10h3"></path></svg></button>
+    <button type="button" style="min-height: 40px; padding: 0 16px; border-radius: 12px; border: 1px solid {{t.border}}; background: none; color: {{t.text}}; font: inherit; font-size: 14px; cursor: pointer">Open pack…</button>
+    <button type="button" onClick="{{ toggleProblems }}" style="min-height: 40px; padding: 0 14px; border-radius: 12px; border: 1px solid {{ problemRing }}; background: {{ problemBg }}; color: {{t.text}}; font: inherit; font-size: 14px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 8px"><span style="width: 8px; height: 8px; border-radius: 50%; background: {{t.warn}}"></span>{{ problemLabel }}</button>
+    <button type="button" disabled style="min-height: 40px; padding: 0 18px; border-radius: 12px; border: 0; background: {{t.tile}}; color: {{t.muted}}; font: inherit; font-size: 14px; font-weight: 700; cursor: not-allowed" title="Fix the problems first">Export</button>
+  </header>
+
+  <div style="position: relative; flex: 1; display: grid; grid-template-columns: 200px minmax(0, 1fr) 360px; min-height: 0">
+    <nav aria-label="Pack parts" style="border-right: 1px solid {{t.border}}; padding: 14px 10px; display: flex; flex-direction: column; gap: 4px; background: {{t.rail}}">
+      <sc-for list="{{ parts }}" as="p" hint-placeholder-count="9">
+        <button type="button" onClick="{{ p.pick }}" aria-current="{{ p.current }}" style="min-height: 44px; border-radius: 12px; border: 1px solid {{ p.ring }}; background: {{ p.bg }}; color: {{t.text}}; font: inherit; font-size: 15px; font-weight: {{ p.weight }}; cursor: pointer; display: flex; align-items: center; gap: 10px; padding: 0 12px; text-align: left">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color: {{ p.iconColor }}"><path d="{{ p.icon }}"></path></svg>
+          <span style="flex: 1">{{ p.name }}</span>
+          <span style="font-size: 12px; color: {{t.muted}}">{{ p.count }}</span>
+        </button>
+      </sc-for>
+    </nav>
+
+    <section aria-label="Class tree" style="padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; min-height: 0; overflow: hidden">
+      <div style="display: flex; align-items: center; gap: 12px">
+        <div style="font-family: {{f.display}}; font-size: 22px; font-weight: 800">Classes</div>
+        <div style="font-size: 13px; color: {{t.muted}}">Tier 0 → 3 · every class has exactly 3 skills · every leaf is tier 3</div>
+        <div style="flex: 1"></div>
+        <button type="button" style="min-height: 38px; padding: 0 14px; border-radius: 999px; border: 1px solid {{accent}}; background: none; color: {{t.text}}; font: inherit; font-size: 14px; cursor: pointer">+ Root class</button>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; font-family: {{f.display}}; font-size: 12px; font-weight: 700; letter-spacing: 1.2px; color: {{t.muted}}">
+        <div>TIER 0 · START</div><div>TIER 1</div><div>TIER 2</div><div>TIER 3 · ADVANCED</div>
+      </div>
+      <div style="flex: 1; display: flex; flex-direction: column; gap: 14px; overflow: hidden">
+        <sc-for list="{{ lines }}" as="ln" hint-placeholder-count="3">
+          <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; align-items: center; position: relative">
+            <sc-for list="{{ ln.cells }}" as="c" hint-placeholder-count="4">
+              <div style="display: flex; flex-direction: column; gap: 6px">
+                <sc-for list="{{ c.items }}" as="k" hint-placeholder-count="1">
+                  <button type="button" onClick="{{ k.pick }}" aria-pressed="{{ k.selected }}" style="min-height: 58px; border-radius: 14px; border: 1.5px solid {{ k.ring }}; background: {{ k.bg }}; color: {{t.text}}; font: inherit; cursor: pointer; padding: 8px 12px; display: flex; flex-direction: column; align-items: flex-start; gap: 2px; text-align: left; box-shadow: {{t.shadow}}">
+                    <span style="display: flex; gap: 6px; align-items: center; width: 100%">
+                      <span style="font-family: {{f.display}}; font-size: 15px; font-weight: 700; flex: 1">{{ k.name }}</span>
+                      <sc-if test="{{ k.flag }}"><span aria-label="Has a problem" style="width: 8px; height: 8px; border-radius: 50%; background: {{t.warn}}"></span></sc-if>
+                    </span>
+                    <span style="font-size: 12px; color: {{t.muted}}; font-family: ui-monospace, monospace">{{ k.slug }} · {{ k.skills }}</span>
+                  </button>
+                </sc-for>
+              </div>
+            </sc-for>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <aside aria-label="Selected class" style="border-left: 1px solid {{t.border}}; padding: 16px; display: flex; flex-direction: column; gap: 12px; background: {{t.card}}; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); min-height: 0; overflow: hidden">
+      <div style="display: flex; align-items: center; gap: 10px">
+        <div style="font-family: {{f.display}}; font-size: 20px; font-weight: 800; flex: 1">{{ sel.name }}</div>
+        <span style="padding: 3px 10px; border-radius: 999px; background: {{t.accentSoft}}; font-size: 12px; font-weight: 700">Tier {{ sel.tier }}</span>
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px">
+        <div style="display: flex; flex-direction: column; gap: 4px">
+          <label for="clsname" style="font-size: 12px; font-weight: 700; letter-spacing: 1px; color: {{t.muted}}">NAME</label>
+          <input id="clsname" value="{{ sel.name }}" style="min-height: 40px; border-radius: 10px; border: 1px solid {{t.border}}; background: {{t.field}}; color: {{t.text}}; font: inherit; font-size: 15px; padding: 0 10px">
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 4px">
+          <label for="clsslug" style="font-size: 12px; font-weight: 700; letter-spacing: 1px; color: {{t.muted}}">ID (SLUG)</label>
+          <input id="clsslug" value="{{ sel.slug }}" style="min-height: 40px; border-radius: 10px; border: 1px solid {{t.border}}; background: {{t.field}}; color: {{t.text}}; font-family: ui-monospace, monospace; font-size: 14px; padding: 0 10px">
+        </div>
+      </div>
+      <div style="font-size: 12px; color: {{t.muted}}; line-height: 1.4">Renaming the ID updates every reference to it ({{ sel.refs }} places).</div>
+      <div style="display: flex; flex-direction: column; gap: 4px">
+        <label for="clsparent" style="font-size: 12px; font-weight: 700; letter-spacing: 1px; color: {{t.muted}}">PARENT</label>
+        <select id="clsparent" style="min-height: 40px; border-radius: 10px; border: 1px solid {{t.border}}; background: {{t.field}}; color: {{t.text}}; font: inherit; font-size: 15px; padding: 0 8px">
+          <option>{{ sel.parent }}</option>
+        </select>
+      </div>
+      <div style="display: flex; justify-content: space-between; align-items: center">
+        <div style="font-size: 12px; font-weight: 700; letter-spacing: 1px; color: {{t.muted}}">SKILLS · EXACTLY 3</div>
+        <div style="font-size: 12px; font-weight: 700; color: {{ sel.skillColor }}">{{ sel.skillCount }} / 3</div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 8px">
+        <sc-for list="{{ sel.skillRows }}" as="s" hint-placeholder-count="3">
+          <div style="min-height: 48px; border-radius: 12px; border: 1px {{ s.style }} {{ s.ring }}; background: {{ s.bg }}; display: flex; align-items: center; gap: 10px; padding: 0 12px">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color: {{accent}}"><path d="M13 2L4 14h7l-1 8 9-12h-7z"></path></svg>
+            <span style="flex: 1; font-size: 15px; font-weight: 600; color: {{ s.color }}">{{ s.name }}</span>
+            <span style="font-size: 12px; color: {{t.muted}}">{{ s.note }}</span>
+          </div>
+        </sc-for>
+      </div>
+      <sc-if test="{{ sel.problem }}">
+        <div role="status" style="border-radius: 12px; background: {{t.warnSoft}}; border: 1px solid {{t.warn}}; padding: 10px 12px; font-size: 13px; line-height: 1.45">{{ sel.problem }}</div>
+      </sc-if>
+      <div style="margin-top: auto; display: flex; gap: 8px">
+        <button type="button" style="flex: 1; min-height: 44px; border-radius: 12px; border: 1px solid {{t.border}}; background: none; color: {{t.text}}; font: inherit; font-size: 14px; cursor: pointer">+ Child class</button>
+        <button type="button" onClick="{{ askRemove }}" style="min-height: 44px; padding: 0 16px; border-radius: 12px; border: 1px solid {{t.danger}}; background: none; color: {{t.dangerText}}; font: inherit; font-size: 14px; cursor: pointer">Remove…</button>
+      </div>
+    </aside>
+  </div>
+
+  <sc-if test="{{ problemsOpen }}">
+    <section aria-label="Problems" style="position: absolute; left: 220px; right: 380px; bottom: 16px; border-radius: 18px; background: {{t.overlay}}; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid {{t.border}}; box-shadow: {{t.shadow}}; padding: 14px 16px; display: flex; flex-direction: column; gap: 8px">
+      <div style="display: flex; align-items: center">
+        <div style="font-family: {{f.display}}; font-size: 16px; font-weight: 800; flex: 1">Problems · checked by Story Block</div>
+        <button type="button" onClick="{{ toggleProblems }}" aria-label="Close problems" style="width: 36px; height: 36px; border-radius: 10px; border: 1px solid {{t.border}}; background: none; color: {{t.text}}; cursor: pointer">×</button>
+      </div>
+      <sc-for list="{{ problems }}" as="pr" hint-placeholder-count="2">
+        <button type="button" onClick="{{ pr.jump }}" style="min-height: 44px; border-radius: 12px; border: 1px solid {{t.border}}; background: {{t.tile}}; color: {{t.text}}; font: inherit; cursor: pointer; display: flex; align-items: center; gap: 10px; padding: 6px 12px; text-align: left">
+          <span style="padding: 2px 8px; border-radius: 6px; background: {{t.warnSoft}}; font-family: ui-monospace, monospace; font-size: 12px">{{ pr.code }}</span>
+          <span style="flex: 1; font-size: 14px">{{ pr.text }}</span>
+          <span style="font-family: ui-monospace, monospace; font-size: 12px; color: {{t.muted}}">{{ pr.path }}</span>
+        </button>
+      </sc-for>
+    </section>
+  </sc-if>
+
+  <sc-if test="{{ removeOpen }}">
+    <div style="position: absolute; inset: 0; background: {{t.scrim}}; display: flex; align-items: center; justify-content: center">
+      <section role="dialog" aria-label="Remove class" style="width: 480px; border-radius: 22px; background: {{t.overlay}}; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid {{t.border}}; box-shadow: {{t.shadow}}; padding: 20px; display: flex; flex-direction: column; gap: 12px">
+        <div style="font-family: {{f.display}}; font-size: 20px; font-weight: 800">Remove {{ sel.name }}?</div>
+        <div style="font-size: 14px; line-height: 1.5">Other parts of the pack use it. Removing it also removes:</div>
+        <ul style="margin: 0; padding-left: 20px; font-size: 14px; line-height: 1.7">
+          <sc-for list="{{ cascade }}" as="cx" hint-placeholder-count="4"><li>{{ cx }}</li></sc-for>
+        </ul>
+        <div style="font-size: 13px; color: {{t.muted}}; line-height: 1.45">You can undo this. The pack may need fixes afterwards before it can be exported.</div>
+        <div style="display: flex; justify-content: flex-end; gap: 8px">
+          <button type="button" onClick="{{ closeRemove }}" style="min-height: 44px; padding: 0 18px; border-radius: 12px; border: 1px solid {{t.border}}; background: none; color: {{t.text}}; font: inherit; cursor: pointer">Keep it</button>
+          <button type="button" onClick="{{ closeRemove }}" style="min-height: 44px; padding: 0 18px; border-radius: 12px; border: 0; background: {{t.danger}}; color: #ffffff; font: inherit; font-weight: 700; cursor: pointer">Remove all {{ cascadeCount }}</button>
+        </div>
+      </section>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":true},"accent":{"editor":"color","default":"#7b6cf0","options":["#7b6cf0","#3b8ef0","#d99a2b","#24a865"]},"$preview":{"width":1280,"height":820}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { part: 'classes', sel: 'spellblade', problems: true, remove: false };
+  }
+  renderVals() {
+    const accent = this.props.accent ?? '#7b6cf0';
+    const dark = this.props.dark ?? true;
+    const t = dark ? {
+      bg: '#151827', backdrop: 'radial-gradient(42% 36% at 18% 12%, rgba(124,92,236,0.45), rgba(0,0,0,0) 70%), radial-gradient(36% 32% at 88% 28%, rgba(40,160,165,0.32), rgba(0,0,0,0) 70%), radial-gradient(48% 38% at 62% 92%, rgba(214,132,62,0.24), rgba(0,0,0,0) 70%)',
+      card: 'rgba(30,33,50,0.62)', rail: 'rgba(22,25,40,0.5)', tile: 'rgba(255,255,255,0.09)', nav: 'rgba(30,33,50,0.72)', border: 'rgba(255,255,255,0.16)', shadow: '0 10px 30px rgba(0,0,0,0.35)',
+      text: '#f1f2f8', muted: '#b6bacb', field: 'rgba(0,0,0,0.24)', overlay: 'rgba(28,31,48,0.9)', scrim: 'rgba(8,10,18,0.55)', accentSoft: 'rgba(123,108,240,0.26)',
+      warn: '#f2b54a', warnSoft: 'rgba(242,181,74,0.16)', danger: '#d9534f', dangerText: '#ff9d99'
+    } : {
+      bg: '#e8e6f3', backdrop: 'radial-gradient(42% 36% at 18% 12%, rgba(178,156,255,0.65), rgba(0,0,0,0) 70%), radial-gradient(36% 32% at 88% 28%, rgba(132,214,214,0.55), rgba(0,0,0,0) 70%), radial-gradient(48% 38% at 62% 92%, rgba(255,205,150,0.5), rgba(0,0,0,0) 70%)',
+      card: 'rgba(255,255,255,0.62)', rail: 'rgba(255,255,255,0.4)', tile: 'rgba(255,255,255,0.75)', nav: 'rgba(255,255,255,0.74)', border: 'rgba(60,60,110,0.16)', shadow: '0 10px 30px rgba(70,60,130,0.14)',
+      text: '#23253a', muted: '#55586e', field: 'rgba(255,255,255,0.9)', overlay: 'rgba(255,255,255,0.94)', scrim: 'rgba(40,40,70,0.35)', accentSoft: 'rgba(123,108,240,0.18)',
+      warn: '#b8730a', warnSoft: 'rgba(184,115,10,0.12)', danger: '#c0392b', dangerText: '#a3271b'
+    };
+    const f = { display: 'Nunito, system-ui, sans-serif', body: 'Nunito, system-ui, sans-serif' };
+    const I = {
+      classes: 'M12 3l8 4-8 4-8-4zM4 12l8 4 8-4M4 17l8 4 8-4', skills: 'M13 2L4 14h7l-1 8 9-12h-7z', items: 'M4 8h16v12H4zM9 8V5h6v3',
+      foes: 'M12 3c4 0 7 3 7 7v4l2 4H3l2-4v-4c0-4 3-7 7-7zM9 11h.01M15 11h.01', places: 'M12 21s7-6 7-12a7 7 0 00-14 0c0 6 7 12 7 12zM12 11a2 2 0 100-4 2 2 0 000 4z',
+      quests: 'M6 3h9l3 3v15H6zM9 10h6M9 14h6', shops: 'M4 9l2-5h12l2 5M5 9v11h14V9M9 20v-6h6v6', trainers: 'M12 11a4 4 0 100-8 4 4 0 000 8zM4 21v-1a8 8 0 0116 0v1', more: 'M5 12h.01M12 12h.01M19 12h.01'
+    };
+    const partData = [['classes', 'Classes', 15], ['skills', 'Skills', 45], ['items', 'Items', 32], ['foes', 'Foes', 18], ['places', 'Places', 12], ['quests', 'Quests', 9], ['shops', 'Shops', 4], ['trainers', 'Trainers', 5], ['more', 'More kinds', '']];
+    const parts = partData.map(([id, name, count]) => {
+      const on = this.state.part === id;
+      return { name, count, icon: I[id], current: on ? 'page' : 'false', ring: on ? accent : 'transparent', bg: on ? t.accentSoft : 'transparent', weight: on ? 700 : 600, iconColor: on ? accent : t.muted, pick: () => this.setState({ part: id }) };
+    });
+    const C = {
+      novice: { name: 'Novice', tier: 0, parent: '(none: a root class)', skills: 3 },
+      fighter: { name: 'Fighter', tier: 1, parent: 'novice', skills: 3 }, caster: { name: 'Caster', tier: 1, parent: 'novice', skills: 3 },
+      knight: { name: 'Knight', tier: 2, parent: 'fighter', skills: 3 }, duelist: { name: 'Duelist', tier: 2, parent: 'fighter', skills: 3 }, scholar: { name: 'Scholar', tier: 2, parent: 'caster', skills: 3 },
+      paladin: { name: 'Paladin', tier: 3, parent: 'knight', skills: 3 }, spellblade: { name: 'Spellblade', tier: 3, parent: 'duelist', skills: 2 }, archmage: { name: 'Archmage', tier: 3, parent: 'scholar', skills: 3 }
+    };
+    const cell = (ids) => ({ items: ids.map((id) => {
+      const c = C[id]; const on = this.state.sel === id;
+      return { name: c.name, slug: id, skills: c.skills + '/3 skills', flag: c.skills !== 3, selected: on ? 'true' : 'false', ring: on ? accent : (c.skills !== 3 ? t.warn : t.border), bg: on ? t.accentSoft : t.card, pick: () => this.setState({ sel: id }) };
+    }) });
+    const lines = [
+      { cells: [cell(['novice']), cell(['fighter']), cell(['knight']), cell(['paladin'])] },
+      { cells: [cell([]), cell([]), cell(['duelist']), cell(['spellblade'])] },
+      { cells: [cell([]), cell(['caster']), cell(['scholar']), cell(['archmage'])] }
+    ];
+    const s = C[this.state.sel];
+    const names = { spellblade: ['Arc Edge', 'Runed Parry'], paladin: ['Oath Strike', 'Ward of Dawn', 'Lay On Hands'], archmage: ['Starfall', 'Time Fold', 'Mana Lattice'] };
+    const have = names[this.state.sel] || ['Skill one', 'Skill two', 'Skill three'].slice(0, s.skills);
+    const skillRows = [0, 1, 2].map((i) => have[i]
+      ? { name: have[i], note: s.tier === 3 ? '36 forms' : 'base', style: 'solid', ring: t.border, bg: t.tile, color: t.text }
+      : { name: 'Add a third skill', note: 'missing', style: 'dashed', ring: t.warn, bg: 'transparent', color: t.muted });
+    const problems = [
+      { code: 'class-skills', text: 'Spellblade has 2 skills; every class needs exactly 3.', path: 'classes[7].skills', jump: () => this.setState({ sel: 'spellblade', part: 'classes' }) },
+      { code: 'bad-ref', text: 'Trainer "Old Maren" teaches a skill that no class owns.', path: 'trainers[2].skills[1]', jump: () => this.setState({ part: 'trainers' }) }
+    ];
+    return {
+      t, f, accent, parts, lines, problems,
+      problemsOpen: this.state.problems, removeOpen: this.state.remove,
+      problemLabel: problems.length + ' problems', problemRing: t.warn, problemBg: t.warnSoft,
+      toggleProblems: () => this.setState({ problems: !this.state.problems }),
+      askRemove: () => this.setState({ remove: true }), closeRemove: () => this.setState({ remove: false }),
+      cascade: ['Its 3 skills and all their forms', 'Its child classes and their skills', 'Trainer lessons that teach those skills', 'Foe skill lists that use them'], cascadeCount: '(4 groups)',
+      sel: { name: s.name, slug: this.state.sel, tier: s.tier, parent: s.parent, refs: s.tier === 3 ? 6 : 11, skillRows, skillCount: s.skills, skillColor: s.skills === 3 ? t.text : t.warn,
+        problem: s.skills !== 3 ? 'This class has ' + s.skills + ' skills. Add one more before the pack can be exported.' : '' }
+    };
+  }
+}
+</script>
+</body>
+</html>

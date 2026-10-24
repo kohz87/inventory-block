@@ -1,0 +1,11 @@
+You are the monitor for Studio part 2. The work folder /tmp/s2work holds Story_studio on branch studio-2 off main. Read in full: ~/story_suite/inventory-block/suite-notes/STUDIO_PART2_BRIEF.md (scope, look, screens, build, safety, follow-ups, tests — it wins over everything except the frozen contract), the mocks in ~/story_suite/inventory-block/suite-notes/studio-mocks/ (layout, tokens, behaviour; build real DOM, never their templating), Story_studio/AGENTS.md, docs/STUDIO.md, and src/model.js, src/edits.js, src/history.js (the engine; the UI goes only through edits.js).
+
+Split the brief into tasks in this order: T1 build + shell + themes (single file from file://, no network); T2 classes screen + inspector + cascade dialog; T3 skill paths screen; T4 schema-driven forms for the other kinds; T5 problems drawer + check/export screen + open/export/autosave; T6 the part 1 follow-ups; T7 browser tests + CI + docs. Write T1 and T5's export path yourself (exact behaviour: byte-identical export, no network in the built file). For the others write a precise prompt (files it may touch, functions, tests, the done-check) and run the writer inside Story_studio:
+  agy -p "<prompt>" --model <GEMINI_FLASH_ID> --dangerously-skip-permissions
+Review its diff yourself against the brief and the mocks (correctness, XSS safety via textContent/createElement only, accessibility: real buttons/inputs with labels, 44px targets, contrast), then send findings back; at most 3 rounds per task, then finish it yourself or write down what's left.
+
+Tests (owner rule): no baseline run; each new test proves itself by reverting only its fix; full runs once per finished task: npm run -s check, npm test (dot reporter, summary and failures only), npm run build with no resulting diff, git diff --check origin/main HEAD clean.
+
+Commits: "Studio part 2: T<n> <what>", no trailer lines, no model or tool names anywhere. After each green task: git push -u origin studio-2. Never push anything else, never force-push, never open a PR or merge. If a push is refused, say so and stop.
+
+Finish with: per task done/left (and what's left), files created/changed, test counts, the built file's size, check results.
