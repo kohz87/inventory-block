@@ -1146,3 +1146,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
   - NSD paths not yet publishing nativeChange → must be fixed before NSD #219 merges (restore checkpoints would go stale), raised in the review.
   Sonnet review of the slice 4 PRs started.
 - E6a round 6 at 29639d6 (merged E5 19a074e + main 20e1c70): recover reads through internal wholeStory() with commands barred, no announcement; the barrier comes down once at the end. ctx-seams PR SB #197 (1d2dfe9, off main): ctx.cursor() (the block's first boundary; stamp refuses mismatches; UNSUPPORTED for replanned blocks), ctx.epoch (savepoints epoch else genesis). VM JOB 045 = both re-checks, READY first.
+- VM 029 Resume 1: T2 done (Story_studio studio-2 2aba688, classes screen + inspector); dist/story-studio.html 255 KB, deterministic build; tests green. T3–T7 left → 029 Resume 2 written, READY after 045.

@@ -11,7 +11,7 @@ Order (run top to bottom):
 4. 027 — track A. Resume 1 FINISHED 17:36 UTC (RB 0a4f8ee, SD 2ba4acd). The lead is reviewing; a Resume 2 follows from the review. Don't start it yet.
 5. 043 — E6b write (Sol). WAITING until E6a merges (the lead flips it to READY).
 6. 044 — B6 death/return write (Sol). WAITING until E6a merges.
-7. 029 Resume 1 — Studio part 2. READY NOW (027 is paused for review); yields to 043/044 once they're READY.
+7. 029 Resume 2 — Studio part 2 T3–T7 (T1, T2 done; head 2aba688). READY after 045; yields to 043/044 once they're READY.
 
 Done: 036 (15:37 UTC), 037 and 038 (16:36 UTC), 039 (16:46 UTC), 041 (17:01 UTC), 040 (17:15 UTC; E1 MERGED).
 WAITING: E5 round 7 (job 042) re-checks, added when the rounds land; run any that are READY before continuing 027.

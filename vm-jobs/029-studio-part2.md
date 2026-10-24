@@ -26,3 +26,7 @@ push `studio-2` and report so the lead can write a resume.
 - Main already contains the icons (Story_studio #3, 59f5353): `git -C /tmp/s2work/Story_studio fetch -q && git merge -q origin/main` (merge commit, no rebase) if studio-2 doesn't contain 59f5353 yet.
 - Re-run step 2 with 029-prompt.txt plus this line appended: "Resume 1: T1 is done (7f1230f). T2 is a pushed WIP (ffa2c42: src/screens/classes.js, tests/classes.test.js, tests/helpers/, screens/index.js, studio.css), unreviewed. Review T2 against the brief and the Studio mock first, fix it with the writer, then T3–T7."
 - Then steps 3–4. Report as VM JOB 029.
+
+## Resume 2 (lead, after T2 at 2aba688)
+- After any READY re-check jobs in QUEUE.md. Re-run step 2 with 029-prompt.txt plus this line appended: "Resume 2: T1 (7f1230f) and T2 (2aba688) are done and pushed. Continue with T3 (skill paths), T4 (schema forms), T5 (problems, open/export/autosave), T6 (part 1 follow-ups), T7 (browser tests, CI, docs), in that order."
+- Then steps 3–4. Report as VM JOB 029.
