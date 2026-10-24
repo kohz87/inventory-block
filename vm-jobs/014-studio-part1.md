@@ -39,3 +39,14 @@ Delete the old /tmp/studio1 first. It can take a few hours.
   rules-v2.js:667. Start by reviewing S1 and the S2 WIP against the frozen contract, fix S2 with the writer, then
   continue with S3–S7. The WIP commit stays in the history; later commits fix it."
 - Then steps 5–7 as written.
+
+## Resume 2 (lead, after the S2 stall; USER: Studio stays with Sol and Gemini)
+- First: in /tmp/s1work/Story_block commit the uncommitted S2 repairs as "WIP Studio part 1 S2: repairs, 2 tests failing"
+  (no trailer lines) and push `studio-1`.
+- S2 changes writer: Sol writes S2 itself (Codex is the writer for S2; no agy for S2), because the checker is exact,
+  rule-heavy core code shared by Story Block's import, RPG Battle's activation and Studio. Gemini stays the writer for
+  S3–S7 under Sol as monitor, as before.
+- Note: v2 is now main in every repo (beta.2). Story Block's `studio-1` stays based where it is; it will be proposed
+  into `main`, not v2. Story_studio is unchanged.
+- Run step 4 again with 014-prompt.txt plus 014-resume2.txt appended (the second file says what changes).
+- Then steps 5–7 as written. Report as VM JOB 014.
