@@ -1,0 +1,16 @@
+You fix track A — RPG Battle PR #145 (rpg_battle/, branch track-a) and Story Director PR #134 (Story_director/, branch track-a) — for EVERY blocking item of your own review, job 070: read ~/story_suite/vm-results/070-sol.md in full first (the relay to the lead was cut off at item 11; fix all of them, RB and SD). Spec: ~/story_suite/inventory-block/suite-notes/RB_PHASE0.md, RB_TRACK_B_DESIGN.md §B3, WRITER_RULES.md, ~/story_suite/inventory-block/vm-jobs/027-resume3.txt step 0 (THE REPLAY RULE). Design principles (keep): one source of truth per rule; no defaults that invent identity; ambiguous match → retire, never rebind; nothing written until every guard holds; every normal-play path tested.
+
+LEAD DECISIONS on the items relayed:
+1. Production wiring (module.js:59 omits rules, progress, training): register them (and the quest/item parts) in module.js PARTS, activated only when a rules pack is pinned and preflight passes, in ONE commit titled "lead-owned: register rules v2 parts". Test the UNMODIFIED module definition offering and completing a frozen quest (no test-only injection).
+2. "met: no" proves completion: parse the value explicitly (yes / no only; anything else refused with a code); "met: no" after "met: yes" retracts that evidence row (the advertised undo) through the guard chain.
+3. Deleted arrival keeps the payout: place and giver facts must come from surviving sources — bind them to the arrival's proof or recorded block and validate against replay state; deleting the arrival retracts done, coin and XP.
+4. UI finish doubles narrated coin: one source-bound coin credit used by every authorized settlement path (system and UI); a narrated "+ coin 30" plus UI finish pays 30 once.
+5. Narrated reward survives a deleted objective: attributed coin hangs off its prerequisites and retracts with them.
+6. Same-reply visit turn-in loses the payout: rescan turn-ins after objectives in the same reply (deterministic order), or keep a replayable pending turn-in — pick the simpler that equals full replay.
+7. Foe-name collision: seal canonical foe refs into fight rows (B4's sealed result) and compare refs, never display names; legacy rows without a ref match only when the name is unique, else retire.
+8. Valid objective ids refused: use the contract's one full ID validator everywhere (no second regex).
+9. Self-only shield rescues another actor: validate the effect's target against the rescued actor.
+10. A genuine paid use can't fund a rescue: separate one-time rescue consumption (its own claim) from the mastery credit claim.
+11+ and every SD item: as your review says, keeping SD PROMPTS unchanged except the already-ported quest prompt.
+
+Tests post-fix (revert just each fix to see its test fail), each also after reload and rebuild. At the end, once per repo: npm run check, npm run test:dot, the fuzzes, git diff --check origin/main HEAD. Commit "Track A: <fix>" per item (no trailer lines, no model names). Push both track-a branches (no force). Finish with: heads, per item what changed, test counts, run results, anything left.
