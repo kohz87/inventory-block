@@ -12,14 +12,14 @@ For FUTURE outages with no stated time: available again 4 hours after the moment
 Order (run top to bottom):
 R0. 085 — Sol short review: pin flow (SB stage5/pin 71ea5a3, RB stage5/pin 69ef713; read-only). READY — LEAD GO-AHEAD: first free slot (A 16:39 alongside 084, or B).
 R0b. 086 — DONE BY CLAUDE 19:10 UTC (SB d300339, RB 4e8220a, SD a7e0b99; CI green). Do not run. WAS: CI FIX: checks-flip PRs (SB #201, RB #148, SD #135) are red in CI (static sibling imports). Sol writes, test-only. READY — LEAD GO-AHEAD: on A NOW alongside 084/085 (three threads); 083 may run in parallel on B (it reviews product code, which 086 does not touch).
-R1b. 088 — Sol short review: native-death recovery (SB #203, RB #150, NSD #220; read-only). READY — LEAD GO-AHEAD: FIRST FREE SLOT on A or B (release critical path, before anything else new).
+R1b. 088 — Sol short review: native-death recovery (SB #203, RB #150, NSD #220; read-only). READY — LEAD GO-AHEAD: ON B NOW (B is free after 082) (release critical path, before anything else new).
 R1. 084 — DONE 23:44 UTC on A (RB 6014bd5, SB c54104b, NSD 3353259; PRs RB #150, SB #203, NSD #220) → review 088. WAS: RELEASE MUST: native-death recovery, SOL WRITES (RB release/native-death, + NSD/SB if needed). READY — LEAD GO-AHEAD: FIRST on A at 16:39 UTC.
 S4-last. 081 — DONE (BLOCK: 2 silent-state items → Claude NSD fixer).
 S5-1. 078 — DONE (matrix 109/0/0/19) → SB #200, RB #147 MERGED.
 S5-3. 080 — DONE 12:58 UTC on B (SB 47e8beb, RB f66f9c4, SD a11c95d; PRs SB #201, RB #148, SD #135) → review 083.
 S5-3b. 083 — Sol review: checks flip (SB #201 d300339, RB #148 4e8220a, SD #135 a7e0b99 — heads after the test-only CI fix; read-only, silent-wrong-state only). READY — LEAD GO-AHEAD: on B now alongside 082 (reviews before writing: 083 first if only one slot).
 S5-3c. 087 — CHECKS-FLIP BLOCKERS from 083 (pre-roll survives retraction; pre-roll mastery settles late). SOL WRITES on the 3 PR branches. READY — LEAD GO-AHEAD: on B NEXT, BEFORE 082 (release critical path; 082 is nice-to-have). If 082 already started, let it run and do 087 on whichever account frees first.
-S5-4. 082 — stage 5: open quest templates + foe variants (USER-approved design), SOL WRITES (SB/RB/SD stage5/open-templates). READY — LEAD GO-AHEAD: after 080, or in parallel if quota allows.
+S5-4. 082 — DONE 23:50 UTC on B (SB 7793aef, SD 185dd1b, RB aaace93; draft PRs SB #204, SD #136, RB #151) → review after the release core. WAS: stage 5: open quest templates + foe variants (USER-approved design), SOL WRITES (SB/RB/SD stage5/open-templates). READY — LEAD GO-AHEAD: after 080, or in parallel if quota allows.
 S5-2. 079 — MOVED TO CLAUDE (Sonnet finishing stage5/pin). Do not run.
 0001. 077 — MOVED TO CLAUDE (Sonnet re-check now; A has no quota for ≈144 min). Do not run.
 0000. 076 — DONE 08:33 UTC on B (E6b: 2 blockers → Claude round 4).
