@@ -8,6 +8,7 @@ A's FREE RESET ACTIVATED by USER at ≈01:16 UTC: A has a fresh window (DOUBLE 5
 For FUTURE outages with no stated time: available again 4 hours after the moment it ran out (README). The VM updates this line.
 
 Order (run top to bottom):
+S4-last. 081 — Sol short final check: NSD #219 e13fe51 (read-only, silent-wrong-state only). READY — LEAD GO-AHEAD: on A at ≈11:40 alongside 078/079 (it's short).
 S5-1. 078 — stage 5: matrix green, SOL WRITES (SB + RB branches stage5/matrix). READY — LEAD GO-AHEAD: first on A at ≈11:40 UTC (or B if it has quota now).
 S5-3. 080 — stage 5: the checks flip (SD owns checks; RB modifiers only; E7b), SOL WRITES. READY — LEAD GO-AHEAD: on B at ≈12:40 UTC, or after 078/079 on A.
 S5-2. 079 — stage 5: fresh chats can pin a rules pack, SOL WRITES (RB branch stage5/pin). READY — LEAD GO-AHEAD: in parallel with 078.
