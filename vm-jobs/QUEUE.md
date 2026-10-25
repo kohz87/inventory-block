@@ -15,7 +15,7 @@ Order (run top to bottom):
 1d. 054 — DONE 00:34 UTC (HOLD → 055).
 1e. 055 — DONE 00:57 UTC (seams 2fbe8d0). ACK: /tmp/s197work and /tmp/s197-publish can be deleted.
 1f. 056 — DONE 01:08 UTC (HOLDS: seams clear).
-2. 027 — track A. Resume 2 FINISHED 20:02 UTC (RB 508763e, SD 168d999). WAITING: Resume 3 (B3 wiring etc.) needs track B on main; the lead adds it then.
+2. 027 — track A. RESUME 3 READY (track B is on RB main febdef5) — LEAD GO-AHEAD: run on whichever account has room, in parallel with 043/044 if quota allows (027-track-a.md "Resume 3", 027-resume3.txt).
 3. 029 — DONE 00:59 UTC (Resume 4: T6 815884e, T7 ba94b4c; PR Story_studio#4 opened by the lead). ACK: /tmp/s2work, /tmp/studio-2-git can be deleted; keep the wip-9dbcc03 patch.
 3b. 057 — DONE 01:08 UTC (5 blockers → 058).
 3c. 058 — DONE 01:23 UTC (studio-2 bf12771). ACK: /tmp/s2fix can be deleted.

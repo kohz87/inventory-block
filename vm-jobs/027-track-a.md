@@ -50,3 +50,6 @@ do NOT edit `src/v2/items/` here. Everything else is this resume. **Sol writes i
 
 ## Resume 2 (lead, from the second review)
 - Per QUEUE.md (before 029's continuation; track A is on the critical path). Re-run step 2 with 027-prompt.txt plus `vm-jobs/027-resume2.txt` appended. Then steps 3–5. Report as VM JOB 027.
+
+## Resume 3 (lead, after track B merged to RB main febdef5)
+- Per QUEUE.md: on whichever account has quota, after any READY reviews. Fresh clones of RB and SD `track-a` into the work folder; make sure .git is writable for the codex sandbox (043 Resume 1 step 3). Re-run step 2 with 027-prompt.txt plus `vm-jobs/027-resume3.txt` appended. Then steps 3–5. Report as VM JOB 027.
