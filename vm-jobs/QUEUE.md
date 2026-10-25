@@ -14,7 +14,7 @@ Order (run top to bottom):
 01. 068 — DONE ≈07:28 UTC (matrix: no product bugs; stage 5 fix list logged).
 04. 071 — DONE 07:40 UTC (B6: F1/F2/F5 hold; F3 two findings, F4 needs E6b) → Claude fix.
 03. 070 — Sol review: track A (RB #145 55df021, SD #134 b518b47; read-only). Stopped on A's credits 07:40 (no verdict). RE-RUN on B after 074 (or on A from ≈11:40).
-06. 073 — Sol review: track C (RB #139 17b5efe, read-only). READY — LEAD GO-AHEAD: run now on B.
+06. 073 — DONE 07:43 UTC (track C: 3 findings → Claude fix).
 02. 069 — DONE 07:35 UTC (track-c/screens1 17b5efe) → review 073. ACK: /tmp/c139 can be deleted. WAS: 069 — Track C (RB #139) onto main + real queries + stub updates, SOL WRITES. READY — LEAD GO-AHEAD: run now on B.
 0a. 064 — DONE 06:28 UTC (E6b: 3 blockers → 065).
 0b. 066 — MOVED TO CLAUDE (USER: Codex quota low). Do not run.
