@@ -12,7 +12,7 @@ Order (run top to bottom):
 0000. 076 — DONE 08:33 UTC on B (E6b: 2 blockers → Claude round 4).
 000. 074 — DONE 07:56 UTC on B (E6b: 2 blockers → Claude round 3).
 00. 067 — DONE 07:33 UTC (BLOCK, 5 findings → 072).
-05. 072 — NSD #219 fixes, SOL WRITES. WAITING until E6b merges into SB main (findings 1 and 3 need E6b's barrier and active-history filter).
+05. 072 — NSD #219 fixes, SOL WRITES. READY — E6b MERGED (SB main 5043028). LEAD GO-AHEAD: run on whichever account has quota (A ≈11:40). Note: E6b's final mechanism hides faded messages with SillyTavern's own is_system flag (no prompt filtering); NSD's evidence readers use SB's active-history filter for records, and NSD must not re-filter prompts. ONE fix round, then the lead merges on green CI (one-re-check rule).
 01. 068 — DONE ≈07:28 UTC (matrix: no product bugs; stage 5 fix list logged).
 04. 071 — DONE 07:40 UTC (B6: F1/F2/F5 hold; F3 two findings, F4 needs E6b) → Claude fix.
 03. 070 — DONE 07:58 UTC on B (track A: RB and SD BLOCK) → 075.
