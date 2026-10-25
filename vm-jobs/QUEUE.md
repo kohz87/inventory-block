@@ -13,7 +13,8 @@ Order (run top to bottom):
 1b. 052 — DONE 22:48 UTC (NOT READY → E5 round 11).
 1c. 053 — Sol re-check: E5 round 11 (18a3a24, read-only). READY — first on A at ≈00:28 UTC.
 1d. 054 — DONE 00:34 UTC (HOLD → 055).
-1e. 055 — ctx-seams round 5 fixes, SOL WRITES (workspace-write, branch track-e/ctx-seams only). READY — LEAD GO-AHEAD (00:38 UTC): start now on A in parallel with 053 and 029 (055-seams-round5-write.md).
+1e. 055 — DONE 00:57 UTC (seams 2fbe8d0). ACK: /tmp/s197work and /tmp/s197-publish can be deleted.
+1f. 056 — Sol re-check (fresh, read-only): ctx-seams round 5 (2fbe8d0). READY — LEAD GO-AHEAD: start now on A in parallel with 053 and 029.
 2. 027 — track A. Resume 2 FINISHED 20:02 UTC (RB 508763e, SD 168d999). WAITING: Resume 3 (B3 wiring etc.) needs track B on main; the lead adds it then.
 3. 029 — RECONCILE first (029-studio-part2.md "Reconcile + Resume 4": keep origin/studio-2 0e24901, save WIP 9dbcc03 as a patch, no push), then Resume 4 (T6–T7). READY NOW — independent of 053/054 (different repo); run as a third thread in parallel (USER).
 4. 043 — E6b write (Sol). WAITING until E6a merges.
