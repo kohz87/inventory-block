@@ -8,6 +8,7 @@ A's FREE RESET ACTIVATED by USER at ≈01:16 UTC: A has a fresh window (DOUBLE 5
 For FUTURE outages with no stated time: available again 4 hours after the moment it ran out (README). The VM updates this line.
 
 Order (run top to bottom):
+0a. 064 — Sol review: E6b (track-e/e6b-history f4214f4, read-only). READY — LEAD GO-AHEAD: run on B now, in parallel with 027 Resume 3.
 0. 049 — DONE 22:18 UTC (E6a clear; seams changes).
 1. 051 — DONE 22:19 UTC (HOLD → E5 round 10).
 1b. 052 — DONE 22:48 UTC (NOT READY → E5 round 11).
@@ -15,7 +16,7 @@ Order (run top to bottom):
 1d. 054 — DONE 00:34 UTC (HOLD → 055).
 1e. 055 — DONE 00:57 UTC (seams 2fbe8d0). ACK: /tmp/s197work and /tmp/s197-publish can be deleted.
 1f. 056 — DONE 01:08 UTC (HOLDS: seams clear).
-2. 027 — track A. RESUME 3 READY (track B is on RB main febdef5) — LEAD GO-AHEAD: run on whichever account has room, in parallel with 043/044 if quota allows (027-track-a.md "Resume 3", 027-resume3.txt).
+2. 027 — track A. RESUME 3 READY (track B is on RB main febdef5) — LEAD GO-AHEAD: run on B now in parallel with 064 (027-track-a.md "Resume 3", 027-resume3.txt).
 3. 029 — DONE 00:59 UTC (Resume 4: T6 815884e, T7 ba94b4c; PR Story_studio#4 opened by the lead). ACK: /tmp/s2work, /tmp/studio-2-git can be deleted; keep the wip-9dbcc03 patch.
 3b. 057 — DONE 01:08 UTC (5 blockers → 058).
 3c. 058 — DONE 01:23 UTC (studio-2 bf12771). ACK: /tmp/s2fix can be deleted.
@@ -23,7 +24,7 @@ Order (run top to bottom):
 3e. 060 — DONE 01:49 UTC (studio-2 d40d51e). ACK: /tmp/s2fix2 and /tmp/studio-submit can be deleted.
 3f. 061 — DONE 01:58 UTC (B1/B2 hold; 1 blocker → 062).
 3g. 062 — DONE 02:08 UTC (studio-2 1de349d) → Story_studio#4 MERGED (85a4140). ACK: /tmp/s2fix3 and the other Studio work folders can be deleted; the package-lock.json deletion in the old checkout can be discarded.
-4. 043 — E6b write (Sol). Parts 1–2 pushed (e31667b); stopped on A's quota 02:11 UTC. RECONCILE DONE (local at e31667b, patch saved). RESUME 1 READY — LEAD GO-AHEAD: run on B at 03:14 UTC (one-minute buffer) (043-e6b-write.md "Reconcile + Resume 1").
-5. 044 — B6 write (Sol). WIP pushed 836ac61 (track-b/death-return); stopped on A's quota 02:12 UTC. RESUME 1 READY (fresh clone at 836ac61 in /tmp/b6work) — LEAD GO-AHEAD: run on B at 03:14 UTC (one-minute buffer) in parallel with 043 Resume 1 (044-b6-write.md "Resume 1").
+4. 043 — DONE ≈03:50 UTC (E6b parts 1–6, head f4214f4) → review 064.
+5. 044 — Resume 1 DONE ≈03:50 UTC (B6 head ccce0b0). RESUME 2 READY (merge main, re-vendor, replay audit, real-module test) — after 064 and 027 Resume 3, on B if room else A.
 
 Done: 048 (20:17 UTC), 046 (19:32 UTC), 047 (19:41 UTC), 036, 037, 038, 039, 040 (E1 MERGED), 041, 045.

@@ -1,0 +1,12 @@
+Review Story Block track E6b (this checkout, branch track-e/e6b-history vs origin/main; `git log origin/main..HEAD`). Read first: ~/story_suite/inventory-block/suite-notes/TRACK_E_PLAN.md (E6 rows, "E6 split"), ~/story_suite/inventory-block/suite-notes/RB_PHASE0.md §8 and the E6 rows of §10 E, ~/story_suite/inventory-block/vm-jobs/043-prompt.txt (scope and the design principles), docs/v2/TIMELINE.md, REPLAY.md, EVIDENCE.md. Parts: 1 active history (5494fd9), 2 participant head-selection barrier (e31667b), 3 ctx.clockBoundary (b2b89bf), 4 savepoint.contract (55b3135), 5 callback follow-ups (f5c7f41; pruning deferred), 6 thrown replay guards become Problems (f4214f4). Read-only; don't run the whole suite; reproduce with single tests or small scripts. Keep it short.
+
+1. Active history and the barrier: after a swipe, delete, Re-read or retraction of a committed restore (or of anything a participant checkpoint depends on), are participants switched to the checkpoint matching the selected head, and does the barrier hold until they confirm? Can any normal-play sequence leave a participant on a checkpoint that doesn't match the head, or announce readiness early? Per-chat state, one outstanding change, durable() everywhere?
+2. clockBoundary: pure over the prefix; stable across reload, unchanged Re-read, swipe back and rebuild; day-start save points land on the right boundary.
+3. savepoint.contract: false until retained-chat, all-domain and installed-native participants are ready; missing/malformed/off blocks RB activation while independent SB/SD/NSD stay usable.
+4. Part 6 and RB: a throwing guard fails closed AND records a Problem naming the module, guard kind and refused query; nothing else changed for guards that don't throw. The writer reported 5 RB fixture and 26 matrix failures against merged main: with RB main now at febdef5 (track B merged), do they still fail against this branch's host, and are they this branch's or RB's?
+5. Byte-identical: chats that never use the timeline match main at the branch point (incl. a guarded chat).
+Then anything newly broken.
+
+STOPPING RULE: tag every blocking finding with BOTH (a) [normal play] or [damaged file], and (b) [silent wrong state] or [fails safe]. The lead merges when no [normal play][silent wrong state] remains.
+
+Output: verdict, items 1–5, BLOCKING items (what, why, file:line, the fix, both tags), non-blocking headlines. No model names in your output.
