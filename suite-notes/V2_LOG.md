@@ -1237,3 +1237,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
 - VM 02:12 UTC: A out of credits at 02:11 (back ≈06:11); B available. 043 had pushed parts 1 (5494fd9) and 2 (e31667b) itself; the VM's local WIP 07d8b93 diverged (not pushed). LEAD: keep the pushed parts; save WIP diff vs e31667b; Resume 1 (parts 3–5) on B now; fix the recurring read-only .git in codex checkouts. 044 still running on A.
 - VM 02:13 UTC: 044 stopped on A's quota at 02:12; WIP pushed as rpg_battle track-b/death-return 836ac61 (unchecked). 044 RESUME 1 READY on B in parallel with 043 Resume 1. Nothing running.
 - VM 02:19 UTC: 043/044 Resume 1 failed on B at once (out of credits; no work). 043 reconcile done locally (patch: 11 files +379/-36). LEAD: B's clock stays at its 23:20 run-out → retry ≈03:20 UTC (README: a fail-at-start is not a new run-out). A ≈06:11.
+- USER: account B ready at 03:13 UTC. 043/044 Resume 1 run on B then.
