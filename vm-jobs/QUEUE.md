@@ -23,7 +23,7 @@ Order (run top to bottom):
 3e. 060 — DONE 01:49 UTC (studio-2 d40d51e). ACK: /tmp/s2fix2 and /tmp/studio-submit can be deleted.
 3f. 061 — DONE 01:58 UTC (B1/B2 hold; 1 blocker → 062).
 3g. 062 — DONE 02:08 UTC (studio-2 1de349d) → Story_studio#4 MERGED (85a4140). ACK: /tmp/s2fix3 and the other Studio work folders can be deleted; the package-lock.json deletion in the old checkout can be discarded.
-4. 043 — E6b write (Sol). Parts 1–2 pushed (e31667b); stopped on A's quota 02:11 UTC. RECONCILE DONE (local at e31667b, patch saved). RESUME 1 READY — LEAD GO-AHEAD: run on B at 03:13 UTC (043-e6b-write.md "Reconcile + Resume 1").
-5. 044 — B6 write (Sol). WIP pushed 836ac61 (track-b/death-return); stopped on A's quota 02:12 UTC. RESUME 1 READY (fresh clone at 836ac61 in /tmp/b6work) — LEAD GO-AHEAD: run on B at 03:13 UTC in parallel with 043 Resume 1 (044-b6-write.md "Resume 1").
+4. 043 — E6b write (Sol). Parts 1–2 pushed (e31667b); stopped on A's quota 02:11 UTC. RECONCILE DONE (local at e31667b, patch saved). RESUME 1 READY — LEAD GO-AHEAD: run on B at 03:14 UTC (one-minute buffer) (043-e6b-write.md "Reconcile + Resume 1").
+5. 044 — B6 write (Sol). WIP pushed 836ac61 (track-b/death-return); stopped on A's quota 02:12 UTC. RESUME 1 READY (fresh clone at 836ac61 in /tmp/b6work) — LEAD GO-AHEAD: run on B at 03:14 UTC (one-minute buffer) in parallel with 043 Resume 1 (044-b6-write.md "Resume 1").
 
 Done: 048 (20:17 UTC), 046 (19:32 UTC), 047 (19:41 UTC), 036, 037, 038, 039, 040 (E1 MERGED), 041, 045.
