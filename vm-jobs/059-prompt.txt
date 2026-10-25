@@ -1,0 +1,16 @@
+Re-check Story Studio PR #4 (this checkout, branch studio-2), head bf12771 (`git diff ba94b4c..HEAD`). This is a FRESH review: the fixes were written from review 057's findings. Spec: ~/story_suite/inventory-block/suite-notes/STUDIO_PART2_BRIEF.md. Review 057's five blockers and their fixes:
+(1) hostile label values crashed and the crashing draft was autosaved → 01d87da (safe labels; save only after a successful render);
+(2) reference suggestions wrote bare IDs (trainer place `mill` vs `pack.fixture/mill`) → 6557951 (format from field schemas);
+(3) schema bounds not enforced before commit → 9068d0f (refuse edits outside constraints, keep the prior value, report a code);
+(4) "Go to" missed the derived-tier diagnostic after reparenting → a18cfee (focus #class-parent and damaged branch repairs);
+(5) a new child class couldn't be completed (no skill creation) → bf12771 (create owned skills and written pathways through edits.js, with undo).
+Read-only; don't run the whole suite; reproduce with single tests, small scripts, or Playwright against dist/story-studio.html from file:// (TMPDIR is writable). Keep it short.
+
+1. Each blocker: HOLDS / NOT FIXED, with the repro.
+2. The new skill creation: does a created skill (tier 0–2 and tier 3 with paths) validate, export byte-identically through exportPack, undo/redo exactly, and keep generated forms generated? Does it go only through edits.js?
+3. Layout at 1024 and 1280 in both themes (now runnable): nothing scrolls sideways, the inspector drawer works; zero network requests.
+4. Anything 057 held that the fixes broke (export bytes and golden hashes, rename, cascade + undo, autosave, safety scans, deterministic build).
+
+Tag every blocking finding with BOTH (a) [normal use] or [damaged file], and (b) [silent wrong output] or [fails safe]. Everything [normal use] blocks, plus any safety finding.
+
+Output: verdict, items 1–4, BLOCKING items (what, why, file:line, the fix, both tags), non-blocking headlines. No model names in your output.
