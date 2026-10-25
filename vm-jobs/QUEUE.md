@@ -22,7 +22,7 @@ Order (run top to bottom):
 3d. 059 — DONE 01:34 UTC (2 blockers → 060).
 3e. 060 — DONE 01:49 UTC (studio-2 d40d51e). ACK: /tmp/s2fix2 and /tmp/studio-submit can be deleted.
 3f. 061 — fresh Sol re-check: Studio PR #4 (d40d51e, read-only). READY — LEAD GO-AHEAD: run on A now.
-4. 043 — E6b write (Sol). WAITING until E6a merges.
-5. 044 — B6 death/return write (Sol). WAITING until E6a merges.
+4. 043 — E6b write (Sol). READY — E6a MERGED (SB main c36b355). LEAD GO-AHEAD: run on A now, in parallel with 061 and 044.
+5. 044 — B6 death/return write (Sol). READY — E6a MERGED. LEAD GO-AHEAD: run on A now, in parallel with 061 and 043.
 
 Done: 048 (20:17 UTC), 046 (19:32 UTC), 047 (19:41 UTC), 036, 037, 038, 039, 040 (E1 MERGED), 041, 045.
