@@ -14,10 +14,11 @@ Order (run top to bottom):
 1c. 053 — Sol re-check: E5 round 11 (18a3a24, read-only). READY — first on A at ≈00:28 UTC.
 1d. 054 — DONE 00:34 UTC (HOLD → 055).
 1e. 055 — DONE 00:57 UTC (seams 2fbe8d0). ACK: /tmp/s197work and /tmp/s197-publish can be deleted.
-1f. 056 — Sol re-check (fresh, read-only): ctx-seams round 5 (2fbe8d0). READY — LEAD GO-AHEAD: start now on A in parallel with 053 and 029.
+1f. 056 — DONE 01:08 UTC (HOLDS: seams clear).
 2. 027 — track A. Resume 2 FINISHED 20:02 UTC (RB 508763e, SD 168d999). WAITING: Resume 3 (B3 wiring etc.) needs track B on main; the lead adds it then.
 3. 029 — DONE 00:59 UTC (Resume 4: T6 815884e, T7 ba94b4c; PR Story_studio#4 opened by the lead). ACK: /tmp/s2work, /tmp/studio-2-git can be deleted; keep the wip-9dbcc03 patch.
-3b. 057 — Sol review: Studio PR #4 (ba94b4c, read-only). READY — LEAD GO-AHEAD: run on A now, in parallel with 053/056.
+3b. 057 — DONE 01:08 UTC (5 blockers → 058).
+3c. 058 — Studio PR #4 fixes, SOL WRITES (workspace-write, branch studio-2 only). READY — LEAD GO-AHEAD: run on A now (058-studio2-fixes-write.md).
 4. 043 — E6b write (Sol). WAITING until E6a merges.
 5. 044 — B6 death/return write (Sol). WAITING until E6a merges.
 
