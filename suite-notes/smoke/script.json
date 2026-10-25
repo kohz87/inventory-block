@@ -1,0 +1,45 @@
+{
+  "sideDefault": "",
+  "turns": [
+    {
+      "user": "I step off the barge at Bluewatch.",
+      "reply": "Rain needles the quay as Wessel steps ashore. A harbour clerk waves him toward the guild board.\n\n<Changes>\n~ time CY 611, Goldwane 12, 8:00 am\n~ place Bluewatch | kind: settlement | region: Ersveil\n+ present Marrit\n~ weather cold drizzle\n</Changes>"
+    },
+    {
+      "user": "I read the guild board.",
+      "reply": "Among the notices, one is pinned with a fresh nail: the granary is overrun.\n\n<Changes>\n+ quest Granary Rats\n</Changes>"
+    },
+    {
+      "user": "I'll take the granary job.",
+      "reply": "Marrit stamps the slip. 'Six of them at least,' she says.\n\n<Changes>\n+ quest Granary Rats\n</Changes>"
+    },
+    {
+      "user": "I head to the granary and look around.",
+      "reply": "The smell hits first. Something skitters behind the sacks.\n\n<Changes>\n! time +1h\n? check perception \u2014 spotting the nest | dc: normal | who: Wessel\n</Changes>"
+    },
+    {
+      "user": "I draw my blade and go in.",
+      "reply": "They boil out of the dark, a heaving carpet of teeth.\n\n<Changes>\n! encounter 6 Cellar Rat Swarm \u2014 pouring from the sacks | tier: weak | stakes: normal\n</Changes>"
+    },
+    {
+      "user": "I fight them off.",
+      "reply": "Steel and boot leather do the work; the last of them flees into the drains.\n\n<Changes>\n! time +30m\n</Changes>"
+    },
+    {
+      "user": "I report back to Marrit.",
+      "reply": "Marrit counts the tails without comment and slides a purse across.\n\n<Changes>\n~ quest Granary Rats | progress: the nest is cleared | met: yes\n- quest Granary Rats \u2014 done\n</Changes>"
+    },
+    {
+      "user": "I buy a hot meal at the tavern.",
+      "reply": "Fish stew, black bread, and a seat by the fire.\n\n<Changes>\n! time +1h\n- coin 5 | to: tavern keeper\n</Changes>"
+    },
+    {
+      "user": "I rest for the night.",
+      "reply": "Wessel sleeps above the taproom while the rain keeps on.\n\n<Changes>\n! time +10h\n</Changes>"
+    },
+    {
+      "user": "I wake and check my gear.",
+      "reply": "Morning is grey and quiet; the blade needs oil.\n\n<Changes>\n! time +8h\n</Changes>"
+    }
+  ]
+}
