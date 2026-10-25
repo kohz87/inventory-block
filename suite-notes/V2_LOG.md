@@ -1299,3 +1299,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
 - 072 (NSD #219 fixes) now READY. Remaining stage 4: NSD #219 only.
 - 072 MOVED TO CLAUDE (USER: A ≈97 min away): Sonnet NSD #219 fixer running (all 5 findings + merge main + re-vendor 5043028; prompts byte-identical).
 - PACK: Ersveil rules pack drafting started (USER, Gemini in local Antigravity) with the kit in suite-notes/pack-drafting (PROMPT.md, schema, valid example, current pack, check-pack.mjs). Hand-back: zip of out/ or a Story_block branch pack/ersveil-rules; then a Sonnet agent finishes checks + money rules and opens the PR. Studio for user review/polish.
+- USER: Claude 42% (≈10:30 UTC). Stage 5 moves to Sol: VM JOBS 078 (matrix green: SD rows neutral, RB fixtures, lead-owned requires.peers SD → dormant, CLOCK_UNSET, harness todos) and 079 (fresh chat pins one rules pack via Setup; pinned ruleset durable per character timeline) READY for A ≈11:40. Claude: decisions + merges only.

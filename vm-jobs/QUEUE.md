@@ -8,6 +8,8 @@ A's FREE RESET ACTIVATED by USER at ≈01:16 UTC: A has a fresh window (DOUBLE 5
 For FUTURE outages with no stated time: available again 4 hours after the moment it ran out (README). The VM updates this line.
 
 Order (run top to bottom):
+S5-1. 078 — stage 5: matrix green, SOL WRITES (SB + RB branches stage5/matrix). READY — LEAD GO-AHEAD: first on A at ≈11:40 UTC (or B if it has quota now).
+S5-2. 079 — stage 5: fresh chats can pin a rules pack, SOL WRITES (RB branch stage5/pin). READY — LEAD GO-AHEAD: in parallel with 078.
 0001. 077 — MOVED TO CLAUDE (Sonnet re-check now; A has no quota for ≈144 min). Do not run.
 0000. 076 — DONE 08:33 UTC on B (E6b: 2 blockers → Claude round 4).
 000. 074 — DONE 07:56 UTC on B (E6b: 2 blockers → Claude round 3).
