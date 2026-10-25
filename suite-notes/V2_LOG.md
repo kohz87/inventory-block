@@ -1297,3 +1297,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
 - TRACK A MERGED: RB #145 → 4f0f126, SD #134 → 43c9768 (merge commits).
 - E6b round 4 (Sonnet) 01d2119: SillyTavern's own hide (is_system) on restore commit, exact unhide on retraction, reader's choices respected (released), HIDE_FAILED → retainedChatRestore false; prompt filters removed; Re-read of hidden restore replies allowed; fake host honours is_system. 3434/0, fuzzes incl. release fuzz 40 seeds, SD 1123/0, NSD 1439/0. LEAD read syncHidden; merged under the one-re-check rule (round 4 removes complexity). E6B MERGED: SB #198 → 5043028. STAGE 3 (TRACK E CORE) COMPLETE.
 - 072 (NSD #219 fixes) now READY. Remaining stage 4: NSD #219 only.
+- 072 MOVED TO CLAUDE (USER: A ≈97 min away): Sonnet NSD #219 fixer running (all 5 findings + merge main + re-vendor 5043028; prompts byte-identical).
