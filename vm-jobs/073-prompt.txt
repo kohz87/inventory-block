@@ -1,0 +1,8 @@
+Review RPG Battle track C, PR #139 (this checkout, branch track-c/screens1 vs origin/main; `git log origin/main..HEAD`): rules screens (progress, quests, roster, links, setup) and fixtures C01–C09, C13–C19, now on the real track B APIs (head 17b5efe). Spec: ~/story_suite/inventory-block/suite-notes/RB_PHASE0.md §9 screens and §10 C with the fixtures, UI_INVENTORY.md. Known gaps (not blocking): quest and equipment-planning APIs arrive with track A (#145/#142), peer modules absent, activation/registration lead-owned — C07, full C09 and the peer parts of C13–C19 still use fixtures. Read-only; single tests or small scripts. Keep it short.
+
+1. Every screen reads queries only (no state reach-ins) and every click is a command with the real payload; the screen shows exactly what the real query returns (no stale stub fields); refusals are shown, not swallowed.
+2. Safety: textContent/createElement only (no innerHTML/insertAdjacentHTML with data); a hostile name (`<b>x</b>`) or a missing field renders safely.
+3. The real-module tests actually register through module.js and cover reload + rebuild with no Problems; fixtures C01–C09, C13–C19 that can run on real code do.
+4. Legacy (unpinned) chats render the old screens unchanged.
+Full standard: every [normal play] finding blocks; tag each with BOTH (a) [normal play]/[damaged file] and (b) [silent wrong state]/[fails safe].
+Output: verdict, items 1–4, BLOCKING items (what, why, file:line, the fix, both tags), non-blocking headlines. No model names in your output.
