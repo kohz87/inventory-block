@@ -15,7 +15,7 @@ Order (run top to bottom):
 01. 068 — DONE ≈07:28 UTC (matrix: no product bugs; stage 5 fix list logged).
 04. 071 — DONE 07:40 UTC (B6: F1/F2/F5 hold; F3 two findings, F4 needs E6b) → Claude fix.
 03. 070 — DONE 07:58 UTC on B (track A: RB and SD BLOCK) → 075.
-03b. 075 — Track A fixes, SOL WRITES (workspace-write, both track-a branches). READY — LEAD GO-AHEAD: run now on B (075-tracka-fixes-write.md).
+03b. 075 — DONE ≈08:40 UTC on B (track A: 12 fixes; RB 2132a8d, SD d4b5e03). ACK: /tmp/afix can be deleted.
 06. 073 — DONE 07:43 UTC (track C: 3 findings → Claude fix).
 02. 069 — DONE 07:35 UTC (track-c/screens1 17b5efe) → review 073. ACK: /tmp/c139 can be deleted. WAS: 069 — Track C (RB #139) onto main + real queries + stub updates, SOL WRITES. READY — LEAD GO-AHEAD: run now on B.
 0a. 064 — DONE 06:28 UTC (E6b: 3 blockers → 065).
