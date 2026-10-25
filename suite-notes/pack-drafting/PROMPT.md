@@ -15,6 +15,17 @@
 
 ---
 
+## Running it in an agentic IDE (Antigravity)
+
+The steps work the same in an IDE agent, and it can check its own work:
+- Clone `https://github.com/kohz87/Story_block` and put this folder's files and your lore files in a work folder.
+- Tell the agent to run the steps in order, writing `step1-classes.json` … `step7-trainers-shops-recipes.json`, then to
+  join them into `ersveil-pack-rules.json` (the current pack plus `content.rules` and the schema-2 creatures, quests,
+  shops and recipes, with `rb-rules-v2` added to `requires.capabilities`), and to check it from the Story_block clone
+  with `node <this folder>/check-pack.mjs ersveil-pack-rules.json`, fixing errors until it prints OK.
+- Then upload the step files and the joined pack here (or the whole work folder as a zip, without the lore files if
+  you'd rather keep them out). An agent here takes over from whatever state it's in.
+
 ## Master prompt (paste first)
 
 ```
