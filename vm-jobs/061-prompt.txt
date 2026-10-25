@@ -1,0 +1,12 @@
+Re-check Story Studio PR #4 (this checkout, branch studio-2), head d40d51e (`git diff bf12771..HEAD`). FRESH review of fixes written from re-check 059. Spec: ~/story_suite/inventory-block/suite-notes/STUDIO_PART2_BRIEF.md. Re-check 059's blockers and fixes:
+B1 constraint enforcement incomplete (skill Effects JSON committed power 1001; branch transforms; trainer skills ["s30","s00"] → ["s30","s30"]) → 180c549: schema checks before every field commit.
+B2 class quest requirements couldn't be authored (createDefault gave classes: [], minItems 1) → d40d51e: schema-valid defaults and picker steps.
+Read-only; don't run the whole suite; reproduce with single tests or small scripts (Chromium may not start under your sandbox: if so, say so and rely on static checks; the writer's browser suite reported 6/6 at 1024/1280 both themes). Keep it short.
+
+1. B1 and B2: HOLDS / NOT FIXED, with the repros. Is there exactly one validator, used by every commit path (form fields, JSON editors, branch transforms, array items, Add/Remove, rename, cascade)? Does a refusal leave history, autosave and the model untouched?
+2. Every "Add" in every schema-driven form commits a valid value or opens a picker (iterate the schema).
+3. Anything 057/059 held that these fixes broke: export bytes and golden hashes, rename, cascade + undo, labels/autosave, reference format, Go to, skill creation, safety scans, deterministic build.
+
+Tag every blocking finding with BOTH (a) [normal use] or [damaged file], and (b) [silent wrong output] or [fails safe]. Everything [normal use] blocks, plus any safety finding.
+
+Output: verdict, items 1–3, BLOCKING items (what, why, file:line, the fix, both tags), non-blocking headlines. No model names in your output.

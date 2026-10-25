@@ -20,7 +20,8 @@ Order (run top to bottom):
 3b. 057 — DONE 01:08 UTC (5 blockers → 058).
 3c. 058 — DONE 01:23 UTC (studio-2 bf12771). ACK: /tmp/s2fix can be deleted.
 3d. 059 — DONE 01:34 UTC (2 blockers → 060).
-3e. 060 — Studio PR #4 fixes round 2, SOL WRITES (workspace-write, studio-2 only). READY — LEAD GO-AHEAD: run on A now (060-studio2-fixes2-write.md).
+3e. 060 — DONE 01:49 UTC (studio-2 d40d51e). ACK: /tmp/s2fix2 and /tmp/studio-submit can be deleted.
+3f. 061 — fresh Sol re-check: Studio PR #4 (d40d51e, read-only). READY — LEAD GO-AHEAD: run on A now.
 4. 043 — E6b write (Sol). WAITING until E6a merges.
 5. 044 — B6 death/return write (Sol). WAITING until E6a merges.
 
