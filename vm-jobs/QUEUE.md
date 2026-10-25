@@ -12,7 +12,8 @@ For FUTURE outages with no stated time: available again 4 hours after the moment
 Order (run top to bottom):
 R0. 085 — Sol short review: pin flow (SB stage5/pin 71ea5a3, RB stage5/pin 69ef713; read-only). READY — LEAD GO-AHEAD: first free slot (A 16:39 alongside 084, or B).
 R0b. 086 — DONE BY CLAUDE 19:10 UTC (SB d300339, RB 4e8220a, SD a7e0b99; CI green). Do not run. WAS: CI FIX: checks-flip PRs (SB #201, RB #148, SD #135) are red in CI (static sibling imports). Sol writes, test-only. READY — LEAD GO-AHEAD: on A NOW alongside 084/085 (three threads); 083 may run in parallel on B (it reviews product code, which 086 does not touch).
-R1. 084 — RELEASE MUST: native-death recovery, SOL WRITES (RB release/native-death, + NSD/SB if needed). READY — LEAD GO-AHEAD: FIRST on A at 16:39 UTC.
+R1b. 088 — Sol short review: native-death recovery (SB #203, RB #150, NSD #220; read-only). READY — LEAD GO-AHEAD: FIRST FREE SLOT on A or B (release critical path, before anything else new).
+R1. 084 — DONE 23:44 UTC on A (RB 6014bd5, SB c54104b, NSD 3353259; PRs RB #150, SB #203, NSD #220) → review 088. WAS: RELEASE MUST: native-death recovery, SOL WRITES (RB release/native-death, + NSD/SB if needed). READY — LEAD GO-AHEAD: FIRST on A at 16:39 UTC.
 S4-last. 081 — DONE (BLOCK: 2 silent-state items → Claude NSD fixer).
 S5-1. 078 — DONE (matrix 109/0/0/19) → SB #200, RB #147 MERGED.
 S5-3. 080 — DONE 12:58 UTC on B (SB 47e8beb, RB f66f9c4, SD a11c95d; PRs SB #201, RB #148, SD #135) → review 083.
