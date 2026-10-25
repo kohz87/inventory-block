@@ -1,4 +1,4 @@
-# VM queue (the lead keeps this current; the VM reads it on every hourly poll)
+# VM queue (the lead keeps this current; the VM reads it when the USER asks it to check — the hourly poll is off)
 
 Rules: reviews before writing. Use whichever Codex account has quota (README "Codex accounts"). A job listed as WAITING
 has no file yet or isn't ready; skip it. Report each finished job as `VM JOB NNN:` and add it to DONE.
