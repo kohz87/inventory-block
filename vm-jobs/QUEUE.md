@@ -11,7 +11,7 @@ Order (run top to bottom):
 0. 049 — DONE 22:18 UTC (E6a clear; seams changes).
 1. 051 — DONE 22:19 UTC (HOLD → E5 round 10).
 1b. 052 — DONE 22:48 UTC (NOT READY → E5 round 11).
-1c. 053 — Sol re-check: E5 round 11 (18a3a24, read-only). RUNNING since 00:28 UTC — check it now: if codex died or stopped on quota, re-run it on A's fresh window first; report its status either way.
+1c. 053 — DONE 01:22 UTC (re-run; HOLDS → E5 MERGED 8015fde).
 1d. 054 — DONE 00:34 UTC (HOLD → 055).
 1e. 055 — DONE 00:57 UTC (seams 2fbe8d0). ACK: /tmp/s197work and /tmp/s197-publish can be deleted.
 1f. 056 — DONE 01:08 UTC (HOLDS: seams clear).
