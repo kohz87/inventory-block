@@ -17,6 +17,7 @@ S4-last. 081 — DONE (BLOCK: 2 silent-state items → Claude NSD fixer).
 S5-1. 078 — DONE (matrix 109/0/0/19) → SB #200, RB #147 MERGED.
 S5-3. 080 — DONE 12:58 UTC on B (SB 47e8beb, RB f66f9c4, SD a11c95d; PRs SB #201, RB #148, SD #135) → review 083.
 S5-3b. 083 — Sol review: checks flip (SB #201 d300339, RB #148 4e8220a, SD #135 a7e0b99 — heads after the test-only CI fix; read-only, silent-wrong-state only). READY — LEAD GO-AHEAD: on B now alongside 082 (reviews before writing: 083 first if only one slot).
+S5-3c. 087 — CHECKS-FLIP BLOCKERS from 083 (pre-roll survives retraction; pre-roll mastery settles late). SOL WRITES on the 3 PR branches. READY — LEAD GO-AHEAD: on B NEXT, BEFORE 082 (release critical path; 082 is nice-to-have). If 082 already started, let it run and do 087 on whichever account frees first.
 S5-4. 082 — stage 5: open quest templates + foe variants (USER-approved design), SOL WRITES (SB/RB/SD stage5/open-templates). READY — LEAD GO-AHEAD: after 080, or in parallel if quota allows.
 S5-2. 079 — MOVED TO CLAUDE (Sonnet finishing stage5/pin). Do not run.
 0001. 077 — MOVED TO CLAUDE (Sonnet re-check now; A has no quota for ≈144 min). Do not run.
