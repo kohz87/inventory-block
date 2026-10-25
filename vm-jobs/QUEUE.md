@@ -8,6 +8,7 @@ A's FREE RESET ACTIVATED by USER at ≈01:16 UTC: A has a fresh window (DOUBLE 5
 For FUTURE outages with no stated time: available again 4 hours after the moment it ran out (README). The VM updates this line.
 
 Order (run top to bottom):
+0001. 077 — Sol re-check: track A (RB #145 2132a8d, SD #134 d4b5e03; read-only; A4 excluded). READY — LEAD GO-AHEAD: run now on whichever account has quota.
 0000. 076 — DONE 08:33 UTC on B (E6b: 2 blockers → Claude round 4).
 000. 074 — DONE 07:56 UTC on B (E6b: 2 blockers → Claude round 3).
 00. 067 — DONE 07:33 UTC (BLOCK, 5 findings → 072).
