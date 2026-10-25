@@ -7,3 +7,6 @@ WIP ("WIP track A fixes <item>"), push, report.
 2. `CODEX_HOME=<account> codex exec --skip-git-repo-check --sandbox workspace-write -c sandbox_workspace_write.network_access=true -m gpt-6.1-sol -c model_reasoning_effort="high" "$(cat ~/story_suite/inventory-block/vm-jobs/075-prompt.txt)" > ~/story_suite/vm-results/075-codex.md 2>&1`
 3. Check each repo: `git log --oneline origin/main..track-a | head`, `npm run -s check`, `npm run -s test:dot` once, `git diff --check origin/main HEAD`, no model names.
 4. Report as VM JOB 075. Keep /tmp/afix until ACK.
+
+## Note (lead, 08:10 UTC)
+RB main moved while 075 runs: B6 (#146, merge e5838ea) and track C (#139, merge 1bba705) are merged. Before the final runs, merge origin/main into RB track-a (real merge) and re-check: rescue.use against B6's real death batch shape (`progress.batches[id].bytes = {kind:'death', events:[{id, actor}]}` was assumed), B6's module.js mergeHook/createModule({parts}) with the quest parts, and track C's quest screens against the real quest API.
