@@ -9,7 +9,9 @@ const file = process.argv[2];
 if (!file) { console.error('usage: node check-pack.mjs <pack.json>   (run from a Story_block clone)'); process.exit(2); }
 const { validatePack } = await import(pathToFileURL(resolve('src/v2/packs/validate.js')).href);
 const pack = JSON.parse(readFileSync(file, 'utf8').replace(/^﻿/, ''));
-const result = validatePack(pack, { capabilities: ['story-director', 'rpg-battle', 'rb-rules-v2'] });
+// Every capability the full suite provides, so only the pack itself is judged.
+const capabilities = [...new Set(['rb-rules-v2', 'story-director', 'rpg-battle', 'npc-state-delta', 'inventory', 'scene', ...(pack.requires?.capabilities ?? [])])];
+const result = validatePack(pack, { capabilities });
 if (result.ok) {
     console.log('OK', JSON.stringify({ rulesHash: result.rulesHash ?? null, packHash: result.packHash ?? null }));
 } else {
