@@ -18,7 +18,7 @@ Order (run top to bottom):
 1d. 054 — DONE 00:34 UTC (HOLD → 055).
 1e. 055 — DONE 00:57 UTC (seams 2fbe8d0). ACK: /tmp/s197work and /tmp/s197-publish can be deleted.
 1f. 056 — DONE 01:08 UTC (HOLDS: seams clear).
-2. 027 — track A. Resume 3 stopped on B's quota 04:37 (RB WIP 068a4b1 pushed). RESUME 4 READY — LEAD GO-AHEAD: on A at ≈06:11 UTC alongside 064 (027-track-a.md "Resume 4").
+2. 027 — track A. Resume 4 DONE ≈06:36 UTC (RB track-a e5f7ed5, SD track-a a2a8135). Remaining B3 objective proofs MOVED TO CLAUDE (USER: Codex low). ACK: /tmp/awork4, /tmp/track-a-publish can be deleted.
 3. 029 — DONE 00:59 UTC (Resume 4: T6 815884e, T7 ba94b4c; PR Story_studio#4 opened by the lead). ACK: /tmp/s2work, /tmp/studio-2-git can be deleted; keep the wip-9dbcc03 patch.
 3b. 057 — DONE 01:08 UTC (5 blockers → 058).
 3c. 058 — DONE 01:23 UTC (studio-2 bf12771). ACK: /tmp/s2fix can be deleted.
