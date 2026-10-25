@@ -3,7 +3,7 @@
 Rules: reviews before writing. Use whichever Codex account has quota (README "Codex accounts"). A job listed as WAITING
 has no file yet or isn't ready; skip it. Report each finished job as `VM JOB NNN:` and add it to DONE.
 
-Accounts (USER, ≈10:58 UTC): A back ≈12:15 UTC → 078 + 079 + 081. B back 12:20 UTC (USER) → 080 then 082. LEAD GO-AHEAD for all five.
+Accounts (≈11:32 UTC): 078/079/081 were stopped at 11:29 on the USER's request (no output, no verdicts) → RE-RUN all three when the USER says A is available. B back 12:20 UTC → 080 then 082. LEAD GO-AHEAD for all five.
 A's FREE RESET ACTIVATED by USER at ≈01:16 UTC: A has a fresh window (DOUBLE 5-hour quota, weekly reset too). Earlier note: A's window (from ≈00:28 UTC) has DOUBLE 5-hour quota (USER's free reset, which also resets A's weekly quota). Order: 053 + 054 + 029 (Reconcile + Resume 4) as three parallel threads, then 043/044 as soon as the lead flips them READY (check QUEUE.md between jobs).
 For FUTURE outages with no stated time: available again 4 hours after the moment it ran out (README). The VM updates this line.
 
