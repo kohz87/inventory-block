@@ -3,13 +3,14 @@
 Rules: reviews before writing. Use whichever Codex account has quota (README "Codex accounts"). A job listed as WAITING
 has no file yet or isn't ready; skip it. Report each finished job as `VM JOB NNN:` and add it to DONE.
 
-Accounts: A ran out at 02:11 UTC → back ≈06:11 UTC (14:11 SGT). B ran out again at 04:37 UTC → back ≈08:37 UTC (16:37 SGT) by the 4-hour rule (it lasted ≈1.5 h after its 03:13 reset with two jobs).
+Accounts (USER, ≈07:00 UTC): A has 46% of its 5-hour window; B has 100%. Run reads on A, writing on B.
 A's FREE RESET ACTIVATED by USER at ≈01:16 UTC: A has a fresh window (DOUBLE 5-hour quota, weekly reset too). Earlier note: A's window (from ≈00:28 UTC) has DOUBLE 5-hour quota (USER's free reset, which also resets A's weekly quota). Order: 053 + 054 + 029 (Reconcile + Resume 4) as three parallel threads, then 043/044 as soon as the lead flips them READY (check QUEUE.md between jobs).
 For FUTURE outages with no stated time: available again 4 hours after the moment it ran out (README). The VM updates this line.
 
 Order (run top to bottom):
 00. 067 — Sol final check: NSD #219 vs SB main (read-only). READY — LEAD GO-AHEAD: run now.
-01. 068 — Sol diagnosis: shared matrix failures (read-only). READY — LEAD GO-AHEAD: run now in parallel with 067.
+01. 068 — Sol diagnosis: shared matrix failures (read-only). READY — LEAD GO-AHEAD: run now in parallel with 067 (both on A).
+02. 069 — Track C (RB #139) onto main + real queries + stub updates, SOL WRITES. READY — LEAD GO-AHEAD: run now on B.
 0a. 064 — DONE 06:28 UTC (E6b: 3 blockers → 065).
 0b. 066 — MOVED TO CLAUDE (USER: Codex quota low). Do not run.
 0c. 065 — MOVED TO CLAUDE (USER: Codex quota low). Do not run.
