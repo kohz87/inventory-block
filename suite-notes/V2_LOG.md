@@ -1324,3 +1324,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
 - USER: core release ready by tomorrow (Mon 26 Oct), then Studio. VM JOB 084 (native-death recovery, release must-have) READY for A at 16:39.
 - USER: VM now polls the queue every 30 minutes.
 - PIN FLOW host landed (Sonnet): SB stage5/pin 71ea5a3 (pin resolve, deferred domains + enabled, reply-bound guards; 19 new tests; docs PACKS/LIFECYCLE/REPLAY; one untestable hunk dropped), RB stage5/pin 69ef713 (re-vendored from 71ea5a3; Ersveil e2e reads the sibling SB pack, skipped in CI). SB 3470/0 + fuzzes; RB ~2396 (currency todo). Lead opened draft PRs; VM JOB 085 (short Sol review) READY; merge SB first, then RB.
+- Smoke prep: SillyTavern 1.19.0 cloned to /home/user/st-smoke (npm ci ok), config dataRoot /home/user/st-smoke/data, port 8150, boots (HTTP 200); stopped until the merges. Next: mock OpenAI-compatible server + extensions from main + Playwright script.
