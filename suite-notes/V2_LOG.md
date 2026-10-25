@@ -1315,3 +1315,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
 - 079 stopped again 12:22 on model capacity (A ≈24%); WIP stage5/pin be1e004. Rule: one more Codex retry at ≈12:55, then Sonnet finishes it (small).
 - PACK decisions (USER): 1 = quest givers stay null for the test; 2 = rewards tuned to rank by the USER with Gemini (REWARD_TUNING_PROMPT.md), then lead merges #199 on green CI.
 - PACK reward tuning (USER via Gemini) c29360c: 35 lines in pack.json; checker OK, Ersveil tests pass, CI green; all quests inside their rank's coin range except grey-walker-stand (requires level 70, above every rank's level range; pays 2,000,000 = S floor — left as is, S by default). ERSVEIL PACK MERGED: SB #199.
+- USER ≈12:45 UTC: Codex A resets 16:39, B 17:21; Claude weekly 44%. Rotation rule: 079 (critical, small finish) → Sonnet now; 080 continues if running, else resumes on A 16:39; 082 waits for Codex. Claude cap for stage 5 ≈47%.
