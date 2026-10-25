@@ -1312,3 +1312,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
 - USER: A has 28% → only 079 continues on A; 080 then 082 on B at ≈12:20.
 - VM JOB 079 stopped 12:08 UTC on 'model at capacity' (not credits); WIP rpg_battle stage5/pin 01599b8 (4 commits, unchecked). Resume 1 written; author 'xen' is the VM's normal identity.
 - NSD #219 round 2 (Sonnet) 3102a11: barrier-timeout work kept in one queue and retried (10-min toast, reply-unchanged check); newer own change marked before reading state and saved in the publication index — activation keeps live state and re-publishes at once (deviation accepted: host refuses nativeMutation while its barrier is up; save point gives retryable STALE until then). 1510/0; prompts byte-identical. CI green. NSD #219 MERGED: 782467e. STAGE 4 COMPLETE.
+- 079 stopped again 12:22 on model capacity (A ≈24%); WIP stage5/pin be1e004. Rule: one more Codex retry at ≈12:55, then Sonnet finishes it (small).

@@ -12,7 +12,7 @@ S4-last. 081 — DONE (BLOCK: 2 silent-state items → Claude NSD fixer).
 S5-1. 078 — DONE (matrix 109/0/0/19) → SB #200, RB #147 MERGED.
 S5-3. 080 — stage 5: the checks flip (SD owns checks; RB modifiers only; E7b), SOL WRITES. READY — LEAD GO-AHEAD: on B at ≈12:40 UTC, or after 078/079 on A.
 S5-4. 082 — stage 5: open quest templates + foe variants (USER-approved design), SOL WRITES (SB/RB/SD stage5/open-templates). READY — LEAD GO-AHEAD: after 080, or in parallel if quota allows.
-S5-2. 079 — stopped 12:08 on model capacity (WIP stage5/pin 01599b8). RESUME 1 READY — LEAD GO-AHEAD: on A if its 28% allows a short finish (USER decides), else on B after 080.
+S5-2. 079 — stopped twice on model capacity (12:08, 12:22); WIP stage5/pin be1e004 (main merged). RESUME 2 READY — LEAD GO-AHEAD: retry ONCE at ≈12:55 UTC on A (same Resume 1 line, from be1e004); if capacity stops it again, the lead moves the finish to Claude.
 0001. 077 — MOVED TO CLAUDE (Sonnet re-check now; A has no quota for ≈144 min). Do not run.
 0000. 076 — DONE 08:33 UTC on B (E6b: 2 blockers → Claude round 4).
 000. 074 — DONE 07:56 UTC on B (E6b: 2 blockers → Claude round 3).
