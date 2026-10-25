@@ -4,14 +4,14 @@ Rules: reviews before writing. Use whichever Codex account has quota (README "Co
 has no file yet or isn't ready; skip it. Report each finished job as `VM JOB NNN:` and add it to DONE.
 
 Accounts: A ran out at 20:28 UTC → back ≈00:28 UTC (08:28 SGT) by the 4-hour rule. B ran out again at ≈23:20 UTC → back ≈03:20 UTC (11:20 SGT) by the 4-hour rule.
-A's next window (from ≈00:28 UTC) has DOUBLE 5-hour quota (USER's free reset, which also resets A's weekly quota). Order: 053 + 054 + 029 (Reconcile + Resume 4) as three parallel threads, then 043/044 as soon as the lead flips them READY (check QUEUE.md between jobs).
+A's FREE RESET ACTIVATED by USER at ≈01:16 UTC: A has a fresh window (DOUBLE 5-hour quota, weekly reset too). Earlier note: A's window (from ≈00:28 UTC) has DOUBLE 5-hour quota (USER's free reset, which also resets A's weekly quota). Order: 053 + 054 + 029 (Reconcile + Resume 4) as three parallel threads, then 043/044 as soon as the lead flips them READY (check QUEUE.md between jobs).
 For FUTURE outages with no stated time: available again 4 hours after the moment it ran out (README). The VM updates this line.
 
 Order (run top to bottom):
 0. 049 — DONE 22:18 UTC (E6a clear; seams changes).
 1. 051 — DONE 22:19 UTC (HOLD → E5 round 10).
 1b. 052 — DONE 22:48 UTC (NOT READY → E5 round 11).
-1c. 053 — Sol re-check: E5 round 11 (18a3a24, read-only). RUNNING since 00:28 UTC — if still running at the next poll, report its status (is codex alive, output size, last lines); if it died, re-run it.
+1c. 053 — Sol re-check: E5 round 11 (18a3a24, read-only). RUNNING since 00:28 UTC — check it now: if codex died or stopped on quota, re-run it on A's fresh window first; report its status either way.
 1d. 054 — DONE 00:34 UTC (HOLD → 055).
 1e. 055 — DONE 00:57 UTC (seams 2fbe8d0). ACK: /tmp/s197work and /tmp/s197-publish can be deleted.
 1f. 056 — DONE 01:08 UTC (HOLDS: seams clear).
