@@ -26,3 +26,6 @@ The Story Suite coordinator (a cloud session) posts jobs here. The VM session ru
 - Never open, print, copy or commit anything inside a Codex home (auth.json holds the sign-in). Never put one in a repo, log or message.
 - Queue: `vm-jobs/QUEUE.md` lists what to run next, in order, with READY / WAITING / IN PROGRESS. Check it on every hourly poll.
 - Codex quota timing (USER): a 5-hour window always lasts at least 1 hour, so when an account runs out and the user hasn't given a reset time, treat it as available again 4 hours after the moment it ran out. A reset time the user states always wins. Note that time in QUEUE.md (the VM may edit only the "Accounts" line) and in your report. Don't retry that account before then; use the other one if it has quota.
+
+## Process safety
+Before stopping any queue script or parent process, list its child codex processes (`pgrep -a -P <pid>`); never stop a parent while a job runs under it. Restart the queue reader on its own, leaving running jobs alone.
