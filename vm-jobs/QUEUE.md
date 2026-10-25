@@ -9,7 +9,7 @@ For FUTURE outages with no stated time: available again 4 hours after the moment
 
 Order (run top to bottom):
 00. 067 — Sol final check: NSD #219 vs SB main (read-only). READY — LEAD GO-AHEAD: run now.
-01. 068 — Sol diagnosis: shared matrix failures (read-only). READY — LEAD GO-AHEAD: run now in parallel with 067 (both on A).
+01. 068 — DONE ≈07:28 UTC (matrix: no product bugs; stage 5 fix list logged).
 04. 071 — Sol re-check: B6 (RB #146, track-b/death-return 98dfc16; read-only). READY — LEAD GO-AHEAD: next free slot (B or A).
 03. 070 — Sol review: track A (RB #145 track-a 55df021, SD #134 track-a b518b47; read-only). READY — LEAD GO-AHEAD: run now on B alongside 069 (or on A once 067/068 finish).
 02. 069 — Track C (RB #139) onto main + real queries + stub updates, SOL WRITES. READY — LEAD GO-AHEAD: run now on B.
