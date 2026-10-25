@@ -29,3 +29,6 @@ The Story Suite coordinator (a cloud session) posts jobs here. The VM session ru
 
 ## Process safety
 Before stopping any queue script or parent process, list its child codex processes (`pgrep -a -P <pid>`); never stop a parent while a job runs under it. Restart the queue reader on its own, leaving running jobs alone.
+
+## Quota clock
+A run that fails at once with "out of credits" before doing any work is not a new run-out: keep the account's 4-hour clock from when it actually ran out. Only a run that worked and then stopped on quota starts a new 4-hour clock.
