@@ -9,8 +9,8 @@ For FUTURE outages with no stated time: available again 4 hours after the moment
 
 Order (run top to bottom):
 0a. 064 — DONE 06:28 UTC (E6b: 3 blockers → 065).
-0b. 066 — Sol review: B6 (track-b/death-return cfd38a5, read-only). READY — LEAD GO-AHEAD: next free slot (A if room, else B ≈08:37).
-0c. 065 — E6b round 2 fixes, SOL WRITES (workspace-write, track-e/e6b-history only). READY — LEAD GO-AHEAD: next free slot after/alongside 066 (065-e6b-round2-write.md).
+0b. 066 — MOVED TO CLAUDE (USER: Codex quota low). Do not run.
+0c. 065 — MOVED TO CLAUDE (USER: Codex quota low). Do not run.
 0. 049 — DONE 22:18 UTC (E6a clear; seams changes).
 1. 051 — DONE 22:19 UTC (HOLD → E5 round 10).
 1b. 052 — DONE 22:48 UTC (NOT READY → E5 round 11).
