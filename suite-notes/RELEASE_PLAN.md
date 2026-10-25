@@ -9,8 +9,10 @@ fixed from player reports.
 2. Checks flip — SB #201, RB #148, SD #135, Sol review (083), merge together.
 3. Native-death recovery (B6 GAPS "must close before release"): after a companion's death reached NSD, deleting the
    lethal reply recovers through E6b's native checkpoint selection instead of blocking the chat.
-4. Live smoke on the VM's throwaway SillyTavern: install all four from main, Ersveil pinned, ~20 turns (fight, quest,
-   check, restore, reload, delete/swipe/Re-read); fix only blockers.
+4. Live smoke in a SillyTavern the lead spins up in its own cloud container (USER: the VM's ST is unstable): a fresh
+   SillyTavern checkout with a separate data root (never the user's data), all four extensions from main, the Ersveil
+   pack pinned, a local scripted OpenAI-compatible mock serving replies with change lines, Playwright driving ~20 turns
+   (fight, quest, check, restore, reload, delete/swipe/Re-read); no API keys involved. Fix only blockers.
 5. Release prep per repo: version bump (2.0.0), CHANGELOG, README install + upgrade notes (v1 chats stay legacy),
    known issues list, tag. Ersveil pack bundled as Story Block's example.
 Nice to have before release, else right after: open quest templates + foe variants (082).
