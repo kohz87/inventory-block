@@ -12,3 +12,6 @@ it itself. README test rule. On a quota stop, commit WIP ("WIP B6 <part>", no tr
 ## Resume 1 (lead, 02:16 UTC, after A ran out at 02:12)
 WIP is pushed: rpg_battle track-b/death-return at 836ac61 (from rules-slice4 c4c4efd, testkit from SB main c36b355).
 - On account B, after or alongside 043's Resume 1: clone that branch into /tmp/b6work (fresh), make sure .git is writable for the codex sandbox (043 Resume 1 step 3), then re-run step 2 with 044-prompt.txt plus this line appended: "Resume 1: a partial WIP is pushed at 836ac61 (10 src/v2 files, src/v2/death/, tests/v2/death/), unchecked — no tests were run after the stop. First run the new death tests and npm run check, review the WIP against the brief and fix it, then finish the remaining B6 parts, committing and pushing after each green part (no force)."
+
+## Note for the end of Resume 1 (lead, 04:00 UTC)
+Track B slices 1–4 are now on RB main (febdef5). Before the final runs: merge origin/main into track-b/death-return (real merge, no rebase), re-vendor the testkit from Story Block main fa1853d, and audit the death and return guards against the replay rule (027-resume3.txt step 0: declared replayQueries, state, story.evidence, or env.recorded — nothing else). Add death and return to a real-module test like tests/v2/progress/real-module.test.js (death, return, reload, rebuild, no Problems).
