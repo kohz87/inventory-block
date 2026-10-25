@@ -7,6 +7,8 @@ Accounts (USER, ≈12:45 UTC): A resets 16:39 UTC (use from 16:40), B resets 17:
 A's FREE RESET ACTIVATED by USER at ≈01:16 UTC: A has a fresh window (DOUBLE 5-hour quota, weekly reset too). Earlier note: A's window (from ≈00:28 UTC) has DOUBLE 5-hour quota (USER's free reset, which also resets A's weekly quota). Order: 053 + 054 + 029 (Reconcile + Resume 4) as three parallel threads, then 043/044 as soon as the lead flips them READY (check QUEUE.md between jobs).
 For FUTURE outages with no stated time: available again 4 hours after the moment it ran out (README). The VM updates this line.
 
+**LEAD GO-AHEAD 17:15 UTC — RUN NOW, no further confirmation needed:** on A, 084 + 085 + 086 as three parallel threads; on B from 17:22, 083 first, then 082 (083 may overlap 086: 086 is test-only). Standing rule: any job marked "READY — LEAD GO-AHEAD" in this file is cleared to run; the lead cannot message the VM session directly, so this file is the go-ahead.
+
 Order (run top to bottom):
 R0. 085 — Sol short review: pin flow (SB stage5/pin 71ea5a3, RB stage5/pin 69ef713; read-only). READY — LEAD GO-AHEAD: first free slot (A 16:39 alongside 084, or B).
 R0b. 086 — CI FIX: checks-flip PRs (SB #201, RB #148, SD #135) are red in CI (static sibling imports). Sol writes, test-only. READY — LEAD GO-AHEAD: on A NOW alongside 084/085 (three threads); 083 may run in parallel on B (it reviews product code, which 086 does not touch).
