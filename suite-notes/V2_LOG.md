@@ -1330,3 +1330,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
 - 17:12 UTC VM asked for a go-ahead on 086/085/084/083/082 (all READY). Cross-session reply refused (this cloud session can't message other sessions) → explicit GO-AHEAD line + standing rule written at the top of QUEUE.md.
 - 17:56 UTC check-in: VM still idle (no DONE lines, no release/native-death, checks-flip branches unchanged since 12:54) despite the GO-AHEAD line; both Codex accounts have quota. Asked USER to nudge the VM session.
 - 18:31 UTC check-in: VM still idle, no USER reply. 086 (test-only CI fix) MOVED TO CLAUDE (Sonnet) so the checks flip isn't blocked; 084/085/083/082 stay on the VM.
+- 18:42 UTC VM status: saw 086 moved to Claude; reports 085/084/083/082 'READY and waiting for your go-ahead', nothing running — it doesn't treat the QUEUE.md GO-AHEAD line as the go-ahead (likely needs the USER's own approval in its session). Cross-session reply not possible from here.
