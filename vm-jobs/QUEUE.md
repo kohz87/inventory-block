@@ -8,7 +8,8 @@ A's FREE RESET ACTIVATED by USER at ≈01:16 UTC: A has a fresh window (DOUBLE 5
 For FUTURE outages with no stated time: available again 4 hours after the moment it ran out (README). The VM updates this line.
 
 Order (run top to bottom):
-00. 067 — Sol final check: NSD #219 vs SB main (read-only). READY — LEAD GO-AHEAD: run now.
+00. 067 — DONE 07:33 UTC (BLOCK, 5 findings → 072).
+05. 072 — NSD #219 fixes, SOL WRITES. WAITING until E6b merges into SB main (findings 1 and 3 need E6b's barrier and active-history filter).
 01. 068 — DONE ≈07:28 UTC (matrix: no product bugs; stage 5 fix list logged).
 04. 071 — Sol re-check: B6 (RB #146, track-b/death-return 98dfc16; read-only). READY — LEAD GO-AHEAD: next free slot (B or A).
 03. 070 — Sol review: track A (RB #145 track-a 55df021, SD #134 track-a b518b47; read-only). READY — LEAD GO-AHEAD: run now on B alongside 069 (or on A once 067/068 finish).
