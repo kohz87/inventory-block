@@ -3,17 +3,17 @@
 Rules: reviews before writing. Use whichever Codex account has quota (README "Codex accounts"). A job listed as WAITING
 has no file yet or isn't ready; skip it. Report each finished job as `VM JOB NNN:` and add it to DONE.
 
-Accounts (USER, ≈07:00 UTC): A has 46% of its 5-hour window; B has 100%. Run reads on A, writing on B.
+Accounts: A ran out at 07:40 UTC → back ≈11:40 UTC (19:40 SGT). B: in use (073), has quota.
 A's FREE RESET ACTIVATED by USER at ≈01:16 UTC: A has a fresh window (DOUBLE 5-hour quota, weekly reset too). Earlier note: A's window (from ≈00:28 UTC) has DOUBLE 5-hour quota (USER's free reset, which also resets A's weekly quota). Order: 053 + 054 + 029 (Reconcile + Resume 4) as three parallel threads, then 043/044 as soon as the lead flips them READY (check QUEUE.md between jobs).
 For FUTURE outages with no stated time: available again 4 hours after the moment it ran out (README). The VM updates this line.
 
 Order (run top to bottom):
-000. 074 — Sol re-check: E6b round 2 (SB #198, 4c1001d; read-only). READY — LEAD GO-AHEAD: FIRST free slot (critical path: E6b unblocks NSD 072 and B6's native fix).
+000. 074 — Sol re-check: E6b round 2 (SB #198, 4c1001d; read-only). Stopped on A's credits 07:40 (no verdict). RE-RUN NOW ON B — LEAD GO-AHEAD (critical path).
 00. 067 — DONE 07:33 UTC (BLOCK, 5 findings → 072).
 05. 072 — NSD #219 fixes, SOL WRITES. WAITING until E6b merges into SB main (findings 1 and 3 need E6b's barrier and active-history filter).
 01. 068 — DONE ≈07:28 UTC (matrix: no product bugs; stage 5 fix list logged).
-04. 071 — Sol re-check: B6 (RB #146, track-b/death-return 98dfc16; read-only). READY — LEAD GO-AHEAD: next free slot (B or A).
-03. 070 — Sol review: track A (RB #145 track-a 55df021, SD #134 track-a b518b47; read-only). READY — LEAD GO-AHEAD: run now on B alongside 069 (or on A once 067/068 finish).
+04. 071 — DONE 07:40 UTC (B6: F1/F2/F5 hold; F3 two findings, F4 needs E6b) → Claude fix.
+03. 070 — Sol review: track A (RB #145 55df021, SD #134 b518b47; read-only). Stopped on A's credits 07:40 (no verdict). RE-RUN on B after 074 (or on A from ≈11:40).
 06. 073 — Sol review: track C (RB #139 17b5efe, read-only). READY — LEAD GO-AHEAD: run now on B.
 02. 069 — DONE 07:35 UTC (track-c/screens1 17b5efe) → review 073. ACK: /tmp/c139 can be deleted. WAS: 069 — Track C (RB #139) onto main + real queries + stub updates, SOL WRITES. READY — LEAD GO-AHEAD: run now on B.
 0a. 064 — DONE 06:28 UTC (E6b: 3 blockers → 065).
