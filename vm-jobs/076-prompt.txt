@@ -1,0 +1,13 @@
+Re-check Story Block PR #198 (E6b; this checkout, branch track-e/e6b-history, head 601dbe8; `git diff 4c1001d..HEAD`; docs/v2/HISTORY.md has the table of every chat read). FRESH review of round 3, from your job 074 findings (both [normal play][silent wrong state]):
+(1) the text-matched active-history filter skipped messages changed by a prompt-only regex, so faded facts leaked and retainedChatRestore stayed true → 9d8a6ab: turn.js dropFadedFromChat runs in the generation interceptor (manifest generate_interceptor) before formatting/regex on every run; active.js intercept() ties entries to chat messages by speaker, swipe_id and record sid (never text), skips system messages and a swipe's trailing message, splices faded entries out; the old text filters run only when the request was not tied; an untied entry → one HISTORY_UNTIED Problem and retainedChatRestore: false for that chat (true again after the next tied request); nothing removed on a failed tie. fake-st.js builds requests from the interceptor-changed chat and supports prompt-only regex.
+(2) chatter queries read raw chat → 601dbe8: chatter.head and scene.chatter read through the filter (extras.headChat/sceneChat); both in ACTIVE_READERS.
+Your 074 holds (restore binding, barrier, bounded release, failed-save recovery) should be unchanged. Read-only; single tests or small scripts. Keep it short.
+
+1. Both findings: HOLDS / NOT FIXED, with a prompt-only regex on chat- and text-completion, after swipe, reload and rebuild.
+2. The tie: can a normal SillyTavern chat produce untied entries (group chats, hidden/system messages, author's note or world-info injections, quiet/impersonate generations, a message edited in place, a swipe in progress, Continue)? If so how often, and is "Problem + flag false while faded text passes" acceptable there, or must the request be blocked? Can the tie ever bind the WRONG message (two messages by one speaker with the same swipe_id) and drop an active one?
+3. Is every read in the HISTORY.md table classified correctly (grep src/ for chat/messages reads)?
+4. Your 074 holds still hold.
+Then anything newly broken.
+
+STOPPING RULE: tag every blocking finding with BOTH (a) [normal play]/[damaged file] and (b) [silent wrong state]/[fails safe]. The lead merges when no [normal play][silent wrong state] remains.
+Output: verdict, items 1–4, BLOCKING items (what, why, file:line, the fix, both tags), non-blocking headlines. No model names in your output.
