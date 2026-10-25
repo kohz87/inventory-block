@@ -9,6 +9,7 @@ For FUTURE outages with no stated time: available again 4 hours after the moment
 
 Order (run top to bottom):
 S5-1. 078 — stage 5: matrix green, SOL WRITES (SB + RB branches stage5/matrix). READY — LEAD GO-AHEAD: first on A at ≈11:40 UTC (or B if it has quota now).
+S5-3. 080 — stage 5: the checks flip (SD owns checks; RB modifiers only; E7b), SOL WRITES. READY — LEAD GO-AHEAD: on B at ≈12:40 UTC, or after 078/079 on A.
 S5-2. 079 — stage 5: fresh chats can pin a rules pack, SOL WRITES (RB branch stage5/pin). READY — LEAD GO-AHEAD: in parallel with 078.
 0001. 077 — MOVED TO CLAUDE (Sonnet re-check now; A has no quota for ≈144 min). Do not run.
 0000. 076 — DONE 08:33 UTC on B (E6b: 2 blockers → Claude round 4).
