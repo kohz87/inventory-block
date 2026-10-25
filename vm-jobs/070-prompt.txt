@@ -1,0 +1,10 @@
+Review track A: RPG Battle PR #145 (rpg_battle/, branch track-a vs origin/main) and Story Director PR #134 (Story_director/, track-a vs origin/main); Story Block main is the host (Story_block/). Spec: ~/story_suite/inventory-block/suite-notes/RB_PHASE0.md (quests, objectives, §6 claims, §10 A rows and fixtures), RB_TRACK_B_DESIGN.md §B3 (objective and rescue proofs), WRITER_RULES.md, ~/story_suite/inventory-block/vm-jobs/027-resume3.txt step 0 (THE REPLAY RULE). Read the PR bodies (known gaps). Read-only; single tests or small scripts. Keep it short.
+
+1. Quest lifecycle in normal play: offer → accept → objectives → payout; requirements, giver/place, reward carry, deadline/expiry. Delete, swipe, Re-read, Continue, reload, rebuild at each step: does every effect (evidence row, payout, coin, claims, flags) appear exactly once and retract exactly? Any double payout or lost payout?
+2. Objective and rescue proofs: bound to thread+instance+objective+exact action (rescue: event, sealed result, rescued, living active rescuer, one paid use); reused proof, wrong thread/instance/objective/event or dead rescuer refuses atomically; deleting a parent retracts everything that hangs off it. SD's append-only evidence rules hold.
+3. The replay rule for every track A guard; the real-module test really goes through module.js.
+4. Legacy (unpinned) chats and SD chats without quests stay byte-identical to main; SD prompts unchanged except the ported quest prompt.
+Then anything newly broken.
+
+Full standard: every [normal play] finding blocks. Tag each with BOTH (a) [normal play] or [damaged file], and (b) [silent wrong state] or [fails safe].
+Output: verdict per repo, items 1–4, BLOCKING items (what, why, file:line, the fix, both tags), non-blocking headlines. No model names in your output.
