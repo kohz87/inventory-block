@@ -1289,3 +1289,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
 - LEAD merged origin/track-a into track-a-items (A4, #142) at c747d90 (doc conflict → A4's equipment doc). 4 real failures (module.js registration/preflight with the items part, legacy replay, C09 roster) → Sonnet A4 merge fixer. Then: #142 into track-a, then a fresh Sol re-check of track A (RB #145 + SD #134).
 - VM JOB 077 READY: fresh Sol re-check of track A (RB 2132a8d, SD d4b5e03) excluding A4 (#142 merges separately after the Sonnet fixer).
 - 077 MOVED TO CLAUDE (USER: A back in ≈144 min): Sonnet read-only re-check of track A running now.
+- USER POLICY (25 Oct ≈09:00 UTC): stop mining for bugs. One stopping rule for every track (only [normal play][silent wrong state] blocks; fails-safe → follow-ups); at most one fresh re-check per PR after its first review, then the lead reads the diff and merges on green CI unless large or identity/replay; users' reports drive later fixes. WRITER_RULES updated.
