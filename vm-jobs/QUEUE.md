@@ -3,13 +3,13 @@
 Rules: reviews before writing. Use whichever Codex account has quota (README "Codex accounts"). A job listed as WAITING
 has no file yet or isn't ready; skip it. Report each finished job as `VM JOB NNN:` and add it to DONE.
 
-Accounts (≈11:32 UTC): 078/079/081 were stopped at 11:29 on the USER's request (no output, no verdicts) → RE-RUN all three when the USER says A is available. B back 12:20 UTC → 080 then 082. LEAD GO-AHEAD for all five.
+Accounts (USER, ≈12:06 UTC): A has 28% left → let 079 (pin flow) finish on A, start nothing new there. B back ≈12:20 UTC → 080 (checks flip), then 082 (open templates). LEAD GO-AHEAD.
 A's FREE RESET ACTIVATED by USER at ≈01:16 UTC: A has a fresh window (DOUBLE 5-hour quota, weekly reset too). Earlier note: A's window (from ≈00:28 UTC) has DOUBLE 5-hour quota (USER's free reset, which also resets A's weekly quota). Order: 053 + 054 + 029 (Reconcile + Resume 4) as three parallel threads, then 043/044 as soon as the lead flips them READY (check QUEUE.md between jobs).
 For FUTURE outages with no stated time: available again 4 hours after the moment it ran out (README). The VM updates this line.
 
 Order (run top to bottom):
-S4-last. 081 — Sol short final check: NSD #219 e13fe51 (read-only, silent-wrong-state only). READY — LEAD GO-AHEAD: on A at ≈11:40 alongside 078/079 (it's short).
-S5-1. 078 — stage 5: matrix green, SOL WRITES (SB + RB branches stage5/matrix). READY — LEAD GO-AHEAD: first on A at ≈11:40 UTC (or B if it has quota now).
+S4-last. 081 — DONE (BLOCK: 2 silent-state items → Claude NSD fixer).
+S5-1. 078 — DONE (matrix 109/0/0/19) → SB #200, RB #147 MERGED.
 S5-3. 080 — stage 5: the checks flip (SD owns checks; RB modifiers only; E7b), SOL WRITES. READY — LEAD GO-AHEAD: on B at ≈12:40 UTC, or after 078/079 on A.
 S5-4. 082 — stage 5: open quest templates + foe variants (USER-approved design), SOL WRITES (SB/RB/SD stage5/open-templates). READY — LEAD GO-AHEAD: after 080, or in parallel if quota allows.
 S5-2. 079 — stage 5: fresh chats can pin a rules pack, SOL WRITES (RB branch stage5/pin). READY — LEAD GO-AHEAD: in parallel with 078.
