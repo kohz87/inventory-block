@@ -22,7 +22,7 @@ Order (run top to bottom):
 3d. 059 — DONE 01:34 UTC (2 blockers → 060).
 3e. 060 — DONE 01:49 UTC (studio-2 d40d51e). ACK: /tmp/s2fix2 and /tmp/studio-submit can be deleted.
 3f. 061 — DONE 01:58 UTC (B1/B2 hold; 1 blocker → 062).
-3g. 062 — Studio PR #4 fix round 3, SOL WRITES (workspace-write, studio-2 only). READY — LEAD GO-AHEAD: run on A now (062-studio2-fixes3-write.md). The lead reviews the diff and merges if green; no further re-check job unless the diff warrants it.
+3g. 062 — DONE 02:08 UTC (studio-2 1de349d) → Story_studio#4 MERGED (85a4140). ACK: /tmp/s2fix3 and the other Studio work folders can be deleted; the package-lock.json deletion in the old checkout can be discarded.
 4. 043 — E6b write (Sol). READY — E6a MERGED (SB main c36b355). LEAD GO-AHEAD: run on A now, in parallel with 061 and 044.
 5. 044 — B6 death/return write (Sol). READY — E6a MERGED. BASE BRANCH: `track-b/rules-slice4` (RB #144, newest track-b slice; it re-syncs to main later with the chain). LEAD GO-AHEAD: run on A now, in parallel with 061 and 043.
 
