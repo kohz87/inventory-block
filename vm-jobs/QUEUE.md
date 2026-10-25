@@ -8,7 +8,9 @@ A's FREE RESET ACTIVATED by USER at ≈01:16 UTC: A has a fresh window (DOUBLE 5
 For FUTURE outages with no stated time: available again 4 hours after the moment it ran out (README). The VM updates this line.
 
 Order (run top to bottom):
-0a. 064 — Sol review: E6b (f4214f4, read-only). The 03:57 run stopped on B's quota with no verdict → RE-RUN FIRST on A at ≈06:11 UTC. LEAD GO-AHEAD.
+0a. 064 — DONE 06:28 UTC (E6b: 3 blockers → 065).
+0b. 066 — Sol review: B6 (track-b/death-return cfd38a5, read-only). READY — LEAD GO-AHEAD: next free slot (A if room, else B ≈08:37).
+0c. 065 — E6b round 2 fixes, SOL WRITES (workspace-write, track-e/e6b-history only). READY — LEAD GO-AHEAD: next free slot after/alongside 066 (065-e6b-round2-write.md).
 0. 049 — DONE 22:18 UTC (E6a clear; seams changes).
 1. 051 — DONE 22:19 UTC (HOLD → E5 round 10).
 1b. 052 — DONE 22:48 UTC (NOT READY → E5 round 11).
@@ -25,6 +27,6 @@ Order (run top to bottom):
 3f. 061 — DONE 01:58 UTC (B1/B2 hold; 1 blocker → 062).
 3g. 062 — DONE 02:08 UTC (studio-2 1de349d) → Story_studio#4 MERGED (85a4140). ACK: /tmp/s2fix3 and the other Studio work folders can be deleted; the package-lock.json deletion in the old checkout can be discarded.
 4. 043 — DONE ≈03:50 UTC (E6b parts 1–6, head f4214f4) → review 064.
-5. 044 — Resume 1 DONE (B6 ccce0b0). RESUME 2 READY — LEAD GO-AHEAD: on A at ≈06:11 UTC as a third thread if A has room, else after 064/027 or on B from ≈08:37.
+5. 044 — Resume 2 DONE 06:27 UTC (B6 cfd38a5) → review 066.
 
 Done: 048 (20:17 UTC), 046 (19:32 UTC), 047 (19:41 UTC), 036, 037, 038, 039, 040 (E1 MERGED), 041, 045.
