@@ -19,7 +19,8 @@ Order (run top to bottom):
 3. 029 — DONE 00:59 UTC (Resume 4: T6 815884e, T7 ba94b4c; PR Story_studio#4 opened by the lead). ACK: /tmp/s2work, /tmp/studio-2-git can be deleted; keep the wip-9dbcc03 patch.
 3b. 057 — DONE 01:08 UTC (5 blockers → 058).
 3c. 058 — DONE 01:23 UTC (studio-2 bf12771). ACK: /tmp/s2fix can be deleted.
-3d. 059 — fresh Sol re-check: Studio PR #4 (bf12771, read-only). READY — LEAD GO-AHEAD: run on A now.
+3d. 059 — DONE 01:34 UTC (2 blockers → 060).
+3e. 060 — Studio PR #4 fixes round 2, SOL WRITES (workspace-write, studio-2 only). READY — LEAD GO-AHEAD: run on A now (060-studio2-fixes2-write.md).
 4. 043 — E6b write (Sol). WAITING until E6a merges.
 5. 044 — B6 death/return write (Sol). WAITING until E6a merges.
 
