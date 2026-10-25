@@ -4,7 +4,7 @@ Rules: reviews before writing. Use whichever Codex account has quota (README "Co
 has no file yet or isn't ready; skip it. Report each finished job as `VM JOB NNN:` and add it to DONE.
 
 Accounts: A ran out at 20:28 UTC → back ≈00:28 UTC (08:28 SGT) by the 4-hour rule. B ran out again at ≈23:20 UTC → back ≈03:20 UTC (11:20 SGT) by the 4-hour rule.
-A's next window (from ≈00:28 UTC) has DOUBLE 5-hour quota (USER's free reset); after it A's weekly is likely used up, so use the window fully: 053 + 054 first, then 029 Reconcile + Resume 4, then 043/044 as soon as the lead flips them READY (check QUEUE.md between jobs).
+A's next window (from ≈00:28 UTC) has DOUBLE 5-hour quota (USER's free reset, which also resets A's weekly quota). Order: 053 + 054 first, then 029 Reconcile + Resume 4, then 043/044 as soon as the lead flips them READY (check QUEUE.md between jobs).
 For FUTURE outages with no stated time: available again 4 hours after the moment it ran out (README). The VM updates this line.
 
 Order (run top to bottom):
