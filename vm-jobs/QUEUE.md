@@ -3,7 +3,7 @@
 Rules: reviews before writing. Use whichever Codex account has quota (README "Codex accounts"). A job listed as WAITING
 has no file yet or isn't ready; skip it. Report each finished job as `VM JOB NNN:` and add it to DONE.
 
-Accounts: A ran out at 20:28 UTC → back ≈00:28 UTC (08:28 SGT) by the 4-hour rule. B ran out again at ≈23:20 UTC → back ≈03:20 UTC (11:20 SGT) by the 4-hour rule.
+Accounts: A ran out again at 02:11 UTC → back ≈06:11 UTC (14:11 SGT) by the 4-hour rule. B is available now (VM, 02:12 UTC).
 A's FREE RESET ACTIVATED by USER at ≈01:16 UTC: A has a fresh window (DOUBLE 5-hour quota, weekly reset too). Earlier note: A's window (from ≈00:28 UTC) has DOUBLE 5-hour quota (USER's free reset, which also resets A's weekly quota). Order: 053 + 054 + 029 (Reconcile + Resume 4) as three parallel threads, then 043/044 as soon as the lead flips them READY (check QUEUE.md between jobs).
 For FUTURE outages with no stated time: available again 4 hours after the moment it ran out (README). The VM updates this line.
 
@@ -23,7 +23,7 @@ Order (run top to bottom):
 3e. 060 — DONE 01:49 UTC (studio-2 d40d51e). ACK: /tmp/s2fix2 and /tmp/studio-submit can be deleted.
 3f. 061 — DONE 01:58 UTC (B1/B2 hold; 1 blocker → 062).
 3g. 062 — DONE 02:08 UTC (studio-2 1de349d) → Story_studio#4 MERGED (85a4140). ACK: /tmp/s2fix3 and the other Studio work folders can be deleted; the package-lock.json deletion in the old checkout can be discarded.
-4. 043 — E6b write (Sol). READY — E6a MERGED (SB main c36b355). LEAD GO-AHEAD: run on A now, in parallel with 061 and 044.
+4. 043 — E6b write (Sol). Parts 1–2 pushed (e31667b); stopped on A's quota 02:11 UTC. RECONCILE + RESUME 1 READY — LEAD GO-AHEAD: run on B now (043-e6b-write.md "Reconcile + Resume 1").
 5. 044 — B6 death/return write (Sol). READY — E6a MERGED. BASE BRANCH: `track-b/rules-slice4` (RB #144, newest track-b slice; it re-syncs to main later with the chain). LEAD GO-AHEAD: run on A now, in parallel with 061 and 043.
 
 Done: 048 (20:17 UTC), 046 (19:32 UTC), 047 (19:41 UTC), 036, 037, 038, 039, 040 (E1 MERGED), 041, 045.
