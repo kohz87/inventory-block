@@ -1,0 +1,15 @@
+Re-check Story Block PR #198 (E6b; this checkout, branch track-e/e6b-history, head 4c1001d; `git diff f4214f4..HEAD`). FRESH review of round 2 fixes for review 064's three [normal play][silent wrong state] blockers:
+(1) restore activation bound its checkpoint to a replacement head after the restore reply was deleted mid-activation (coordinator.js:1048) → 4d04cd5: complete() reads the whole story and checks restoreHeld(entry) in the same synchronous section as publishRestore (one call site); a gone restore is retracted, nothing published, activate → STALE; participants that acknowledged are switched back to the selected head's checkpoint with the barrier up.
+(2) native completion lowered the barrier/announced ready before head selection caught up (coordinator.js:1097) → 5d1e29c: lowerWhenSettled is the only barrier('idle') site, reached via release() which reconciles to a bounded fixed point (32 passes), makes publication durable, then lowers in one step; settle() no longer skips selection while an operation runs; source-check test.
+(3) faded facts stayed in generation prompts → b4b297f: one filter (src/v2/timeline/active.js, activeLine()) used by both prompt paths (turn.js onPromptReady/onTextPromptReady), chatterBack, the module view's lastUser, lateLines; retainedChatRestore true only when all five are wired.
+4c1001d: release a completed restore only for the chat that owns the barrier.
+Behaviour notes: after a failed final save the barrier stays up (RESTORE_PENDING until recover or retry); a text prompt rewritten beyond a `Name: ` prefix keeps its faded message (docs/v2/HISTORY.md).
+Read-only; single tests or small scripts. Keep it short.
+
+1. Your three 064 repros: HOLDS / NOT FIXED (also after reload and rebuild).
+2. New risks from the fixes: can the fixed-point release loop spin or starve (32-pass bound reached in normal play)? Can a barrier that stays up after a failed save wedge a chat with no way out? Any history reader left unfiltered (grep every read of chat history/messages)? Is the "rewritten text prompt" exception reachable in normal SillyTavern text-completion use, and is it silent?
+3. Your 064 holds still hold (history projection, clockBoundary, thrown guards → Problems, byte-identical chats).
+Then anything newly broken.
+
+STOPPING RULE: tag every blocking finding with BOTH (a) [normal play]/[damaged file] and (b) [silent wrong state]/[fails safe]. The lead merges when no [normal play][silent wrong state] remains.
+Output: verdict, items 1–3, BLOCKING items (what, why, file:line, the fix, both tags), non-blocking headlines. No model names in your output.
