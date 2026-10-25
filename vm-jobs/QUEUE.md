@@ -8,6 +8,8 @@ A's FREE RESET ACTIVATED by USER at ≈01:16 UTC: A has a fresh window (DOUBLE 5
 For FUTURE outages with no stated time: available again 4 hours after the moment it ran out (README). The VM updates this line.
 
 Order (run top to bottom):
+00. 067 — Sol final check: NSD #219 vs SB main (read-only). READY — LEAD GO-AHEAD: run now.
+01. 068 — Sol diagnosis: shared matrix failures (read-only). READY — LEAD GO-AHEAD: run now in parallel with 067.
 0a. 064 — DONE 06:28 UTC (E6b: 3 blockers → 065).
 0b. 066 — MOVED TO CLAUDE (USER: Codex quota low). Do not run.
 0c. 065 — MOVED TO CLAUDE (USER: Codex quota low). Do not run.

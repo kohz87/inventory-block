@@ -1,0 +1,6 @@
+Diagnose the shared module matrix failures (read-only). Story Block's scripts/matrix.mjs runs RB/SD/NSD scenarios against the host. Reported: against SB main, RB shows 5 fixture + 26 matrix failures and SD 8 matrix failures, described as "retired scenarios, fixture and dependency gating, missing activation wiring". All four repos are cloned at main in this folder. Run the matrix the way its script/docs say (once), then classify EVERY failure into exactly one of:
+(a) a retired/obsolete scenario that should be deleted or rewritten (say which spec line retired it);
+(b) a test-harness gap (fixture, dependency gating, wrapper) — not a product bug;
+(c) missing production wiring that stage 5 integration must add (name the wiring);
+(d) a real product bug (repro, file:line, [normal play]/[damaged file], [silent wrong state]/[fails safe]).
+Output: a table (scenario → class → one-line reason → the fix, with file:line), then counts per class, then the (d) items in full. Keep it short. No model names in your output.
