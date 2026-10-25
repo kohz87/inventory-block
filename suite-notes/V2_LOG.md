@@ -1212,3 +1212,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
 - USER 00:2x UTC: account A's next window has double 5-hour quota (free reset); A's weekly likely used up after it. Queue: 053+054, then 029 Reconcile+Resume 4, then 043/044 when flipped. Any further E5/seams fix round goes to Sol on A (saves Claude quota, at 32%).
 - USER correction: the free reset also resets A's weekly quota — A stays available after this window. Sol keeps taking fix rounds and writer jobs where it can.
 - 043 (E6b) prompt: added the design principles from track E's review rounds (one source of truth, no identity defaults, ambiguous match → retire, multi-pass fixed point, commit after guards, per-path tests); byte-identical relative to main at the branch point. ACCOUNT A AVAILABLE (USER, ≈00:3x UTC): 053 + 054 next.
+- USER: run 029 in parallel with 053/054 (three threads on A).
