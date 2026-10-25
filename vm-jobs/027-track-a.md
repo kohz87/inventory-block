@@ -53,3 +53,7 @@ do NOT edit `src/v2/items/` here. Everything else is this resume. **Sol writes i
 
 ## Resume 3 (lead, after track B merged to RB main febdef5)
 - Per QUEUE.md: on whichever account has quota, after any READY reviews. Fresh clones of RB and SD `track-a` into the work folder; make sure .git is writable for the codex sandbox (043 Resume 1 step 3). Re-run step 2 with 027-prompt.txt plus `vm-jobs/027-resume3.txt` appended. Then steps 3–5. Report as VM JOB 027.
+
+## Resume 4 (lead, 04:45 UTC, after B ran out at 04:37 mid-Resume 3)
+RB WIP is pushed: track-a 068a4b1 (on 77a9f90 = the main merge; 12 quest files, unchecked). SD track-a is at 4266852, unchanged by Resume 3.
+- On account A from ≈06:11 UTC, after 064's rerun starts: fresh clones of RB and SD track-a, .git writable. Re-run step 2 with 027-prompt.txt plus `vm-jobs/027-resume3.txt` appended, plus this line: "Resume 4: Resume 3 stopped on quota. RB track-a has the main merge (77a9f90) and a WIP (068a4b1, 12 quest files, unchecked); SD track-a is at 4266852 (check whether step 0's main merge and re-vendor are done there; do them if not). First run npm run check and the quest tests on the WIP, review it against the brief, and fix it; then continue Resume 3 from where it stopped, committing and pushing after each green step."
