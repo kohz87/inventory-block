@@ -1321,3 +1321,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
 - USER: keep the pin reply-bound (consistent with everything else retracting).
 - USER DIRECTION (≈13:20 UTC): keep SB/SD/RB/NSD playable without major bugs and release them; then work on Studio so players can build and find bugs. RELEASE_PLAN.md written (A: pin, checks flip, native-death recovery, live smoke, release prep; B: Studio parts 2.5→5 with a data-module runtime first).
 - USER: VM's SillyTavern is unstable → the live smoke runs in a SillyTavern spun up in the lead's cloud container (separate data root, scripted local mock backend, Playwright, no keys). RELEASE_PLAN updated.
+- USER: core release ready by tomorrow (Mon 26 Oct), then Studio. VM JOB 084 (native-death recovery, release must-have) READY for A at 16:39.
