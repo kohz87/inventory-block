@@ -12,7 +12,7 @@ For FUTURE outages with no stated time: available again 4 hours after the moment
 **STUDIO PHASE (26 Oct, USER: "queue the jobs"):** 2.0 is released. Run 093 + 094 in parallel (one per account); 095 after 093 pushes.
 
 Order (run top to bottom):
-ST1. 093 — Studio part 2.5. STOPPED 01:45 on A (workspace out of credits; WIP pushed studio/part-2.5 4e663af, SB studio/limits 708e2ae). RESUME on B NOW (see RESUME in 093 file) — FIRST on B (Studio is the USER's priority), then 096.
+ST1. 093 — Studio part 2.5. STOPPED 01:45 on A (workspace out of credits; WIP pushed studio/part-2.5 4e663af, SB studio/limits 708e2ae). RESUME on B (see RESUME in 093 file). 01:57 rerun stopped on 'model at capacity' (no commits). RETRY on B from 02:30 UTC (or whichever account has quota/credits first); if capacity stops twice more, try again an hour later. Then 096.
 ST2b. 096 — open templates onto 2.0 main (merge main, resolve, re-vendor) + fold the 12 templates into Ersveil pack 1.5.0. SOL WRITES. READY — LEAD GO-AHEAD: on B AFTER the 093 resume (or on A when A has credits again).
 ST2. 094 — DONE 01:38 UTC on B (HOLDS; conflicts SB clean, SD low, RB moderate). WAS: Sol review: open quest templates (SB #204, SD #136, RB #151) incl. conflicts with 2.0 main (read-only). READY — LEAD GO-AHEAD: NOW, parallel with 093.
 ST3. 095 — Studio part 3: card + lore maker. SOL WRITES. WAITING → READY — LEAD GO-AHEAD as soon as 093 has pushed studio/part-2.5.
