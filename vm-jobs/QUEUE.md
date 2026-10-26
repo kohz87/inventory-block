@@ -9,10 +9,15 @@ For FUTURE outages with no stated time: available again 4 hours after the moment
 
 **LEAD GO-AHEAD 17:15 UTC — RUN NOW, no further confirmation needed:** on A, 084 + 085 + 086 as three parallel threads; on B from 17:22, 083 first, then 082 (083 may overlap 086: 086 is test-only). Standing rule: any job marked "READY — LEAD GO-AHEAD" in this file is cleared to run; the lead cannot message the VM session directly, so this file is the go-ahead.
 
+**STUDIO PHASE (26 Oct, USER: "queue the jobs"):** 2.0 is released. Run 093 + 094 in parallel (one per account); 095 after 093 pushes.
+
 Order (run top to bottom):
+ST1. 093 — Studio part 2.5 (re-sync SB 2.0.0 fields, Ersveil byte-identical round-trip, SB exports limits). SOL WRITES. READY — LEAD GO-AHEAD: NOW.
+ST2. 094 — Sol review: open quest templates (SB #204, SD #136, RB #151) incl. conflicts with 2.0 main (read-only). READY — LEAD GO-AHEAD: NOW, parallel with 093.
+ST3. 095 — Studio part 3: card + lore maker. SOL WRITES. WAITING → READY — LEAD GO-AHEAD as soon as 093 has pushed studio/part-2.5.
 R0. 085 — Sol short review: pin flow (SB stage5/pin 71ea5a3, RB stage5/pin 69ef713; read-only). READY — LEAD GO-AHEAD: first free slot (A 16:39 alongside 084, or B).
 R0b. 086 — DONE BY CLAUDE 19:10 UTC (SB d300339, RB 4e8220a, SD a7e0b99; CI green). Do not run. WAS: CI FIX: checks-flip PRs (SB #201, RB #148, SD #135) are red in CI (static sibling imports). Sol writes, test-only. READY — LEAD GO-AHEAD: on A NOW alongside 084/085 (three threads); 083 may run in parallel on B (it reviews product code, which 086 does not touch).
-R3. 092 — PARTIAL: tags pushed (SB/RB/SD v2.0.0, NSD v1.3.0); GitHub releases blocked by the VM's permission check → USER decides. WAS: TAG THE 2.0 RELEASE (plain git, no model; 092-tag-release.md). READY — LEAD GO-AHEAD: RUN NOW.
+R3. 092 — DONE (tags + GitHub releases, Latest). WAS: TAG THE 2.0 RELEASE (plain git, no model; 092-tag-release.md). READY — LEAD GO-AHEAD: RUN NOW.
 R2. 091 — DONE 01:08 UTC on B (release/2.0.0: SB b63b6a3, SD 6327942, RB 558dc6c, NSD dddbd97 = 1.3.0). WAS: RELEASE PREP 2.0.0 (versions, CHANGELOG, README, known issues; docs only). SOL WRITES. READY — LEAD GO-AHEAD: after 090 or in parallel on the other account.
 R1d. 090 — DONE 01:03 UTC on A (RB 74aba8c). WAS: MERGE main into RB release/native-death (selection.js conflict with main's E6a approach). SOL WRITES. READY — LEAD GO-AHEAD: RUN NOW (A or B; both free). Last step before native-death merges and the release smoke.
 R1c. 089 — DONE 00:15 UTC on A (PASS) → CHECKS FLIP MERGED (SB 9e7f4e5, SD f48c01d, RB e106a09). WAS: Sol RE-CHECK (the one allowed): checks-flip fixes (SB #201 1309def, RB #148 91c63a2, SD #135 224cc79; read-only). READY — LEAD GO-AHEAD: RUN NOW on A or B (both free). LAST GATE before the release smoke.
