@@ -1429,3 +1429,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
 - Currency fix MERGED: SB #209 4db3ca5 (needs merging into release/2.1.0).
 - USER approved the wizard mockup → wizard agent resumed to build exactly it (summary row on top, 3-col card grids, 1 col at 390px).
 - VM JOB 114 (Sol, A, 12:28): data-modules re-check HOLDS — both 111 blockers fixed (repros + clamped-add/actor-removal variants, live + cold); no replay-rule violation; unused differentials byte-identical. Non-blocking: part.js:34 any nonliteral condition makes every import a witness → unrelated recorded imports can stale actions (explicit Problem, fails-safe) → follow-up (choose witnesses from actual condition deps). SB #207 is merge-ready but HELD until 2.1.0 is cut (data modules = 2.2; keeps it out of the 2.1 release branches).
+- 12:29 UTC: 115 stopped on B (model at capacity; WIP Studio b5a80a1) → RESUME READY (VM auto-retries).
