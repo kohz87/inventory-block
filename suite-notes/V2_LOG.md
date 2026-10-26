@@ -1440,3 +1440,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
 - USER approved v2.1.0 tags + GitHub release pages → VM JOB 118 READY.
 - VM JOB 118 PARTIAL (13:17): v2.1.0 TAGS pushed + verified (SB 958021b, RB 1e01275, SD 8233c89); GitHub release pages denied by the VM's auto-mode permission check (needs USER approval in the VM session, as with 092); notes staged /tmp/notes21-<repo>.md. DATA MODULES MERGED to SB main: #207 076764b. 119 (Studio 5a re-check) running on A.
 - VM JOB 118 DONE: GitHub releases v2.1.0 created (USER approved in the VM): SB/RB/SD. STORY SUITE 2.1.0 RELEASED.
+- USER (26 Oct): no more tags / GitHub releases after 2.1.0 — keep everything on main (rolling). Lead keeps version bumps + CHANGELOG entries on main so players can see what changed; no tag/release jobs.

@@ -22,6 +22,7 @@ Nice to have before release, else right after: open quest templates + foe varian
   the two part-2 follow-ups (SB exports the skill-slug limit; Studio uses SB's constants).
 - Part 3: character card and lore maker.
 - Part 4: settings defaults + UI/screen builder.
+- (USER 26 Oct) No more tags or release pages after 2.1.0: work lands on main; CHANGELOG + version bumps stay on main.
 - Part 5: creator kit — data-defined modules first (a generic data-module runtime in Story Block: state, narrator line
   grammar, conditions → effects, rewards via templates and bounds, screens from part 4; checked live in Studio), then
   code-module scaffolding with the testkit, then optional AI assist on the creator's own key (the Gemini drafting
