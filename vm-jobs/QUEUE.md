@@ -19,8 +19,8 @@ ST2b. 096 — DONE 05:12 UTC on B → MERGED (SB #204 cc0b793, SD #136 b6fad56, 
 ST2. 094 — DONE 01:38 UTC on B (HOLDS; conflicts SB clean, SD low, RB moderate). WAS: Sol review: open quest templates (SB #204, SD #136, RB #151) incl. conflicts with 2.0 main (read-only). READY — LEAD GO-AHEAD: NOW, parallel with 093.
 ST18. 114 — DONE 12:28 UTC on A (HOLDS; non-blocking over-staling of unrelated imports). WAS: Sol RE-CHECK (the one allowed): data-modules fixes be84639 (read-only). READY — LEAD GO-AHEAD: NOW on A.
 R4. 118 — DONE (tags + releases, Latest).
-ST24. 121 — SB 2.2.0 bookkeeping (version, CHANGELOG, README, example data-module packs). SOL WRITES. READY — LEAD GO-AHEAD: NOW on B.
-ST23. 120 — Studio 5a: Continue corrupts step snapshots (119 blocker) + label what-ifs as from-baseline. SOL WRITES. READY — LEAD GO-AHEAD: first free account. (No further Sol re-check: the lead verifies the repro.)
+ST24. 121 — DONE 13:44 UTC on B (release/2.2.0 56764c6). WAS: SB 2.2.0 bookkeeping (version, CHANGELOG, README, example data-module packs). SOL WRITES. READY — LEAD GO-AHEAD: NOW on B.
+ST23. 120 — DONE 13:44 UTC on A (69f9379; lead fixed EOF blank lines 68ea1a1). WAS: Studio 5a: Continue corrupts step snapshots (119 blocker) + label what-ifs as from-baseline. SOL WRITES. READY — LEAD GO-AHEAD: first free account. (No further Sol re-check: the lead verifies the repro.)
 ST22. 119 — DONE 13:24 UTC on A (1 new blocker) → 120. WAS: Sol RE-CHECK (the one allowed): Studio 5a fixes 73aeefd (read-only). READY — LEAD GO-AHEAD: first free account.
 ST21. 117 — DONE 13:12 UTC on A (73aeefd) → 119. WAS: Studio 5a: fix the 3 blockers from 116 (unknown keys kept; outcomes by Source+occurrence; trace rebuilt after what-ifs). SOL WRITES. READY — LEAD GO-AHEAD: first free account.
 ST20. 116 — DONE 12:50 UTC on A (BLOCK 3) → 117. WAS: Sol review: Studio 5a authoring + simulator (PR #8, de7f7c7; read-only). READY — LEAD GO-AHEAD: first free account.
