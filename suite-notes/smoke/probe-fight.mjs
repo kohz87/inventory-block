@@ -1,0 +1,23 @@
+// Probe: on the latest Ersveil chat, open Game view and look for the offered fight.
+import { createRequire } from 'node:module';
+const { chromium } = createRequire(import.meta.url)(process.env.PLAYWRIGHT_PATH ?? '/opt/node22/lib/node_modules/playwright');
+const browser = await chromium.launch(); const page = await browser.newPage({ viewport: { width: 1400, height: 1000 } });
+await page.goto('http://127.0.0.1:8150/', { waitUntil: 'domcontentloaded' });
+await page.waitForFunction(() => globalThis.SillyTavern?.getContext && document.querySelector('#send_textarea'), null, { timeout: 120000 });
+await page.waitForTimeout(5000);
+await page.evaluate(async () => SillyTavern.getContext().executeSlashCommandsWithOptions?.('/go Ersveil')); await page.waitForTimeout(5000);
+const gv = page.getByRole('button', { name: 'Game view' });
+const out = { gvCount: await gv.count() };
+await gv.first().click().catch(e => out.gvErr = String(e).slice(0, 200));
+await page.waitForTimeout(3000);
+await page.getByRole('button', { name: /Fight/ }).first().click();
+await page.waitForTimeout(2500);
+const view = page.getByRole('dialog', { name: 'Game view' });
+out.fightScreenButtons = (await view.getByRole('button').allInnerTexts()).map(x => x.trim()).filter(Boolean).slice(0, 4);
+await view.getByRole('button', { name: /^\s*Fight\s*$/ }).first().click();
+await page.waitForTimeout(3000);
+out.inFight = (await view.getByRole('button').allInnerTexts()).map(x => x.trim()).filter(Boolean).slice(0, 30);
+out.text = (await view.innerText()).slice(0, 1500);
+out.combat = await page.evaluate(() => { const r = (n, a = {}) => { try { return StoryBlock.sdk.query(n, a); } catch (e) { return 'err ' + e.message; } }; return { offer: r('rpg-battle.combatView') ?? r('combat.view'), board: r('rpg-battle.board') }; });
+await page.screenshot({ path: '/home/user/st-smoke/probe-fight.png' });
+console.log(JSON.stringify(out, null, 1).slice(0, 2500)); await browser.close();

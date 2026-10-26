@@ -21,7 +21,7 @@ const state = () => st(() => {
     try { domains = Object.keys(sb?.sdk?.state?.()?.domains ?? sb?.sdk?.head?.()?.domains ?? {}); } catch (e) { domains = `err ${e?.message}`; }
     const ctx = globalThis.SillyTavern?.getContext?.();
     const q = (name, args = {}) => { try { return sb?.sdk?.query?.(name, args) ?? null; } catch (e) { return `err ${String(e?.message ?? e).slice(0, 80)}`; } };
-    return { chat: ctx?.chatId ?? null, sb: !!sb, version: sb?.version ?? null, domains, wallet: q('inventory.wallet'), clock: q('director.time'), place: q('atlas.here'), threads: (() => { const t = q('director.threads'); return Array.isArray(t) ? t.map(x => `${x.name ?? x.title}:${x.state ?? x.status}`) : t; })(), progress: q('rules.progress', {}), head: head && { ok: head.ok, code: head.code }, mes: document.querySelectorAll('#chat .mes').length };
+    return { chat: ctx?.chatId ?? null, sb: !!sb, version: sb?.version ?? null, domains, wallet: q('inventory.wallet'), clock: q('director.time'), place: q('atlas.here'), threads: (() => { const t = q('director.threads'); return Array.isArray(t) ? t.map(x => `${x.name ?? x.title ?? x.label ?? x.key ?? x.id}:${x.state ?? x.status}`) : t; })(), party: (() => { const p = q('rules.progress', {}); return p && typeof p === 'object' ? { level: p.level, mastery: (p.checklist ?? []).map(c => c.mastery) } : p; })(), progress: q('rules.progress', {}), head: head && { ok: head.ok, code: head.code }, mes: document.querySelectorAll('#chat .mes').length };
 });
 const toasts = () => st(() => [...document.querySelectorAll('#toast-container .toast')].map(t => `${t.className.includes('error') ? 'ERROR' : t.className.includes('warning') ? 'WARN' : 'info'}: ${t.innerText}`.slice(0, 300)));
 
@@ -59,9 +59,40 @@ async function send(text) {
     await page.waitForFunction(n => document.querySelectorAll('#chat .mes').length >= n + 2 && !document.querySelector('#send_but')?.classList.contains('displayNone') , before, { timeout: 90000 }).catch(() => report.extra.push(`timeout after: ${text}`));
     await page.waitForTimeout(2500);
 }
+// A fight offer (Game view → Fight tab → Fight), fought with Auto until no action buttons remain, then closed.
+async function fight() {
+    const out = { steps: [] };
+    const click = async (scope, name) => {
+        const b = scope.getByRole('button', { name });
+        for (let n = 0; n < await b.count(); n++) if (await b.nth(n).isVisible()) { await b.nth(n).click(); await page.waitForTimeout(2000); out.steps.push(String(name)); return true; }
+        out.steps.push(`missing ${name}`); return false;
+    };
+    await click(page, 'Game view');
+    const view = page.getByRole('dialog', { name: 'Game view' });
+    await click(view, /Fight/);
+    await click(view, /^\s*Fight\s*$/);
+    for (let round = 0; round < 40; round++) {
+        if (!(await view.getByRole('button', { name: /^\s*Auto\s*$/ }).count())) break;
+        await click(view, /^\s*Auto\s*$/);
+        out.rounds = round + 1;
+    }
+    await click(view, /^\s*Finish/);
+    out.text = (await view.innerText().catch(() => '')).split('\n').filter(line => /won|lost|victory|defeat|fled|loot|xp|coin|mastery/i.test(line)).slice(0, 12);
+    await page.screenshot({ path: '/home/user/st-smoke/fight.png' });
+    await page.keyboard.press('Escape');
+    await page.waitForTimeout(1500);
+    out.state = await state();
+    return out;
+}
+// Buttons a reader can press in the latest reply (fight offers, quest choices).
+const offered = () => page.locator('#chat .mes').last().getByRole('button').allInnerTexts().then(list => list.map(b => b.trim()).filter(Boolean)).catch(() => []);
 for (const t of script.turns) {
     await send(t.user);
-    report.turns.push({ user: t.user, state: await state(), toasts: await toasts() });
+    const buttons = await offered();
+    const entry = { user: t.user, state: await state(), toasts: await toasts(), buttons };
+    // A fight offer: accept it, then let the fight run to its end (auto-resolve when the screen offers it).
+    if (t.fight) entry.fight = await fight();
+    report.turns.push(entry);
 }
 // Edits around history: delete the last reply, swipe, reload.
 const steps = (process.argv.find(a => a.startsWith('--steps=')) ?? '--steps=delete,reload').slice(8).split(',');
