@@ -17,7 +17,7 @@ ST2b. 096 — DONE 05:12 UTC on B → MERGED (SB #204 cc0b793, SD #136 b6fad56, 
 ST2. 094 — DONE 01:38 UTC on B (HOLDS; conflicts SB clean, SD low, RB moderate). WAS: Sol review: open quest templates (SB #204, SD #136, RB #151) incl. conflicts with 2.0 main (read-only). READY — LEAD GO-AHEAD: NOW, parallel with 093.
 ST6. 099 — FIX (player-facing, hotfix): pinned-pack encounters ignore the danger label (6 weak rats = 0% wins at level 1). SOL WRITES on RB fix/pinned-danger. READY — LEAD GO-AHEAD: NOW on B.
 ST5. 098 — DONE 06:16 UTC on B (no regression; pinned 'weak' = 0% wins). WAS: balance/regression check: level-1 vs 6 weak Cellar Rat Swarm (smoke lost 2/2 on 2.0). Sol, read-only + /tmp scripts. READY — LEAD GO-AHEAD: NOW on B (parallel with 097 on A).
-ST4b. 100 — Studio review blockers (NFC/NFD key collapse on export; blank narrator name). SOL WRITES on the two Studio branches. READY — LEAD GO-AHEAD: NOW on A (parallel with 099 on B).
+ST4b. 100 — DONE 07:19 UTC on A → STUDIO PARTS 2.5 + 3 MERGED (Studio #5 20fc401, #6 9ba9dbe). WAS: Studio review blockers (NFC/NFD key collapse on export; blank narrator name). SOL WRITES on the two Studio branches. READY — LEAD GO-AHEAD: NOW on A (parallel with 099 on B).
 ST4. 097 — DONE 06:17 UTC on A (BLOCK, 2) → 100. WAS: Sol review of Studio parts 2.5 + 3 (PR #5 + part-3 PR; read-only). READY — LEAD GO-AHEAD: NOW on A.
 ST3. 095 — DONE 05:08 UTC on A (studio/part-3 0e9ad06) → review 097.
 R0. 085 — Sol short review: pin flow (SB stage5/pin 71ea5a3, RB stage5/pin 69ef713; read-only). READY — LEAD GO-AHEAD: first free slot (A 16:39 alongside 084, or B).
