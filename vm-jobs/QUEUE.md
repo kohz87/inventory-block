@@ -17,7 +17,8 @@ ST2b. 096 — DONE 05:12 UTC on B → MERGED (SB #204 cc0b793, SD #136 b6fad56, 
 ST2. 094 — DONE 01:38 UTC on B (HOLDS; conflicts SB clean, SD low, RB moderate). WAS: Sol review: open quest templates (SB #204, SD #136, RB #151) incl. conflicts with 2.0 main (read-only). READY — LEAD GO-AHEAD: NOW, parallel with 093.
 ST9. 103 — release prep 2.1.0 (docs + version). SOL WRITES. WAITING (lead flips READY after 102 merges).
 ST8. 102 — perf: pinned danger calibration 1.6–3.2 s per offer → ≤ 250 ms. SOL WRITES. READY — LEAD GO-AHEAD: NOW on B (RB #153 merged 32286c7).
-ST7b. 104 — Sol review of Studio part 4 (read-only). READY — LEAD GO-AHEAD: NOW on A.
+ST7c. 105 — Studio part 4 blockers (preview must run SB's own validation/evaluator/envelope). SOL WRITES. READY — LEAD GO-AHEAD: NOW on A.
+ST7b. 104 — DONE 08:03 UTC on A (BLOCK, 4 preview mismatches) → 105.
 ST7. 101 — DONE 07:51 UTC on A (studio/part-4 207e082) → review 104. WAS: Studio part 4: settings defaults + screen builder. SOL WRITES. READY — LEAD GO-AHEAD: NOW on A.
 ST6. 099 — DONE 07:32 UTC on B (RB fix/pinned-danger cd64f0e → PR #153). WAS: FIX (player-facing, hotfix): pinned-pack encounters ignore the danger label (6 weak rats = 0% wins at level 1). SOL WRITES on RB fix/pinned-danger. READY — LEAD GO-AHEAD: NOW on B.
 ST5. 098 — DONE 06:16 UTC on B (no regression; pinned 'weak' = 0% wins). WAS: balance/regression check: level-1 vs 6 weak Cellar Rat Swarm (smoke lost 2/2 on 2.0). Sol, read-only + /tmp scripts. READY — LEAD GO-AHEAD: NOW on B (parallel with 097 on A).
