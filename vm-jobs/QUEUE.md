@@ -13,7 +13,8 @@ For FUTURE outages with no stated time: available again 4 hours after the moment
 
 Order (run top to bottom):
 ST1. 093 — Studio part 2.5 (re-sync SB 2.0.0 fields, Ersveil byte-identical round-trip, SB exports limits). SOL WRITES. READY — LEAD GO-AHEAD: NOW.
-ST2. 094 — Sol review: open quest templates (SB #204, SD #136, RB #151) incl. conflicts with 2.0 main (read-only). READY — LEAD GO-AHEAD: NOW, parallel with 093.
+ST2b. 096 — open templates onto 2.0 main (merge main, resolve, re-vendor) + fold the 12 templates into Ersveil pack 1.5.0. SOL WRITES. READY — LEAD GO-AHEAD: NOW on B.
+ST2. 094 — DONE 01:38 UTC on B (HOLDS; conflicts SB clean, SD low, RB moderate). WAS: Sol review: open quest templates (SB #204, SD #136, RB #151) incl. conflicts with 2.0 main (read-only). READY — LEAD GO-AHEAD: NOW, parallel with 093.
 ST3. 095 — Studio part 3: card + lore maker. SOL WRITES. WAITING → READY — LEAD GO-AHEAD as soon as 093 has pushed studio/part-2.5.
 R0. 085 — Sol short review: pin flow (SB stage5/pin 71ea5a3, RB stage5/pin 69ef713; read-only). READY — LEAD GO-AHEAD: first free slot (A 16:39 alongside 084, or B).
 R0b. 086 — DONE BY CLAUDE 19:10 UTC (SB d300339, RB 4e8220a, SD a7e0b99; CI green). Do not run. WAS: CI FIX: checks-flip PRs (SB #201, RB #148, SD #135) are red in CI (static sibling imports). Sol writes, test-only. READY — LEAD GO-AHEAD: on A NOW alongside 084/085 (three threads); 083 may run in parallel on B (it reviews product code, which 086 does not touch).
