@@ -3,7 +3,7 @@
 Rules: reviews before writing. Use whichever Codex account has quota (README "Codex accounts"). A job listed as WAITING
 has no file yet or isn't ready; skip it. Report each finished job as `VM JOB NNN:` and add it to DONE.
 
-Accounts (USER, ≈12:45 UTC): A resets 16:39 UTC (use from 16:40), B resets 17:21 UTC (use from 17:22) (stated by USER). 079 MOVED TO CLAUDE (do not re-run). If 080 stopped on B's quota, push its WIP and report; it resumes on A at 16:39. 082 runs on A at 16:39 (or after 080).
+Accounts (USER, 10:20 UTC): BOTH out of credits now. A resets ≈11:13 UTC (use from 11:14); B resets 11:11 UTC (use from 11:12) (stated by USER). 102 (B) and 107 (A) stopped on credits; WIP pushed (102 perf/danger-calibration 0f09336; 107 stage6/data-modules fb24176). 079 MOVED TO CLAUDE (do not re-run).
 A's FREE RESET ACTIVATED by USER at ≈01:16 UTC: A has a fresh window (DOUBLE 5-hour quota, weekly reset too). Earlier note: A's window (from ≈00:28 UTC) has DOUBLE 5-hour quota (USER's free reset, which also resets A's weekly quota). Order: 053 + 054 + 029 (Reconcile + Resume 4) as three parallel threads, then 043/044 as soon as the lead flips them READY (check QUEUE.md between jobs).
 For FUTURE outages with no stated time: available again 4 hours after the moment it ran out (README). The VM updates this line.
 
