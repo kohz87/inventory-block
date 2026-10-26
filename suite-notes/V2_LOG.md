@@ -1388,3 +1388,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
 - RB #153 MERGED 32286c7 (pinned danger fix). 2.1 candidate complete on main (open templates + Ersveil 1.5.0 + pinned danger). VM JOB 102 (calibration perf) READY on B; VM JOB 103 (2.1.0 release prep, Sol) WAITING until 102 merges. Studio part 4 (101) running on A.
 - 07:45 UTC VM (USER): 102 calibration perf on B (from RB 32286c7). 101 Studio part 4 on A.
 - VM JOB 101 (Sol, A, 07:51): Studio part 4 studio/part-4 207e082 — screen + layout authoring (10 screen fields, 18 widgets, 40 query examples) with offline escaped preview; settings defaults: SB 2.0 accepts NO per-module defaults in a pack → refusals only (feature gap noted; decide later whether SB should get pack-level settings defaults). Writer: 567 pass incl. 22 browser, two identical builds. Lead opened draft PR; VM JOB 104 (Sol review) READY on A.
+- 07:57 UTC VM (USER): 104 Studio part 4 review on A. 102 on B.
