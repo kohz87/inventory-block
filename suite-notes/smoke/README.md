@@ -1,5 +1,7 @@
 # Live smoke harness (lead's own SillyTavern)
 
+Rebuild after a container restart: `bash suite-notes/smoke/setup.sh [ref]` (clones SillyTavern 1.19.0, separate data root, the four extensions at `ref`, mock API settings, the Ersveil pack from Story Block).
+
 - SillyTavern 1.19 at /home/user/st-smoke/SillyTavern, port 8150, data root /home/user/st-smoke/data (never the user's).
 - The four extensions are cloned into data/default-user/extensions (update with `git -C <ext> pull`). The Ersveil pack is
   installed by writing `extension_settings.storySuite.packs` in data/default-user/settings.json (stop the browser first).
