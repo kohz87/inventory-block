@@ -1439,3 +1439,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
 - VM JOB 117 (Sol, A, 13:12): Studio 5a fixes 73aeefd — unknown keys kept; outcomes by Source+occurrence; trace rebuilt per what-if; 740 pass incl. 43 browser; identical builds; zero requests; 6 differential scenarios. → VM JOB 119 (the one re-check) READY.
 - USER approved v2.1.0 tags + GitHub release pages → VM JOB 118 READY.
 - VM JOB 118 PARTIAL (13:17): v2.1.0 TAGS pushed + verified (SB 958021b, RB 1e01275, SD 8233c89); GitHub release pages denied by the VM's auto-mode permission check (needs USER approval in the VM session, as with 092); notes staged /tmp/notes21-<repo>.md. DATA MODULES MERGED to SB main: #207 076764b. 119 (Studio 5a re-check) running on A.
+- VM JOB 118 DONE: GitHub releases v2.1.0 created (USER approved in the VM): SB/RB/SD. STORY SUITE 2.1.0 RELEASED.
