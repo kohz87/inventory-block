@@ -1371,3 +1371,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
 - 01:46 UTC VM: 093 STOPPED on A — 'workspace out of credits' (credit stop, not capacity); 50 uncommitted changes pushed as WIP (Story_studio studio/part-2.5 4e663af, SB studio/limits 708e2ae), checks never ran. Lead: 093 RESUME on B first (Studio is USER priority), then 096; 095 after 093. Account A needs credits (USER).
 - 01:54 UTC VM: 093 resume running on B from the WIP branches.
 - 01:57 UTC VM: 093 rerun on B stopped 'Selected model is at capacity' (×2), no commits; WIP unchanged. Lead: retry on B from 02:30 UTC; not moving to Claude (Studio is not release-critical; Claude weekly ≈49%).
+- 04:11 UTC VM (USER: A available): 093 resume running on A from the WIP. 096 READY for B; 095 waits for 093.
