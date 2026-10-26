@@ -1,0 +1,4 @@
+RE-CHECK (the one allowed) of the fixes for your data-modules review 111 (vm-results/111.md): Story_block stage6/data-modules head be84639 (fixes since 1e8ade4: no-op writes witness their original destination, interpreter.js ~153; prefix witnesses for clocks, actors, public sources and eligibility inputs, part.js ~31/~120). Read-only; single tests or small scripts. Keep it short.
+1. Do both 111 blockers hold fixed (your two repros, live and cold rebuild)? Try one variation of each (clamped add instead of set; actor removed instead of clock moved).
+2. Did the fix add a NEW [normal play][silent wrong state] problem — e.g. over-staling (an action going inactive when nothing it depended on changed), a guard reading outside the replay rule, or unused chats no longer byte-identical?
+Output: verdict, items 1–2, BLOCKING items (what, file:line, the fix), non-blocking headlines. No model names in your output.
