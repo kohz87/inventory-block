@@ -41,6 +41,18 @@
   {
    "user": "I wake and check my gear.",
    "reply": "Morning is grey and quiet; the blade needs oil.\n\n<Changes>\n! time +8h\n</Changes>"
+  },
+  {
+   "user": "I repair the Guild's weir.",
+   "reply": "Fenna watches you haul the last stone into place and nods.\n\n<Changes>\n+ dm reputation — repaired the Guild's weir | kind: gain | faction: guild\n</Changes>"
+  },
+  {
+   "user": "I bring back the register.",
+   "reply": "The branch clerk hugs the ledger to her chest.\n\n<Changes>\n+ dm reputation — brought back the register | kind: gain | faction: guild\n</Changes>"
+  },
+  {
+   "user": "I break the Watch's seal.",
+   "reply": "The wax cracks; somewhere a watchman will be furious.\n\n<Changes>\n- dm reputation — broke the Watch's seal | kind: loss | faction: watch\n</Changes>"
   }
  ]
 }
