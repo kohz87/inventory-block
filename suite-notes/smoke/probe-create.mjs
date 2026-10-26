@@ -1,0 +1,22 @@
+// Probe: pin + create through the UI on a fresh chat, then print rules.selection / party.
+import { createRequire } from 'node:module';
+const { chromium } = createRequire(import.meta.url)(process.env.PLAYWRIGHT_PATH ?? '/opt/node22/lib/node_modules/playwright');
+import { connect, makeCharacter } from './create.mjs';
+const browser = await chromium.launch();
+const page = await browser.newPage({ viewport: { width: 1400, height: 1000 } });
+const errors = []; const logs = [];
+page.on('pageerror', e => errors.push(String(e).slice(0, 300)));
+await page.goto(process.env.ST_URL ?? 'http://127.0.0.1:8150/', { waitUntil: 'domcontentloaded' });
+await page.waitForFunction(() => globalThis.SillyTavern?.getContext && document.querySelector('#send_textarea'), null, { timeout: 120000 });
+await page.waitForTimeout(4000);
+await connect(page);
+await page.evaluate(async () => SillyTavern.getContext().executeSlashCommandsWithOptions?.('/go Ersveil'));
+await page.waitForTimeout(3000);
+await page.evaluate(async () => SillyTavern.getContext().executeSlashCommandsWithOptions?.('/newchat'));
+await page.waitForTimeout(4000);
+const made = await makeCharacter(page, s => logs.push(s));
+await page.waitForTimeout(3000);
+const q = await page.evaluate(() => { const r = n => { try { return StoryBlock.sdk.query(n, {}); } catch (e) { return 'err ' + e.message; } }; return { selection: r('rules.selection'), party: r('party.members') ?? r('party.list'), wallet: r('inventory.wallet') }; });
+await page.screenshot({ path: '/home/user/st-smoke/probe-create.png' });
+console.log(JSON.stringify({ made, logs, q, errors }, null, 1).slice(0, 4000));
+await browser.close();
