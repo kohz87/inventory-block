@@ -15,8 +15,8 @@ Order (run top to bottom):
 ST1. 093 — DONE 04:18 UTC on A (Studio studio/part-2.5 779cd34, SB studio/limits 708e2ae; draft PRs Studio #5, SB #206). WAS: STOPPED 01:45 on A (workspace out of credits; WIP pushed studio/part-2.5 4e663af, SB studio/limits 708e2ae). RESUME on B (see RESUME in 093 file). 01:57 rerun stopped on 'model at capacity' (no commits). RETRY on B from 02:30 UTC (or whichever account has quota/credits first); if capacity stops twice more, try again an hour later. Then 096.
 ST2b. 096 — DONE 05:12 UTC on B → MERGED (SB #204 cc0b793, SD #136 b6fad56, RB #151 81cb400). WAS: open templates onto 2.0 main (merge main, resolve, re-vendor) + fold the 12 templates into Ersveil pack 1.5.0. SOL WRITES. READY — LEAD GO-AHEAD: on B AFTER the 093 resume (or on A when A has credits again).
 ST2. 094 — DONE 01:38 UTC on B (HOLDS; conflicts SB clean, SD low, RB moderate). WAS: Sol review: open quest templates (SB #204, SD #136, RB #151) incl. conflicts with 2.0 main (read-only). READY — LEAD GO-AHEAD: NOW, parallel with 093.
-ST9. 103 — release prep 2.1.0 (docs + version). SOL WRITES. WAITING (lead flips READY after 102 merges).
-ST8. 102 — perf: pinned danger calibration 1.6–3.2 s per offer → ≤ 250 ms. SOL WRITES. READY — LEAD GO-AHEAD: NOW on B (RB #153 merged 32286c7).
+ST9. 103 — release prep 2.1.0 (docs + version). SOL WRITES. WAITING (lead flips READY after 102 merges; runs on whichever account has credits).
+ST8. 102 — MOVED TO CLAUDE 09:16 UTC (B out of credits at 09:14; WIP perf/danger-calibration 0f09336; Sonnet finishing). Do not run.
 ST11. 107 — DATA MODULES v1: Story Block runtime (checker → runtime → replay → tests). SOL WRITES. READY — LEAD GO-AHEAD: on the FIRST FREE account (A now; B after 102).
 ST10. 106 — DONE 08:50 UTC on A (design approved by USER with 7 decisions, 073404f). WAS: Studio part 5 stage 1 DESIGN DOC: data-defined modules (docs only, SB design/data-modules). SOL WRITES. READY — LEAD GO-AHEAD: NOW on A.
 ST7c. 105 — DONE 08:18 UTC on A → STUDIO PART 4 MERGED (Studio #7 420c9ea). WAS: Studio part 4 blockers (preview must run SB's own validation/evaluator/envelope). SOL WRITES. READY — LEAD GO-AHEAD: NOW on A.
