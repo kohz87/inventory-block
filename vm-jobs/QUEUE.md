@@ -19,7 +19,7 @@ ST2b. 096 — DONE 05:12 UTC on B → MERGED (SB #204 cc0b793, SD #136 b6fad56, 
 ST2. 094 — DONE 01:38 UTC on B (HOLDS; conflicts SB clean, SD low, RB moderate). WAS: Sol review: open quest templates (SB #204, SD #136, RB #151) incl. conflicts with 2.0 main (read-only). READY — LEAD GO-AHEAD: NOW, parallel with 093.
 ST17. 113 — data-modules: fix the 2 blockers from 111 (witness no-op writes; prefix witnesses for clock/eligibility prerequisites). SOL WRITES. READY — LEAD GO-AHEAD: NOW on A.
 ST15. 111 — DONE 11:53 UTC on A (BLOCK 2) → 113. WAS: Sol FULL review: data-modules v1 runtime (SB stage6/data-modules 1e8ade4; read-only). READY — LEAD GO-AHEAD: NOW on A.
-ST16. 112 — Studio 5a re-sync to the finished runtime (1e8ade4). SOL WRITES. READY — LEAD GO-AHEAD: NOW on B.
+ST16. 112 — DONE 11:56 UTC on B (studio/part-5a 6ca82f9; will need one more re-sync after 113). WAS: Studio 5a re-sync to the finished runtime (1e8ade4). SOL WRITES. READY — LEAD GO-AHEAD: NOW on B.
 ST14. 110 — DONE 11:35 UTC on B (BLOCK 2 constructed lean≠engine cases → Claude agent fixing). WAS: Sol review: RB perf/danger-calibration (lean Auto player; draft PR). READY — LEAD GO-AHEAD: NOW on B.
 ST13. 109 — DONE 11:33 UTC on A (studio/part-5a 1a5290e). WAS: Studio 5a: throwing offline shims + dist-scan with no exemptions (108 B3). SOL WRITES. READY — LEAD GO-AHEAD: NOW (A or B).
 ST12. 108 — DONE 11:19 UTC on A (BLOCK 3: checker A1/A2 → Claude 107 agent; Studio B3 → 109). WAS: Sol early review: data-module checker (SB step 1, 22a3976) + Studio 5a build/dist-scan changes (read-only). READY — LEAD GO-AHEAD: NOW on A.
