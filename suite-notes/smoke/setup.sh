@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Rebuild the local smoke SillyTavern from scratch (separate data root; never the user's). Idempotent.
-# Usage: bash suite-notes/smoke/setup.sh [ref]   (ref = extensions branch/tag to check out, default main)
+# Usage: [NOPACK=1] bash suite-notes/smoke/setup.sh [ref]   (ref = extensions branch/tag, default main; NOPACK=1 leaves the pack out so import.mjs installs it through the UI)
 set -euo pipefail
 REF="${1:-main}"
 ROOT=/home/user/st-smoke
@@ -34,7 +34,7 @@ s.oai_settings = { ...(s.oai_settings ?? {}), chat_completion_source: 'custom', 
 const pack = JSON.parse(fs.readFileSync(packFile, 'utf8'));
 s.extension_settings = s.extension_settings ?? {};
 s.extension_settings.storySuite = { ...(s.extension_settings.storySuite ?? {}),
-  packs: [{ id: pack.id, version: pack.version, enabled: true, source: 'file', origin: 'pack.json', pack }] };
+  packs: process.env.NOPACK ? [] : [{ id: pack.id, version: pack.version, enabled: true, source: 'file', origin: 'pack.json', pack }] };
 fs.writeFileSync(file, JSON.stringify(s, null, 4));
 console.log(`settings ok; pack ${pack.id} ${pack.version}`);
 NODE

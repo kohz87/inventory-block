@@ -18,7 +18,8 @@ ST1. 093 — DONE 04:18 UTC on A (Studio studio/part-2.5 779cd34, SB studio/limi
 ST2b. 096 — DONE 05:12 UTC on B → MERGED (SB #204 cc0b793, SD #136 b6fad56, RB #151 81cb400). WAS: open templates onto 2.0 main (merge main, resolve, re-vendor) + fold the 12 templates into Ersveil pack 1.5.0. SOL WRITES. READY — LEAD GO-AHEAD: on B AFTER the 093 resume (or on A when A has credits again).
 ST2. 094 — DONE 01:38 UTC on B (HOLDS; conflicts SB clean, SD low, RB moderate). WAS: Sol review: open quest templates (SB #204, SD #136, RB #151) incl. conflicts with 2.0 main (read-only). READY — LEAD GO-AHEAD: NOW, parallel with 093.
 ST18. 114 — DONE 12:28 UTC on A (HOLDS; non-blocking over-staling of unrelated imports). WAS: Sol RE-CHECK (the one allowed): data-modules fixes be84639 (read-only). READY — LEAD GO-AHEAD: NOW on A.
-ST20. 116 — Sol review: Studio 5a authoring + simulator (PR #8, de7f7c7; read-only). READY — LEAD GO-AHEAD: first free account.
+ST21. 117 — Studio 5a: fix the 3 blockers from 116 (unknown keys kept; outcomes by Source+occurrence; trace rebuilt after what-ifs). SOL WRITES. READY — LEAD GO-AHEAD: first free account.
+ST20. 116 — DONE 12:50 UTC on A (BLOCK 3) → 117. WAS: Sol review: Studio 5a authoring + simulator (PR #8, de7f7c7; read-only). READY — LEAD GO-AHEAD: first free account.
 ST19. 115 — DONE 12:36 UTC on A (de7f7c7). WAS: Studio 5a FINAL re-sync to SB be84639. STOPPED 12:29 (capacity; WIP b5a80a1). RESUME — READY — LEAD GO-AHEAD: on the first account with capacity (retry every poll; see RESUME in the 115 file).
 ST17. 113 — DONE 12:16 UTC on A (be84639) → 114. WAS: RERUN on A (USER, ≈12:10) from WIP cbdab2b; the Claude agent was stopped so only Codex writes this branch.
 ST15. 111 — DONE 11:53 UTC on A (BLOCK 2) → 113. WAS: Sol FULL review: data-modules v1 runtime (SB stage6/data-modules 1e8ade4; read-only). READY — LEAD GO-AHEAD: NOW on A.
