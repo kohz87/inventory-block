@@ -12,10 +12,10 @@ For FUTURE outages with no stated time: available again 4 hours after the moment
 **STUDIO PHASE (26 Oct, USER: "queue the jobs"):** 2.0 is released. Run 093 + 094 in parallel (one per account); 095 after 093 pushes.
 
 Order (run top to bottom):
-ST1. 093 — Studio part 2.5. STOPPED 01:45 on A (workspace out of credits; WIP pushed studio/part-2.5 4e663af, SB studio/limits 708e2ae). RESUME on B (see RESUME in 093 file). 01:57 rerun stopped on 'model at capacity' (no commits). RETRY on B from 02:30 UTC (or whichever account has quota/credits first); if capacity stops twice more, try again an hour later. Then 096.
+ST1. 093 — DONE 04:18 UTC on A (Studio studio/part-2.5 779cd34, SB studio/limits 708e2ae; draft PRs Studio #5, SB #206). WAS: STOPPED 01:45 on A (workspace out of credits; WIP pushed studio/part-2.5 4e663af, SB studio/limits 708e2ae). RESUME on B (see RESUME in 093 file). 01:57 rerun stopped on 'model at capacity' (no commits). RETRY on B from 02:30 UTC (or whichever account has quota/credits first); if capacity stops twice more, try again an hour later. Then 096.
 ST2b. 096 — open templates onto 2.0 main (merge main, resolve, re-vendor) + fold the 12 templates into Ersveil pack 1.5.0. SOL WRITES. READY — LEAD GO-AHEAD: on B AFTER the 093 resume (or on A when A has credits again).
 ST2. 094 — DONE 01:38 UTC on B (HOLDS; conflicts SB clean, SD low, RB moderate). WAS: Sol review: open quest templates (SB #204, SD #136, RB #151) incl. conflicts with 2.0 main (read-only). READY — LEAD GO-AHEAD: NOW, parallel with 093.
-ST3. 095 — Studio part 3: card + lore maker. SOL WRITES. WAITING → READY — LEAD GO-AHEAD as soon as 093 has pushed studio/part-2.5.
+ST3. 095 — Studio part 3: card + lore maker. SOL WRITES. READY — LEAD GO-AHEAD: NOW on A (093 pushed). 096 stays on B.
 R0. 085 — Sol short review: pin flow (SB stage5/pin 71ea5a3, RB stage5/pin 69ef713; read-only). READY — LEAD GO-AHEAD: first free slot (A 16:39 alongside 084, or B).
 R0b. 086 — DONE BY CLAUDE 19:10 UTC (SB d300339, RB 4e8220a, SD a7e0b99; CI green). Do not run. WAS: CI FIX: checks-flip PRs (SB #201, RB #148, SD #135) are red in CI (static sibling imports). Sol writes, test-only. READY — LEAD GO-AHEAD: on A NOW alongside 084/085 (three threads); 083 may run in parallel on B (it reviews product code, which 086 does not touch).
 R3. 092 — DONE (tags + GitHub releases, Latest). WAS: TAG THE 2.0 RELEASE (plain git, no model; 092-tag-release.md). READY — LEAD GO-AHEAD: RUN NOW.
