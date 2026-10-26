@@ -17,7 +17,7 @@ ST2b. 096 — DONE 05:12 UTC on B → MERGED (SB #204 cc0b793, SD #136 b6fad56, 
 ST2. 094 — DONE 01:38 UTC on B (HOLDS; conflicts SB clean, SD low, RB moderate). WAS: Sol review: open quest templates (SB #204, SD #136, RB #151) incl. conflicts with 2.0 main (read-only). READY — LEAD GO-AHEAD: NOW, parallel with 093.
 ST9. 103 — release prep 2.1.0 (docs + version). SOL WRITES. WAITING (lead flips READY after 102 merges; runs on whichever account has credits).
 ST8. 102 — MOVED TO CLAUDE 09:16 UTC (B out of credits at 09:14; WIP perf/danger-calibration 0f09336; Sonnet finishing). Do not run.
-ST11. 107 — DATA MODULES v1. PARTIAL 09:27 on A: step 1 (checker/exports/fixtures/docs) pushed 22a3976. RESUME steps 2–4 (see RESUME in the 107 file). READY — LEAD GO-AHEAD: NOW on A.
+ST11. 107 — DATA MODULES v1. Step 1 done 22a3976; resume stopped 10:14 on A (out of credits, WIP fb24176). MOVED TO CLAUDE 10:16 UTC (Sonnet finishing steps 2–4). Do not run.
 ST10. 106 — DONE 08:50 UTC on A (design approved by USER with 7 decisions, 073404f). WAS: Studio part 5 stage 1 DESIGN DOC: data-defined modules (docs only, SB design/data-modules). SOL WRITES. READY — LEAD GO-AHEAD: NOW on A.
 ST7c. 105 — DONE 08:18 UTC on A → STUDIO PART 4 MERGED (Studio #7 420c9ea). WAS: Studio part 4 blockers (preview must run SB's own validation/evaluator/envelope). SOL WRITES. READY — LEAD GO-AHEAD: NOW on A.
 ST7b. 104 — DONE 08:03 UTC on A (BLOCK, 4 preview mismatches) → 105.
