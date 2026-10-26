@@ -14,7 +14,7 @@ For FUTURE outages with no stated time: available again 4 hours after the moment
 **LEAD 10:22 UTC:** 102 and 107 are being finished by Claude (do not rerun them). When A/B come back (B 11:12, A 11:14): Codex takes REVIEWS of Claude's work (jobs to be written as each lands) and 103 (2.1.0 release prep) once 102 merges.
 
 Order (run top to bottom):
-ST26. 123 — Sol FINAL review: Studio 5b code modules (studio/part-5b 9efc215; read-only). READY — LEAD GO-AHEAD: NOW on the first free account.
+ST26. 123 — DONE 15:58 UTC on A (HOLDS). WAS: Sol FINAL review: Studio 5b code modules (studio/part-5b 9efc215; read-only).
 ST25. 122 — DONE 15:10 UTC on A (BLOCK 4 → fixes by Claude). WAS: Sol quick review: authoring kit (SB d36c090 + Studio 39b2ac1; read-only).
 ST1. 093 — DONE 04:18 UTC on A (Studio studio/part-2.5 779cd34, SB studio/limits 708e2ae; draft PRs Studio #5, SB #206). WAS: STOPPED 01:45 on A (workspace out of credits; WIP pushed studio/part-2.5 4e663af, SB studio/limits 708e2ae). RESUME on B (see RESUME in 093 file). 01:57 rerun stopped on 'model at capacity' (no commits). RETRY on B from 02:30 UTC (or whichever account has quota/credits first); if capacity stops twice more, try again an hour later. Then 096.
 ST2b. 096 — DONE 05:12 UTC on B → MERGED (SB #204 cc0b793, SD #136 b6fad56, RB #151 81cb400). WAS: open templates onto 2.0 main (merge main, resolve, re-vendor) + fold the 12 templates into Ersveil pack 1.5.0. SOL WRITES. READY — LEAD GO-AHEAD: on B AFTER the 093 resume (or on A when A has credits again).
