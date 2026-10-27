@@ -15,7 +15,7 @@ For FUTURE outages with no stated time: available again 4 hours after the moment
 
 Order (run top to bottom):
 ST28. 125 — DONE 12:46 UTC on B (Terra 6.1 max; BLOCK 7, all RB → Claude fix; balance acceptable). WAS: FINAL cross-repo review on SB 4eacd32 / RB ce3dbec / Studio 10555f9.
-ST29. 126 — READY — LEAD GO-AHEAD (first free account), 14:10 UTC. Terra 6.1 max (USER) RE-CHECK (the one allowed) of 125's 7 blockers on RB ee616d3 (read-only).
+ST29. 126 — RUNNING since 13:56 UTC on A (VM report). WAS READY. Terra 6.1 max (USER) RE-CHECK (the one allowed) of 125's 7 blockers on RB ee616d3 (read-only).
 ST27. 124 — DONE 05:26 UTC on B (HOLDS at RB f3f53a3; its one blocker was already fixed there). WAS: Sol FINAL cross-repo review: open trainer templates.
 ST26. 123 — DONE 15:58 UTC on A (HOLDS). WAS: Sol FINAL review: Studio 5b code modules (studio/part-5b 9efc215; read-only).
 ST25. 122 — DONE 15:10 UTC on A (BLOCK 4 → fixes by Claude). WAS: Sol quick review: authoring kit (SB d36c090 + Studio 39b2ac1; read-only).
