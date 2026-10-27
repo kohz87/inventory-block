@@ -1607,3 +1607,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
 - 27 Oct: Studio re-synced to SB 4eacd32 (studio/generative-offers 4ea7641 sync + 10555f9 tests; head 10555f9): 968 tests, 0 fail on Node 22 and 24; goldens = SB's; build reproducible (dist sha256 234feb7b…); promotionMastery and rank xp edited as JSON in Pack settings (no layout change). CI unverified until the PR.
 - 27 Oct ~12:00 UTC: VM started 125 early (USER's request) on stale RB 2456968 / Studio ef8202c (RB now 1637018 mid-round; Studio 10555f9). Could not reply to the VM session (cross-session messaging not permitted from this session); QUEUE note recommends stop + re-run when READY, USER decides.
 - 27 Oct 12:03 UTC: VM stopped 125 on the USER's decision (stale heads; no verdict). Back to WAITING until RB's round is fully pushed.
+- 27 Oct 12:05 UTC: correction: RB's round (5 2… 1637018, ~15 commits) is committed in the builder's clone but NOT pushed; remote head is still 2456968.
