@@ -13,6 +13,8 @@ For FUTURE outages with no stated time: available again 4 hours after the moment
 
 **LEAD 10:22 UTC:** 102 and 107 are being finished by Claude (do not rerun them). When A/B come back (B 11:12, A 11:14): Codex takes REVIEWS of Claude's work (jobs to be written as each lands) and 103 (2.1.0 release prep) once 102 merges.
 
+**VM ORCHESTRATOR (27 Oct 14:00 UTC, USER's instructions):** polls every 10 minutes until 01:00 UTC 28 Oct; a READY job starts as soon as an account is free, no further go-ahead; live exit/error watch per job; capacity/credit stops recorded with WIP pushed to the job's own branch (no force). So: mark a job READY only when its heads are final.
+
 Order (run top to bottom):
 ST28. 125 — DONE 12:46 UTC on B (Terra 6.1 max; BLOCK 7, all RB → Claude fix; balance acceptable). WAS: FINAL cross-repo review on SB 4eacd32 / RB ce3dbec / Studio 10555f9.
 ST29. 126 — RUNNING since 13:56 UTC on A (VM report). WAS READY. Terra 6.1 max (USER) RE-CHECK (the one allowed) of 125's 7 blockers on RB ee616d3 (read-only).
