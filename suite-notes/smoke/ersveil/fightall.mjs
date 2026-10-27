@@ -1,0 +1,26 @@
+import { launch, ev, SC, q } from './lib.mjs';
+import { connect, openChat } from './create.mjs';
+const tag = process.argv[2] ?? 'f';
+const { browser, page, errors, cons } = await launch();
+await connect(page); await openChat(page);
+const gv = page.getByRole('button', { name: 'Game view' }); for (let n = 0; n < await gv.count(); n++) if (await gv.nth(n).isVisible()) { await gv.nth(n).click(); break; }
+await page.waitForTimeout(1500);
+const view = page.getByRole('dialog', { name: 'Game view' });
+const click = async (name) => { const b = view.getByRole('button', { name }); for (let n = 0; n < await b.count(); n++) if (await b.nth(n).isVisible()) { await b.nth(n).click(); await page.waitForTimeout(1800); return true; } return false; };
+console.log('tab', await click(/Fight/)); console.log('start', await click(/^\s*Fight\s*$/));
+await page.screenshot({ path: SC + `/${tag}-1start.png` });
+let rounds = 0;
+for (; rounds < 60 && await view.getByRole('button', { name: /^\s*Auto\s*$/ }).count(); rounds++) await click(/^\s*Auto\s*$/);
+const txt = (await view.innerText()).replace(/\n+/g, '\n');
+console.log('autoClicks', rounds);
+const i = txt.indexOf('Round'); console.log(txt.slice(i, i + 40).replace(/\n/g, ' '));
+const res = txt.match(/(VICTORY|DEFEATED|FLED|ESCAPED)[\s\S]{0,400}?Finish settles/);
+console.log(res ? res[0].replace(/\n/g, ' | ') : txt.slice(-900));
+console.log('LOGTAIL', txt.slice(txt.indexOf('LOG')).split('\n').slice(0, 14).join(' | '));
+await page.screenshot({ path: SC + `/${tag}-2end.png` });
+console.log('finish', await click(/^\s*Finish/)); await page.waitForTimeout(2500);
+const st = await ev(page, () => { const s = StoryBlock.sdk; return { party: s.query('rules.party', {}).active.map(a => ({ n: a.name, level: a.level, xp: a.xp, hp: a.hp, life: a.life })), quests: s.query('rules.quests', {}).map(x => [x.title, x.state, x.ready, JSON.stringify(x.objectives.map(o => o.progress ?? o.have ?? o.done ?? o.current ?? null))]), wallet: s.query('inventory.wallet', {}), rc: s.receipts().slice(-8).map(x => [x.index, x.receipt.id, x.receipt.type, (x.receipt.summary ?? '').slice(0, 400)]) }; });
+console.log(JSON.stringify(st, null, 1));
+await page.screenshot({ path: SC + `/${tag}-3finished.png` });
+console.log(JSON.stringify({ errors, cons: cons.filter(c => !/Settings not ready/.test(c)) }));
+await browser.close();

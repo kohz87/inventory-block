@@ -1,0 +1,41 @@
+import { writeFileSync } from 'node:fs';
+const t = (user, reply) => ({ user, reply });
+const C = lines => `\n\n<Changes>\n${lines.join('\n')}\n</Changes>`;
+const turns = [
+  t('I step off the barge and into the Guild Office.', 'Rain needles the quay behind Wessel as he shoulders into the Guild Office. The quartermaster, a heavy woman with a ledger, looks up from the board.' + C(['~ time CY 611, Goldwane 12, 6:40 am'])),
+  t('I study the job board.', 'A fresh slip is nailed to the board. The quartermaster taps it. "Plague rats in the storehouse. Eight at least. Five days, no more."' + C(['+ quest Granary Vermin | giver: the quartermaster | type: cull | goal: kill 8 plague rats in the storehouse | reward: 3 silver | due: in 5 days | difficulty: easy'])),
+  t('I look at the notice pinned apart.', 'Another scrap, grease-stained: a satchel was lost on the river road, and someone in Auvoth wants it back.' + C(['+ quest Lost Satchel | type: deliver | goal: bring the satchel to Auvoth | reward: 2 silver'])),
+  t('I ask the quartermaster about a rat bounty.', 'The quartermaster snorts. "Five thousand gold for one rat? Somebody is pulling your leg."' + C(['+ quest Rat Bounty | giver: the quartermaster | type: hunt | goal: kill a plague rat | reward: 5000 gold | due: in 2 days | difficulty: easy'])),
+  t('I take the granary job.', 'Marrit stamps the slip. "Eight of them at least," the quartermaster says, and points at the back door.' + C(['+ quest Granary Vermin'])),
+  t('I walk to the storehouse.', 'The storehouse stands at the end of the quay, its door swollen with damp.' + C(['! time +1h'])),
+  t('I open the storehouse door.', 'They boil out of the dark, a heaving carpet of teeth and mange.' + C(['! encounter 8 Plague Rat'])),
+  t('I come to on the guild bench.', 'The rats scatter and leave him bleeding in the straw. The quartermaster and a stable boy drag him back to the Guild Office, where he sleeps the day away.' + C(['! rest long — a day on the Guild Office bench'])),
+  t('I go back to the storehouse and try again.', 'Wessel limps back, knife out, and kicks the door open.' + C(['! encounter 8 Plague Rat'])),
+  t('I come round a second time.', 'It goes the same way. The quartermaster sighs and hauls him to the bench again.' + C(['! rest long — another day on the bench'])),
+  t('I go back a third time, more carefully.', 'This time he props the door and fights from the threshold, where they can only come one or two at a time.' + C(['! encounter 8 Plague Rat | tier: weak'])),
+  t('I wipe the blade and look around.', 'The storehouse is quiet. Droppings, gnawed sacks, and nothing that moves.' + C(['! time +30m'])),
+  t('I report back to the quartermaster.', 'The quartermaster counts the tails without comment and slides a purse across the desk.' + C(['- quest Granary Vermin — turned in'])),
+  t('I ask the quartermaster about the pit schools.', 'A scarred man on the bench by the stove looks up. "Pit work? I can show you a few dirty things, for a fee."' + C(['+ trainer Old Pit Hand — teaches pit tricks | like: open-pit-fighting'])),
+  t('I ask about a lamp run.', 'The signal keeper needs lamp oil torches brought up the quay.' + C(['+ quest Lamp Run | type: deliver | goal: bring 2 torches to the signal keeper | reward: 2 silver'])),
+  t('I hear of a missing boy.', 'A woman at the door begs for help finding her son.' + C(['+ quest The Missing Boy'])),
+  t('I walk out into the village.', 'The village is a single wet street running up from the water. The Watch Stores sit across from the quay.' + C(['~ place Bluewatch Village | kind: village | region: River Confederacy: Bluewatch'])),
+  t('I repair the Guild weir.', 'Fenna watches him haul the last stone into place and nods.' + C(["+ dm standing — repaired the Guild's weir | kind: gain | faction: guild | size: small"])),
+  t('I haul the barge crew out of the river.', 'Half the quay sees it. The crew-woman spits river water and swears she owes him a life.' + C(['+ dm fame — hauled the barge crew out of the river | kind: deed | region: bluewatch | size: notable | witnessed: true'])),
+  t('I do a quiet kindness nobody sees.', 'Nobody sees the stone mended in the dark.' + C(['+ dm fame — a quiet deed with no witness | kind: deed | region: bluewatch | size: small | witnessed: false'])),
+  t('I let word of it travel upriver.', 'By the next barge, the story is already ahead of him.' + C(['~ dm fame — word of the rescue travels | kind: spread | from: bluewatch | to: auvoth'])),
+  t('I sign the Guild register.', 'The clerk blots the page and turns the book around.' + C(['+ dm guild-membership — Wessel signs the Guild register | kind: register'])),
+  t('I earn milestone 1.', 'Another hard-won lesson settles in.' + C(['+ xp milestone — lesson 1 learned the hard way'])),
+  t('I earn milestone 2.', 'Another hard-won lesson settles in.' + C(['+ xp milestone — lesson 2 learned the hard way'])),
+  t('I earn milestone 3.', 'Another hard-won lesson settles in.' + C(['+ xp milestone — lesson 3 learned the hard way'])),
+  t('I earn milestone 4.', 'Another hard-won lesson settles in.' + C(['+ xp milestone — lesson 4 learned the hard way'])),
+  t('I earn milestone 5.', 'Another hard-won lesson settles in.' + C(['+ xp milestone — lesson 5 learned the hard way'])),
+  t('I earn milestone 6.', 'Another hard-won lesson settles in.' + C(['+ xp milestone — lesson 6 learned the hard way'])),
+  t('I earn milestone 7.', 'Another hard-won lesson settles in.' + C(['+ xp milestone — lesson 7 learned the hard way'])),
+  t('I earn milestone 8.', 'Another hard-won lesson settles in.' + C(['+ xp milestone — lesson 8 learned the hard way'])),
+  t('I earn milestone 9.', 'Another hard-won lesson settles in.' + C(['+ xp milestone — lesson 9 learned the hard way'])),
+  t('I earn milestone 10.', 'Another hard-won lesson settles in.' + C(['+ xp milestone — lesson 10 learned the hard way'])),
+  t('I walk back to the Guild Office.', 'Back through the rain to the Guild Office and the drill floor behind it.' + C(['~ place Bluewatch Village / Guild Office | kind: guild office | region: River Confederacy: Bluewatch'])),
+  t('I drill for an hour.', 'The drill sergeant barks; Wessel repeats the form until his arms shake.' + C(['! time +1h'])),
+];
+writeFileSync(new URL('./script.json', import.meta.url), JSON.stringify({ sideDefault: '', turns }, null, 1));
+console.log(turns.length);

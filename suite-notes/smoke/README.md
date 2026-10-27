@@ -12,3 +12,5 @@ Rebuild after a container restart: `bash suite-notes/smoke/setup.sh [ref]` (clon
   then history edits; report at /home/user/st-smoke/report.json. `rcpt.mjs` lists every receipt of the current chat.
 - Time lines use the pack calendar: `~ time CY 611, Goldwane 12, 8:00 am`, `! time +1h`.
 - Never stop processes with `pkill -f`/`pgrep -f` patterns (they match the shell itself); use the PID files.
+- `MOCK_PROMPTS=<file>` makes `mock.mjs` log every full prompt (JSON lines), to check told terms, one-shot lines and lorebook constants.
+- `ersveil/`: Ersveil 1.0.0 smoke helpers (27 Oct): `mkscript.mjs` writes the 32-turn Ersveil `script.json`; `lib.mjs` (output folder `SMOKE_OUT`, default /home/user/st-smoke/ersveil), `turn.mjs`, `qq.mjs` (queries), `fightall.mjs` (drives the Fight tab; its button matches `/Fight/`), `history.mjs` (delete/swipe/reload snapshots).

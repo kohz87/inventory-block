@@ -6,6 +6,7 @@ import { readFileSync, appendFileSync } from 'node:fs';
 
 const script = JSON.parse(readFileSync(new URL('./script.json', import.meta.url), 'utf8'));
 const log = process.env.MOCK_LOG ?? '/home/user/st-smoke/mock.log';
+const plog = process.env.MOCK_PROMPTS ?? null;
 const port = Number(process.env.MOCK_PORT ?? 5001);
 const text = m => typeof m?.content === 'string' ? m.content : Array.isArray(m?.content) ? m.content.map(p => p.text ?? '').join('') : '';
 
@@ -31,6 +32,7 @@ createServer((req, res) => {
         let parsed = {};
         try { parsed = JSON.parse(body || '{}'); } catch { /* ignore */ }
         const { kind, reply } = answer(parsed.messages ?? []);
+        if (plog) appendFileSync(plog, JSON.stringify({ at: new Date().toISOString(), kind, messages: (parsed.messages ?? []).map(m => ({ role: m.role, content: text(m) })) }) + '\n');
         appendFileSync(log, JSON.stringify({ at: new Date().toISOString(), url: req.url, kind, stream: !!parsed.stream, lastUser: (parsed.messages ?? []).filter(m => m.role === 'user').map(text).at(-1)?.slice(0, 160), system: text((parsed.messages ?? [])[0]).slice(0, 160) }) + '\n');
         if (parsed.stream) {
             res.writeHead(200, { 'content-type': 'text/event-stream', 'cache-control': 'no-cache' });
