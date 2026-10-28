@@ -16,6 +16,7 @@ For FUTURE outages with no stated time: available again 4 hours after the moment
 **VM ORCHESTRATOR (27 Oct 14:00 UTC, USER's instructions):** polls every 10 minutes until 01:00 UTC 28 Oct; a READY job starts as soon as an account is free, no further go-ahead; live exit/error watch per job; capacity/credit stops recorded with WIP pushed to the job's own branch (no force). So: mark a job READY only when its heads are final.
 
 Order (run top to bottom):
+ST39. 136 — READY — LEAD GO-AHEAD (first free account). Terra 6.1 max REVIEW of SB 2.5.3 (Ersveil 2.0.0 open world) on stage11/ersveil-open f93e342 (read-only). File: 136-terra-ersveil-open-review.md.
 ST38. 135 — DONE 06:09 UTC on A (HOLDS: no blockers under the regression-only rule; results in vm-results/135.md). Terra 6.1 max final regression-only check of the UI release.
 ST37. 134 — DONE 05:40 UTC on B (BLOCK 3; three open touch-size blockers, results in vm-results/134.md). Terra 6.1 max second re-check of 133's blockers.
 ST36. 133 — DONE 05:00 UTC on A (BLOCK 3; three open layout/hit-area blockers, results in vm-results/133.md). WAS RUNNING since 04:55 UTC. Terra 6.1 max re-check of 132's six blockers.
