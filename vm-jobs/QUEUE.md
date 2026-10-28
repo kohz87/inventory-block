@@ -17,6 +17,7 @@ For FUTURE outages with no stated time: available again 4 hours after the moment
 
 Order (run top to bottom):
 ST28. 125 — DONE 12:46 UTC on B (Terra 6.1 max; BLOCK 7, all RB → Claude fix; balance acceptable). WAS: FINAL cross-repo review on SB 4eacd32 / RB ce3dbec / Studio 10555f9.
+ST34. 131 — READY — LEAD GO-AHEAD (first free account), 00:25 UTC 28 Oct. Terra 6.1 max FINAL REGRESSION CHECK after the scope cut on RB ea346c6, SB 899a3ee (read-only).
 ST33. 130 — DONE 22:35 UTC on B (BLOCK 5; five open blockers, results in vm-results/130.md). WAS RUNNING since 22:24 UTC. Terra 6.1 max FIFTH RE-CHECK of 129's 4 blockers on RB e869c13, SB 899a3ee (read-only).
 ST32. 129 — DONE 19:04 UTC on A (Terra 6.1 max fourth re-check; BLOCK 4 → Claude fix). WAS: fourth re-check on RB 38bb5ac / SB 899a3ee.
 ST31. 128 — DONE 17:14 UTC on A (Terra 6.1 max third re-check; BLOCK 6 → Claude fix). WAS: third re-check after the redesign on RB 9c2202e / SB 899a3ee.
