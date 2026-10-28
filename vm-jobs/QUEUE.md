@@ -20,9 +20,9 @@ Accounts (USER, 28 Oct): A out of credit, resets at 17:25 UTC; B has quota now (
 Order (run top to bottom):
 ST45. 139 — READY FROM 17:25 UTC ON ACCOUNT A — LEAD GO-AHEAD. Terra 6.1 max REVIEW of the RB removal: SB f74bab2, SD b6201b9, Studio 4f2023b (stage12/remove-rb; read-only). File: 139-terra-remove-rb-review.md. ACK: /tmp/go138 can be deleted.
 ST44. 138d — DONE 13:47 UTC on B (build run finished, exit 0; SB f74bab2, SD b6201b9, Studio 23b5d8a pushed to stage12/remove-rb; Studio's 72 browser cases unrun (no Chromium); not yet reviewed; results in vm-results/138d.md).
-ST43. 138c — STOPPED 13:08 UTC on A: out of credits. WIP pushed: SB 1640b69, SD 3b96dd6, Studio de809bb (results in vm-results/138c.md). Do not re-run until the lead says.
+ST43. 138c — DONE (SUPERSEDED by 138d; nothing to re-run). WAS: STOPPED 13:08 UTC on A: out of credits. WIP pushed: SB 1640b69, SD 3b96dd6, Studio de809bb (results in vm-results/138c.md). Do not re-run until the lead says.
 ST42. 138b — DONE 12:42 UTC on A (INCOMPLETE: SB cbcb075 and SD d5d435c pushed as WIP; Studio fcfcb75 on remote, 49 uncommitted files; RB audit matches open; results in vm-results/138b.md). Lead decides the next build pass.
-ST41. 138 — STOPPED 08:56 UTC on B: out of credits (Codex build, incomplete). WIP pushed to stage12/remove-rb: SB 8a35a1e, SD 7f79288, Studio fcfcb75. Results in vm-results/138.md. Do not re-run without the lead.
+ST41. 138 — DONE (SUPERSEDED: finished by 138b/138c/138d and the lead's Studio fix 4f2023b; nothing to re-run). WAS: STOPPED 08:56 UTC on B: out of credits (Codex build, incomplete). WIP pushed to stage12/remove-rb: SB 8a35a1e, SD 7f79288, Studio fcfcb75. Results in vm-results/138.md. Do not re-run without the lead.
 ST40. 137 — DONE 07:58 UTC on A (HOLDS: both 136 blockers addressed; ee60c76; results in vm-results/137.md). Terra 6.1 max re-check of 136.
 ST39. 136 — DONE 07:41 UTC on B (BLOCK 2; two open blockers: 1.0.0 chats lose Bluewatch shops and economy scale on 2.0.0 import; Bluewatch dusk event has no end time. Results in vm-results/136.md).
 ST38. 135 — DONE 06:09 UTC on A (HOLDS: no blockers under the regression-only rule; results in vm-results/135.md). Terra 6.1 max final regression-only check of the UI release.
