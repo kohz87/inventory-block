@@ -1727,3 +1727,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
 - 28 Oct 12:19 UTC — USER: quota has been reset, proceed → 138b READY NOW (any account with credit). Lead also generating the swarm manifest (MAP.json + slice plan) for SB/SD, as offered.
 - 28 Oct 12:20 UTC — USER: the swarm isn't available yet → manifest generation dropped (nothing written). 138b stays READY.
 - 28 Oct 12:21 UTC (VM): 138b started on A (resume from SB 8a35a1e, SD 7f79288, Studio fcfcb75; NSD 80a4532).
+- 28 Oct 12:42 UTC: VM JOB 138b (A) INCOMPLETE: SB cbcb075 (Node 24: 3,415 pass, 0 fail), SD d5d435c (933 pass, 0 fail), Studio still fcfcb75 on remote with 49 uncommitted files in /tmp/go138 (22 test files fail; Chromium can't launch in the VM sandbox); RB grep hits remain; SB+SD+NSD matrix 53/0. Queued 138c (resume 2, account A, same clone): Studio first (browser-only failures may be committed and listed; lead runs browser tests here), then the grep audit, versions/docs, final checks.
