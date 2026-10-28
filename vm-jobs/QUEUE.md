@@ -16,7 +16,7 @@ For FUTURE outages with no stated time: available again 4 hours after the moment
 **VM ORCHESTRATOR (27 Oct 14:00 UTC, USER's instructions):** polls every 10 minutes until 01:00 UTC 28 Oct; a READY job starts as soon as an account is free, no further go-ahead; live exit/error watch per job; capacity/credit stops recorded with WIP pushed to the job's own branch (no force). So: mark a job READY only when its heads are final.
 
 Order (run top to bottom):
-ST41. 138 — WAITING (USER go-ahead pending). Codex BUILD: remove RPG Battle support from SB/SD/Studio on stage12/remove-rb. File: 138-codex-remove-rb.md. Then 139 = review on the other account.
+ST41. 138 — READY — LEAD GO-AHEAD (USER 28 Oct: proceed). RUN ON ACCOUNT B ONLY (USER: account A is fully consumed). Codex BUILD: remove RPG Battle support from SB/SD/Studio on stage12/remove-rb. File: 138-codex-remove-rb.md. Review 139 follows (also on B unless A has reset; a fresh session, not the builder's).
 ST40. 137 — DONE 07:58 UTC on A (HOLDS: both 136 blockers addressed; ee60c76; results in vm-results/137.md). Terra 6.1 max re-check of 136.
 ST39. 136 — DONE 07:41 UTC on B (BLOCK 2; two open blockers: 1.0.0 chats lose Bluewatch shops and economy scale on 2.0.0 import; Bluewatch dusk event has no end time. Results in vm-results/136.md).
 ST38. 135 — DONE 06:09 UTC on A (HOLDS: no blockers under the regression-only rule; results in vm-results/135.md). Terra 6.1 max final regression-only check of the UI release.
