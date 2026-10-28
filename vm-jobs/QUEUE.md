@@ -16,6 +16,7 @@ For FUTURE outages with no stated time: available again 4 hours after the moment
 **VM ORCHESTRATOR (27 Oct 14:00 UTC, USER's instructions):** polls every 10 minutes until 01:00 UTC 28 Oct; a READY job starts as soon as an account is free, no further go-ahead; live exit/error watch per job; capacity/credit stops recorded with WIP pushed to the job's own branch (no force). So: mark a job READY only when its heads are final.
 
 Order (run top to bottom):
+ST35. 132 — READY — LEAD GO-AHEAD (first free account). Terra 6.1 max REVIEW of the UI release: SB stage10/ui-size 26c637f + SD stage10/ui-size 6a20553 (read-only). File: 132-terra-ui-size-review.md.
 ST28. 125 — DONE 12:46 UTC on B (Terra 6.1 max; BLOCK 7, all RB → Claude fix; balance acceptable). WAS: FINAL cross-repo review on SB 4eacd32 / RB ce3dbec / Studio 10555f9.
 ST34. 131 — DONE 00:31 UTC on A (BLOCK 1; explicit activation ignores the switch at pin time; results in vm-results/131.md). WAS RUNNING since 00:23 UTC. Terra 6.1 max FINAL REGRESSION CHECK after the scope cut on RB ea346c6, SB 899a3ee (read-only).
 ST33. 130 — DONE 22:35 UTC on B (BLOCK 5; five open blockers, results in vm-results/130.md). WAS RUNNING since 22:24 UTC. Terra 6.1 max FIFTH RE-CHECK of 129's 4 blockers on RB e869c13, SB 899a3ee (read-only).
