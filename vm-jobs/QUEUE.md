@@ -15,7 +15,7 @@ For FUTURE outages with no stated time: available again 4 hours after the moment
 
 **VM ORCHESTRATOR (27 Oct 14:00 UTC, USER's instructions):** polls every 10 minutes until 01:00 UTC 28 Oct; a READY job starts as soon as an account is free, no further go-ahead; live exit/error watch per job; capacity/credit stops recorded with WIP pushed to the job's own branch (no force). So: mark a job READY only when its heads are final.
 
-Accounts (USER, 28 Oct): A out of credit, resets at 17:25 UTC; B has full quota (running the RB removal). Review 139 goes to A from 17:25 UTC (a fresh account, not the builder's), or a fresh B session if earlier.
+Accounts (USER, 28 Oct): A out of credit, resets at 17:25 UTC; B has quota now (running the RB removal), its next reset is 18:13 UTC. Review 139 goes to A from 17:25 UTC (a fresh account, not the builder's), or a fresh B session if earlier.
 
 Order (run top to bottom):
 ST44. 138d — READY — LEAD GO-AHEAD. ACCOUNT B (USER: full quota). Codex BUILD RESUME 3 of the RB removal, SAME clone /tmp/go138 (keep SB's 21 and Studio's 14 uncommitted files). File: 138d-codex-remove-rb-resume3.md.

@@ -1731,3 +1731,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
 - 28 Oct 13:08 UTC: VM JOB 138c (A) STOPPED on credits; WIP pushed: SB 1640b69 (+3), SD 3b96dd6 (+2), Studio de809bb (+1); uncommitted on the VM: SB 21 files, Studio 14. Both Codex accounts out. Lead cancelled the 13:15 check-in; asked USER: wait for Codex credit or Claude finishes from the pushed heads.
 - 28 Oct — USER: account B has full quota → VM JOB 138d (resume 3, B, same clone /tmp/go138) READY.
 - 28 Oct — USER: Codex account A resets at 17:25 UTC. Plan: review 139 on A from 17:25 (not the builder's account), unless the build finishes much earlier (then a fresh B session).
+- 28 Oct — USER: Codex account B resets at 18:13 UTC (if 138d runs B out, the next pass waits for A at 17:25 or B at 18:13).
