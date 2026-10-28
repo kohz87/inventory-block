@@ -16,7 +16,7 @@ For FUTURE outages with no stated time: available again 4 hours after the moment
 **VM ORCHESTRATOR (27 Oct 14:00 UTC, USER's instructions):** polls every 10 minutes until 01:00 UTC 28 Oct; a READY job starts as soon as an account is free, no further go-ahead; live exit/error watch per job; capacity/credit stops recorded with WIP pushed to the job's own branch (no force). So: mark a job READY only when its heads are final.
 
 Order (run top to bottom):
-ST43. 138c — READY — LEAD GO-AHEAD. Codex BUILD RESUME 2 of the RB removal, account A, SAME clone /tmp/go138 (keep Studio's uncommitted files). File: 138c-codex-remove-rb-resume2.md.
+ST43. 138c — STOPPED 13:08 UTC on A: out of credits. WIP pushed: SB 1640b69, SD 3b96dd6, Studio de809bb (results in vm-results/138c.md). Do not re-run until the lead says.
 ST42. 138b — DONE 12:42 UTC on A (INCOMPLETE: SB cbcb075 and SD d5d435c pushed as WIP; Studio fcfcb75 on remote, 49 uncommitted files; RB audit matches open; results in vm-results/138b.md). Lead decides the next build pass.
 ST41. 138 — STOPPED 08:56 UTC on B: out of credits (Codex build, incomplete). WIP pushed to stage12/remove-rb: SB 8a35a1e, SD 7f79288, Studio fcfcb75. Results in vm-results/138.md. Do not re-run without the lead.
 ST40. 137 — DONE 07:58 UTC on A (HOLDS: both 136 blockers addressed; ee60c76; results in vm-results/137.md). Terra 6.1 max re-check of 136.
