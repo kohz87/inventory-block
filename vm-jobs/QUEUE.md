@@ -18,7 +18,7 @@ For FUTURE outages with no stated time: available again 4 hours after the moment
 Accounts (USER, 28 Oct): A out of credit, resets at 17:25 UTC; B has quota now (running the RB removal), its next reset is 18:13 UTC. Review 139 goes to A from 17:25 UTC (a fresh account, not the builder's), or a fresh B session if earlier.
 
 Order (run top to bottom):
-ST44. 138d — READY — LEAD GO-AHEAD. ACCOUNT B (USER: full quota). Codex BUILD RESUME 3 of the RB removal, SAME clone /tmp/go138 (keep SB's 21 and Studio's 14 uncommitted files). File: 138d-codex-remove-rb-resume3.md.
+ST44. 138d — DONE 13:47 UTC on B (build run finished, exit 0; SB f74bab2, SD b6201b9, Studio 23b5d8a pushed to stage12/remove-rb; Studio's 72 browser cases unrun (no Chromium); not yet reviewed; results in vm-results/138d.md).
 ST43. 138c — STOPPED 13:08 UTC on A: out of credits. WIP pushed: SB 1640b69, SD 3b96dd6, Studio de809bb (results in vm-results/138c.md). Do not re-run until the lead says.
 ST42. 138b — DONE 12:42 UTC on A (INCOMPLETE: SB cbcb075 and SD d5d435c pushed as WIP; Studio fcfcb75 on remote, 49 uncommitted files; RB audit matches open; results in vm-results/138b.md). Lead decides the next build pass.
 ST41. 138 — STOPPED 08:56 UTC on B: out of credits (Codex build, incomplete). WIP pushed to stage12/remove-rb: SB 8a35a1e, SD 7f79288, Studio fcfcb75. Results in vm-results/138.md. Do not re-run without the lead.
