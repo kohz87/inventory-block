@@ -18,7 +18,7 @@ For FUTURE outages with no stated time: available again 4 hours after the moment
 Accounts (USER, 28 Oct): A out of credit, resets at 17:25 UTC; B has quota now (running the RB removal), its next reset is 18:13 UTC. Review 139 goes to A from 17:25 UTC (a fresh account, not the builder's), or a fresh B session if earlier.
 
 Order (run top to bottom):
-ST45. 139 — READY FROM 17:25 UTC ON ACCOUNT A (fresh session, fresh clone) — LEAD GO-AHEAD (USER: A resets 17:25 UTC). Earlier try on B STOPPED 15:03 UTC on credits (no verdict; vm-results/139.md). Terra 6.1 max REVIEW of the RB removal: SB f74bab2, SD b6201b9, Studio 4f2023b (stage12/remove-rb; read-only). File: 139-terra-remove-rb-review.md.
+ST45. 139 — DONE on A (BLOCK 6; six open blockers: actor setup, rbActors migration, 50-item loot limit, inventory.grant button, stale docs, Delta README. Results in vm-results/139.md).
 ST44. 138d — DONE 13:47 UTC on B (build run finished, exit 0; SB f74bab2, SD b6201b9, Studio 23b5d8a pushed to stage12/remove-rb; Studio's 72 browser cases unrun (no Chromium); not yet reviewed; results in vm-results/138d.md).
 ST43. 138c — DONE (SUPERSEDED by 138d; nothing to re-run). WAS: STOPPED 13:08 UTC on A: out of credits. WIP pushed: SB 1640b69, SD 3b96dd6, Studio de809bb (results in vm-results/138c.md). Do not re-run until the lead says.
 ST42. 138b — DONE 12:42 UTC on A (INCOMPLETE: SB cbcb075 and SD d5d435c pushed as WIP; Studio fcfcb75 on remote, 49 uncommitted files; RB audit matches open; results in vm-results/138b.md). Lead decides the next build pass.
