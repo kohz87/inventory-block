@@ -1647,3 +1647,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
 - 28 Oct 00:27 UTC: release prep while 131 runs: Studio re-sync to SB 899a3ee (records the final 2.5.0 commit); stage9/ersveil-pack to merge stage8 899a3ee (merge commit) + tests/matrix vs RB ea346c6.
 - 28 Oct 00:23 UTC (VM): 131 started on A (Terra max) on RB ea346c6 / SB 899a3ee.
 - 28 Oct: stage9/ersveil-pack merged stage8 899a3ee (merge 789341c, no conflicts); 3891 tests, 0 fail on Node 22 and 24; kit checker OK; matrix 109/19 vs RB ea346c6. Ready for its PR after 2.5.0 merges.
+- 28 Oct: Studio re-synced to SB 899a3ee (studio/generative-offers 79c8130): 968 tests, 0 fail on Node 22 and 24; goldens unchanged; dist sha256 1c4ff81a…, reproducible. All three release heads ready: SB 899a3ee, RB ea346c6, Studio 79c8130; SB 2.5.1 stage9 789341c. Waiting on VM 131.
