@@ -1726,3 +1726,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
 - 28 Oct ~09:05 UTC — USER: Codex accounts reset about 4 h later. VM JOB 138b (resume of 138 from the WIP heads) READY from ≈13:00 UTC on whichever account resets first; review 139 after it.
 - 28 Oct 12:19 UTC — USER: quota has been reset, proceed → 138b READY NOW (any account with credit). Lead also generating the swarm manifest (MAP.json + slice plan) for SB/SD, as offered.
 - 28 Oct 12:20 UTC — USER: the swarm isn't available yet → manifest generation dropped (nothing written). 138b stays READY.
+- 28 Oct 12:21 UTC (VM): 138b started on A (resume from SB 8a35a1e, SD 7f79288, Studio fcfcb75; NSD 80a4532).
