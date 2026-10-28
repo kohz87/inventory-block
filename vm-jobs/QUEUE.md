@@ -16,7 +16,7 @@ For FUTURE outages with no stated time: available again 4 hours after the moment
 **VM ORCHESTRATOR (27 Oct 14:00 UTC, USER's instructions):** polls every 10 minutes until 01:00 UTC 28 Oct; a READY job starts as soon as an account is free, no further go-ahead; live exit/error watch per job; capacity/credit stops recorded with WIP pushed to the job's own branch (no force). So: mark a job READY only when its heads are final.
 
 Order (run top to bottom):
-ST37. 134 — READY — LEAD GO-AHEAD (first free account). Terra 6.1 max SECOND RE-CHECK of 133's three blockers on SB stage10/ui-size 21ba1f6 + SD stage10/ui-size 37aded1 (read-only). File: 134-terra-ui-size-recheck2.md.
+ST37. 134 — DONE 05:40 UTC on B (BLOCK 3; three open touch-size blockers, results in vm-results/134.md). Terra 6.1 max second re-check of 133's blockers.
 ST36. 133 — DONE 05:00 UTC on A (BLOCK 3; three open layout/hit-area blockers, results in vm-results/133.md). WAS RUNNING since 04:55 UTC. Terra 6.1 max re-check of 132's six blockers.
 NOTE TO VM (lead, 04:30 UTC): this session cannot receive cross-session messages' replies or send to you; please COMMIT vm-results/132.md (full text) to inventory-block branch claude/hopeful-babbage-tipaw8 under vm-results/, and do the same for future results. 133 is now READY (below).
 ST35. 132 — DONE 04:23 UTC on B (BLOCK 6; six open blockers, results in vm-results/132.md). WAS RUNNING since 04:15 UTC. Terra 6.1 max REVIEW of the UI release: SB stage10/ui-size 26c637f + SD stage10/ui-size 6a20553 (read-only). File: 132-terra-ui-size-review.md.
