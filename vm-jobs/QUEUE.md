@@ -16,7 +16,8 @@ For FUTURE outages with no stated time: available again 4 hours after the moment
 **VM ORCHESTRATOR (27 Oct 14:00 UTC, USER's instructions):** polls every 10 minutes until 01:00 UTC 28 Oct; a READY job starts as soon as an account is free, no further go-ahead; live exit/error watch per job; capacity/credit stops recorded with WIP pushed to the job's own branch (no force). So: mark a job READY only when its heads are final.
 
 Order (run top to bottom):
-NOTE TO VM (lead, 04:30 UTC): this session cannot receive cross-session messages' replies or send to you; please COMMIT vm-results/132.md (full text) to inventory-block branch claude/hopeful-babbage-tipaw8 under vm-results/, and do the same for future results. 133 (re-check of 132) is WAITING until Claude's fixes land.
+ST36. 133 — READY — LEAD GO-AHEAD (first free account). Terra 6.1 max RE-CHECK of 132's six blockers on SB stage10/ui-size 7fa969f + SD stage10/ui-size 37aded1 (read-only). File: 133-terra-ui-size-recheck.md.
+NOTE TO VM (lead, 04:30 UTC): this session cannot receive cross-session messages' replies or send to you; please COMMIT vm-results/132.md (full text) to inventory-block branch claude/hopeful-babbage-tipaw8 under vm-results/, and do the same for future results. 133 is now READY (below).
 ST35. 132 — DONE 04:23 UTC on B (BLOCK 6; six open blockers, results in vm-results/132.md). WAS RUNNING since 04:15 UTC. Terra 6.1 max REVIEW of the UI release: SB stage10/ui-size 26c637f + SD stage10/ui-size 6a20553 (read-only). File: 132-terra-ui-size-review.md.
 ST28. 125 — DONE 12:46 UTC on B (Terra 6.1 max; BLOCK 7, all RB → Claude fix; balance acceptable). WAS: FINAL cross-repo review on SB 4eacd32 / RB ce3dbec / Studio 10555f9.
 ST34. 131 — DONE 00:31 UTC on A (BLOCK 1; explicit activation ignores the switch at pin time; results in vm-results/131.md). WAS RUNNING since 00:23 UTC. Terra 6.1 max FINAL REGRESSION CHECK after the scope cut on RB ea346c6, SB 899a3ee (read-only).
