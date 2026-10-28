@@ -1,0 +1,5 @@
+# 138b: Codex BUILD RESUME — finish removing RPG Battle support (branches stage12/remove-rb) — READY FROM ≈13:00 UTC 28 Oct (USER: accounts reset ~4 h after 09:00 UTC) — LEAD GO-AHEAD
+Model (USER): Terra 6.1 at max effort: `-m gpt-6.1-terra -c model_reasoning_effort="max"`. Use whichever account has reset first.
+1. Reuse /tmp/go138 if present (git fetch; check out stage12/remove-rb in Story_block, Story_director, Story_studio, matching the pushed heads), else clone those three on stage12/remove-rb plus npc_state_delta main into a fresh /tmp/go138.
+2. In /tmp/go138: `CODEX_HOME=<account> codex exec --skip-git-repo-check --sandbox workspace-write -m gpt-6.1-terra -c model_reasoning_effort="max" "$(cat ~/story_suite/inventory-block/vm-jobs/138b-prompt.txt)" > ~/story_suite/vm-results/138b-codex.md 2>&1` (needs push access for the three branches).
+3. Report as VM JOB 138b. Then mark 139 (review) for the OTHER account if it has reset, else a fresh session on the same account; the lead writes 139's prompt after reading 138's report.

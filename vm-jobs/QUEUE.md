@@ -16,6 +16,7 @@ For FUTURE outages with no stated time: available again 4 hours after the moment
 **VM ORCHESTRATOR (27 Oct 14:00 UTC, USER's instructions):** polls every 10 minutes until 01:00 UTC 28 Oct; a READY job starts as soon as an account is free, no further go-ahead; live exit/error watch per job; capacity/credit stops recorded with WIP pushed to the job's own branch (no force). So: mark a job READY only when its heads are final.
 
 Order (run top to bottom):
+ST42. 138b — READY FROM ≈13:00 UTC 28 Oct — LEAD GO-AHEAD (USER: accounts reset about 4 h after 09:00 UTC). Codex BUILD RESUME of 138 on stage12/remove-rb (any account that has reset). File: 138b-codex-remove-rb-resume.md. Do not start before an account has credit again.
 ST41. 138 — STOPPED 08:56 UTC on B: out of credits (Codex build, incomplete). WIP pushed to stage12/remove-rb: SB 8a35a1e, SD 7f79288, Studio fcfcb75. Results in vm-results/138.md. Do not re-run without the lead.
 ST40. 137 — DONE 07:58 UTC on A (HOLDS: both 136 blockers addressed; ee60c76; results in vm-results/137.md). Terra 6.1 max re-check of 136.
 ST39. 136 — DONE 07:41 UTC on B (BLOCK 2; two open blockers: 1.0.0 chats lose Bluewatch shops and economy scale on 2.0.0 import; Bluewatch dusk event has no end time. Results in vm-results/136.md).
