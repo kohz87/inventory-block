@@ -1,0 +1,5 @@
+RESUME OF BUILD JOB 147 (you WRITE code). Read vm-jobs/147-prompt.txt (the brief still applies in full), vm-results/147.md and suite-notes/SPEC_BLOCKS.md (§5 first, then §3; §0 and §4 throughout).
+Work in the SAME clone /tmp/go147 on stage14/edit-blocks at 27ea561. It holds three uncommitted files from the stopped run (src/v2/data-modules/part.js, src/v2/data-modules/setup.js, src/v2/strings.js): keep them, finish them, commit them. Don't re-clone.
+Done so far in part A: §5.2 (1648453), §5.1 (48615e7), §5.3 (27ea561). Still to do in part A: §5.4 (Setup card pencils, probably the uncommitted work), §5.5, §5.6. Then declare the part-A head (full suite + matrix at it), then part B.
+Same rules: no force-push, PRs, merges or tags, and nothing to main; plain commit messages with no trailers and no AI or model names; commit locally if push can't reach GitHub (the coordinator pushes).
+Report: vm-results/147.md (replace the stop note), as specified in 147-prompt.txt.
