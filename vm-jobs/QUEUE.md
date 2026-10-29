@@ -18,6 +18,7 @@ For FUTURE outages with no stated time: available again 4 hours after the moment
 Accounts (USER, 28 Oct): A out of credit, resets at 17:25 UTC; B has quota now (running the RB removal), its next reset is 18:13 UTC. Review 139 goes to A from 17:25 UTC (a fresh account, not the builder's), or a fresh B session if earlier.
 
 Order (run top to bottom):
+ST48. 142 — READY — LEAD GO-AHEAD (any account with credit; fresh session). Terra 6.1 max FINAL RE-CHECK of the RB removal on SB d3413fe, SD 7b13c10, Studio 2e0a4d2, NSD 42ad1c4 (read-only; loot-replay and Studio-tab findings are pre-existing follow-ups). File: 142-terra-remove-rb-final.md.
 ST47. 141 — DONE 19:11 UTC on A (BLOCK 1: loot Take lacks a replay dependency on its source offer; results in vm-results/141.md). Re-check of 140.
 ST46. 140 — DONE 18:42 UTC on A (BLOCK 3; three open blockers: impossible 51-item take on disabled pack, standalone Studio layouts not registered as host tabs, status-card ready-quest example; results in vm-results/140.md). Re-check of 139.
 ST45. 139 — DONE 17:41 UTC on A (BLOCK 6; six open blockers: actor setup, rbActors migration, 50-item loot limit, inventory.grant button, stale docs, Delta README. Results in vm-results/139.md).
