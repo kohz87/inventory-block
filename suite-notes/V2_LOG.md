@@ -1789,3 +1789,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
 - 29 Oct ~14:25 UTC: lead fixed both (small, blocks.js): every pinned chat block listed (show only picks tab/card); the shared renderer draws only label-free UI kinds; DATA_MODULES note; tests/v2/blocks/review-151.test.js (fails without the fix). SB 2097c40. Here (Node 22, browsers): check OK; 3596 tests, 3585 pass, 0 fail. VM JOB 152 (small regression re-check) READY.
 - 29 Oct 14:15 UTC (VM): 152 started on A at 2097c40 (B out of credit at start).
 - 29 Oct 14:17 UTC (VM): 152 did not run — A and B both out of credit at start (no verdict). Re-run when an account has credit (queue line STOPPED; rerun as-is at 2097c40).
+- 29 Oct ~14:20 UTC — USER: resets A 00:51 SGT (16:51 UTC), B 01:58 SGT (17:58 UTC). 152 runs on A from 16:52 UTC.
