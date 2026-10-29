@@ -1,0 +1,10 @@
+FIX JOB 150 (you WRITE code): Story Block 2.7.0 on stage14/edit-blocks at 9b0036a. Apply suite-notes/SPEC_BLOCKS.md §7 (the lead's decisions on review 148r). Read vm-results/148.md for the repros.
+Repo: fresh clone (or /tmp/go149 if clean at 9b0036a); continue on the branch. No force-push, PRs, merges or tags, and nothing to main. Plain commit messages with no trailers and no AI or model names. Commit locally if push can't reach GitHub (the coordinator pushes).
+Do:
+- §7.1: docs only, plus a test proving a non-leading reply's delete and swipe take its edits back (wallet.set, inventory.add, a scene edit, dm.set).
+- §7.2: inventory add/edit guards witness destination and compatibility. Turn the reviewer's two repros into tests.
+- §7.3: imported exported blocks keep tab, card and buttons, with chat-only actions hidden. Test it after a real export → import → enable.
+- §7.4: error placement and docs.
+Never loosen existing tests.
+Final checks on Node 24: npm run check; full suite (individual counts); git diff --check; strict matrix (SD adcb8ab, NSD 1741400; 0 FAIL); 60-seed replay and data-module fuzz.
+Report: vm-results/150.md (head, commits, counts), committed to inventory-block claude/hopeful-babbage-tipaw8.

@@ -298,3 +298,26 @@ Layer 1 is on `stage14/edit-blocks` at c37df69. These finish it; they are done f
    the new reader commands.
 6. **Release shape:** one release, 2.7.0, with both layers; no separate layer-1 head. The lead does the browser checks
    (computed styles, 44 px targets, zoom, mockup match).
+
+## 7. Lead decisions after review 148r (29 Oct). Head 9b0036a.
+1. **148r blocker 1 (an edit survives deletion of the leading reply that carries it) is not a blocker.**
+   - Deleting the oldest remaining replies carries their state forward. That is the documented leading-history carry
+     (REPLAY.md), and it already applies to every story change in those replies; main does it for scene UI commands too.
+   - Reader edits follow the same rule as the story changes of their reply:
+     - deleting or swiping a reply that is not the oldest remaining one takes its edits back (tested);
+     - deleting the oldest remaining replies keeps what they did, edits included.
+   - Fix the docs, not the store: SPEC "reader edits", REPLAY "Leading history", the card hint's help text and GUIDE
+     say this plainly. No `replyBound` change for edits.
+2. **148r blocker 2 is real.** Inventory add and edit guards must witness the inputs that chose a merge or a destination:
+   - the name resolution, the destination stack, and the compatibility inputs (note, equipped, condition, key, owner);
+   - if they changed, the edit stays off with `REPLAY_PREREQUISITE` (a Problem), as other changed prerequisites do;
+   - add the reviewer's two Re-read repros as tests (live, rebuild and reload).
+3. **148r blocker 3 is real.** A block exported as a pack and imported keeps its presentation and buttons:
+   - the shared block renderer draws any pinned definition that has a `show` key (tab, card or both, with Button
+     functions as `dm.act` buttons);
+   - chat-only actions (Edit fields, Remove, Save as template) appear only for `pack.chat/*`;
+   - test the imported tab, the Home card and a button press after import.
+4. **Non-blocking notes from 148r are to be fixed in the same pass:**
+   - the editor's error goes beside the bad effect Value control;
+   - REPLAY.md's guard list includes `dm.set`, the block predicates and the inventory edit guard dispatch;
+   - DATA_MODULES.md's command table includes `dm.define`, `dm.redefine` and `dm.remove`.
