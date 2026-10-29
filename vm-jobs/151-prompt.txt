@@ -1,0 +1,9 @@
+REVIEW RE-CHECK 151 (READ-ONLY toward GitHub, except committing your result file): Story Block 2.7.0 on kohz87/Story_block stage14/edit-blocks at the head named in the queue line, vs main d5fdb46. Fresh session, fresh clone.
+First confirm the 148r findings are closed per the lead's decisions in suite-notes/SPEC_BLOCKS.md §7 (vm-results/148.md has the repros):
+- 148r blocker 1 is accepted as leading-history carry (§7.1). Check that the docs now say so and that a non-leading delete or swipe takes edits back.
+- Blockers 2 and 3 must be fixed, with tests.
+Then do a regression-only pass over what changed since 9b0036a; the full brief in vm-jobs/148-prompt.txt applies to that range.
+A BLOCKER is a real path a reader or a story can hit, with a repro. Pre-existing behaviour on main, and anything the lead decided in §5–§7, is a follow-up, not a blocker.
+Run on Node 24: npm run check; full suite (individual counts); git diff --check; strict matrix (SD adcb8ab, NSD 1741400); 60-seed replay and data-module fuzz.
+Verdict line: HOLDS or BLOCK n.
+Write vm-results/151.md (verdict, blockers with repro and file:line, notes, counts) and commit it to inventory-block claude/hopeful-babbage-tipaw8. Use model gpt-6.1-terra with model_reasoning_effort=max.
