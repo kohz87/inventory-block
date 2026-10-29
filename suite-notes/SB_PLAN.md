@@ -74,9 +74,9 @@ stored in the chat, reusable as a template or exported as a pack. Limits from da
 - Optional "UI packs" (swappable designs): +2–3 days groundwork in `ui-host.js` / `view/screens.js`.
 
 ## Suggested order
-P0 (done) → P1 + P2 + P3 (one build; postponed until after the reset, Sat 31 Oct 11:00 SGT) → P4 → P5 → P6 when a direction is chosen.
+P0 (done) → P1 + P2 + P3 (spec suite-notes/SPEC_BLOCKS.md; Codex builds: 146 = P1+P2, 147 = P3) → P4 → P5 → P6 when a direction is chosen.
 
 ## Waiting on the user
-1. Approve the editing / custom-block mockup (https://claude.ai/artifact/BbfrQUEdAWhbX9aswEyN4d).
+1. (Done 29 Oct: mockup approved — USER "proceed".)
 2. P6 direction (minimal/flat, classic RPG, MVU-style, mobile HUD, or a reference).
 3. P5 decisions A, B and the roll trigger (before P5 starts).
