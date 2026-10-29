@@ -18,6 +18,7 @@ For FUTURE outages with no stated time: available again 4 hours after the moment
 Accounts (USER, 28 Oct): A out of credit, resets at 17:25 UTC; B has quota now (running the RB removal), its next reset is 18:13 UTC. Review 139 goes to A from 17:25 UTC (a fresh account, not the builder's), or a fresh B session if earlier.
 
 Order (run top to bottom):
+ST49. 143 — READY — LEAD GO-AHEAD (any account with credit; fresh session). Terra 6.1 max REVIEW of Story Block 2.6.1 (loot-take undo fix) on stage13/loot-undo df16025 (read-only). File: 143-terra-loot-undo-review.md.
 ST48. 142 — DONE 00:13 UTC on A (HOLDS: no release-introduced blocker; SB d3413fe, SD 7b13c10, Studio 2e0a4d2, NSD 42ad1c4; results in vm-results/142.md). Final re-check of the RB removal.
 ST47. 141 — DONE 19:11 UTC on A (BLOCK 1: loot Take lacks a replay dependency on its source offer; results in vm-results/141.md). Re-check of 140.
 ST46. 140 — DONE 18:42 UTC on A (BLOCK 3; three open blockers: impossible 51-item take on disabled pack, standalone Studio layouts not registered as host tabs, status-card ready-quest example; results in vm-results/140.md). Re-check of 139.
