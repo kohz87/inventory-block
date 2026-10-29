@@ -12,7 +12,7 @@ A loot take goes away with the reply that offered it (delete, edit + Re-read, sw
 - `src/v2/runtime.js`, `src/v2/packs/validate.js`, manifest/package — version 2.6.1.
 - Docs: SPEC §2.2/§7, REPLAY.md "Loot take guards", CHANGELOG. Tests: `tests/v2/loot-undo.test.js` (38), QA oracle.
 - Status: Codex 145 HOLDS; kohz87/Story_block#221 merged 29 Oct 03:15 UTC → main d5fdb46.
-- Outside SB afterwards: re-sync the vendored Story Block copies in Story Director, Studio, NPC State Delta (test-only).
+- Outside SB afterwards: vendored copies re-synced — SD#142, Studio#16, NSD#223 (merge on green).
 
 ## P1 — Small fixes (~½ day; can ride with P2)
 | Fix | File(s) |
@@ -74,7 +74,7 @@ stored in the chat, reusable as a template or exported as a pack. Limits from da
 - Optional "UI packs" (swappable designs): +2–3 days groundwork in `ui-host.js` / `view/screens.js`.
 
 ## Suggested order
-P0 (done) → P1 + P2 + P3 (one build) → P4 → P5 → P6 when a direction is chosen.
+P0 (done) → P1 + P2 + P3 (one build; postponed until after the reset, Sat 31 Oct 11:00 SGT) → P4 → P5 → P6 when a direction is chosen.
 
 ## Waiting on the user
 1. Approve the editing / custom-block mockup (https://claude.ai/artifact/BbfrQUEdAWhbX9aswEyN4d).
