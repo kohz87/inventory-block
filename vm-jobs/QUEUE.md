@@ -18,6 +18,8 @@ For FUTURE outages with no stated time: available again 4 hours after the moment
 Accounts (USER, 28 Oct): A out of credit, resets at 17:25 UTC; B has quota now (running the RB removal), its next reset is 18:13 UTC. Review 139 goes to A from 17:25 UTC (a fresh account, not the builder's), or a fresh B session if earlier.
 
 Order (run top to bottom):
+ST58. 149 — READY when an account has credit — LEAD GO-AHEAD. FIX (Codex writes code): lead browser findings L1 (BLOCKER: 2.6.1 chats lose pinned data modules; frozen hash basis) + L2/L3 pencils, on stage14/edit-blocks at 952e71f. Prompt: vm-jobs/149-prompt.txt. Runs BEFORE the review re-run 148r.
+ST59. 148r — WAITING (re-run of review 148 on the 149 head; the lead flips it READY). Prompt: vm-jobs/148-prompt.txt with the new head.
 ST57. 148 — STOPPED 12:48 UTC on A: out of credits (review incomplete; B also out). No WIP to push. Results in vm-results/148.md. Re-run from 952e71f when an account has credit.
 ST56. 147d — DONE 12:37 UTC on A (COMPLETE for §6.1–6.3; 3563 tests, 0 failures; branch stage14/edit-blocks pushed at 952e71f; results in vm-results/147d.md). Browser checks left to the lead.
 ST55. 147c — DONE 12:22 UTC on A (PARTIAL: part A not certified, part B partly built; 3568 tests, 0 failures; branch stage14/edit-blocks at 164d3fd pushed; results in vm-results/147.md). Remaining conflicts: §3 pack-pin and kind caps, timer text sets.
