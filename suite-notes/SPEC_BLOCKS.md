@@ -278,3 +278,23 @@ Layer 1 is on `stage14/edit-blocks` at c37df69. These finish it; they are done f
    - The existing **Drop** label stays (no "Remove" relabel); the Drop side action is the reader's remove.
 6. **Weather pencil:** hidden when the weather feature is off (read the feature setting, not the value).
 7. **Pushing:** if `git push` cannot reach GitHub, commit locally and say so in the report; the VM coordinator pushes.
+
+## 6. Lead decisions after build 147c (29 Oct; override §3 where they differ). Branch head 164d3fd.
+1. **Module count:** keep the existing limits; no existing test changes.
+   - Active modules per chat stay at `DM_LIMITS.pins` (16), counting pack modules and chat blocks together.
+   - Chat blocks are at most 8 per chat (`DM_LIMITS.definitions`).
+   - Remove the "8 active modules in all" rule from 147c, along with the "a pack cannot be the ninth" refusal.
+2. **Story lines per block:** keep the 16-kind limit.
+   - A block generates one `set-<field>` kind per field, numbers included; the separate `change-<field>` kind for
+     numbers goes. A number field's `to` label takes the field's bounds.
+   - Fields plus Button functions ≤ 16 per block. The editor shows what is left ("12 of 16 used: each field and each
+     button uses one") and refuses past it in plain words.
+   - Rules and timers don't count toward this.
+   - The 32-field limit stays as the data-module ceiling but a block can't reach it.
+3. **Timers:** keep the existing contract (no `set` from a timer). A Timer function may only add to number fields; the
+   editor offers only number fields there.
+4. **Tail tokens:** the host's existing estimate is enough.
+5. **Scene causes:** `scene.place` / `scene.weather` keep their existing story/system uses. §2.7's refusal applies only to
+   the new reader commands.
+6. **Release shape:** one release, 2.7.0, with both layers; no separate layer-1 head. The lead does the browser checks
+   (computed styles, 44 px targets, zoom, mockup match).

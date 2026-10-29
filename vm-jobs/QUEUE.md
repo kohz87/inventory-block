@@ -18,6 +18,7 @@ For FUTURE outages with no stated time: available again 4 hours after the moment
 Accounts (USER, 28 Oct): A out of credit, resets at 17:25 UTC; B has quota now (running the RB removal), its next reset is 18:13 UTC. Review 139 goes to A from 17:25 UTC (a fresh account, not the builder's), or a fresh B session if earlier.
 
 Order (run top to bottom):
+ST56. 147d — READY — LEAD GO-AHEAD (29 Oct). SMALL BUILD: apply SPEC_BLOCKS.md §6 on stage14/edit-blocks at 164d3fd. Whichever account has credit. Prompt: vm-jobs/147d-prompt.txt. After it: review 148 (fresh session, fresh clone; the lead writes it).
 ST55. 147c — DONE 12:22 UTC on A (PARTIAL: part A not certified, part B partly built; 3568 tests, 0 failures; branch stage14/edit-blocks at 164d3fd pushed; results in vm-results/147.md). Remaining conflicts: §3 pack-pin and kind caps, timer text sets.
 ST54. 147b — STOPPED 08:38 UTC on B: out of credits (build incomplete). WIP pushed to stage14/edit-blocks 0dbd252 (48 files, unreviewed). Results in vm-results/147b.md. Resume from 0dbd252 when an account has credit.
 ST53. 147 — STOPPED 07:44 UTC on A: out of credits (build incomplete). WIP pushed to stage14/edit-blocks 27ea561 (3 commits); 3 files uncommitted locally. Results in vm-results/147.md. Resume from 27ea561 when an account has credit; do not re-run from scratch.
