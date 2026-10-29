@@ -19,7 +19,7 @@ Accounts (USER, 28 Oct): A out of credit, resets at 17:25 UTC; B has quota now (
 
 Order (run top to bottom):
 ST60. 150 — DONE 13:45 UTC on B (§7 fixes complete at 0bf6789, pushed; 3594 tests, 0 failures; results in vm-results/150.md). Fixes 148r blockers 2 and 3; docs for 1.
-ST61. 151 — READY — LEAD GO-AHEAD (29 Oct). REVIEW RE-CHECK of Story Block 2.7.0 on stage14/edit-blocks at 0bf6789 (fresh session, fresh clone; prefer A — B built 150 — else B). Prompt: vm-jobs/151-prompt.txt.
+ST61. 151 — READY — LEAD GO-AHEAD (29 Oct). REVIEW RE-CHECK of Story Block 2.7.0 on stage14/edit-blocks at 4518501 (0bf6789 + the lead's test-only timing-proof fix) (fresh session, fresh clone; prefer A — B built 150 — else B). Prompt: vm-jobs/151-prompt.txt.
 ST58. 149 — DONE 13:12 UTC on B (L1–L3 implemented at 9b0036a, pushed; 3581 tests, 0 failures; browser recheck left to the lead; results in vm-results/149.md). 148r can now run on 9b0036a.
 ST59. 148r — DONE 13:29 UTC on B (BLOCK 3; three open blockers: reader edits survive deleting the owning leading reply across checkpoints; add/rename guards merge incompatible stacks; exported block loses tab, card and button; results in vm-results/148.md). Review re-run at 9b0036a.
 ST57. 148 — STOPPED 12:48 UTC on A: out of credits (review incomplete; B also out). No WIP to push. Results in vm-results/148.md. Re-run from 952e71f when an account has credit.
