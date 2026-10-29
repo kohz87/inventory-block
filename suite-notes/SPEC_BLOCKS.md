@@ -253,3 +253,28 @@ The editor writes an ordinary definition. Nothing in the runtime knows it came f
 - Combat / lean RPG (P5).
 - Any redesign (P6).
 - NPC State Delta prompts (never touched).
+
+## 5. Lead decisions after build 146 (29 Oct; they override §1–2 where they differ)
+Layer 1 is on `stage14/edit-blocks` at c37df69. These finish it; they are done first in build 147.
+1. **Count of a thing that does not stack:** keep the domain rule (each piece is its own one-piece stack).
+   - The count pencil on such a row sets the number of one-piece stacks of that def for that owner, adding copies or
+     removing them, newest unequipped first.
+   - It refuses to remove equipped pieces and stays within the 50 cap.
+   - One edit, one receipt ("You set Torch to 3").
+2. **`dm.set` for modules with rules and imports:** do not refuse them.
+   - Record the guard the way `dm.act` does: `reads` from the evaluation, `imports: prefixImports(definition)`, and the
+     decision's inputs.
+   - Replay then rechecks those inputs exactly as for a button press.
+3. **"You set" lines past the 200-carrier receipt window:** keep the retention invariant. Cards older than the window do
+   not list edits; document it in REPLAY.md.
+4. **Fields absent from authored layouts, or layouts at their node limit:** Setup's data-module card lists every
+   editable field under "Fields" with an `ss.editable` pencil.
+   - Chat scope: one row. Character scope: one row per attached character.
+   - Authored layouts are left as they are.
+5. **Tests the spec changes (authorised by the lead; not a loosening):**
+   - The 3-second capture timing assertions become a ratio against a baseline measured in the same run.
+     - It must still fail on a 3× slowdown (prove it with an injected delay in a test helper).
+     - Keep a generous absolute backstop of 10 s.
+   - The existing **Drop** label stays (no "Remove" relabel); the Drop side action is the reader's remove.
+6. **Weather pencil:** hidden when the weather feature is off (read the feature setting, not the value).
+7. **Pushing:** if `git push` cannot reach GitHub, commit locally and say so in the report; the VM coordinator pushes.

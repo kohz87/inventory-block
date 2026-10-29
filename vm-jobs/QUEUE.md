@@ -18,7 +18,7 @@ For FUTURE outages with no stated time: available again 4 hours after the moment
 Accounts (USER, 28 Oct): A out of credit, resets at 17:25 UTC; B has quota now (running the RB removal), its next reset is 18:13 UTC. Review 139 goes to A from 17:25 UTC (a fresh account, not the builder's), or a fresh B session if earlier.
 
 Order (run top to bottom):
-ST53. 147 — WAITING (layer 2 build: custom blocks; the lead flips it READY after checking 146).
+ST53. 147 — READY — LEAD GO-AHEAD (29 Oct). BUILD (Codex writes code): part A finishes layer 1 per SPEC_BLOCKS.md §5, part B = layer 2 custom blocks. Branch stage14/edit-blocks at c37df69. Whichever account has quota (A first). Prompt: vm-jobs/147-prompt.txt.
 ST52. 146 — DONE 07:24 UTC on A (layer 1 partially implemented; pushed as new branch stage14/edit-blocks at c37df69; open gaps in vm-results/146.md; review before 147). Build of Story Block 2.7.0 layer 1.
 ST51. 145 — DONE 03:11 UTC on A (HOLDS on SB b21209b; one non-blocking strict-validation edge case under an injected damaged checkpoint; results in vm-results/145.md). Re-check of 144.
 ST50. 144 — DONE 02:44 UTC on B (BLOCK 2; two open blockers: multi-carrier deletion across checkpoints retains offer/take/claim; reply-owned scratch cleanup can turn off a guarded block; results in vm-results/144.md). Re-check of 143.
