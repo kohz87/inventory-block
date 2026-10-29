@@ -74,7 +74,7 @@ stored in the chat, reusable as a template or exported as a pack. Limits from da
 - Optional "UI packs" (swappable designs): +2–3 days groundwork in `ui-host.js` / `view/screens.js`.
 
 ## Suggested order
-P0 (done) → P1 + P2 + P3 (spec suite-notes/SPEC_BLOCKS.md; Codex builds: 146 = P1+P2, 147 = P3) → P4 → P5 → P6 when a direction is chosen.
+P0 (done) → P1 + P2 + P3 (done: 2.7.0, kohz87/Story_block#222 → main 095a6ea, 29 Oct) → P4 → P5 → P6 when a direction is chosen.
 
 ## Waiting on the user
 1. (Done 29 Oct: mockup approved — USER "proceed".)

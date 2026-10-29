@@ -1792,3 +1792,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
 - 29 Oct ~14:20 UTC — USER: resets A 00:51 SGT (16:51 UTC), B 01:58 SGT (17:58 UTC). 152 runs on A from 16:52 UTC.
 - 29 Oct 17:01 UTC (VM): 152 started on A at 2097c40 (A reset 16:52).
 - 29 Oct 17:10 UTC: VM JOB 152 (A) HOLDS on SB 2097c40 (both 151 blockers closed; regression range clean; 3596 tests; matrix and fuzz pass). Release PR opened: kohz87/Story_block#222 (2.7.0, head 2097c40); subscribed; merge when CI green.
+- 29 Oct 17:14 UTC: RELEASE MERGED: kohz87/Story_block#222 → main 095a6ea (Story Block 2.7.0: inline editing + custom blocks; CI verify green; merge commit; no tag). Unsubscribed; check-in cancelled. Follow-ups: vendored SB re-sync to 2.7.0 in SD/Studio/NSD (test-only); merge-on-rename provenance edge (pre-existing); SD clock editing; P4 trim, P5 lean RPG (decisions A/B/roll trigger pending), P6 redesign (direction pending).
