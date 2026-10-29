@@ -11,7 +11,7 @@ A loot take goes away with the reply that offered it (delete, edit + Re-read, sw
 - `src/v2/store.js` — `carriedTo` replays deleted leading replies whole, past checkpoints.
 - `src/v2/runtime.js`, `src/v2/packs/validate.js`, manifest/package — version 2.6.1.
 - Docs: SPEC §2.2/§7, REPLAY.md "Loot take guards", CHANGELOG. Tests: `tests/v2/loot-undo.test.js` (38), QA oracle.
-- Status: Codex re-check 145 running. Then PR + merge.
+- Status: Codex 145 HOLDS; PR kohz87/Story_block#221 open, merge when CI is green.
 - Outside SB afterwards: re-sync the vendored Story Block copies in Story Director, Studio, NPC State Delta (test-only).
 
 ## P1 — Small fixes (~½ day; can ride with P2)
