@@ -19,7 +19,7 @@ Accounts (USER, 28 Oct): A out of credit, resets at 17:25 UTC; B has quota now (
 
 Order (run top to bottom):
 ST58. 149 — DONE 13:12 UTC on B (L1–L3 implemented at 9b0036a, pushed; 3581 tests, 0 failures; browser recheck left to the lead; results in vm-results/149.md). 148r can now run on 9b0036a.
-ST59. 148r — READY — LEAD GO-AHEAD (29 Oct). REVIEW re-run of Story Block 2.7.0 on stage14/edit-blocks at 9b0036a vs main d5fdb46 (fresh session, fresh clone; whichever account has credit; prefer A, not 149's builder B). Prompt: vm-jobs/148-prompt.txt (also confirm the L1 fix in vm-jobs/149-lead/FINDINGS.md holds). Result file: vm-results/148.md.
+ST59. 148r — DONE 13:29 UTC on B (BLOCK 3; three open blockers: reader edits survive deleting the owning leading reply across checkpoints; add/rename guards merge incompatible stacks; exported block loses tab, card and button; results in vm-results/148.md). Review re-run at 9b0036a.
 ST57. 148 — STOPPED 12:48 UTC on A: out of credits (review incomplete; B also out). No WIP to push. Results in vm-results/148.md. Re-run from 952e71f when an account has credit.
 ST56. 147d — DONE 12:37 UTC on A (COMPLETE for §6.1–6.3; 3563 tests, 0 failures; branch stage14/edit-blocks pushed at 952e71f; results in vm-results/147d.md). Browser checks left to the lead.
 ST55. 147c — DONE 12:22 UTC on A (PARTIAL: part A not certified, part B partly built; 3568 tests, 0 failures; branch stage14/edit-blocks at 164d3fd pushed; results in vm-results/147.md). Remaining conflicts: §3 pack-pin and kind caps, timer text sets.
