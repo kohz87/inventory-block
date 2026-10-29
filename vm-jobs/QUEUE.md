@@ -19,7 +19,7 @@ Accounts (USER, 28 Oct): A out of credit, resets at 17:25 UTC; B has quota now (
 
 Order (run top to bottom):
 ST53. 147 — WAITING (layer 2 build: custom blocks; the lead flips it READY after checking 146).
-ST52. 146 — READY — LEAD GO-AHEAD (29 Oct, USER: proceed). BUILD (Codex writes code): Story Block 2.7.0 layer 1 (small fixes + inline editing). Account A, fallback B (whichever has quota). Prompt: vm-jobs/146-prompt.txt. Fresh clone, branch stage14/edit-blocks from main d5fdb46.
+ST52. 146 — DONE 07:24 UTC on A (layer 1 partially implemented; pushed as new branch stage14/edit-blocks at c37df69; open gaps in vm-results/146.md; review before 147). Build of Story Block 2.7.0 layer 1.
 ST51. 145 — DONE 03:11 UTC on A (HOLDS on SB b21209b; one non-blocking strict-validation edge case under an injected damaged checkpoint; results in vm-results/145.md). Re-check of 144.
 ST50. 144 — DONE 02:44 UTC on B (BLOCK 2; two open blockers: multi-carrier deletion across checkpoints retains offer/take/claim; reply-owned scratch cleanup can turn off a guarded block; results in vm-results/144.md). Re-check of 143.
 ST49. 143 — DONE 00:52 UTC on A (BLOCK 2; two open blockers: deleting the first remaining offer keeps its take; a plural name disables the take; results in vm-results/143.md). Review of Story Block 2.6.1 loot-take undo fix.
