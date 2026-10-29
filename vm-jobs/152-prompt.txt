@@ -1,0 +1,10 @@
+REVIEW RE-CHECK 152 (READ-ONLY toward GitHub, except committing your result file): Story Block 2.7.0 on kohz87/Story_block stage14/edit-blocks at the head named in the queue line. Fresh session, fresh clone.
+Scope:
+- Confirm the two 151 blockers (vm-results/151.md) are closed by the lead's commit after 4518501:
+  - a chat block without `show` stays listed and removable after a reload;
+  - a pack UI kind with labels is no longer offered as a bare button, and label-free kinds still work on the tab and the Home card.
+- A regression-only pass over 4518501..head.
+Anything outside that range, and anything decided in suite-notes/SPEC_BLOCKS.md §5–§7, is a follow-up, not a blocker. The 151 item-provenance note is a known pre-existing follow-up.
+Run on Node 24: npm run check; full suite (individual counts); git diff --check; strict matrix (SD adcb8ab, NSD 1741400); 60-seed replay and data-module fuzz.
+Verdict line: HOLDS or BLOCK n.
+Write vm-results/152.md and commit it to inventory-block claude/hopeful-babbage-tipaw8. Use model gpt-6.1-terra with model_reasoning_effort=max.
