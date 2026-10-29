@@ -3,7 +3,7 @@
 Base: Story Block main 74ff72d (2.6.0). Only Story Block work is listed; changes other extensions need are noted as "outside SB".
 Every UI change gets a mockup approved first; every release gets a Codex review before its PR.
 
-## P0 — In review: 2.6.1 loot-undo fix (branch `stage13/loot-undo`, head b21209b)
+## P0 — Done: 2.6.1 loot-undo fix (merged, main d5fdb46)
 A loot take goes away with the reply that offered it (delete, edit + Re-read, swipe), live = rebuild = reload.
 - `src/v2/domains/inventory.js` — `? loot` offer is a reply-bound guarded block; `lootTake` attaches a `loot.take` guard;
   `lootTakeGuard` matches names with the inventory's own `resolveDef` (plural, case, portion words, word order).
@@ -11,7 +11,7 @@ A loot take goes away with the reply that offered it (delete, edit + Re-read, sw
 - `src/v2/store.js` — `carriedTo` replays deleted leading replies whole, past checkpoints.
 - `src/v2/runtime.js`, `src/v2/packs/validate.js`, manifest/package — version 2.6.1.
 - Docs: SPEC §2.2/§7, REPLAY.md "Loot take guards", CHANGELOG. Tests: `tests/v2/loot-undo.test.js` (38), QA oracle.
-- Status: Codex 145 HOLDS; PR kohz87/Story_block#221 open, merge when CI is green.
+- Status: Codex 145 HOLDS; kohz87/Story_block#221 merged 29 Oct 03:15 UTC → main d5fdb46.
 - Outside SB afterwards: re-sync the vendored Story Block copies in Story Director, Studio, NPC State Delta (test-only).
 
 ## P1 — Small fixes (~½ day; can ride with P2)
@@ -74,7 +74,7 @@ stored in the chat, reusable as a template or exported as a pack. Limits from da
 - Optional "UI packs" (swappable designs): +2–3 days groundwork in `ui-host.js` / `view/screens.js`.
 
 ## Suggested order
-P0 (in review) → P1 + P2 + P3 (one build) → P4 → P5 → P6 when a direction is chosen.
+P0 (done) → P1 + P2 + P3 (one build) → P4 → P5 → P6 when a direction is chosen.
 
 ## Waiting on the user
 1. Approve the editing / custom-block mockup (https://claude.ai/artifact/BbfrQUEdAWhbX9aswEyN4d).
