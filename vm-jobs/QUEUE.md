@@ -18,6 +18,7 @@ For FUTURE outages with no stated time: available again 4 hours after the moment
 Accounts (USER, 28 Oct): A out of credit, resets at 17:25 UTC; B has quota now (running the RB removal), its next reset is 18:13 UTC. Review 139 goes to A from 17:25 UTC (a fresh account, not the builder's), or a fresh B session if earlier.
 
 Order (run top to bottom):
+ST55. 147c — READY when an account has credit (both out at 08:38 UTC). SECOND RESUME of 147 on stage14/edit-blocks at 0dbd252. Prompt: vm-jobs/147c-prompt.txt.
 ST54. 147b — STOPPED 08:38 UTC on B: out of credits (build incomplete). WIP pushed to stage14/edit-blocks 0dbd252 (48 files, unreviewed). Results in vm-results/147b.md. Resume from 0dbd252 when an account has credit.
 ST53. 147 — STOPPED 07:44 UTC on A: out of credits (build incomplete). WIP pushed to stage14/edit-blocks 27ea561 (3 commits); 3 files uncommitted locally. Results in vm-results/147.md. Resume from 27ea561 when an account has credit; do not re-run from scratch.
 ST52. 146 — DONE 07:24 UTC on A (layer 1 partially implemented; pushed as new branch stage14/edit-blocks at c37df69; open gaps in vm-results/146.md; review before 147). Build of Story Block 2.7.0 layer 1.
