@@ -18,7 +18,7 @@ For FUTURE outages with no stated time: available again 4 hours after the moment
 Accounts (USER, 28 Oct): A out of credit, resets at 17:25 UTC; B has quota now (running the RB removal), its next reset is 18:13 UTC. Review 139 goes to A from 17:25 UTC (a fresh account, not the builder's), or a fresh B session if earlier.
 
 Order (run top to bottom):
-ST62. 152 — READY — LEAD GO-AHEAD (29 Oct). REVIEW RE-CHECK (small, regression-only) of Story Block 2.7.0 on stage14/edit-blocks at 2097c40. Fresh session, fresh clone; whichever account has credit. Prompt: vm-jobs/152-prompt.txt.
+ST62. 152 — STOPPED 14:15 UTC: both accounts out of credit (B failed 14:12, A failed 14:15; review did not run). No WIP. Re-run from 2097c40 when an account has credit. Results in vm-results/152.md.
 ST60. 150 — DONE 13:45 UTC on B (§7 fixes complete at 0bf6789, pushed; 3594 tests, 0 failures; results in vm-results/150.md). Fixes 148r blockers 2 and 3; docs for 1.
 ST61. 151 — DONE 14:03 UTC on B (BLOCK 2 at 4518501: valid block without show disappears from Blocks; label-requiring imported action always refuses; results in vm-results/151.md). Re-check of 150.
 ST58. 149 — DONE 13:12 UTC on B (L1–L3 implemented at 9b0036a, pushed; 3581 tests, 0 failures; browser recheck left to the lead; results in vm-results/149.md). 148r can now run on 9b0036a.
