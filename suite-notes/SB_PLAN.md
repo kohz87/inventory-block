@@ -12,7 +12,7 @@ A loot take goes away with the reply that offered it (delete, edit + Re-read, sw
 - `src/v2/runtime.js`, `src/v2/packs/validate.js`, manifest/package — version 2.6.1.
 - Docs: SPEC §2.2/§7, REPLAY.md "Loot take guards", CHANGELOG. Tests: `tests/v2/loot-undo.test.js` (38), QA oracle.
 - Status: Codex 145 HOLDS; kohz87/Story_block#221 merged 29 Oct 03:15 UTC → main d5fdb46.
-- Outside SB afterwards: vendored copies re-synced and merged — SD#142, Studio#16, NSD#223.
+- Outside SB afterwards: vendored copies re-synced and merged — SD#142, Studio#16, NSD#223; then to 2.7.x: SD#143, NSD#224 (2.7.0), Studio#17 (2.7.1).
 
 ## P1 — Small fixes (~½ day; can ride with P2)
 | Fix | File(s) |
