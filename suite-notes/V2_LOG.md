@@ -2434,3 +2434,6 @@ MERGED testkit RB #118, SD #115, NSD #205.
   drops, dates right); no rest days in trips; `~ trip` before `~ place`/`+ mount` in the same reply plans with
   defaults; arrived cue persists at the start place; a replay "weather has no text" skip (same on main). PRs
   kohz87/Story_block#233 and kohz87/Story_director#147 opened; subscribed.
+- 31 Oct ~18:03 UTC: RELEASED Story Director 2.5.0 (kohz87/Story_director#147, merge e149e54) and Story Block 2.11.0
+  (kohz87/Story_block#233, merge 455c104) after green CI. Unsubscribed. Night queue now: Studio/vendored testkit sync
+  (S2) waits on USER go; UI redesign waits on the USER's pick; the simplification work waits on approval.
