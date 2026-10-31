@@ -2414,3 +2414,7 @@ MERGED testkit RB #118, SD #115, NSD #205.
   world-building kinds, header as the one place/time readout, retire Scene, merge Chronicle into World, one Weather
   switch, Travel switch off in Lean).
 - 31 Oct ~18:40 UTC: UI redesign proposals published: https://claude.ai/artifact/CKdH3WMbTcdVQcuwn9BHzQ (copy suite-notes/redesign/proposals-v1.html). Shared structure from the audit (6 tabs, one place/time readout, one card per reply, Lean/Story/Full presets); looks A Quiet Glass, B Chronicle, C Field HUD; lead recommends B as base + C for Party/Fight, shared structure first in today's look. Waiting on the USER's pick.
+- 31 Oct ~18:45 UTC: RELEASED Story Block 2.10.0 (kohz87/Story_block#232, merge 34aaa5c) and Story Director 2.4.0
+  (kohz87/Story_director#146, merge 193f81d) after green CI. Unsubscribed. Next: merge main into stage25/mounts (SB)
+  and stage25/trip (SD), add the Home Travel line in SB, quiet `- mount` of a missing mount, bump SB 2.11.0 / SD 2.5.0,
+  review 175.

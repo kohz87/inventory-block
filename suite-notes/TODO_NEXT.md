@@ -27,7 +27,7 @@ https://claude.ai/artifact/AJZkpqZigE5TvZRRh4jrMK (v3); AI writing help https://
 | ~~2.9.3~~ | RELEASED 31 Oct: Story Block 2.9.3 (#230, 0a0254d): wizard summary row spacing | — | — | — |
 | ~~G~~ | SHELVED 31 Oct (USER): gear as stat bonuses; mockup v11 section 10 kept on file | — | — | — |
 | ~~2.9.4~~ | RELEASED 31 Oct: Story Block 2.9.4 (#231, bddaedb): present-rename clause in the narrator grammar | — | — | — |
-| T | Text size + "You" (Wearing, Condition): SB 2.10.0 + SD 2.4.0, brief R9 | Sonnet (running) | ~1 day | — |
+| ~~T~~ | RELEASED 31 Oct: SB 2.10.0 (#232) + SD 2.4.0 (#146): Text size, Your look, Rank from the pack | — | — | — |
 | V | Trip + map (SD, R11) and Mounts (SB, R10), parallel; release SB 2.11.0 + SD 2.5.0 after 2.10.0 | Sonnet ×2 (running) | ~1–2 days | — |
 | S2 | Re-sync vendored Story Block (test-only) in SD/Studio/NSD to 2.9.4 | Sonnet | ~1 h | USER go |
 | ~~S~~ | DONE 31 Oct: vendored Story Block 2.8.0 in SD (#145), Studio (#20), NSD (#225) | — | — | — |
