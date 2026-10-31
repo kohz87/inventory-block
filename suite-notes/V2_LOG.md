@@ -1873,3 +1873,11 @@ MERGED testkit RB #118, SD #115, NSD #205.
   untrained (cue: "X has no skill called Y: rolled untrained."); Assist's pre-roll makes no call while Lean RPG is
   on with a Character block (3-case test); v1's illustrative odds removed from tests. Noted twice by agents:
   `b1r2-capture.test.js` 10 s backstop trips under load (passes alone) — watch it in CI, not a lean-rpg change.
+- 31 Oct: agent D done, Story_director `stage16/chronicle-lasting` 632835c (on main 46ee03e), 943 pass / 0 fail:
+  `chronicle.lasting` (caller `event:` only; create/update by name or aka; `by` and `keep` fields; since/updated
+  from the clock, null while unset), the lock (a `world` line keeps summary/place/factions, not state; card "X stays
+  ongoing (set by the world's timeline)"; reader can override, `locked:false`), keep-in-mind ≤2 inside the cap of 3,
+  Journal shows lasting entries on the fire day (days.js), docs/dev/chronicle.md, CHANGELOG Unreleased.
+  FOUND: the condition language has no `+`, so SPEC_TIMELINE's delay condition could not parse; D added the boolean
+  query `chronicle.passed { name, minutes }`. Spec corrected; E told mid-build. Caller ids are
+  `event:pack.<packId>/<eventId>`. Not added to the delete fuzz (pack-event only; host test covers delete/rebuild/reload).

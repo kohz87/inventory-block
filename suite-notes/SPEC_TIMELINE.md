@@ -26,11 +26,13 @@ Story Director command **`chronicle.lasting`**, payload:
 Pack event written by Studio, e.g.:
 ```json
 { "id": "the-seventh-seal-fails", "after": "cracks-in-the-seventh-seal", "once": true,
-  "when": "query('chronicle.event', { name: 'Cracks in the seventh seal' }) != null && time() >= query('chronicle.event', { name: 'Cracks in the seventh seal' }).since + 86400 && <place condition>",
+  "when": "query('chronicle.passed', { name: 'Cracks in the seventh seal', minutes: 86400 }) && <place condition>",
   "cue": "The seventh seal has failed. …",
   "then": [{ "command": "chronicle.lasting", "payload": { "name": "Seventh seal failed", "state": "ongoing", "place": "Auvoth", "factions": ["Adventurer Guild", "Sealwardens"], "summary": "…", "keep": true } }] }
 ```
-Delays are story minutes: N days × 1440, hours × 60, months × the pack calendar's days per month × 1440.
+**Correction (agent D, 31 Oct): the condition language has no `+`, so delays use SD's boolean query
+`chronicle.passed { name, minutes }` (false while the entry is missing or the clock or `since` is null).** An
+event's caller is `event:pack.<packId>/<eventId>`. Delays are story minutes: N days × 1440, hours × 60, months × the pack calendar's days per month × 1440.
 
 ## 2. Pieces
 - **D (Sonnet): Story Director** — `chronicle.lasting`, the lock, keep-in-mind, tests, docs. Brief `timeline-briefs/D.md`.
