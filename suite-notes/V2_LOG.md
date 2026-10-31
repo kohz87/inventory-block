@@ -1881,3 +1881,21 @@ MERGED testkit RB #118, SD #115, NSD #205.
   FOUND: the condition language has no `+`, so SPEC_TIMELINE's delay condition could not parse; D added the boolean
   query `chronicle.passed { name, minutes }`. Spec corrected; E told mid-build. Caller ids are
   `event:pack.<packId>/<eventId>`. Not added to the delete fuzz (pack-event only; host test covers delete/rebuild/reload).
+- 31 Oct: B follow-up 6b27226 (A's result shape, `leanRpgRolls`, whole-line strip). MERGED into stage16/lean-rpg:
+  A (81baba3, conflict only in the module command pin: both `dm.settle` and `rpg.resolve`), lead cross test
+  templates→read.js (b623f5a), B (merge clean), lead dedupe of B's local names (1072b07). Suite after all four:
+  3775 pass / 0 fail.
+- 31 Oct: agent E done, Story_studio `stage16/timeline` 3b128bf (on main 0df2d52): Timeline view (by story year,
+  chains nested, Timeline/List), the form per mockup v3 incl. Lasting change and "N days after" via
+  `chronicle.passed` (correction applied), conditions read back only when they re-write byte-identical (all 7
+  Ersveil events do), hand-written ones kept byte for byte, date maths tested against Ersveil minutes, Problems flags
+  lasting payloads past the caps; dist rebuilt; new tests incl. Playwright at 1280/1024/390. Outside: one
+  world-editor pin ("Timeline"), `edits.js setRecords` (one undo for a rename that rewrites dependants), `records.js
+  SINGULAR`, `model.js` check. Notes: months saved as days; `when` ≤500 chars may refuse many places.
+- 31 Oct: lead browser check of 1072b07 (private ST 8155, data copy; the 2-byte `secrets.json` there is ST's own
+  empty file, not read). Feature switch, chooser "Lean RPG" heading, 8 blocks from templates, Party tab desktop +
+  phone and the Spend points sheet match mockup v3 closely; no page errors. FINDINGS: F1 BLOCKER the sheet saves
+  one dm.set per stat → the 32-actions-per-reply cap ("Data module reply budget exhausted", raw wording) after a
+  party setup; F2 every role block gets its own tab (7 extra tabs). Follow-up (pre-existing 2.7.2): chooser says
+  "1 buttons". Battle log not checkable live (no model connection); covered by B's DOM tests. Fix round: agent F
+  (Sonnet), brief rpg-briefs/F.md.
