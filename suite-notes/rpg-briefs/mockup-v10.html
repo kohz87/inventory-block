@@ -1,0 +1,209 @@
+<title>Lean RPG Mockup</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Layout: one reading column; desktop and phone shots side by side where they fit. */
+:root {
+  --bg: #f5f4f9; --fg: #22202c; --muted: #5b576c; --line: #d9d5e6; --card: #ffffff; --accent: #6a56c8; --warn: #9a640f;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #15141b; --fg: #eceaf4; --muted: #a8a3bd; --line: #33303e; --card: #1e1d26; --accent: #a594f0; --warn: #e0a447; color-scheme: dark } }
+:root[data-theme="dark"] { --bg: #15141b; --fg: #eceaf4; --muted: #a8a3bd; --line: #33303e; --card: #1e1d26; --accent: #a594f0; --warn: #e0a447; color-scheme: dark }
+body { background: var(--bg); color: var(--fg); font: 15px/1.55 var(--sans); }
+main { max-width: 1120px; margin: 0 auto; padding-block: 28px 56px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: grid; gap: 26px; }
+h1 { font-size: 26px; margin: 0; text-wrap: balance; }
+h2 { font-size: 18px; margin: 0; text-wrap: balance; }
+p { margin: 0; max-width: 72ch; }
+.lead { color: var(--muted); }
+.box { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; display: grid; gap: 12px; }
+.pair { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 260px); gap: 14px; align-items: start; }
+@media (max-width: 760px) { .pair { grid-template-columns: 1fr; } .pair .phone { max-width: 300px; } }
+figure { margin: 0; display: grid; gap: 6px; }
+figure img { width: 100%; border: 1px solid var(--line); border-radius: 10px; }
+figcaption { font-size: 12.5px; color: var(--muted); }
+ul { margin: 0; padding-left: 20px; display: grid; gap: 4px; max-width: 78ch; }
+table { border-collapse: collapse; font-size: 14px; }
+td, th { border-bottom: 1px solid var(--line); padding: 5px 10px 5px 0; text-align: left; vertical-align: top; }
+.scroll { overflow-x: auto; }
+.tag { display: inline-block; font-size: 12px; padding: 1px 8px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); }
+a { color: var(--accent); }
+.warn { color: var(--warn); }
+</style>
+<main>
+  <header style="display:grid;gap:8px">
+    <span class="tag">Story Block 2.8 · RPG · v3–v8 approved · v10: sections 7–10 for approval (a new chat, companions who join, holding the first send, Blocks in Suite settings)</span>
+    <h1>Lean RPG: stats, stage bars and automatic rolls</h1>
+    <p class="lead">Taken in the real app: Story Block 2.7.2 with the Ersveil chat. The bars, steppers and radar are Story Block's own widgets; the rest was placed for the shots and does nothing yet. Changed from v1 after your notes: there's no Roll button (rolls are automatic), Health/Mana/Stamina are coloured stage bars, and class and rank rise on their own.</p>
+  </header>
+
+  <section class="box">
+    <h2>0 · The Party tab: one card per character</h2>
+    <p>One <b>Party</b> tab holds a card for you and each companion: name and role, Soul Class, an XP bar, the three stage bars, the seven stats in a row, and their skills with ranks. A card with unspent points shows "N points to spend" and a <b>Spend points</b> button; the others have <b>Stats</b>. Either opens the stat distribution below (steppers and radar) for that character. <b>Skills</b> opens their skills list.</p>
+    <div class="pair">
+      <figure><img src="21-party-d.png" alt="Party tab with three cards: Wessel (Soul Class II, 3 points to spend, Health Hurt, Mana Fresh, Stamina Spent), Ren (Soul Class I, Health Unhurt, Mana Low, Stamina Winded) and Tamsin (Soul Class I, Health Badly wounded, Mana Fresh, Stamina Tired), each with a stat row and skills."><figcaption>Desktop: three cards side by side</figcaption></figure>
+      <figure class="phone"><img src="21-party-p.png" alt="The Party tab on a phone with the three cards stacked."><figcaption>Phone: the cards stack</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="box">
+    <h2>1 · Spend points / Stats (opened from a card)</h2>
+    <p>Health, Mana and Stamina are bars in one aligned row. Each bar is split into its stages, and its colour shows how bad it is: green near full, amber in the middle, red near empty. The word sits at the right end ("Hurt", "Fresh", "Spent"); the story moves them and you can tap one to fix it. Below them is RB's Stats step: steppers spending the shared points, and the radar with the new shape over the old one.</p>
+    <div class="pair">
+      <figure><img src="11-stats-bars-d.png" alt="Wessel tab: Health bar at 3 of 5 in amber labelled Hurt, Mana full and green labelled Fresh, Stamina at 1 of 4 in red labelled Spent; stat steppers and the radar below."><figcaption>Desktop</figcaption></figure>
+      <figure class="phone"><img src="11-stats-bars-p.png" alt="The same screen on a phone, the three bars stacked."><figcaption>Phone</figcaption></figure>
+    </div>
+    <div class="scroll"><table>
+      <tr><th>Bar</th><th>Stages (full → empty)</th></tr>
+      <tr><td>Health</td><td>Unhurt · Scratched · Hurt · Wounded · Badly wounded · Down</td></tr>
+      <tr><td>Mana</td><td>Fresh · Steady · Low · Drained · Empty</td></tr>
+      <tr><td>Stamina</td><td>Fresh · Winded · Tired · Spent · Empty</td></tr>
+    </table></div>
+  </section>
+
+  <section class="box">
+    <h2>2 · Automatic rolls and level-ups</h2>
+    <p>You write what you do, as usual. Before the reply, a small AI call reads it and picks who acts, with which skill and stat, against whom; code rolls the dice; the narrator tells the result, and the black battle log (<a href="https://claude.ai/artifact/Hs3sTqDMLPPedhREoopGLb">approved version D</a>) shows it in the message. There's no button to press. A swipe rolls again. Settings → Lean RPG has "Rolls: automatic / off".</p>
+    <p>Soul Class is a tier, so it rises by itself: at 100 XP it goes up one and XP goes back to 0. Skill ranks do the same at 100 practice. Both show as lines in "Changed this reply", with no card to confirm, and a swipe takes them back like anything else in the reply.</p>
+    <div class="pair">
+      <figure><img src="12-auto-lines-d.png" alt="The latest reply's Changed this reply card: Wallet now 3 silver 8 copper; Rolled for you: 3 exchanges; Wessel: Soul Class II to III, XP reached 100, back to 0, +2 to every roll; Iron Breath: Adept to Expert."><figcaption>Desktop</figcaption></figure>
+      <figure class="phone"><img src="12-auto-lines-p.png" alt="The same card on a phone."><figcaption>Phone</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="box">
+    <h2>3 · Skills (opened from a card) <span class="tag">new in v4</span></h2>
+    <p><b>Skills</b> on a Party card opens that character's skills in place of the cards, like Spend points. Each skill shows its rank, the stat it rolls with and what it uses (Stamina or Mana), what it does (written at creation; the AI reads it), a <b>mastery bar</b> and its full roll bonus. The mastery bar has four cells, one per rank, coloured like the rank: Novice grey, Adept blue, Expert purple, Master green; the next cell fills with practice. "Rolls with it: d20 +12 = VIT 12 → +6 · Expert +2 · Soul Class II +4" shows exactly what the dice add. An empty slot says the story fills it when the character learns something new. Rank and practice only move through play (a swipe takes them back), so the pencil fixes only the name and what it does. <b>Back to the party</b> returns to the cards.</p>
+    <p>These shots are from the build in progress, so the tab bar already shows one Party tab without a tab for each Character or Skills block.</p>
+    <div class="pair">
+      <figure><img src="31-skills-d.png" alt="Wessel's skills on desktop. Iron Breath, Expert, VIT and Stamina, purple mastery bar, rolls d20 plus 12. Short blade, Novice, AGI, grey bar, d20 plus 9. Rope work, Adept, DEX, blue bar, d20 plus 10. River swimming, Master, VIT, full green bar, d20 plus 13. One empty slot; Back to the party."><figcaption>Desktop: two skills per row</figcaption></figure>
+      <figure class="phone"><img src="31-skills-p.png" alt="The same skills on a phone, one per row."><figcaption>Phone</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="box">
+    <h2>4 · New character <span class="tag">new in v5</span></h2>
+    <p>A wizard in Story Block's own dialog, laid out like the creation wizard you approved before: the summary row on top, cards in a grid. It opens from <b>+ New character</b> on the Party tab, or from "Create your character" when the party is empty. Four steps:</p>
+    <ul>
+      <li><b>Who:</b> the name (from your persona), you or a companion, and <b>Who they are</b>: a short description, up to 240 characters, that the AI reads every reply.</li>
+      <li><b>Stats:</b> the Spend points view from section 1, with the starting points.</li>
+      <li><b>Skills:</b> start from a template, change anything, or write your own. Up to 5 skills, each with <b>What it does</b> (up to 120 characters, the AI reads it), a <b>Stat</b> dropdown (STR to CHA: what the roll adds), a <b>Uses</b> dropdown (Stamina or Mana: an Empty bar blocks the skill) and a <b>Starts at</b> dropdown: Novice, or Adept for one skill only. Nothing about rank or practice can be typed in. Templates are built in (Guild fighter, River scout, Hedge mage, Field medic, Silver tongue) and a pack can add its own; the Sealwarden recruit card shows one from Ersveil.</li>
+      <li><b>Review:</b> everything on one page, then <b>Create</b>, which makes the Character and Skills blocks in one go.</li>
+    </ul>
+    <div class="pair">
+      <figure><img src="41-wizard-skills-d.png" alt="New character dialog on the Skills step: summary row with Wessel, stats and 4 of 5 skills; six template cards with Guild fighter marked Used; Your skills rows Short blade (Adept), Iron Breath, Rope work and Knot-reading (Novice), each with what it does; Add a skill; Back and Next."><figcaption>Desktop: the Skills step</figcaption></figure>
+      <figure class="phone"><img src="41-wizard-skills-p.png" alt="The Skills step on a phone: the dialog as a bottom sheet, template cards stacked, then the skill rows."><figcaption>Phone: the Skills step</figcaption></figure>
+    </div>
+    <figure><img src="41-wizard-who-d.png" alt="The Who step: name Wessel, You or A companion, the Who they are description at 178 of 240, and a note that the character starts at Soul Class I with full bars."><figcaption>Desktop: the Who step</figcaption></figure>
+    <p class="lead">Shot over an empty chat, as at the start of a story. The dialog is the real one; on your screen the chat behind it is dimmed and blurred.</p>
+  </section>
+
+  <section class="box">
+    <h2>5 · Combat <span class="tag">new in v7</span></h2>
+    <p>There is no separate combat mode: you write what you do, the dice are rolled before the reply, and the narrator's reply carries the <b>battle log</b> (display D, approved earlier) where it tells the fight. These shots are the real battle log from the build, filled with a made-up two-round fight.</p>
+    <div class="pair">
+      <figure><img src="51-battle-log-d.png" alt="A narrator reply with the dark battle log panel between two paragraphs: header Combat, Exchanges 1-2; turn order; Round 1 and Round 2 lines with coloured result words and totals; a Status block with Health, Mana and Stamina bars per character coloured by resource (health always red, mana blue, stamina yellow); a Foes line."><figcaption>As built: foe attacks read "Sluice Rat A attacks Wessel — Success (23 vs 15)", and the bars are coloured by resource</figcaption></figure>
+      <figure class="phone"><img src="51-battle-log-p.png" alt="The same reply and battle log on a phone."><figcaption>Phone, as built</figcaption></figure>
+    </div>
+    <p><b>Two fixes I propose</b> (shown below): (1) a foe's attack reads from the attacker's side, <b>Hit</b> (red), <b>Grazed</b> (amber) or <b>Blocked</b> (green), with the attacker's total first; as built, "attacks Wessel — Success" meant Wessel blocked, which reads the wrong way round. (2) The Status bars are coloured by stage, green to amber to red, like the Party tab, instead of red for every health bar.</p>
+    <figure><img src="51-battle-log-d-fixed.png" alt="The same battle log with the fixes: Sluice Rat C attacks Tamsin — Hit (19 vs 12); Sluice Rat A attacks Wessel — Blocked (15 vs 23); Status bars green, amber or red by stage."><figcaption>Proposed: Hit / Grazed / Blocked, and bars coloured by stage</figcaption></figure>
+    <p><b>A Fight tab</b> in place of the plain Foes block tab, shown while any foe slot is filled: the place and exchange, each foe with its class and a health stage bar (a downed foe greyed, a pencil to fix one), the party's three bars, and the last exchange's battle log with <b>See it in the story</b>. Nothing to press to fight: the note at the top says rolls are automatic.</p>
+    <div class="pair">
+      <figure><img src="52-fight-d.png" alt="Fight tab on desktop: Fight, Bluewatch weir, Exchange 2, 3 foes 1 down; foe cards Sluice Rat A Wounded (amber), B Scratched (green), C Down (greyed); party cards for Wessel, Ren and Tamsin with three stage bars each; Last exchange with the battle log and See it in the story."><figcaption>Desktop: the Fight tab</figcaption></figure>
+      <figure class="phone"><img src="52-fight-p.png" alt="The Fight tab on a phone: foes, party and the last exchange stacked."><figcaption>Phone</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="box">
+    <h2>6 · Settings → Lean RPG: your own dice and prompts <span class="tag">new in v8</span></h2>
+    <p>A page of its own in Story Suite settings, under Features:</p>
+    <ul>
+      <li><b>Rolls:</b> Automatic or Off (as before).</li>
+      <li><b>Difficulty:</b> Gentle, Standard (today's numbers) or Harsh, or <b>Custom</b> with the six numbers behind every roll: the foe's base, what Soul Class adds, how much of the stat counts, how far short still counts as "at a cost", what makes an exchange decisive, and the most exchanges in one reply. A bar shows the odds for one of your characters against an even foe and updates as you change them (Wessel: Standard 61 / 8 / 31, Gentle 69 / 10 / 22, Harsh 52 / 5 / 43). New numbers count from the next reply; dice already rolled keep the numbers they were rolled with, so a Re-read or a reload never changes an old fight.</li>
+      <li><b>What the narrator is told about combat:</b> the Combat rules block's text, editable here (up to 1,200 characters) with Reset to the default. It belongs to the chat, so each story can play differently.</li>
+      <li><b>Roll planner:</b> your own instructions (up to 400 characters) added to the short AI call that plans the dice, e.g. "companions play it safe". Its full prompt can be read in a fold, but its answer format stays fixed so the dice can always be read.</li>
+    </ul>
+    <div class="pair">
+      <figure><img src="61-settings-d.png" alt="Story Suite settings with a Lean RPG page: Rolls Automatic; Difficulty Custom with six number fields and an odds bar, Success 61%, At a cost 8%, Fail 31%; the Combat rules text in a box with Reset to the default and 864 of 1200; Roll planner instructions with the full prompt shown read-only."><figcaption>Desktop (the window scrolls on screen; shown whole here)</figcaption></figure>
+      <figure class="phone"><img src="61-settings-p.png" alt="The same Lean RPG settings page on a phone, sections stacked."><figcaption>Phone</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="box">
+    <h2>7 · Starting a new chat <span class="tag">new in v9</span></h2>
+    <p>When the RPG is on and the story has no character yet, Home shows a <b>Your character</b> card at the top. <b>Create your character</b> opens the New character wizard; <b>Not now</b> hides the card for this chat (the Party tab's "Create your character" stays).</p>
+    <div class="pair">
+      <figure><img src="91-home-create-d.png" alt="Game view Home with a new card at the top titled Your character: The RPG is on, and this story has no character yet. Make yours to roll for what you do; your persona fills in the name and who you are. Buttons Create your character and Not now. Below it the usual Where, Purse and pack and Save points cards."><figcaption>Desktop: the card on Home</figcaption></figure>
+      <figure class="phone"><img src="91-home-create-p.png" alt="The same Home on a phone: the Your character card first, then Where, Purse and pack, Save points."><figcaption>Phone</figcaption></figure>
+    </div>
+    <p>The wizard's <b>Who</b> step now fills <b>Who they are</b> from your active persona's description too (the first 240 characters), as it already fills the name. A note under the box says where it came from; you can change it.</p>
+    <div class="pair">
+      <figure><img src="92-who-persona-d.png" alt="New character dialog on the Who step: name Wessel, This character is You, Who they are filled with a 213-character description from the persona, with the note From your persona's description (the first 240 characters). Change it freely: this is what the AI reads."><figcaption>Desktop: Who, filled from the persona (in the shot the You/A companion buttons still show this test chat's state; a new chat has You selected)</figcaption></figure>
+      <figure class="phone"><img src="92-who-persona-p.png" alt="The Who step on a phone, as a bottom sheet."><figcaption>Phone</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="box">
+    <h2>7b · The first send without a character <span class="tag">new in v10</span></h2>
+    <p>If the RPG is on and you press Send before you have a character, the message is held (never lost) and this dialog opens. <b>Create your character, then send</b> opens the wizard and sends the held message when you press Create. <b>Send without the RPG for now</b> sends it as usual, with no dice this reply. Closing the dialog puts the text back in the message box. It asks once per chat; after "without", only the Home card from section 7 reminds you.</p>
+    <div class="pair">
+      <figure><img src="103-hold-send-d.png" alt="A dialog titled Make your character first: The RPG is on, but this story has no character for you yet, so there is nothing to roll for. Your message is kept; it is sent as soon as you choose. The held message, I step into the Guild Office, is quoted. Buttons: Send without the RPG for now, and Create your character, then send."><figcaption>Desktop (in the shot it sits over the Game view; in use it opens over the chat when you press Send)</figcaption></figure>
+      <figure class="phone"><img src="103-hold-send-p.png" alt="The same dialog as a bottom sheet on a phone, the two buttons stacked full width."><figcaption>Phone: a bottom sheet</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="box">
+    <h2>8 · Companions who join <span class="tag">proposal, v9</span></h2>
+    <p>When someone joins the party in the story, the RPG can make their character for you. Only party members get a character sheet; other people in the story stay ordinary characters (NPC State Delta keeps their dossiers).</p>
+    <ul>
+      <li>The narrator writes one line when someone joins: <code>+ party Mara | about: a hedge-witch from Kvildal | class: I | best: int</code>. Code makes the Character block (and an empty Skills block): stats 10, the named best stat 14, Soul Class as written (I to IX, never above the story's), bars full.</li>
+      <li><b>Ask</b> (the default): the reply gets a card "Mara joins the party: <b>Add to party</b> · <b>Edit first</b> · <b>No</b>". Edit first opens the wizard already filled in.</li>
+      <li><b>Automatically</b>: the character is made at once and shown in "Changed this reply" (a swipe takes it back).</li>
+      <li><b>Off</b>: no line is offered; you make companions yourself.</li>
+      <li>A setting in Settings → RPG picks Ask, Automatically or Off. The usual limits still hold (at most 8 characters; room in the story's actions).</li>
+      <li>Someone who leaves: <code>- party Mara</code> moves them out of the party (kept, greyed, "Left") rather than deleting them.</li>
+    </ul>
+  </section>
+
+  <section class="box">
+    <h2>9 · Blocks move to Story Suite settings <span class="tag">new in v10</span></h2>
+    <p>The Game view's generic <b>Blocks</b> tab goes. Making and managing blocks moves to Story Suite settings → <b>Blocks</b>: <b>New block</b> (empty) or <b>From a template</b>, then for each block <b>Show as</b> its own tab, a card on Home, both, or hidden, with <b>Edit</b> (fields, buttons, rules, tab name and icon) and ⋯ (save as a template, remove). RPG blocks are listed too, but shown by the RPG's Party and Fight tabs.</p>
+    <div class="pair">
+      <figure><img src="101-settings-blocks-d.png" alt="Story Suite settings with a new Blocks page in the side list between Tabs and Packs and Modules. Title Blocks, Trackers for this story: make one, change it, and choose where it shows. Buttons New block and From a template; 5 blocks in this story, 2 tabs, 1 card. Rows: Ledger (6 fields, 2 buttons, tab Ledger, icon book) shown as Its own tab; Weather journal (3 fields, 1 rule) shown as A card on Home; Wessel, Wessel's skills and Foes marked RPG, shown by the RPG's tabs; each with Edit and a more button."><figcaption>Desktop: Settings → Blocks</figcaption></figure>
+      <figure class="phone"><img src="101-settings-blocks-p.png" alt="The Blocks page on a phone: the same rows stacked, Show as, Edit and more under each name."><figcaption>Phone</figcaption></figure>
+    </div>
+    <figure><img src="102-gameview-tabs-d.png" alt="The Game view's tab bar: Home, Party, Inventory, Quests, World, Map, Chronicle, Director, and Ledger (a custom block shown as its own tab) where Blocks used to be."><figcaption>The Game view then shows the Ledger block as its own tab; there is no Blocks tab</figcaption></figure>
+  </section>
+
+  <section class="box">
+    <h2>How a skill's roll is defined</h2>
+    <p>Each skill names one stat and one resource when it is made (from a template or by you). A roll with it is <b>d20 + half that stat (rounded down) + the rank (Novice 0, Adept 1, Expert 2, Master 3) + 2 × Soul Class</b>, plus an edge of −3 to +3 for gear or position, against the foe's d20 + 5 + 2 × its class. The AI that plans the rolls no longer picks a stat for a skilled action: the skill's own stat is used. It still picks a stat for actions with no skill (climbing with no climbing skill uses the stat it judges right, at rank 0).</p>
+  </section>
+
+  <section class="box">
+    <h2>To approve (v10)</h2>
+    <ul>
+      <li>Section 7b: holding the first send until you have a character (or choose to play without).</li>
+      <li>Section 9: Blocks managed in Story Suite settings; no Blocks tab in the Game view; each block shows as its own tab or card.</li>
+      <li>Section 7: the Your character card on Home, and Who they are filled from your persona.</li>
+      <li>Section 8: companions who join get a character (Ask / Automatically / Off).</li>
+    </ul>
+    <p>Approved on 31 Oct (v8):</p>
+    <ul>
+      <li>Settings → Lean RPG (section 6): difficulty presets and custom numbers with the live odds bar; the combat text editable per chat; your own roll-planner instructions with its full prompt readable.</li>
+    </ul>
+    <p>Approved on 31 Oct (v7): the battle log fixes and the Fight tab (section 5). Approved (v6):</p>
+    <ul>
+      <li>The Skills view in section 3: the coloured mastery bar, the stat and resource, the roll line, what each skill does, empty slots, and a pencil for the name and description only.</li>
+      <li>Each skill has a fixed stat and resource; the roll rule above.</li>
+      <li>The New character wizard in section 4: Who (with a description), Stats, Skills (templates or your own, with what each does), Review.</li>
+      <li>Templates: the five built-in skill sets, and packs can add their own (Studio can edit them later).</li>
+    </ul>
+    <p>Approved earlier (v3): the items below.</p>
+    <ul>
+      <li>The Party tab with one card per character, as in section 0.</li>
+      <li>Stage bars for Health, Mana and Stamina, coloured by stage.</li>
+      <li>Rolls are automatic (AI picks the actions, code rolls, a swipe rerolls), with an off switch in settings.</li>
+      <li>Soul Class and skill ranks rise automatically, shown in "Changed this reply". The only card left is "The story ends here" when someone dies, so you can undo it with a swipe.</li>
+    </ul>
+    <p>Decided: one Party tab with a card per character; Spend points / Stats opens the distribution view for that character.</p>
+  </section>
+</main>

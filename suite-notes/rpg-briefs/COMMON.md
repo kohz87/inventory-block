@@ -64,3 +64,14 @@ Branch and head commit; what you built against each item; tests added; anything 
 open questions or deviations from the spec. Keep it short.
 - Tests (USER, 31 Oct): write a test for each fix and run it after the fix only. Do NOT stash the fix to show the
   test failing before it (saves time and tokens).
+
+## A real SillyTavern for browser checks (31 Oct)
+- SillyTavern is at /home/user/st-smoke/SillyTavern. Make your OWN data copy:
+  `cp -r /tmp/claude-0/-home-user-inventory-block/3572f065-fdf3-5cf4-88eb-a15358a57ebe/scratchpad/bc270/st-data <yourdir>/st-data`
+  (no API keys; its secrets.json is ST's empty 2-byte file: never open or print it). Put your branch's Story_block in
+  `<yourdir>/st-data/default-user/extensions/Story_block`.
+- Copy `.../scratchpad/bc270/live/config.yaml`, set `dataRoot` to your copy and `port:` to the port in your brief.
+- Start: `cd /home/user/st-smoke/SillyTavern && setsid nohup node server.js --configPath <yourdir>/config.yaml > <yourdir>/st.log 2>&1 & echo $! > <yourdir>/st.pid`;
+  stop: `kill $(cat <yourdir>/st.pid)`. Never pkill -f / pgrep -f. Playwright from /opt/node22/lib/node_modules/playwright,
+  `chromium.launch({ executablePath: '/opt/pw-browsers/chromium' })`; never `playwright install`.
+- Tests (USER, 31 Oct): a test per fix, run after the fix only; no failing-before runs.
