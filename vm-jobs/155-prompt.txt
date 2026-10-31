@@ -1,8 +1,7 @@
-REVIEW 155 (READ-ONLY toward GitHub; write only your result file): Story Block 2.8.0 Lean RPG, kohz87/Story_block
-`stage16/lean-rpg` at c9ba353 vs main c438975 (2.7.2). Fresh clone.
-Specs: suite-notes/SPEC_RPG.md (§0 revision, §2R, §3), suite-notes/rpg-briefs/{COMMON,C,A,B,H,F,G,R2}.md, and the
-approved mockup https://claude.ai/artifact/Gn22FRyEzDvufqZDgdbR4R (v7: sections 0–5; section 6 is NOT approved yet,
-ignore it). The lead's decisions are in suite-notes/V2_LOG.md (31 Oct entries).
+REVIEW 155 (READ-ONLY toward GitHub, except committing your result file): Story Block 2.8.0 RPG (called "Lean RPG"
+in older notes), kohz87/Story_block `stage16/lean-rpg` at 9228472 vs main c438975 (2.7.2). Fresh session, fresh clone.
+Specs: suite-notes/SPEC_RPG.md (§0 revision, §2R, §3), suite-notes/rpg-briefs/{COMMON,C,A,B,H,F,G,R2,R3}.md, and the
+approved mockup https://claude.ai/artifact/Gn22FRyEzDvufqZDgdbR4R (v8: sections 0–6 all approved). The lead's decisions are in suite-notes/V2_LOG.md (31 Oct entries).
 Look hardest at:
 1. Feature off ⇒ byte-identical to 2.7.2: prompts, saves, RNG draws, hashes of existing data-module definitions
    (interpreter-1 basis frozen), Assist behaviour; nothing of lean-rpg is imported.
@@ -17,6 +16,11 @@ Look hardest at:
    tab rules, phone layout (sheets anchored with top, not fixed+bottom).
 A BLOCKER is a real path a reader, a story or a pack can hit, with a repro. Pre-existing behaviour on main and the
 lead's recorded decisions are follow-ups, not blockers.
-Run: npm run check; full suite with counts; git diff --check; the replay/data-module fuzz suites.
+Also: the feature id is `story-block.rpg` (renamed before release); the R3 replay rule (each roll records the dice
+numbers it used; Re-read/rebuild/reload/replan never read current settings); the Combat rules edit via `dm.redefine`.
+Known and recorded (not blockers): a reply with no accepted lines does not settle the death latch; block prompts are
+stored on one line; "1 buttons" in the chooser (pre-existing).
+Run on Node 24: npm run check; full suite (individual counts); git diff --check; the replay/data-module fuzz suites.
 Verdict line: HOLDS or BLOCK n. Write vm-results/155.md (verdict, blockers with repro and file:line, follow-ups,
-counts).
+counts) and commit it to inventory-block claude/hopeful-babbage-tipaw8. Use model gpt-6.1-terra with
+model_reasoning_effort=max.

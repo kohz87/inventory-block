@@ -20,6 +20,7 @@ Accounts (USER, 28 Oct): A out of credit, resets at 17:25 UTC; B has quota now (
 Accounts (USER, 29 Oct ~14:20 UTC): both out. A resets 00:51 SGT 30 Oct = 16:51 UTC 29 Oct (use from 16:52 UTC); B resets 01:58 SGT 30 Oct = 17:58 UTC 29 Oct (use from 17:59 UTC). Run 152 on A at 16:52 UTC.
 
 Order (run top to bottom):
+ST65. 155 — READY — LEAD GO-AHEAD (31 Oct): review of Story Block 2.8.0 RPG, Story_block stage16/lean-rpg at 9228472 vs main c438975. Either account with quota; a fresh session. Prompt vm-jobs/155-prompt.txt.
 ST64. 154 — MOVED TO CLAUDE (31 Oct, not picked up by the VM; a Sonnet reviewer in a fresh session runs it). Do not run. WAS: review of the Timeline build (SD stage16/chronicle-lasting 632835c, Studio stage16/timeline 3b128bf). Either account with quota; a fresh session. Prompt vm-jobs/154-prompt.txt.
 ST63. 153 — CANCELLED (30 Oct, USER: Codex unavailable, proceed without the review). Do not run.
 ST62. 152 — DONE 17:10 UTC on A (HOLDS: both 151 blockers closed at 2097c40; 3596 tests; results in vm-results/152.md). Regression-only re-check of 151.

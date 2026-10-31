@@ -1985,3 +1985,12 @@ MERGED testkit RB #118, SD #115, NSD #205.
   used, text fixed; B1 → SD refuses `chronicle.lasting` while the clock is null (event retries, fires with a real
   `since`) and Studio guards delayed-from parents with `time() != null`; fuzz generators (SD rule 3) and follow-ups
   1–5 included. Brief timeline-briefs/FIX1.md; agents D2 (SD) and E2 (Studio) launched.
+- 31 Oct: agent R3 done, `stage16/rpg-r3` 9d19206: the name "RPG" everywhere a reader sees it + stored ids
+  (`story-block.rpg`, `rpgRolls`, `content.rpg`, `rpgPlan`; docs/v2/RPG.md); Settings → RPG page (own rail entry,
+  presets/custom with clamped values, live odds `oddsFor` checked against `outcomeOf` over all 400 dice pairs,
+  combat text via `dm.redefine`, planner note `rpgPlannerNote` + read-only prompt); REPLAY: the numbers travel in the
+  `rpg.resolve` payload and are recorded (inputs, guard hash, result.rules), never re-read from settings; foe pencil
+  edits health. MERGED 9228472; suite 3901 pass / 0 fail. Lead browser look: Settings → RPG matches mockup v8 (live
+  odds from Wessel's sheet 69/7/25). Follow-up: block prompts are stored on one line (combat text loses its breaks).
+- 31 Oct: review 155 marked READY on 9228472 (prompt updated: v8 approved, rename, R3 replay rule, known items).
+  USER to start the VM.
