@@ -1827,3 +1827,9 @@ MERGED testkit RB #118, SD #115, NSD #205.
   (1) `functions` storage must match C's choice; (2) Character's 17 slots vs the editor's 16 depends on C's
   editableBlockDraft choice; (3) H's commit used a different model trailer than the rule: the lead will bring H's
   change in as a new commit with the standard trailer (no rewrite of H's branch).
+- 31 Oct: USER decision: no World state block; lasting world changes go to Story Director's chronicle ("it doesn't
+  make sense to do double work"). Design: pack events' "Lasting change" calls a new SD command (chronicle event:
+  name, state looming/ongoing/resolved, place, factions, summary, keep); entries an event wrote are locked against
+  the story's `world` lines (detail yes, state no; another event or the reader can); "Keep in mind" puts up to 2
+  such events in every reply's tail; without SD the cue is still told once. Studio Timeline mockup v2 published at
+  the same URL (AJZkpqZigE5TvZRRh4jrMK) with the new Lasting change section. Still open: "N days after" yes/no.
