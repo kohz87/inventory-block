@@ -39,6 +39,8 @@ https://claude.ai/artifact/AJZkpqZigE5TvZRRh4jrMK (v3); AI writing help https://
 - 2.9.1 (R8, review 173): "full above 10" goes negative under stat 5 ("+-4"); Settings hint "rounded down" under
   it; foes' class words follow the party's soul field; `+ party` grammar says I–IX; statDivisor 0 encoding; unused
   soulOne string; wizard/join characters carry the stock "Soul Class" label.
+- Money: a coin list of a single coin worth 1 ("crown: 1") gets coinLine without "no other coins exist"; treat it as
+  a single-unit currency in moneyLine. (An always-on lore currency entry still wins; say so in the Money help.)
 - Pack checker doesn't parse event `when` conditions (an apostrophe in a quoted name went unnoticed until a test).
 - Ersveil: split news events can repeat the same bulletin when the player moves between region groups; Ardelia deadlocks (outline said elects).
 - RPG: a reply where the story changes nothing doesn't settle the death check (it waits for the next reply with lines).

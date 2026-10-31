@@ -2340,3 +2340,7 @@ MERGED testkit RB #118, SD #115, NSD #205.
   decided to do without equipment ("could endlessly stack and deviate from RP"). Gear (G) shelved: nothing built; the
   story and the roll's ±3 edge carry gear. Mockup section 10 marked shelved (artifact v12). Optional later: tell the
   roll planner what's equipped (~30 lines) — not requested.
+- 31 Oct: USER saw copper/silver in an Ersveil story after setting Settings → Money to one coin "crown: 1". Cause: the
+  always-on lore entry "[CORE] Currency" (copper/silver/gold) outweighs Story Block's one money line; copper coin lines
+  would be refused as foreign. USER went back to the pack's coins (cleared Coins and Currency). Follow-up: a coin list
+  of one coin worth 1 takes coinLine and loses moneyLine's "no other coins exist"; treat it like a single-unit currency.
