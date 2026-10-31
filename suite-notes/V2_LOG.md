@@ -1915,3 +1915,11 @@ MERGED testkit RB #118, SD #115, NSD #205.
   Data changes if approved: Character `about` (text 240); Skills `about1..5` (text 120); learn-N sets name + about;
   skill-set templates in lean-rpg (built in) and a pack `skillSets` list (Studio later). Shot over a hidden chat (the
   Glass dialog is see-through in headless shots). Scripts mock-rpg/mock4.mjs, mock5.mjs. Awaiting approval.
+- 31 Oct: USER: rank should be a dropdown so it can't be set freely; how is a skill's stat/roll addition defined;
+  coloured mastery bar? RPG mockup v6 (same URL): wizard rows get dropdowns Stat (STR..CHA), Uses (Stamina/Mana),
+  Starts at (Novice, Adept for one skill only); rank and practice are never typed in and are not reader-editable
+  afterwards (pencil = name + description only; `edit:false` on rankN/practiceN). Skills view: 4-cell mastery bar
+  toned by rank (Novice neutral, Adept info, Expert accent, Master good; next cell fills with practice), "Rolls with
+  it: d20 +N = STAT v → +v/2 · Rank +r · Soul Class +2c". Each skill stores its stat and resource (Skills block:
+  who + 5 × skill/about/rank/practice/stat/uses = 31 fields ≤ 32); the pre-call uses the skill's stat for skilled
+  acts and picks one only for unskilled acts (rank 0). Templates carry stat/resource per skill. Awaiting approval.
