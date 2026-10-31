@@ -1,0 +1,14 @@
+FINAL RE-CHECK 167 (READ-ONLY toward GitHub, except committing your result file): Story Block 2.8.0 RPG,
+kohz87/Story_block `stage16/lean-rpg` at 52fe068 (one commit on 8f6321e) vs main c438975. Fresh session, fresh clone.
+Read vm-results/166.md (BLOCK 1) in kohz87/inventory-block claude/hopeful-babbage-tipaw8. Confirm it is closed
+(round5b.test.js "review 166"), then a regression-only pass over 8f6321e..52fe068 (resolve.js skillFor/statOf refusal
+wordings and plainRefused, cue.js cueText/fitCue, tests, docs). This is the release gate for 2.8.0.
+BLOCKER BAR (USER, 31 Oct: stop chasing unlikely edge cases): a BLOCKER is only something an ordinary user or
+pack author would plausibly hit in normal use (stock templates, ordinary settings, an ordinary AI answer or paste) that
+loses or corrupts saved data, crashes or wedges the screen, gives wrong rules results, or leaks a hidden value in normal
+play. Everything else (contrived combinations, boundary-of-budget timing, hand-made malformed input, compatibility with
+unreleased builds) goes in a "Follow-ups" list, NOT in the verdict. Give the repro for each blocker. Do not remove fixes
+to see tests fail.
+Run on Node 24: npm run check; full suite (counts); git diff --check; scripts/fuzz-replay.mjs (100 seeds).
+Verdict line: HOLDS or BLOCK n. Write vm-results/167.md and commit it to inventory-block claude/hopeful-babbage-tipaw8.
+Use model gpt-6.1-terra with model_reasoning_effort=max; if its filter stops the run, a Claude reviewer may run it.

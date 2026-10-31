@@ -2130,3 +2130,15 @@ MERGED testkit RB #118, SD #115, NSD #205.
   queued READY on A (with the B1/B2 decision: unreleased heads need no migration).
 - 31 Oct: USER RULE: no failing-before (pre-fix) test runs any more — write the test, run it after the fix only.
   Added to both COMMON.md files and the 165/166 prompts.
+- 31 Oct: RE-CHECK 165 (VM B, Studio db4846f): BLOCK 3 — 162 closed; new: "Right after is fine" kept a 2-day delay;
+  blank factions dropped silently; the factions note counted the list before dropping and had no accept (and blocked
+  Keep after the change was turned off). J2d round 4 → 2443686: delay notes name the kept delay; blank factions noted;
+  the factions note on the kept list with an accept; lasting notes inactive/removed when the change is off. Suite
+  757/757; lead spot-check 55/55.
+- 31 Oct: RE-CHECK 166 (VM A, RPG 8f6321e): BLOCK 1 — the longer hidden missing-stat refusal could drop a round at the
+  budget edge. Lead fix 52fe068: refusals also carry their plain wording (never saved/told) for measuring; hidden
+  wordings never longer ("lacks the skill's stat"; a hidden resource left out). Suite 3965 pass / 0 fail; fuzz 100
+  seeds × 120 clean.
+- 31 Oct: USER asked whether we are chasing unlikely edge cases. Lead: yes — the last rounds were contrived paths. New
+  blocker bar for the FINAL re-checks 167 (RPG, A) and 168 (Studio, B): only ordinary-use data loss/corruption, crash/
+  wedge, wrong rules, or hidden-value leak in normal play; everything else goes to Follow-ups. Both queued READY.

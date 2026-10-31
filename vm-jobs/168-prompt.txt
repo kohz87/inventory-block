@@ -1,0 +1,18 @@
+FINAL RE-CHECK 168 (READ-ONLY toward GitHub, except committing your result file): Story Studio "Write timeline
+events with an AI", kohz87/Story_studio `stage17/ai-write` at 2443686 (fixes on top of db4846f) vs main c0df9d1.
+Fresh session, fresh clone. Read vm-results/165.md (BLOCK 3) in kohz87/inventory-block claude/hopeful-babbage-tipaw8.
+Confirm 165 findings 1–3 are closed with tests, then a regression-only pass over db4846f..2443686 (delay notes and
+their accept buttons, blank/non-text factions, the factions note on the kept list, lasting notes when the change is
+turned off). This is the release gate for Studio 0.4.0.
+Accepted calls (not blockers): everything accepted in 162/165; factions are read up to the first five entries (a valid
+sixth is dropped with the "shortened to 5" note).
+BLOCKER BAR (USER, 31 Oct: stop chasing unlikely edge cases): a BLOCKER is only something an ordinary user or
+pack author would plausibly hit in normal use (stock templates, ordinary settings, an ordinary AI answer or paste) that
+loses or corrupts saved data, crashes or wedges the screen, gives wrong rules results, or leaks a hidden value in normal
+play. Everything else (contrived combinations, boundary-of-budget timing, hand-made malformed input, compatibility with
+unreleased builds) goes in a "Follow-ups" list, NOT in the verdict. Give the repro for each blocker. Do not remove fixes
+to see tests fail.
+Browser tests: if Chromium cannot start in your sandbox, say so and run the rest; the lead runs them here.
+Run on Node 24: npm run check; full suite (counts); git diff --check; dist matches a fresh build.
+Verdict line: HOLDS or BLOCK n. Write vm-results/168.md and commit it to inventory-block claude/hopeful-babbage-tipaw8.
+Use model gpt-6.1-terra with model_reasoning_effort=max.
