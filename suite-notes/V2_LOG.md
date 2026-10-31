@@ -1818,3 +1818,12 @@ MERGED testkit RB #118, SD #115, NSD #205.
 - Launching four agents in parallel, each on its own branch off `stage16/lean-rpg`: C block engine (Sonnet,
   `stage16/rpg-c`), A automatic rolls (Sonnet, `stage16/rpg-a`), B screens (Sonnet, `stage16/rpg-b`), H templates
   and docs (Haiku, `stage16/rpg-h`). They push branches only; the lead merges.
+- 31 Oct: agent H done, `stage16/rpg-h` d3ffdf6 (on f50ad31). Four templates in `src/v2/lean-rpg/templates.js`
+  (Character 16 fields + Rest, rules class-up, death latch as two reply-end functions + end card in a definition key
+  `functions`; Skills 5 slots, learn-N / practice-N, rank-up rules; Foes 4 slots, no `who`; Combat rules prompt 978
+  chars), fixture `tests/v2/lean-rpg/fixtures/party.json` (mockup v3 party), docs/v2/LEAN_RPG.md + GUIDE section.
+  13 tests; the full checker test is todo until C's keys land. Suite 3594 pass / 0 fail.
+  Lead checks: combat text equals the original 864-byte prompt exactly, plus the XP line. Open for integration:
+  (1) `functions` storage must match C's choice; (2) Character's 17 slots vs the editor's 16 depends on C's
+  editableBlockDraft choice; (3) H's commit used a different model trailer than the rule: the lead will bring H's
+  change in as a new commit with the standard trailer (no rewrite of H's branch).
