@@ -2383,3 +2383,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
   in parallel → briefs R10 (SB mounts, stage25/mounts, port 8172) and R11 (SD trip + map, stage25/trip, port 8173),
   both from main, no version bump (lead bumps at release: SB 2.11.0, SD 2.5.0), fixed interface mounts.list /
   mounts.pace. Two Sonnet agents launched beside R9.
+- 31 Oct ~16:30 UTC: USER going to sleep: proceed with the lead's recommended options until 9am SGT (01:00 UTC 1 Nov), then write a summary. Lead: 9am SGT summary scheduled; ~2h heartbeat for agents R9/R10/R11; releases follow the standing workflow (review, PR, merge after green CI).
