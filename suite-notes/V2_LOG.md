@@ -2272,3 +2272,11 @@ MERGED testkit RB #118, SD #115, NSD #205.
 - 31 Oct: USER asked how skill stats work (lead: one-way; the skill's stat feeds its roll: d20 + floor(stat/2) + rank +
   2×Soul Class + edge; ranks via practice, Soul Class via XP, stats only via points) — found that nothing grants points
   after creation. USER approved: +3 points per Soul Class rise → R7 item 5. Stats cap: 1–20 (wizard 8–15).
+- 31 Oct: agent R7 done, stage22/rpg-r7 b235f3c (correct trailer): Create adds missing Combat rules + Foes (separate
+  defines, same reply; dialog stays open saying what couldn't be added); dm.join brings them for a first character in
+  one guarded action; `- party` refuses the persona's character; Stats step padded grid + radar (showBudget prop on
+  the stepper); class-up +3 points with the note "+3 points to spend". Suite 4025 pass / 0 fail; fuzz 20 clean;
+  screenshots scratchpad/rpg-r7/shots (lead checked the Stats step d/p: aligned). Lead: 2.9.1 bump + CHANGELOG e4ba101;
+  release review 172 (Claude) launched. USER asked about Soul Class vs level (answered: Soul Class IS the level; it's
+  the RPG's template field, not the pack's; the RPG screens hard-code "Soul Class") → lead offered: RPG screens use the
+  Character block's own field label/names so a rename to "Level" carries everywhere; waiting on the USER.
