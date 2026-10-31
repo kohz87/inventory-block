@@ -2469,3 +2469,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
   a middle delete can bring back a name a later whole-list replace wrote (all versions); case variants keep the first
   spelling. PR opened.
 - 31 Oct ~20:18 UTC: RELEASED Story Block 2.11.2 (kohz87/Story_block#235) after green CI. Unsubscribed. Remaining overnight: nothing in flight; next items (simplification, UI redesign) wait on the USER's picks; follow-ups listed in TODO_NEXT.
+- 31 Oct: brief R16 (SB 2.11.3: timeline-release-fuzz seeds 13/20 root cause; pack checker parses event when; "1 buttons" singular) and agent R16 launched.
