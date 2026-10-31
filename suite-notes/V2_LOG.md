@@ -2249,3 +2249,9 @@ MERGED testkit RB #118, SD #115, NSD #205.
   after green CI. Check-in cancelled; unsubscribed. Vendored SB copies in SD/Studio/NSD are now one content release
   behind (test-only; re-sync with the next release). Next: R6 (running), then one combined release (U + BK + R6) after a
   Claude review.
+- 31 Oct: agent R6 done (stage20/rpg-r6 4e3e14e; suite 4005 pass; fuzz 30 clean; screenshots scratchpad/rpg-r6/shots).
+  It used a different model name in its trailer, so its work was brought into the release as a new lead commit
+  (b374cd4) instead of merging its commit. Release branch stage21/release-2.9.0: main 0756f03 + merge settings-fixes +
+  merge blocks-settings (module.test.js conflict resolved: no storyCoinPerReply, no blocks screen) + R6 (RPG.md
+  conflict: Settings → Blocks wording) + 2.9.0 bump/CHANGELOG → 7fe84c5. Suite 4017 pass / 0 fail; fuzz 40 clean.
+  Release review 171 (Claude reviewer) launched.
