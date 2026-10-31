@@ -2006,3 +2006,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
   Story Block says why"); Problems "Good to know" note; `time() != null` guard on delayed-from parents (one undo
   step, hand-written conditions untouched); checkLasting matches SD; missing-world-event warnings + row dot; preview
   "at least N days after “X” happens"; region help line. Re-check 156 written and marked READY for account B.
+- 31 Oct: USER: run 156 with Sonnet → moved off the VM queue; a Sonnet reviewer in a fresh session runs it.
