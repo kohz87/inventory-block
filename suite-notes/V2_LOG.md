@@ -2371,3 +2371,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
   fits 2.10 (third "You" line; mockup 12b, artifact v14, waiting on approval, then added to agent R9); the PC's trip
   and mounts are Story Director work (trip state + pace) → their own release with a mockup; mounts as one "Mounts"
   card (one block, up to 4) rather than companion Character blocks (2 of the 8 block slots each).
+- 31 Oct: USER approved 12b (Rank); sent to agent R9 mid-run and appended to R9.md. USER asked for a mockup of the trip line and the Mounts card, integrated with the map.
