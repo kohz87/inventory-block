@@ -1995,3 +1995,9 @@ MERGED testkit RB #118, SD #115, NSD #205.
 - 31 Oct: review 155 marked READY on 9228472 (prompt updated: v8 approved, rename, R3 replay rule, known items).
   USER to start the VM.
 - 31 Oct 06:16 UTC: USER started review 155 on Codex account A.
+- 31 Oct: agent D2 done, SD `stage16/chronicle-lasting` feaf595 (948 pass / 0 fail): capability `chronicle-lasting`
+  (SB's real `stCapabilities` sees it; without SD, install is refused with MISSING_CAPABILITY); `chronicle.lasting`
+  fails NOT_YET while the clock is null (event retries, fires dated); review repros as regression tests; fuzz-delete
+  generators cover lasting events; entries record `fire: { rev, by }` for the Journal. Residual (SB, pre-existing,
+  follow-up): a pack installed with SD stays enabled if SD is later removed, showing "Needs chronicle-lasting" while
+  its lasting events fail each reply.

@@ -28,6 +28,8 @@ https://claude.ai/artifact/AJZkpqZigE5TvZRRh4jrMK (v3).
 ## Small follow-ups (any time)
 - RPG: a reply where the story changes nothing doesn't settle the death check (it waits for the next reply with lines).
 - Block chooser says "1 buttons" (pre-existing in 2.7.2).
+- Block prompts are stored on one line, so the RPG combat text loses its line breaks.
+- Story Block keeps a pack enabled when a module capability it needs goes missing after install (events that call the missing command fail each reply); consider skipping such events with one Problems line.
 - A merge-on-rename can drop "from the story" after an earlier reply is re-read (pre-existing; 151 note).
 - Story Director clock editing (a pencil on the date and time).
 - `b1r2-capture.test.js` 10 s backstop trips under heavy load (passes alone); watch it in CI.
