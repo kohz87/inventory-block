@@ -20,7 +20,7 @@ Accounts (USER, 28 Oct): A out of credit, resets at 17:25 UTC; B has quota now (
 Accounts (USER, 29 Oct ~14:20 UTC): both out. A resets 00:51 SGT 30 Oct = 16:51 UTC 29 Oct (use from 16:52 UTC); B resets 01:58 SGT 30 Oct = 17:58 UTC 29 Oct (use from 17:59 UTC). Run 152 on A at 16:52 UTC.
 
 Order (run top to bottom):
-ST71. 161 — READY — LEAD GO-AHEAD (31 Oct): re-check of Studio AI writing help fixes, Story_studio stage17/ai-write at 2b10310. Account B; a fresh session. Prompt vm-jobs/161-prompt.txt.
+ST71. 161 — DONE (BLOCK 5, vm-results/161.md) on B. WAS: READY — LEAD GO-AHEAD (31 Oct): re-check of Studio AI writing help fixes, Story_studio stage17/ai-write at 2b10310. Account B; a fresh session. Prompt vm-jobs/161-prompt.txt.
 ST70. 160 — READY — LEAD GO-AHEAD (31 Oct): RPG re-check after fix round 5, Story_block stage16/lean-rpg at e85c250. Account A; a fresh session. Prompt vm-jobs/160-prompt.txt.
 ST69. 158 — DONE (BLOCK 8, vm-results/158.md) on A. WAS: READY — LEAD GO-AHEAD (31 Oct): RPG re-check after fix round 4, Story_block stage16/lean-rpg at 4ce3111. Account A; a fresh session. Prompt vm-jobs/158-prompt.txt.
 ST68. 159 — DONE (BLOCK 9, vm-results/159.md) on B. WAS: READY — LEAD GO-AHEAD (31 Oct): review of Studio "Write with an AI" (Story_studio stage17/ai-write fbf4637). Account B; a fresh session. Prompt vm-jobs/159-prompt.txt.

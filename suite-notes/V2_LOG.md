@@ -2086,3 +2086,7 @@ MERGED testkit RB #118, SD #115, NSD #205.
   bound, 200,000-char paste / 30 places / 1 MiB drafts / rollback on failed save, whole prompt ≤24,000 with an
   ordered trim, the finder skips "[1]". Accepted: missing-parent note clears only by following an existing event.
 - Queued for Codex: 160 (RPG, A, e85c250) and 161 (Studio AI writing help, B, 2b10310), both READY.
+- 31 Oct: RE-CHECK 161 (Codex B, Studio 2b10310): BLOCK 5 — 159 B1/B2/B7 not fully closed (until note tied to the
+  start mode; present nulls default silently; Redo restores a refused draft) + 2 regressions (answer/answer slug
+  collision binds the wrong parent; code-unit cuts shorten valid Unicode). Browser tests could not run on the VM.
+  Fix brief timeline-briefs/J2-FIX2.md; agent J2c launched. 160 (RPG) still running on A.
