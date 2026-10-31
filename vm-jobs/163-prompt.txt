@@ -1,0 +1,14 @@
+REVIEW RE-CHECK 163 (READ-ONLY toward GitHub, except committing your result file): Story Block 2.8.0 RPG,
+kohz87/Story_block `stage16/lean-rpg` at 9f57e18 (one commit on e85c250) vs main c438975. Fresh session, fresh clone.
+Read vm-results/160.md (BLOCK 1: hidden mechanical fields changed the rolls) in kohz87/inventory-block
+claude/hopeful-babbage-tipaw8. Confirm it is closed with tests that fail without the fix (round5b.test.js "review 160 a"
+and "b"), then a regression-only pass over e85c250..9f57e18 (read.js, precall.js sheetText, tests, docs).
+The rule now: hidden texts (names, Who, About) are not read; hidden numbers/choices keep their real values for the
+rules and are only left out of the planner's sheet text. Check that no hidden value reaches the planner prompt, the
+plan, the cue or the narrator, and that the rules never read made-up values.
+Known and recorded (not blockers): as in 160's follow-ups, plus: a rules outcome (a total, a refusal such as "is
+Down") may reflect a hidden value.
+A BLOCKER is a real path with a repro. Run on Node 24: npm run check; full suite (counts); git diff --check;
+scripts/fuzz-replay.mjs (100 seeds). Verdict line: HOLDS or BLOCK n. Write vm-results/163.md and commit it to
+inventory-block claude/hopeful-babbage-tipaw8. Use model gpt-6.1-terra with model_reasoning_effort=max; if its
+filter stops the run, a Claude reviewer may run it as with 160.

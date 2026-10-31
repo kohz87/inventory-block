@@ -2096,3 +2096,9 @@ MERGED testkit RB #118, SD #115, NSD #205.
   resolves exact answer name → pack id → unique same-id answer event, else ⚠ ambiguous; code-point bounds with cut
   notes. Accepted calls: news counted in UTF-16 units (matches SB's checker), `lasting: false` quiet. Re-check 162
   queued READY for Codex B.
+- 31 Oct: RE-CHECK 160 (VM; the Codex run was stopped by its filter, a Claude reviewer ran it): BLOCK 1 — all eight 158
+  blockers closed; new: the round-5 hidden-field fix made hidden health/soul/foe count fall back to defaults in the
+  rules (a Down character acts; an empty slot is rolled against). Lead fixed it directly (9f57e18): hidden texts are
+  not read; hidden numbers/choices keep real values for the rules and are left out of the planner's sheet text; 2
+  new tests fail without the fix; shape pins gained `hidden: []`; suite 3958 pass / 0 fail; fuzz-replay 60×120 clean.
+  Re-check 163 queued READY for Codex A.
