@@ -28,6 +28,7 @@ https://claude.ai/artifact/AJZkpqZigE5TvZRRh4jrMK (v3); AI writing help https://
 | ~~G~~ | SHELVED 31 Oct (USER): gear as stat bonuses; mockup v11 section 10 kept on file | — | — | — |
 | ~~2.9.4~~ | RELEASED 31 Oct: Story Block 2.9.4 (#231, bddaedb): present-rename clause in the narrator grammar | — | — | — |
 | T | Text size + "You" (Wearing, Condition): SB 2.10.0 + SD 2.4.0, brief R9 | Sonnet (running) | ~1 day | — |
+| V | Trip line + Mounts card + map route/movers (SB 2.11 + SD 2.5) | Sonnet | ~2 days | mockup v13 approval |
 | S2 | Re-sync vendored Story Block (test-only) in SD/Studio/NSD to 2.9.4 | Sonnet | ~1 h | USER go |
 | ~~S~~ | DONE 31 Oct: vendored Story Block 2.8.0 in SD (#145), Studio (#20), NSD (#225) | — | — | — |
 | P4 | P4 trim: lazy-load the pack checker, Diagnostics, UI sample | Haiku or Sonnet | ~½–1 day | Any time |

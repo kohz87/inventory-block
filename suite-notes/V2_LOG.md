@@ -2372,3 +2372,8 @@ MERGED testkit RB #118, SD #115, NSD #205.
   and mounts are Story Director work (trip state + pace) → their own release with a mockup; mounts as one "Mounts"
   card (one block, up to 4) rather than companion Character blocks (2 of the 8 block slots each).
 - 31 Oct: USER approved 12b (Rank); sent to agent R9 mid-run and appended to R9.md. USER asked for a mockup of the trip line and the Mounts card, integrated with the map.
+- 31 Oct: mockup v13 section 13 (artifact v15), real-app shots on test ST 8155: Home Travel line (Bluewatch →
+  Hollin's Reach → Wolfmere Outpost, real pack routes 100 km F + 60 km F, riding at the slowest mount 25 km/day, leg
+  dates Goldwane 16/19); one Mounts card (Grey Mare 35, Burr 25; up to 4); Map with the route, You marker on the leg,
+  known movers (courier, Ninth Brazier) as diamonds + an On the road panel; Status Travel row. Lines: `~ trip Place |
+  by | via`, `~ trip stop`, `+/~/- mount`. Trip + map in Story Director, Mounts in Story Block. Waiting on approval.
