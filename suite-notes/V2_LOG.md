@@ -2318,3 +2318,8 @@ MERGED testkit RB #118, SD #115, NSD #205.
   Lead fixed on stage23/stats-note-fix 516a4d0 (one line + a test after +, −, Back/Next, Reset) as Story Block 2.9.2;
   suite 4051 pass / 0 fail. One-line UI fix: no reviewer agent (saves tokens). PR kohz87/Story_block#229; subscribed.
 - 31 Oct ~14:52 UTC: RELEASED Story Block 2.9.2: kohz87/Story_block#229 merged (merge commit 224f7c9) after green CI. Check-in cancelled; unsubscribed.
+- 31 Oct: USER confirmed 2.9.2 fixed the note; reported no space between the wizard's summary row and the step.
+  Cause: lean-rpg.css `.rpg-wizard { display: grid; gap: 12px }` names a class nothing carries (root is
+  `.ss-w-rpg-wizard`; pre-existing since the wizard shipped). Lead fixed on stage23/wiz-gap ff35a9b as 2.9.3 (+ test);
+  suite 4052 pass / 0 fail. PR kohz87/Story_block#230; subscribed. USER asked about equipment: Inventory has
+  equipment items with Equip/Unequip, but the RPG dice don't read gear (no weapon/armour bonus).
