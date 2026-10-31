@@ -40,6 +40,7 @@
 | **Conclave Elder Clementia** | The Restorationists' leading voice | Warns that the Tide is coming; ignored until CY 613 |
 | **Mother Inquisitor Severa, "Ash-Tongue"** | Head of the Inquest's northern hunts | Leads the purge north, CY 612 |
 | **Grand Commander Vitus of Silvermark** | Head of the Order of the Silver Mark | First called when the dead rise in numbers |
+| **Saintess Livia, "Candle-Without-Smoke"** | The Church's living saint: a Flamecaller whose completion rites calm whole graveyards; pilgrims follow her; the Conclave both uses and fears her popularity | Goes north to complete the refugee dead, CY 613; a rival pole to Saintess Velka |
 
 ### Ashmere, Valegard and the Border Kingdoms
 | Name | Role | Ties |
@@ -101,10 +102,17 @@
 |---|---|---|
 | **First Marshal Adelind Corbel** | Elected head of the Wallwright League | Every heir wants her engineers; builds the Last Wall's works |
 | **The Reckoner (Ottokar Vell)** | Head of Shackles' Grey Ledger | Buys up war-supply contracts and frontier debts, CY 611 |
-| **Mirelle, called "the Lark"** | The Nightingale's known go-between (the King or Queen stays secret) | Trades war secrets; never robs the dead |
+| **The Sparrow** | The Nightingale's public face and voice, out of Shackles' Mute Sparrow Ward; the title passes on, and the current Sparrow's real name is unknown. The Nightingale King or Queen stays secret. | Trades war secrets to every side; never robs the dead |
+| **Ottavia Vane, "the Phantom of Vargate"** | The Nightingale's champion: the best Phantom alive; has stolen from three crowns and returned one theft to make a point | Steals the Iron Archive's key, or is hired to |
 | **"The Key-Widow"** | A Broken Chain legend: no one agrees whether she is real | Linked to the CY 613 uprising |
+| **Neshai Chainbreaker** | The Broken Chain's champion: a beastfolk fighter, once a pit slave, who breaks collars with her hands | Leads the CY 613 uprising in the field |
 | **Warmother Vashka** | Leads the Cinder Host, chosen in war | Marches west, CY 613 |
-| **Saltbone Ide** | Notorious Ashen Veil cell leader | Profits from the northern dead; the Church's target |
+| **Grusk the Ledger-Burner** | The Cinder Host's champion: an orc who has burned eleven debt registers and the clerks guarding them | Spearhead of the CY 613 march |
+| **Saintess Velka, "Keeper of Names"** | The Ashen Veil's counter-saint: the cells that call the dead kept, not completed, revere her; she remembers every name she has kept | *Narrator-only:* she knows the Church and the Veil share a root; profits from the northern dead |
+| **Saltbone Ide** | Notorious Ashen Veil cell leader, the Veil's champion in the field | Profits from the northern dead; the Church's target |
+| **"The Quiet Hour"** | The Hand of Oblivion's most famous Executor; no description agrees | Contracts on the heirs, CY 612–613 |
+| **Teodor "Nine Collars" Vask** | Shackles' pit champion of the Ironhammer Brotherhood; has won and lost his freedom nine times | Fights for whoever buys him |
+| **Captain Sorrel of the Ninth Debt** | Collared captain of the Grey Ledger's debt-slave company | Sold to the northern front, CY 613 |
 | **Captain Murrough of the Gallowglass** | Bloodbound captain who holds a line past all reason | Hired for the Last Wall |
 
-Count: 50 entries (the 13 timeline characters plus 37 more).
+Count: 58 entries (the 13 timeline characters plus 45 more).

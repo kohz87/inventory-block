@@ -2188,3 +2188,8 @@ MERGED testkit RB #118, SD #115, NSD #205.
   adventurers (S-ranks, an A-rank party near Bluewatch). Draft roster suite-notes/ERSVEIL_PEOPLE.md (50 people;
   keyword-triggered entries ~200–300 chars; present tense CY 611; timeline changes override via the CORE precedence
   rule; narrator-only secrets marked) sent for approval.
+- 31 Oct: USER: add a saintess for the Church and for the Veil; the Nightingale's face is "the Sparrow" (King/Queen
+  unknown); every underworld faction gets its own champion. Roster updated to 58: Saintess Livia "Candle-Without-
+  Smoke", Saintess Velka "Keeper of Names" (Veil), the Sparrow (replaces "the Lark"), champions Ottavia Vane
+  (Nightingale), Neshai Chainbreaker (Broken Chain), Grusk the Ledger-Burner (Cinder Host), "the Quiet Hour" (Hand of
+  Oblivion), Teodor "Nine Collars" Vask (Shackles/Ironhammer), Captain Sorrel of the Ninth Debt (Grey Ledger).
