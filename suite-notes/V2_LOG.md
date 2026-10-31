@@ -1933,3 +1933,11 @@ MERGED testkit RB #118, SD #115, NSD #205.
   `noTab` roles (character/skills/rules) while the feature is on, Skills button focuses the Skills block on the
   Blocks page. MERGED ba6c25a; suite 3791 pass / 0 fail. Agent G launched on ba6c25a (brief G.md).
 - 31 Oct 04:58 UTC: review 154 not yet picked up by the VM (queued 04:30).
+- 31 Oct: USER noticed the RPG mockup had no combat screen. RPG mockup v7 (same URL), section 5: the REAL battle log
+  from the build rendered in a narrator reply (made-up 2-round result). Found while drawing it (build issues, for
+  approval as fixes): (1) foe-attack lines read from the defender's outcome ("Sluice Rat A attacks Wessel —
+  Success" = Wessel blocked) → propose Hit / Grazed / Blocked with the attacker's total first; (2) battle-log
+  Status bars coloured by resource (health always red) while the Party tab colours by stage → propose by stage.
+  Also proposed: a Fight tab replacing the plain Foes block tab while foes are present (place, exchange, foe cards
+  with class + health stage bar + pencil, party bars, the last exchange's battle log, See it in the story).
+  Script mock-rpg/mock6.mjs. Awaiting approval; if approved it goes to a fix round after G.
