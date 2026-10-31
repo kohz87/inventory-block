@@ -1941,3 +1941,7 @@ MERGED testkit RB #118, SD #115, NSD #205.
   Also proposed: a Fight tab replacing the plain Foes block tab while foes are present (place, exchange, foe cards
   with class + health stage bar + pencil, party bars, the last exchange's battle log, See it in the story).
   Script mock-rpg/mock6.mjs. Awaiting approval; if approved it goes to a fix round after G.
+- 31 Oct: USER approved v7 combat ("approved, add it after G"). Brief rpg-briefs/R2.md (foe-attack wording, stage
+  colours in the battle log, Fight tab). Runs after G merges. USER also asked to make the combat maths adjustable
+  by the player / expose the prompt: lead drafting a Settings → Lean RPG mockup (difficulty presets + custom numbers
+  with live odds; the Combat rules text editable; extra planner instructions with the full planner prompt read-only).
