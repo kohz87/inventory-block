@@ -2470,3 +2470,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
   spelling. PR opened.
 - 31 Oct ~20:18 UTC: RELEASED Story Block 2.11.2 (kohz87/Story_block#235) after green CI. Unsubscribed. Remaining overnight: nothing in flight; next items (simplification, UI redesign) wait on the USER's picks; follow-ups listed in TODO_NEXT.
 - 31 Oct: brief R16 (SB 2.11.3: timeline-release-fuzz seeds 13/20 root cause; pack checker parses event when; "1 buttons" singular) and agent R16 launched.
+- 31 Oct: agent R16 done: SB stage28/sweep e1380f8 (2.11.3: timeline-release fuzz seeds 13/20 were the model (two restores on one reply both taken back by one delete); pack validator parses event when via condition compile (also at install); "1 field, 1 button"). 4101/0, fuzz 30 clean, timeline fuzz 30/30. Review 178 launched (focus: does the stricter validator reject already-installed packs on load).
