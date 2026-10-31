@@ -2478,3 +2478,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
   Studio's vendored Story Block (2.11.0 → 2.11.3) with the stricter checker.
 - 31 Oct: agent S3 done: Studio stage29/sync-sb-2.11.3 089f994 (vendored SB 2.11.3 + build; pins only; 757/757). PR kohz87/Story_studio#22 opened; subscribed; merge after green CI.
 - 31 Oct ~21:39 UTC: MERGED kohz87/Story_studio#22 (vendored Story Block 2.11.3) after green CI. Nothing in flight. Overnight work done; waiting for the 9am SGT summary (01:00 UTC).
+- 31 Oct ~21:45 UTC: USER asked "All done?" → lead gave the overnight summary early (9am SGT summary trigger cancelled to avoid a duplicate). Waiting on the USER: UI redesign pick (A/B/C or mix), simplification go (presets, header, retire Scene, merge Chronicle into World).
