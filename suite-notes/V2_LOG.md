@@ -2442,3 +2442,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
   mounts now; 976/0), Studio fe76663 (sync-sb incl. authoring kit + dist; closure pins 144/147; 757/757), NSD 97962bd
   (no test changes; 1506/0, same 5 cancelled as main). PRs kohz87/Story_director#148, kohz87/Story_studio#21,
   kohz87/npc_state_delta#226 opened; subscribed; merge after green CI (test-only, no reviewer).
+- 31 Oct ~18:21 UTC: S2 MERGED after green CI: kohz87/Story_director#148 (cebe97f), kohz87/Story_studio#21 (df81a26), kohz87/npc_state_delta#226. Vendored Story Block is 2.11.0 everywhere. R13 told to merge SD main before its last push.
