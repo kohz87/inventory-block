@@ -18,6 +18,7 @@ State: Story Block main c438975 (2.7.2, Ersveil 2.1.0). Story Director, Studio a
 | C | RPG agent C, block engine (prompt 1200, display names, Card and reply-end functions, hidden fields) | Sonnet | ~1 day | After B |
 | D | RPG agent A, rolls (prelude list, plan, `rpg.resolve`, optional pre-call) | Sonnet | ~1–1½ days | After B, parallel with C |
 | E | RPG agent H, templates + docs (Character, Skills, Foes, Combat rules) | Haiku | ~½ day | After B, parallel |
+| G | RPG agent G: wizard + Skills view + fixed skill stats (brief rpg-briefs/G.md) | Sonnet | ~1 day | after F merges |
 | F | P4 trim: lazy-load the pack checker, Diagnostics, UI sample | Haiku or Sonnet | ~½–1 day | Separate files, can run beside the RPG work |
 
 ## After the USER answers

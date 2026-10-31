@@ -1923,3 +1923,7 @@ MERGED testkit RB #118, SD #115, NSD #205.
   it: d20 +N = STAT v → +v/2 · Rank +r · Soul Class +2c". Each skill stores its stat and resource (Skills block:
   who + 5 × skill/about/rank/practice/stat/uses = 31 fields ≤ 32); the pre-call uses the skill's stat for skilled
   acts and picks one only for unskilled acts (rank 0). Templates carry stat/resource per skill. Awaiting approval.
+- 31 Oct: USER approved RPG mockup v6 ("approved, brief the agent after F merges"). Brief rpg-briefs/G.md written
+  (data: Character `about`, Skills about/stat/uses + locked rank/practice; rolls use the skill's stat; Skills view;
+  New character wizard creating both blocks by two `dm.define` with the chosen values as defaults; built-in and pack
+  skill sets). Launches when F is merged.
