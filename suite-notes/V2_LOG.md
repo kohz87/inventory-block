@@ -2419,3 +2419,11 @@ MERGED testkit RB #118, SD #115, NSD #205.
   and stage25/trip (SD), add the Home Travel line in SB, quiet `- mount` of a missing mount, bump SB 2.11.0 / SD 2.5.0,
   review 175.
 - 31 Oct: brief R12 (integrate R10 + R11 on 2.10.0/2.4.0 → SB 2.11.0, SD 2.5.0; Home Travel line; quiet - mount; one off fixture) and agent R12 launched.
+- 31 Oct: agent R12 done (correct trailers): SB stage25/mounts eec975a (2.11.0: merge of 2.10.0 + mounts, quiet
+  `- mount`, Travel row in the game-view header from atlas.trip, fixtures off-2.9.4 kept + off-2.11.0), SD stage25/trip
+  9ccbd72 (2.5.0: merge of 2.4.0 + trips; Status rows Time, Weather, Place, Coordinates, Travel, Rank, Wearing,
+  Condition). SB 4091 pass (1 bootstrap pin fixed after; not rerun in full), fuzz 30 clean, state/delete fuzz 35/35;
+  SD 977/0. Real ST: Home header Travel "riding, 25 km/day (Burr sets the pace)", Mounts card, Status rows, Map legs and
+  panel; swipe took it all back; with the RPG party of 3 and 2 mounts the party walks (20 km/day) as designed. Lead
+  checked the Home and Map shots. Release review 175 (Claude) launched. Note for simplification: the test chat shows
+  14 tabs in the Game view (block tabs: Character, Character 2, Foes, Skills ×3).
