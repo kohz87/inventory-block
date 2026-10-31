@@ -19,3 +19,5 @@ Read `/home/user/inventory-block/suite-notes/SPEC_TIMELINE.md` first; §1 is the
 - `git push -u origin <your branch>`. Never force-push, merge, open a PR, tag, or push to another branch.
 - Match the surrounding code's style, naming and comment density. Reader-facing text in plain words.
 - Final message: branch and head; what you built per item; tests; anything outside your files; open questions.
+- Tests (USER, 31 Oct): write a test for each fix and run it after the fix only. Do NOT stash the fix to show the
+  test failing before it (saves time and tokens).

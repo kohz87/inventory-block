@@ -2,7 +2,7 @@ REVIEW RE-CHECK 165 (READ-ONLY toward GitHub, except committing your result file
 events with an AI", kohz87/Story_studio `stage17/ai-write` at db4846f (fixes on top of 80e9f83) vs main c0df9d1.
 Fresh session, fresh clone. Read vm-results/162.md (BLOCK 5) and suite-notes/timeline-briefs/J2-FIX3.md (the lead's
 decisions) in kohz87/inventory-block claude/hopeful-babbage-tipaw8. First confirm 162 findings 1–5 are closed, each
-with a test that fails without its fix. Then a regression-only pass over 80e9f83..db4846f (drafts.js note signatures
+with a test (run the tests on the head only; do not remove fixes to see tests fail). Then a regression-only pass over 80e9f83..db4846f (drafts.js note signatures
 and MAX_NOTES 32 with refusal at Add; grouped cut notes; every delay unit checked; invalid optional lasting fields
 left out with their own note and accept button; exact-name "after" matching by case and spacing only).
 Accepted calls (not blockers): two valid delay units → the first counts and the other gets a note with its own accept

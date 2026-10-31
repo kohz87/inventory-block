@@ -2124,3 +2124,9 @@ MERGED testkit RB #118, SD #115, NSD #205.
   the sheet" names a skill's hidden stat. Lead's call on B1/B2: 9f57e18 was never released (main has no RPG), so its
   saved rolls need no migration; still, the witness drops `statHidden` (numbers only) and the cue fit is measured on
   the unredacted wording so visibility never changes the dice. B3 fixed with a stat-free refusal.
+- 31 Oct: 164 fix (8f6321e): witness drops `statHidden`; fitCue measures with `plain` wording (hidden or not, same
+  rounds/shape); statOf refuses a hidden skill stat missing from the sheet without naming it. 3 tests (review 164
+  a/b/c); suite 3964 pass / 0 fail / 10 skipped; fuzz-replay 100 seeds × 120 (checkpoints 4/7) clean. Re-check 166
+  queued READY on A (with the B1/B2 decision: unreleased heads need no migration).
+- 31 Oct: USER RULE: no failing-before (pre-fix) test runs any more — write the test, run it after the fix only.
+  Added to both COMMON.md files and the 165/166 prompts.

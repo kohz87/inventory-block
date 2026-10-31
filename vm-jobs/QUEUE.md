@@ -20,6 +20,7 @@ Accounts (USER, 28 Oct): A out of credit, resets at 17:25 UTC; B has quota now (
 Accounts (USER, 29 Oct ~14:20 UTC): both out. A resets 00:51 SGT 30 Oct = 16:51 UTC 29 Oct (use from 16:52 UTC); B resets 01:58 SGT 30 Oct = 17:58 UTC 29 Oct (use from 17:59 UTC). Run 152 on A at 16:52 UTC.
 
 Order (run top to bottom):
+ST76. 166 — READY — LEAD GO-AHEAD (31 Oct): RPG re-check of the review-164 fix, Story_block stage16/lean-rpg at 8f6321e. Account A; a fresh session. Prompt vm-jobs/166-prompt.txt.
 ST75. 165 — READY — LEAD GO-AHEAD (31 Oct): re-check of Studio AI writing help fix round 3, Story_studio stage17/ai-write at db4846f. Account B; a fresh session. Prompt vm-jobs/165-prompt.txt.
 ST74. 164 — DONE (BLOCK 3, vm-results/164.md). WAS: READY — LEAD GO-AHEAD (31 Oct): RPG re-check of the review-163 fix, Story_block stage16/lean-rpg at f1855b0. Account A; a fresh session. Prompt vm-jobs/164-prompt.txt.
 ST73. 163 — DONE (BLOCK 2, vm-results/163.md). WAS: READY — LEAD GO-AHEAD (31 Oct): RPG re-check of the review-160 fix, Story_block stage16/lean-rpg at 9f57e18. Account A; a fresh session. Prompt vm-jobs/163-prompt.txt.

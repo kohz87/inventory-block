@@ -62,3 +62,5 @@ luk cha), `STAGES` (stage words full→empty; **stored values are the stage inde
 ## Report (your final message)
 Branch and head commit; what you built against each item; tests added; anything you changed outside your files;
 open questions or deviations from the spec. Keep it short.
+- Tests (USER, 31 Oct): write a test for each fix and run it after the fix only. Do NOT stash the fix to show the
+  test failing before it (saves time and tokens).
