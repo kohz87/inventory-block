@@ -9,7 +9,7 @@ State: Story Block main c438975 (2.7.2, Ersveil 2.1.0). Story Director, Studio a
    - say yes or no to the two engine extras: "N days after another event" and Lasting change (the World state block).
 2. **Timeline big beats** (option 3): what happens and roughly when (CY 611 onward). The lead fills in the dates, the
    build-up and how the news spreads.
-3. **Lean RPG mockups**: approve https://claude.ai/artifact/Gn22FRyEzDvufqZDgdbR4R (stats screen, Roll form, cards; answer per-character tab vs one Party tab).
+3. **Lean RPG mockups**: approve https://claude.ai/artifact/Gn22FRyEzDvufqZDgdbR4R (v3: Party tab with a card per character, stage bars, automatic rolls and level-ups).
 4. **UI redesign (P6)**: a direction (minimal/flat, classic RPG, MVU-style, mobile HUD, or a reference).
 
 ## Ready to start now (no answers needed)
