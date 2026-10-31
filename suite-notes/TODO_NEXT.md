@@ -20,7 +20,7 @@ https://claude.ai/artifact/AJZkpqZigE5TvZRRh4jrMK (v3).
 ## Next, in order
 | # | Work | Who | Size | Needs |
 |---|---|---|---|---|
-| J2 | AI writing help for timeline events — MOCKUP for approval: https://claude.ai/artifact/EanYreZdULFAjKTf2reV2K: Studio Timeline "Copy prompt for an AI" (the pack's calendar, regions, places, existing events and lore names) + "Paste the AI's answer" (checked, added as drafts); a plain prompt doc too. **Mockup first.** | lead + Sonnet | ~½–1 day | Timeline released |
+| J2 | AI writing help for timeline events — APPROVED 31 Oct, building (stage17/ai-write): https://claude.ai/artifact/EanYreZdULFAjKTf2reV2K: Studio Timeline "Copy prompt for an AI" (the pack's calendar, regions, places, existing events and lore names) + "Paste the AI's answer" (checked, added as drafts); a plain prompt doc too. **Mockup first.** | lead + Sonnet | ~½–1 day | Timeline released |
 | K | Ersveil 2.2.0: hidden timeline events from the big beats, plus the "Sealwarden recruit" RPG skill set | lead | ~½ day | J2, USER item 1 |
 | P4 | P4 trim: lazy-load the pack checker, Diagnostics, UI sample | Haiku or Sonnet | ~½–1 day | Can run any time (separate files) |
 | L | UI redesign mockups | lead / agents | — | USER item 2 |

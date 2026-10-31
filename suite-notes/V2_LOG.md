@@ -2038,3 +2038,5 @@ MERGED testkit RB #118, SD #115, NSD #205.
   reasons, same checks as the form + SD limits), 3 drafts on the Timeline (draft chip, dashed, out of the export
   until Keep; a ⚠ draft can't be kept until fixed); plus docs/AI_PROMPT.md. Script scratchpad/mock-aiwrite/mock.mjs.
   Awaiting approval.
+- 31 Oct: USER approved the J2 mockup ("approved, build it"). Brief timeline-briefs/J2.md; agent J2 (Sonnet) on
+  Story_studio `stage17/ai-write` from main c0df9d1.
