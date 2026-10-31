@@ -29,6 +29,9 @@ https://claude.ai/artifact/AJZkpqZigE5TvZRRh4jrMK (v3); AI writing help https://
 
 ## Small follow-ups (any time)
 - 2.9.0 (review 171): refuse `- party` on the player's own character; a character made on the greeting is lost if the greeting is swiped (pre-existing); Home card lingers after turning the RPG off until Home redraws; old capped reply Re-read now pays in full (CHANGELOG could say).
+- 2.9.1 (review 172): Re-read of an old `- party X` after a persona rename refuses the leave; "+1 points" singular
+  when the clamp limits it; the first-character `dm.join` docs paragraph describes an unreachable path; a Create
+  on the greeting is lost if the greeting is swiped (add a one-line note in the dialog).
 - Pack checker doesn't parse event `when` conditions (an apostrophe in a quoted name went unnoticed until a test).
 - Ersveil: split news events can repeat the same bulletin when the player moves between region groups; Ardelia deadlocks (outline said elects).
 - RPG: a reply where the story changes nothing doesn't settle the death check (it waits for the next reply with lines).

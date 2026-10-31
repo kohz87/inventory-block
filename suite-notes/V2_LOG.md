@@ -2285,3 +2285,9 @@ MERGED testkit RB #118, SD #115, NSD #205.
   counts). USER: both — B always on, A as a choice → brief R8 on top of 2.9.1 (stage22/rpg-r8); same release.
 - 31 Oct: USER approved the Level label change → R8 item C (RPG screens/text read the Character block's soul field
   label and names; defaults byte-identical). Same 2.9.1 release.
+- 31 Oct: RELEASE REVIEW 172 (Claude reviewer, 2.9.1 R7 part e4ba101): HOLDS. Suite 4025 pass / 0 fail; fuzz 30 clean;
+  own wizard fuzz 98/100 clean (2 stops were its own script on an emptied chat); RPG-off prompts byte-identical in all
+  six runs; an old 2.9.0 character keeps its own points rule. Follow-ups: a Create on the greeting loses all four blocks
+  if the greeting is swiped (pre-existing); Re-read of an old `- party X` after the persona is renamed to X refuses the
+  leave; "+1 points" wording when the 60 clamp limits it; the first-character `dm.join` docs paragraph describes a path
+  a reader can't normally take; no browser screenshots by the reviewer (the agent took them). R8 still running.
