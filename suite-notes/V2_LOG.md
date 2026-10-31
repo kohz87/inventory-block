@@ -2458,3 +2458,6 @@ MERGED testkit RB #118, SD #115, NSD #205.
   pencil's present `set` still lose a block after a middle delete (same fault, pre-existing); SB delete-fuzz seeds
   6, 9, 22, 27 fail identically on main; `after` chains/self not resolved. PRs kohz87/Story_block#234 and
   kohz87/Story_director#149 opened; subscribed. Next overnight: R15 for the `with:`/pencil case and those seeds.
+- 31 Oct ~19:00 UTC: RELEASED Story Director 2.5.1 (kohz87/Story_director#149, merge 4b188c3) and Story Block 2.11.1
+  (kohz87/Story_block#234, merge 98b0f57) after green CI. Unsubscribed. Brief R15 (SB 2.11.2: `~ place | with:` and
+  the present pencil's `set` replay-safe; SB delete-fuzz seeds 6/9/22/27) and agent R15 launched.
