@@ -2180,3 +2180,7 @@ MERGED testkit RB #118, SD #115, NSD #205.
   Tide rule (W#23: warnings include loosening seals: flagged against "separate"); Hollow Aurora Expedition route as a
   cause; Long Thunder / Vaulkir as warnings; Compact red line (troops inside the walls); Guild Withdrawal precedent;
   Ardelian deadlock/regent; underworld hooks.
+- 31 Oct: USER: succession = Corvin vs Hasse vs the emperor's daughter; Startrace sent the Hollow Aurora expedition.
+  Lead proposed a cast (Emperor Adalmar, Princess Wendhild, Corvin, Hasse, Lord-Commander Ottwald + champions Dame
+  Ermengild and Sir Volkmar, Master Albrecht Somner, Commander Ragna of Kolsbotn, Frost Queen Eydis Long-Winter,
+  Guildmaster Hendrikje Laan, Seal-Captain Gurda Kelthul, Warmother Gorza) in ERSVEIL_BEATS.md for approval.

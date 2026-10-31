@@ -154,7 +154,29 @@ the current lorebook.
 - **Nightingale.** It has a secret King or Queen and a Nest believed to be in Vargate. Its oldest rule is never to rob
   the uncompleted dead.
 
+## Decisions (USER, 31 Oct, second round)
+- Highmark's succession is contested by **Princess Wendhild**, the emperor's daughter, **Prince Corvin** (brought back
+  from Map v1.16) and **Lord-General Hasse**.
+- **Startrace sent the Hollow Aurora expedition** that crossed the threshold.
+- Seals vs. Tide (no objection to the lead's suggestion): Restorationists and Startrace point to the stirring Depths
+  as a sign, but the timeline's cause is the north. Whether they are linked stays an argument people have.
+
+## Proposed cast (invented by the lead under the lorebook's naming rules; for the USER's approval)
+| Who | Role | Fate in the timeline |
+|---|---|---|
+| **Emperor Adalmar** | Highmark's emperor at the start, old and ill | Dies in Highsun CY 612 |
+| **Princess Wendhild** | His only child, heir under the plain rule ("a daughter before nephews") | Proposed winner: crowned CY 614, then turns the Empire north |
+| **Prince Corvin** | Adalmar's nephew, heir under the "male line only" reading; wants a war down the Southmarch Road | Proposed: killed at the Battle of Marrowbridge (CY 613), which ends his claim |
+| **Lord-General Hasse** | Southmarch general backed by the Marchriders, seeking a general's crown | Proposed: kneels to Wendhild in CY 614 in exchange for the Southmarch; the Wardens never forgive it |
+| **Lord-Commander Ottwald of Cedran Keep** | Head of the Wardens of the Last Wall, old and stubborn | Falls at the Last Wall, CY 615 |
+| **Dame Ermengild** | Warden champion, Wendhild's sworn sword | Falls at the Last Wall |
+| **Sir Volkmar, "the Old Stone"** | Warden champion, holds the gate road | Falls at the Last Wall; the last stone |
+| **Master Albrecht Somner** | Startrace master who led the Hollow Aurora expedition (CY 610) to measure the leyline and prove the Reopening was repeating the mistake | Missing; his camp and journal are found by Long Watch scouts in CY 613 |
+| **Commander Ragna of Kolsbotn** | Elected commander of the Long Watch | Brings the proof to the Compact Council, CY 613 |
+| **Eydis Long-Winter** | Frost Queen of the Frostbound | Leads her people south when the north falls (CY 613) |
+| **Guildmaster Hendrikje Laan** | Head of the Adventurer Guild | Governs from exile after Auvoth falls (CY 614) |
+| **Seal-Captain Gurda Kelthul** | Dwarf captain of the Sealwardens | Stays behind in fallen Auvoth with her wardens to hold the seals |
+| **Warmother Gorza** | Leader of the Cinder Host | Marches west into the Northern Belt (CY 613) |
+
 ## Open questions for the USER
-1. ~~Seals when Auvoth falls~~: the Sealwardens stay behind.
-2. Heroes: the lead invents them (decided). Which candidates above to use: Corvin? Hasse?
-3. The Tide's cause: the Hollow Aurora expedition? If so, who sent it?
+1. Approve the cast above, or change any name or fate. In particular, should Wendhild win the throne?
