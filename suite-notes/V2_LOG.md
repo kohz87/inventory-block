@@ -2317,3 +2317,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
   stat. Cause: refreshStats updated the steppers without showBudget:false (the R7 test only checked before a click).
   Lead fixed on stage23/stats-note-fix 516a4d0 (one line + a test after +, −, Back/Next, Reset) as Story Block 2.9.2;
   suite 4051 pass / 0 fail. One-line UI fix: no reviewer agent (saves tokens). PR kohz87/Story_block#229; subscribed.
+- 31 Oct ~14:52 UTC: RELEASED Story Block 2.9.2: kohz87/Story_block#229 merged (merge commit 224f7c9) after green CI. Check-in cancelled; unsubscribed.
