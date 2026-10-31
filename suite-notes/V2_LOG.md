@@ -2313,3 +2313,7 @@ MERGED testkit RB #118, SD #115, NSD #205.
   Check-in cancelled; unsubscribed. Vendored SB test copies in SD/Studio/NSD are now three releases behind (2.8.0).
 - 31 Oct: USER: stop updating RB. Recorded as a standing rule in TODO_NEXT; nothing in flight touched it (RB support left the suite in SB 2.6.0, #220).
 - 31 Oct: USER clarified: RB = the rpg_battle extension (kohz87/rpg_battle; last push 28 Oct 00:57 UTC). Rule reworded.
+- 31 Oct: USER (screenshot, real ST on 2.9.1): after a + the wizard's Stats step shows "Points left: 5" under every
+  stat. Cause: refreshStats updated the steppers without showBudget:false (the R7 test only checked before a click).
+  Lead fixed on stage23/stats-note-fix 516a4d0 (one line + a test after +, −, Back/Next, Reset) as Story Block 2.9.2;
+  suite 4051 pass / 0 fail. One-line UI fix: no reviewer agent (saves tokens). PR kohz87/Story_block#229; subscribed.
