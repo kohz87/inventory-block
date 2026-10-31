@@ -2234,3 +2234,5 @@ MERGED testkit RB #118, SD #115, NSD #205.
   null); old capped chats replay as written (2 new fixtures); history-main fixture updated (ops lost cap fields).
   Slider blue box NOT reproduced in real ST 1.19.0/Chromium; defensive !important on the slider input's background/
   border/shadow/filter/outline (beats a theme's `input[type=range]` !important). Suite 3946 pass / 0 fail.
+- 31 Oct: USER: no Codex quota — don't use Codex. Reviews now run as Claude reviewer agents in this session (fresh
+  agent per review). 170 moved to Claude; QUEUE.md says do not start anything.

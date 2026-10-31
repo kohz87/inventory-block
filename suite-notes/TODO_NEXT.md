@@ -45,7 +45,7 @@ https://claude.ai/artifact/AJZkpqZigE5TvZRRh4jrMK (v3); AI writing help https://
 - `b1r2-capture.test.js` 10 s backstop trips under heavy load (passes alone); watch it in CI.
 
 ## Rules to keep in mind
-- **Reviews:** Codex when available (fresh session); otherwise a Sonnet reviewer, or the USER's go. **Blocker bar
+- **Reviews:** Claude reviewer agents (USER, 31 Oct: no Codex quota). **Blocker bar
   (USER, 31 Oct):** only ordinary-use data loss/corruption, crash/wedge, wrong rules, or a hidden-value leak in normal
   play; everything else is a follow-up.
 - **Tests (USER, 31 Oct):** write a test per fix and run it after the fix only; no failing-before runs.
