@@ -2302,3 +2302,10 @@ MERGED testkit RB #118, SD #115, NSD #205.
   kill was refused by the permission check, left for the container to reclaim. Release review 173 (Claude) launched.
 - 31 Oct: USER set their skills (Iaijutsu agi/stamina, Shadow Cut agi/mana, Shadow Step agi/stamina, Obscure
   dex/mana, Weakness int/stamina); lead wrote the about lines and advised Foe's base 2 as a stopgap until 2.9.1.
+- 31 Oct: RELEASE REVIEW 173 (Claude reviewer, 2.9.1 R8 delta e4ba101..641b72d): HOLDS. Suite 4045 pass / 0 fail;
+  fuzz 30 clean; statShare checked at 1/8/10/14/20 for all three options, no divide by 0, normalizeRules keeps 0; five
+  e4ba101 chats replay identically; RPG-off prompts identical 6/6; hidden skill fields never leak on defence; default
+  soul field byte-identical. Follow-ups: full-above-10 is negative under stat 5 and the roll line would read "+-4";
+  a chat with full-above-10 rolls opened on an older build skips them as damaged; wizard/join-made characters carry the
+  stock "Soul Class" label (rename needs the block edit). PR kohz87/Story_block#228 opened (stage22/rpg-r8 → main);
+  subscribed.
