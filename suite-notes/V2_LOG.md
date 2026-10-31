@@ -2197,3 +2197,14 @@ MERGED testkit RB #118, SD #115, NSD #205.
   probe-succ.test.mjs): pack events can read a pack data module via query('dataModules.view', …), and a narrator dm line
   moved it and fired a gated event. Proposed design (hidden "Court favour" module, least-favour claimant broken at
   Marrowbridge 613, most-favour crowned 614, winner-specific consequences) recorded in ERSVEIL_PEOPLE.md; sent to USER.
+- 31 Oct: USER approved the succession design → build. Agent P (Sonnet) wrote 56 people entries (stage19/ersveil-people
+  a59bc74; roster count was 56, the lead's "58" a miscount). Lead: 134 events + Court favour module + Sealwarden recruit
+  skill set via a generator (suite-notes/pack-drafting/ersveil-2.2.0-gen_events.py); news split by region groups (500-
+  char `when` cap); found that lasting names with apostrophes broke single-quoted condition strings (the pack checker
+  does NOT parse `when` — follow-up) → double quotes; canon names already in lore keys used: Watch-Captain Edda Rorke
+  (replaces invented Riekert Haan), Lord-General Dietmar Hasse; authoring kit knows chronicle-lasting; new
+  ersveil-timeline.test.js walks CY 611→617 for each throne path. Story Block 2.8.1 on stage19/ersveil-2.2.0 b3e4ed0;
+  suite 3972 pass / 0 fail / 10 skipped. Review 169 queued READY on A.
+- 31 Oct: USER (testing 2.8.0): (1) Money page "What the story may pay" card still there; (2) sliders still show a blue
+  block (Glass strength); (3) no prompt for a new character, and the PC should pull from the persona; (4) what is the
+  Blocks tab for? Lead answered and asked (1) remove vs keep, (3) mockup first.

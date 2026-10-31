@@ -1,0 +1,19 @@
+REVIEW 169 (READ-ONLY toward GitHub, except committing your result file): Ersveil 2.2.0 (Story Block 2.8.1, a content
+release), kohz87/Story_block `stage19/ersveil-2.2.0` at b3e4ed0 (one commit) vs main f182f2c. Fresh session, fresh clone.
+Read in kohz87/inventory-block claude/hopeful-babbage-tipaw8: suite-notes/ERSVEIL_BEATS.md (the approved outline),
+suite-notes/ERSVEIL_PEOPLE.md (the approved roster and the Court favour design) and suite-notes/SPEC_TIMELINE.md §1
+(Story Director's chronicle.lasting / chronicle.passed). Story Director 2.3.0 is kohz87/Story_director main.
+Check: the 134 new events in examples/packs/ersveil/pack.json (conditions, dates, after-links, chronicle names, the
+Marrowbridge and crown variants against the Court favour module, news delays and regions, Auvoth's two fall paths);
+the succession module (kinds, defaults 40/35/25, no screen) and that the narrator's dm lines move it; the skill set;
+the 56 people entries in ersveil-lore.json (no spoilers of the timeline, consistent with the existing lore and naming
+rules, keyword triggers that won't fire on ordinary words); tests/v2/packs/ersveil-timeline.test.js; docs and version.
+If you can, run one real host with Story Block + Story Director (testkit) and the pack to see an event fire and write a
+lasting change.
+BLOCKER BAR (USER, 31 Oct): a BLOCKER is only something an ordinary user would plausibly hit in normal play that
+loses or corrupts saved data, crashes or wedges, gives wrong rules results, spoils the hidden timeline in normal play, or
+makes an event never fire / fire twice / fire out of order on the normal path. Everything else goes in "Follow-ups".
+Give the repro for each blocker. Do not remove fixes to see tests fail.
+Run on Node 24: npm run check; full suite (counts); git diff --check; node authoring-kit/check.mjs on the pack.
+Verdict line: HOLDS or BLOCK n. Write vm-results/169.md and commit it to inventory-block claude/hopeful-babbage-tipaw8.
+Use model gpt-6.1-terra with model_reasoning_effort=max; if its filter stops the run, a Claude reviewer may run it.

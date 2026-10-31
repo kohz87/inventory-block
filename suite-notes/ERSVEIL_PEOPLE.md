@@ -21,7 +21,7 @@
 | **Emperor Adalmar** | Old, ill, rarely leaves the Crown Keep | Dies, CY 612 |
 | **Princess Wendhild** | His only child; heir under the plain rule ("a daughter before nephews"); Iron Guard trained, cool, patient | Contests the throne; proposed winner, CY 614 |
 | **Prince Corvin** | Adalmar's nephew; heir under the "male line only" reading; wants a war down the Southmarch Road | Contests the throne; falls at Marrowbridge, CY 613 |
-| **Lord-General Hasse** | Southmarch general at Stoneford; the Marchriders call him theirs | Seeks a general's crown; kneels to Wendhild, CY 614 |
+| **Lord-General Dietmar Hasse** (already named in the lorebook's keys) | Southmarch general at Stoneford; the Marchriders call him theirs | Seeks a general's crown; kneels to Wendhild, CY 614 |
 | **Lord-Commander Ottwald of Cedran Keep** | Head of the Wardens of the Last Wall at Thornwall Redoubt; old, stubborn, poor and proud | Falls at the Last Wall, CY 615 |
 | **Dame Ermengild** | Warden champion and Wendhild's sworn sword | Falls at the Last Wall |
 | **Sir Volkmar, "the Old Stone"** | Warden champion, famous for never giving ground | Falls at the Last Wall; the last stone |
@@ -31,7 +31,7 @@
 |---|---|---|
 | **Council Speaker Aaltje Brouwer** | Chairs the River Council this term; a banker's daughter from Ledgerford | "Who pays for the north"; holds Highmark's debt over the succession |
 | **Duke Evert of Shorn** | Duke of Shornmarch; frontier bastion lord | His hill villages take the floods; begs the Council for fort money |
-| **Watch-Captain Riekert Haan** | Bluewatch's Watch-Captain; tired, practical, trusted | The player's first authority figure; sounds the horn at the early flood |
+| **Watch-Captain Edda Rorke** (already named in the lorebook's keys) | Bluewatch's Watch-Captain; tired, practical, trusted | The player's first authority figure; sounds the horn at the early flood |
 
 ### Holy Dominion of Aurelion and the Church
 | Name | Role | Ties |
@@ -115,7 +115,7 @@
 | **Captain Sorrel of the Ninth Debt** | Collared captain of the Grey Ledger's debt-slave company | Sold to the northern front, CY 613 |
 | **Captain Murrough of the Gallowglass** | Bloodbound captain who holds a line past all reason | Hired for the Last Wall |
 
-Count: 58 entries (the 13 timeline characters plus 45 more).
+Count: 56 entries (the lead's earlier "58" was a miscount).
 
 ## USER approval (31 Oct)
 Roster approved. The throne is decided by game events, as follows (lead's design, offered for approval):
