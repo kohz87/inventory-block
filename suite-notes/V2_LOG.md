@@ -2001,3 +2001,8 @@ MERGED testkit RB #118, SD #115, NSD #205.
   generators cover lasting events; entries record `fire: { rev, by }` for the Journal. Residual (SB, pre-existing,
   follow-up): a pack installed with SD stays enabled if SD is later removed, showing "Needs chronicle-lasting" while
   its lasting events fail each reply.
+- 31 Oct: agent E2 done, Studio `stage16/timeline` b0ca322 (661 pass / 0 fail, dist rebuilt): `requires.capabilities`
+  kept in sync with `chronicle-lasting` on every edit; Lasting change text corrected ("…this pack will not turn on and
+  Story Block says why"); Problems "Good to know" note; `time() != null` guard on delayed-from parents (one undo
+  step, hand-written conditions untouched); checkLasting matches SD; missing-world-event warnings + row dot; preview
+  "at least N days after “X” happens"; region help line. Re-check 156 written and marked READY for account B.
