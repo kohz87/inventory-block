@@ -2377,3 +2377,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
   dates Goldwane 16/19); one Mounts card (Grey Mare 35, Burr 25; up to 4); Map with the route, You marker on the leg,
   known movers (courier, Ninth Brazier) as diamonds + an On the road panel; Status Travel row. Lines: `~ trip Place |
   by | via`, `~ trip stop`, `+/~/- mount`. Trip + map in Story Director, Mounts in Story Block. Waiting on approval.
+- 31 Oct: USER: more than 4 mounts / a mount each for 5+ party members? Lead: Mounts card up to 6 rows, a row may be a group with a count ("Guild remounts ×4"), so 8 riders fit; too few mounts → extra riders walk, party at 20 km/day. Mockup section 13 text updated (artifact v16).
