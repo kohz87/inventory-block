@@ -20,8 +20,8 @@ Accounts (USER, 28 Oct): A out of credit, resets at 17:25 UTC; B has quota now (
 Accounts (USER, 29 Oct ~14:20 UTC): both out. A resets 00:51 SGT 30 Oct = 16:51 UTC 29 Oct (use from 16:52 UTC); B resets 01:58 SGT 30 Oct = 17:58 UTC 29 Oct (use from 17:59 UTC). Run 152 on A at 16:52 UTC.
 
 Order (run top to bottom):
-ST78. 168 — READY — LEAD GO-AHEAD (31 Oct): FINAL Studio AI writing help re-check (raised blocker bar), Story_studio stage17/ai-write at 2443686. Account B; a fresh session. Prompt vm-jobs/168-prompt.txt.
-ST77. 167 — READY — LEAD GO-AHEAD (31 Oct): FINAL RPG re-check (raised blocker bar), Story_block stage16/lean-rpg at 52fe068. Account A; a fresh session. Prompt vm-jobs/167-prompt.txt.
+ST78. 168 — DONE (HOLDS) → Story_studio#19. WAS: READY — LEAD GO-AHEAD (31 Oct): FINAL Studio AI writing help re-check (raised blocker bar), Story_studio stage17/ai-write at 2443686. Account B; a fresh session. Prompt vm-jobs/168-prompt.txt.
+ST77. 167 — DONE (HOLDS) → Story_block#225. WAS: READY — LEAD GO-AHEAD (31 Oct): FINAL RPG re-check (raised blocker bar), Story_block stage16/lean-rpg at 52fe068. Account A; a fresh session. Prompt vm-jobs/167-prompt.txt.
 ST76. 166 — DONE (BLOCK 1, vm-results/166.md). WAS: READY — LEAD GO-AHEAD (31 Oct): RPG re-check of the review-164 fix, Story_block stage16/lean-rpg at 8f6321e. Account A; a fresh session. Prompt vm-jobs/166-prompt.txt.
 ST75. 165 — DONE (BLOCK 3, vm-results/165.md) → J2d round 4. WAS: READY — LEAD GO-AHEAD (31 Oct): re-check of Studio AI writing help fix round 3, Story_studio stage17/ai-write at db4846f. Account B; a fresh session. Prompt vm-jobs/165-prompt.txt.
 ST74. 164 — DONE (BLOCK 3, vm-results/164.md). WAS: READY — LEAD GO-AHEAD (31 Oct): RPG re-check of the review-163 fix, Story_block stage16/lean-rpg at f1855b0. Account A; a fresh session. Prompt vm-jobs/164-prompt.txt.

@@ -2142,3 +2142,10 @@ MERGED testkit RB #118, SD #115, NSD #205.
 - 31 Oct: USER asked whether we are chasing unlikely edge cases. Lead: yes — the last rounds were contrived paths. New
   blocker bar for the FINAL re-checks 167 (RPG, A) and 168 (Studio, B): only ordinary-use data loss/corruption, crash/
   wedge, wrong rules, or hidden-value leak in normal play; everything else goes to Follow-ups. Both queued READY.
+- 31 Oct: FINAL RE-CHECK 167 (RPG 52fe068): HOLDS (follow-ups: RPG.md overstated the witness rule → fixed in the
+  release commit; an optional real-host integration test for review 166). FINAL RE-CHECK 168 (Studio 2443686): HOLDS
+  (follow-up: a hand-made parent name with a CR + an invalid delay unit shows a misleading "Just the 2 days" label;
+  below the bar). Release commits: Story Block 295f55c (2.8.0: version in manifest/package/runtime/pack host,
+  CHANGELOG; suite 3965 pass / 0 fail) → PR https://github.com/kohz87/Story_block/pull/225; Studio 77e7478 (0.4.0:
+  package, lock, README, CHANGELOG; full suite incl. Chromium browser tests exit 0) → PR
+  https://github.com/kohz87/Story_studio/pull/19. Both subscribed; merge after green CI.
