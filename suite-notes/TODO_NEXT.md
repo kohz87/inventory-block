@@ -22,7 +22,7 @@ https://claude.ai/artifact/AJZkpqZigE5TvZRRh4jrMK (v3); AI writing help https://
 | # | Work | Who | Size | Needs |
 |---|---|---|---|---|
 | K | Ersveil 2.2.0: hidden timeline events from the big beats (written with Studio's AI help), plus the "Sealwarden recruit" RPG skill set | lead | ~½ day | USER item 1 |
-| S | Re-sync the vendored Story Block copies (test-only) in Story Director, Studio and NSD to 2.8.0 | Haiku or Sonnet | ~1–2 h | — |
+| ~~S~~ | DONE 31 Oct: vendored Story Block 2.8.0 in SD (#145), Studio (#20), NSD (#225) | — | — | — |
 | P4 | P4 trim: lazy-load the pack checker, Diagnostics, UI sample | Haiku or Sonnet | ~½–1 day | Any time |
 | L | UI redesign mockups | lead / agents | — | USER item 2 |
 

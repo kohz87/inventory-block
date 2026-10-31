@@ -2170,3 +2170,6 @@ MERGED testkit RB #118, SD #115, NSD #205.
   White-Horn lands; politics = who pays for the north, Highmark succession, Church vs the Veil, an Ardelian election;
   underworld = Broken Chain uprising, Cinder Host marches, Shackles and Nightingale. Draft outline
   suite-notes/ERSVEIL_BEATS.md (3 open questions) sent to the USER for approval.
+- 31 Oct ~10:01 UTC: test copies MERGED (CI verify green; merge commits): kohz87/Story_director#145 → 04e7a44,
+  kohz87/Story_studio#20 → 370fda9, kohz87/npc_state_delta#225 → 3e67d86. All vendored Story Block copies now 2.8.0
+  (f182f2c). Nothing in flight; K waits on the USER's answers to the big-beats draft (3 open questions).
