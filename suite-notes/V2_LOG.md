@@ -2173,3 +2173,10 @@ MERGED testkit RB #118, SD #115, NSD #205.
 - 31 Oct ~10:01 UTC: test copies MERGED (CI verify green; merge commits): kohz87/Story_director#145 → 04e7a44,
   kohz87/Story_studio#20 → 370fda9, kohz87/npc_state_delta#225 → 3e67d86. All vendored Story Block copies now 2.8.0
   (f182f2c). Nothing in flight; K waits on the USER's answers to the big-beats draft (3 open questions).
+- 31 Oct: USER: Sealwardens stay behind when Auvoth falls; invent the heroes; vet the original lorebooks (World v1.24,
+  Map v1.16) for usable material and list it first. Listed in ERSVEIL_BEATS.md "What the original lorebooks give us":
+  only two named people (Prince Corvin, v1 Map only; Lord-General Hasse, still in 2.1.0); Highmark's succession rule
+  already sets up a war (daughter vs male-line vs general's crown; Wardens oppose a general's crown); Iron Archive;
+  Tide rule (W#23: warnings include loosening seals: flagged against "separate"); Hollow Aurora Expedition route as a
+  cause; Long Thunder / Vaulkir as warnings; Compact red line (troops inside the walls); Guild Withdrawal precedent;
+  Ardelian deadlock/regent; underworld hooks.

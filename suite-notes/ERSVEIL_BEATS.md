@@ -56,11 +56,105 @@ Ersveil 2.2.0 timeline. The answers it is built on are in V2_LOG (31 Oct, K disc
 A new frontier line, refugee realms, a Guild without its city, and the Depths behind the Tide. These later beats stay
 open for play.
 
+## USER answers (31 Oct)
+- When Auvoth falls, the **Sealwardens stay behind** and hold the seals.
+- **Invent the heroes.** Use existing candidates from the original lorebooks where they fit. These are listed below for
+  the USER to choose from before anything is written.
+
+## What the original lorebooks give us
+Sources: World Lore v1.24, Map Lore v1.16 and the current lorebook (2.1.0). Entries marked "v1 only" were cut from
+the current lorebook.
+
+**Named people.** There are only two in all three books.
+- **Prince Corvin** (v1 only, Map v1.16, Southmarch Road): "The road Prince Corvin wants to march down", meaning a
+  war on Ardelia. He is an imperial prince with a war party behind him.
+- **Lord-General Hasse** (in the current lorebook too): the Marchriders "consider Lord-General Hasse theirs". He is a
+  frontier general of the Southmarch, based at Stoneford.
+- No emperor, heir, Guildmaster, Warden captain, Frost Queen or King, Warmother or Nightingale King/Queen is named. We
+  invent those.
+
+**Highmark's succession is already set up for a war.**
+- The rule: "sons before daughters, but an emperor's daughter before his nephews". The charter's "through the
+  Dawn-King's male line" can also be read as male heirs only. The Diet must ratify, and the Diet, the army and the
+  Church settle disputes.
+- Valegard, Startrace and the Wallwright League each already "fear Highmark's succession war" or want a side in it.
+- A natural three-way contest:
+  - an **emperor's daughter**, heir by the plain rule;
+  - **Prince Corvin**, the male-line reading (a nephew or brother);
+  - **Lord-General Hasse**, a "general's crown" backed by the Marchriders.
+- The **Wardens of the Last Wall** oppose "any elected emperor and any general's crown". They are sworn to the
+  Dawn-King's blood, so the succession and their fall connect.
+- **The Iron Archive**: each emperor is shown it at accession, and no heir is told. Opening it is Highmark's red line.
+  It proves the Dawn-King was an otherworlder, which is exactly what the Church hunts. A losing faction threatening to
+  open it is a ready-made beat. The lore says its contents come out only through explicit events.
+
+**The Wardens of the Last Wall.**
+- Founded by the Dawn-King "to garrison the roads toward the mountains and the north". Based at **Thornwall Redoubt**.
+- Motto: "Until the last stone." Heavy infantry and knights, Soul Class II–IV, "a few champions". Proud, poor and
+  old-fashioned, which suits a last stand.
+
+**The Tide in the far north.**
+- **The rule (lore W#23).** "No one drives a Tide." It is the world's answer when a civilisation's reach touches a
+  primordial's leyline heart, by tapping a bedrock leyline, delving to a great dungeon's root, breaking an ancient seal
+  or wounding a primordial. "A Tide can be prevented. Its warnings are stirring apexes, loosening seals and leyline
+  surges."
+  - ⚠ The lore lists loosening seals among the Tide's warnings, but you chose to keep the seals separate. Suggestion:
+    the Restorationists and Startrace *point to* the Depths as a sign, while the timeline shows another cause in the
+    north. The connection stays an argument that people have, not a fact.
+- **A cause that fits.** Map v1.16 has a charted **Hollow Aurora Expedition** route (Glass Howl Icefield → Iron-Blue
+  Tundra → Hollow Aurora Zone), and the Hollow Aurora is a deep Wildzone under the Pale Orbit.
+  - An expedition that taps the Hollow Aurora's leyline would cross the threshold.
+  - Candidates for who sent it: Highmark (expansion), a Confederacy charter house, or Startrace. Startrace already
+    "believes the Reopening is repeating the mistake" and keeps the leyline-tapping records it denies having.
+- **Warnings already in the lore.**
+  - **Long Thunder** drives the mammoth herds south "on purpose", normally at the Turning. That fits the early
+    Haywane flood.
+  - **Vaulkir the Pale Maw**: "Northern clans measure winters by how far south Vaulkir's packs range. When they reach
+    the tundra edge, the White-Horn Clans move their herds and the Frostbound prepare for war."
+  - The **Pale Orbit** circles above the Hollow Aurora Zone.
+  - The Frostbound "raid south in bad winters, and winters are getting worse."
+- **The Church is split.** The Restorationists "fear the Tide cycle and oppose expansion", while the Expansionists
+  bless the Reopening. The Restorationists reckon the Reopening is near the length of the last age.
+
+**The north's peoples and defences.**
+- The **Frostbound** have a Frost Queen or King on a moving war-seat, and the Winter Moot settles succession and
+  existential policy.
+- The **White-Horn Clans** hold their council at Hornwake Camp, and they follow Long Thunder's storms.
+- The **Long Watch** is the Border Kingdoms' order under an elected commander; its beacon chain spans the four
+  kingdoms.
+- The four **Border Kingdoms** and their seats: Thornvale (Thornkeep), Redspire, Dunmere and Harrowmark
+  (Harrowfield).
+
+**Auvoth and the Guild.**
+- **The Compact.** Its red line is "foreign troops inside the walls", so the Council voting to let armies in as the
+  Tide nears is a strong beat.
+- **The Guild Withdrawal.** When a crown breaks the Charter, adventurers leave the realm. Highmark tried in CY 452 and
+  gave in after one season. That precedent fits "who pays for the north" if a crown tries to conscript adventurers.
+- **The Sealwardens.**
+  - Terms: a one-year oath at 4–8 silver a day, and a month at the upper seals before any breach duty. Deserters are
+    hanged on the Seventh Seal Terrace.
+  - The upper-band bestiary already names **breach swarms** (EG5): "what the Sealwardens died holding".
+  - All of this fits the Depths surges and the "Sealwarden recruit" skill set.
+
+**Politics in the south.**
+- **Ardelia.**
+  - Its 18-year term ends on a fixed day. If no candidate gets six votes, the Arch-Chancellor rules as regent and may
+    start no wars and raise no levies. That fits "the south stays out".
+  - The Knights of the Last Day guard the count.
+  - The Crown Bloc wants terms with Highmark's generals, which ties to Hasse.
+  - Ardelia fears "a Highmark march down the Southmarch Road", which ties to Corvin.
+
+**The underworld.**
+- **The Broken Chain.** Its cells don't know one another, and "many of its fighters ended up in the Cinder Host".
+  Ardelia tolerates it only when it frees Ardelian citizens.
+- **The Cinder Host.** It is led by a Warmother chosen in war, with the motto "Burn the ledger". It "fears a real army
+  turning west", so it marches when the armies turn north.
+- **Shackles.** The Grey Ledger "sells debts as others sell grain" and owns the Ninth Debt, a company of debt-slaves.
+  The Veil Market sells forged Guild badges. Highmark uses Shackles for deniable work.
+- **Nightingale.** It has a secret King or Queen and a Nest believed to be in Vargate. Its oldest rule is never to rob
+  the uncompleted dead.
+
 ## Open questions for the USER
-1. **When Auvoth falls, what happens to the Depths' seals?**
-   - The Sealwardens stay behind to hold them.
-   - They hold on their own (Veyr's work).
-   - The seals' fate is unknown.
-2. **Named heroes.** Should I invent the Wardens' famous heroes (names built by the lore's naming rules), or do you
-   have some in mind?
-3. **Highmark's new emperor.** Should it be a specific heir, or should I propose candidates?
+1. ~~Seals when Auvoth falls~~: the Sealwardens stay behind.
+2. Heroes: the lead invents them (decided). Which candidates above to use: Corvin? Hasse?
+3. The Tide's cause: the Hollow Aurora expedition? If so, who sent it?
