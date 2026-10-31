@@ -2261,3 +2261,6 @@ MERGED testkit RB #118, SD #115, NSD #205.
   pays the written amount; the Ask default adds the party grammar line to existing RPG chats (one cache break); the Home
   card lingers if the RPG is turned off while Home is open; no real-browser pass by the reviewer (the agents did one).
   PR opened for 2.9.0.
+- 31 Oct ~12:40 UTC: RELEASED Story Block 2.9.0: kohz87/Story_block#227 merged (merge commit 938938d) after green CI.
+  Check-in cancelled; unsubscribed. Vendored SB test copies in SD/Studio/NSD are two releases behind (2.8.0): re-sync
+  with Sonnet when the USER says.

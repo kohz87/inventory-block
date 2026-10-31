@@ -21,7 +21,8 @@ https://claude.ai/artifact/AJZkpqZigE5TvZRRh4jrMK (v3); AI writing help https://
 | # | Work | Who | Size | Needs |
 |---|---|---|---|---|
 | ~~K~~ | RELEASED 31 Oct: Story Block 2.8.1 / Ersveil 2.2.0 (#226): hidden history CY 611+, Court favour, Sealwarden recruit, 56 notable people | — | — | — |
-| N | Next release (Story Block 2.9.0): Money cap removed + slider (stage20/settings-fixes), Blocks in Suite settings (stage20/blocks-settings), RPG new chat / first send / companions (stage20/rpg-r6, agent running); one Claude review | lead + agents | — | R6 |
+| ~~N~~ | RELEASED 31 Oct: Story Block 2.9.0 (#227): RPG new chat / held first send / companions who join, Blocks in Suite settings (+ Hidden), Money cap removed, slider hardening | — | — | — |
+| S2 | Re-sync vendored Story Block (test-only) in SD/Studio/NSD to 2.9.0 | Sonnet | ~1 h | USER go |
 | ~~S~~ | DONE 31 Oct: vendored Story Block 2.8.0 in SD (#145), Studio (#20), NSD (#225) | — | — | — |
 | P4 | P4 trim: lazy-load the pack checker, Diagnostics, UI sample | Haiku or Sonnet | ~½–1 day | Any time |
 | L | UI redesign mockups | lead / agents | — | USER item 2 |
