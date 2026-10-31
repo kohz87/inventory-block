@@ -2283,3 +2283,5 @@ MERGED testkit RB #118, SD #115, NSD #205.
 - 31 Oct: USER: is stat/2 too punishing (AGI 20 keeps getting hit)? Lead computed: equal classes, AGI 20 → hit 22%/
   exchange (71% at least once in 5); proposed A ("Stat adds: full above 10" = stat − 5) and B (a defence skill's rank
   counts). USER: both — B always on, A as a choice → brief R8 on top of 2.9.1 (stage22/rpg-r8); same release.
+- 31 Oct: USER approved the Level label change → R8 item C (RPG screens/text read the Character block's soul field
+  label and names; defaults byte-identical). Same 2.9.1 release.
