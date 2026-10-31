@@ -2418,3 +2418,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
   (kohz87/Story_director#146, merge 193f81d) after green CI. Unsubscribed. Next: merge main into stage25/mounts (SB)
   and stage25/trip (SD), add the Home Travel line in SB, quiet `- mount` of a missing mount, bump SB 2.11.0 / SD 2.5.0,
   review 175.
+- 31 Oct: brief R12 (integrate R10 + R11 on 2.10.0/2.4.0 → SB 2.11.0, SD 2.5.0; Home Travel line; quiet - mount; one off fixture) and agent R12 launched.
