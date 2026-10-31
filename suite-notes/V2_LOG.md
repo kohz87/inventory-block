@@ -2476,3 +2476,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
 - 31 Oct ~21:32 UTC: RELEASED Story Block 2.11.3 (kohz87/Story_block#236) after green CI. Unsubscribed.
   Follow-ups from 178: show all event errors for a stored pack in the Packs panel; a kit note on `when` syntax; sync
   Studio's vendored Story Block (2.11.0 → 2.11.3) with the stricter checker.
+- 31 Oct: agent S3 done: Studio stage29/sync-sb-2.11.3 089f994 (vendored SB 2.11.3 + build; pins only; 757/757). PR kohz87/Story_studio#22 opened; subscribed; merge after green CI.
