@@ -2053,3 +2053,9 @@ MERGED testkit RB #118, SD #115, NSD #205.
   Keep all; ⚠ can't be kept), docs/AI_PROMPT.md synced by a test. Lead browser look: idea → Check it (2 Ready,
   "Highmark Capital" is a real Ersveil place) → Add 2 as drafts → Timeline rows + draft form with Keep/Discard; 0
   page errors. Follow-up: names shown from ids lose capitals. Review 159 queued READY for Codex B.
+- 31 Oct: agent A4 done, `stage16/rpg-fix4a` 19e81b0 (17 new tests, all fail without the fixes): B1 stage-field cap 10
+  (checker + view clamp), B2 `prompt:false` in the role tail + ordinary 2.7 line when the feature is off, B6 no
+  `set-alive`, B7 a no-op `dm.settle` on every reply with accepted lines, B8 room reserved for settles, B10
+  feature-off test, B12 end cards first, fuzz-replay `delSwipe` fixed (300 seeds 0 failures), B17 prune replaced pins
+  on redefine (differential 24×60 identical heads/problems). MERGED A4 + B4 into stage16/lean-rpg (4ce3111), both clean;
+  suite 3944 pass / 0 fail; fuzz-replay 60×120 clean. Re-check 158 queued READY for Codex A.
