@@ -2040,3 +2040,10 @@ MERGED testkit RB #118, SD #115, NSD #205.
   Awaiting approval.
 - 31 Oct: USER approved the J2 mockup ("approved, build it"). Brief timeline-briefs/J2.md; agent J2 (Sonnet) on
   Story_studio `stage17/ai-write` from main c0df9d1.
+- 31 Oct: agent B4 done, `stage16/rpg-fix4b` 577aec9 (3922 pass / 0 fail; new tests fail without the fixes): B3
+  per-hook timeout (planner 22 s, merged hooks keep their own limits and problems), B4 pinned `[Rolls]` cue +
+  `fitCue` ≤600 tokens, B5 optional stat + untrained best-stat fallback + all-dropped = failed plan, B9 wizard needs
+  3 free actions, B11 new `afterReceive` hook clears the hold, B13 count>0 + all Foes blocks (slots 1–4, 5–8…),
+  B14 marker restored, B15 `latest()` whole chat, B16 positional dice (`dice: 2`; old payloads re-read as before);
+  157 additions: plain pin-budget words, F1 save on focusout/close/hidden, F2 recorded rules for class-up notes, F4
+  "Reader's instructions". Waiting for A4 to merge both.
