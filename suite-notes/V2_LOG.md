@@ -2349,3 +2349,10 @@ MERGED testkit RB #118, SD #115, NSD #205.
   ("when someone already here is first named, - present the old word and + present the name"), a test, and regenerated
   the RPG-off fingerprint fixture as off-2.9.4.json (old clause still reproduces 2.7.2's exactly; only prompt hashes
   differ). Suite 4053 pass / 0 fail. Branch stage23/present-rename 3b2d92c; PR kohz87/Story_block#231; subscribed.
+- 31 Oct ~15:58 UTC: RELEASED Story Block 2.9.4: kohz87/Story_block#231 merged (merge commit bddaedb) after green CI.
+  Unsubscribed; check-in cancelled.
+- 31 Oct: USER asked for a text-size choice (Normal / 110% / 120%) → lead: Settings → Look beside Panel style, scales
+  Story Suite's panels only; mockup first. USER noted the PC's attire/condition reach the narrator nowhere → lead:
+  a custom block (Wearing / Condition / Carrying openly) does it today; offered to write it. USER asked whether the
+  suite helps RP or adds complexity → lead gave both sides (continuity, fair dice, moving world, exact undo vs tokens,
+  the narrator's attention, two sources of truth, learning) and offered an A/B scene test with a lean feature set.

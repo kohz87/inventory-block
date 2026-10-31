@@ -26,7 +26,9 @@ https://claude.ai/artifact/AJZkpqZigE5TvZRRh4jrMK (v3); AI writing help https://
 | ~~2.9.2~~ | RELEASED 31 Oct: Story Block 2.9.2 (#229, 224f7c9): wizard Stats step keeps "Points left" out after a click | — | — | — |
 | ~~2.9.3~~ | RELEASED 31 Oct: Story Block 2.9.3 (#230, 0a0254d): wizard summary row spacing | — | — | — |
 | ~~G~~ | SHELVED 31 Oct (USER): gear as stat bonuses; mockup v11 section 10 kept on file | — | — | — |
-| S2 | Re-sync vendored Story Block (test-only) in SD/Studio/NSD to 2.9.3 | Sonnet | ~1 h | USER go |
+| ~~2.9.4~~ | RELEASED 31 Oct: Story Block 2.9.4 (#231, bddaedb): present-rename clause in the narrator grammar | — | — | — |
+| T | Text size in Settings → Look (Normal / 110% / 120%) | lead mockup, then build | small | USER go on the mockup |
+| S2 | Re-sync vendored Story Block (test-only) in SD/Studio/NSD to 2.9.4 | Sonnet | ~1 h | USER go |
 | ~~S~~ | DONE 31 Oct: vendored Story Block 2.8.0 in SD (#145), Studio (#20), NSD (#225) | — | — | — |
 | P4 | P4 trim: lazy-load the pack checker, Diagnostics, UI sample | Haiku or Sonnet | ~½–1 day | Any time |
 | L | UI redesign mockups | lead / agents | — | USER item 2 |
