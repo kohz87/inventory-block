@@ -2413,3 +2413,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
   ~1,312 tokens, SD 56%; no presets; place/time shown in 6–7 places; top fixes: Features preset, a switch for SD's
   world-building kinds, header as the one place/time readout, retire Scene, merge Chronicle into World, one Weather
   switch, Travel switch off in Lean).
+- 31 Oct ~18:40 UTC: UI redesign proposals published: https://claude.ai/artifact/CKdH3WMbTcdVQcuwn9BHzQ (copy suite-notes/redesign/proposals-v1.html). Shared structure from the audit (6 tabs, one place/time readout, one card per reply, Lean/Story/Full presets); looks A Quiet Glass, B Chronicle, C Field HUD; lead recommends B as base + C for Party/Fight, shared structure first in today's look. Waiting on the USER's pick.

@@ -1,0 +1,417 @@
+<title>Story Suite Redesign</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&family=Hanken+Grotesk:wght@400;500;600;700&family=Instrument+Sans:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Schibsted+Grotesk:wght@500;600;700&family=Spline+Sans+Mono:wght@400;500&display=swap">
+<style>
+/* Shell: one reading column that presents three product looks side by side; each mock frame carries its own fixed palette (they are dark product UIs by design). */
+:root {
+  --bg: #f3f3f6; --fg: #1d1c24; --muted: #5d5a6b; --line: #dcdae4; --card: #ffffff; --accent: #5b4fc4;
+  --f-head: "Schibsted Grotesk", "Segoe UI", system-ui, sans-serif;
+  --f-body: "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono: "Spline Sans Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #121218; --fg: #ebeaf2; --muted: #a29fb3; --line: #2b2a36; --card: #1a1a22; --accent: #a99cff; color-scheme: dark } }
+:root[data-theme="dark"] { --bg: #121218; --fg: #ebeaf2; --muted: #a29fb3; --line: #2b2a36; --card: #1a1a22; --accent: #a99cff; color-scheme: dark }
+body { background: var(--bg); color: var(--fg); font: 15px/1.6 var(--f-body); }
+main { max-width: 1180px; margin: 0 auto; padding-block: 36px 72px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: grid; gap: 40px; }
+h1, h2, h3 { font-family: var(--f-head); margin: 0; text-wrap: balance; letter-spacing: -0.01em; }
+h1 { font-size: clamp(28px, 4vw, 40px); line-height: 1.1; }
+h2 { font-size: 24px; }
+h3 { font-size: 15px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+p { margin: 0; max-width: 68ch; }
+.lead { color: var(--muted); font-size: 16.5px; }
+.eyebrow { font: 600 12px/1 var(--f-mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); }
+header.top { display: grid; gap: 14px; }
+.base { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; }
+.base div { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; display: grid; gap: 4px; min-width: 0; }
+.base b { font-family: var(--f-head); font-size: 15px; }
+.base span { color: var(--muted); font-size: 13.5px; }
+.base em { font-style: normal; font-family: var(--f-mono); font-size: 12px; color: var(--accent); }
+section.dir { display: grid; gap: 18px; padding-top: 28px; border-top: 1px solid var(--line); }
+.dir-head { display: flex; flex-wrap: wrap; gap: 10px 24px; align-items: baseline; justify-content: space-between; }
+.dir-head > div:first-child { display: grid; gap: 6px; min-width: 0; }
+.swatches { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; font: 12px var(--f-mono); color: var(--muted); }
+.swatches i { width: 22px; height: 22px; border-radius: 6px; display: inline-block; border: 1px solid var(--line); }
+.frames { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 18px; align-items: start; }
+@media (max-width: 900px) { .frames { grid-template-columns: minmax(0, 1fr); } .frames .phone-col { max-width: 320px; } }
+.scroll { overflow-x: auto; border-radius: 14px; }
+figure { margin: 0; display: grid; gap: 8px; min-width: 0; }
+figcaption { font-size: 12.5px; color: var(--muted); }
+.phone-col { display: grid; gap: 18px; }
+.notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px 24px; }
+.notes p { font-size: 14px; color: var(--muted); }
+.notes b { color: var(--fg); font-weight: 600; }
+.pick { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; display: grid; gap: 10px; }
+.pick ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; max-width: 75ch; }
+.tabular { font-variant-numeric: tabular-nums; }
+
+/* ---------- Mock frames: shared geometry ---------- */
+.mock { width: 860px; max-width: none; border-radius: 14px; overflow: hidden; }
+.mock-phone { width: 300px; max-width: 100%; border-radius: 26px; overflow: hidden; }
+.mock *, .mock-phone * { box-sizing: border-box; }
+
+/* =================== A · Quiet Glass =================== */
+.qa { --a-bg: #15161c; --a-glass: rgba(255,255,255,0.045); --a-edge: rgba(255,255,255,0.08); --a-fg: #ecebf3; --a-mute: #9b98ad; --a-acc: #9d90ff; --a-ok: #6fcf97; --a-warn: #e6b45a;
+  background: radial-gradient(1200px 500px at 85% -10%, #2a2440 0%, transparent 60%), var(--a-bg); color: var(--a-fg); font: 13.5px/1.5 "Hanken Grotesk", system-ui, sans-serif; }
+.qa .bar { display: flex; align-items: center; gap: 18px; padding: 16px 22px; border-bottom: 1px solid var(--a-edge); }
+.qa .who { display: flex; align-items: center; gap: 12px; }
+.qa .av { width: 40px; height: 40px; border-radius: 12px; background: linear-gradient(140deg, #3b3360, #1f1d2b); display: grid; place-items: center; font-weight: 700; }
+.qa .name { font-size: 18px; font-weight: 700; letter-spacing: -0.01em; }
+.qa .now { display: flex; gap: 14px; color: var(--a-mute); font-size: 12.5px; flex-wrap: wrap; }
+.qa .now b { color: var(--a-fg); font-weight: 600; }
+.qa .tabs { margin-left: auto; display: flex; gap: 2px; padding: 3px; border-radius: 999px; background: var(--a-glass); border: 1px solid var(--a-edge); }
+.qa .tabs span { padding: 6px 12px; border-radius: 999px; font-size: 12.5px; color: var(--a-mute); }
+.qa .tabs .on { background: rgba(157,144,255,0.18); color: var(--a-fg); font-weight: 600; }
+.qa .body { display: grid; grid-template-columns: 1.15fr 1fr 1fr; gap: 14px; padding: 18px 22px 22px; }
+.qa .tile { background: var(--a-glass); border: 1px solid var(--a-edge); border-radius: 16px; padding: 14px 16px; display: grid; gap: 8px; align-content: start; }
+.qa .tile.wide { grid-column: span 2; }
+.qa .k { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--a-mute); font-weight: 600; }
+.qa .row { display: flex; justify-content: space-between; gap: 10px; }
+.qa .row span:last-child { color: var(--a-mute); }
+.qa .big { font-size: 20px; font-weight: 700; letter-spacing: -0.01em; }
+.qa .chip { display: inline-flex; align-items: center; gap: 6px; padding: 3px 9px; border-radius: 999px; font-size: 11.5px; background: rgba(157,144,255,0.14); color: #cfc8ff; }
+.qa .meter { height: 6px; border-radius: 99px; background: rgba(255,255,255,0.08); overflow: hidden; }
+.qa .meter i { display: block; height: 100%; background: var(--a-acc); border-radius: 99px; }
+.qa .you { display: grid; grid-template-columns: auto 1fr; gap: 4px 14px; font-size: 12.5px; }
+.qa .you dt { color: var(--a-mute); }
+.qa .you dd { margin: 0; }
+.qa .mono { font-family: "Spline Sans Mono", ui-monospace, monospace; font-size: 11.5px; color: var(--a-mute); }
+.qa-phone { background: var(--a-bg); color: var(--a-fg); font: 13px/1.5 "Hanken Grotesk", system-ui, sans-serif; }
+.qa-phone .pbar { padding: 14px 16px 10px; display: grid; gap: 4px; }
+.qa-phone .msg { margin: 6px 12px; padding: 12px 14px; border-radius: 16px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07); display: grid; gap: 10px; }
+.qa-phone .msg p { font-size: 13px; color: #d9d7e4; }
+.qa-phone .strip { display: flex; flex-wrap: wrap; gap: 6px; }
+.qa-phone .dock { display: flex; justify-content: space-around; padding: 10px 6px 14px; border-top: 1px solid rgba(255,255,255,0.08); margin-top: 10px; font-size: 10.5px; color: #9b98ad; }
+.qa-phone .dock .on { color: #ecebf3; font-weight: 600; }
+
+/* =================== B · Chronicle =================== */
+.cb { --b-bg: #12151d; --b-paper: #181c26; --b-ink: #e9e4d8; --b-mute: #9a9aa6; --b-rule: #2a2f3c; --b-acc: #6fb3a6; --b-gold: #c9a961;
+  background: var(--b-bg); color: var(--b-ink); font: 14px/1.55 "Instrument Sans", system-ui, sans-serif; }
+.cb .wrap { display: grid; grid-template-columns: 180px 1fr; min-height: 470px; }
+.cb nav { border-right: 1px solid var(--b-rule); padding: 22px 16px; display: grid; gap: 4px; align-content: start; }
+.cb nav .brand { font: 600 15px "Newsreader", Georgia, serif; margin-bottom: 14px; color: var(--b-ink); }
+.cb nav span { padding: 7px 10px; border-radius: 8px; color: var(--b-mute); font-size: 13.5px; }
+.cb nav .on { color: var(--b-ink); background: var(--b-paper); box-shadow: inset 2px 0 0 var(--b-acc); }
+.cb .page { padding: 26px 32px; display: grid; gap: 20px; align-content: start; }
+.cb .dateline { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--b-acc); }
+.cb .title { font: 500 30px/1.15 "Newsreader", Georgia, serif; letter-spacing: -0.01em; }
+.cb .title small { display: block; font: 400 14px "Instrument Sans", sans-serif; color: var(--b-mute); margin-top: 6px; letter-spacing: 0; }
+.cb .cols { display: grid; grid-template-columns: 1.3fr 1fr; gap: 28px; }
+.cb .sec { display: grid; gap: 10px; align-content: start; }
+.cb .sec h5 { margin: 0; font: 600 11px "Instrument Sans", sans-serif; letter-spacing: 0.14em; text-transform: uppercase; color: var(--b-mute); padding-bottom: 6px; border-bottom: 1px solid var(--b-rule); }
+.cb .prose { font: 400 16px/1.5 "Newsreader", Georgia, serif; color: var(--b-ink); }
+.cb .kv { display: grid; grid-template-columns: 92px 1fr; gap: 6px 12px; font-size: 13px; }
+.cb .kv dt { color: var(--b-mute); } .cb .kv dd { margin: 0; }
+.cb .road { display: grid; grid-template-columns: auto 1fr auto; gap: 8px; align-items: center; font-size: 13px; }
+.cb .dot { width: 9px; height: 9px; border-radius: 50%; border: 2px solid var(--b-acc); }
+.cb .dot.full { background: var(--b-acc); }
+.cb .line { height: 2px; background: linear-gradient(90deg, var(--b-acc) 8%, var(--b-rule) 8%); }
+.cb .gold { color: var(--b-gold); }
+.cb-phone { background: var(--b-bg); color: var(--b-ink); font: 13.5px/1.55 "Instrument Sans", system-ui, sans-serif; }
+.cb-phone .pbar { padding: 16px 18px 12px; border-bottom: 1px solid var(--b-rule); display: grid; gap: 2px; }
+.cb-phone .msg { padding: 16px 18px; display: grid; gap: 12px; }
+.cb-phone .msg p { font: 400 15px/1.55 "Newsreader", Georgia, serif; }
+.cb-phone .margin { border-left: 2px solid var(--b-acc); padding: 4px 0 4px 12px; font-size: 12.5px; color: var(--b-mute); display: grid; gap: 3px; }
+.cb-phone .margin b { color: var(--b-ink); font-weight: 600; }
+.cb-phone .dock { display: flex; justify-content: space-around; padding: 12px 6px 16px; border-top: 1px solid var(--b-rule); font-size: 11px; color: var(--b-mute); }
+.cb-phone .dock .on { color: var(--b-ink); }
+
+/* =================== C · Field HUD =================== */
+.hc { --c-bg: #0f1114; --c-panel: #171a1f; --c-edge: #262b33; --c-fg: #e8eaed; --c-mute: #8b929c; --c-acc: #f2a93b; --c-ok: #58c48b; --c-bad: #e5675f;
+  background: var(--c-bg); color: var(--c-fg); font: 13.5px/1.45 "Barlow", system-ui, sans-serif; }
+.hc .hud { display: flex; align-items: stretch; border-bottom: 1px solid var(--c-edge); }
+.hc .hud > div { padding: 10px 16px; border-right: 1px solid var(--c-edge); display: grid; gap: 1px; }
+.hc .lab { font: 600 10.5px "Barlow Condensed", sans-serif; letter-spacing: 0.16em; text-transform: uppercase; color: var(--c-mute); }
+.hc .val { font: 600 15px "Barlow Condensed", sans-serif; letter-spacing: 0.02em; }
+.hc .acc { color: var(--c-acc); }
+.hc .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--c-edge); }
+.hc .cell { background: var(--c-panel); padding: 14px 16px; display: grid; gap: 8px; align-content: start; min-height: 150px; }
+.hc .cell.two { grid-column: span 2; }
+.hc .stat { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; text-align: center; }
+.hc .stat div { background: #1e2228; border-radius: 6px; padding: 5px 0; }
+.hc .stat b { display: block; font: 600 15px "Barlow Condensed", sans-serif; }
+.hc .stat small { font: 600 9.5px "Barlow Condensed", sans-serif; letter-spacing: 0.12em; color: var(--c-mute); }
+.hc .seg { display: grid; grid-template-columns: repeat(5, 1fr); gap: 3px; }
+.hc .seg i { height: 6px; border-radius: 2px; background: #2a2f37; }
+.hc .seg i.on { background: var(--c-ok); } .hc .seg.warn i.on { background: var(--c-acc); }
+.hc .mrow { display: flex; justify-content: space-between; font-size: 13px; }
+.hc .mrow span:last-child { color: var(--c-mute); }
+.hc .dockbar { display: flex; gap: 2px; padding: 8px 10px; border-top: 1px solid var(--c-edge); }
+.hc .dockbar span { padding: 6px 12px; font: 600 12px "Barlow Condensed", sans-serif; letter-spacing: 0.12em; text-transform: uppercase; color: var(--c-mute); border-radius: 4px; }
+.hc .dockbar .on { color: var(--c-bg); background: var(--c-acc); }
+.hc-phone { background: var(--c-bg); color: var(--c-fg); font: 13px/1.45 "Barlow", system-ui, sans-serif; }
+.hc-phone .ticker { display: flex; gap: 10px; padding: 10px 12px; border-bottom: 1px solid var(--c-edge); font: 600 12px "Barlow Condensed", sans-serif; letter-spacing: 0.06em; color: var(--c-mute); overflow: hidden; white-space: nowrap; }
+.hc-phone .ticker b { color: var(--c-fg); }
+.hc-phone .msg { padding: 14px; display: grid; gap: 10px; }
+.hc-phone .msg p { font-size: 14px; color: #d7dade; }
+.hc-phone .chg { display: grid; gap: 4px; padding: 10px 12px; background: var(--c-panel); border: 1px solid var(--c-edge); border-radius: 8px; font-size: 12.5px; }
+.hc-phone .chg div { display: flex; justify-content: space-between; }
+.hc-phone .plus { color: var(--c-ok); } .hc-phone .minus { color: var(--c-bad); }
+.hc-phone .dock { display: grid; grid-template-columns: repeat(5, 1fr); border-top: 1px solid var(--c-edge); margin-top: 6px; }
+.hc-phone .dock span { text-align: center; padding: 10px 0 14px; font: 600 11px "Barlow Condensed", sans-serif; letter-spacing: 0.1em; text-transform: uppercase; color: var(--c-mute); }
+.hc-phone .dock .on { color: var(--c-acc); box-shadow: inset 0 2px 0 var(--c-acc); }
+
+/* Settings preset strip, drawn once per direction */
+.preset { display: grid; gap: 10px; padding: 16px; border-radius: 16px; }
+.preset .opts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.preset .opt { border-radius: 12px; padding: 10px 12px; display: grid; gap: 2px; font-size: 12px; }
+.preset .opt b { font-size: 13.5px; }
+.qa.preset { background: #15161c; } .qa.preset .opt { background: rgba(255,255,255,0.045); border: 1px solid rgba(255,255,255,0.08); color: #9b98ad; } .qa.preset .opt b { color: #ecebf3; } .qa.preset .opt.on { border-color: #9d90ff; background: rgba(157,144,255,0.12); }
+.cb.preset .opt { background: #181c26; border: 1px solid #2a2f3c; color: #9a9aa6; } .cb.preset .opt b { color: #e9e4d8; font: 500 15px "Newsreader", Georgia, serif; } .cb.preset .opt.on { border-color: #6fb3a6; }
+.hc.preset { border-radius: 10px; } .hc.preset .opt { background: #171a1f; border: 1px solid #262b33; border-radius: 6px; color: #8b929c; } .hc.preset .opt b { color: #e8eaed; font: 600 15px "Barlow Condensed", sans-serif; letter-spacing: 0.06em; text-transform: uppercase; } .hc.preset .opt.on { border-color: #f2a93b; }
+.preset .phead { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.75; }
+@media (prefers-reduced-motion: no-preference) { .qa .meter i, .hc .seg i { transition: width .3s ease; } }
+</style>
+
+<main>
+  <header class="top">
+    <span class="eyebrow">Proposal · 1 Nov · for your pick</span>
+    <h1>Story Suite, simplified: three looks</h1>
+    <p class="lead">All three share the same simpler structure, taken from the audit. They differ in feel. Pick a direction (or mix parts), and the chosen one becomes the full mockup before anything is built. The content is your Ersveil chat: Wessel at Bluewatch, CY 611, Goldwane 12.</p>
+  </header>
+
+  <section style="display:grid;gap:14px">
+    <h3>The same in all three</h3>
+    <div class="base">
+      <div><b>6 tabs, not 8–10</b><span>Home · Party · Bag · Journal · Map · Director. Journal joins Quests, World and Chronicle; the Scene tab goes.</span><em>8 → 6</em></div>
+      <div><b>One place-and-time readout</b><span>The header is the only place time, place and weather show on every screen. Home stops repeating them.</span><em>6–7 places → 1</em></div>
+      <div><b>One card under each reply</b><span>"Changed this reply" and "Status" become one line of what changed, opening to the details.</span><em>2 folds → 1</em></div>
+      <div><b>Presets in Settings</b><span>Lean, Story or Full, then fine-tune. Lean drops the Director's world-building lines from the narrator's instructions.</span><em>~1,312 → ~740 tokens</em></div>
+    </div>
+  </section>
+
+  <!-- ============ A ============ -->
+  <section class="dir" id="quiet-glass">
+    <div class="dir-head">
+      <div>
+        <span class="eyebrow">A · closest to today</span>
+        <h2>Quiet Glass</h2>
+        <p class="lead">Today's glass panels, tidied: one floating header with tabs as a pill, soft tiles, one accent. The least to relearn.</p>
+      </div>
+      <div class="swatches"><i style="background:#15161c"></i><i style="background:#2a2440"></i><i style="background:#9d90ff"></i><i style="background:#ecebf3"></i> Hanken Grotesk</div>
+    </div>
+    <div class="frames">
+      <figure>
+        <div class="scroll">
+          <div class="mock qa">
+            <div class="bar">
+              <div class="who"><div class="av">W</div><div><div class="name">Wessel</div><div class="now"><span><b>Goldwane 12</b> 8:30 am</span><span>Bluewatch Village</span><span>cold drizzle</span></div></div></div>
+              <div class="tabs"><span class="on">Home</span><span>Party</span><span>Bag</span><span>Journal</span><span>Map</span><span>Director</span></div>
+            </div>
+            <div class="body">
+              <div class="tile">
+                <span class="k">You</span>
+                <dl class="you"><dt>Guild rank</dt><dd>F-rank, provisional</dd><dt>Wearing</dt><dd>oilskin coat, river-soaked boots</dd><dt>Condition</dt><dd>tired, cold</dd></dl>
+              </div>
+              <div class="tile">
+                <span class="k">Purse</span>
+                <span class="big tabular">3 silver 8 copper</span>
+                <span class="mono">3 things carried · Bag →</span>
+              </div>
+              <div class="tile">
+                <span class="k">Party</span>
+                <div class="row"><span>Wessel</span><span>Soul Class II</span></div>
+                <div class="meter"><i style="width:60%;background:#e6b45a"></i></div>
+                <div class="row"><span>Ren</span><span>Unhurt</span></div>
+                <div class="row"><span>Mara</span><span>Unhurt</span></div>
+              </div>
+              <div class="tile wide">
+                <span class="k">On the road</span>
+                <div class="row"><span><b>→ Wolfmere Outpost</b> via Hollin's Reach</span><span>arrive Goldwane 19</span></div>
+                <div class="meter"><i style="width:8%"></i></div>
+                <span class="mono">leg 1 of 2 · 8 of 100 km · riding 25 km/day (Burr sets the pace)</span>
+              </div>
+              <div class="tile">
+                <span class="k">Now</span>
+                <span>Weir-drake warrants: three drakes under the third weir-crib.</span>
+                <span class="chip">Due before the first hard freeze</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <figcaption>Home, desktop. Place, time and weather live only in the header. Rank, Wearing and Condition sit in one "You" tile.</figcaption>
+      </figure>
+      <div class="phone-col">
+        <figure>
+          <div class="mock-phone qa-phone">
+            <div class="pbar"><span style="font-weight:700;font-size:15px">Wessel</span><span style="color:#9b98ad;font-size:12px">Goldwane 12, 9:10 am · Bluewatch · drizzle</span></div>
+            <div class="msg">
+              <p>"Name's Nelje," she muttered, dipping the pen again. The silver piece dropped into the verdigris-coated pan of the scale.</p>
+              <div class="strip"><span class="chip">−1 silver</span><span class="chip">+ Registration Slip</span><span class="chip">Nelje here</span><span class="chip" style="background:transparent;border:1px solid rgba(255,255,255,0.12);color:#9b98ad">Details ⌄</span></div>
+            </div>
+            <div class="dock"><span class="on">Home</span><span>Party</span><span>Bag</span><span>Journal</span><span>Map</span></div>
+          </div>
+          <figcaption>A reply on a phone: one strip of chips for what changed, Details opens the rest.</figcaption>
+        </figure>
+        <figure>
+          <div class="qa preset">
+            <span class="phead" style="color:#9b98ad">Settings · Preset</span>
+            <div class="opts"><div class="opt"><b>Lean</b>money, items, place, people</div><div class="opt on"><b>Story</b>+ world, dossiers</div><div class="opt"><b>Full</b>+ RPG, trips, mounts</div></div>
+          </div>
+          <figcaption>Settings opens on the preset; the switches stay under it.</figcaption>
+        </figure>
+      </div>
+    </div>
+    <div class="notes">
+      <p><b>Feels like:</b> today, with the clutter taken out.</p>
+      <p><b>Best for:</b> keeping what you know; smallest build.</p>
+      <p><b>Trade-off:</b> the least distinctive of the three.</p>
+    </div>
+  </section>
+
+  <!-- ============ B ============ -->
+  <section class="dir" id="chronicle">
+    <div class="dir-head">
+      <div>
+        <span class="eyebrow">B · reads like a journal</span>
+        <h2>Chronicle</h2>
+        <p class="lead">A quiet side rail and a page that reads like the story's own record: a book serif for what happened, plain sans for the facts. Changes sit in the margin of each reply.</p>
+      </div>
+      <div class="swatches"><i style="background:#12151d"></i><i style="background:#e9e4d8"></i><i style="background:#6fb3a6"></i><i style="background:#c9a961"></i> Newsreader + Instrument Sans</div>
+    </div>
+    <div class="frames">
+      <figure>
+        <div class="scroll">
+          <div class="mock cb">
+            <div class="wrap">
+              <nav><span class="brand">Story Suite</span><span class="on">Home</span><span>Party</span><span>Bag</span><span>Journal</span><span>Map</span><span>Director</span></nav>
+              <div class="page">
+                <div><span class="dateline">CY 611 · Goldwane 12 · 8:30 am · Bluewatch Village · cold drizzle</span>
+                  <div class="title">Wessel<small>F-rank of the Adventurer Guild (provisional) · oilskin coat, river-soaked boots · tired, cold</small></div></div>
+                <div class="cols">
+                  <div class="sec">
+                    <h5>Today</h5>
+                    <p class="prose">Registered at the Guild annex with Nelje. Took the weir-drake warrants: three drakes nested under the third weir-crib, ears to the salt-house yard before sundown tomorrow.</p>
+                    <h5>On the road</h5>
+                    <div class="road"><span class="dot full"></span><div class="line"></div><span>Hollin's Reach · <span class="gold">Goldwane 16</span></span></div>
+                    <div class="road"><span class="dot"></span><div class="line" style="background:#2a2f3c"></div><span>Wolfmere Outpost · <span class="gold">Goldwane 19</span></span></div>
+                  </div>
+                  <div class="sec">
+                    <h5>Carrying</h5>
+                    <dl class="kv"><dt>Purse</dt><dd class="tabular">3 silver 8 copper</dd><dt>Bag</dt><dd>bedroll, rope, 2 torches</dd><dt>Mounts</dt><dd>Grey Mare 35 · Burr 25 km/day</dd></dl>
+                    <h5>Party</h5>
+                    <dl class="kv"><dt>Wessel</dt><dd>Soul Class II · hurt</dd><dt>Ren</dt><dd>Soul Class I · unhurt</dd><dt>Mara</dt><dd>Soul Class I · unhurt</dd></dl>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <figcaption>Home, desktop. One dateline holds time, place and weather; the page reads as the day's entry.</figcaption>
+      </figure>
+      <div class="phone-col">
+        <figure>
+          <div class="mock-phone cb-phone">
+            <div class="pbar"><span style="font:500 17px 'Newsreader',Georgia,serif">Wessel</span><span style="color:#6fb3a6;font-size:11px;letter-spacing:.12em;text-transform:uppercase">Goldwane 12 · 9:10 am · Bluewatch</span></div>
+            <div class="msg">
+              <p>"Name's Nelje," she muttered, dipping the pen again. The silver piece dropped into the verdigris-coated pan of the scale.</p>
+              <div class="margin"><b>In the margin</b><span>Paid 1 silver to Nelje · took a Guild Registration Slip · Nelje is here</span></div>
+            </div>
+            <div class="dock"><span class="on">Home</span><span>Party</span><span>Bag</span><span>Journal</span><span>Map</span></div>
+          </div>
+          <figcaption>A reply on a phone: changes as a margin note, in words.</figcaption>
+        </figure>
+        <figure>
+          <div class="cb preset">
+            <span class="phead" style="color:#9a9aa6">Settings · How much the game keeps</span>
+            <div class="opts"><div class="opt"><b>Lean</b>the essentials</div><div class="opt on"><b>Story</b>a living world</div><div class="opt"><b>Full</b>the whole game</div></div>
+          </div>
+          <figcaption>The preset, in this look.</figcaption>
+        </figure>
+      </div>
+    </div>
+    <div class="notes">
+      <p><b>Feels like:</b> a well-kept campaign journal.</p>
+      <p><b>Best for:</b> slow, character-driven play; reading on a phone.</p>
+      <p><b>Trade-off:</b> numbers are quieter; fights and stats get less space.</p>
+    </div>
+  </section>
+
+  <!-- ============ C ============ -->
+  <section class="dir" id="field-hud">
+    <div class="dir-head">
+      <div>
+        <span class="eyebrow">C · plays like a game</span>
+        <h2>Field HUD</h2>
+        <p class="lead">A compact heads-up bar and a grid of panels with hard edges and condensed labels. Everything at a glance, one amber accent for what needs you.</p>
+      </div>
+      <div class="swatches"><i style="background:#0f1114"></i><i style="background:#171a1f"></i><i style="background:#f2a93b"></i><i style="background:#58c48b"></i> Barlow Condensed + Barlow</div>
+    </div>
+    <div class="frames">
+      <figure>
+        <div class="scroll">
+          <div class="mock hc">
+            <div class="hud">
+              <div><span class="lab">Wessel</span><span class="val">Soul Class II · F-rank</span></div>
+              <div><span class="lab">Time</span><span class="val tabular">Goldwane 12 · 08:30</span></div>
+              <div><span class="lab">Place</span><span class="val">Bluewatch Village</span></div>
+              <div><span class="lab">Weather</span><span class="val">Drizzle, fog</span></div>
+              <div style="margin-left:auto;border-right:0;border-left:1px solid #262b33"><span class="lab">Purse</span><span class="val acc tabular">3s 8c</span></div>
+            </div>
+            <div class="grid">
+              <div class="cell two">
+                <span class="lab">Wessel · you</span>
+                <div class="stat"><div><b>14</b><small>STR</small></div><div><b>12</b><small>VIT</small></div><div><b>15</b><small>AGI</small></div><div><b>13</b><small>DEX</small></div><div><b>12</b><small>INT</small></div><div><b>8</b><small>LUK</small></div><div><b>8</b><small>CHA</small></div></div>
+                <div class="mrow"><span>Health</span><span>Hurt</span></div><div class="seg warn"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div>
+                <div class="mrow"><span>Wearing oilskin coat · tired, cold</span><span>edit</span></div>
+              </div>
+              <div class="cell">
+                <span class="lab">Road</span>
+                <span class="val">→ Wolfmere Outpost</span>
+                <div class="seg"><i class="on" style="background:#f2a93b"></i><i></i><i></i><i></i><i></i></div>
+                <div class="mrow"><span>Leg 1/2 · 8/100 km</span><span>Gw 16</span></div>
+                <div class="mrow"><span>Arrive</span><span class="acc">Goldwane 19</span></div>
+              </div>
+              <div class="cell">
+                <span class="lab">Mounts · 25 km/day</span>
+                <div class="mrow"><span>Grey Mare</span><span>35</span></div>
+                <div class="mrow"><span>Burr (tired)</span><span class="acc">25</span></div>
+              </div>
+              <div class="cell"><span class="lab">Party</span><div class="mrow"><span>Ren</span><span>Unhurt</span></div><div class="mrow"><span>Mara</span><span>Unhurt</span></div></div>
+              <div class="cell two"><span class="lab">Contract</span><span>Weir-drake warrants · 3 drakes · 5 silver a pair of ears</span><div class="mrow"><span>Deadline</span><span class="acc">sundown, Goldwane 13</span></div></div>
+              <div class="cell"><span class="lab">Bag</span><div class="mrow"><span>Bedroll</span><span>1</span></div><div class="mrow"><span>Rope</span><span>1</span></div><div class="mrow"><span>Torch</span><span>2</span></div></div>
+            </div>
+            <div class="dockbar"><span class="on">Home</span><span>Party</span><span>Bag</span><span>Journal</span><span>Map</span><span>Director</span></div>
+          </div>
+        </div>
+        <figcaption>Home, desktop. The HUD bar is the one readout; panels hold the rest, deadlines in amber.</figcaption>
+      </figure>
+      <div class="phone-col">
+        <figure>
+          <div class="mock-phone hc-phone">
+            <div class="ticker"><b>GW 12 · 09:10</b><span>BLUEWATCH</span><span>DRIZZLE</span><span style="color:#f2a93b">3S 8C</span></div>
+            <div class="msg">
+              <p>"Name's Nelje," she muttered, dipping the pen again. The silver piece dropped into the verdigris-coated pan of the scale.</p>
+              <div class="chg"><div><span>Silver</span><span class="minus">−1</span></div><div><span>Guild Registration Slip</span><span class="plus">+1</span></div><div><span>Here</span><span>Nelje</span></div></div>
+            </div>
+            <div class="dock"><span class="on">Home</span><span>Party</span><span>Bag</span><span>Map</span><span>More</span></div>
+          </div>
+          <figcaption>A reply on a phone: a ledger of what changed, plus and minus in colour.</figcaption>
+        </figure>
+        <figure>
+          <div class="hc preset">
+            <span class="phead" style="color:#8b929c">Settings · Preset</span>
+            <div class="opts"><div class="opt"><b>Lean</b>essentials</div><div class="opt"><b>Story</b>+ world</div><div class="opt on"><b>Full</b>+ RPG, travel</div></div>
+          </div>
+          <figcaption>The preset, in this look.</figcaption>
+        </figure>
+      </div>
+    </div>
+    <div class="notes">
+      <p><b>Feels like:</b> a tactics game's field screen.</p>
+      <p><b>Best for:</b> fights, travel and the RPG; lots of numbers at once.</p>
+      <p><b>Trade-off:</b> busier; less room for the story's own words.</p>
+    </div>
+  </section>
+
+  <section class="pick">
+    <h2>My recommendation</h2>
+    <ul>
+      <li><b>Chronicle (B) as the base,</b> because the suite is there to serve the story: the dateline, the journal page and changes as margin notes keep the tracking quiet.</li>
+      <li><b>Borrow from Field HUD (C) for the Party and Fight screens,</b> where numbers matter: the stat row, the stage bars and the amber deadlines.</li>
+      <li><b>Ship the shared structure first</b> (6 tabs, one readout, one card per reply, presets) in today's look, then restyle. That way the simplification lands sooner and the look can change without reworking it.</li>
+    </ul>
+    <p class="lead" style="font-size:14px">Reply with A, B, C or a mix. The chosen direction then gets a full mockup in the real app (every tab, desktop and phone) before any build.</p>
+  </section>
+</main>
