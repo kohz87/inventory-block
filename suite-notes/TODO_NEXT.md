@@ -32,7 +32,7 @@ https://claude.ai/artifact/AJZkpqZigE5TvZRRh4jrMK (v3); AI writing help https://
 | S2 | Re-sync vendored Story Block (test-only) in SD/Studio/NSD to 2.9.4 | Sonnet | ~1 h | USER go |
 | ~~S~~ | DONE 31 Oct: vendored Story Block 2.8.0 in SD (#145), Studio (#20), NSD (#225) | — | — | — |
 | P4 | P4 trim: lazy-load the pack checker, Diagnostics, UI sample | Haiku or Sonnet | ~½–1 day | Any time |
-| L | UI redesign mockups | lead / agents | — | USER item 2 |
+| L | UI redesign: simplified, modern, clean, stylish (USER 31 Oct) — 2–3 proposals overnight | lead | — | USER picks a direction |
 
 ## Small follow-ups (any time)
 - 2.9.0 (review 171): refuse `- party` on the player's own character; a character made on the greeting is lost if the greeting is swiped (pre-existing); Home card lingers after turning the RPG off until Home redraws; old capped reply Re-read now pays in full (CHANGELOG could say).

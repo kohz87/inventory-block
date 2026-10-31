@@ -2392,3 +2392,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
   rows, Look at 120% phone). Agent's edges: a rank line with no pack refused whole (drops wearing/condition); pencil
   record overwritten by a later Re-read line. Release review 174 (Claude) launched.
 - 31 Oct: USER asked whether the structure is now too complex. Lead: about right for a long campaign but at its ceiling; recommends a feature freeze after trip/mounts and a simplify pass (presets, Home header, narrator-kind audit, duplicate displays). Read-only simplify audit agent launched; results go in the 9am summary.
+- 31 Oct: USER: include a few simplified UI proposals too; must be modern, clean and stylish. Lead: 2–3 directions as a mockup artifact after the audit returns (the UI redesign item L now has a direction), in the 9am summary; nothing built without approval.
