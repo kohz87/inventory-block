@@ -2236,3 +2236,12 @@ MERGED testkit RB #118, SD #115, NSD #205.
   border/shadow/filter/outline (beats a theme's `input[type=range]` !important). Suite 3946 pass / 0 fail.
 - 31 Oct: USER: no Codex quota — don't use Codex. Reviews now run as Claude reviewer agents in this session (fresh
   agent per review). 170 moved to Claude; QUEUE.md says do not start anything.
+- 31 Oct: REVIEW 170 (Claude reviewer, Ersveil 4147451): BLOCK 1 — B1–B3 closed; B4 partly: chronicle-gated scenes
+  (battle, crown, evacuation, Wall) fire a reply after their world event and their 20/30-day windows can be skipped by a
+  30-day reply. Lead fix f3a06e7: 45-day windows; new timeline test with 30-day replies; reviewer's repro-b5 passes at
+  5d and 30d. Suite 3977 pass / 0 fail. PR https://github.com/kohz87/Story_block/pull/226 (Story Block 2.8.1, Ersveil
+  2.2.0) opened, subscribed; merge on green CI.
+- 31 Oct: agent BK done, stage20/blocks-settings 953eb0a: Game view Blocks tab removed; Settings → Blocks page (New,
+  From a template, rows with Show as incl. new Hidden, Edit, ⋯ Save as template / Export as pack / Remove); card "Edit
+  fields" opens the page; checker accepts show {tab:false, card:false}; 9 new tests; suite 3969 pass / 0 fail;
+  screenshots scratchpad/bk/shots (match mockup v10 §9). Waiting for R6, then one combined release review (U + BK + R6).

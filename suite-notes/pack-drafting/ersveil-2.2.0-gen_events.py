@@ -6,6 +6,8 @@ import json, sys
 MONTHS = ['Dawnwane', 'Rainmoot', 'Greengale', 'Highsun', 'Goldwane', 'Haywane', 'Emberwane', 'Nightfall', 'Frostfall',
           'Deepwinter', 'Icewane', 'Yearsend']
 DAY = 1440
+# A scene that waits on a chronicle entry fires one reply after its world event; a reply moves the clock at most 30 days,
+# so such a scene's window is 45 days (review 170).
 
 
 def T(year, month, day, hour=0):
@@ -258,7 +260,7 @@ for who, (cond, name, summary, cue) in MARROW.items():
     ev(f'marrowbridge-{who}', f"time() != null && time() >= {MB} && time() < {CR} && {' && '.join(f'!{since(WAR[other])}' for other in WAR if other != who)} && {cond}", f'{cue} {UNSEEN}', after='succession-613',
        then=[lasting(name, 'resolved', summary, 'Marrowbridge', ['Highmark Empire']),
              lasting(WAR[who], 'ongoing', WAR_SUMMARY[who], 'Highmark Capital', ['Highmark Empire'])])
-    ev(f'marrowbridge-{who}-scene', f"time() != null && {since(WAR[who])} && !{since(WAR[who], 20 * DAY)} && {at(HIGHMARK)}",
+    ev(f'marrowbridge-{who}-scene', f"time() != null && {since(WAR[who])} && !{since(WAR[who], 45 * DAY)} && {at(HIGHMARK)}",
        f'The battle at Marrowbridge is over, and the river runs dark. {cue} Wounded crowd the road, looters work the field, and both surviving camps are hiring anyone who can hold a spear.')
     news(f'marrowbridge-{who}-news', None, WAR[who], 12, FRONT + BELT[1:] + SOUTH,
          f'News of a great battle at Marrowbridge in Highmark: {name}. The war for the throne goes on, and the camps are hiring.')
@@ -329,7 +331,7 @@ for (broken, win, lose), cond in CROWN.items():
              lasting("Highmark's war of succession", 'resolved', f'The war of succession ended with {CROWNED[win]} crowned in CY 614.'),
              lasting("Highmark's succession", 'resolved', f'{CROWNED[win]} was crowned in Rainmoot CY 614.')])
 for win in ['wendhild', 'corvin', 'hasse']:
-    ev(f'crown-{win}-scene', f"time() != null && {since(REIGN[win])} && !{since(REIGN[win], 20 * DAY)} && {at(HIGHMARK)}",
+    ev(f'crown-{win}-scene', f"time() != null && {since(REIGN[win])} && !{since(REIGN[win], 45 * DAY)} && {at(HIGHMARK)}",
        f'Highmark has crowned {CROWNED[win]} in the Crown Keep. {AFTER_CROWN[win]} Heralds ride out with the news, and everyone who backed the losers is suddenly very quiet.')
     name = REIGN[win]
     news(f'crown-{win}-news', None, name, 14, FRONT + BELT[1:] + SOUTH,
@@ -370,9 +372,9 @@ ev('auvoth-falls-early', f"time() != null && time() >= {AUVOTH_EARLY} && {since(
 ev('auvoth-falls', f"time() != null && time() >= {AUVOTH_LATE} && !{since(LOST)}",
    FALL_CUE,
    then=[lasting(LOST, 'ongoing', FALL_SUMMARY, 'Auvoth', ['Adventurer Guild', 'Order of the Sealwardens', 'Compact Council'], keep=True)])
-ev('auvoth-evacuation-scene', f"time() != null && {since(LOST)} && !{since(LOST, 30 * DAY)} && {at(['Auvoth Compact', 'River Confederacy: Bluewatch', 'Shornmarch'])}",
+ev('auvoth-evacuation-scene', f"time() != null && {since(LOST)} && !{since(LOST, 45 * DAY)} && {at(['Auvoth Compact', 'River Confederacy: Bluewatch', 'Shornmarch'])}",
    'The evacuation of Auvoth: an endless line of carts, wounded, adventurers and clerks carrying the Guild\'s registers down the Bluewatch road, with the northern sky flickering behind them. Sealwardens stand at the Terrace gates with lamps, not leaving. Whoever is still in the city must run, fight, or stay with them.')
-ev('auvoth-ruins-visit', f"time() != null && {since(LOST, 31 * DAY)} && {at(['Auvoth Compact', 'River Confederacy: Bluewatch'])}",
+ev('auvoth-ruins-visit', f"time() != null && {since(LOST, 46 * DAY)} && {at(['Auvoth Compact', 'River Confederacy: Bluewatch'])}",
    "The north is the Tide's now. Auvoth's walls stand, but the city is overrun and wrong: frost on stone in summer, beasts in the Pale Market, storms that walk. Only at the Seventh Seal Terrace does a light still burn, where the Sealwardens hold the seals. Coming here is a death sentence for most.")
 news('auvoth-falls-news', None, LOST, 7, BELT,
      "Auvoth has fallen. The Guild's city is evacuated and overrun, and the Guild governs from Shorn. People say the Sealwardens stayed behind with their lamps. Every road south is full of refugees, and every crown is suddenly listening to the Guild.")
@@ -392,7 +394,7 @@ for win, line in LAST_WALL.items():
        then=[lasting(HELD, 'ongoing',
                      'The Wardens of the Last Wall held the northern roads above Thornwall Redoubt until the last stone. Lord-Commander Ottwald, Dame Ermengild and Sir Volkmar fell with the order. The Tide was held there.',
                      'Thornwall Redoubt', ['Wardens of the Last Wall', 'Highmark Empire'], keep=True)])
-ev('last-wall-scene', f"time() != null && {since(HELD)} && !{since(HELD, 30 * DAY)} && {at(HIGHMARK + ['Border Kingdoms', 'Shornmarch', 'River Confederacy: Bluewatch'])}",
+ev('last-wall-scene', f"time() != null && {since(HELD)} && !{since(HELD, 45 * DAY)} && {at(HIGHMARK + ['Border Kingdoms', 'Shornmarch', 'River Confederacy: Bluewatch'])}",
    "The Last Wall: a broken road under black ice, the Wardens' banners still up over heaps of stone and dead things. The Tide has stopped here and does not move. Survivors carry Sir Volkmar's shield south. Everyone who stood there is a legend now, and everyone who did not wants to be told about it.")
 news('last-wall-news', None, HELD, 14, ALL,
      'News that the world will remember: the Wardens of the Last Wall are gone, every one, and the Tide is held at their wall. In every Highmark town, bells ring for Lord-Commander Ottwald, Dame Ermengild and Sir Volkmar. "Until the last stone" is chalked on doors.')
