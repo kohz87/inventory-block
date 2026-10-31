@@ -2291,3 +2291,14 @@ MERGED testkit RB #118, SD #115, NSD #205.
   if the greeting is swiped (pre-existing); Re-read of an old `- party X` after the persona is renamed to X refuses the
   leave; "+1 points" wording when the 60 clamp limits it; the first-character `dm.join` docs paragraph describes a path
   a reader can't normally take; no browser screenshots by the reviewer (the agent took them). R8 still running.
+- 31 Oct: agent R8 done, stage22/rpg-r8 641b72d (correct trailer, one commit on e4ba101): A "full above 10"
+  (stat − 5, stored as statDivisor 0, presets unchanged; STR 14 Class II odds 61/8/31 → 69/7/25); B defence skills
+  (planner foe line `skill:`, rank + stat count, Empty/lacking roll untrained, old payloads unchanged; plus a small CSS
+  fix so the battle log's skill word doesn't render as a chip); C soul field label/names via src/v2/lean-rpg/soul.js
+  (defaults byte-identical). 22 new tests; suite 4045 pass / 0 fail; fuzz 30 clean; screenshots scratchpad/rpg-r8/shots
+  (lead checked phone shots). Agent's open questions → follow-ups: foes' class words follow the party's soul field,
+  not the Foes block's; `+ party` grammar still says I–IX; statDivisor 0 encoding; unused soulOne string. Settings
+  hint "rounded down" still shows under "full above 10". The R7 agent's test ST (pid 3053) was left running; the lead's
+  kill was refused by the permission check, left for the container to reclaim. Release review 173 (Claude) launched.
+- 31 Oct: USER set their skills (Iaijutsu agi/stamina, Shadow Cut agi/mana, Shadow Step agi/stamina, Obscure
+  dex/mana, Weakness int/stamina); lead wrote the about lines and advised Foe's base 2 as a stopgap until 2.9.1.
