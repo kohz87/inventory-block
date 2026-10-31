@@ -2019,3 +2019,9 @@ MERGED testkit RB #118, SD #115, NSD #205.
   Escape, F2 old class-up notes show today's +N, F3 stale definition on save (modal; accepted), F4 "Player's" vs
   "reader". Result vm-results/157.md. B17 (prune on redefine if replay-safe) sent to A4; plain refusal + F1, F2,
   F4 sent to B4.
+- 31 Oct: RE-CHECK 156 (Sonnet, fresh): HOLDS — B1 and B2 closed (repros re-run on the new heads; Story Block's real
+  capability check refuses the pack without SD). Follow-ups: an "Any time" lasting event in a story that never gets
+  a date never fires (one help line); export does not add the capability until an edit (sync at export); a stale
+  `time() != null` guard after deleting the delayed child (harmless). Result vm-results/156.md.
+- 31 Oct: release commits: SD 2.3.0 (3c45600, 948 pass) and Studio 0.3.0 (1813611, 661 pass, dist unchanged).
+  PRs opened: kohz87/Story_director#144, kohz87/Story_studio#18 (subscribed). Merge after green CI.
