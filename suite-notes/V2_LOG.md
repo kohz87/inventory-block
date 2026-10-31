@@ -2451,3 +2451,10 @@ MERGED testkit RB #118, SD #115, NSD #205.
   "listed as present twice" and the whole reply block is skipped (its other changes would be lost) → lead treats as
   worth fixing now: agent R14 makes `+ present` idempotent on replay on the same SB branch. Then release review 176.
 - 31 Oct: agent R14 done: SB stage26/fixes 9d68c5f (ctx.unique + replay rule (e) in rebaseOps; + present appends marked unique, skipped on replay when already present; old unmarked ops replay as before; oracle taught rule e; one oracle test that pinned the skipped block updated). 4091/0, fuzz 30 clean, state/delete fuzz 30/30. Release review 176 (Claude) launched on SB 9d68c5f + SD 844a848.
+- 31 Oct: RELEASE REVIEW 176 (Claude, SB 9d68c5f + SD 844a848): HOLDS. SB 4096/0, fuzz 30 clean, state fuzz 30/30;
+  SD 979/0 (981/981 with SB), SD delete-fuzz 30/30 (seed 19 fixed). `after` ordering: kinds without it unchanged;
+  cycles don't hang. Rule (e): old ops unchanged; own fuzz 80 seeds 0 failures (main 209). Prompts/state/stored chat
+  byte-identical to 2.11.0/2.5.0 for chats without the changed lines. Follow-ups: `~ place X | with: Name` and the
+  pencil's present `set` still lose a block after a middle delete (same fault, pre-existing); SB delete-fuzz seeds
+  6, 9, 22, 27 fail identically on main; `after` chains/self not resolved. PRs kohz87/Story_block#234 and
+  kohz87/Story_director#149 opened; subscribed. Next overnight: R15 for the `with:`/pencil case and those seeds.
