@@ -2450,3 +2450,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
   Seed 19 cause found in Story Block (not SD): a replayed literal `+ present` append after a middle delete trips
   "listed as present twice" and the whole reply block is skipped (its other changes would be lost) → lead treats as
   worth fixing now: agent R14 makes `+ present` idempotent on replay on the same SB branch. Then release review 176.
+- 31 Oct: agent R14 done: SB stage26/fixes 9d68c5f (ctx.unique + replay rule (e) in rebaseOps; + present appends marked unique, skipped on replay when already present; old unmarked ops replay as before; oracle taught rule e; one oracle test that pinned the skipped block updated). 4091/0, fuzz 30 clean, state/delete fuzz 30/30. Release review 176 (Claude) launched on SB 9d68c5f + SD 844a848.
