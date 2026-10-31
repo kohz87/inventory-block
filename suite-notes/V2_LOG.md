@@ -1842,3 +1842,13 @@ MERGED testkit RB #118, SD #115, NSD #205.
   command `chronicle.lasting` (lock, keep in mind ≤2) and the condition Studio writes for delays. Briefs
   `suite-notes/timeline-briefs/` (COMMON, D, E). Launching D (Sonnet, Story_director `stage16/chronicle-lasting`)
   and E (Sonnet, Story_studio `stage16/timeline`) in parallel with the RPG agents.
+- 31 Oct: agent A done, `stage16/rpg-a` b9681fc (on f50ad31), suite 3653 pass / 0 fail, 71 new tests. Prelude list
+  (registry `prelude` key + `isPrelude`; Assist byte-identical), plan (`plan.js`, held under chat metadata
+  `leanRpgPlan`), pre-call (`precall.js`, Assist's profile, 20 s, quiet ROLLS_SKIPPED), sheet reading by `role`
+  (`read.js`), `rpg.resolve` (claim `rpg:resolve:<message key>`; rounds = min(pace, 5, decisive, 600-token budget)),
+  reply summary `data.v2.result.summary` + query `rpg.rolls`. Result shape for B in resolve.js's header. Setting
+  `leanRpgRolls` (default 'automatic'; B draws it). Outside its files: registry.js, domains/index.js, runtime.js,
+  module.test.js pins, new `lean-rpg/names.js` (re-exported by index.js).
+  Lead decisions: (1) keep the written odds rule (≥, natural 20/1, cost within 2: 72/65/48/31/19 %), not v1's
+  illustrative table; (2) CHANGE: a skill not on the sheet rolls untrained (v1), not refused; (5) CHANGE: Assist's
+  pre-roll steps aside while Lean RPG is on and the chat has a Character block. Sent back to A for both changes.
