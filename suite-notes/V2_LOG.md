@@ -2378,3 +2378,8 @@ MERGED testkit RB #118, SD #115, NSD #205.
   known movers (courier, Ninth Brazier) as diamonds + an On the road panel; Status Travel row. Lines: `~ trip Place |
   by | via`, `~ trip stop`, `+/~/- mount`. Trip + map in Story Director, Mounts in Story Block. Waiting on approval.
 - 31 Oct: USER: more than 4 mounts / a mount each for 5+ party members? Lead: Mounts card up to 6 rows, a row may be a group with a count ("Guild remounts ×4"), so 8 riders fit; too few mounts → extra riders walk, party at 20 km/day. Mockup section 13 text updated (artifact v16).
+- 31 Oct: USER: Rank should come from the pack (other game types have none) → sent to agent R9: `content.you.rank:
+  { label }` opt-in, Ersveil declares "Guild rank". USER approved section 13 (trip, mounts, map) and asked to run it
+  in parallel → briefs R10 (SB mounts, stage25/mounts, port 8172) and R11 (SD trip + map, stage25/trip, port 8173),
+  both from main, no version bump (lead bumps at release: SB 2.11.0, SD 2.5.0), fixed interface mounts.list /
+  mounts.pace. Two Sonnet agents launched beside R9.
