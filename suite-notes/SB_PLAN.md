@@ -64,6 +64,7 @@ stored in the chat, reusable as a template or exported as a pack. Limits from da
   skills with ranks, foe slots, Down + death rule, the combat prompt).
 - New code: confirm cards (class/rank up), pre-call (`src/v2/assist/`), opposed rolls (`dm.resolve`),
   several exchanges per reply, inline battle log (`src/v2/reply-notes.js` + view), death end card.
+- USER 31 Oct: keep the original visual stat-distribution screen; what custom blocks can do ships as block templates when the RPG lands; may run in parallel (Haiku data/templates, Sonnet code).
 - Open decisions: A — combat code in SB core or an optional module; B — long or short narrator lines;
   roll trigger — Roll button or AI pre-call.
 
