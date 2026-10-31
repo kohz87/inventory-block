@@ -2280,3 +2280,6 @@ MERGED testkit RB #118, SD #115, NSD #205.
   release review 172 (Claude) launched. USER asked about Soul Class vs level (answered: Soul Class IS the level; it's
   the RPG's template field, not the pack's; the RPG screens hard-code "Soul Class") → lead offered: RPG screens use the
   Character block's own field label/names so a rename to "Level" carries everywhere; waiting on the USER.
+- 31 Oct: USER: is stat/2 too punishing (AGI 20 keeps getting hit)? Lead computed: equal classes, AGI 20 → hit 22%/
+  exchange (71% at least once in 5); proposed A ("Stat adds: full above 10" = stat − 5) and B (a defence skill's rank
+  counts). USER: both — B always on, A as a choice → brief R8 on top of 2.9.1 (stage22/rpg-r8); same release.
