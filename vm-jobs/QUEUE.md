@@ -20,7 +20,7 @@ Accounts (USER, 28 Oct): A out of credit, resets at 17:25 UTC; B has quota now (
 Accounts (USER, 29 Oct ~14:20 UTC): both out. A resets 00:51 SGT 30 Oct = 16:51 UTC 29 Oct (use from 16:52 UTC); B resets 01:58 SGT 30 Oct = 17:58 UTC 29 Oct (use from 17:59 UTC). Run 152 on A at 16:52 UTC.
 
 Order (run top to bottom):
-ST69. 158 — READY — LEAD GO-AHEAD (31 Oct): RPG re-check after fix round 4, Story_block stage16/lean-rpg at 4ce3111. Account A; a fresh session. Prompt vm-jobs/158-prompt.txt.
+ST69. 158 — DONE (BLOCK 8, vm-results/158.md) on A. WAS: READY — LEAD GO-AHEAD (31 Oct): RPG re-check after fix round 4, Story_block stage16/lean-rpg at 4ce3111. Account A; a fresh session. Prompt vm-jobs/158-prompt.txt.
 ST68. 159 — DONE (BLOCK 9, vm-results/159.md) on B. WAS: READY — LEAD GO-AHEAD (31 Oct): review of Studio "Write with an AI" (Story_studio stage17/ai-write fbf4637). Account B; a fresh session. Prompt vm-jobs/159-prompt.txt.
 ST67. 157 — CLAUDE (Sonnet reviewer, fresh session): round 3 only, c9ba353..9228472. Do not run on the VM.
 ST66. 156 — MOVED TO CLAUDE (USER: use Sonnet). Do not run. WAS: re-check of the Timeline fixes (SD stage16/chronicle-lasting feaf595, Studio stage16/timeline b0ca322). Account B (A is running 155); a fresh session. Prompt vm-jobs/156-prompt.txt.

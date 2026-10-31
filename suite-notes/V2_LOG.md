@@ -2065,3 +2065,9 @@ MERGED testkit RB #118, SD #115, NSD #205.
   hostile delay throws; unbounded paste freezes / silent save failure; prompt over 24,000 chars; "[1]" before the
   JSON hides it. VM could not run browser tests (sandbox EPERM); they pass here. Fix brief timeline-briefs/J2-FIX1.md
   (lead decisions per item); agent J2b on stage17/ai-write.
+- 31 Oct: RE-CHECK 158 (Codex A on 4ce3111): BLOCK 8 — all 17 earlier blockers confirmed closed with failing-before
+  tests; new: B1 prompt:false via planner/cue, B2 8 settle subjects zero the story's visits, B3 >8 end cards hide
+  death, B4 old payload re-read with new cue fit adds a round, B5 shortened names collide, B6 character-scoped role
+  blocks shown but not read by the planner, B7 plan kept if RPG is switched off mid-generation, B8 Reset races the
+  focusout save. Suite 3933 pass (6 sandbox fails, known). Decisions in rpg-briefs/R5.md (B6: role blocks chat-only).
+  Agents A5 (B2 B3 B6) and B5 (B1 B4 B5 B7 B8) launched.
