@@ -2477,3 +2477,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
   Follow-ups from 178: show all event errors for a stored pack in the Packs panel; a kit note on `when` syntax; sync
   Studio's vendored Story Block (2.11.0 → 2.11.3) with the stricter checker.
 - 31 Oct: agent S3 done: Studio stage29/sync-sb-2.11.3 089f994 (vendored SB 2.11.3 + build; pins only; 757/757). PR kohz87/Story_studio#22 opened; subscribed; merge after green CI.
+- 31 Oct ~21:39 UTC: MERGED kohz87/Story_studio#22 (vendored Story Block 2.11.3) after green CI. Nothing in flight. Overnight work done; waiting for the 9am SGT summary (01:00 UTC).
