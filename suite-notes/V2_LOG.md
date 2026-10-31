@@ -2027,3 +2027,7 @@ MERGED testkit RB #118, SD #115, NSD #205.
   PRs opened: kohz87/Story_director#144, kohz87/Story_studio#18 (subscribed). Merge after green CI.
 - 31 Oct 06:40 UTC: kohz87/Story_director#144 CI green (verify), mergeable clean → MERGED (merge commit): Story
   Director 2.3.0 on main. Studio#18 CI running. USER: the RPG re-check after round 4 goes to Codex (available now).
+- 31 Oct ~06:44 UTC: Studio#18 CI failed once on a real target-size finding (a Timeline checkbox shrank to 42 px
+  beside a long label on the CI fonts; 43.8 locally) → fixed in 22c76a0 (`flex:0 0 44px`), measured 44 px, suite
+  green → CI green, mergeable clean → MERGED (merge commit): Story Studio 0.3.0 on main. TIMELINE RELEASED (SD 2.3.0 +
+  Studio 0.3.0). Next for the Timeline: J2 mockup (AI writing help), then the big beats.

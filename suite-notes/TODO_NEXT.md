@@ -7,7 +7,7 @@ no PRs opened yet.
 | # | Work | Where | State | Next |
 |---|---|---|---|---|
 | R | **RPG (Story Block 2.8.0)**, formerly "Lean RPG" | Story_block `stage16/lean-rpg` c9ba353 | Merged: C block engine, H templates, A automatic rolls, B screens, F fixes (one-save Spend points, plain budget message, role tabs), G wizard + Skills view + skill stats, R2 combat (Hit/Grazed/Blocked, stage colours, Fight tab, compact tail). Suite 3863 pass / 0 fail. Browser-checked: Party, Spend points, wizard → Create, Skills view. | Round 3 running (`stage16/rpg-r3`): rename to "RPG" (labels + stored ids), Settings → RPG page (mockup v8), foe pencil edits health. Then merge → **mark review 155 READY and tell the USER to start the VM** → fixes → PR → release 2.8.0 |
-| T | **Timeline** (Story Director + Studio) | SD `stage16/chronicle-lasting` 632835c; Studio `stage16/timeline` 3b128bf | Built: `chronicle.lasting` (lock, keep in mind ≤2), `chronicle.passed` for delays; Studio Timeline view + event form, Lasting change, "N days after". Studio checked against mockup v3. | Review 154 running (Sonnet reviewer; the VM never picked it up) → fixes → PRs → releases |
+| T | ~~**Timeline**~~ RELEASED 31 Oct: Story Director 2.3.0 (#144) and Story Studio 0.3.0 (#18) on main | — | Reviews 154 (BLOCK 2, fixed) and 156 (HOLDS) | Re-sync test copies; J2 next |
 
 Approved mockups: RPG https://claude.ai/artifact/Gn22FRyEzDvufqZDgdbR4R (v8: sections 0–6); Studio Timeline
 https://claude.ai/artifact/AJZkpqZigE5TvZRRh4jrMK (v3).
