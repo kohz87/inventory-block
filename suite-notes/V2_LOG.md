@@ -2047,3 +2047,9 @@ MERGED testkit RB #118, SD #115, NSD #205.
   B14 marker restored, B15 `latest()` whole chat, B16 positional dice (`dice: 2`; old payloads re-read as before);
   157 additions: plain pin-budget words, F1 save on focusout/close/hidden, F2 recorded rules for class-up notes, F4
   "Reader's instructions". Waiting for A4 to merge both.
+- 31 Oct: agent J2 done, Studio `stage17/ai-write` fbf4637 (suite green, dist rebuilt): panel (timeline-ai.js), pure
+  prompt builder (golden Ersveil prompt, 24,000-char bound cutting places), tolerant answer reader writing through
+  writeCondition/checkLasting/settleGuards, drafts beside the snapshot (never exported; undo/reload; Keep/Discard/
+  Keep all; ⚠ can't be kept), docs/AI_PROMPT.md synced by a test. Lead browser look: idea → Check it (2 Ready,
+  "Highmark Capital" is a real Ersveil place) → Add 2 as drafts → Timeline rows + draft form with Keep/Discard; 0
+  page errors. Follow-up: names shown from ids lose capitals. Review 159 queued READY for Codex B.

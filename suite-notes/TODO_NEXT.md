@@ -29,6 +29,7 @@ https://claude.ai/artifact/AJZkpqZigE5TvZRRh4jrMK (v3).
 - Timeline: an "Any time" lasting event never fires in a story with no date (add a help line); sync `chronicle-lasting` at export too; drop the stale `time() != null` guard when the last delayed child goes.
 - RPG: a reply where the story changes nothing doesn't settle the death check (it waits for the next reply with lines).
 - Block chooser says "1 buttons" (pre-existing in 2.7.2).
+- Studio: event names are shown from their ids, so capitals are lost ("The emperor of highmark dies"); consider an optional display name.
 - Block prompts are stored on one line, so the RPG combat text loses its line breaks.
 - Story Block keeps a pack enabled when a module capability it needs goes missing after install (events that call the missing command fail each reply); consider skipping such events with one Problems line.
 - A merge-on-rename can drop "from the story" after an earlier reply is re-read (pre-existing; 151 note).
