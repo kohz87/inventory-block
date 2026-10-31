@@ -1975,3 +1975,13 @@ MERGED testkit RB #118, SD #115, NSD #205.
   R3's head.
 - 31 Oct: USER: the Fight tab's foe pencil edits health, not the name → added to R3 as R3-3 (sent to the agent).
 - 31 Oct: USER readied the VM and will start it on the lead's word. Plan: RPG review 155 goes to Codex once R3 is merged (lead marks it READY with the final head, then tells the USER).
+- 31 Oct: REVIEW 154 (Sonnet reviewer, fresh session; the VM never ran it): BLOCK 2. B1 a delayed child never fires
+  when its parent's Lasting change was written while the clock was null (any-time/place-only parent on the first
+  reply; `since: null` forever, no warning). B2 without SD (or an SD without the command) an event with a Lasting
+  change fails every reply (UNKNOWN_COMMAND), its cue never told, while Studio promises "the news is still told
+  once". 9 follow-ups (journal attribution, caps check looser in hand edits, orphaned delay names, preview wording,
+  region help, id renames, extreme names, keep seats, fuzz generators). Result committed as vm-results/154.md.
+  Lead decisions: B2 → SD declares capability `chronicle-lasting`, Studio adds it to `requires.capabilities` when
+  used, text fixed; B1 → SD refuses `chronicle.lasting` while the clock is null (event retries, fires with a real
+  `since`) and Studio guards delayed-from parents with `time() != null`; fuzz generators (SD rule 3) and follow-ups
+  1–5 included. Brief timeline-briefs/FIX1.md; agents D2 (SD) and E2 (Studio) launched.
