@@ -1973,3 +1973,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
   rpgPlan) before release; Settings → RPG page (presets/custom numbers, live odds, recorded numbers per roll so
   replays never change, the chat's combat text editable, planner note + read-only full prompt). RPG review waits for
   R3's head.
+- 31 Oct: USER: the Fight tab's foe pencil edits health, not the name → added to R3 as R3-3 (sent to the agent).
