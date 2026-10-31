@@ -2393,3 +2393,9 @@ MERGED testkit RB #118, SD #115, NSD #205.
   record overwritten by a later Re-read line. Release review 174 (Claude) launched.
 - 31 Oct: USER asked whether the structure is now too complex. Lead: about right for a long campaign but at its ceiling; recommends a feature freeze after trip/mounts and a simplify pass (presets, Home header, narrator-kind audit, duplicate displays). Read-only simplify audit agent launched; results go in the 9am summary.
 - 31 Oct: USER: include a few simplified UI proposals too; must be modern, clean and stylish. Lead: 2–3 directions as a mockup artifact after the audit returns (the UI redesign item L now has a direction), in the 9am summary; nothing built without approval.
+- 31 Oct ~17:45 UTC: agent R10 done (correct trailer): SB stage25/mounts cdb28bd (scene.mounts up to 6 rows, feature
+  story-block.mounts on by default, `+/~/- mount` with kind default paces, tail line, mounts.list / mounts.pace as
+  specified, mounts.edit pencil, Home Mounts card; ops.js `within` scratch fix; editable `fields` kind). 4081 tests 0
+  fail; fuzz 30 clean; state-fuzz 60 clean; off fixture kept + new fixtures/off-mounts.json. Plan: after 2.10.0 is
+  released, merge main into stage25/mounts, make `- mount` of a missing mount quiet like `- present` (lead's call),
+  bump 2.11.0 with R11's SD 2.5.0, then review 175.
