@@ -2008,3 +2008,8 @@ MERGED testkit RB #118, SD #115, NSD #205.
   "at least N days after “X” happens"; region help line. Re-check 156 written and marked READY for account B.
 - 31 Oct: USER: run 156 with Sonnet → moved off the VM queue; a Sonnet reviewer in a fresh session runs it.
 - 31 Oct: VM started 155 on c9ba353 (pre-round-3) on A. Kept running; round 3 (c9ba353..9228472) gets its own review 157, run by a Sonnet reviewer in a fresh session.
+- 31 Oct: REVIEW 155 (Codex A, on c9ba353): BLOCK 16 — vm-results/155.md. Lead: all 16 real. Decisions: B10 by
+  spec amendment (core inert-but-loaded when off; views lazy; SPEC_RPG §0 updated); B6 remove `set-alive` from the
+  stock Character (death only via the latch); B12 end cards first. Fix round R4 (brief rpg-briefs/R4.md): agent A4
+  engine side (B1 B2 B6 B7 B8 B12 + fuzz-replay `deleteSwipe` bug) and agent B4 rolls/views side (B3 B4 B5 B9 B11
+  B13 B14 B15 B16), both on 9228472. Review 157 (round 3) still running; its findings join R4 or a short R5.

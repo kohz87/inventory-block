@@ -12,6 +12,10 @@ because of 2.7 (custom blocks, inline edit, text labels, prompt text) and splits
   - **Health / Mana / Stamina are stage bars** (`ss.meter` with `segments` = stages, `text` = the word, tone by stage: good near full, warn in the middle, bad near empty), in one aligned row on the stats screen and on the Home card.
   - **One Party tab, one card per character** (you and each companion): name and role, Soul Class, XP bar, the three stage bars, the seven stats in a row, skills with ranks; "Spend points" (when points are unspent) or "Stats" opens the B3 distribution view for that character; "Skills" opens the list. This replaces the per-character Stats tab in B3. Each card is drawn from that character's Character block.
   - **Soul Class and skill ranks rise automatically** through block Rules: at XP 100, class +1 and XP back to 0; at practice 100, rank +1. They show as lines in "Changed this reply" (a `replyCard` line from the module), with no confirm cards. The only card left is "The story ends here" (death).
+- **31 Oct, lead (review 155 B10):** "off" means byte-identical prompts, saves, RNG draws and receipts and no RPG
+  hook output; the RPG's views and screens load only when it is on (dynamic import), while its core (commands,
+  checker keys, tail, plan/resolve) ships inside Story Block and is loaded but inert when off. This replaces the
+  "nothing of it is imported" wording below.
 - **A: optional module.** It lives in Story Block as `src/v2/modules/lean-rpg/`, off by default, and is switched on in
   Settings → Features → "Lean RPG". When it is off, nothing of it is imported (dynamic `import()`), and prompts, saves
   and RNG draws are byte-identical to 2.7.2.
