@@ -2164,3 +2164,9 @@ MERGED testkit RB #118, SD #115, NSD #205.
   cost — major cities and an order with its heroes are lost. Big map changes allowed. First beat: a low-level monster
   flood from the NORTHERN WILDZONE right after the first month (~Haywane 12, CY 611); the Depths themselves are held by
   the elite adventurers. Floods recur as escalating waves. The Tide rises in the FAR NORTH.
+- 31 Oct: K answers continued: floods during/around the Turning are dismissed ("a harsher Turning", then "a
+  migration") before the full picture in CY 613; first flood BOTH an early one at Haywane 12, CY 611 and a stronger one
+  in the 611 Turning (Frostfall 21); fallen order = Wardens of the Last Wall; lost = Auvoth + the Frostbound and
+  White-Horn lands; politics = who pays for the north, Highmark succession, Church vs the Veil, an Ardelian election;
+  underworld = Broken Chain uprising, Cinder Host marches, Shackles and Nightingale. Draft outline
+  suite-notes/ERSVEIL_BEATS.md (3 open questions) sent to the USER for approval.
