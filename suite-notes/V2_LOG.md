@@ -2193,3 +2193,7 @@ MERGED testkit RB #118, SD #115, NSD #205.
   Smoke", Saintess Velka "Keeper of Names" (Veil), the Sparrow (replaces "the Lark"), champions Ottavia Vane
   (Nightingale), Neshai Chainbreaker (Broken Chain), Grusk the Ledger-Burner (Cinder Host), "the Quiet Hour" (Hand of
   Oblivion), Teodor "Nine Collars" Vask (Shackles/Ironhammer), Captain Sorrel of the Ninth Debt (Grey Ledger).
+- 31 Oct: USER approved the 58-person roster; "make the throne influenced by game events". Lead probe (scratchpad
+  probe-succ.test.mjs): pack events can read a pack data module via query('dataModules.view', …), and a narrator dm line
+  moved it and fired a gated event. Proposed design (hidden "Court favour" module, least-favour claimant broken at
+  Marrowbridge 613, most-favour crowned 614, winner-specific consequences) recorded in ERSVEIL_PEOPLE.md; sent to USER.

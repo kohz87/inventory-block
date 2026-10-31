@@ -116,3 +116,20 @@
 | **Captain Murrough of the Gallowglass** | Bloodbound captain who holds a line past all reason | Hired for the Last Wall |
 
 Count: 58 entries (the 13 timeline characters plus 45 more).
+
+## USER approval (31 Oct)
+Roster approved. The throne is decided by game events, as follows (lead's design, offered for approval):
+- **A new hidden pack module, "Court favour"** (`succession`, chat scope, no screen).
+  - Starts at Wendhild 40, Corvin 35, Hasse 25 (the plain rule's order).
+  - The narrator writes back or undermine lines, small or great, only when the player's deeds clearly help or hurt a
+    claimant.
+  - Probe-tested: an event condition can read `query('dataModules.view', { module: 'pack.ersveil/succession' })`, and a
+    narrator line moved the value and fired the gated event.
+- **Marrowbridge (CY 613)** breaks the claimant with the least favour: Corvin dies, Hasse is disgraced, or Wendhild
+  flees to the Wardens.
+- **The crowning (spring CY 614)** goes to the claimant with the most favour. Ties go Wendhild > Corvin > Hasse, and
+  Wendhild wins when the module isn't pinned.
+- **What each winner changes:**
+  - Wendhild: Highmark turns north.
+  - Corvin: he marches south, the north is starved of help, and Auvoth falls sooner.
+  - Hasse: the Wardens refuse to kneel but hold the Wall anyway, and Hasse threatens to open the Iron Archive.
