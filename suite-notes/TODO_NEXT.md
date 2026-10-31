@@ -1,0 +1,44 @@
+# After the reset: to-do list (written 31 Oct ~02:30 UTC)
+
+State: Story Block main c438975 (2.7.2, Ersveil 2.1.0). Story Director, Studio and NPC State Delta test copies are at
+2.7.x. Nothing is in flight; no open PRs.
+
+## Waiting on the USER (answers unblock the rest)
+1. **Studio Timeline mockup**, https://claude.ai/artifact/AJZkpqZigE5TvZRRh4jrMK:
+   - approve it or ask for changes;
+   - say yes or no to the two engine extras: "N days after another event" and Lasting change (the World state block).
+2. **Timeline big beats** (option 3): what happens and roughly when (CY 611 onward). The lead fills in the dates, the
+   build-up and how the news spreads.
+3. **Lean RPG mockups**: approve B2 (Roll form) and B3 (stat distribution, from RB's Stats step) once they are made
+   (item A below).
+4. **UI redesign (P6)**: a direction (minimal/flat, classic RPG, MVU-style, mobile HUD, or a reference).
+
+## Ready to start now (no answers needed)
+| # | Work | Who | Size | Notes |
+|---|---|---|---|---|
+| A | Lean RPG mockups B2 (Roll form) + B3 (stat distribution) | lead (or a Sonnet agent) | ~½ day | Real Story Block page, the RB Stats-step look (steppers + points pill + radar) |
+| B | Lean RPG code stubs: the §3 interfaces of suite-notes/SPEC_RPG.md (empty module + toggle, new key names) | lead | ~½ day | Unblocks the agents |
+| C | RPG agent C, block engine (prompt 1200, display names, Card and reply-end functions, hidden fields) | Sonnet | ~1 day | After B |
+| D | RPG agent A, rolls (prelude list, plan, `rpg.resolve`, optional pre-call) | Sonnet | ~1–1½ days | After B, parallel with C |
+| E | RPG agent H, templates + docs (Character, Skills, Foes, Combat rules) | Haiku | ~½ day | After B, parallel |
+| F | P4 trim: lazy-load the pack checker, Diagnostics, UI sample | Haiku or Sonnet | ~½–1 day | Separate files, can run beside the RPG work |
+
+## After the USER answers
+| # | Work | Who | Size | Needs |
+|---|---|---|---|---|
+| G | RPG agent B, screens (battle log D, Roll form, stats screen) | Sonnet | ~1 day | item 3 |
+| H | RPG integration, browser check, review rounds, release Story Block 2.8.0 | lead + reviewer | ~2 days | C, D, E, G |
+| I | Studio Timeline (the Events → Timeline view and form) | Sonnet + lead | ~1–1½ days | item 1 |
+| J | Story Block engine: event delays, and/or the World state block that events can set | Sonnet + lead | ~1 day | item 1 (if yes) |
+| K | Ersveil hidden timeline events (pack 2.2.0) | lead | ~½ day | item 2 (+ J for lasting changes) |
+| L | UI redesign mockups | lead / agents | — | item 4 |
+
+## Small follow-ups (any time)
+- A merge-on-rename can drop "from the story" after an earlier reply is re-read (pre-existing; 151 note).
+- Story Director clock editing (a pencil on the date and time).
+- Re-sync the test copies after each Story Block release (a Haiku or Sonnet agent, like 30 Oct).
+
+## Rules to keep in mind
+- **Reviews:** Codex when available (fresh session); otherwise a Sonnet reviewer in a fresh session, or the USER's go.
+- **Merges:** merge commits only, after green CI; agents never merge.
+- **UI:** a mockup is approved before any UI is built.
