@@ -1869,3 +1869,7 @@ MERGED testkit RB #118, SD #115, NSD #205.
   before vs after with `names`, replacing the plain "Rule:" line), Lean RPG fold on Features, lazy mount via
   ui-host. Its battle-log reader assumed a different result shape and wrote setting `rolls`: sent back to B to
   match A's real shape and `leanRpgRolls`, and to strip only a whole-line marker.
+- 31 Oct: agent A follow-up done, `stage16/rpg-a` 3076332 (suite 3655 pass): a skill not on the sheet rolls
+  untrained (cue: "X has no skill called Y: rolled untrained."); Assist's pre-roll makes no call while Lean RPG is
+  on with a Character block (3-case test); v1's illustrative odds removed from tests. Noted twice by agents:
+  `b1r2-capture.test.js` 10 s backstop trips under load (passes alone) — watch it in CI, not a lean-rpg change.
