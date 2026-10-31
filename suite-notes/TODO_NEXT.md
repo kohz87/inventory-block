@@ -4,8 +4,7 @@ State: Story Block main c438975 (2.7.2, Ersveil 2.1.0). Story Director, Studio a
 2.7.x. Nothing is in flight; no open PRs.
 
 ## Waiting on the USER (answers unblock the rest)
-1. **Studio Timeline mockup**, https://claude.ai/artifact/AJZkpqZigE5TvZRRh4jrMK:
-   - approve it or ask for changes (v3: Lasting change and "N days after" both come from Story Director's chronicle, decided 31 Oct).
+1. ~~**Studio Timeline mockup**~~ approved 31 Oct (v3, https://claude.ai/artifact/AJZkpqZigE5TvZRRh4jrMK); build J in progress.
 2. **Timeline big beats** (option 3): what happens and roughly when (CY 611 onward). The lead fills in the dates, the
    build-up and how the news spreads.
 3. ~~**Lean RPG mockups**~~ approved 31 Oct (v3). Build in progress.

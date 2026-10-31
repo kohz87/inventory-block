@@ -1837,3 +1837,8 @@ MERGED testkit RB #118, SD #115, NSD #205.
   world event and pack-event conditions can already call queries (`query('chronicle.event', { name })`), so Studio
   writes `after: X` + `time() >= query('chronicle.event', { name: X }).since + N×1440`. No Story Block engine change;
   the earlier event must have a Lasting change. Timeline mockup v3 at the same URL shows it.
+- 31 Oct: USER approved the Studio Timeline mockup v3 ("Proceed then"). Lead checked: SB needs no change (event
+  `then` steps run any command as system with caller `event:<id>`). Spec `suite-notes/SPEC_TIMELINE.md` fixes the SD
+  command `chronicle.lasting` (lock, keep in mind ≤2) and the condition Studio writes for delays. Briefs
+  `suite-notes/timeline-briefs/` (COMMON, D, E). Launching D (Sonnet, Story_director `stage16/chronicle-lasting`)
+  and E (Sonnet, Story_studio `stage16/timeline`) in parallel with the RPG agents.
