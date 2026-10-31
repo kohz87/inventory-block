@@ -15,13 +15,13 @@ Approved mockups: RPG https://claude.ai/artifact/Gn22FRyEzDvufqZDgdbR4R (v8); St
 https://claude.ai/artifact/AJZkpqZigE5TvZRRh4jrMK (v3); AI writing help https://claude.ai/artifact/EanYreZdULFAjKTf2reV2K.
 
 ## Waiting on the USER
-1. **Timeline big beats** for Ersveil: what happens and roughly when (CY 611 onward). Needed for K.
 2. **UI redesign (P6)**: a direction (minimal/flat, classic RPG, MVU-style, mobile HUD, or a reference).
 
 ## Next, in order
 | # | Work | Who | Size | Needs |
 |---|---|---|---|---|
-| K | Ersveil 2.2.0: hidden timeline events from the big beats (written with Studio's AI help), plus the "Sealwarden recruit" RPG skill set | lead | ~½ day | USER item 1 |
+| ~~K~~ | RELEASED 31 Oct: Story Block 2.8.1 / Ersveil 2.2.0 (#226): hidden history CY 611+, Court favour, Sealwarden recruit, 56 notable people | — | — | — |
+| N | Next release (Story Block 2.9.0): Money cap removed + slider (stage20/settings-fixes), Blocks in Suite settings (stage20/blocks-settings), RPG new chat / first send / companions (stage20/rpg-r6, agent running); one Claude review | lead + agents | — | R6 |
 | ~~S~~ | DONE 31 Oct: vendored Story Block 2.8.0 in SD (#145), Studio (#20), NSD (#225) | — | — | — |
 | P4 | P4 trim: lazy-load the pack checker, Diagnostics, UI sample | Haiku or Sonnet | ~½–1 day | Any time |
 | L | UI redesign mockups | lead / agents | — | USER item 2 |

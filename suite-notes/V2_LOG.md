@@ -2245,3 +2245,7 @@ MERGED testkit RB #118, SD #115, NSD #205.
   From a template, rows with Show as incl. new Hidden, Edit, ⋯ Save as template / Export as pack / Remove); card "Edit
   fields" opens the page; checker accepts show {tab:false, card:false}; 9 new tests; suite 3969 pass / 0 fail;
   screenshots scratchpad/bk/shots (match mockup v10 §9). Waiting for R6, then one combined release review (U + BK + R6).
+- 31 Oct ~11:50 UTC: RELEASED Story Block 2.8.1 (Ersveil 2.2.0): kohz87/Story_block#226 merged (merge commit 0756f03)
+  after green CI. Check-in cancelled; unsubscribed. Vendored SB copies in SD/Studio/NSD are now one content release
+  behind (test-only; re-sync with the next release). Next: R6 (running), then one combined release (U + BK + R6) after a
+  Claude review.
