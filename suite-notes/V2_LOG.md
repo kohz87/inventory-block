@@ -2090,3 +2090,9 @@ MERGED testkit RB #118, SD #115, NSD #205.
   start mode; present nulls default silently; Redo restores a refused draft) + 2 regressions (answer/answer slug
   collision binds the wrong parent; code-unit cuts shorten valid Unicode). Browser tests could not run on the VM.
   Fix brief timeline-briefs/J2-FIX2.md; agent J2c launched. 160 (RPG) still running on A.
+- 31 Oct: agent J2c done, Studio `stage17/ai-write` 80e9f83 (suite green, dist rebuilt; new tests fail on the old
+  src): notes keyed by their own field only; present nulls → ⚠ (the old null-as-absent test pin updated, per the
+  decision); `history.revert()` + toolbar `step()` so a failed save never leaves a redo of refused drafts; "after"
+  resolves exact answer name → pack id → unique same-id answer event, else ⚠ ambiguous; code-point bounds with cut
+  notes. Accepted calls: news counted in UTF-16 units (matches SB's checker), `lasting: false` quiet. Re-check 162
+  queued READY for Codex B.

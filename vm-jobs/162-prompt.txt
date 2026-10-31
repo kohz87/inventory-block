@@ -1,0 +1,15 @@
+REVIEW RE-CHECK 162 (READ-ONLY toward GitHub, except committing your result file): Story Studio "Write timeline
+events with an AI", kohz87/Story_studio `stage17/ai-write` at 80e9f83 (fixes on top of 2b10310) vs main c0df9d1.
+Fresh session, fresh clone. Read vm-results/161.md (BLOCK 5) and suite-notes/timeline-briefs/J2-FIX2.md (the lead's
+decisions) in kohz87/inventory-block claude/hopeful-babbage-tipaw8. First confirm 161 findings 1–5 are closed, each
+with a test that fails without its fix. Then a regression-only pass over 2b10310..80e9f83 (new `history.revert()`,
+`step()` for toolbar Undo/Redo, the answer-name resolution order, code-point bounds).
+Known and accepted (not blockers): event names shown from ids lose capitals; a missing-parent note clears only when
+the draft follows an existing event; drafts cannot be added without browser storage (shown plainly); news length is
+counted in UTF-16 units to match Story Block's own checker (never splitting a character); `lasting: false` means no
+lasting change.
+Browser tests: if Chromium cannot start in your sandbox, say so and run the rest; the lead runs them here.
+A BLOCKER is a real path a writer can hit, with a repro. Run on Node 24: npm run check; full suite (counts);
+git diff --check; dist matches a fresh build.
+Verdict line: HOLDS or BLOCK n. Write vm-results/162.md and commit it to inventory-block claude/hopeful-babbage-tipaw8.
+Use model gpt-6.1-terra with model_reasoning_effort=max.
