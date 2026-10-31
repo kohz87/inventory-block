@@ -2427,3 +2427,10 @@ MERGED testkit RB #118, SD #115, NSD #205.
   panel; swipe took it all back; with the RPG party of 3 and 2 mounts the party walks (20 km/day) as designed. Lead
   checked the Home and Map shots. Release review 175 (Claude) launched. Note for simplification: the test chat shows
   14 tabs in the Game view (block tabs: Character, Character 2, Foes, Skills ×3).
+- 31 Oct: RELEASE REVIEW 175 (Claude, SB eec975a + SD 9ccbd72): HOLDS. SB 4092/0, SD 976/0 (977/977 with SB 2.11),
+  fuzz 30 clean, own mount+trip replay fuzz 25×22 clean; Ersveil planning right (foot 5+3, riding 4+2.5, via, river by
+  boat, no route, mid-leg, month/year ends); hidden threads never movers; both features off = byte-identical to
+  2.10.0/2.4.0; `within` scratch change safe. Follow-ups: two overlapping `~ trip delay` holds double-count (marker
+  drops, dates right); no rest days in trips; `~ trip` before `~ place`/`+ mount` in the same reply plans with
+  defaults; arrived cue persists at the start place; a replay "weather has no text" skip (same on main). PRs
+  kohz87/Story_block#233 and kohz87/Story_director#147 opened; subscribed.

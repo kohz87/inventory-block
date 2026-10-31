@@ -46,6 +46,9 @@ https://claude.ai/artifact/AJZkpqZigE5TvZRRh4jrMK (v3); AI writing help https://
   a single-unit currency in moneyLine. (An always-on lore currency entry still wins; say so in the Money help.)
 - Status Coordinates: a place not on the map (a guild office) shows none; fall back to its town's or region's
   position (Story Director director.status).
+- Trips/mounts (review 175): overlapping `~ trip delay` holds double-count the marker; no rest days; `~ trip` before
+  `~ place`/`+ mount` in one reply; arrived cue at the start place. Your look (174): a rank line with no pack drops its
+  wearing/condition. SD delete-fuzz seed 19 fails on baseline ("Fenna is listed as present twice").
 - Pack checker doesn't parse event `when` conditions (an apostrophe in a quoted name went unnoticed until a test).
 - Ersveil: split news events can repeat the same bulletin when the player moves between region groups; Ardelia deadlocks (outline said elects).
 - RPG: a reply where the story changes nothing doesn't settle the death check (it waits for the next reply with lines).
