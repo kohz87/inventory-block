@@ -2328,3 +2328,11 @@ MERGED testkit RB #118, SD #115, NSD #205.
 - 31 Oct: USER: gear needs no attack/defence numbers, just stat bonuses (everything rolls off stats). Lead agreed;
   open points: +2 to +4 sizing (half rule halves it), allow past the 20 cap, points stay separate (card "AGI 15 +2").
   Offered a mockup; waiting on the USER.
+- 31 Oct: USER approved gear as stat bonuses by rarity (mundane +1, common +2, uncommon +3, rare +4, epic +5,
+  legendary +6; one stat per item; best piece per stat counts; past 20 allowed) and asked: 6 pieces of any kind, or
+  slot types? Lead: 6 of any kind (with best-per-stat, types add nothing; less code: one count check, the RPG answers
+  inventory's existing items.slots / items.canWear hooks; the slot field stays for old chats). Mockup v11 section 10
+  (real-app shots on the test ST 8155, SB 0a0254d): Inventory Gear section, Equip-on menu (n of 6), rarity/stat pencil,
+  Party card stat badges + "Gear 3/6" line, battle-log breakdown. Published to the RPG mockup artifact (v11);
+  waiting on the USER's approval. Note for the build: inventory owners are party actors (ac_…); the RPG must link
+  them to Character blocks; "mundane" is a new sixth rarity below common.
