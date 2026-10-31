@@ -2399,3 +2399,17 @@ MERGED testkit RB #118, SD #115, NSD #205.
   fail; fuzz 30 clean; state-fuzz 60 clean; off fixture kept + new fixtures/off-mounts.json. Plan: after 2.10.0 is
   released, merge main into stage25/mounts, make `- mount` of a missing mount quiet like `- present` (lead's call),
   bump 2.11.0 with R11's SD 2.5.0, then review 175.
+- 31 Oct ~18:10 UTC: RELEASE REVIEW 174 (Claude, SB 6c631e6 + SD 8adb7fc): HOLDS. SB 4072/0, SD 949/0 (950 with SB
+  beside), fuzz 30 clean, own fuzz (pack/feature toggles, Re-read no-ops, 40 pencil-vs-Re-read) clean; feature off ==
+  2.9.4 fingerprint; SD with SB 2.9.4/2.8.0 shows nothing new. Follow-ups: Ersveil pack needed ^2.10 (lead fixed:
+  Ersveil 2.2.1, requires ^2.10, 157b156); a rank line with no pack drops wearing/condition (follow-up); Studio and
+  vendored testkits need a sync. PRs kohz87/Story_block#232 and kohz87/Story_director#146 opened; subscribed.
+- 31 Oct: agent R11 done (correct trailer): SD stage25/trip fe3d53b (feature story-director.trip; `~ trip` / stop /
+  delay; legs planned at capture on known routes; mounts.pace via optional query; position derived; tail lines; Status
+  Travel row; World "On the road" line; Map route, You marker, known movers, panel). 975/0. Home line not possible
+  from SD (no Home slot) → SB needs `{ trip: { query: 'atlas.trip' } }` on Home + `q.trip.row` (lead adds at merge).
+  Delete-fuzz seed 19 fails on baseline too ("Fenna is listed as present twice") → follow-up.
+- 31 Oct: simplify audit done → suite-notes/audit/SIMPLIFY_AUDIT.md (26 kinds, 22 taught by default; fixed prompt
+  ~1,312 tokens, SD 56%; no presets; place/time shown in 6–7 places; top fixes: Features preset, a switch for SD's
+  world-building kinds, header as the one place/time readout, retire Scene, merge Chronicle into World, one Weather
+  switch, Travel switch off in Lean).
