@@ -1951,3 +1951,15 @@ MERGED testkit RB #118, SD #115, NSD #205.
   69/10/22, 61/8/31, 52/5/43); the chat's Combat rules text editable (≤1200, Reset to default); roll-planner extra
   instructions (≤400) appended after the fixed format, full prompt read-only. Design rule: the numbers used are
   recorded with each roll, so Re-read/reload never change past fights. Script mock-rpg/mock7.mjs. Awaiting approval.
+- 31 Oct: agent G done, `stage16/rpg-g` d21b9da: G1 data (Character `about`; Skills 31 fields, locked rank/practice,
+  learn-N sets name/about/stat/uses; CREATION constants; SKILL_SETS), G2 skilled rolls use the skill's stat/uses,
+  G3 Skills view, G4 wizard (two dm.define with values as defaults, rollback), pack `content.leanRpg.skillSets`.
+  Outside: ui-host openDialog, `DM_LIMITS.roleTailTokens` 300 for role blocks (tail was cutting skills), packs
+  limits/validate/panel. Decisions accepted: Party tab shows whenever the feature is on; "You" = the persona's name
+  (no flag); 8-block limit → Review says no room; templates copy in at Novice; old Skills blocks still work.
+  MERGED 6d20fe7; suite 3845 pass / 0 fail.
+- 31 Oct: lead browser check of 6d20fe7: Create was correctly off with 8 blocks and removals refused on a reply
+  already at the 32-action cap (my setup edits); after two `/sendas` lines, removed 2 blocks, walked Who → Stats (INT
+  +4) → Skills (Hedge mage) → Review → Create: `pack.chat/mara` + `pack.chat/mara-skills`, values as chosen; Party
+  shows Mara; her Skills view matches mockup v6 (tones, roll line d20 +9, empty slots). 0 page errors. Launched fix
+  round 2 (R2.md + item 4: measure the tail with a full party).
