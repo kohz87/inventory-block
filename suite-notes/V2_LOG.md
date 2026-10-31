@@ -2443,3 +2443,10 @@ MERGED testkit RB #118, SD #115, NSD #205.
   (no test changes; 1506/0, same 5 cancelled as main). PRs kohz87/Story_director#148, kohz87/Story_studio#21,
   kohz87/npc_state_delta#226 opened; subscribed; merge after green CI (test-only, no reviewer).
 - 31 Oct ~18:21 UTC: S2 MERGED after green CI: kohz87/Story_director#148 (cebe97f), kohz87/Story_studio#21 (df81a26), kohz87/npc_state_delta#226. Vendored Story Block is 2.11.0 everywhere. R13 told to merge SD main before its last push.
+- 31 Oct: agent R13 done (correct trailers): SB stage26/fixes b748c0a (2.11.1: `~ you` keeps wearing/condition when
+  rank has no pack; new host option: a capture kind may declare `after: [kinds]` to run behind them in a reply), SD
+  stage26/fixes 844a848 (2.5.1: overlapping delay holds chained; arrived cue ends ≥3 days after at another trip place;
+  trip kind `after: ['place','mount']`; merged SD main). SB 4094/0, fuzz 30 clean; SD 979/0 (981 with SB beside).
+  Seed 19 cause found in Story Block (not SD): a replayed literal `+ present` append after a middle delete trips
+  "listed as present twice" and the whole reply block is skipped (its other changes would be lost) → lead treats as
+  worth fixing now: agent R14 makes `+ present` idempotent on replay on the same SB branch. Then release review 176.
