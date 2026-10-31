@@ -2336,3 +2336,7 @@ MERGED testkit RB #118, SD #115, NSD #205.
   Party card stat badges + "Gear 3/6" line, battle-log breakdown. Published to the RPG mockup artifact (v11);
   waiting on the USER's approval. Note for the build: inventory owners are party actors (ac_…); the RPG must link
   them to Character blocks; "mundane" is a new sixth rarity below common.
+- 31 Oct: USER asked about stacking for a pure-AGI build (lead: best-in-full + 1 per extra piece, max +11), then
+  decided to do without equipment ("could endlessly stack and deviate from RP"). Gear (G) shelved: nothing built; the
+  story and the roll's ±3 edge carry gear. Mockup section 10 marked shelved (artifact v12). Optional later: tell the
+  roll planner what's equipped (~30 lines) — not requested.
