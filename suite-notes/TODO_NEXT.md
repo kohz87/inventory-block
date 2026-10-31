@@ -27,6 +27,7 @@ State: Story Block main c438975 (2.7.2, Ersveil 2.1.0). Story Director, Studio a
 | H | RPG integration, browser check, review rounds, release Story Block 2.8.0 | lead + reviewer | ~2 days | C, D, E, G |
 | I | Studio Timeline (the Events → Timeline view and form) | Sonnet + lead | ~1–1½ days | item 1 |
 | J | SD chronicle command for pack events (lock + Keep in mind); Studio Lasting change picker and "N days after" (a chronicle-based condition, no SB change) | Sonnet + lead | ~1 day | item 1 approval |
+| J2 | AI writing help for timeline events (USER, 31 Oct: after J is ready, before the big beats): Studio Timeline "Copy prompt for an AI" (fills the pack's calendar, regions, places, existing events and lore names) + "Paste the AI's answer" (checked, added as drafts to review); a plain prompt doc too. Mockup first. | lead + Sonnet | ~½–1 day | J |
 | K | Ersveil hidden timeline events (pack 2.2.0) | lead | ~½ day | item 2 (+ J for lasting changes) |
 | L | UI redesign mockups | lead / agents | — | item 4 |
 

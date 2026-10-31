@@ -1852,3 +1852,6 @@ MERGED testkit RB #118, SD #115, NSD #205.
   Lead decisions: (1) keep the written odds rule (≥, natural 20/1, cost within 2: 72/65/48/31/19 %), not v1's
   illustrative table; (2) CHANGE: a skill not on the sheet rolls untrained (v1), not refused; (5) CHANGE: Assist's
   pre-roll steps aside while Lean RPG is on and the chat has a Character block. Sent back to A for both changes.
+- 31 Oct: USER: once the timeline events are ready, make a prompt so an AI can help write them; then the big
+  beats. Planned as J2 (TODO_NEXT): Studio "Copy prompt for an AI" with the pack's own context + "Paste the AI's
+  answer" as drafts, and a plain prompt doc; mockup first. Order: J → J2 → K (big beats).
