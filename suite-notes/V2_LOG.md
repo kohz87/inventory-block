@@ -2391,3 +2391,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
   / 0, fuzz 30 clean; off fixture → off-2.10.0.json (feature off reproduces 2.9.4 exactly). Lead checked shots (Home
   rows, Look at 120% phone). Agent's edges: a rank line with no pack refused whole (drops wearing/condition); pencil
   record overwritten by a later Re-read line. Release review 174 (Claude) launched.
+- 31 Oct: USER asked whether the structure is now too complex. Lead: about right for a long campaign but at its ceiling; recommends a feature freeze after trip/mounts and a simplify pass (presets, Home header, narrator-kind audit, duplicate displays). Read-only simplify audit agent launched; results go in the 9am summary.
