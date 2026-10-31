@@ -2269,3 +2269,6 @@ MERGED testkit RB #118, SD #115, NSD #205.
   STORY_BLOCKS_V1 comment, place via Home → Where pencil). USER: Combat rules should exist when the RPG is on → brief R7
   (2.9.1): the wizard's Create also adds missing Combat rules + Foes blocks; `- party` refuses the player's own
   character. USER screenshot: wizard Stats step alignment off → R7 item 4. Agent R7 running.
+- 31 Oct: USER asked how skill stats work (lead: one-way; the skill's stat feeds its roll: d20 + floor(stat/2) + rank +
+  2×Soul Class + edge; ranks via practice, Soul Class via XP, stats only via points) — found that nothing grants points
+  after creation. USER approved: +3 points per Soul Class rise → R7 item 5. Stats cap: 1–20 (wizard 8–15).
