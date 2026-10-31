@@ -1974,3 +1974,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
   replays never change, the chat's combat text editable, planner note + read-only full prompt). RPG review waits for
   R3's head.
 - 31 Oct: USER: the Fight tab's foe pencil edits health, not the name → added to R3 as R3-3 (sent to the agent).
+- 31 Oct: USER readied the VM and will start it on the lead's word. Plan: RPG review 155 goes to Codex once R3 is merged (lead marks it READY with the final head, then tells the USER).
