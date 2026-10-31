@@ -1,0 +1,110 @@
+# Ersveil notable people (draft roster for the USER's approval, 31 Oct)
+
+## How the entries will be written
+- **Scope (USER):** the leaders of each power, order and organisation, plus one or two famous heroes each and a few
+  famous adventurers.
+- **One lorebook entry per person.** Each entry is 200–300 characters, triggered only by the person's name or title,
+  never constant.
+- **Present tense at the story start (CY 611).**
+  - No entry says what the timeline will do to them.
+  - Timeline changes (deaths, crowns, falls) arrive as Story Director lasting changes. The core rule already lets them
+    override the lorebook: "what happened in the story > tracked records > lore and pack defaults".
+  - Secrets are marked *narrator-only*: no NPC knows them unless the lore names them as knowing.
+- **Naming.** Names follow the lorebook's rules (local tongue patterns, no stock fantasy names or example names, no
+  repeated or near-copied names). Corvin and Hasse come from the original lorebooks.
+
+## Roster
+
+### Highmark Empire
+| Name | Role in CY 611 | Ties to the timeline |
+|---|---|---|
+| **Emperor Adalmar** | Old, ill, rarely leaves the Crown Keep | Dies, CY 612 |
+| **Princess Wendhild** | His only child; heir under the plain rule ("a daughter before nephews"); Iron Guard trained, cool, patient | Contests the throne; proposed winner, CY 614 |
+| **Prince Corvin** | Adalmar's nephew; heir under the "male line only" reading; wants a war down the Southmarch Road | Contests the throne; falls at Marrowbridge, CY 613 |
+| **Lord-General Hasse** | Southmarch general at Stoneford; the Marchriders call him theirs | Seeks a general's crown; kneels to Wendhild, CY 614 |
+| **Lord-Commander Ottwald of Cedran Keep** | Head of the Wardens of the Last Wall at Thornwall Redoubt; old, stubborn, poor and proud | Falls at the Last Wall, CY 615 |
+| **Dame Ermengild** | Warden champion and Wendhild's sworn sword | Falls at the Last Wall |
+| **Sir Volkmar, "the Old Stone"** | Warden champion, famous for never giving ground | Falls at the Last Wall; the last stone |
+
+### River Confederacy and Shornmarch
+| Name | Role | Ties |
+|---|---|---|
+| **Council Speaker Aaltje Brouwer** | Chairs the River Council this term; a banker's daughter from Ledgerford | "Who pays for the north"; holds Highmark's debt over the succession |
+| **Duke Evert of Shorn** | Duke of Shornmarch; frontier bastion lord | His hill villages take the floods; begs the Council for fort money |
+| **Watch-Captain Riekert Haan** | Bluewatch's Watch-Captain; tired, practical, trusted | The player's first authority figure; sounds the horn at the early flood |
+
+### Holy Dominion of Aurelion and the Church
+| Name | Role | Ties |
+|---|---|---|
+| **High Pontiff Gratian, "Ember-Keeper"** | Head of the Church and the Dominion; an Expansionist who blesses the Reopening | Blames the Ashen Veil for the risen dead, CY 612 |
+| **Conclave Elder Clementia** | The Restorationists' leading voice | Warns that the Tide is coming; ignored until CY 613 |
+| **Mother Inquisitor Severa, "Ash-Tongue"** | Head of the Inquest's northern hunts | Leads the purge north, CY 612 |
+| **Grand Commander Vitus of Silvermark** | Head of the Order of the Silver Mark | First called when the dead rise in numbers |
+
+### Ashmere, Valegard and the Border Kingdoms
+| Name | Role | Ties |
+|---|---|---|
+| **King Constantin of Ashmere** | The Church's closest royal ally | Backs whichever heir the Church crowns |
+| **Duchess Tove of Valegard** | Rules the buffer duchy; protects her herds and crossings | Refuses to be spent in Highmark's war |
+| **King Torleif of Redspire** | Holds the Border Kingdoms' rotating council chair | Begs the south for help as the north falls |
+| **Commander Ragna of Kolsbotn** | Elected commander of the Long Watch | Brings the proof of the Tide to the Compact Council, CY 613 |
+
+### Ironanvil Holds
+| Name | Role | Ties |
+|---|---|---|
+| **Thane-of-Thanes Dagny Hearthslag** | Speaks for the Council Beneath Stone | Sells steel to every side of the succession |
+| **Elder Bodvar Runecutter** | *Narrator-only:* one of the few who can read the Iron Archive's script | The key to the Iron Archive threat, CY 612–613 |
+
+### The sea
+| Name | Role | Ties |
+|---|---|---|
+| **Sea-Lord Merrit Capstan** | Speaks for the Tidal Council at Abysswatch | Keeps the convoys running; refugee ships later |
+| **Captain Nell of the Gannet** | Famous Stormmere privateer | Smuggling for the Nightingale |
+| **The Sea God Witch Marenthe** | Atlantis's highest spiritual authority, with fallible foresight | *Narrator-only:* she has dreamed of the north going white |
+| **Tide-Archon Ondaris** | Chairs Atlantis's council | Keeps Atlantis out of the land's troubles |
+
+### The south and west
+| Name | Role | Ties |
+|---|---|---|
+| **Emperor Liutmar of Rhunwald** | Ardelia's emperor; his 18-year term ends in Goldwane CY 612 | His term's end opens the election |
+| **Arch-Chancellor Gerlinde** | Chosen for life; becomes regent if the electors deadlock | Rules if the election deadlocks, CY 612 |
+| **Saelwyn, Voice of the Elder Root** | Interprets the Verdantleaf Elder Root | "We were here before you": the elves stay out |
+| **Foxglove-at-Noon, Queen of Flowers** | Rules the Fairy Court | — |
+| **High Chieftain Oshadai Spear-Wall** | Speaks for the Chieftain Council at Battle Cry City | Weighs calling the Grand Muster |
+| **The Glass Regent Daryush-ul-Mirrorwell** | Rules Ashkaran for the Glass Crown | Buys refugees as slaves |
+
+### The north
+| Name | Role | Ties |
+|---|---|---|
+| **Frost Queen Eydis Long-Winter** | Leads the Frostbound from a moving war-seat | Leads her people south, CY 613 |
+| **Ketil Ice-Oar** | Frostbound champion, famous for raids in bad winters | Raids south in the 612 Turning |
+| **Herd-Mother Ylva of Hornwake** | Senior voice of the White-Horn Clans | Her clans follow Long Thunder's storms south |
+
+### Startrace, Auvoth and the Guild
+| Name | Role | Ties |
+|---|---|---|
+| **Archmaster Isembard Quill** | Leads Startrace Tower | Denies the expedition, then can't |
+| **Master Albrecht Somner** | Startrace master; publicly "away on a survey in the north" | *Narrator-only:* led the Hollow Aurora expedition (CY 610) that crossed the threshold; missing |
+| **Guildmaster Hendrikje Laan** | Head of the Adventurer Guild, presiding over the Compact Council | Governs from exile after Auvoth falls, CY 614 |
+| **Seal-Captain Gurda Kelthul** | Dwarf captain of the Sealwardens | Stays behind in fallen Auvoth to hold the seals |
+
+### Famous adventurers
+| Name | Role | Ties |
+|---|---|---|
+| **Sunniva Halvard, "the Lantern of Auvoth"** | Living S-rank, a Spellwright | Holds the Depths gates in the CY 611 surge |
+| **Kaidu Thrice-Returned** | Living S-rank beastfolk Hunter; came back from three "certain death" contracts | Scouts the north; first to say "this is not a migration" |
+| **Pell Underhay, "the Smallest Legend"** | Living S-rank halfling Infiltrator | Owes the Nightingale; works both sides |
+| **The Ninth Brazier** (A-rank party of four) | Works the northern wildzone out of Bluewatch and Auvoth | Faces the early flood alongside the player; potential allies or rivals |
+
+### Orders, leagues and the underworld
+| Name | Role | Ties |
+|---|---|---|
+| **First Marshal Adelind Corbel** | Elected head of the Wallwright League | Every heir wants her engineers; builds the Last Wall's works |
+| **The Reckoner (Ottokar Vell)** | Head of Shackles' Grey Ledger | Buys up war-supply contracts and frontier debts, CY 611 |
+| **Mirelle, called "the Lark"** | The Nightingale's known go-between (the King or Queen stays secret) | Trades war secrets; never robs the dead |
+| **"The Key-Widow"** | A Broken Chain legend: no one agrees whether she is real | Linked to the CY 613 uprising |
+| **Warmother Vashka** | Leads the Cinder Host, chosen in war | Marches west, CY 613 |
+| **Saltbone Ide** | Notorious Ashen Veil cell leader | Profits from the northern dead; the Church's target |
+| **Captain Murrough of the Gallowglass** | Bloodbound captain who holds a line past all reason | Hired for the Last Wall |
+
+Count: 50 entries (the 13 timeline characters plus 37 more).

@@ -2184,3 +2184,7 @@ MERGED testkit RB #118, SD #115, NSD #205.
   Lead proposed a cast (Emperor Adalmar, Princess Wendhild, Corvin, Hasse, Lord-Commander Ottwald + champions Dame
   Ermengild and Sir Volkmar, Master Albrecht Somner, Commander Ragna of Kolsbotn, Frost Queen Eydis Long-Winter,
   Guildmaster Hendrikje Laan, Seal-Captain Gurda Kelthul, Warmother Gorza) in ERSVEIL_BEATS.md for approval.
+- 31 Oct: USER: add notable people to the (trimmed) lorebook: leaders + a famous hero each, plus a few famous
+  adventurers (S-ranks, an A-rank party near Bluewatch). Draft roster suite-notes/ERSVEIL_PEOPLE.md (50 people;
+  keyword-triggered entries ~200–300 chars; present tense CY 611; timeline changes override via the CORE precedence
+  rule; narrator-only secrets marked) sent for approval.
