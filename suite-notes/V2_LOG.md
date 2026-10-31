@@ -2025,3 +2025,5 @@ MERGED testkit RB #118, SD #115, NSD #205.
   `time() != null` guard after deleting the delayed child (harmless). Result vm-results/156.md.
 - 31 Oct: release commits: SD 2.3.0 (3c45600, 948 pass) and Studio 0.3.0 (1813611, 661 pass, dist unchanged).
   PRs opened: kohz87/Story_director#144, kohz87/Story_studio#18 (subscribed). Merge after green CI.
+- 31 Oct 06:40 UTC: kohz87/Story_director#144 CI green (verify), mergeable clean → MERGED (merge commit): Story
+  Director 2.3.0 on main. Studio#18 CI running. USER: the RPG re-check after round 4 goes to Codex (available now).
