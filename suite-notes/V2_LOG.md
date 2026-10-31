@@ -2059,3 +2059,9 @@ MERGED testkit RB #118, SD #115, NSD #205.
   feature-off test, B12 end cards first, fuzz-replay `delSwipe` fixed (300 seeds 0 failures), B17 prune replaced pins
   on redefine (differential 24×60 identical heads/problems). MERGED A4 + B4 into stage16/lean-rpg (4ce3111), both clean;
   suite 3944 pass / 0 fail; fuzz-replay 60×120 clean. Re-check 158 queued READY for Codex A.
+- 31 Oct: REVIEW 159 (Codex B, Studio AI writing help fbf4637): BLOCK 9 (vm-results/159.md, committed by the VM):
+  notes cleared by an unrelated edit → unresolved draft kept; malformed where/on/until silently unrestricted; CR in a
+  lasting name → unparseable condition; same-name after binds to the pack event; draft id collision strands a draft;
+  hostile delay throws; unbounded paste freezes / silent save failure; prompt over 24,000 chars; "[1]" before the
+  JSON hides it. VM could not run browser tests (sandbox EPERM); they pass here. Fix brief timeline-briefs/J2-FIX1.md
+  (lead decisions per item); agent J2b on stage17/ai-write.
