@@ -2461,3 +2461,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
 - 31 Oct ~19:00 UTC: RELEASED Story Director 2.5.1 (kohz87/Story_director#149, merge 4b188c3) and Story Block 2.11.1
   (kohz87/Story_block#234, merge 98b0f57) after green CI. Unsubscribed. Brief R15 (SB 2.11.2: `~ place | with:` and
   the present pencil's `set` replay-safe; SB delete-fuzz seeds 6/9/22/27) and agent R15 launched.
+- 31 Oct: agent R15 done: SB stage27/replay 048117d (2.11.2: place with: and pencil set use ctx.unique; legacy rule: unmarked present appends treated unique on replay, so old skipped blocks are kept; delete-fuzz seeds 6/9/22/27 were a fuzz-model bug (echoed stray line counted once by splitEchoes) → dropEcho). 4097 pass (one pin fixed after, not rerun in full); fuzz 30 clean; state 30/30; delete 30/30. timeline-release-fuzz seeds 13/20 fail on main too (follow-up). Release review 177 launched (focus: the legacy rule).
