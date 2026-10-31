@@ -62,4 +62,4 @@ https://claude.ai/artifact/AJZkpqZigE5TvZRRh4jrMK (v3); AI writing help https://
 - **Tests (USER, 31 Oct):** write a test per fix and run it after the fix only; no failing-before runs.
 - **Merges:** merge commits only, after green CI; agents never merge.
 - **UI:** a mockup is approved before any UI is built.
-- **RB (USER, 31 Oct):** stop updating RB (the old RPG Block). No work, syncs or reviews touch it.
+- **RB = rpg_battle (USER, 31 Oct):** stop updating the rpg_battle extension (kohz87/rpg_battle). No work, syncs, reviews or pushes touch it.
