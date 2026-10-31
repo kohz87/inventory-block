@@ -2364,3 +2364,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
 - 31 Oct: USER asked why their Status shows no Coordinates. SD director.status shows coords only when the atlas
   knows the current place and has a position (pack map or "[x, y]" in the location); a sub-place like a guild
   office isn't on Ersveil's map. Follow-up idea: a place not on the map falls back to its town's/region's position.
+- 31 Oct: USER approved mockup v12 (sections 11 text size, 12 your look): build both. Brief R9 (SB 2.10.0 on stage24/look-you, SD 2.4.0 on stage24/status-you). Agent R9 (Sonnet) launched.
