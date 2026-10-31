@@ -2151,3 +2151,6 @@ MERGED testkit RB #118, SD #115, NSD #205.
   https://github.com/kohz87/Story_studio/pull/19. Both subscribed; merge after green CI.
 - 31 Oct ~09:30 UTC: RELEASED Story Block 2.8.0 (the RPG): kohz87/Story_block#225 merged (merge commit f182f2c) after
   green CI (verify). Studio#19 CI running.
+- 31 Oct ~09:31 UTC: RELEASED Story Studio 0.4.0 (Write timeline events with an AI): kohz87/Story_studio#19 merged
+  (merge commit 061ca41) after green CI (verify). Check-in cancelled; both PRs unsubscribed by merge. TODO_NEXT.md
+  rewritten: nothing in flight; next K (needs the USER's big beats), S (vendored SB re-sync to 2.8.0, test-only), P4.
