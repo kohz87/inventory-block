@@ -1808,3 +1808,13 @@ MERGED testkit RB #118, SD #115, NSD #205.
 - 31 Oct ~03:20 UTC — USER: remove unused artifacts and watches, then the lean RPG mockup. Unwatched 10 old mockups (watch now: Studio Timeline). Deleted (USER chose): 12 shipped Story Suite mockups + Ersveil Atlas + Ersveil Design Bible; kept Combat card mockup (D) and Studio Timeline; other projects untouched. Lean RPG mockup published: https://claude.ai/artifact/Gn22FRyEzDvufqZDgdbR4R (real SB 2.7.2 + Ersveil chat; stats screen with real ss.stepper/ss.radar, Roll button + form, rolls chip, Class up card; desktop + phone). Open question: per-character stats tab vs one Party tab.
 - 31 Oct — USER on RPG mockup v1: rolls must be automatic (no PC roll button), 'Now' row misaligned → coloured stage bars, class/rank up automatic (Soul Class is tiering). Mockup v2 published (same URL Gn22FRyEzDvufqZDgdbR4R): ss.meter stage bars in one row, automatic 'Rolled for you' / 'Soul Class II → III' / 'rank up' lines in Changed this reply, no Roll form, no confirm cards. SPEC_RPG.md §0 revised (pre-call default, B2 dropped, cards only for death).
 - 31 Oct — USER: one Party tab with each character as a card. Mockup v3 (same URL): Party tab cards (Soul Class, XP bar, stage bars, stat row, skills, Spend points / Stats / Skills), desktop 3-up, phone stacked; mini radar dropped from cards (it lives in the Spend points view). SPEC_RPG.md §0 updated.
+
+## 31 Oct: RPG build started (user: "approved, start the rpg build")
+- Story_block `stage16/lean-rpg` from main c438975: 20c875d adds the Lean RPG feature (`story-block.lean-rpg`, off
+  by default) and the stub part `src/v2/lean-rpg/index.js` (ROLES, STATS, STAGES, FORMULA, PACE, validatePlan);
+  f50ad31 adds the empty `LEAN_RPG_TEMPLATES`. Suite 3587 pass / 0 fail. Test pins updated: the features lists, and
+  the settings search "rpg battle" now also finds the Lean RPG feature (its text says "battle log").
+- SPEC_RPG.md §2R records what changed from §2 after mockup v3. Briefs: `suite-notes/rpg-briefs/` (COMMON, C, A, B, H).
+- Launching four agents in parallel, each on its own branch off `stage16/lean-rpg`: C block engine (Sonnet,
+  `stage16/rpg-c`), A automatic rolls (Sonnet, `stage16/rpg-a`), B screens (Sonnet, `stage16/rpg-b`), H templates
+  and docs (Haiku, `stage16/rpg-h`). They push branches only; the lead merges.

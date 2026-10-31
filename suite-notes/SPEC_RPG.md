@@ -131,6 +131,19 @@ section), test fixtures under `tests/v2/lean-rpg/fixtures/`.
 - Writes only JSON and Markdown. It depends on C's new keys (`names`, Card, reply-end, `prompt:false`), whose shapes
   are fixed here in §3.
 
+## 2R. As briefed (31 Oct, after mockup v3 approval)
+The agent briefs in `suite-notes/rpg-briefs/` (COMMON, C, A, B, H) replace §2's file lists where they differ:
+- The code lives in `src/v2/lean-rpg/` as a part of Story Block's core module behind the feature
+  `story-block.lean-rpg` (default off; off means fully off), not `src/v2/modules/lean-rpg/`. Views load by dynamic
+  `import()` only when it is on.
+- B2 (Roll form) is dropped; A's pre-call is the only planner, with Settings → Lean RPG → "Rolls: automatic / off".
+- B3 becomes the Party tab (one card per Character block) plus the Spend points / Stats sheet.
+- Health, Mana and Stamina are stage indexes (0 = empty) with `names`, drawn as stage bars.
+- A new definition key `role` (character / skills / foes / rules) tells the RPG which blocks to read (C0).
+- Skills are five slots (name, rank 0–3, practice 0–100), not a list; Foes are four slots (name, count, class,
+  hurt stage). The templates are hand-authored definitions in `src/v2/lean-rpg/templates.js`.
+- Class and rank rises are plain rules (they already run after each line); cards are used only for death.
+
 ### Lead
 - Spec, interface checks, merging A, B, C and H, the module toggle and lazy import, the browser check, the fixes, the
   review, the release.

@@ -9,14 +9,14 @@ State: Story Block main c438975 (2.7.2, Ersveil 2.1.0). Story Director, Studio a
    - say yes or no to the two engine extras: "N days after another event" and Lasting change (the World state block).
 2. **Timeline big beats** (option 3): what happens and roughly when (CY 611 onward). The lead fills in the dates, the
    build-up and how the news spreads.
-3. **Lean RPG mockups**: approve https://claude.ai/artifact/Gn22FRyEzDvufqZDgdbR4R (v3: Party tab with a card per character, stage bars, automatic rolls and level-ups).
+3. ~~**Lean RPG mockups**~~ approved 31 Oct (v3). Build in progress.
 4. **UI redesign (P6)**: a direction (minimal/flat, classic RPG, MVU-style, mobile HUD, or a reference).
 
 ## Ready to start now (no answers needed)
 | # | Work | Who | Size | Notes |
 |---|---|---|---|---|
 | A | ~~Lean RPG mockups~~ done 31 Oct (Gn22FRyEzDvufqZDgdbR4R) | lead | — | Awaiting approval (item 3) |
-| B | Lean RPG code stubs: the §3 interfaces of suite-notes/SPEC_RPG.md (empty module + toggle, new key names) | lead | ~½ day | Unblocks the agents |
+| B | ~~Lean RPG code stubs~~ done 31 Oct (stage16/lean-rpg f50ad31) | lead | — | Agents C, A, B, H launched |
 | C | RPG agent C, block engine (prompt 1200, display names, Card and reply-end functions, hidden fields) | Sonnet | ~1 day | After B |
 | D | RPG agent A, rolls (prelude list, plan, `rpg.resolve`, optional pre-call) | Sonnet | ~1–1½ days | After B, parallel with C |
 | E | RPG agent H, templates + docs (Character, Skills, Foes, Combat rules) | Haiku | ~½ day | After B, parallel |
