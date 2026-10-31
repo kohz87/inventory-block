@@ -2384,3 +2384,10 @@ MERGED testkit RB #118, SD #115, NSD #205.
   both from main, no version bump (lead bumps at release: SB 2.11.0, SD 2.5.0), fixed interface mounts.list /
   mounts.pace. Two Sonnet agents launched beside R9.
 - 31 Oct ~16:30 UTC: USER going to sleep: proceed with the lead's recommended options until 9am SGT (01:00 UTC 1 Nov), then write a summary. Lead: 9am SGT summary scheduled; ~2h heartbeat for agents R9/R10/R11; releases follow the standing workflow (review, PR, merge after green CI).
+- 31 Oct ~17:20 UTC: agent R9 done (correct trailers): SB stage24/look-you 6c631e6 (2.10.0: Text size via --ss-zoom
+  0.8/0.88/0.96, Normal byte-identical; Your look scene.you + feature story-block.you + `~ you` + tail line + Home
+  pencils; Rank only from a pack's content.you.rank {label}, Ersveil "Guild rank"; registry kinds may have function
+  grammar; segmented settings field), SD stage24/status-you 8adb7fc (2.4.0 Status rows). SB 4072 pass / 0 fail, SD 949
+  / 0, fuzz 30 clean; off fixture → off-2.10.0.json (feature off reproduces 2.9.4 exactly). Lead checked shots (Home
+  rows, Look at 120% phone). Agent's edges: a rank line with no pack refused whole (drops wearing/condition); pencil
+  record overwritten by a later Re-read line. Release review 174 (Claude) launched.
