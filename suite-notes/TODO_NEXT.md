@@ -5,7 +5,6 @@ State: Story Block main c438975 (2.7.2, Ersveil 2.1.0). Story Director, Studio a
 
 ## Waiting on the USER (answers unblock the rest)
 1. **Studio Timeline mockup**, https://claude.ai/artifact/AJZkpqZigE5TvZRRh4jrMK:
-   - approve it or ask for changes;
    - approve it or ask for changes (v3: Lasting change and "N days after" both come from Story Director's chronicle, decided 31 Oct).
 2. **Timeline big beats** (option 3): what happens and roughly when (CY 611 onward). The lead fills in the dates, the
    build-up and how the news spreads.
