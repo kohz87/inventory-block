@@ -2264,3 +2264,8 @@ MERGED testkit RB #118, SD #115, NSD #205.
 - 31 Oct ~12:40 UTC: RELEASED Story Block 2.9.0: kohz87/Story_block#227 merged (merge commit 938938d) after green CI.
   Check-in cancelled; unsubscribed. Vendored SB test copies in SD/Studio/NSD are two releases behind (2.8.0): re-sync
   with Sonnet when the USER says.
+- 31 Oct: USER asked how to start a new game (lead: update SB 2.9.0 + SD ≥2.3.0, import examples/packs/ersveil pack +
+  lorebook, enable data modules incl. Court favour, optional RPG; first message: the old v1 opening minus the
+  STORY_BLOCKS_V1 comment, place via Home → Where pencil). USER: Combat rules should exist when the RPG is on → brief R7
+  (2.9.1): the wizard's Create also adds missing Combat rules + Foes blocks; `- party` refuses the player's own
+  character. USER screenshot: wizard Stats step alignment off → R7 item 4. Agent R7 running.
