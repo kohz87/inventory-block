@@ -2309,3 +2309,5 @@ MERGED testkit RB #118, SD #115, NSD #205.
   a chat with full-above-10 rolls opened on an older build skips them as damaged; wizard/join-made characters carry the
   stock "Soul Class" label (rename needs the block edit). PR kohz87/Story_block#228 opened (stage22/rpg-r8 → main);
   subscribed.
+- 31 Oct ~14:25 UTC: RELEASED Story Block 2.9.1: kohz87/Story_block#228 merged (merge commit f81e052) after green CI.
+  Check-in cancelled; unsubscribed. Vendored SB test copies in SD/Studio/NSD are now three releases behind (2.8.0).

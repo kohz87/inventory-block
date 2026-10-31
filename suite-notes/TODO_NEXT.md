@@ -1,4 +1,4 @@
-# To-do list (updated 31 Oct ~09:35 UTC)
+# To-do list (updated 31 Oct ~14:25 UTC)
 
 State: everything in flight is released. Story Block main f182f2c (**2.8.0, the RPG**; Ersveil 2.1.0); Story Director
 main 908bfa6 (2.3.0, the Timeline's lasting changes); Story Studio main 061ca41 (**0.4.0, Write timeline events with an
@@ -22,7 +22,8 @@ https://claude.ai/artifact/AJZkpqZigE5TvZRRh4jrMK (v3); AI writing help https://
 |---|---|---|---|---|
 | ~~K~~ | RELEASED 31 Oct: Story Block 2.8.1 / Ersveil 2.2.0 (#226): hidden history CY 611+, Court favour, Sealwarden recruit, 56 notable people | — | — | — |
 | ~~N~~ | RELEASED 31 Oct: Story Block 2.9.0 (#227): RPG new chat / held first send / companions who join, Blocks in Suite settings (+ Hidden), Money cap removed, slider hardening | — | — | — |
-| S2 | Re-sync vendored Story Block (test-only) in SD/Studio/NSD to 2.9.0 | Sonnet | ~1 h | USER go |
+| ~~2.9.1~~ | RELEASED 31 Oct: Story Block 2.9.1 (#228, f81e052): Create sets up Combat rules/Foes, +3 points per Soul Class, defence skills, "full above 10", Soul Class field name | — | — | — |
+| S2 | Re-sync vendored Story Block (test-only) in SD/Studio/NSD to 2.9.1 | Sonnet | ~1 h | USER go |
 | ~~S~~ | DONE 31 Oct: vendored Story Block 2.8.0 in SD (#145), Studio (#20), NSD (#225) | — | — | — |
 | P4 | P4 trim: lazy-load the pack checker, Diagnostics, UI sample | Haiku or Sonnet | ~½–1 day | Any time |
 | L | UI redesign mockups | lead / agents | — | USER item 2 |
