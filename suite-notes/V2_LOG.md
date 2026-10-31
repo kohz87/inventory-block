@@ -1945,3 +1945,9 @@ MERGED testkit RB #118, SD #115, NSD #205.
   colours in the battle log, Fight tab). Runs after G merges. USER also asked to make the combat maths adjustable
   by the player / expose the prompt: lead drafting a Settings → Lean RPG mockup (difficulty presets + custom numbers
   with live odds; the Combat rules text editable; extra planner instructions with the full planner prompt read-only).
+- 31 Oct: RPG mockup v8 (same URL) section 6, Settings → Lean RPG page (own rail entry): Rolls; Difficulty presets
+  Gentle (foe base 3, cost margin 3) / Standard (5, 2) / Harsh (7, 1) / Custom (foe base, Soul Class ×, stat ÷2|÷3,
+  cost margin, decisive margin, most exchanges per reply) with a live odds bar (exact odds, Wessel +9 vs Class I:
+  69/10/22, 61/8/31, 52/5/43); the chat's Combat rules text editable (≤1200, Reset to default); roll-planner extra
+  instructions (≤400) appended after the fixed format, full prompt read-only. Design rule: the numbers used are
+  recorded with each roll, so Re-read/reload never change past fights. Script mock-rpg/mock7.mjs. Awaiting approval.
