@@ -1855,3 +1855,17 @@ MERGED testkit RB #118, SD #115, NSD #205.
 - 31 Oct: USER: once the timeline events are ready, make a prompt so an AI can help write them; then the big
   beats. Planned as J2 (TODO_NEXT): Studio "Copy prompt for an AI" with the pack's own context + "Paste the AI's
   answer" as drafts, and a plain prompt doc; mockup first. Order: J → J2 → K (big beats).
+- 31 Oct: agent C done, `stage16/rpg-c` 217a7cf: `role`, prompt 1200, int `names` (grammar takes the name or the
+  number), `cards` and `replyEnd` definition lists (≤4 each; settle via internal system command `dm.settle` from
+  afterCapture), `prompt:false`, hand-authored blocks open read-only with a template note, the chooser's "Lean RPG"
+  heading; outside its list: domains/index.js merges part `cards`, screens/blocks.js, ui-host.js `leanRpgOn`, one
+  DATA_MODULES.md line; pins 601→1201 and `dm.settle` in the command list. Lead accepts: role blocks exempt from the
+  builder's fields+buttons≤16 (checker still caps kinds at 16). Known follow-up: a reply with no accepted lines
+  does not settle, so the death latch waits for the next reply with lines (generous to the player).
+- MERGED rpg-c into stage16/lean-rpg (1d348e0). H brought in as 16b0fbe (keys moved to `cards`/`replyEnd`,
+  checker test enabled, new templates-engine test: class-up, death latch by stage name, rank-up, swipe, rebuild).
+- Agent B done, `stage16/rpg-b` 92dd0fe: Party tab, stage bars with pencils, Spend points sheet (in place, no
+  overlay), battle log D at `[battle]` with fallback card, "Rolled for you" / class / rank lines (derived from
+  before vs after with `names`, replacing the plain "Rule:" line), Lean RPG fold on Features, lazy mount via
+  ui-host. Its battle-log reader assumed a different result shape and wrote setting `rolls`: sent back to B to
+  match A's real shape and `leanRpgRolls`, and to strip only a whole-line marker.
