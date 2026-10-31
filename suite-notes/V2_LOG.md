@@ -1927,3 +1927,9 @@ MERGED testkit RB #118, SD #115, NSD #205.
   (data: Character `about`, Skills about/stat/uses + locked rank/practice; rolls use the skill's stat; Skills view;
   New character wizard creating both blocks by two `dm.define` with the chosen values as defaults; built-in and pack
   skill sets). Launches when F is merged.
+- 31 Oct: agent F done, `stage16/rpg-fix1` 3566173: F1 multi-field `dm.set { module, fields }` (one root, one
+  receipt, all-or-nothing, rules once; single form unchanged; no DM_LIMITS change), the sheet saves with it,
+  `refusalText` gives plain words for DM_BUDGET (pencils, sheet, Blocks page); F2 `dataModules.presentation`
+  `noTab` roles (character/skills/rules) while the feature is on, Skills button focuses the Skills block on the
+  Blocks page. MERGED ba6c25a; suite 3791 pass / 0 fail. Agent G launched on ba6c25a (brief G.md).
+- 31 Oct 04:58 UTC: review 154 not yet picked up by the VM (queued 04:30).
