@@ -7,6 +7,10 @@ text, the marker and history stripping, and the replay table (§3, §4.5.3–4.5
 because of 2.7 (custom blocks, inline edit, text labels, prompt text) and splits the work for parallel agents.
 
 ## 0. Decisions (USER)
+- **31 Oct revision (mockup v2, https://claude.ai/artifact/Gn22FRyEzDvufqZDgdbR4R) overrides the lines below where they differ:**
+  - **Rolls are automatic.** The AI pre-call (A5) is the default and only planner, so there is no Roll button and no Roll form (B2 dropped). Settings → Lean RPG → "Rolls: automatic / off".
+  - **Health / Mana / Stamina are stage bars** (`ss.meter` with `segments` = stages, `text` = the word, tone by stage: good near full, warn in the middle, bad near empty), in one aligned row on the stats screen and on the Home card.
+  - **Soul Class and skill ranks rise automatically** through block Rules: at XP 100, class +1 and XP back to 0; at practice 100, rank +1. They show as lines in "Changed this reply" (a `replyCard` line from the module), with no confirm cards. The only card left is "The story ends here" (death).
 - **A: optional module.** It lives in Story Block as `src/v2/modules/lean-rpg/`, off by default, and is switched on in
   Settings → Features → "Lean RPG". When it is off, nothing of it is imported (dynamic `import()`), and prompts, saves
   and RNG draws are byte-identical to 2.7.2.
