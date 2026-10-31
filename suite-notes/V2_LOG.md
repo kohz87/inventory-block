@@ -1994,3 +1994,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
   odds from Wessel's sheet 69/7/25). Follow-up: block prompts are stored on one line (combat text loses its breaks).
 - 31 Oct: review 155 marked READY on 9228472 (prompt updated: v8 approved, rename, R3 replay rule, known items).
   USER to start the VM.
+- 31 Oct 06:16 UTC: USER started review 155 on Codex account A.
