@@ -2356,3 +2356,11 @@ MERGED testkit RB #118, SD #115, NSD #205.
   a custom block (Wearing / Condition / Carrying openly) does it today; offered to write it. USER asked whether the
   suite helps RP or adds complexity → lead gave both sides (continuity, fair dice, moving world, exact undo vs tokens,
   the narrator's attention, two sources of truth, learning) and offered an A/B scene test with a lean feature set.
+- 31 Oct: USER: draw the text-size mockup; the PC's look belongs on Home/Status (built in, not a custom block).
+  Mockup v12 (artifact v13), real-app shots on test ST 8155 (SB bddaedb): section 11 Text size in Look (Normal/110%/
+  120%, Story Suite panels only; Home at 120%); section 12 "You": Wearing + Condition (≤120 chars each) under the name
+  on Home with pencils and in each reply's Status; narrator told each reply, `~ you wearing: … | condition: …` when it
+  changes; Features switch "Your look" (on by default); works without the RPG. Waiting on approval.
+- 31 Oct: USER asked why their Status shows no Coordinates. SD director.status shows coords only when the atlas
+  knows the current place and has a position (pack map or "[x, y]" in the location); a sub-place like a guild
+  office isn't on Ersveil's map. Follow-up idea: a place not on the map falls back to its town's/region's position.

@@ -27,7 +27,7 @@ https://claude.ai/artifact/AJZkpqZigE5TvZRRh4jrMK (v3); AI writing help https://
 | ~~2.9.3~~ | RELEASED 31 Oct: Story Block 2.9.3 (#230, 0a0254d): wizard summary row spacing | — | — | — |
 | ~~G~~ | SHELVED 31 Oct (USER): gear as stat bonuses; mockup v11 section 10 kept on file | — | — | — |
 | ~~2.9.4~~ | RELEASED 31 Oct: Story Block 2.9.4 (#231, bddaedb): present-rename clause in the narrator grammar | — | — | — |
-| T | Text size in Settings → Look (Normal / 110% / 120%) | lead mockup, then build | small | USER go on the mockup |
+| T | Text size in Settings → Look (Normal / 110% / 120%) + "You" (Wearing, Condition) on Home/Status | Sonnet | ~1 day | mockup v12 approval |
 | S2 | Re-sync vendored Story Block (test-only) in SD/Studio/NSD to 2.9.4 | Sonnet | ~1 h | USER go |
 | ~~S~~ | DONE 31 Oct: vendored Story Block 2.8.0 in SD (#145), Studio (#20), NSD (#225) | — | — | — |
 | P4 | P4 trim: lazy-load the pack checker, Diagnostics, UI sample | Haiku or Sonnet | ~½–1 day | Any time |
@@ -43,6 +43,8 @@ https://claude.ai/artifact/AJZkpqZigE5TvZRRh4jrMK (v3); AI writing help https://
   soulOne string; wizard/join characters carry the stock "Soul Class" label.
 - Money: a coin list of a single coin worth 1 ("crown: 1") gets coinLine without "no other coins exist"; treat it as
   a single-unit currency in moneyLine. (An always-on lore currency entry still wins; say so in the Money help.)
+- Status Coordinates: a place not on the map (a guild office) shows none; fall back to its town's or region's
+  position (Story Director director.status).
 - Pack checker doesn't parse event `when` conditions (an apostrophe in a quoted name went unnoticed until a test).
 - Ersveil: split news events can repeat the same bulletin when the player moves between region groups; Ardelia deadlocks (outline said elects).
 - RPG: a reply where the story changes nothing doesn't settle the death check (it waits for the next reply with lines).
