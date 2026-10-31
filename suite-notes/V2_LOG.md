@@ -1833,3 +1833,7 @@ MERGED testkit RB #118, SD #115, NSD #205.
   the story's `world` lines (detail yes, state no; another event or the reader can); "Keep in mind" puts up to 2
   such events in every reply's tail; without SD the cue is still told once. Studio Timeline mockup v2 published at
   the same URL (AJZkpqZigE5TvZRRh4jrMK) with the new Lasting change section. Still open: "N days after" yes/no.
+- 31 Oct: USER: "N days after" can be SD too. Lead confirmed: SD's chronicle stamps `since` (story minutes) on each
+  world event and pack-event conditions can already call queries (`query('chronicle.event', { name })`), so Studio
+  writes `after: X` + `time() >= query('chronicle.event', { name: X }).since + N×1440`. No Story Block engine change;
+  the earlier event must have a Lasting change. Timeline mockup v3 at the same URL shows it.

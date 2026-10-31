@@ -6,7 +6,7 @@ State: Story Block main c438975 (2.7.2, Ersveil 2.1.0). Story Director, Studio a
 ## Waiting on the USER (answers unblock the rest)
 1. **Studio Timeline mockup**, https://claude.ai/artifact/AJZkpqZigE5TvZRRh4jrMK:
    - approve it or ask for changes;
-   - say yes or no to "N days after another event". (Lasting change: decided 31 Oct, it writes to Story Director's chronicle; mockup v2 shows it.)
+   - approve it or ask for changes (v3: Lasting change and "N days after" both come from Story Director's chronicle, decided 31 Oct).
 2. **Timeline big beats** (option 3): what happens and roughly when (CY 611 onward). The lead fills in the dates, the
    build-up and how the news spreads.
 3. ~~**Lean RPG mockups**~~ approved 31 Oct (v3). Build in progress.
@@ -28,7 +28,7 @@ State: Story Block main c438975 (2.7.2, Ersveil 2.1.0). Story Director, Studio a
 | G | RPG agent B, screens (battle log D, Roll form, stats screen) | Sonnet | ~1 day | item 3 |
 | H | RPG integration, browser check, review rounds, release Story Block 2.8.0 | lead + reviewer | ~2 days | C, D, E, G |
 | I | Studio Timeline (the Events → Timeline view and form) | Sonnet + lead | ~1–1½ days | item 1 |
-| J | Lasting change: SD chronicle command for pack events (lock + Keep in mind), Studio picker; plus event delays if yes | Sonnet + lead | ~1 day | item 1 approval |
+| J | SD chronicle command for pack events (lock + Keep in mind); Studio Lasting change picker and "N days after" (a chronicle-based condition, no SB change) | Sonnet + lead | ~1 day | item 1 approval |
 | K | Ersveil hidden timeline events (pack 2.2.0) | lead | ~½ day | item 2 (+ J for lasting changes) |
 | L | UI redesign mockups | lead / agents | — | item 4 |
 
