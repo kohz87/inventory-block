@@ -2438,3 +2438,7 @@ MERGED testkit RB #118, SD #115, NSD #205.
   (kohz87/Story_block#233, merge 455c104) after green CI. Unsubscribed. Night queue now: Studio/vendored testkit sync
   (S2) waits on USER go; UI redesign waits on the USER's pick; the simplification work waits on approval.
 - 31 Oct ~18:10 UTC: lead's overnight calls (USER: proceed with recommended until 9am SGT): S2 vendored Story Block test-copy sync to 2.11.0 in SD/Studio/NSD (brief S2) and R13 small follow-up fixes (trip delay overlap, arrived cue, trip line order, SD fuzz seed 19, rank line partial accept) → SB 2.11.1 / SD 2.5.1. Two Sonnet agents launched.
+- 31 Oct: agent S2 done (correct trailers, test-only): vendored Story Block 2.11.0 in SD f250f75 (trip test uses real
+  mounts now; 976/0), Studio fe76663 (sync-sb incl. authoring kit + dist; closure pins 144/147; 757/757), NSD 97962bd
+  (no test changes; 1506/0, same 5 cancelled as main). PRs kohz87/Story_director#148, kohz87/Story_studio#21,
+  kohz87/npc_state_delta#226 opened; subscribed; merge after green CI (test-only, no reviewer).

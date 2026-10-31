@@ -29,7 +29,7 @@ https://claude.ai/artifact/AJZkpqZigE5TvZRRh4jrMK (v3); AI writing help https://
 | ~~2.9.4~~ | RELEASED 31 Oct: Story Block 2.9.4 (#231, bddaedb): present-rename clause in the narrator grammar | — | — | — |
 | ~~T~~ | RELEASED 31 Oct: SB 2.10.0 (#232) + SD 2.4.0 (#146): Text size, Your look, Rank from the pack | — | — | — |
 | ~~V~~ | RELEASED 31 Oct: SB 2.11.0 (#233) Mounts + header Travel; SD 2.5.0 (#147) Trips + map | — | — | — |
-| S2 | Re-sync vendored Story Block (test-only) in SD/Studio/NSD to 2.9.4 | Sonnet | ~1 h | USER go |
+| S2 | Re-sync vendored Story Block 2.11.0 (test-only): SD#148, Studio#21, NSD#226 | Sonnet | — | CI |
 | ~~S~~ | DONE 31 Oct: vendored Story Block 2.8.0 in SD (#145), Studio (#20), NSD (#225) | — | — | — |
 | P4 | P4 trim: lazy-load the pack checker, Diagnostics, UI sample | Haiku or Sonnet | ~½–1 day | Any time |
 | L | UI redesign: simplified, modern, clean, stylish (USER 31 Oct) — 2–3 proposals overnight | lead | — | USER picks a direction |
