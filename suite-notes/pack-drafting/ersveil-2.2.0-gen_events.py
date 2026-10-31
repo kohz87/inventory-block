@@ -102,9 +102,8 @@ ev('flood-611', f"time() != null && time() >= {T(611, 'Haywane', 12, 8)}",
    then=[lasting('The early flood', 'ongoing',
                  'Low-grade wildzone beasts spilled south onto the Bluewatch road and the Border marches a season early. The Guild posted flood contracts. Most call it an early Turning.',
                  'Bluewatch Village', ['Adventurer Guild', 'River Confederacy', 'Border Kingdoms'])])
-ev('flood-611-scene', f"{window(T(611, 'Haywane', 12, 8), T(611, 'Haywane', 16))} && {at(['River Confederacy: Bluewatch', 'Shornmarch', 'Border Kingdoms', 'Auvoth Compact'])}",
-   "The signal horn sounds from the north: beasts on the road, a season early. Watch-Captain Edda Rorke musters the Watch at the river-gate, the branch clerk pins flood contracts at F and E (pay doubled, the Guild's cut waived), and the Ninth Brazier ride out toward the wildzone edge. The flood is low-grade but wide: farms and convoys need guarding now.",
-   after='flood-611')
+ev('flood-611-scene', f"{window(T(611, 'Haywane', 12, 8), T(611, 'Haywane', 20))} && {at(['River Confederacy: Bluewatch', 'Shornmarch', 'Border Kingdoms', 'Auvoth Compact'])}",
+   "The signal horn sounds from the north: beasts on the road, a season early. Watch-Captain Edda Rorke musters the Watch at the river-gate, the branch clerk pins flood contracts at F and E (pay doubled, the Guild's cut waived), and the Ninth Brazier ride out toward the wildzone edge. The flood is low-grade but wide: farms and convoys need guarding now.")
 news('flood-611-news', 'flood-611', 'The early flood', 6, BELT,
      'Travellers from the north bring word of an early stampede on the Bluewatch road and the Border marches. Merchants shrug: the Turning came early, that is all. Grain for the frontier costs a little more.')
 ev('flood-611-ends', f"time() != null && {since('The early flood', 16 * DAY)}",
@@ -119,8 +118,7 @@ ev('depths-611', f"time() != null && time() >= {T(611, 'Haywane', 13, 2)}",
                  'A surge from the upper bands struck the gates under the Seventh Seal Terrace. The Sealwardens and elite parties held it. The Guild calls it routine and keeps it quiet.',
                  'Auvoth', ['Adventurer Guild', 'Order of the Sealwardens'])])
 ev('depths-611-scene', f"{window(T(611, 'Haywane', 13, 2), T(611, 'Haywane', 17))} && {at(['Auvoth Compact'])}",
-   "Bells ring under the Seventh Seal Terrace and the descents are shut: a breach swarm is pressing the gates from the upper bands. Sealwardens run with lamps, and Sunniva Halvard's party goes down behind them. By dusk Guild wardens are telling everyone it is routine. Salvage from the gates will hit the Pale Market within days.",
-   after='depths-611')
+   "Bells ring under the Seventh Seal Terrace and the descents are shut: a breach swarm is pressing the gates from the upper bands. Sealwardens run with lamps, and Sunniva Halvard's party goes down behind them. By dusk Guild wardens are telling everyone it is routine. Salvage from the gates will hit the Pale Market within days.",)
 news('depths-611-news', 'depths-611', 'Surge at the Depths gates', 5, ['Auvoth Compact', 'River Confederacy: Bluewatch'],
      'Breach salvage floods the Pale Market and the price of mana-hound hides drops. Two Sealwardens were buried on the Terrace without the usual bells. The Guild says it was routine.')
 
@@ -138,8 +136,7 @@ ev('turning-611-harsh', f"time() != null && time() >= {T(611, 'Frostfall', 25, 4
                  'The CY 611 Turning is harsher than most. A mammoth stampede reached the Bluewatch road, and Isbro in the Border Kingdoms burned. Most still call it just a bad Turning.',
                  'Isbro', ['Border Kingdoms', 'The Long Watch'])])
 ev('turning-611-scene', f"{window(T(611, 'Frostfall', 25, 4), T(611, 'Deepwinter', 6))} && {at(FRONT)}",
-   'The beacons of the Long Watch burn down the line: stampede. Mammoths come through the taiga in a brown wall, with frost wolves running in their wake. Isbro in the Border Kingdoms has burned, and its people are on the road south with what they could carry. Every fort and village wants guards, and every refugee wants bread.',
-   after='turning-611-harsh')
+   'The beacons of the Long Watch burn down the line: stampede. Mammoths come through the taiga in a brown wall, with frost wolves running in their wake. Isbro in the Border Kingdoms has burned, and its people are on the road south with what they could carry. Every fort and village wants guards, and every refugee wants bread.',)
 news('turning-611-news', 'turning-611-harsh', 'A harsh Turning', 10, BELT,
      'Word from the north: a hard Turning. A Border village burned, and the Bluewatch road was closed for days by a mammoth stampede. Highmark\'s quartermasters are buying winter grain early.')
 
@@ -156,8 +153,7 @@ ev('sealwardens-612', f"time() != null && time() >= {T(612, 'Rainmoot', 5, 9)}",
                  'After a second surge at the Depths gates, the Sealwardens recruit: a one-year oath, 4 to 8 silver a day, and a month at the upper seals before breach duty.',
                  'Auvoth', ['Order of the Sealwardens', 'Adventurer Guild'])])
 ev('sealwardens-612-scene', f"{window(T(612, 'Rainmoot', 5, 9), T(612, 'Greengale', 5))} && {at(['Auvoth Compact', 'River Confederacy: Bluewatch', 'Shornmarch'])}",
-   'Sealwarden criers walk the roads with a lamp and a drum: "Light at the seal!" The Order is recruiting from every people. A one-year oath pays 4 to 8 silver a day, all salvage belongs to the Order, and recruits serve a month at the upper seals first. A character who takes the oath fits the Sealwarden recruit skills.',
-   after='sealwardens-612')
+   'Sealwarden criers walk the roads with a lamp and a drum: "Light at the seal!" The Order is recruiting from every people. A one-year oath pays 4 to 8 silver a day, all salvage belongs to the Order, and recruits serve a month at the upper seals first. A character who takes the oath fits the Sealwarden recruit skills.',)
 
 ev('emperor-612-rumour', f"{window(T(612, 'Highsun', 10), T(612, 'Highsun', 18, 6))} && {at(HIGHMARK + ['Valegard', 'Wallwright League'])}",
    "The Emperor has not shown himself on the Crown Keep balcony for nine days. Physicians come and go by the river gate, and the heralds say nothing. Princess Wendhild has cancelled her hunts, Prince Corvin's friends drink in the Noble Heights, and Lord-General Hasse is said to be on the road from Stoneford.")
@@ -170,13 +166,12 @@ ev('emperor-612', f"time() != null && time() >= {T(612, 'Highsun', 18, 6)}",
                  'Three claim the throne: Princess Wendhild by the plain rule, Prince Corvin by the male-line reading, Lord-General Hasse by the army. The Diet, the army and the Church must settle it.',
                  'Highmark Capital', ['Princess Wendhild', 'Prince Corvin', 'Lord-General Hasse', 'Imperial Diet'], keep=True)])
 ev('emperor-612-scene', f"{window(T(612, 'Highsun', 18, 6), T(612, 'Highsun', 25))} && {at(HIGHMARK)}",
-   "Every bell in Highmark tolls: the Emperor is dead. Heralds read the mourning order, but in the taverns it is all claims. The princess has the law, the prince has the old charter's words, and the Lord-General has the army. The Diet sits tomorrow. Anyone with a sword, a secret or a vote is suddenly worth courting.",
-   after='emperor-612')
-news('emperor-612-news-near', 'emperor-612', 'Emperor Adalmar is dead', 3, ['Valegard', 'Wallwright League', 'Kingdom of Ashmere', 'River Confederacy: core cities', 'Startrace Tower'],
+   "Every bell in Highmark tolls: the Emperor is dead. Heralds read the mourning order, but in the taverns it is all claims. The princess has the law, the prince has the old charter's words, and the Lord-General has the army. The Diet sits tomorrow. Anyone with a sword, a secret or a vote is suddenly worth courting.",)
+news('emperor-612-news-near', 'emperor-612', "Highmark's succession", 3, ['Valegard', 'Wallwright League', 'Kingdom of Ashmere', 'River Confederacy: core cities', 'Startrace Tower'],
      'The imperial relay brings it: Emperor Adalmar is dead, and Highmark has three claimants and no ratified heir. Everyone with money in Highmark is counting it.')
-news('emperor-612-news-north', 'emperor-612', 'Emperor Adalmar is dead', 14, FRONT + ['Ironanvil', 'Aurelion/Church Heartland', 'Silver Mark', 'River Confederacy: locks/connectors'],
+news('emperor-612-news-north', 'emperor-612', "Highmark's succession", 14, FRONT + ['Ironanvil', 'Aurelion/Church Heartland', 'Silver Mark', 'River Confederacy: locks/connectors'],
      "News comes north at last: the Emperor of Highmark is dead, and the princess, the prince and the Lord-General all claim the throne. Old soldiers say it will come to swords. In Auvoth, the Compact Council wonders who will pay for anything now.")
-news('emperor-612-news-far', 'emperor-612', 'Emperor Adalmar is dead', 30, SOUTH + WEST + SEA,
+news('emperor-612-news-far', 'emperor-612', "Highmark's succession", 30, SOUTH + WEST + SEA,
      'Distant news: the Emperor of Highmark is dead, and his heirs are quarrelling over the throne. Here it is mostly a price change. Highmark coin trades lower, and mercenary captains are packing.')
 
 ev('ardelia-612', f"time() != null && time() >= {T(612, 'Goldwane', 30, 12)}",
@@ -185,8 +180,7 @@ ev('ardelia-612', f"time() != null && time() >= {T(612, 'Goldwane', 30, 12)}",
                  "Emperor Liutmar's term ended, and the electors deadlocked. Arch-Chancellor Gerlinde rules Ardelia as regent: no wars, no new levies, no land grants. The south stays out of the north's troubles.",
                  'Osterhal', ['Ardelian Empire', 'Knights of the Last Day'])])
 ev('ardelia-612-scene', f"{window(T(612, 'Goldwane', 30, 12), T(612, 'Haywane', 10))} && {at(['Ardelian Empire and Southmarch'])}",
-   "In Osterhal the Knights of the Last Day escort Emperor Liutmar out of the Ninefold Hall at sunset, as the law demands. The count stalls short of six. Arch-Chancellor Gerlinde takes the regency: no wars, no levies. Belisar's vote is for sale, and the Lesser Estates' delegate has been seen dining with Highmark agents.",
-   after='ardelia-612')
+   "In Osterhal the Knights of the Last Day escort Emperor Liutmar out of the Ninefold Hall at sunset, as the law demands. The count stalls short of six. Arch-Chancellor Gerlinde takes the regency: no wars, no levies. Belisar's vote is for sale, and the Lesser Estates' delegate has been seen dining with Highmark agents.",)
 news('ardelia-612-news', 'ardelia-612', "Ardelia's electors deadlock", 20, HIGHMARK + ['Valegard', 'River Confederacy: core cities', 'Startrace Tower'],
      "News from the south: Ardelia's electors could not agree, and a regent rules there with her hands tied. Whatever happens in Highmark, Ardelia will not march.")
 
@@ -204,8 +198,7 @@ ev('turning-612', f"time() != null && time() >= {T(612, 'Frostfall', 24, 4)}",
                  'In the CY 612 Turning, Frostbound bands raid south through the Border Kingdoms and White-Horn herds cross early. Scholars call it a great migration.',
                  'Border Kingdoms', ['Frostbound Tribes', 'White-Horn Clans', 'The Long Watch'])])
 ev('turning-612-scene', f"{window(T(612, 'Frostfall', 24, 4), T(612, 'Deepwinter', 8))} && {at(FRONT)}",
-   'The Long Watch\'s beacons burn two colours: stampede, and raiders. Frostbound warbands come south, but they bring their families, sleds and herds. Some raid, and some only ask to pass. Captured raiders swear something worse than winter is behind them. Commander Ragna of Kolsbotn wants every scout she can hire.',
-   after='turning-612')
+   'The Long Watch\'s beacons burn two colours: stampede, and raiders. Frostbound warbands come south, but they bring their families, sleds and herds. Some raid, and some only ask to pass. Captured raiders swear something worse than winter is behind them. Commander Ragna of Kolsbotn wants every scout she can hire.',)
 news('turning-612-news', 'turning-612', 'The Frostbound come south', 12, BELT,
      'News from the north: the Frostbound are raiding south in strength, with their families, and the White-Horn herds are in the Border Kingdoms. Scholars at Startrace call it a great migration. Startrace has said nothing more.')
 
@@ -216,8 +209,7 @@ ev('cinder-613', f"time() != null && time() >= {T(613, 'Greengale', 10, 6)}",
                  "The Cinder Host has left the Western Barrens to raid the Northern Belt while Highmark's armies look to the throne. It frees slaves and burns every debt register and title deed.",
                  'Hallowden', ['Cinder Host', 'Highmark Empire'])])
 ev('cinder-613-scene', f"{window(T(613, 'Greengale', 10, 6), T(613, 'Highsun', 10))} && {at(['Western Barrens', 'Shackles', 'Wallwright League', 'Highmark Empire'])}",
-   'Smoke on the western roads: the Cinder Host is out of the Barrens. Caravans turn back, and slave-holders bury their papers. Grusk the Ledger-Burner has burned Hallowden\'s tax court with the clerks still arguing inside. Runaways and deserters walk west to join the Host, and every garrison is somewhere else.',
-   after='cinder-613')
+   'Smoke on the western roads: the Cinder Host is out of the Barrens. Caravans turn back, and slave-holders bury their papers. Grusk the Ledger-Burner has burned Hallowden\'s tax court with the clerks still arguing inside. Runaways and deserters walk west to join the Host, and every garrison is somewhere else.',)
 news('cinder-613-news', 'cinder-613', 'The Cinder Host marches', 12, FRONT + ['River Confederacy: core cities', 'Valegard', 'Kingdom of Ashmere'],
      "News from the west: the Cinder Host has broken out of the Barrens and is burning ledgers in Highmark's western towns. Bankers in Ledgerford are moving their vaults.")
 
@@ -227,18 +219,25 @@ ev('succession-613', f"time() != null && time() >= {T(613, 'Goldwane', 5, 6)}",
                  "Highmark's succession is open war between Princess Wendhild, Prince Corvin and Lord-General Hasse. The Hand of Oblivion is said to hold contracts on all three.",
                  'Highmark Capital', ['Princess Wendhild', 'Prince Corvin', 'Lord-General Hasse'])])
 ev('succession-613-scene', f"{window(T(613, 'Goldwane', 5, 6), T(613, 'Goldwane', 20))} && {at(HIGHMARK + ['Valegard', 'Wallwright League'])}",
-   "War in the Imperial North: banners of three claimants on the same roads, levies seized from the fields, and bridges held for tolls. Each side wants scouts, couriers and swords, and pays in promises. Rumour says the Quiet Hour, the Hand's most famous Executor, has taken a contract on one of the heirs, and every camp doubles its guards.",
-   after='succession-613')
+   "War in the Imperial North: banners of three claimants on the same roads, levies seized from the fields, and bridges held for tolls. Each side wants scouts, couriers and swords, and pays in promises. Rumour says the Quiet Hour, the Hand's most famous Executor, has taken a contract on one of the heirs, and every camp doubles its guards.",)
 news('succession-613-news', 'succession-613', "Highmark's war of succession", 10, FRONT + SOUTH + WEST + SEA + ['Ironanvil', 'Aurelion/Church Heartland', 'Silver Mark', 'River Confederacy: core cities', 'River Confederacy: locks/connectors', 'Kingdom of Ashmere', 'Startrace Tower'],
      "News: Highmark's heirs have gone to war with each other. No help will come from the Empire this year. Prices for steel, horses and mercenaries have doubled.")
 
-# Marrowbridge: the claimant with the least court favour is broken. Ties break against the later name in the plain
-# order (Wendhild, then Corvin, then Hasse). With no Court favour module, Corvin is broken.
+# Marrowbridge: the claimant with the least court favour is broken. On a tie the later name in the plain order is broken
+# (Wendhild, then Corvin, then Hasse). With no Court favour module, Hasse is broken (as with the defaults 40/35/25).
+# Each outcome writes an ONGOING chronicle entry naming the war that remains; ongoing entries are never pruned by Story
+# Director, so they are the durable record that this battle (and later the crown) is decided once (review 169 B2, B3).
 w, c, h = fav('wendhild'), fav('corvin'), fav('hasse')
 MB = T(613, 'Haywane', 20, 8)
-MB_CORVIN = f"({NOFAV} || ({c} < {h} && {c} <= {w}))"
-MB_HASSE = f"({FAV} != null && {h} <= {w} && {h} <= {c})"
-MB_WEND = f"({FAV} != null && {w} < {c} && {w} < {h})"
+CR = T(614, 'Rainmoot', 1, 10)
+LW = T(615, 'Frostfall', 21, 4)
+# The Court favour module works out who is least and who wins each pair itself (hidden fields its rules keep), so a
+# condition reads one field (the 500-character cap).
+def pick(field, who, default):
+    return f"({NOFAV} || {FAV}.chat.{field} == '{who}')" if default else f"({FAV} != null && {FAV}.chat.{field} == '{who}')"
+MB_CORVIN = pick('least', 'corvin', False)
+MB_HASSE = pick('least', 'hasse', True)
+MB_WEND = pick('least', 'wendhild', False)
 MARROW = {
     'corvin': (MB_CORVIN, 'Prince Corvin falls at Marrowbridge',
                'At the Battle of Marrowbridge, Prince Corvin was killed and his army broken. Princess Wendhild and Lord-General Hasse remain.',
@@ -250,13 +249,18 @@ MARROW = {
                  'At the Battle of Marrowbridge, Princess Wendhild\'s army was broken. She fled north to Thornwall Redoubt, where the Wardens of the Last Wall shelter her. Prince Corvin and Lord-General Hasse remain.',
                  "Princess Wendhild's army is broken at the Battle of Marrowbridge. Dame Ermengild cuts her a way out, and she flees north to Thornwall Redoubt, where the Wardens of the Last Wall shelter her and swear to her blood. The war for the throne is now Prince Corvin against Lord-General Hasse."),
 }
+WAR = {'corvin': "Highmark's war: Wendhild against Hasse", 'hasse': "Highmark's war: Wendhild against Corvin",
+       'wendhild': "Highmark's war: Corvin against Hasse"}
+WAR_SUMMARY = {'corvin': 'After Marrowbridge the war for the throne is Princess Wendhild against Lord-General Hasse.',
+               'hasse': 'After Marrowbridge the war for the throne is Princess Wendhild against Prince Corvin.',
+               'wendhild': 'After Marrowbridge the war for the throne is Prince Corvin against Lord-General Hasse.'}
 for who, (cond, name, summary, cue) in MARROW.items():
-    ev(f'marrowbridge-{who}', f"time() != null && time() >= {MB} && {cond}", f'{cue} {UNSEEN}', after='succession-613',
-       then=[lasting(name, 'resolved', summary, 'Marrowbridge', ['Highmark Empire'])])
-    ev(f'marrowbridge-{who}-scene', f"{window(MB, T(613, 'Haywane', 27))} && {at(HIGHMARK)}",
-       f'The battle at Marrowbridge is over, and the river runs dark. {cue} Wounded crowd the road, looters work the field, and both surviving camps are hiring anyone who can hold a spear.',
-       after=f'marrowbridge-{who}')
-    news(f'marrowbridge-{who}-news', f'marrowbridge-{who}', name, 12, FRONT + BELT[1:] + SOUTH,
+    ev(f'marrowbridge-{who}', f"time() != null && time() >= {MB} && time() < {CR} && {' && '.join(f'!{since(WAR[other])}' for other in WAR if other != who)} && {cond}", f'{cue} {UNSEEN}', after='succession-613',
+       then=[lasting(name, 'resolved', summary, 'Marrowbridge', ['Highmark Empire']),
+             lasting(WAR[who], 'ongoing', WAR_SUMMARY[who], 'Highmark Capital', ['Highmark Empire'])])
+    ev(f'marrowbridge-{who}-scene', f"time() != null && {since(WAR[who])} && !{since(WAR[who], 20 * DAY)} && {at(HIGHMARK)}",
+       f'The battle at Marrowbridge is over, and the river runs dark. {cue} Wounded crowd the road, looters work the field, and both surviving camps are hiring anyone who can hold a spear.')
+    news(f'marrowbridge-{who}-news', None, WAR[who], 12, FRONT + BELT[1:] + SOUTH,
          f'News of a great battle at Marrowbridge in Highmark: {name}. The war for the throne goes on, and the camps are hiring.')
 
 ev('livia-613', f"{window(T(613, 'Frostfall', 1), T(613, 'Frostfall', 20))} && {at(FRONT)}",
@@ -268,8 +272,7 @@ ev('turning-613', f"time() != null && time() >= {T(613, 'Frostfall', 22, 4)}",
                  'In the CY 613 Turning, the Frostbound and White-Horn lands were overrun. Frost Queen Eydis Long-Winter leads her people south. Refugees fill the Border Kingdoms.',
                  'Border Kingdoms', ['Frostbound Tribes', 'White-Horn Clans', 'The Long Watch', 'Border Kingdoms'], keep=True)])
 ev('turning-613-scene', f"{window(T(613, 'Frostfall', 22, 4), T(613, 'Deepwinter', 10))} && {at(FRONT)}",
-   'This is no Turning. Whole Frostbound clans walk south under the Frost Queen\'s war-seat, with White-Horn mammoths among them, and behind them the northern sky flickers a colour no one can name. Kaidu Thrice-Returned comes back from the tundra edge and says flatly: this is not a migration. The refugee camps need food, guards and healers.',
-   after='turning-613')
+   'This is no Turning. Whole Frostbound clans walk south under the Frost Queen\'s war-seat, with White-Horn mammoths among them, and behind them the northern sky flickers a colour no one can name. Kaidu Thrice-Returned comes back from the tundra edge and says flatly: this is not a migration. The refugee camps need food, guards and healers.',)
 news('turning-613-news', 'turning-613', 'The north is lost', 12, BELT + SOUTH,
      'Terrible news from the north: the Frostbound and the White-Horn Clans have been driven out of their lands, and their whole peoples are coming south. No one agrees on why.')
 
@@ -279,8 +282,7 @@ ev('tide-613', f"time() != null && time() >= {T(613, 'Deepwinter', 12, 10)}",
                  "The Long Watch found Master Somner's journal: a Startrace expedition tapped the Hollow Aurora's leyline in CY 610. The Guild and the Long Watch name the Third Abyssal Tide, and the Council is split.",
                  'Auvoth', ['Adventurer Guild', 'The Long Watch', 'Startrace Tower', 'Compact Council'], keep=True)])
 ev('tide-613-scene', f"{window(T(613, 'Deepwinter', 12, 10), T(613, 'Deepwinter', 20))} && {at(['Auvoth Compact', 'River Confederacy: Bluewatch'])}",
-   "The Compact Council hall is packed: Commander Ragna reads from a frost-stained Startrace journal. A survey team went beyond the Iron-Blue Tundra, tapped the leyline under the Pale Orbit's light, and wrote that the ice sang back. Guildmaster Hendrikje Laan names it the Third Abyssal Tide. The delegates shout, and Highmark's seat is empty.",
-   after='tide-613')
+   "The Compact Council hall is packed: Commander Ragna reads from a frost-stained Startrace journal. A survey team went beyond the Iron-Blue Tundra, tapped the leyline under the Pale Orbit's light, and wrote that the ice sang back. Guildmaster Hendrikje Laan names it the Third Abyssal Tide. The delegates shout, and Highmark's seat is empty.",)
 news('tide-613-news-belt', 'tide-613', 'The Third Abyssal Tide', 10, BELT,
      "The word spreads from Auvoth: the Third Abyssal Tide. Startrace's Archmaster denies sending any expedition, then stops answering letters. Conclave Elder Clementia preaches in the streets of the Holy City, and this time crowds listen.")
 news('tide-613-news-far', 'tide-613', 'The Third Abyssal Tide', 30, SOUTH + WEST + SEA,
@@ -292,22 +294,18 @@ ev('chain-613', f"time() != null && time() >= {T(613, 'Icewane', 8, 3)}",
                  "At Eastvale, refugees and slaves pressed into building the northern defences rose. Neshai Chainbreaker broke the slave pens, and the Key-Widow's name is on every wall.",
                  'Eastvale', ['Broken Chain', 'Highmark Empire'])])
 ev('chain-613-scene', f"{window(T(613, 'Icewane', 8, 3), T(613, 'Icewane', 20))} && {at(HIGHMARK + ['Valegard'])}",
-   'Eastvale is burning: collared work gangs from the northern defences have turned on their overseers, and the slave pens stand open. A beastfolk woman breaks collars with her bare hands in the market square. Slave-catchers are hiring, freed workers need guides south, and nobody is building any walls.',
-   after='chain-613')
+   'Eastvale is burning: collared work gangs from the northern defences have turned on their overseers, and the slave pens stand open. A beastfolk woman breaks collars with her bare hands in the market square. Slave-catchers are hiring, freed workers need guides south, and nobody is building any walls.',)
 news('chain-613-news', 'chain-613', 'The Broken Chain rises', 12, FRONT + SOUTH + WEST + ['River Confederacy: core cities', 'Kingdom of Ashmere', 'Aurelion/Church Heartland'],
      "News: the Broken Chain has risen at Eastvale in Highmark, and the slaves building the northern defences are free and armed. Shackles has put a price on Neshai Chainbreaker's head.")
 
 # === CY 614: the crowning and the fall of Auvoth ======================================================================
-CR = T(614, 'Rainmoot', 1, 10)
-CROWN = {
-    # (broken at Marrowbridge, winner, loser): winner by favour among the two left; ties by the plain order.
-    ('corvin', 'wendhild', 'hasse'): f"({NOFAV} || {w} >= {h})",
-    ('corvin', 'hasse', 'wendhild'): f"({FAV} != null && {h} > {w})",
-    ('hasse', 'wendhild', 'corvin'): f"({NOFAV} || {w} >= {c})",
-    ('hasse', 'corvin', 'wendhild'): f"({FAV} != null && {c} > {w})",
-    ('wendhild', 'corvin', 'hasse'): f"({NOFAV} || {c} >= {h})",
-    ('wendhild', 'hasse', 'corvin'): f"({FAV} != null && {h} > {c})",
-}
+PAIR = {('wendhild', 'corvin'): 'wc', ('wendhild', 'hasse'): 'wh', ('corvin', 'hasse'): 'ch'}
+CROWN = {}
+for broken in ['corvin', 'hasse', 'wendhild']:
+    first, second = [who for who in ['wendhild', 'corvin', 'hasse'] if who != broken]
+    field = PAIR[(first, second)]
+    CROWN[(broken, first, second)] = pick(field, first, True)
+    CROWN[(broken, second, first)] = pick(field, second, False)
 TITLE = {'wendhild': 'Princess Wendhild', 'corvin': 'Prince Corvin', 'hasse': 'Lord-General Hasse'}
 CROWNED = {'wendhild': 'Empress Wendhild', 'corvin': 'Emperor Corvin', 'hasse': 'Emperor Hasse'}
 LOSER = {
@@ -320,32 +318,34 @@ AFTER_CROWN = {
     'corvin': "He turns the Empire south: the Southmarch Road and Ardelia's undefended regency are the war he always wanted, and the north gets what is left.",
     'hasse': "The Wardens of the Last Wall refuse to kneel to a general's crown. Hasse answers by threatening to open the Iron Archive and break the Dawn-King's bloodline's claim for ever.",
 }
+REIGN = {who: f'Reign of {CROWNED[who]}' for who in CROWNED}
 for (broken, win, lose), cond in CROWN.items():
-    name = f'Highmark crowns {CROWNED[win]}'
     cue = f'The Diet ratifies {TITLE[win]}, crowned {CROWNED[win]} of Highmark in the Crown Keep. {LOSER[lose]} {AFTER_CROWN[win]}'
-    ev(f'crown-{win}-over-{lose}', f"time() != null && time() >= {CR} && {cond}", f'{cue} {UNSEEN}', after=f'marrowbridge-{broken}',
-       then=[lasting(name, 'resolved', f'{CROWNED[win]} was crowned in Rainmoot CY 614. {AFTER_CROWN[win]}'[:240],
+    guard = ' && '.join(f"!{since(REIGN[who])}" for who in (win, lose))
+    ev(f'crown-{win}-over-{lose}', f"time() != null && time() >= {CR} && time() < {LW} && {since(WAR[broken])} && {guard} && {cond}", f'{cue} {UNSEEN}',
+       then=[lasting(REIGN[win], 'ongoing', f'{CROWNED[win]} was crowned in Rainmoot CY 614. {AFTER_CROWN[win]}'[:240],
                      'Highmark Capital', ['Highmark Empire'], keep=True),
+             lasting(WAR[broken], 'resolved', f'The war of succession ended with {CROWNED[win]} crowned in Rainmoot CY 614.'),
              lasting("Highmark's war of succession", 'resolved', f'The war of succession ended with {CROWNED[win]} crowned in CY 614.'),
              lasting("Highmark's succession", 'resolved', f'{CROWNED[win]} was crowned in Rainmoot CY 614.')])
-    ev(f'crown-{win}-over-{lose}-scene', f"{window(CR, T(614, 'Rainmoot', 10))} && {at(HIGHMARK)}",
-       f'Highmark crowns a ruler. {cue}', after=f'crown-{win}-over-{lose}')
 for win in ['wendhild', 'corvin', 'hasse']:
-    name = f'Highmark crowns {CROWNED[win]}'
+    ev(f'crown-{win}-scene', f"time() != null && {since(REIGN[win])} && !{since(REIGN[win], 20 * DAY)} && {at(HIGHMARK)}",
+       f'Highmark has crowned {CROWNED[win]} in the Crown Keep. {AFTER_CROWN[win]} Heralds ride out with the news, and everyone who backed the losers is suddenly very quiet.')
+    name = REIGN[win]
     news(f'crown-{win}-news', None, name, 14, FRONT + BELT[1:] + SOUTH,
        f'News from Highmark: the war of succession is over, and {CROWNED[win]} is crowned. {AFTER_CROWN[win]}')
 
-ev('hasse-archive-614', f"time() != null && {since('Highmark crowns Emperor Hasse', 40 * DAY)}",
+ev('hasse-archive-614', f"time() != null && {since(REIGN['hasse'], 40 * DAY)}",
    f'Emperor Hasse sends men to the Iron Archive beneath Highmark Capital and summons an Ironanvil reading elder. The High Pontiff warns that opening it would be Highmark\'s ruin, and the Diet is terrified. Whatever is inside, Hasse means to use it against the Dawn-King\'s bloodline. {UNSEEN}',
    then=[lasting('The Iron Archive threatened', 'ongoing',
                  'Emperor Hasse has ordered the Iron Archive opened and summoned an Ironanvil reading elder, to break the Dawn-King\'s bloodline\'s claim. The Church and the Diet are in uproar.',
                  'Highmark Capital', ['Highmark Empire', 'Church of the Eternal Flame', 'Ironanvil Holds'])])
-ev('corvin-south-614', f"time() != null && {since('Highmark crowns Emperor Corvin', 60 * DAY)}",
+ev('corvin-south-614', f"time() != null && {since(REIGN['corvin'], 60 * DAY)}",
    f"Emperor Corvin marches down the Southmarch Road toward Varden and Osterhal, against Ardelia's tied-handed regency. Highmark's best regiments go south, not north. {UNSEEN}",
    then=[lasting('Highmark marches on Ardelia', 'ongoing',
                  "Emperor Corvin marches down the Southmarch Road against Ardelia's regency. Highmark's best regiments go south while the Tide comes from the north.",
                  'Stoneford', ['Highmark Empire', 'Ardelian Empire'])])
-ev('wendhild-north-614', f"time() != null && {since('Highmark crowns Empress Wendhild', 40 * DAY)}",
+ev('wendhild-north-614', f"time() != null && {since(REIGN['wendhild'], 40 * DAY)}",
    f'Empress Wendhild\'s armies march north: Highmark levies on the Auvoth road, Wallwright engineers under First Marshal Adelind Corbel in the passes, and the Wardens of the Last Wall at Thornwall Redoubt. For the first time, the north is not alone. {UNSEEN}',
    then=[lasting('Highmark turns north', 'ongoing',
                  "Empress Wendhild sends Highmark's armies north to hold the passes, with Wallwright engineers and the Wardens of the Last Wall.",
@@ -357,47 +357,47 @@ ev('troops-auvoth-614', f"time() != null && time() >= {T(614, 'Highsun', 10, 10)
                  "The Compact Council broke its own red line and let foreign troops inside Auvoth's walls to hold the city against the Tide.",
                  'Auvoth', ['Compact Council', 'Adventurer Guild', 'River Confederacy', 'Border Kingdoms'])])
 ev('troops-auvoth-614-scene', f"{window(T(614, 'Highsun', 10, 10), T(614, 'Highsun', 25))} && {at(['Auvoth Compact', 'River Confederacy: Bluewatch'])}",
-   "Soldiers march through the Outer Lamps under foreign banners, and Auvoth's people watch in silence. Guild wardens and Confederacy sergeants argue over who keeps the streets. Everyone is building, digging and stockpiling. The Pale Market sells weapons by the cartload.",
-   after='troops-auvoth-614')
+   "Soldiers march through the Outer Lamps under foreign banners, and Auvoth's people watch in silence. Guild wardens and Confederacy sergeants argue over who keeps the streets. Everyone is building, digging and stockpiling. The Pale Market sells weapons by the cartload.",)
 
 AUVOTH_LATE = T(614, 'Frostfall', 25, 4)
 AUVOTH_EARLY = T(614, 'Nightfall', 12, 4)
 FALL_CUE = ('The Tide reaches Auvoth. The city is evacuated down the Bluewatch road under the never-out lamps, then overrun. Guildmaster Hendrikje Laan governs the Guild in exile from Shorn. Seal-Captain Gurda Kelthul and her Sealwardens stay behind at the Seventh Seal Terrace to hold the seals. Bluewatch is abandoned, and its signal tower burns as the last warning.')
 FALL_SUMMARY = ('The Tide overran Auvoth after its evacuation. The Guild governs in exile from Shorn. The Sealwardens stayed behind to hold the seals. Bluewatch was abandoned.')
-ev('auvoth-falls-early', f"time() != null && time() >= {AUVOTH_EARLY} && {since('Highmark crowns Emperor Corvin')}",
+LOST = 'Auvoth under the Tide'
+ev('auvoth-falls-early', f"time() != null && time() >= {AUVOTH_EARLY} && {since(REIGN['corvin'])} && !{since(LOST)}",
    f'With Highmark\'s armies gone south, the north cannot hold, and the Tide comes early. {FALL_CUE}',
-   then=[lasting('Auvoth is lost', 'resolved', FALL_SUMMARY, 'Auvoth', ['Adventurer Guild', 'Order of the Sealwardens', 'Compact Council'], keep=True)])
-ev('auvoth-falls', f"time() != null && time() >= {AUVOTH_LATE} && !{since('Auvoth is lost')}",
+   then=[lasting(LOST, 'ongoing', FALL_SUMMARY, 'Auvoth', ['Adventurer Guild', 'Order of the Sealwardens', 'Compact Council'], keep=True)])
+ev('auvoth-falls', f"time() != null && time() >= {AUVOTH_LATE} && !{since(LOST)}",
    FALL_CUE,
-   then=[lasting('Auvoth is lost', 'resolved', FALL_SUMMARY, 'Auvoth', ['Adventurer Guild', 'Order of the Sealwardens', 'Compact Council'], keep=True)])
-ev('auvoth-evacuation-scene', f"time() != null && {since('Auvoth is lost')} && !{since('Auvoth is lost', 7 * DAY)} && {at(['Auvoth Compact', 'River Confederacy: Bluewatch', 'Shornmarch'])}",
+   then=[lasting(LOST, 'ongoing', FALL_SUMMARY, 'Auvoth', ['Adventurer Guild', 'Order of the Sealwardens', 'Compact Council'], keep=True)])
+ev('auvoth-evacuation-scene', f"time() != null && {since(LOST)} && !{since(LOST, 30 * DAY)} && {at(['Auvoth Compact', 'River Confederacy: Bluewatch', 'Shornmarch'])}",
    'The evacuation of Auvoth: an endless line of carts, wounded, adventurers and clerks carrying the Guild\'s registers down the Bluewatch road, with the northern sky flickering behind them. Sealwardens stand at the Terrace gates with lamps, not leaving. Whoever is still in the city must run, fight, or stay with them.')
-ev('auvoth-ruins-visit', f"time() != null && {since('Auvoth is lost', 8 * DAY)} && {at(['Auvoth Compact', 'River Confederacy: Bluewatch'])}",
+ev('auvoth-ruins-visit', f"time() != null && {since(LOST, 31 * DAY)} && {at(['Auvoth Compact', 'River Confederacy: Bluewatch'])}",
    "The north is the Tide's now. Auvoth's walls stand, but the city is overrun and wrong: frost on stone in summer, beasts in the Pale Market, storms that walk. Only at the Seventh Seal Terrace does a light still burn, where the Sealwardens hold the seals. Coming here is a death sentence for most.")
-news('auvoth-falls-news', None, 'Auvoth is lost', 7, BELT,
+news('auvoth-falls-news', None, LOST, 7, BELT,
      "Auvoth has fallen. The Guild's city is evacuated and overrun, and the Guild governs from Shorn. People say the Sealwardens stayed behind with their lamps. Every road south is full of refugees, and every crown is suddenly listening to the Guild.")
-news('auvoth-falls-news-far', None, 'Auvoth is lost', 25, SOUTH + WEST + SEA,
+news('auvoth-falls-news-far', None, LOST, 25, SOUTH + WEST + SEA,
      "News that silences taverns even here: Auvoth, the Guild's city, has fallen to the Tide in the north. Contract prices everywhere double, and the Guild is calling in every member in good standing.")
 
 # === CY 615: the Last Wall ===========================================================================================
-LW = T(615, 'Frostfall', 21, 4)
+HELD = 'The Tide held at the Last Wall'
 LAST_WALL = {
     'wendhild': "Empress Wendhild's armies hold the passes behind them, and the Wardens stand in front.",
     'corvin': "Emperor Corvin's regiments are in the south, and the Wardens hold almost alone, with Border levies and whatever the Guild can send.",
     'hasse': "The Wardens never knelt to Emperor Hasse; they hold the Wall 'for the Dawn-King's blood, not for him', and his regiments fight beside them without a word.",
 }
 for win, line in LAST_WALL.items():
-    ev(f'last-wall-{win}', f"time() != null && time() >= {LW} && {since(f'Highmark crowns {CROWNED[win]}')}",
+    ev(f'last-wall-{win}', f"time() != null && time() >= {LW} && {since(REIGN[win])} && !{since(HELD)}",
        f'The Tide reaches the Last Wall, the northern roads above Thornwall Redoubt. {line} Lord-Commander Ottwald, Dame Ermengild and Sir Volkmar "the Old Stone" fall with the Wardens of the Last Wall, until the last stone. The Tide is held there, at that cost. {UNSEEN}',
-       then=[lasting('The Last Wall holds', 'resolved',
+       then=[lasting(HELD, 'ongoing',
                      'The Wardens of the Last Wall held the northern roads above Thornwall Redoubt until the last stone. Lord-Commander Ottwald, Dame Ermengild and Sir Volkmar fell with the order. The Tide was held there.',
                      'Thornwall Redoubt', ['Wardens of the Last Wall', 'Highmark Empire'], keep=True)])
-ev('last-wall-scene', f"time() != null && {since('The Last Wall holds')} && !{since('The Last Wall holds', 10 * DAY)} && {at(HIGHMARK + ['Border Kingdoms', 'Shornmarch', 'River Confederacy: Bluewatch'])}",
+ev('last-wall-scene', f"time() != null && {since(HELD)} && !{since(HELD, 30 * DAY)} && {at(HIGHMARK + ['Border Kingdoms', 'Shornmarch', 'River Confederacy: Bluewatch'])}",
    "The Last Wall: a broken road under black ice, the Wardens' banners still up over heaps of stone and dead things. The Tide has stopped here and does not move. Survivors carry Sir Volkmar's shield south. Everyone who stood there is a legend now, and everyone who did not wants to be told about it.")
-news('last-wall-news', None, 'The Last Wall holds', 14, ALL,
+news('last-wall-news', None, HELD, 14, ALL,
      'News that the world will remember: the Wardens of the Last Wall are gone, every one, and the Tide is held at their wall. In every Highmark town, bells ring for Lord-Commander Ottwald, Dame Ermengild and Sir Volkmar. "Until the last stone" is chalked on doors.')
 
-ev('after-wall-616', f"time() != null && {since('The Last Wall holds', 90 * DAY)}",
+ev('after-wall-616', f"time() != null && {since(HELD, 90 * DAY)}",
    f'After the Last Wall, a new frontier runs south of Bluewatch and the Border Kingdoms. Refugee Frostbound and White-Horn clans settle where crowns let them, the Guild rules from Shorn, and the Depths lie behind the Tide. Some nights, from the Shorn walls, a single lamp can still be seen burning far to the north. {UNSEEN}',
    then=[lasting('After the Last Wall', 'ongoing',
                  'A new frontier runs south of Bluewatch and the Border Kingdoms. Refugee clans settle where they can, and the Guild rules from Shorn. The Sealwardens\' lamp still burns at the Seventh Seal Terrace.',
@@ -407,14 +407,35 @@ ev('after-wall-616', f"time() != null && {since('The Last Wall holds', 90 * DAY)
 CLAIMANTS = ['wendhild', 'corvin', 'hasse']
 SIZE = {'type': 'enum', 'values': ['small', 'great']}
 WHO = {'type': 'enum', 'values': CLAIMANTS}
+G = lambda field: ['get', [field]]
+SET = lambda field, value: [{'op': 'set', 'path': [field], 'value': value}]
+# Who is least (a tie breaks against the later name in the plain order: Wendhild, Corvin, Hasse) and who wins each pair
+# (a tie goes to the earlier name).
+RULES = [
+    {'id': 'least-hasse', 'when': ['and', ['le', G('hasse'), G('wendhild')], ['le', G('hasse'), G('corvin')]], 'then': SET('least', 'hasse')},
+    {'id': 'least-corvin', 'when': ['and', ['lt', G('corvin'), G('hasse')], ['le', G('corvin'), G('wendhild')]], 'then': SET('least', 'corvin')},
+    {'id': 'least-wendhild', 'when': ['and', ['lt', G('wendhild'), G('corvin')], ['lt', G('wendhild'), G('hasse')]], 'then': SET('least', 'wendhild')},
+    {'id': 'wc-wendhild', 'when': ['ge', G('wendhild'), G('corvin')], 'then': SET('wc', 'wendhild')},
+    {'id': 'wc-corvin', 'when': ['gt', G('corvin'), G('wendhild')], 'then': SET('wc', 'corvin')},
+    {'id': 'wh-wendhild', 'when': ['ge', G('wendhild'), G('hasse')], 'then': SET('wh', 'wendhild')},
+    {'id': 'wh-hasse', 'when': ['gt', G('hasse'), G('wendhild')], 'then': SET('wh', 'hasse')},
+    {'id': 'ch-corvin', 'when': ['ge', G('corvin'), G('hasse')], 'then': SET('ch', 'corvin')},
+    {'id': 'ch-hasse', 'when': ['gt', G('hasse'), G('corvin')], 'then': SET('ch', 'hasse')},
+]
 SUCCESSION = {
     'slug': 'succession', 'name': 'Court favour', 'schema': 1, 'stateVersion': 1, 'scope': 'chat',
     'prompt': ("Highmark's court: how much favour each claimant to the throne holds (Princess Wendhild, Prince Corvin, "
                "Lord-General Hasse). Write a line only when the player's own deeds clearly win or cost a claimant support at "
                "court or in the field; never for news alone."),
     'state': {'wendhild': {'type': 'int', 'min': 0, 'max': 100, 'default': 40},
-              'hasse': {'type': 'int', 'min': 0, 'max': 100, 'default': 35},
-              'corvin': {'type': 'int', 'min': 0, 'max': 100, 'default': 25}},
+              'corvin': {'type': 'int', 'min': 0, 'max': 100, 'default': 35},
+              'hasse': {'type': 'int', 'min': 0, 'max': 100, 'default': 25},
+              # Kept by the rules below, never by a line or an edit: read by the world's events (no kind writes them).
+              'least': {'type': 'enum', 'values': CLAIMANTS, 'default': 'hasse', 'edit': False, 'label': 'Least favoured'},
+              'wc': {'type': 'enum', 'values': ['wendhild', 'corvin'], 'default': 'wendhild', 'edit': False, 'label': 'Wendhild or Corvin'},
+              'wh': {'type': 'enum', 'values': ['wendhild', 'hasse'], 'default': 'wendhild', 'edit': False, 'label': 'Wendhild or Hasse'},
+              'ch': {'type': 'enum', 'values': ['corvin', 'hasse'], 'default': 'corvin', 'edit': False, 'label': 'Corvin or Hasse'}},
+    'rules': RULES,
     'rewards': {
         'support': {'bindings': {'claimant': WHO, 'size': SIZE},
                     'values': {'amount': {'binding': 'size', 'table': {'small': {'min': 2, 'max': 4, 'pick': 'midpoint'}, 'great': {'min': 6, 'max': 12, 'pick': 'midpoint'}}}},

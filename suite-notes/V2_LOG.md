@@ -2217,3 +2217,20 @@ MERGED testkit RB #118, SD #115, NSD #205.
   (companions who join: narrator line `+ party Name | about | class | best`, setting Ask (reply card) / Automatically /
   Off; `- party Name` marks them Left). Test ST bc270 running on 8155 (pid in bc270/live/st.pid), extensions at SB
   f182f2c / SD 04e7a44.
+- 31 Oct: USER: "chat cannot proceed until PC available?" → chose "Hold the first send"; Blocks → "Manage in Suite
+  settings" (no Blocks tab in the Game view). Mockup v10 (sections 7b, 9) published; USER: "proceed with the mock up" →
+  briefs R6 (sections 7, 7b, 8: Home card, persona description, hold first send, companions who join Ask/Auto/Off) and
+  BK (section 9) → agents R6 (stage20/rpg-r6) and BK (stage20/blocks-settings) launched.
+- 31 Oct: REVIEW 169 (Ersveil 2.2.0 b3e4ed0): BLOCK 4 — B1 defaults swapped (lead had changed 40/35/25 order without
+  approval); B2 battle/crown variants not exclusive after favour changes; B3 resolved chronicle entries pruned at 30 →
+  Last Wall stalls / Auvoth falls twice; B4 after-linked scene expires on a long reply. Lead fix 4147451: approved
+  defaults; module rules keep least/wc/wh/ch (visible, edit:false — hidden fields refused by the checker because the
+  kinds' bound paths count as computed writes) so conditions fit 500 chars; ongoing markers (war pairs, reigns, Auvoth
+  under the Tide, Tide held at the Last Wall) + sibling guards + windows; scenes without `after`; keep only on open
+  entries; Sparrow/Quiet Hour caseSensitive; 136 events. Real-host reproducer (with SD main) passes all 5 cases;
+  suite 3976 pass / 0 fail. Re-check 170 queued READY.
+- 31 Oct: agent U done, stage20/settings-fixes 2eea6cb: Money "What the story may pay" card + every per-reply cap
+  removed (coin, goods worth, item counts, new kinds, notable key item); inventory.storyBudget query kept (budget/left
+  null); old capped chats replay as written (2 new fixtures); history-main fixture updated (ops lost cap fields).
+  Slider blue box NOT reproduced in real ST 1.19.0/Chromium; defensive !important on the slider input's background/
+  border/shadow/filter/outline (beats a theme's `input[type=range]` !important). Suite 3946 pass / 0 fail.

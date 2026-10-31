@@ -20,7 +20,8 @@ Accounts (USER, 28 Oct): A out of credit, resets at 17:25 UTC; B has quota now (
 Accounts (USER, 29 Oct ~14:20 UTC): both out. A resets 00:51 SGT 30 Oct = 16:51 UTC 29 Oct (use from 16:52 UTC); B resets 01:58 SGT 30 Oct = 17:58 UTC 29 Oct (use from 17:59 UTC). Run 152 on A at 16:52 UTC.
 
 Order (run top to bottom):
-ST79. 169 — READY — LEAD GO-AHEAD (31 Oct): review of Ersveil 2.2.0 (Story Block 2.8.1), Story_block stage19/ersveil-2.2.0 at b3e4ed0. Account A; a fresh session. Prompt vm-jobs/169-prompt.txt.
+ST80. 170 — READY — LEAD GO-AHEAD (31 Oct): re-check of Ersveil 2.2.0 after review 169, Story_block stage19/ersveil-2.2.0 at 4147451. Account A (or B); a fresh session. Prompt vm-jobs/170-prompt.txt.
+ST79. 169 — DONE (BLOCK 4, vm-results/169.md). WAS: READY — LEAD GO-AHEAD (31 Oct): review of Ersveil 2.2.0 (Story Block 2.8.1), Story_block stage19/ersveil-2.2.0 at b3e4ed0. Account A; a fresh session. Prompt vm-jobs/169-prompt.txt.
 ST78. 168 — DONE (HOLDS) → Story_studio#19. WAS: READY — LEAD GO-AHEAD (31 Oct): FINAL Studio AI writing help re-check (raised blocker bar), Story_studio stage17/ai-write at 2443686. Account B; a fresh session. Prompt vm-jobs/168-prompt.txt.
 ST77. 167 — DONE (HOLDS) → Story_block#225. WAS: READY — LEAD GO-AHEAD (31 Oct): FINAL RPG re-check (raised blocker bar), Story_block stage16/lean-rpg at 52fe068. Account A; a fresh session. Prompt vm-jobs/167-prompt.txt.
 ST76. 166 — DONE (BLOCK 1, vm-results/166.md). WAS: READY — LEAD GO-AHEAD (31 Oct): RPG re-check of the review-164 fix, Story_block stage16/lean-rpg at 8f6321e. Account A; a fresh session. Prompt vm-jobs/166-prompt.txt.
