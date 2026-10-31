@@ -51,7 +51,8 @@ https://claude.ai/artifact/AJZkpqZigE5TvZRRh4jrMK (v3); AI writing help https://
   wearing/condition. SD delete-fuzz seed 19 fails on baseline ("Fenna is listed as present twice").
 - Replay (review 177): timeline-release-fuzz seeds 13/20 fail on main (cause unknown); a middle delete can bring back
   a name a later whole-list present replace wrote; old checkpoint after a skipped block keeps the stale outcome.
-- Pack checker doesn't parse event `when` conditions (an apostrophe in a quoted name went unnoticed until a test).
+- (done 2.11.3) Pack checker parses event `when`. Follow-ups: Packs panel shows all event errors of a stored pack;
+  kit note on `when` syntax; sync Studio's vendored Story Block to 2.11.3.
 - Ersveil: split news events can repeat the same bulletin when the player moves between region groups; Ardelia deadlocks (outline said elects).
 - RPG: a reply where the story changes nothing doesn't settle the death check (it waits for the next reply with lines).
 - RPG: an optional real-host integration test for review 166 (rollPrepared wiring + narrator request).
