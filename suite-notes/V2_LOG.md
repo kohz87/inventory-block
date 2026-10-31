@@ -2071,3 +2071,8 @@ MERGED testkit RB #118, SD #115, NSD #205.
   blocks shown but not read by the planner, B7 plan kept if RPG is switched off mid-generation, B8 Reset races the
   focusout save. Suite 3933 pass (6 sandbox fails, known). Decisions in rpg-briefs/R5.md (B6: role blocks chat-only).
   Agents A5 (B2 B3 B6) and B5 (B1 B4 B5 B7 B8) launched.
+- 31 Oct: agent A5 done, `stage16/rpg-fix5a` 7a760be (3960 pass / 0 fail; fuzz-replay 100 seeds clean): B2
+  `settleReserve` (one root per reply-end subject + visits counted from the block's own functions, ≤2048; 8 stock
+  Characters leave the story room), B3 role-character end cards rank first, B6 checker refuses `role` on character
+  scope ("A block with a role belongs to the chat…"). Saved character-scoped role blocks can't exist (never
+  released). Waiting for B5.
