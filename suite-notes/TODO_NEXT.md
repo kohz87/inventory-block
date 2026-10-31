@@ -27,6 +27,9 @@ https://claude.ai/artifact/AJZkpqZigE5TvZRRh4jrMK (v3); AI writing help https://
 | L | UI redesign mockups | lead / agents | — | USER item 2 |
 
 ## Small follow-ups (any time)
+- 2.9.0 (review 171): refuse `- party` on the player's own character; a character made on the greeting is lost if the greeting is swiped (pre-existing); Home card lingers after turning the RPG off until Home redraws; old capped reply Re-read now pays in full (CHANGELOG could say).
+- Pack checker doesn't parse event `when` conditions (an apostrophe in a quoted name went unnoticed until a test).
+- Ersveil: split news events can repeat the same bulletin when the player moves between region groups; Ardelia deadlocks (outline said elects).
 - RPG: a reply where the story changes nothing doesn't settle the death check (it waits for the next reply with lines).
 - RPG: an optional real-host integration test for review 166 (rollPrepared wiring + narrator request).
 - RPG: class-up note weight; names no cut can separate; the rank-0 death card distinguishes only the character role;

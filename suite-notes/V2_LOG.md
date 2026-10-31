@@ -2255,3 +2255,9 @@ MERGED testkit RB #118, SD #115, NSD #205.
   merge blocks-settings (module.test.js conflict resolved: no storyCoinPerReply, no blocks screen) + R6 (RPG.md
   conflict: Settings → Blocks wording) + 2.9.0 bump/CHANGELOG → 7fe84c5. Suite 4017 pass / 0 fail; fuzz 40 clean.
   Release review 171 (Claude reviewer) launched.
+- 31 Oct: RELEASE REVIEW 171 (Claude reviewer, 2.9.0 7fe84c5): HOLDS. Follow-ups: a character made while the greeting is
+  the head disappears if the greeting is swiped (pre-existing; the Home card makes it likelier); `- party <player>`
+  marks the player Left (no reader undo but a swipe) → should refuse the You character; Re-read of an old capped reply
+  pays the written amount; the Ask default adds the party grammar line to existing RPG chats (one cache break); the Home
+  card lingers if the RPG is turned off while Home is open; no real-browser pass by the reviewer (the agents did one).
+  PR opened for 2.9.0.
