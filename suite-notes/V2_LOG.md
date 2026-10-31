@@ -2013,3 +2013,9 @@ MERGED testkit RB #118, SD #115, NSD #205.
   stock Character (death only via the latch); B12 end cards first. Fix round R4 (brief rpg-briefs/R4.md): agent A4
   engine side (B1 B2 B6 B7 B8 B12 + fuzz-replay `deleteSwipe` bug) and agent B4 rolls/views side (B3 B4 B5 B9 B11
   B13 B14 B15 B16), both on 9228472. Review 157 (round 3) still running; its findings join R4 or a short R5.
+- 31 Oct: REVIEW 157 (Sonnet, fresh; round 3 c9ba353..9228472): BLOCK 1 — combat-text edits via `dm.redefine` keep
+  every old definition pinned, so after 8–13 edits the 16-pin cap refuses all block actions (wizard included);
+  replay rule, rename, planner note, extraSections and the foe pencil checked fine. Follow-ups F1 unsaved text on
+  Escape, F2 old class-up notes show today's +N, F3 stale definition on save (modal; accepted), F4 "Player's" vs
+  "reader". Result vm-results/157.md. B17 (prune on redefine if replay-safe) sent to A4; plain refusal + F1, F2,
+  F4 sent to B4.
