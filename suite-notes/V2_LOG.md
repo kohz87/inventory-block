@@ -1899,3 +1899,5 @@ MERGED testkit RB #118, SD #115, NSD #205.
   party setup; F2 every role block gets its own tab (7 extra tabs). Follow-up (pre-existing 2.7.2): chooser says
   "1 buttons". Battle log not checkable live (no model connection); covered by B's DOM tests. Fix round: agent F
   (Sonnet), brief rpg-briefs/F.md.
+- 31 Oct 04:30 UTC: lead looked at the built Studio Timeline (dist from 3b128bf, Ersveil pack): list and form match
+  mockup v3. Queued VM review 154 (READY) for both Timeline branches. RPG review waits for agent F's fix round.

@@ -1,0 +1,13 @@
+REVIEW 154 (READ-ONLY toward GitHub, except committing your result file): the Story Suite Timeline build. Fresh session, fresh clones.
+Two branches, one review:
+- kohz87/Story_director `stage16/chronicle-lasting` at 632835c vs main 46ee03e: the command `chronicle.lasting`, the lock, keep-in-mind, the query `chronicle.passed`, the Journal path.
+- kohz87/Story_studio `stage16/timeline` at 3b128bf vs main 0df2d52: the Timeline view and event form, condition writing/reading, Lasting change, "N days after", the lasting caps check, the rebuilt dist.
+Spec: suite-notes/SPEC_TIMELINE.md in kohz87/inventory-block branch claude/hopeful-babbage-tipaw8 (§1 is the interface; note the correction: delays use `chronicle.passed`, because the condition language has no `+`). Approved mockup: https://claude.ai/artifact/AJZkpqZigE5TvZRRh4jrMK (you may not be able to open it; the spec and the agents' reports in suite-notes/V2_LOG.md, 31 Oct, describe it).
+Look hardest at:
+1. SD: only a pack event (`ctx.caller` starting `event:`) can run `chronicle.lasting`; live = rebuild = reload; swipe and delete take the entry back; the lock cannot be bypassed by a reply's `world` line (state or name) but the reader can; keep-in-mind never exceeds 2 or the pick cap of 3; old chats/saves byte-identical; `chronicle.passed` false while the entry, its `since` or the clock is missing.
+2. Studio: every condition Studio writes parses with Story Block's real condition parser and means what the preview says (date maths vs Story Block's time(), place/region query shape, delays); a condition Studio did not write is kept byte for byte; existing packs load and export unchanged; the rename that rewrites dependants is one undo step and cannot corrupt ids; the caps check matches SPEC §1.
+3. End to end: an Ersveil-like pack with an event whose `then` runs `chronicle.lasting` and a second event `after` it with `chronicle.passed` fires on the right story day through Story Block's runtime (SD's vendored kit is fine).
+A BLOCKER is a real path a writer, reader or story can hit, with a repro. Pre-existing behaviour on main is a follow-up, not a blocker.
+Run on Node 24 in each repo: npm run check; full suite (individual counts); git diff --check. Studio browser tests: never run `playwright install`; use the preinstalled browser as the repo's tests describe.
+Verdict line: HOLDS or BLOCK n.
+Write vm-results/154.md (verdict, blockers with repro and file:line, notes, counts) and commit it to inventory-block claude/hopeful-babbage-tipaw8. Use model gpt-6.1-terra with model_reasoning_effort=max.
