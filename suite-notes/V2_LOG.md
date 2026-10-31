@@ -1906,3 +1906,12 @@ MERGED testkit RB #118, SD #115, NSD #205.
   place of the cards, rank pill + "+N to rolls", practice bar "N / 100 to <next rank>" (Master full, green,
   "Mastered"), an empty-slot line, a pencil per skill, Back to the party; desktop 2 per row, phone stacked. Script
   scratchpad/mock-rpg/mock4.mjs. Awaiting approval; F2 currently sends Skills to the Blocks page until then.
+- 31 Oct: USER asked for a character creation wizard with a skills step (add skills with a description, or use a
+  template). RPG mockup v5 (same URL): section 4 "New character" in SB's real `.ss-dialog` (wide), approved wizard
+  layout (summary row on top, card grid): steps Who (name from persona, you/companion, "Who they are" ≤240 the AI
+  reads) · Stats (the Spend points view) · Skills (template cards: 5 built in + pack-provided, e.g. Ersveil
+  "Sealwarden recruit"; up to 5 rows of name + "What it does" ≤120 + starts at Novice/Adept, one Adept) · Review →
+  Create makes the Character and Skills blocks in one go. Section 3 Skills view now shows each skill's description.
+  Data changes if approved: Character `about` (text 240); Skills `about1..5` (text 120); learn-N sets name + about;
+  skill-set templates in lean-rpg (built in) and a pack `skillSets` list (Studio later). Shot over a hidden chat (the
+  Glass dialog is see-through in headless shots). Scripts mock-rpg/mock4.mjs, mock5.mjs. Awaiting approval.
