@@ -2154,3 +2154,13 @@ MERGED testkit RB #118, SD #115, NSD #205.
 - 31 Oct ~09:31 UTC: RELEASED Story Studio 0.4.0 (Write timeline events with an AI): kohz87/Story_studio#19 merged
   (merge commit 061ca41) after green CI (verify). Check-in cancelled; both PRs unsubscribed by merge. TODO_NEXT.md
   rewritten: nothing in flight; next K (needs the USER's big beats), S (vendored SB re-sync to 2.8.0, test-only), P4.
+- 31 Oct: USER: re-sync with Sonnet → agent S: vendored SB 2.8.0 (f182f2c) on stage18/sync-sb-2.8.0 (test-only):
+  SD 818e426 (948 pass/0 fail, = main), NSD 2f28393 (1506 pass/5 cancelled, = main; doc line; prompts untouched),
+  Studio 01adbff (sync-sb + build; 757/757 with Chromium; pins: assets version/closure 149/152, Ready message).
+  PRs: kohz87/Story_director#145, kohz87/npc_state_delta#225, kohz87/Story_studio#20; subscribed; merge on green CI.
+- 31 Oct: K discussion with USER (big beats): all four threads (seals weaken, a Third Abyssal Tide, politics and war,
+  underworld and uprising); open-ended (5+ years); the world moves and the player can step in; hidden until they fire
+  (rumours a few days before). Seals and Tide are SEPARATE. Endgame if nobody intervenes: the Tide is held at great
+  cost — major cities and an order with its heroes are lost. Big map changes allowed. First beat: a low-level monster
+  flood from the NORTHERN WILDZONE right after the first month (~Haywane 12, CY 611); the Depths themselves are held by
+  the elite adventurers. Floods recur as escalating waves. The Tide rises in the FAR NORTH.
