@@ -2113,3 +2113,14 @@ MERGED testkit RB #118, SD #115, NSD #205.
   fields can't be repaired one at a time in the form; "after" still guesses by slug / NFKC. Brief
   timeline-briefs/J2-FIX3.md (fail closed on old notes; never drop notes, group cut notes; check every delay unit;
   leave invalid optional lasting fields out with their note; exact names, case/spacing only). Agent J2d launched.
+- 31 Oct: agent J2d done, Studio `stage17/ai-write` db4846f: old/unknown note signatures fail closed; cut notes grouped
+  per field, MAX_NOTES 32, Add refuses rather than trims; every delay unit checked (two valid units: first counts, the
+  other noted); invalid optional lasting fields left out with their own note + accept; exact-name "after" (case and
+  spacing only; slug pin replaced). Suite 750/750 with Chromium; dist rebuilt. Lead spot-check: check ok, answer/
+  drafts/history tests 51/51, trailer correct. Accepted its calls (first delay unit counts; name/state stay in the
+  payload). Re-check 165 queued READY on B.
+- 31 Oct: RE-CHECK 164 (VM A, RPG f1855b0): BLOCK 3 — 163 a/b closed. B1: `statHidden` in the replay witness makes a
+  9f57e18-saved roll fail its guard; B2: the shorter check wording lets Re-read fit an extra round; B3: "has no DEX on
+  the sheet" names a skill's hidden stat. Lead's call on B1/B2: 9f57e18 was never released (main has no RPG), so its
+  saved rolls need no migration; still, the witness drops `statHidden` (numbers only) and the cue fit is measured on
+  the unredacted wording so visibility never changes the dice. B3 fixed with a stat-free refusal.

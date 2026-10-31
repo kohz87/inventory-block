@@ -1,0 +1,18 @@
+REVIEW RE-CHECK 165 (READ-ONLY toward GitHub, except committing your result file): Story Studio "Write timeline
+events with an AI", kohz87/Story_studio `stage17/ai-write` at db4846f (fixes on top of 80e9f83) vs main c0df9d1.
+Fresh session, fresh clone. Read vm-results/162.md (BLOCK 5) and suite-notes/timeline-briefs/J2-FIX3.md (the lead's
+decisions) in kohz87/inventory-block claude/hopeful-babbage-tipaw8. First confirm 162 findings 1–5 are closed, each
+with a test that fails without its fix. Then a regression-only pass over 80e9f83..db4846f (drafts.js note signatures
+and MAX_NOTES 32 with refusal at Add; grouped cut notes; every delay unit checked; invalid optional lasting fields
+left out with their own note and accept button; exact-name "after" matching by case and spacing only).
+Accepted calls (not blockers): two valid delay units → the first counts and the other gets a note with its own accept
+button; a wrong-type lasting `name` or `state` stays in the payload and is refused by the checker (fixed in Advanced
+JSON); a note with an unreadable saved signature and no accept button clears only by discarding the draft (corrupted
+storage only). Plus 162's accepted list: event names shown from ids lose capitals; a missing-parent note clears only
+when the draft follows an existing event; drafts cannot be added without browser storage (shown plainly); news length
+counted in UTF-16 units to match Story Block's checker (never splitting a character); `lasting: false` means none.
+Browser tests: if Chromium cannot start in your sandbox, say so and run the rest; the lead runs them here.
+A BLOCKER is a real path a writer can hit, with a repro. Run on Node 24: npm run check; full suite (counts);
+git diff --check; dist matches a fresh build.
+Verdict line: HOLDS or BLOCK n. Write vm-results/165.md and commit it to inventory-block claude/hopeful-babbage-tipaw8.
+Use model gpt-6.1-terra with model_reasoning_effort=max.
