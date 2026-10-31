@@ -2323,3 +2323,8 @@ MERGED testkit RB #118, SD #115, NSD #205.
   `.ss-w-rpg-wizard`; pre-existing since the wizard shipped). Lead fixed on stage23/wiz-gap ff35a9b as 2.9.3 (+ test);
   suite 4052 pass / 0 fail. PR kohz87/Story_block#230; subscribed. USER asked about equipment: Inventory has
   equipment items with Equip/Unequip, but the RPG dice don't read gear (no weapon/armour bonus).
+- 31 Oct ~15:06 UTC: RELEASED Story Block 2.9.3: kohz87/Story_block#230 merged (merge commit 0a0254d) after green CI.
+  Unsubscribed; check-in cancelled.
+- 31 Oct: USER: gear needs no attack/defence numbers, just stat bonuses (everything rolls off stats). Lead agreed;
+  open points: +2 to +4 sizing (half rule halves it), allow past the 20 cap, points stay separate (card "AGI 15 +2").
+  Offered a mockup; waiting on the USER.

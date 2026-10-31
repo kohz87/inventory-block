@@ -24,7 +24,9 @@ https://claude.ai/artifact/AJZkpqZigE5TvZRRh4jrMK (v3); AI writing help https://
 | ~~N~~ | RELEASED 31 Oct: Story Block 2.9.0 (#227): RPG new chat / held first send / companions who join, Blocks in Suite settings (+ Hidden), Money cap removed, slider hardening | — | — | — |
 | ~~2.9.1~~ | RELEASED 31 Oct: Story Block 2.9.1 (#228, f81e052): Create sets up Combat rules/Foes, +3 points per Soul Class, defence skills, "full above 10", Soul Class field name | — | — | — |
 | ~~2.9.2~~ | RELEASED 31 Oct: Story Block 2.9.2 (#229, 224f7c9): wizard Stats step keeps "Points left" out after a click | — | — | — |
-| S2 | Re-sync vendored Story Block (test-only) in SD/Studio/NSD to 2.9.2 | Sonnet | ~1 h | USER go |
+| ~~2.9.3~~ | RELEASED 31 Oct: Story Block 2.9.3 (#230, 0a0254d): wizard summary row spacing | — | — | — |
+| G | Gear = stat bonuses (equipped items add to stats) | lead mockup, then Sonnet | — | USER says draw it |
+| S2 | Re-sync vendored Story Block (test-only) in SD/Studio/NSD to 2.9.3 | Sonnet | ~1 h | USER go |
 | ~~S~~ | DONE 31 Oct: vendored Story Block 2.8.0 in SD (#145), Studio (#20), NSD (#225) | — | — | — |
 | P4 | P4 trim: lazy-load the pack checker, Diagnostics, UI sample | Haiku or Sonnet | ~½–1 day | Any time |
 | L | UI redesign mockups | lead / agents | — | USER item 2 |
