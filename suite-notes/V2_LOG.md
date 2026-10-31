@@ -2031,3 +2031,10 @@ MERGED testkit RB #118, SD #115, NSD #205.
   beside a long label on the CI fonts; 43.8 locally) → fixed in 22c76a0 (`flex:0 0 44px`), measured 44 px, suite
   green → CI green, mergeable clean → MERGED (merge commit): Story Studio 0.3.0 on main. TIMELINE RELEASED (SD 2.3.0 +
   Studio 0.3.0). Next for the Timeline: J2 mockup (AI writing help), then the big beats.
+- 31 Oct: J2 mockup published, https://claude.ai/artifact/EanYreZdULFAjKTf2reV2K (real Studio 0.3.0 Timeline +
+  Ersveil): "✦ Write with an AI" panel — 1 Ask (idea text; prompt built from the pack: calendar/start, regions and
+  places, factions and lore names, existing events, a JSON answer format with when on/after+days/any, where, news,
+  once, lasting; rules; Copy prompt / Save as .txt; readable prompt), 2 Paste + Check it (per-event ✓/⚠ with plain
+  reasons, same checks as the form + SD limits), 3 drafts on the Timeline (draft chip, dashed, out of the export
+  until Keep; a ⚠ draft can't be kept until fixed); plus docs/AI_PROMPT.md. Script scratchpad/mock-aiwrite/mock.mjs.
+  Awaiting approval.
