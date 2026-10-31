@@ -2437,3 +2437,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
 - 31 Oct ~18:03 UTC: RELEASED Story Director 2.5.0 (kohz87/Story_director#147, merge e149e54) and Story Block 2.11.0
   (kohz87/Story_block#233, merge 455c104) after green CI. Unsubscribed. Night queue now: Studio/vendored testkit sync
   (S2) waits on USER go; UI redesign waits on the USER's pick; the simplification work waits on approval.
+- 31 Oct ~18:10 UTC: lead's overnight calls (USER: proceed with recommended until 9am SGT): S2 vendored Story Block test-copy sync to 2.11.0 in SD/Studio/NSD (brief S2) and R13 small follow-up fixes (trip delay overlap, arrived cue, trip line order, SD fuzz seed 19, rank line partial accept) → SB 2.11.1 / SD 2.5.1. Two Sonnet agents launched.
