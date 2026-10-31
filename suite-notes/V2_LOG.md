@@ -2076,3 +2076,13 @@ MERGED testkit RB #118, SD #115, NSD #205.
   Characters leave the story room), B3 role-character end cards rank first, B6 checker refuses `role` on character
   scope ("A block with a role belongs to the chat…"). Saved character-scoped role blocks can't exist (never
   released). Waiting for B5.
+- 31 Oct: agent B5 done, `stage16/rpg-fix5b` e5089ee: B1 readSheet honours prompt:false (hidden foe = "Foe N"; `alive`
+  still read), B4 old payloads use the old cue fit (`earlier` flag), B5 `shortNames` keeps cut names distinct, B7 plan
+  cleared regardless of the toggle, B8 serialised combat saves. MERGED A5 + B5 into stage16/lean-rpg (docs conflict
+  in RPG.md resolved by keeping both) → e85c250; suite 3956 pass / 0 fail; fuzz-replay 100×120 clean.
+- 31 Oct: agent J2b done, Studio `stage17/ai-write` 2b10310: all 9 of 159 fixed (20 failing-before tests): notes per
+  field, malformed fields → ⚠, control characters refused (every code unit < 0xA0 checked against SB's parser),
+  same-name after binds to the answer's own, ids unique across drafts + renameDraft, guarded conversions + depth
+  bound, 200,000-char paste / 30 places / 1 MiB drafts / rollback on failed save, whole prompt ≤24,000 with an
+  ordered trim, the finder skips "[1]". Accepted: missing-parent note clears only by following an existing event.
+- Queued for Codex: 160 (RPG, A, e85c250) and 161 (Studio AI writing help, B, 2b10310), both READY.

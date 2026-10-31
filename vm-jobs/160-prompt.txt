@@ -1,0 +1,14 @@
+REVIEW RE-CHECK 160 (READ-ONLY toward GitHub, except committing your result file): Story Block 2.8.0 RPG,
+kohz87/Story_block `stage16/lean-rpg` at e85c250 vs main c438975. Fresh session, fresh clone.
+Read vm-results/158.md (BLOCK 8 on 4ce3111) and suite-notes/rpg-briefs/R5.md (the lead's decisions; note B6: role
+blocks are chat-scoped only — the checker refuses `role` on character scope) in kohz87/inventory-block
+claude/hopeful-babbage-tipaw8. First confirm 158 B1–B8 are closed, each with a test that fails without its fix.
+Then a regression-only pass over 4ce3111..e85c250 (rounds 1–4 were covered by 155, 157 and 158).
+Known and recorded (not blockers): a reply with no accepted lines does not settle the death latch; block prompts are
+stored on one line; "1 buttons" in the chooser (pre-existing); remove-then-define still leaks a pin each cycle; a
+class-up note on a reply with no roll of its own shows the current class weight (display only); a name that no cut
+can separate is left uncut (cue may run over its 600-token target in that edge case, still pinned).
+A BLOCKER is a real path a reader, story or pack can hit, with a repro. Run on Node 24: npm run check; full suite
+(counts); git diff --check; scripts/fuzz-replay.mjs (300 seeds) and the data-module fuzz (200 seeds).
+Verdict line: HOLDS or BLOCK n. Write vm-results/160.md and commit it to inventory-block claude/hopeful-babbage-tipaw8.
+Use model gpt-6.1-terra with model_reasoning_effort=max.

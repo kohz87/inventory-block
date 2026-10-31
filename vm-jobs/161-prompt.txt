@@ -1,0 +1,13 @@
+REVIEW RE-CHECK 161 (READ-ONLY toward GitHub, except committing your result file): Story Studio "Write timeline
+events with an AI", kohz87/Story_studio `stage17/ai-write` at 2b10310 (fixes on top of fbf4637) vs main c0df9d1.
+Fresh session, fresh clone. Read vm-results/159.md (BLOCK 9) and suite-notes/timeline-briefs/J2-FIX1.md (the lead's
+decisions) in kohz87/inventory-block claude/hopeful-babbage-tipaw8. First confirm 159 B1–B9 are closed, each with a
+test that fails without its fix (the agent reports 20 such tests). Then a regression-only pass over fbf4637..2b10310.
+Known and accepted (not blockers): event names shown from ids lose capitals; a missing-parent note clears only when
+the draft follows an existing event; with browser storage unavailable (private window) drafts cannot be added (a
+failed save, shown plainly).
+Browser tests: if Chromium cannot start in your sandbox (EPERM), say so and run the rest; the lead runs them here.
+A BLOCKER is a real path a writer can hit, with a repro. Run on Node 24: npm run check; full suite (counts);
+git diff --check; dist matches a fresh build.
+Verdict line: HOLDS or BLOCK n. Write vm-results/161.md and commit it to inventory-block claude/hopeful-babbage-tipaw8.
+Use model gpt-6.1-terra with model_reasoning_effort=max.
