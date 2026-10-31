@@ -2462,3 +2462,9 @@ MERGED testkit RB #118, SD #115, NSD #205.
   (kohz87/Story_block#234, merge 98b0f57) after green CI. Unsubscribed. Brief R15 (SB 2.11.2: `~ place | with:` and
   the present pencil's `set` replay-safe; SB delete-fuzz seeds 6/9/22/27) and agent R15 launched.
 - 31 Oct: agent R15 done: SB stage27/replay 048117d (2.11.2: place with: and pencil set use ctx.unique; legacy rule: unmarked present appends treated unique on replay, so old skipped blocks are kept; delete-fuzz seeds 6/9/22/27 were a fuzz-model bug (echoed stray line counted once by splitEchoes) → dropEcho). 4097 pass (one pin fixed after, not rerun in full); fuzz 30 clean; state 30/30; delete 30/30. timeline-release-fuzz seeds 13/20 fail on main too (follow-up). Release review 177 launched (focus: the legacy rule).
+- 31 Oct: RELEASE REVIEW 177 (Claude, SB 048117d 2.11.2): HOLDS. 4098/0, fuzz 30 clean, state/delete 39/39, delete
+  seeds 1–30 30/30; legacy rule: ~10,300 old-chat loads (main/2.10.0/2.9.4) with 0 unexplained changes, only skipped
+  blocks now kept; dropEcho models capture correctly. Follow-ups: an old chat with a checkpoint after a skipped block
+  keeps the old outcome until a replay from before it; timeline-release-fuzz seeds 13/20 fail on main (cause unknown);
+  a middle delete can bring back a name a later whole-list replace wrote (all versions); case variants keep the first
+  spelling. PR opened.

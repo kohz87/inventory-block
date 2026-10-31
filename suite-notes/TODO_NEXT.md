@@ -49,6 +49,8 @@ https://claude.ai/artifact/AJZkpqZigE5TvZRRh4jrMK (v3); AI writing help https://
 - Trips/mounts (review 175): overlapping `~ trip delay` holds double-count the marker; no rest days; `~ trip` before
   `~ place`/`+ mount` in one reply; arrived cue at the start place. Your look (174): a rank line with no pack drops its
   wearing/condition. SD delete-fuzz seed 19 fails on baseline ("Fenna is listed as present twice").
+- Replay (review 177): timeline-release-fuzz seeds 13/20 fail on main (cause unknown); a middle delete can bring back
+  a name a later whole-list present replace wrote; old checkpoint after a skipped block keeps the stale outcome.
 - Pack checker doesn't parse event `when` conditions (an apostrophe in a quoted name went unnoticed until a test).
 - Ersveil: split news events can repeat the same bulletin when the player moves between region groups; Ardelia deadlocks (outline said elects).
 - RPG: a reply where the story changes nothing doesn't settle the death check (it waits for the next reply with lines).
