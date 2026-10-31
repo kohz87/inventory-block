@@ -2102,3 +2102,14 @@ MERGED testkit RB #118, SD #115, NSD #205.
   not read; hidden numbers/choices keep real values for the rules and are left out of the planner's sheet text; 2
   new tests fail without the fix; shape pins gained `hidden: []`; suite 3958 pass / 0 fail; fuzz-replay 60×120 clean.
   Re-check 163 queued READY for Codex A.
+- 31 Oct: RE-CHECK 163 (VM, RPG 9f57e18): BLOCK 2 — 160 closed; new: a skill's hidden stat was named in a check's
+  cue ("Silent Trick (DEX)"), and a hidden resource in the empty-resource refusal ("(Mana Empty)"). Lead fixed it
+  (f1855b0): `side()` marks `statHidden` (a skill's hidden stat, or a stat the character hides) and the cue leaves the
+  stat out ("Wessel — Silent Trick, normal" / "Wessel — check"); a hidden resource refusal reads "cannot use X now";
+  the best-stat note doesn't name a hidden stat. Rules unchanged. 3 new tests (review 163 a/b/c) fail without the
+  fix; suite 3961 pass / 0 fail / 10 skipped; fuzz-replay seeds 1–80 × 60 clean. Re-check 164 queued READY on A.
+- 31 Oct: RE-CHECK 162 (VM B, Studio 80e9f83): BLOCK 5 — 161's repros closed, open: old-shape saved note signatures
+  drop warnings; the 12-note cap drops warnings on reload; only the first delay unit is checked; two invalid lasting
+  fields can't be repaired one at a time in the form; "after" still guesses by slug / NFKC. Brief
+  timeline-briefs/J2-FIX3.md (fail closed on old notes; never drop notes, group cut notes; check every delay unit;
+  leave invalid optional lasting fields out with their note; exact names, case/spacing only). Agent J2d launched.

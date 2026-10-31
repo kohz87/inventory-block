@@ -20,8 +20,9 @@ Accounts (USER, 28 Oct): A out of credit, resets at 17:25 UTC; B has quota now (
 Accounts (USER, 29 Oct ~14:20 UTC): both out. A resets 00:51 SGT 30 Oct = 16:51 UTC 29 Oct (use from 16:52 UTC); B resets 01:58 SGT 30 Oct = 17:58 UTC 29 Oct (use from 17:59 UTC). Run 152 on A at 16:52 UTC.
 
 Order (run top to bottom):
-ST73. 163 — READY — LEAD GO-AHEAD (31 Oct): RPG re-check of the review-160 fix, Story_block stage16/lean-rpg at 9f57e18. Account A; a fresh session. Prompt vm-jobs/163-prompt.txt.
-ST72. 162 — READY — LEAD GO-AHEAD (31 Oct): re-check of Studio AI writing help fix round 2, Story_studio stage17/ai-write at 80e9f83. Account B; a fresh session. Prompt vm-jobs/162-prompt.txt.
+ST74. 164 — READY — LEAD GO-AHEAD (31 Oct): RPG re-check of the review-163 fix, Story_block stage16/lean-rpg at f1855b0. Account A; a fresh session. Prompt vm-jobs/164-prompt.txt.
+ST73. 163 — DONE (BLOCK 2, vm-results/163.md). WAS: READY — LEAD GO-AHEAD (31 Oct): RPG re-check of the review-160 fix, Story_block stage16/lean-rpg at 9f57e18. Account A; a fresh session. Prompt vm-jobs/163-prompt.txt.
+ST72. 162 — DONE (BLOCK 5, vm-results/162.md) → fix round J2d. WAS: READY — LEAD GO-AHEAD (31 Oct): re-check of Studio AI writing help fix round 2, Story_studio stage17/ai-write at 80e9f83. Account B; a fresh session. Prompt vm-jobs/162-prompt.txt.
 ST71. 161 — DONE (BLOCK 5, vm-results/161.md) on B. WAS: READY — LEAD GO-AHEAD (31 Oct): re-check of Studio AI writing help fixes, Story_studio stage17/ai-write at 2b10310. Account B; a fresh session. Prompt vm-jobs/161-prompt.txt.
 ST70. 160 — DONE (BLOCK 1, vm-results/160.md; run by a Claude reviewer after the Codex filter stopped it). WAS: READY — LEAD GO-AHEAD (31 Oct): RPG re-check after fix round 5, Story_block stage16/lean-rpg at e85c250. Account A; a fresh session. Prompt vm-jobs/160-prompt.txt.
 ST69. 158 — DONE (BLOCK 8, vm-results/158.md) on A. WAS: READY — LEAD GO-AHEAD (31 Oct): RPG re-check after fix round 4, Story_block stage16/lean-rpg at 4ce3111. Account A; a fresh session. Prompt vm-jobs/158-prompt.txt.
