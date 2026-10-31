@@ -2208,3 +2208,12 @@ MERGED testkit RB #118, SD #115, NSD #205.
 - 31 Oct: USER (testing 2.8.0): (1) Money page "What the story may pay" card still there; (2) sliders still show a blue
   block (Glass strength); (3) no prompt for a new character, and the PC should pull from the persona; (4) what is the
   Blocks tab for? Lead answered and asked (1) remove vs keep, (3) mockup first.
+- 31 Oct: USER decisions: (1) remove the Money "What the story may pay" card AND the cap → agent U (Sonnet,
+  stage20/settings-fixes) with (2) the slider blue-box fix reproduced in a real ST copy (port 8166). (3) "Home card +
+  persona" chosen; the Party tab already had "Create your character" and the persona name — new: a Home card when the
+  RPG is on and no character exists, and Who they are filled from the persona's description. USER also asked whether a
+  joining NPC/party member can be auto-created → proposal. RPG mockup v9 published
+  (https://claude.ai/artifact/Gn22FRyEzDvufqZDgdbR4R): section 7 (Home card, persona description), section 8
+  (companions who join: narrator line `+ party Name | about | class | best`, setting Ask (reply card) / Automatically /
+  Off; `- party Name` marks them Left). Test ST bc270 running on 8155 (pid in bc270/live/st.pid), extensions at SB
+  f182f2c / SD 04e7a44.
