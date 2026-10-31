@@ -1901,3 +1901,8 @@ MERGED testkit RB #118, SD #115, NSD #205.
   (Sonnet), brief rpg-briefs/F.md.
 - 31 Oct 04:30 UTC: lead looked at the built Studio Timeline (dist from 3b128bf, Ersveil pack): list and form match
   mockup v3. Queued VM review 154 (READY) for both Timeline branches. RPG review waits for agent F's fix round.
+- 31 Oct: USER asked for a Skills view mockup. RPG mockup v4 published at the same URL (Gn22FRyEzDvufqZDgdbR4R),
+  section 3: drawn in the real Party tab of the stage16/lean-rpg build (B's sheet styles, real ss.meter): skills in
+  place of the cards, rank pill + "+N to rolls", practice bar "N / 100 to <next rank>" (Master full, green,
+  "Mastered"), an empty-slot line, a pencil per skill, Back to the party; desktop 2 per row, phone stacked. Script
+  scratchpad/mock-rpg/mock4.mjs. Awaiting approval; F2 currently sends Skills to the Blocks page until then.
