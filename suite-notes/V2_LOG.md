@@ -2365,3 +2365,9 @@ MERGED testkit RB #118, SD #115, NSD #205.
   knows the current place and has a position (pack map or "[x, y]" in the location); a sub-place like a guild
   office isn't on Ersveil's map. Follow-up idea: a place not on the map falls back to its town's/region's position.
 - 31 Oct: USER approved mockup v12 (sections 11 text size, 12 your look): build both. Brief R9 (SB 2.10.0 on stage24/look-you, SD 2.4.0 on stage24/status-you). Agent R9 (Sonnet) launched.
+- 31 Oct: USER compared Megumin Suite's World_State block; lead mapped it (time/place/weather/coords, routes and
+  legs, agendas/events/hooks/clocks/secrets covered; missing: PC rank, position, mount, own trip line, NPC
+  outfit/position fields, arc/scene phase). USER: add rank + trip to 2.10? Mount as a companion card? Lead: Rank
+  fits 2.10 (third "You" line; mockup 12b, artifact v14, waiting on approval, then added to agent R9); the PC's trip
+  and mounts are Story Director work (trip state + pace) → their own release with a mockup; mounts as one "Mounts"
+  card (one block, up to 4) rather than companion Character blocks (2 of the 8 block slots each).
