@@ -2311,3 +2311,4 @@ MERGED testkit RB #118, SD #115, NSD #205.
   subscribed.
 - 31 Oct ~14:25 UTC: RELEASED Story Block 2.9.1: kohz87/Story_block#228 merged (merge commit f81e052) after green CI.
   Check-in cancelled; unsubscribed. Vendored SB test copies in SD/Studio/NSD are now three releases behind (2.8.0).
+- 31 Oct: USER: stop updating RB. Recorded as a standing rule in TODO_NEXT; nothing in flight touched it (RB support left the suite in SB 2.6.0, #220).
