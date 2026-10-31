@@ -1,0 +1,22 @@
+REVIEW 155 (READ-ONLY toward GitHub; write only your result file): Story Block 2.8.0 Lean RPG, kohz87/Story_block
+`stage16/lean-rpg` at c9ba353 vs main c438975 (2.7.2). Fresh clone.
+Specs: suite-notes/SPEC_RPG.md (§0 revision, §2R, §3), suite-notes/rpg-briefs/{COMMON,C,A,B,H,F,G,R2}.md, and the
+approved mockup https://claude.ai/artifact/Gn22FRyEzDvufqZDgdbR4R (v7: sections 0–5; section 6 is NOT approved yet,
+ignore it). The lead's decisions are in suite-notes/V2_LOG.md (31 Oct entries).
+Look hardest at:
+1. Feature off ⇒ byte-identical to 2.7.2: prompts, saves, RNG draws, hashes of existing data-module definitions
+   (interpreter-1 basis frozen), Assist behaviour; nothing of lean-rpg is imported.
+2. Replay safety of everything new: `rpg.resolve` (prelude list in turn.js, seeds, Re-read keeps dice, swipe/delete),
+   `dm.settle` (reply-end functions), the multi-field `dm.set`, the wizard's two `dm.define`s and rollback, cards
+   derived from head state; live = rebuild = reload; the per-reply action cap.
+3. The data-module checker additions (role, names, cards, replyEnd, prompt:false, roleTailTokens, the compact role
+   tail) — can a hostile pack or chat block break validation, hashing, the tail budget or the UI (markup injection)?
+4. The rolls: formula and outcome rule match the spec and the docs; skilled acts use the skill's stat; untrained
+   rolls; Empty resources; the pre-call's off paths and failure handling; parsing of the planner's answer.
+5. The views: Party, Spend points, Skills view, wizard, battle log (marker placement, history strip), Fight tab, the
+   tab rules, phone layout (sheets anchored with top, not fixed+bottom).
+A BLOCKER is a real path a reader, a story or a pack can hit, with a repro. Pre-existing behaviour on main and the
+lead's recorded decisions are follow-ups, not blockers.
+Run: npm run check; full suite with counts; git diff --check; the replay/data-module fuzz suites.
+Verdict line: HOLDS or BLOCK n. Write vm-results/155.md (verdict, blockers with repro and file:line, follow-ups,
+counts).

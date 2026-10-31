@@ -1963,3 +1963,13 @@ MERGED testkit RB #118, SD #115, NSD #205.
   +4) → Skills (Hedge mage) → Review → Create: `pack.chat/mara` + `pack.chat/mara-skills`, values as chosen; Party
   shows Mara; her Skills view matches mockup v6 (tones, roll line d20 +9, empty slots). 0 page errors. Launched fix
   round 2 (R2.md + item 4: measure the tail with a full party).
+- 31 Oct: agent R2 done, `stage16/rpg-fix2` 8e0bde8: foe lines Hit/Grazed/Blocked (foe total first), battle-log
+  bars by stage, Fight tab (foes role no own tab; pencil edits the foe's name), compact role tail (full party: RPG
+  tail 880 → 617 tokens; total sent 3571 → 3308; practice left out of the tail). MERGED c9ba353; suite 3863 / 0.
+- 31 Oct 05:51 UTC: VM never picked up 154 → MOVED TO CLAUDE: a Sonnet reviewer in a fresh session runs it. RPG
+  review prompt written as vm-jobs/155-prompt.txt (to run on the final head).
+- 31 Oct: USER approved mockup v8 and renamed the feature: "instead of lean RPG, just name it RPG". Brief
+  rpg-briefs/R3.md: the name everywhere a reader sees it + stored ids (story-block.rpg, rpgRolls, content.rpg,
+  rpgPlan) before release; Settings → RPG page (presets/custom numbers, live odds, recorded numbers per roll so
+  replays never change, the chat's combat text editable, planner note + read-only full prompt). RPG review waits for
+  R3's head.
