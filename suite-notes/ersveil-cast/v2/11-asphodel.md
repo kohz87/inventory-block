@@ -35,3 +35,7 @@
   * Threats: the collector and his hunters; binders; anyone who finds her flower; the Fairy Court's judgement.
   * Moral edge: she betrayed three fairies to save herself — would she again? The player decides who she becomes.
   * Romance mark (top stage): lets you hold her, true-sized, in your cupped hands.
+- Portrait (USER, ChatGPT): portraits/asphodel-original.png. Look details to match: long dark violet-black hair with a
+  braid; pointed ears with amethyst earrings; a pale lily-like asphodel behind one ear; violet eyes; translucent veined
+  wings under a dark purple gold-embroidered hooded cloak; a cream ruffled blouse, buckled leather corset, purple sash;
+  amethyst rings and pendant; a belt pouch; a moonlit harbor with ships and lanterns.
