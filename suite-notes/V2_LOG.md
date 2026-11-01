@@ -2817,3 +2817,10 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   masking). Briefs suite-notes/cast-briefs/. Story Studio cast editor needs its own mockup later.
 - 1 Nov: USER: secrets up to 4–5 layers. Generated: 2–5 layers by how deep the character is (cap 5); pack/reader
   secrets keep NSD's limit of 8. Injection over budget still nearest-to-opening first. Sent to CN2; CN2.md updated.
+- 1 Nov: Review K (Key people, SD 47c6a0d + NSD 2aea5c3 on SB 2.14.0): BLOCK, 2 blockers. B1 (NSD): a swipe of the
+  first reply after a return drops the return note (latestReplyIndex during a real swipe is the swiped reply).
+  B2 (SD): archiving/death of the ONLY dossier never unpins (empty npc.known read as "Delta off"). Everything else
+  held: byte-identity, cap/budget, kinds/tail, removal, replay x10 in testkit and real ST, browser desktop+phone.
+  Copy vm-results/183-key-people-review.md. Sent back: KA ← B2 + (5) .wv-facts !important regression, (3) death reads
+  "died", (4) dangling " ·", (8) wording, (2) static only while someone pinned (byte-identical otherwise), (7) match by
+  dossier id; (1) removal line on previous reply stays a follow-up. KB ← B1 + (6) manual Scan now must not hold.
