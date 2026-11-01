@@ -2599,3 +2599,8 @@ No version bumps by agents; lead releases (SB 2.12.0 first, then SD/NSD with req
   check 0, full test 4186 pass / 0 fail / 15 skip. Pushed. Reviews started (rv-ui1: SB + browser of all three, port
   8171; rv-ui2: SD + NSD, port 8172). Brief suite-notes/ui-briefs/REVIEW.md.
 - 1 Nov: USER "Go ahead" → lead stopped UD's leftover test ST (pid 3299, scratchpad/ud/config.yaml, port 8165).
+- 1 Nov: USER "Keep Lean at every 3 replies, go ahead": Lean keeps NSD scan-every-reply off (every 3 replies).
+  Fix-ups running: UF1 (SB stage29/ui-merge: owner `bar: true` flag instead of SD ids, presets clear stored value at
+  default, Blocks wording RPG-off, Story panel honours In the bar) and UF2 (SD stage29/ui-b: `bar: true` on
+  Quests/World/Map, render.test.js:243 for the merged card, bare HERE heading). Then release SB 2.12.0 → SD → NSD
+  (both require SB ≥2.12.0).
