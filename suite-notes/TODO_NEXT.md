@@ -33,7 +33,7 @@ https://claude.ai/artifact/AJZkpqZigE5TvZRRh4jrMK (v3); AI writing help https://
 | ~~S~~ | DONE 31 Oct: vendored Story Block 2.8.0 in SD (#145), Studio (#20), NSD (#225) | — | — | — |
 | P4 | P4 trim: lazy-load the pack checker, Diagnostics, UI sample | Haiku or Sonnet | ~½–1 day | Any time |
 | L | UI redesign — CLOSED 1 Nov: all proposals (v1–v5) rejected and deleted; current UI stays the baseline | lead | — | done |
-| L2 | Cleanup on today's UI: 1 scene header + 5 tabs, 2 one card per reply (both APPROVED), 3 Lean/Standard/Full, 4 NSD Expert fold (mockups up) | lead | — | USER approves 3–4, then briefs |
+| L2 | Cleanup on today's UI (1–4 approved): SB 2.12.0 RELEASED (#237); SD 2.6.0 #150, NSD 1.4.0 #227 in CI | lead | — | merge SD + NSD |
 
 ## Small follow-ups (any time)
 - 2.9.0 (review 171): refuse `- party` on the player's own character; a character made on the greeting is lost if the greeting is swiped (pre-existing); Home card lingers after turning the RPG off until Home redraws; old capped reply Re-read now pays in full (CHANGELOG could say).
@@ -82,3 +82,6 @@ https://claude.ai/artifact/AJZkpqZigE5TvZRRh4jrMK (v3); AI writing help https://
 - **RB = rpg_battle (USER, 31 Oct):** stop updating the rpg_battle extension (kohz87/rpg_battle). No work, syncs, reviews or pushes touch it.
 
 - U1 bugs (1 Nov): Director card grid overlap; phone NSD dossier modal too narrow; status strip on but empty; hero vitals hidden with RPG on; RPG-off leftover block tabs with duplicate names.
+- Follow-ups from the UI cleanup (1 Nov): SB still names SD ids in DEFAULT_HIDDEN/SUITE_NAV/icons/strings (ownership pass);
+  NSD 5 cancelled tests in storysuite-participant-selection (check on Node 24); phone dossier header translucent; Lean
+  tile text names SD's "world-building threads"; "Start" block in the first message (USER asked; offer mockup).

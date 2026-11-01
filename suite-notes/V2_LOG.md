@@ -2608,3 +2608,12 @@ No version bumps by agents; lead releases (SB 2.12.0 first, then SD/NSD with req
   three, World landed in 1f627d8; left as is). World "Here" heading hidden in the Game view with the scene lines.
   render.test.js status-card test passes on old and new SB card mounts (render cache keyed by template; checks each
   reply's closed summary too). Tests: vendored SB 995/993 pass/2 skip; with STORY_BLOCK_DIR=ui-merge 995/995.
+- 1 Nov: UF1 done — SB ui-merge 9e1df52: owner `bar: true` (no SD ids in the bar default), store clears a choice equal
+  to the default, Blocks wording RPG-off, Story panel strip honours In the bar (5 slots ≥398px wide). 4194 pass.
+  Remaining SD ids elsewhere in SB (DEFAULT_HIDDEN, SUITE_NAV, icons, strings…) are pre-existing → follow-up pass.
+- 1 Nov: **Story Block 2.12.0 released** — PR #237, merge f361c92 (head f3962a4: version in runtime/validate/manifest/
+  package + bootstrap/preflight tests, CHANGELOG). CI verify green. Local: 4194 pass / 0 fail / 15 skip.
+- 1 Nov: SD 2.6.0 PR #150 (stage29/ui-b 20e682e: requires >=2.12.0, vendored testkit → SB f3962a4, version, README,
+  CHANGELOG; 993 pass/0 fail/2 skip). NSD 1.4.0 PR #227 (stage29/ui-d d94e1ae: requires >=2.12.0, vendored testkit,
+  version markers incl. runtime-modules.json + DEVELOPMENT.md; 1515 pass/0 fail/5 cancelled pre-existing; compat +
+  smoke pass). Waiting on CI.
