@@ -2702,3 +2702,4 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   removed automatically when the dossier is archived or the person is dead (NSD status read by SD; SD-only: when the
   person's agenda ends with their death, or the reader unpins).
 - 1 Nov: USER: Key people limit adjustable ("some might find 2000 acceptable"): a Story Director setting for how many (default 10) and a token budget for their off-screen lines (default ~300, up to 2000); over budget → nearest return / latest change first, the rest kept but not told that reply.
+- 1 Nov: USER order: finish the formula release, Key people, encounters (cast + backdrop); THEN write the lore's heroines and heroes (Ersveil cast).
