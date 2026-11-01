@@ -2862,3 +2862,9 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   44px tap; desktop unchanged). Ersveil pack 2.3.0 with Fenna + Sera. Lead answers: Ersveil requires the cast release
   version (set at release); Data Maid caveat goes in the CHANGELOG; zip layout confirmed to ST (sent with limits and the
   head to vendor).
+- 1 Nov: CN2 done: NSD stage33/secrets 62c9dd6 (1554 tests, 1549 pass, 0 fail, 5 cancelled pre-existing). `when`
+  rule + scan event watch (present people, ≤6×3) + `npc.open` (story / by hand; `held` keeps a hand-shut note shut);
+  generated 2–5 layers in the dossier scan (setting "Hidden notes for new people", on); locked notes injected with
+  never-reveal wording as optional lines nearest-first; Secrets section (no titles/emoji while hidden); editor
+  Hidden/Opened; `hooks.redactSent`. Trial merge with CN1 resolves trivially. Sent: CS ← call redactSent in "What's
+  sent" (view + copy; never the real prompt); CN2 ← extend layers + event watch to one-pass capture and backfill.
