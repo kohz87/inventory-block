@@ -3000,3 +3000,7 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   Story Suite Cleanup, Studio AI Writing, Studio Timeline Mockup, Secret either rule. Their scripts stay in vm-results/
   (u1–u9) so any page can be regenerated. Not touched: pages from other projects (Score, Hermes, Atlas, Agent Looks…)
   and two uncertain ones (Combat card mockup, NPC Dossier Redesign). ST resumed for Studio 0.5.1 (either-rule field).
+- 1 Nov: SP done: SB stage35/secret-either 128d203 (validator allows meter+at AND when; 4397 tests, 4382 pass, 0 fail),
+  NSD stage35/secret-either 4d83516 (already supported both; wording "Opens at Trust 90 or with the story"; 2 new
+  tests; 1592 tests, 1587 pass, 0 fail, 5 cancelled pre-existing). SB 2.15.1 bumped (1d3518a; 4397/4386/0) → PR opened.
+  Next: NSD 1.6.1 after SB merges (re-vendor), Studio 0.5.1 (ST working), then EP restores the 13 events (requires ^2.15.1).
