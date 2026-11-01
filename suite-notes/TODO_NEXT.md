@@ -92,3 +92,5 @@ https://claude.ai/artifact/AJZkpqZigE5TvZRRh4jrMK (v3); AI writing help https://
 - Order (USER, 1 Nov): 1 formula release (2.14.0) → 2 Key people → 3 Encounters (cast + backdrop format) → 4 write the
   Ersveil heroines and heroes (8–12 core, up to 16) into the pack.
 - Follow-up (backlog release): NSD `.delta-panel` translucent (66% alpha, no blur) → Game view shows through on phone. Make opaque.
+
+- 1 Nov: Standard formula released (SB 2.14.0, 0b23c3f). Next: Key people release (KA SD + KB NSD), then the living cast (mockup v2 awaiting USER), then Ersveil cast writing, then backlog release.

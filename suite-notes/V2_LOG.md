@@ -2757,3 +2757,4 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   world (planner may bring them in when sharing a place). Pacing: "new faces at most" (default 1 a day; 2 a day /
   1 a week), others wait. A swipe rewrites the scene, not who you meet. Setting: on/off + new faces cap (replaces
   Rare/Normal/Often). Mockup v2 published at the same link.
+- 1 Nov: RELEASED Story Block 2.14.0 (Standard stat formula): PR #239 CI verify green, merged 0b23c3f (merge commit).
