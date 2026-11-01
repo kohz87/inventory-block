@@ -2840,3 +2840,7 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
 - 1 Nov: KB fix-up done: NSD stage32/key-people 899f787. B1: `replacingReply` during swipe/regenerate → head = reply
   before; real-ST check: note on B, again on swipe of B, none on C. (6) manual Scan now not held. 1536 tests, 1531 pass,
   0 fail, 5 cancelled (pre-existing). Review K re-check started (same reviewer) on SD 96ea544 + NSD 899f787.
+- 1 Nov: USER approved the Studio cast editor mockup ("Approved, proceed") and parallel work. Started ST (Studio
+  stage33/cast: Cast part, portraits auto-shrink, secrets, .zip export/open, vendored SB from SB stage33/cast) and EW
+  (write 12 Ersveil cast entries + CAST.md + portrait briefs; writing only). Portrait art: asked the USER (their art or
+  generated). Clean-up release held until the cast builds land (same files).
