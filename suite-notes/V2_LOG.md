@@ -2770,3 +2770,10 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   tap area (`data-ss-hit` + ::after) instead of the host's 44 x 44 minimum; Add-to-cast screen; death setting.
   Cause of big buttons: Story Block src/v2/view/size.css forces min 44 x 44 (÷ zoom → 55px drawn) on every phone button.
   Follow-up: an SB compact-pill rule (drawn ~30px, tap 44px tall) for segmented choices and small actions.
+- 1 Nov: USER on the cast: prepared hidden dossier with image at first meeting; appearance is key when adding; secret
+  field? Lead: yes — the pack cast entry is a full prepared dossier (portrait, look, voice, personality, history,
+  meters, stages, fields, secrets), hidden until met; NSD makes the dossier at once at the first meeting (no scan).
+  Secrets = NSD's existing hidden notes (max 8, unlock by meter value, title + rule shown while locked). Portraits ship
+  as image files beside the pack (pack.json limit 512 KB, all packs 2 MB — too small for 12–16 portraits inline).
+  Add form: required name, who, look, starts at, goal; optional routine, voice, drawn to, portrait, secret + unlock;
+  "Hide where they are until I meet them". Mockup v4 at the same link.

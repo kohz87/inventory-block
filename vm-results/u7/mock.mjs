@@ -76,16 +76,20 @@ if (ph) await page.evaluate(() => document.querySelector('.u7-sec')?.scrollIntoV
 await shot('C4-world-around');
 await page.evaluate(() => {
   const sec = document.querySelector('.u7-sec');
-  const f = document.createElement('section'); f.className = 'sd-kind ss-glass u7-sec u7-add';
+  const f = document.createElement('section'); f.className = 'sd-kind ss-glass u7-sec u7-add'; f.style.gridColumn = '1 / -1';
   f.innerHTML = `<h4 class="ss-label wv-label sd-h">The cast <small>3 of 12 met · + 1 added in this chat</small></h4>
    <div class="u7-form">
     <b>Add someone to the cast</b>
     <div class="u7-two"><label>Name<input value="Maren Vey"></label><label>Who they are<input value="Disgraced guild scribe, thirty"></label></div>
     <div class="u7-two"><label>Starts at<input value="Ashford archive"></label><label>Their routine<input value="copies ledgers by lamplight"></label></div>
     <label>Their goal<input value="prove the guild forged the weir permits"></label>
-    <label>Drawn to (what brings them to you)<textarea>the forged permits; anyone asking about the weir</textarea></label>
-    <p class="u7-note">Lives off-screen like the pack's cast, in this chat only. You meet them by place or goal; until then they stay hidden from you too, if you like ("Keep a secret from me").</p>
-    <label class="u7-check"><input type="checkbox" checked> Keep a secret from me</label>
+    <div class="u7-two"><label>Look<input value="Ink-stained cuffs, cropped black hair, spectacles"></label><label>Voice (optional)<input value="Precise, quick, nervous laugh"></label></div>
+    <label>Drawn to (optional: what brings them to you)<textarea>the forged permits; anyone asking about the weir</textarea></label>
+    <div class="u7-two"><label>Portrait (optional)<span class="u7-pick"><button type="button" data-ss-hit class="u7-btn">Choose image…</button> <small class="u7-note">shown from the first meeting</small></span></label>
+    <label>Secret (optional)<input value="She forged the first permit herself"></label></div>
+    <label class="u7-check" style="opacity:.9">Unlocks at <span class="u7-seg" style="display:inline-flex;margin-left:6px"><button type="button" data-ss-hit aria-pressed="true">Trust</button></span><input value="60" style="width:56px;margin-left:6px"></label>
+    <p class="u7-note">Lives off-screen like the pack's cast, in this chat only. You meet them by place or goal; tick the box to hide where they are from you too until you meet them.</p>
+    <label class="u7-check"><input type="checkbox" checked> Hide where they are until I meet them</label>
     <div class="u7-acts"><button type="button" data-ss-hit class="u7-btn">Cancel</button><button type="button" data-ss-hit class="u7-btn" style="background:#6d5ce6;color:#fff">Add to the cast</button></div>
    </div>`;
   sec.after(f);
@@ -99,9 +103,15 @@ await page.evaluate(() => {
   const heads = [...document.querySelectorAll('h1,h2,h3,h4,strong,b')].filter(n => n.textContent.trim() === 'Fenna' && n.getBoundingClientRect().width > 0);
   const h = heads[heads.length - 1]; if (h && !h.querySelector('.u7-badge')) { const b = document.createElement('span'); b.className = 'u7-badge'; b.textContent = 'Ersveil cast'; h.append(b); }
   const cur = [...document.querySelectorAll('*')].find(n => n.childElementCount === 0 && /^CURRENT DOSSIER$/i.test(n.textContent.trim()) && n.getBoundingClientRect().width > 0);
+  const svg = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 300'><defs><linearGradient id='g' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='#2d3a4a'/><stop offset='1' stop-color='#141a24'/></linearGradient></defs><rect width='300' height='300' fill='url(#g)'/><path d='M60 300c6-62 40-92 90-92s84 30 90 92z' fill='#3d4a3a'/><path d='M84 300c10-44 34-66 66-66s56 22 66 66z' fill='#56604a'/><circle cx='150' cy='132' r='50' fill='#c9a589'/><path d='M100 128c0-40 22-62 50-62s50 22 50 62c-8-26-26-38-50-38s-42 12-50 38z' fill='#9c9c9c'/><path d='M196 140c14 22 14 60 2 86' stroke='#9c9c9c' stroke-width='12' fill='none' stroke-linecap='round'/></svg>`;
+  const url = 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
+  const letter = [...document.querySelectorAll('*')].filter(n => n.childElementCount === 0 && n.textContent.trim() === 'F' && n.getBoundingClientRect().width > 20).pop();
+  const frame = letter?.parentElement;
+  if (frame) { frame.style.position = 'relative'; const im = document.createElement('img'); im.src = url; im.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.95'; letter.replaceWith(im); }
   const box = document.createElement('section'); box.className = 'u7-first';
   box.innerHTML = `<h5>From the Ersveil cast · first met Gw 12 at the docks</h5>
-   <div>Look, voice, history and story stages come from the pack. Her relationship with you starts at the pack's values and grows from play.</div>
+   <div>Made at the first meeting from the pack's prepared dossier: portrait, look, voice, personality, history, story stages and starting meters. No scan needed.</div>
+   <div>🔒 <b>The weir night</b> · unlocks at Trust 60</div>
    <div><b>Her own path:</b> keep the night ferry running; find out who opened the weir. <b>Last heard:</b> took the ferry upriver to Ashford for the guild (Gw 15).</div>
    <button type="button" data-ss-hit class="u7-btn">★ Pin as Key people</button>
    <div class="u7-note">Pinned, she gets the full Key people track (away, back date, return) and the narrator hears about her.</div>`;
