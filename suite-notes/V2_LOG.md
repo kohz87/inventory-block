@@ -2799,3 +2799,6 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   now; may come out". Counted in NSD's injection budget (over budget: nearest-to-unlock first). Drop the "rewrite a
   locked generated secret if contradicted" rule — every secret is fixed once written. "What's sent each reply" masks
   locked secret text ("1 hidden note"); ST's raw prompt still shows it (reader's own prompt).
+- 1 Nov: USER: secrets in a section of their own; no titles while locked. Mockup v7: dossier "Secrets · 1 open,
+  2 hidden" section: open = title + text; locked = "🔒 Hidden · opens at Trust 60" or "opens with the story" (event
+  wording never shown). In the build it is its own dossier tab/section ("Secrets"), not mixed into other fields.
