@@ -2565,3 +2565,10 @@ No version bumps by agents; lead releases (SB 2.12.0 first, then SD/NSD with req
   require SB ≥2.12.0 (ships after SB). Follow-ups: phone dossier header translucent (pre-existing); 5 cancelled tests.
   UD's test ST (pid 3299, port 8165) still running: its stop was refused by the permission check; lead did not run it
   on the agent's behalf; asked USER.
+- 1 Nov: UA2 done — SB `stage29/ui-a2` 693af5b (from 121e49a), check + full test green (4122 pass). One `.ss-card`
+  "This reply" per reply, sections per card screen, lazy fill on open, Changes first. HUD: not broken — `.ss-hud` only
+  shows screens with a 'hud' mount and none ships one (only pack screens, e.g. Ersveil survival).
+  Lead REJECTED one part: SB held SD's words/ids (heading override keyed by SD's status screen id + SB computing the
+  status summary from director.time). Sent back: headings = each card's own title, summary = each card's own slot
+  (UB told to set "Where things stand" + "1:30 pm, Bluewatch Village" in SD); drop "N edits of yours" from the closed
+  line (mockup); HUD switch shown only when a screen declares a 'hud' mount (lead's call, stored value kept).
