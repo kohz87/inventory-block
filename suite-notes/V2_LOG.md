@@ -2604,3 +2604,7 @@ No version bumps by agents; lead releases (SB 2.12.0 first, then SD/NSD with req
   default, Blocks wording RPG-off, Story panel honours In the bar) and UF2 (SD stage29/ui-b: `bar: true` on
   Quests/World/Map, render.test.js:243 for the merged card, bare HERE heading). Then release SB 2.12.0 → SD → NSD
   (both require SB ≥2.12.0).
+- 1 Nov: UF2 done — SD `stage29/ui-b` 743026c (ff from f9a1969). `bar: true` on Quests/World/Map (54d8c28 msg says
+  three, World landed in 1f627d8; left as is). World "Here" heading hidden in the Game view with the scene lines.
+  render.test.js status-card test passes on old and new SB card mounts (render cache keyed by template; checks each
+  reply's closed summary too). Tests: vendored SB 995/993 pass/2 skip; with STORY_BLOCK_DIR=ui-merge 995/995.
