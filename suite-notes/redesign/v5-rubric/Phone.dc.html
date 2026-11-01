@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Story Suite phone story</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&amp;family=Barlow+Condensed:wght@600;700;800&amp;family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;1,7..72,400&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#C2361A}a:hover{color:#8F2410}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; display: flex; flex-direction: column; background: {{t.chat}}; color: {{t.ink}}; font-family: Barlow, system-ui, sans-serif; overflow: hidden">
+
+  <header style="flex: none; padding: 22px 20px 0 20px">
+    <div style="display: flex; flex-direction: column; gap: 8px; padding-bottom: 12px; border-bottom: 4px solid {{t.ink}}">
+      <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 12px">
+        <h1 style="margin: 0; font: 800 46px/0.86 'Barlow Condensed', sans-serif; text-transform: uppercase">Bluewatch</h1>
+        <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 4px">
+          <span style="font: 700 12px/1 'Barlow Condensed', sans-serif; letter-spacing: 0.16em; text-transform: uppercase; color: {{t.faint}}">Gw 12</span>
+          <span style="font: 700 30px/0.9 'Barlow Condensed', sans-serif; font-variant-numeric: tabular-nums">8:30</span>
+        </div>
+      </div>
+      <div style="display: flex; gap: 10px; flex-wrap: wrap; font: 700 13px/1.2 'Barlow Condensed', sans-serif; letter-spacing: 0.12em; text-transform: uppercase; color: {{t.faint}}">
+        <span>Guild hall</span><span aria-hidden="true">·</span><span>Drizzle</span><span aria-hidden="true">·</span><span style="color: {{t.acc}}">3s 8c −1s</span>
+      </div>
+    </div>
+  </header>
+
+  <main style="flex: 1 1 auto; min-height: 0; overflow: hidden; padding: 22px 20px 0 20px; display: flex; flex-direction: column; gap: 22px">
+    <article style="display: flex; flex-direction: column; gap: 8px; padding-left: 14px; border-left: 2px solid {{t.ink}}">
+      <span style="font: 700 12px/1 'Barlow Condensed', sans-serif; letter-spacing: 0.16em; text-transform: uppercase; color: {{t.faint}}">Wessel</span>
+      <p style="margin: 0; font: 400 16px/1.65 Literata, Georgia, serif">I slide a silver across the desk and ask to register. Then I ask what work is going.</p>
+    </article>
+    <article style="display: flex; flex-direction: column; gap: 8px">
+      <span style="font: 700 12px/1 'Barlow Condensed', sans-serif; letter-spacing: 0.16em; text-transform: uppercase; color: {{t.faint}}">Narrator</span>
+      <p style="margin: 0; font: 400 16px/1.65 Literata, Georgia, serif">Nelje turns the coin over once, then fills in a slip in a quick, square hand and stamps it with a sound like a door closing.</p>
+      <p style="margin: 0; font: 400 16px/1.65 Literata, Georgia, serif">“Wessel, F-rank. Keep that dry.” She nods at the board. “Weir-drakes under the third crib. Five silver a pair of ears, and the warrant runs out tomorrow.”</p>
+      <div style="display: flex; align-items: baseline; gap: 10px; margin-top: 6px; padding-top: 10px; border-top: 1px solid {{t.rule}}; color: {{t.acc}}">
+        <span style="font: 800 18px/1 'Barlow Condensed', sans-serif" aria-hidden="true">¶</span>
+        <span style="font: 700 13px/1.45 'Barlow Condensed', sans-serif; letter-spacing: 0.08em; text-transform: uppercase">−1 silver to Nelje · +1 Guild Registration Slip · Nelje is here · new warrant</span>
+      </div>
+    </article>
+  </main>
+
+  <a href="PhoneCodex.dc.html" aria-label="Open the Codex" style="flex: none; display: flex; align-items: center; gap: 10px; min-height: 56px; padding: 0 20px; border-top: 4px solid {{t.ink}}; background: {{t.panel}}; color: {{t.ink}}; text-decoration: none">
+    <span style="font: 800 22px/1 'Barlow Condensed', sans-serif; text-transform: uppercase">Wessel</span>
+    <span style="border: 2px solid {{t.ink}}; padding: 3px 6px 2px 6px; font: 800 13px/1 'Barlow Condensed', sans-serif; letter-spacing: 0.08em">LV 2</span>
+    <span style="flex: 1 1 auto; min-width: 0; font: 600 14px/1 Barlow, sans-serif; color: {{t.faint}}; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">Hurt · Fresh · Spent</span>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square" aria-hidden="true"><path d="M5 15l7-7 7 7"></path></svg>
+  </a>
+
+  <div style="flex: none; display: flex; align-items: center; gap: 10px; padding: 8px 12px 14px 20px; background: {{t.panel}}; border-top: 1px solid {{t.rule}}">
+    <label for="pmove" style="font: 700 12px/1 'Barlow Condensed', sans-serif; letter-spacing: 0.16em; text-transform: uppercase; color: {{t.faint}}; flex: none">Move</label>
+    <input id="pmove" type="text" placeholder="Take the warrant…" style="flex: 1 1 auto; min-width: 0; height: 44px; box-sizing: border-box; border: 0; background: transparent; color: {{t.ink}}; font: 400 16px Literata, Georgia, serif; outline: none">
+    <button type="button" aria-label="Send" style="width: 44px; height: 44px; flex: none; border: 0; border-radius: 0; background: {{t.ink}}; color: {{t.panel}}; display: grid; place-items: center; cursor: pointer">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"></path></svg>
+    </button>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":false},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const dark = this.props.dark ?? false;
+    const T = {
+      light: { chat: '#F4F4F1', panel: '#FFFFFF', ink: '#16161A', faint: '#676870', rule: '#D6D6D0', acc: '#C2361A' },
+      dark:  { chat: '#111113', panel: '#18181B', ink: '#EDEBE6', faint: '#93918B', rule: '#2E2E33', acc: '#FF6E4A' }
+    };
+    return { t: dark ? T.dark : T.light };
+  }
+}
+</script>
+</body>
+</html>

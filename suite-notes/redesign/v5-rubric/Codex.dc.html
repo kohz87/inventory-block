@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Codex panel</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&amp;family=Barlow+Condensed:wght@600;700;800&amp;family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;1,7..72,400&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#C2361A}a:hover{color:#8F2410}
+</style>
+</helmet>
+<div style="width: 100%; height: {{h}}; box-sizing: border-box; display: flex; flex-direction: column; background: {{t.panel}}; color: {{t.ink}}; font-family: Barlow, system-ui, sans-serif">
+
+  <nav style="flex: none; display: flex; gap: 26px; padding: 22px 28px 0 28px; border-bottom: 1px solid {{t.rule}}" aria-label="Codex">
+    <sc-for list="{{tabs}}" as="tb" hint-placeholder-count="3">
+      <button type="button" onClick="{{tb.pick}}" aria-pressed="{{tb.on}}" style="min-height: 44px; padding: 0 0 10px 0; margin-bottom: -1px; border: 0; border-bottom: 4px solid {{tb.line}}; background: transparent; color: {{tb.col}}; font: 800 24px/1 'Barlow Condensed', sans-serif; letter-spacing: 0.04em; text-transform: uppercase; cursor: pointer; display: flex; align-items: flex-end">{{tb.label}}</button>
+    </sc-for>
+  </nav>
+
+  <div style="flex: 1 1 auto; min-height: 0; overflow: auto">
+
+    <sc-if value="{{isYou}}" hint-placeholder-val="{{ true }}">
+      <div style="padding: 26px 28px 32px 28px; display: flex; flex-direction: column; gap: 24px">
+        <div style="display: flex; flex-direction: column; gap: 8px">
+          <div style="display: flex; align-items: center; gap: 14px">
+            <h2 style="margin: 0; font: 800 56px/0.85 'Barlow Condensed', sans-serif; text-transform: uppercase">Wessel</h2>
+            <span style="border: 2px solid {{t.ink}}; padding: 5px 8px 4px 8px; font: 800 16px/1 'Barlow Condensed', sans-serif; letter-spacing: 0.08em">LV 2</span>
+          </div>
+          <span style="font: 700 13px/1 'Barlow Condensed', sans-serif; letter-spacing: 0.16em; text-transform: uppercase; color: {{t.faint}}">F-rank · Adventurer Guild</span>
+          <p style="margin: 6px 0 0 0; font: italic 400 17px/1.55 Literata, Georgia, serif; color: {{t.sub}}">Tired and cold, in a rain-dark oilskin coat.</p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 84px 64px minmax(0, 1fr); gap: 12px 12px; align-items: center">
+          <span style="font: 700 13px/1 'Barlow Condensed', sans-serif; letter-spacing: 0.16em; text-transform: uppercase; color: {{t.faint}}">Health</span>
+          <b style="font: 700 17px/1 Barlow, sans-serif">Hurt</b>
+          <div style="height: 6px; background: {{t.rule}}"><div style="width: 60%; height: 100%; background: {{t.ink}}"></div></div>
+          <span style="font: 700 13px/1 'Barlow Condensed', sans-serif; letter-spacing: 0.16em; text-transform: uppercase; color: {{t.faint}}">Mana</span>
+          <b style="font: 700 17px/1 Barlow, sans-serif">Fresh</b>
+          <div style="height: 6px; background: {{t.rule}}"><div style="width: 100%; height: 100%; background: {{t.ink}}"></div></div>
+          <span style="font: 700 13px/1 'Barlow Condensed', sans-serif; letter-spacing: 0.16em; text-transform: uppercase; color: {{t.faint}}">Stamina</span>
+          <b style="font: 700 17px/1 Barlow, sans-serif">Spent</b>
+          <div style="height: 6px; background: {{t.rule}}"><div style="width: 25%; height: 100%; background: {{t.ink}}"></div></div>
+          <span style="font: 700 13px/1 'Barlow Condensed', sans-serif; letter-spacing: 0.16em; text-transform: uppercase; color: {{t.faint}}">XP</span>
+          <b style="font: 700 17px/1 Barlow, sans-serif; font-variant-numeric: tabular-nums">40</b>
+          <div style="display: flex; align-items: center; gap: 10px"><div style="flex: 1 1 auto; height: 6px; background: {{t.rule}}"><div style="width: 40%; height: 100%; background: {{t.ink}}"></div></div><span style="font: 600 14px/1 Barlow, sans-serif; color: {{t.faint}}; white-space: nowrap">3 points</span></div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); border-top: 2px solid {{t.ink}}; border-bottom: 1px solid {{t.rule}}">
+          <sc-for list="{{stats}}" as="s" hint-placeholder-count="7">
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 10px 0 9px 0">
+              <b style="font: 700 30px/1 'Barlow Condensed', sans-serif; font-variant-numeric: tabular-nums">{{s.v}}</b>
+              <span style="font: 700 12px/1 'Barlow Condensed', sans-serif; letter-spacing: 0.12em; color: {{t.faint}}">{{s.k}}</span>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="display: flex; flex-direction: column">
+          <span style="font: 700 13px/1 'Barlow Condensed', sans-serif; letter-spacing: 0.16em; text-transform: uppercase; color: {{t.faint}}; padding-bottom: 6px">Skills</span>
+          <sc-for list="{{skills}}" as="k" hint-placeholder-count="5">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 10px 0; border-bottom: 1px solid {{t.rule}}">
+              <span style="font: 600 16px/1.2 Barlow, sans-serif">{{k.n}}</span>
+              <span style="font: 500 14px/1.2 Barlow, sans-serif; color: {{t.faint}}">{{k.m}}</span>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 8px">
+          <span style="font: 700 13px/1 'Barlow Condensed', sans-serif; letter-spacing: 0.16em; text-transform: uppercase; color: {{t.faint}}">Pack · 6 of 24</span>
+          <p style="margin: 0; font: 400 16px/1.6 Literata, Georgia, serif">Bedroll, a coil of rope, two torches, waxed cloth, a whetstone, and a <span style="color: {{t.acc}}; font-weight: 500">Guild Registration Slip</span>.</p>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{isWorld}}" hint-placeholder-val="{{ false }}">
+      <div style="padding: 26px 28px 32px 28px; display: flex; flex-direction: column; gap: 26px">
+        <div style="display: flex; flex-direction: column; gap: 8px">
+          <span style="font: 700 13px/1 'Barlow Condensed', sans-serif; letter-spacing: 0.16em; text-transform: uppercase; color: {{t.faint}}">Where you are</span>
+          <h2 style="margin: 0; font: 800 48px/0.88 'Barlow Condensed', sans-serif; text-transform: uppercase">Bluewatch</h2>
+          <p style="margin: 4px 0 0 0; font: italic 400 17px/1.55 Literata, Georgia, serif; color: {{t.sub}}">The guild hall, at the front desk. A harbour town, grey with rain.</p>
+        </div>
+
+        <div style="display: flex; flex-direction: column">
+          <span style="font: 700 13px/1 'Barlow Condensed', sans-serif; letter-spacing: 0.16em; text-transform: uppercase; color: {{t.faint}}; padding-bottom: 6px">Here with you</span>
+          <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 11px 0; border-bottom: 1px solid {{t.rule}}">
+            <span style="font: 600 17px/1.2 Barlow, sans-serif; color: {{t.acc}}">Nelje</span>
+            <span style="font: 500 14px/1.3 Barlow, sans-serif; color: {{t.faint}}; text-align: right">Guild clerk, behind the desk</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 11px 0; border-bottom: 1px solid {{t.rule}}">
+            <span style="font: 600 17px/1.2 Barlow, sans-serif">Ren</span>
+            <span style="font: 500 14px/1.3 Barlow, sans-serif; color: {{t.faint}}; text-align: right">Companion · spear, watchful</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 11px 0; border-bottom: 1px solid {{t.rule}}">
+            <span style="font: 600 17px/1.2 Barlow, sans-serif">Mara</span>
+            <span style="font: 500 14px/1.3 Barlow, sans-serif; color: {{t.faint}}; text-align: right">Companion · spark, ward, lore</span>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 4px">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 8px">
+            <span style="font: 700 13px/1 'Barlow Condensed', sans-serif; letter-spacing: 0.16em; text-transform: uppercase; color: {{t.faint}}">The road ahead</span>
+            <span style="font: 600 14px/1 Barlow, sans-serif; color: {{t.faint}}">Riding · 25 km a day</span>
+          </div>
+          <div style="display: grid; grid-template-columns: 18px minmax(0, 1fr) auto; column-gap: 12px; row-gap: 0; align-items: start">
+            <span style="width: 12px; height: 12px; margin-top: 4px; background: {{t.ink}}"></span>
+            <div style="display: flex; flex-direction: column; gap: 3px; padding-bottom: 16px; border-left: 0"><b style="font: 700 17px/1.2 Barlow, sans-serif">Bluewatch</b><span style="font: 500 14px/1.3 Barlow, sans-serif; color: {{t.faint}}">You are here · set out Gw 12</span></div>
+            <span style="font: 700 16px/1.2 'Barlow Condensed', sans-serif; font-variant-numeric: tabular-nums">Gw 12</span>
+            <span style="width: 10px; height: 10px; margin: 5px 0 0 1px; border: 2px solid {{t.ink}}; box-sizing: border-box"></span>
+            <div style="display: flex; flex-direction: column; gap: 3px; padding-bottom: 16px"><b style="font: 700 17px/1.2 Barlow, sans-serif">Hollin's Reach</b><span style="font: 500 14px/1.3 Barlow, sans-serif; color: {{t.faint}}">100 km · first leg</span></div>
+            <span style="font: 700 16px/1.2 'Barlow Condensed', sans-serif; font-variant-numeric: tabular-nums">Gw 16</span>
+            <span style="width: 10px; height: 10px; margin: 5px 0 0 1px; border: 2px solid {{t.ink}}; box-sizing: border-box"></span>
+            <div style="display: flex; flex-direction: column; gap: 3px"><b style="font: 700 17px/1.2 Barlow, sans-serif">Wolfmere Outpost</b><span style="font: 500 14px/1.3 Barlow, sans-serif; color: {{t.faint}}">60 km · trip's end</span></div>
+            <span style="font: 700 16px/1.2 'Barlow Condensed', sans-serif; font-variant-numeric: tabular-nums">Gw 19</span>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 8px; padding-top: 14px; border-top: 2px solid {{t.ink}}">
+          <span style="font: 700 13px/1 'Barlow Condensed', sans-serif; letter-spacing: 0.16em; text-transform: uppercase; color: {{t.faint}}">On the move</span>
+          <p style="margin: 0; font: 400 16px/1.6 Literata, Georgia, serif">A guild courier is riding in from Auvoth with news of the Seal tremor. Expected <b style="font-weight: 600">Gw 13</b>.</p>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{isJournal}}" hint-placeholder-val="{{ false }}">
+      <div style="padding: 26px 28px 32px 28px; display: flex; flex-direction: column; gap: 28px">
+        <div style="display: flex; flex-direction: column">
+          <span style="font: 700 13px/1 'Barlow Condensed', sans-serif; letter-spacing: 0.16em; text-transform: uppercase; color: {{t.faint}}; padding-bottom: 4px">Quests · 3 open</span>
+          <div style="display: grid; grid-template-columns: 40px minmax(0, 1fr) auto; gap: 4px 12px; padding: 14px 0; border-bottom: 1px solid {{t.rule}}; align-items: start">
+            <span style="font: 800 28px/1 'Barlow Condensed', sans-serif; color: {{t.acc}}">01</span>
+            <div style="display: flex; flex-direction: column; gap: 4px"><b style="font: 700 17px/1.2 Barlow, sans-serif">Weir-drake warrants</b><span style="font: 500 14px/1.4 Barlow, sans-serif; color: {{t.faint}}">0 of 3 drakes · 5 silver a pair of ears · under the third weir-crib</span></div>
+            <span style="border: 2px solid {{t.acc}}; color: {{t.acc}}; padding: 4px 7px 3px 7px; font: 800 13px/1 'Barlow Condensed', sans-serif; letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap">Tomorrow</span>
+          </div>
+          <div style="display: grid; grid-template-columns: 40px minmax(0, 1fr) auto; gap: 4px 12px; padding: 14px 0; border-bottom: 1px solid {{t.rule}}; align-items: start">
+            <span style="font: 800 28px/1 'Barlow Condensed', sans-serif; color: {{t.faint}}">02</span>
+            <div style="display: flex; flex-direction: column; gap: 4px"><b style="font: 700 17px/1.2 Barlow, sans-serif">Road to Wolfmere Outpost</b><span style="font: 500 14px/1.4 Barlow, sans-serif; color: {{t.faint}}">Leg 1 of 2 · 8 of 100 km</span></div>
+            <span style="border: 2px solid {{t.ink}}; padding: 4px 7px 3px 7px; font: 800 13px/1 'Barlow Condensed', sans-serif; letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap">Gw 19</span>
+          </div>
+          <div style="display: grid; grid-template-columns: 40px minmax(0, 1fr) auto; gap: 4px 12px; padding: 14px 0; border-bottom: 1px solid {{t.rule}}; align-items: start">
+            <span style="font: 800 28px/1 'Barlow Condensed', sans-serif; color: {{t.faint}}">03</span>
+            <div style="display: flex; flex-direction: column; gap: 4px"><b style="font: 700 17px/1.2 Barlow, sans-serif">Guild courier</b><span style="font: 500 14px/1.4 Barlow, sans-serif; color: {{t.faint}}">News of the Seal tremor, from Auvoth</span></div>
+            <span style="border: 2px solid {{t.ink}}; padding: 4px 7px 3px 7px; font: 800 13px/1 'Barlow Condensed', sans-serif; letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap">Gw 13</span>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column">
+          <span style="font: 700 13px/1 'Barlow Condensed', sans-serif; letter-spacing: 0.16em; text-transform: uppercase; color: {{t.faint}}; padding-bottom: 4px">Chronicle · Gw 12</span>
+          <div style="display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 12px; padding: 12px 0; border-bottom: 1px solid {{t.rule}}">
+            <span style="font: 700 16px/1.5 'Barlow Condensed', sans-serif; font-variant-numeric: tabular-nums; color: {{t.acc}}">8:30</span>
+            <p style="margin: 0; font: 400 16px/1.55 Literata, Georgia, serif">Registered with the Adventurer Guild. Paid Nelje one silver.</p>
+          </div>
+          <div style="display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 12px; padding: 12px 0; border-bottom: 1px solid {{t.rule}}">
+            <span style="font: 700 16px/1.5 'Barlow Condensed', sans-serif; font-variant-numeric: tabular-nums; color: {{t.faint}}">8:10</span>
+            <p style="margin: 0; font: 400 16px/1.55 Literata, Georgia, serif">Reached Bluewatch in the drizzle.</p>
+          </div>
+          <div style="display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 12px; padding: 12px 0; border-bottom: 1px solid {{t.rule}}">
+            <span style="font: 700 16px/1.5 'Barlow Condensed', sans-serif; font-variant-numeric: tabular-nums; color: {{t.faint}}">6:00</span>
+            <p style="margin: 0; font: 400 16px/1.55 Literata, Georgia, serif">Broke camp on the coast road.</p>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":false},"tab":{"editor":"enum","options":["you","world","journal"],"default":"you"},"height":{"editor":"int","default":900,"min":400,"max":1400,"unit":"px"},"$preview":{"width":440,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const dark = this.props.dark ?? false;
+    const T = {
+      light: { panel: '#FFFFFF', ink: '#16161A', sub: '#4E4F57', faint: '#676870', rule: '#DEDED9', acc: '#C2361A' },
+      dark:  { panel: '#18181B', ink: '#EDEBE6', sub: '#B0AEA8', faint: '#93918B', rule: '#2E2E33', acc: '#FF6E4A' }
+    };
+    const t = dark ? T.dark : T.light;
+    const tab = (this.state && this.state.tab) || this.props.tab || 'you';
+    const tabs = [['you', 'You'], ['world', 'World'], ['journal', 'Journal']].map(([id, label]) => {
+      const on = id === tab;
+      return {
+        label: label,
+        on: on ? 'true' : 'false',
+        pick: () => this.setState({ tab: id }),
+        line: on ? t.acc : 'transparent',
+        col: on ? t.ink : t.faint
+      };
+    });
+    return {
+      t: t,
+      h: (this.props.height ?? 900) + 'px',
+      tabs: tabs,
+      isYou: tab === 'you',
+      isWorld: tab === 'world',
+      isJournal: tab === 'journal',
+      stats: [['14', 'STR'], ['12', 'VIT'], ['15', 'AGI'], ['13', 'DEX'], ['12', 'INT'], ['8', 'LUK'], ['8', 'CHA']].map(([v, k]) => ({ v: v, k: k })),
+      skills: [['Iaijutsu', 'AGI · Stamina'], ['Shadow cut', 'AGI · Mana'], ['Shadow step', 'AGI · Stamina'], ['Obscure', 'DEX · Mana'], ['Weakness', 'INT · Stamina']].map(([n, m]) => ({ n: n, m: m }))
+    };
+  }
+}
+</script>
+</body>
+</html>

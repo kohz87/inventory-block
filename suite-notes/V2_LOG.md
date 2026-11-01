@@ -2491,3 +2491,16 @@ structurally different game screens, each with desktop and phone built from the 
 3. Quest board: mobile-RPG lobby; resource bar, shelves of party cards and quest notice cards (rewards, deadlines), skills, bag, log.
 Artifact https://claude.ai/artifact/27w1PsvXQMvRP75wZnwh78; copy suite-notes/redesign/proposal-v4-game-layouts.html.
 Rendered both sizes × both themes × three layouts: no JS errors, no phone overflow. Waiting on the user's pick.
+
+## 1 Nov — Redesign proposal 5: "Rubric" (fresh start)
+User on v4: "Doesn't seem right, considering it's a text based rpg. Remove all previous design and come up with bold new
+design for ui layout, but it must remain clean and readable." v1–v4 are dropped as starting points (files kept in history
+only as record). Rubric is text-first: the story is the screen.
+- Running head over the chat: place in big condensed caps, time, weather, purse; heavy ink rule.
+- Story in a reading serif; each reply ends with a vermilion ¶ rubric line of what changed. Vermilion means "changed this
+  reply" everywhere (purse, new item, new person, new quest).
+- One Codex panel with three tabs (You / World / Journal): typeset rows, hairlines, words for vitals, no cards or icons.
+  Chronicle folds into Journal, Scene into World. The same Codex component is the desktop side panel and the phone sheet.
+- Phone: same running head; a one-line Codex strip (name, LV, Hurt · Fresh · Spent) above the input opens the sheet.
+- Light and dark both designed. Type: Barlow Condensed / Barlow / Literata.
+Design canvas https://claude.ai/artifact/JvJLpquQ3NgcDgmY4XjSzR (7 boards); source copy suite-notes/redesign/v5-rubric/.
