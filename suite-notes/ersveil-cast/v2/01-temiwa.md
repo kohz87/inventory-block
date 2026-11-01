@@ -21,3 +21,10 @@
   hands and complete them, the price of her candidacy; she was cast out anyway when the archive came to light.
 - Stages: Tolerates you ("stops charging you for bandages") · Patches you without the sermon ("tells you about the
   archive") · Burns a candle for you ("asks you to choose what she does with the page"). Romance: Desire meter on.
+- USER: a bit yandere. Added — Personality: once someone matters she cannot let go; jealousy = cold cruelty to rivals,
+  sudden sweetness to you (the sweetness is scarier); losing someone is like losing a body to the Veil: unacceptable.
+  Voice at high affection: soft, sugary; calls you "my candle". Stages (4): Tolerates you (Trust 20) · Patches you
+  without the sermon (Trust 45) · Burns a candle for you (Trust 60, Affection 50; asks where you've been, and with
+  whom) · Mine (Affection 75, Desire 50; possessive, dangerous to anyone close to you; "she'd rather complete you
+  herself than let anyone else bury you"). Secret 6 (Affection 60): a lock of your hair and a scrap of your bloodied
+  bandage in her reliquary beside the page. Tension rises when you are with other companions.
