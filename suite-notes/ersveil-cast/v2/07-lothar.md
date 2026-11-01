@@ -22,3 +22,17 @@
 - No tie to Temiwa (USER).
 - Stages: Courteous to you as to everyone · Reads you a poem he wrote · Asks you to come to Crown Keep at night ·
   Lays down his sword and tells you everything.
+- USER (1 Nov): take all, with romance option (a); NOT pregnant.
+  * Romance (a): romanceable, slowly and against his own heart — a love triangle; Wendhild watches the player with scrutiny.
+  * The lovers: deeply in love, but he holds steadfast — he has never let it go further, however much she yearns for
+    it; his loyalty is to her as heir and as a person, and he will not make her a scandal. That is part of why she wants
+    to be empress: an empress may choose her consort. New secret (Trust 40): they are lovers in all but deed; if it came
+    out, Corvin's war party would use it to break her claim. (Old secrets 2–5 move down one.)
+  * Threats: Corvin's war party; the Church Inquest if the forgery is discovered (the Church burns for necromancy); the
+    Veil cell, which owns the secret and can expose them whenever it wants more.
+  * Moral edge: complicit in necromancy; lies to the whole empire for her; would he kill an innocent who found out? The
+    player can push him either way.
+  * Tells: touches the swan clasp (Wendhild's gift) when he thinks of her; reads poems under his breath to steady himself;
+    never sleeps before dawn (the night guard).
+  * In play: court access, writs of passage, the finest swordsmanship in the capital, Iron Guard training.
+  * Romance mark (top stage): gives you the one poem he wrote and never showed her.
