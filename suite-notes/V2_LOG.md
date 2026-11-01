@@ -2942,3 +2942,6 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   B2 cue order (Why now + closing sentence reserved, fields share the rest), goal meeting `where` = party place, EOF
   lines, segmented pills, content fingerprint for pack updates, same-name present person met "in the story" (no cue,
   no pace), word-boundary cuts. Pending in the same agent: late cast card + re-vendor testkit from SB 5b18da6.
+- 1 Nov: CN2: NSD stage33/cast-nsd b074aeb (marker inverted: `from: 'pack'|'scan'` marks others' notes; unmarked =
+  reader's own, so pre-1.6 notes stay visible; merged main 1.5.0; 1589 tests, 1584 pass, 0 fail, 5 cancelled; compat +
+  smoke pass). Waiting on CD's late-card fix, then a focused Review C re-check.
