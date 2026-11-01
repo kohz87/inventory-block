@@ -2510,3 +2510,10 @@ USER: "delete the old proposal pages, the new 1 too, they look unsatisfactory. U
 still the best so far." Deleted artifacts v1 (CKdH3W…), v2 (6pNfhD…), v3 (B81gdC…), v4 (27w1Ps…) and v5 Rubric canvas
 (JvJLpq…); removed suite-notes/redesign/ (still in git history). The RPG mockup artifact (Gn22FR…) is not a redesign page
 and stays. From here: the shipped Story Suite UI is the baseline; UI changes are incremental, each with an approved mockup.
+
+## 1 Nov — Cleanup on today's UI (baseline): plan + U1 baseline shots started
+USER: "Using the current as baseline, can we simplify and clean it more?" Plan (from SIMPLIFY_AUDIT §5, UI-visible items
+first): one scene header (no repeated place/time/weather on Home/World/Director), fewer default tabs (Scene retired,
+Chronicle into World, Director + Dossiers under More), one merged card under each reply, a Lean/Standard/Full preset at
+the top of Features, NSD expert settings folded. Mockups are before/after on the real app (patched live screens).
+U1 (Sonnet agent): restart test ST 8155 on SB 121e49a / SD 4b188c3 / NSD 13daee6, capture every screen into scratchpad/u1.
