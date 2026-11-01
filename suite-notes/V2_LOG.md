@@ -3014,3 +3014,4 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   https://github.com/kohz87/Story_block/pull/242, NSD 1.6.1 #230, Studio 0.5.1 #24. Waiting on CI.
 
 - 2026-11-01 23:38Z — Studio 0.5.1 released: PR kohz87/Story_studio#24 merged (merge commit 3036ab8, head fb3323b, CI verify green). Vendors SB d926cf6 (2.15.1 meter-or-event secret rule). NSD #230 and SB #242 CI still running.
+- 2026-11-01 23:39Z — NSD 1.6.1 released: PR kohz87/npc_state_delta#230 merged (merge commit f642101, head d9351d5, CI verify green). SB #242 (Ersveil 2.4.0) CI still running.
