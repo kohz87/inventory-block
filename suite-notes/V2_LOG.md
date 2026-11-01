@@ -3009,3 +3009,6 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
 - 1 Nov: RELEASED Story Block 2.15.1 (PR #241, CI green, merged d926cf6). NSD 1.6.1 (d9351d5; testkit SB d926cf6;
   1592/1587/0/5 cancelled; compat + smoke) PR https://github.com/kohz87/npc_state_delta/pull/230; Studio 0.5.1 (fb3323b;
   vendored SB d926cf6; 841/841) PR opened. EP merging main and restoring the 13 events.
+- 1 Nov: EP restored the 13 events as either-rules (SB stage34/ersveil-cast 05f2e8d; merged main d926cf6; requires
+  ^2.15.1; 4405 tests, 4394 pass, 0 fail; secrets per person 5–8). PRs open: Ersveil 2.4.0
+  https://github.com/kohz87/Story_block/pull/242, NSD 1.6.1 #230, Studio 0.5.1 #24. Waiting on CI.
