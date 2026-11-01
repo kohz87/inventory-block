@@ -2619,3 +2619,13 @@ No version bumps by agents; lead releases (SB 2.12.0 first, then SD/NSD with req
   smoke pass). Waiting on CI.
 - 1 Nov: **Story Director 2.6.0 released** — PR #150, merge 1cfe4ec (head 20e682e), CI verify green. NSD #227 CI still running.
 - 1 Nov: **NPC State Delta 1.4.0 released** — PR #227, merge 8a60181 (head d94e1ae), CI verify green (CI ran the full chain green, so the 5 local cancellations are this sandbox's Node 22). UI cleanup release complete: SB 2.12.0 (#237 f361c92), SD 2.6.0 (#150 1cfe4ec), NSD 1.4.0 (#227 8a60181). Check-in trigger deleted.
+
+## 1 Nov — Character export/import mockup (USER: no start block; "draw the mockup, include inventory and money")
+Test ST 8155 updated to SB f361c92 / SD 1cfe4ec / NSD 8a60181 and restarted (pid file bc270/live/st.pid).
+Mockup on the real app (vm-results/u3/mock.mjs): Party card Export button; Export dialog (Character always; Inventory
+and Money ticked by default; "not saved" line: H/M/S, practice, place/people); New character → "Import file…" row;
+after import the wizard is filled (+ green note, Undo import); Review lists "Also adds: 4 things, 5 silver".
+Rules: file = name, You/companion, who, stats, points, Soul Class, XP, ≤5 skills with rank; inventory (owner's items);
+money as value (You only). Import adds items/money; one reply's change; refusals for taken name / second You.
+Page https://claude.ai/artifact/DjZaK87LySZjgmRKWTH21s. Waiting on USER approval.
+Seen while drawing: the New character dialog over the Game view is see-through (party cards show through) → follow-up.
