@@ -2973,3 +2973,6 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
 - 1 Nov: Hush settled with the USER (ethereal, girl-next-door face, regular figure; tied to Lothar).
 - 1 Nov: RELEASED Story Director 2.8.0 (PR #152, CI green, merged 1ae570c) and NPC State Delta 1.6.0 (PR #229, CI green,
   merged ed0ebc8). Studio 0.5.0 PR #23 CI running.
+- 1 Nov: RELEASED Story Studio 0.5.0 (PR #23, CI green, merged 157586e). LIVING CAST FULLY RELEASED: SB 2.15.0, SD 2.8.0,
+  NSD 1.6.0, Studio 0.5.0. Next: finish the Ersveil cast (10/12) with the USER and put it into the pack; then the
+  clean-up release.
