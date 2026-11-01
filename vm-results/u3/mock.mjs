@@ -49,11 +49,11 @@ await page.evaluate(ph => {
   const m = document.createElement('section'); m.className = 'u3-modal u3-tmp'; m.setAttribute('role', 'dialog');
   m.innerHTML = `<header><b>Export Wessel</b><button class="u3-x" type="button" aria-label="Close">✕</button></header>
   <div class="u3-body">
-   <p class="u3-note">Saves a file you can import when you make a character in another chat.</p>
-   <label class="u3-opt"><input type="checkbox" checked disabled><b>Character</b><small>You · Soul Class II · 40 XP · 3 points to spend<br>STR 14 · VIT 12 · AGI 11 · DEX 10 · INT 8 · LUK 9 · CHA 10<br>Skills: Iron Breath (Expert) · Short blade (Novice)<br>Who they are (the text the AI reads)</small></label>
+   <p class="u3-note">Saves a file you can import when you make a character in another chat. The name and who they are stay in this chat.</p>
+   <label class="u3-opt"><input type="checkbox" checked disabled><b>Character</b><small>Soul Class II · 3 points to spend<br>STR 14 · VIT 12 · AGI 11 · DEX 10 · INT 8 · LUK 9 · CHA 10<br>Skills: Iron Breath (Expert) · Short blade (Novice)</small></label>
    <label class="u3-opt"><input type="checkbox" checked><b>Inventory · 4 things</b><small>Bedroll · Coil of Rope · Oilskin Coat (waxed, a little too big) · Torch ×2</small></label>
    <label class="u3-opt"><input type="checkbox" checked><b>Money · 5 silver</b><small>Kept as its value, so another game's coins show it in their own words.</small></label>
-   <p class="u3-note">Not saved: Health, Mana and Stamina (a new chat starts them full), skill practice, where you are and who is with you.</p>
+   <p class="u3-note">Not saved: the name, who they are, XP, Health, Mana and Stamina (a new character starts full), skill practice, and anything about the story.</p>
   </div>
   <footer><button class="u3-btn" type="button">Cancel</button><button class="u3-btn primary" type="button"><i class="fa-solid fa-download"></i> Save <span class="u3-file">wessel.character.json</span></button></footer>`;
   document.body.append(back, m);
@@ -69,35 +69,28 @@ await page.evaluate(() => {
   body.prepend(r);
 });
 await shot('B1-new-import');
-// B2: after import: filled
+// B2: after import: only stats, points, Soul Class, skills (+ inventory, money at Create)
 await page.evaluate(() => {
   const w = document.querySelector('.ss-w-rpg-wizard');
   const r = w.querySelector('.u3-import'); const d = document.createElement('div'); d.className = 'u3-done';
-  d.innerHTML = `<b>Imported Wessel</b> from <span class="u3-file">wessel.character.json</span>: Soul Class II, 40 XP, 3 points, 2 skills. When you press Create it also adds <b>4 things</b> and <b>5 silver</b> to this chat. Change anything first. <button class="ss-button" type="button" style="margin-left:6px">Undo import</button>`;
+  d.innerHTML = `<b>Imported</b> from <span class="u3-file">wessel.character.json</span>: stats, 3 unspent points, Soul Class II and 2 skills. When you press Create it also adds <b>4 things</b> and <b>5 silver</b> to this chat. Give the character a name and who they are below. <button class="ss-button" type="button" style="margin-left:6px">Undo import</button>`;
   r.replaceWith(d);
-  const set = (sel, val) => { const el = w.querySelector(sel); if (el) { el.value = val; } };
-  set('[data-wiz=name]', 'Wessel');
-  set('[data-wiz=about]', 'A quiet swordsman from the river towns, newly registered with the Adventurer Guild. Wary of debts, kind to strays.');
-  const cnt = w.querySelector('.rpg-wiz-count'); if (cnt) cnt.textContent = '109 / 240';
-  const you = w.querySelector('[data-kind=you]'), comp = w.querySelector('[data-kind=companion]');
-  you.disabled = false; you.removeAttribute('title'); you.classList.add('ss-button-primary'); you.setAttribute('aria-pressed', 'true'); comp.classList.remove('ss-button-primary'); comp.setAttribute('aria-pressed', 'false');
-  const kn = w.querySelector('.rpg-wiz-kind .rpg-wiz-note'); if (kn) kn.textContent = 'You: the party shows you under this name.';
-  w.querySelector('.rpg-wiz-name').textContent = 'Wessel'; w.querySelector('.rpg-wiz-sub').textContent = 'You · Soul Class II · 40 XP';
-  w.querySelector('.rpg-wiz-ava').textContent = 'W';
+  w.querySelector('.rpg-wiz-sub').textContent = 'Companion · Soul Class II';
   const ks = w.querySelectorAll('.rpg-wiz-sum .rpg-wiz-k span'); if (ks[1]) ks[1].textContent = 'STR 14 · VIT 12 · AGI 11 · DEX 10 · INT 8 · LUK 9 · CHA 10'; if (ks[2]) ks[2].textContent = 'Iron Breath (Expert) · Short blade (Novice)';
-  for (const n of w.querySelectorAll('.rpg-wiz-note')) if (/^Starts at Soul Class I/.test(n.textContent)) n.textContent = 'Starts at Soul Class II with 40 XP, as imported. Health, Mana and Stamina start full.';
+  for (const n of w.querySelectorAll('.rpg-wiz-note')) if (/^Starts at Soul Class I/.test(n.textContent)) n.textContent = 'Starts at Soul Class II (imported) with 0 XP. Health, Mana and Stamina start full.';
   const push = w.querySelector('.rpg-wiz-push'); if (push) push.textContent = 'Points left: 3';
 });
 await shot('B2-imported');
 // B3: Review
 await page.evaluate(ph => {
   const w = document.querySelector('.ss-w-rpg-wizard');
+  w.querySelector('.rpg-wiz-name').textContent = 'Ren'; w.querySelector('.rpg-wiz-ava').textContent = 'R';
   const body = w.querySelector('.rpg-wiz-body'); body.innerHTML = `<div class="u3-review">
-   <div class="row"><small>Who</small><span>Wessel · You · Soul Class II · 40 XP</span></div>
+   <div class="row"><small>Who</small><span>Ren · A companion · Soul Class II · 0 XP</span></div>
    <div class="row"><small>Stats</small><span>STR 14 · VIT 12 · AGI 11 · DEX 10 · INT 8 · LUK 9 · CHA 10 · 3 points to spend</span></div>
    <div class="row"><small>Skills</small><span>Iron Breath (Expert) · Short blade (Novice)</span></div>
    <div class="row"><small>Health</small><span>Full Health, Mana and Stamina</span></div>
-   <div class="u3-also"><b>Also adds:</b> Combat rules, Foes · <b>4 things</b> to your inventory (Bedroll, Coil of Rope, Oilskin Coat, Torch ×2) · <b>5 silver</b> to your purse. One swipe of this reply takes it all back.</div></div>`;
+   <div class="u3-also"><b>Also adds:</b> Combat rules, Foes · <b>4 things</b> carried by Ren (Bedroll, Coil of Rope, Oilskin Coat, Torch ×2) · <b>5 silver</b> to the purse. One swipe of this reply takes it all back.</div></div>`;
   const dlg = w.parentElement.parentElement.parentElement || document.body;
   const pick = t => { const c = [...document.querySelectorAll('*')].filter(n => n.textContent.trim() === t && !n.closest('.u3-review, .rpg-wiz-sum, .ss-gameview-hero, .ss-w-rpg-party') && n.getBoundingClientRect().width > 0 && n.getBoundingClientRect().width < 140); const leaf = c.pop(); return leaf ? (leaf.closest('button,[role=tab],a,li') ?? leaf) : null; };
   const who = pick('Who'), rev = pick('Review');

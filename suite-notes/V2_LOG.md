@@ -2629,3 +2629,6 @@ Rules: file = name, You/companion, who, stats, points, Soul Class, XP, ≤5 skil
 money as value (You only). Import adds items/money; one reply's change; refusals for taken name / second You.
 Page https://claude.ai/artifact/DjZaK87LySZjgmRKWTH21s. Waiting on USER approval.
 Seen while drawing: the New character dialog over the Game view is see-through (party cards show through) → follow-up.
+- 1 Nov: USER approved the export/import mockup with one change: import = only stats, unspent points, Soul Class,
+  skills, inventory, money (name, You/companion, who, XP not carried). Mockup redrawn (v2). Brief UE
+  (suite-notes/ui-briefs/UE.md), branch stage30/char-export from SB f361c92; includes the opaque New character window.
