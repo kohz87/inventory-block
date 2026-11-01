@@ -2735,3 +2735,13 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   A meeting follows place + agenda (same place → good chance; agenda pulls toward the party → arrives; small roll only
   for "this scene?"). Once met, the reader can pin them as Key people (reuses the `away` track). Nameless locals stay
   fully generative (narrator invents; NSD dossier catches anyone who matters). Mockup to be redrawn (u7).
+- 1 Nov: Living cast mockup (replaces the encounters mockup): https://claude.ai/artifact/5vg7j6CL5zchoC2Rc5tuJE
+  (vm-results/u7/mock.mjs). Paths cross at the same place (small roll for "this scene"), a goal (`drawnTo`) brings
+  them (no roll), time passes → cast moves on (unmet hidden, met "last heard"), World → Around here, dossier with own
+  path + "Pin as Key people", SD setting "The cast" (on/off, Rare/Normal/Often). Pack entry gains `start`
+  {place, goal, routine} and `drawnTo`. Waiting on USER.
+- 1 Nov: Found while drawing (follow-up, not a blocker): NSD dossier panel `.delta-panel` background is 66% alpha with
+  no blur, so on phone (and over Game view) the Game view shows through and text overlaps. Fix: opaque panel background.
+  The mockup shows it opaque.
+- 1 Nov: FA fix-up round done: stage31/fa ed6b616 (check clean; 4358 tests, 4342 pass, 0 fail). Fixes 1–6 in; 6 limit:
+  a same-named group no healthier than the old one's last state still continues the old order.
