@@ -2815,3 +2815,5 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   CN1 (NSD stage33/cast-dossier from stage32: dossier at first meeting + opaque panel/jump bar), CN2 (NSD
   stage33/secrets from stage32: event unlocks, generated layered secrets, locked secrets injected, Secrets section,
   masking). Briefs suite-notes/cast-briefs/. Story Studio cast editor needs its own mockup later.
+- 1 Nov: USER: secrets up to 4–5 layers. Generated: 2–5 layers by how deep the character is (cap 5); pack/reader
+  secrets keep NSD's limit of 8. Injection over budget still nearest-to-opening first. Sent to CN2; CN2.md updated.
