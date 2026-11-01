@@ -2618,3 +2618,4 @@ No version bumps by agents; lead releases (SB 2.12.0 first, then SD/NSD with req
   version markers incl. runtime-modules.json + DEVELOPMENT.md; 1515 pass/0 fail/5 cancelled pre-existing; compat +
   smoke pass). Waiting on CI.
 - 1 Nov: **Story Director 2.6.0 released** — PR #150, merge 1cfe4ec (head 20e682e), CI verify green. NSD #227 CI still running.
+- 1 Nov: **NPC State Delta 1.4.0 released** — PR #227, merge 8a60181 (head d94e1ae), CI verify green (CI ran the full chain green, so the 5 local cancellations are this sandbox's Node 22). UI cleanup release complete: SB 2.12.0 (#237 f361c92), SD 2.6.0 (#150 1cfe4ec), NSD 1.4.0 (#227 8a60181). Check-in trigger deleted.

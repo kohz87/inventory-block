@@ -33,7 +33,7 @@ https://claude.ai/artifact/AJZkpqZigE5TvZRRh4jrMK (v3); AI writing help https://
 | ~~S~~ | DONE 31 Oct: vendored Story Block 2.8.0 in SD (#145), Studio (#20), NSD (#225) | — | — | — |
 | P4 | P4 trim: lazy-load the pack checker, Diagnostics, UI sample | Haiku or Sonnet | ~½–1 day | Any time |
 | L | UI redesign — CLOSED 1 Nov: all proposals (v1–v5) rejected and deleted; current UI stays the baseline | lead | — | done |
-| L2 | Cleanup on today's UI (1–4 approved): SB 2.12.0 RELEASED (#237); SD 2.6.0 #150, NSD 1.4.0 #227 in CI | lead | — | merge SD + NSD |
+| L2 | Cleanup on today's UI — RELEASED 1 Nov: SB 2.12.0 (#237), SD 2.6.0 (#150), NSD 1.4.0 (#227) | lead | — | done |
 
 ## Small follow-ups (any time)
 - 2.9.0 (review 171): refuse `- party` on the player's own character; a character made on the greeting is lost if the greeting is swiped (pre-existing); Home card lingers after turning the RPG off until Home redraws; old capped reply Re-read now pays in full (CHANGELOG could say).
