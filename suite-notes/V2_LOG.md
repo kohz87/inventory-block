@@ -2720,3 +2720,10 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   unmet hidden), NSD first-meeting dossier from the pack entry, SD settings (Off/Rare/Normal/Often, cast/backdrop
   toggles; never in a fight). Pack format: cast entry (about/look/voice/history/meters/stages/fields/where/once) and
   backdrop (place, chance by time of day, weighted roles with stance, name lists, traits). SD owns; NSD reads one way.
+- 1 Nov: Review F (Standard formula, SB stage31/fa b1df710 on 2.13.0): OK, no blockers. 4353 tests, 4337 pass, 0 fail,
+  15 skip; Classic byte-identical; 4000 random sheets 0 mismatches; turn-replay fuzz 0 problems; desktop+phone check OK.
+  Copy: vm-results/182-formula-review.md. Follow-ups sent back to FA (same branch): (1) tail block summaries before the
+  roll vs cue "Bars now" after it; (2) Classic-pack `+ party` / extras read settings without the pack; (3) support heal
+  logged as "attacks"; (4) wizard Skills note Classic wording; (5) planner sheet text on blocks/formula mismatch;
+  (6) same-named foe group within 12 messages continues the old order. Rulings to USER: (a) support "at a cost" heals 1
+  block; (b) quick start only vs the targeted foe; (c) 2.13.0 chats with no choice play Standard on Classic blocks (cap 5).
