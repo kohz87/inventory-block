@@ -45,3 +45,4 @@
   forearms; layered leather straps and buckles over a loose shirt; a tool pouch and keys at her belt; a rune-carved
   forge hammer.
 - Linked (from Nysseth, USER): Durvald also keeps a second, "proper" dwarven family; Ysmeth has half-siblings she does not know of.
+- If the player romances both Ysmeth and Nysseth: rivals, with jealousy (USER).

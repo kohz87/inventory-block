@@ -25,3 +25,15 @@
   half-siblings.
 - Stages: Tests you (lets you walk into a trap she warned you about) · Teaches you (knives, poisons, disappearing) ·
   Trusts you with the cell · Asks you to stand between her and her daughter.
+- USER (1 Nov): take all six additions; mother/daughter both romanced = rivals, with jealousy.
+  * Tells: always sits facing the door; sharpens a knife while she thinks; never eats food she did not see prepared;
+    alone, hums the elven lullaby she sang to Ysmeth (mirror of Ysmeth's dwarven forge-songs).
+  * In play: fields Soul Class IV, "Executor (retired)"; teaches stealth, poison and knife-work; knows every back way
+    out of Shackles.
+  * Threat: the Hand of Oblivion honours every contract it accepts, and her first contract on Durvald was never closed —
+    the Hand still expects her to finish it, or may hand it to someone else; a reason she cannot move openly.
+    Drawn to (added): the Hand of Oblivion.
+  * Moral edge: she would let her own cell burn if it brought Durvald down, and has thought of using his second
+    family (his dwarven children) against him; the player can push her toward or away from it.
+  * Romance mark (top stage): she lets you sit with your back to the door while she watches it for you.
+  * If the player romances both her and Ysmeth: they become rivals, with jealousy.
