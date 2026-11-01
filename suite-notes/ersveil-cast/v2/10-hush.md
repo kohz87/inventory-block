@@ -27,3 +27,15 @@
   the imperial palace.
 - Stages: Walks you home · Teaches you the doors of Vargate · Lets you see her free a spirit · Asks you to remember
   her (rain stops).
+- USER (1 Nov): take all seven.
+  * Limit: cannot stay near bound spirits; Highmark's palaces are full of bound lamps — Crown Keep would be agony; to
+    meet Lothar's family or free her kin she must walk into the place that hurts her most.
+  * In play: every door and safe route in Vargate; senses bound spirits and spirit-powered traps; her voice can calm and
+    put people to sleep; small spirit pacts; her glow lights the dark. No fighter.
+  * Tells: droplets drift faster when she is moved; her glow dims when she is sad; touches every lamp she passes, gently.
+  * Threats: ward-lords who keep losing expensive lamps; binders — a spirit carrying dozens of small spirits is a fortune.
+  * Gentle moral edge: freeing a lamp sometimes takes the only light a poor family has; she chooses anyway, leaves them
+    candles, and it bothers her.
+  * Romance mark (top stage): she makes it rain softly in your cupped hands, just for you — to spiritfolk, giving part
+    of yourself.
+  * Cast fun: Nerissa's racy shanties make her blush into drizzle; sea and rain, almost sisters.

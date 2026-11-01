@@ -39,3 +39,4 @@
   teeth; faint scale-sheen on her skin; long pale sea-green hair with shells and glass drops; the sheath worn like a
   sheer scarf at her throat; a dark gold-trimmed privateer coat, loose laced shirt, red sash, a basket-hilted cutlass;
   bead bracelets; a ship's deck and rigging behind.
+- Hush (USER, 1 Nov): her racy shanties make Hush blush into drizzle; sea and rain, almost sisters.
