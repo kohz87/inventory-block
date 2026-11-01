@@ -20,3 +20,16 @@
   she is sworn to kill is her father.
 - Stages: Picks a fight with you · Grudgingly fights beside you · Gets flustered and shouts at you when you're kind ·
   Asks you to stand witness when she claims her deed-name.
+- USER (1 Nov): take all seven; plus: when the player romances Torka or Harrak, the other watches the player with
+  scrutiny (father/daughter).
+  * Tie to Temiwa: sells monster parts at night at Bluewatch's salt-and-ash yard (the one place that won't turn an orc
+    away); Temiwa stitches her there; Torka is the only one who laughs at Temiwa's slow, sadistic stitching. Two outcasts.
+  * Tells: blurts what she feels, then furiously denies it; chews a braid end when thinking; threads a bead into her
+    braids for every kill and shows them off.
+  * In play: berserker front line; Wildzone monster lore; tracking. Risk: once the rage starts she can hit friends too.
+  * Threat: Highmark orc bounties — bounty hunters work the roads around Bluewatch. Drawn to (added): bounty hunters.
+  * Romance mark (top stage): paints her war-paint on your face (to orcs: you are hers), then is mortified and pretends
+    she didn't.
+  * Arc's final choice: kill her father and complete the blood-price (deed-name, honour) or spare him and stay
+    nameless; the player is there; the song makes the scene.
+  * Lighter side: terrible at haggling; eats like three people; the cast's warmth among heavy stories.

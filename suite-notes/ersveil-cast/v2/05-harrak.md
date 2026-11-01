@@ -42,3 +42,4 @@
 - Portrait (USER, ChatGPT): portraits/harrak-original.png. Look details to match: long grey hair with two thin braids;
   a white beard; pointed ears; one tusk; a heavy dark cloak with a white fur collar; wrapped, scarred forearms; a
   carved beacon-horn at his belt; a long-hafted axe he leans on; a stone fort with Watch banners behind.
+- USER (1 Nov): if the player romances Harrak or Torka, the other watches the player with scrutiny (father/daughter).

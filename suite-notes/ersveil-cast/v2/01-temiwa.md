@@ -38,3 +38,4 @@
 - USER (1 Nov): Soul Class I (not overpowered).
 - Harrak tie (USER, 1 Nov): the half-frozen girl was carried to Bluewatch's gate by an orc in Watch colours who left
   before dawn; Temiwa never told anyone that either.
+- Torka tie (USER, 1 Nov): an orc girl sells monster parts at the salt-and-ash yard at night; Temiwa stitches her, and Torka is the only one who laughs at it.
