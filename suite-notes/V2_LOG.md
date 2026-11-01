@@ -3004,3 +3004,5 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   NSD stage35/secret-either 4d83516 (already supported both; wording "Opens at Trust 90 or with the story"; 2 new
   tests; 1592 tests, 1587 pass, 0 fail, 5 cancelled pre-existing). SB 2.15.1 bumped (1d3518a; 4397/4386/0) → PR opened.
   Next: NSD 1.6.1 after SB merges (re-vendor), Studio 0.5.1 (ST working), then EP restores the 13 events (requires ^2.15.1).
+- 1 Nov: ST done: Studio stage35/secret-either 6d39170 (either-rule field per mockup; vendored SB 128d203; 841 tests,
+  841 pass). EP told to merge SB stage35, restore the 13 events as either-rules, requires ^2.15.1. SB PR #241 CI pending.
