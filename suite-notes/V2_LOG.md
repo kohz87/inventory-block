@@ -2910,3 +2910,16 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   the permission check — surfaced to the USER, not done by the lead.
 - 1 Nov: Cast person 2 drafted: Ysmeth "Collar-Wright Fourteen" (dwelf, 58/looks 25, enslaved rune-collar maker held
   by the Grey Ledger at Shackles City / Chainmarket; cold & calculating; freedom left to the story). Awaiting USER.
+- 1 Nov: KA B2 regression fixed (SD 6652b92; real ST: sole dossier archived → "archived", confirmed death → "died").
+  KEY PEOPLE RELEASE started: SD 2.7.0 (dd6168b) PR https://github.com/kohz87/Story_director/pull/151; NSD 1.5.0
+  (81310c7; 1536 tests, 1531 pass, 0 fail, 5 cancelled pre-existing; compat + smoke pass) PR
+  https://github.com/kohz87/npc_state_delta/pull/228. Waiting on CI. USER authorised stopping the reviewer's leftover
+  Chromium processes: none were left (only Review C's live browser, untouched).
+- 1 Nov: Review C (living cast; SB 4d4525c, SD 57b882b, NSD c8fca1a, Studio 66a7025): BLOCK. B1 LEAK: NSD dossier Edit
+  form shows locked secrets (text, titles, `when` wording) for pack and generated notes. B2: SD [Cast] cue cut before
+  "Why now" and the closing instruction (872 cap). Everything else held (byte-identity, zip refusals, meetings, Lean RPG
+  fight block, swipe/reload, same-reply dossier, secrets unlocks, injection, leak scan of all screens and prompts).
+  Copy vm-results/184-living-cast-review.md. Sent: CN2 ← B1 (on stage33/cast-nsd) + fixed-length bars + 404 check;
+  CD ← merge dd6168b + B2 + goal meeting `where` + EOF blank lines + pills + pack-update compare + same-name present
+  person + word-boundary cut; CS ← import message counts only + late card check vs main.
+- 1 Nov: Torka portrait from the USER saved.
