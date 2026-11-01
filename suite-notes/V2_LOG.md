@@ -2546,3 +2546,10 @@ UA2 (SB one "This reply" card + empty HUD bug, stage29/ui-a2), UC (SB presets + 
 stage29/ui-c), UB (SD scene dups, status summary, `story-director.threads`, Director overlap, stage29/ui-b),
 UD (NSD Meter presets fold + Expert fold, scan-every-reply feature, phone dossier, stage29/ui-d).
 No version bumps by agents; lead releases (SB 2.12.0 first, then SD/NSD with requires bumps).
+- 1 Nov: UC done — SB `stage29/ui-c` a6d07b6 (from 121e49a). check + full test green (4139 pass, 0 fail, 15 skip).
+  "How much to track" radiogroup; selected tile derived (Custom tag when none matches); picks set in-preset available
+  features via store.set; once-note for prompt-changing switches. Tile numbers = real static prompt per feature set
+  (`registry.withFeatures` + `staticTextWith`, tokenizer when it answers). In the Ersveil test chat: Lean ≈4,254,
+  Standard ≈4,394, Full ≈4,477 (pack text included; Lean's big cut arrives with UB's threads switch). Unavailable
+  features (pre-roll without a check module) are neither set nor compared. Lead looked at shots uc/shots f1–f6: OK.
+  Notes for review: one feature event per changed switch (not batched); "Fine-tune" label shows with one module.
