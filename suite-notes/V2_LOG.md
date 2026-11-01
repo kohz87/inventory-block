@@ -2517,3 +2517,16 @@ first): one scene header (no repeated place/time/weather on Home/World/Director)
 Chronicle into World, Director + Dossiers under More), one merged card under each reply, a Lean/Standard/Full preset at
 the top of Features, NSD expert settings folded. Mockups are before/after on the real app (patched live screens).
 U1 (Sonnet agent): restart test ST 8155 on SB 121e49a / SD 4b188c3 / NSD 13daee6, capture every screen into scratchpad/u1.
+
+## 1 Nov — U1 done; cleanup mockups 1–2 (before/after on the real app)
+U1 (Sonnet): test ST 8155 pid 1029 on SB 121e49a / SD 4b188c3 / NSD 13daee6 (NSD newly cloned into the test data only),
+mock LLM 5005; 89 baseline shots in scratchpad/u1, index copied to vm-results/u1/INDEX.md. RPG left ON as found.
+Lead mockups (scratchpad/u2/after.mjs, copy in vm-results/u1/): live CSS/DOM patch, nothing saved.
+- 1: scene facts only in the hero header (+ "Here: Fenna" and pencils), Home Where card gone, tabs Home/Inventory/
+  Quests/World/Map + More, Save points a slim row, Game view opaque.
+- 2: "This reply" = Changed + Status merged into one card (summary adds time, place; opened: changes, then
+  "Where things stand").
+Page: https://claude.ai/artifact/AEcQn5iy89gGpzxZoSy8LV. Waiting on USER approval before any build.
+Bugs found by U1 (follow-ups, not blockers: layout/empty UI, no data loss): Director card overlap; phone dossier modal
+too narrow (NSD); status strip (story-block.hud) on but empty; hero vitals hidden with RPG on; RPG-off leaves RPG
+blocks as extra tabs with duplicate names.
