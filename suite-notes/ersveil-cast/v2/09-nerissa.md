@@ -1,0 +1,22 @@
+# 9. Nerissa "of the Gannet" (woman) — with the USER, 1 Nov
+- People: Sea Folk (Atlantis), ~90 (looks ~25). Calling: privateer/smuggler, pilot of the Gannet (Stormmere privateer
+  under Captain Nell). Role: companion from day one; romanceable. Fields: Soul Class II, "Atlantean pilot".
+- Look: a regular figure, neither lean nor curvy (USER); faintly iridescent sea-green skin; long hair the colour of
+  shallow water threaded with shells and sea-glass; pale glassy eyes; the transparent breathing sheath folded at her
+  throat like a veil on land; open privateer's coat, sash, cutlass; barefoot when she can be.
+- Voice: light, teasing, half-laughing; calls everyone "Sheathless", the player "little Sheathless"; pranks people she likes.
+- Personality: teasing and flirty; loves to fluster land folk; lies about small things, honest about big ones; endlessly
+  curious about the surface (food, music, rain); homesick underneath and won't admit it.
+- History (known): left the dome to sail with Sheathless privateers; the Tidebound tolerates her (it needs Atlantean
+  pilots); Atlantis calls her a deserter.
+- Start: Abysswatch. Routine: the Gannet's pilot on runs; harbor taverns between runs. Goal (visible): the next prize,
+  the next port, the next good story.
+- Drawn to: the Black Trawl; Atlantean envoys; Vargate's slave ships; the Broken Chain; anyone fun.
+- Secrets: (1) Trust 20 — not an exile: she ran away the night before her arranged bloodline marriage. (2) Trust 40 —
+  the Gannet carries cargo for the Nightingale; she knows the hidden sea paths. (3) when: the party meets the Broken
+  Chain or Vargate's slave ships — the "cargo" is often people: runaways from Vargate's slavers, carried for the Broken
+  Chain on routes only an Atlantean pilot can sail (links her to Ysmeth's and Nysseth's world). (4) Trust 70 — her mother
+  sits on the Tide-Archon's council and has declared her dead. (5) Trust 90 or when: she admits her feelings —
+  Atlantean law forbids marriage with land peoples; loving a Sheathless means she can never go home, and she has decided.
+- Stages: Teases you · Steals something from you and gives it back · Takes you swimming at night · Chooses the
+  Sheathless (gives you her pilot's tide-charm).
