@@ -33,3 +33,7 @@
   * Arc's final choice: kill her father and complete the blood-price (deed-name, honour) or spare him and stay
     nameless; the player is there; the song makes the scene.
   * Lighter side: terrible at haggling; eats like three people; the cast's warmth among heavy stories.
+- Portrait (USER, ChatGPT): portraits/torka-original.png. Look details to match: long dark-brown hair in many braids
+  with bone beads; pointed ears; fangs, a wide laugh; red war-paint slashes on cheek, shoulder, arm and thigh; a fur
+  mantle; a laced cloth top and fur-trimmed belted skirt; wrapped arms and fists; a fang charm at the belt; a spiked
+  iron maul; war banners and tents behind.
