@@ -2950,3 +2950,9 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   reply). SD workaround src/v2/cast/follow.js re-scrolls only for replies carrying a cast note when the reader was at
   the bottom. Follow-up (clean-up release): fix in SB — scroll again after the card is drawn; then SD's follow.js can go.
 - 1 Nov: Review C re-check started (SB 5b18da6, SD cb344b5, NSD b074aeb); ST asked to re-vendor SB 5b18da6.
+- 1 Nov: Review C re-check paused: the reviewer's cleanup of its own test data (`rm -rf st-data …`, `rm -f ctl/*` in
+  rv-c) was DENIED by the safety check; it did not work around it. Lead did NOT delete on its behalf: told it to use
+  fresh new folders instead (no deletion), and surfaced the denial to the USER. Done so far: diff --check clean on all;
+  npm run check passes on SB/SD/NSD.
+- 1 Nov: Cast person 9 drafted: Nerissa "of the Gannet" (Sea Folk privateer pilot, Abysswatch; teasing & flirty;
+  companion; Broken Chain sea route optional). Awaiting USER.
