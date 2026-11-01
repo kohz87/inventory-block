@@ -3020,3 +3020,9 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   (no artifact at either link). Clean-up release started: briefs suite-notes/cleanup-briefs/ (X-COMMON, XA SB portrait
   shrink + zip caps + card scroll + NSD preset ids export; XB SD removal-line fix + drop follow.js after XA; XC NSD 404s +
   opacity check; XM part-B mockups: date/time pencil, Studio pack formula).
+- 2 Nov ~00:05Z: XM done (no repo change): part-B mockups, real ST + Studio with DOM patches; script and notes copied to
+  vm-results/u10/. Mockup page https://claude.ai/artifact/V9U7kfpstDwvTjjsS9tWgd (clock pencil in the hero corner + editor
+  + "Clock set to …" card line; Studio Pack settings "Stat formula" card Reader's choice/Standard/Classic). Questions to
+  USER with recommendations: keep Reader's choice; allow rewind; hero only; choice only (no numbers). XM reported one
+  denied `rm -rf $E/*` (its own extension copy) that it then re-ran in a `"${E:?}"/*` form → surfaced to USER.
+  USER asked whether WebP loses quality: answered (stored 400×600 ≤ 64 KB; originals kept; 150 KB / 800×1200 offered, not recommended).
