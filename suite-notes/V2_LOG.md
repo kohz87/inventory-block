@@ -2830,4 +2830,10 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   routine, goal, drawn to, meters/stages/fields, may die before met, up to 8 secrets each opening at a meter value or
   on a story event, a player-view preview); export one .zip (pack.json + portraits/). CS told to import that .zip too
   (DecompressionStream; refuses encrypted/zip64/zip-slip/unknown files/>4 MB). Later: pack formula in Pack settings;
-  AI help for a cast entry. Mockup https://claude.ai/artifact/ (see next line) vm-results/u8/mock.mjs.
+  AI help for a cast entry. Mockup https://claude.ai/artifact/8CxMF61T35t5jcqTxALpN4 (vm-results/u8/mock.mjs). Waiting on USER.
+- 1 Nov: KA fix-up done: SD stage32/key-people 96ea544 (plain commit on 47c6a0d). 1032 tests, 1030 pass, 0 fail, 2 skip.
+  B2: empty npc.known releases only when NPCStateDelta.isEnabled() && hydration ready. (3) pin keeps Delta identity
+  (npc.identity) → npc.dossier {id} → lifeState deceased = "died" (stand-in tested; needs real-ST confirm with KB).
+  (7) rename by id. (5) .wv-facts restored. (4) no dangling " ·". (8) wording. (2) static only while someone pinned
+  (byte-identical otherwise; static now changes on first pin/last unpin — accepted). Waiting on KB (B1), then a focused
+  re-check of B1/B2/(3) on a real ST with both branches.
