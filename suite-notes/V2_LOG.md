@@ -2669,3 +2669,11 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   companionStats with spill so no point is unspent). Briefs suite-notes/rpg-briefs/F-COMMON, FA (roll engine,
   planner types, settings, creation, simulation), FB (bars, foe Health, Fight tab views). Both agents started.
 - 1 Nov: **Story Block 2.13.0 released** — PR #238, merge 0a68271 (head 8242ae4), CI verify green. (Formula base stage31/formula-base sits on 8242ae4, so FA/FB build on top of 2.13.0.)
+- 1 Nov: FB done — SB `stage31/fb` 77ba918 (from formula-base c072d16), 4293 tests 0 fail. blocks.js (spreadWord
+  nearest-word spread, word→blocks, barFields, growth), STANDARD_TEMPLATES/templatesFor(formula) (Health 0..8,
+  Stamina/Mana 0..7, hidden *-blocks size fields + rules: new block full except Down, shrink clamps), Foes hurtN 0..8 by
+  class, tail words, views (Party bars "Hurt · 4 of 6", hero, Fight order/quick start, battle log breakdown/idle/area).
+  Classic templates' hashes pinned unchanged. Schema/check: optional `blocks` on int fields, `names` on kind labels.
+  Lead relayed to FA: merge stage31/fb into stage31/fa; stageWord → spreadWord; wire templatesFor everywhere; barFields
+  for new characters; FB's Standard Combat rules text; one growth line (luck −1 → "next at LUK 8"); order on every
+  rolled reply of a fight.
