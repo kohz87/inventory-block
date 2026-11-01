@@ -2928,3 +2928,10 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
 - 1 Nov: Cast person 7 drafted: Sir Lothar of Swanmere (human, 27, Iron Guard knight sworn to Wendhild; gentle noble;
   hidden agenda; the Emperor died last winter and a Veil-held pattern wears his face; Wendhild ordered it; Lothar seeks a
   completer outside the Church, then means to confess and die as the traitor). Awaiting USER.
+- 1 Nov: CN2 B1 fix: NSD stage33/cast-nsd 8c620d0 (1589 tests, 1584 pass, 0 fail, 5 cancelled): editor shows only own +
+  opened notes; others "Hidden note n · opens at …"; saving keeps hidden notes byte-for-byte; bars fixed widths; the
+  404s are pre-existing (vault put() reads first; same on main). Lead caught a regression: pre-1.6 reader notes had no
+  `own` flag and would be hidden from their writer → sent back to invert (mark pack/scan notes `from`, unmarked = own)
+  and to merge main (1.5.0).
+- 1 Nov: Sir Lothar settled with the USER (romance (a) love triangle with Wendhild's scrutiny; lovers in all but deed —
+  he holds steadfast, which is part of why she wants the crown; not pregnant).
