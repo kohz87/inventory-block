@@ -24,3 +24,14 @@
   one taken, and every one who gave them up.
 - Stages: Tells you a story that turns out to be true · Lets a flower tell you something · Shows you her true,
   hand-sized self · Tells you where her flower is.
+- USER (1 Nov): take all seven.
+  * Body as armor: she chose the shape on purpose, knows how well it works, is faintly amused by it; it is not who she
+    is; secretly she wants someone who cares about her true, hand-sized self.
+  * In play: Flower-Speech (any blossom an informant); shrinks to true size to slip through keyholes, vents and gaps to
+    spy; minor plant magic (tangling vines, sleeping-pollen); weak in a straight fight.
+  * Limit: no flowers = half blind and starving; stone cities, glass deserts (Ashkar) and winter drain her.
+  * Tells: touches the decoy bloom behind her ear when lying; wings flicker under the cloak when startled; murmurs to
+    flowers as she passes.
+  * Threats: the collector and his hunters; binders; anyone who finds her flower; the Fairy Court's judgement.
+  * Moral edge: she betrayed three fairies to save herself — would she again? The player decides who she becomes.
+  * Romance mark (top stage): lets you hold her, true-sized, in your cupped hands.
