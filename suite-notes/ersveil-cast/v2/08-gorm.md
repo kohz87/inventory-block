@@ -37,3 +37,4 @@
   beard hung with silver bells; a deep violet-and-gold envoy's robe over a brocade waistcoat, wine-spotted cuffs; a gold
   chain of office with a medallion; spectacles hanging on a cord; a silver goblet raised; a grape-embossed flask; a
   rune-marked war-hammer at his belt; an armillary sphere behind (the embassy).
+- Nerissa (USER, 1 Nov): joins his drinking/eating contests with Torka, and cheats.

@@ -20,3 +20,18 @@
   Atlantean law forbids marriage with land peoples; loving a Sheathless means she can never go home, and she has decided.
 - Stages: Teases you · Steals something from you and gives it back · Takes you swimming at night · Chooses the
   Sheathless (gives you her pilot's tide-charm).
+- USER (1 Nov): take all seven; plus she particularly likes singing racy shanties to watch everyone's reaction.
+  * Limit: on land too long her skin and sheath dry — she must soak daily (salt water best; a bath or horse trough in a
+    pinch, to her disgust); long inland journeys cost her.
+  * In play: breathes underwater (scouts wrecks, sunken ruins, harbor bottoms); sea charts and hidden paths; the Gannet
+    as transport; smuggler contacts in every port; a quick cutlass.
+  * Tells: wets her throat sheath with her fingers when nervous; hums shanties; magpie — pockets small shiny things and
+    gives them back later with a wink. Sings racy shanties on purpose to watch everyone's reaction.
+  * Threats: retrievers from Atlantis sent by her jilted betrothed's family; Vargate slavers who'd pay for the Chain's
+    pilot; the Black Trawl (seen once; won't talk about it). Drawn to (added): Atlantean retrievers.
+  * Moral edge (light): would sell almost any secret for a good price — loyalty must be earned; once earned she'd sink a
+    ship for you.
+  * Romance mark (top stage): sheath-sharing — she shares her breath with you underwater (intimate; forbidden with the
+    Sheathless).
+  * Cast fun: joins Gorm and Torka's drinking/eating contests (and cheats); loves flustering Rika and teasing Lothar, who
+    apologises to her for things she did.
