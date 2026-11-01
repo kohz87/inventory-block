@@ -2837,3 +2837,6 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   (7) rename by id. (5) .wv-facts restored. (4) no dangling " ·". (8) wording. (2) static only while someone pinned
   (byte-identical otherwise; static now changes on first pin/last unpin — accepted). Waiting on KB (B1), then a focused
   re-check of B1/B2/(3) on a real ST with both branches.
+- 1 Nov: KB fix-up done: NSD stage32/key-people 899f787. B1: `replacingReply` during swipe/regenerate → head = reply
+  before; real-ST check: note on B, again on swipe of B, none on C. (6) manual Scan now not held. 1536 tests, 1531 pass,
+  0 fail, 5 cancelled (pre-existing). Review K re-check started (same reviewer) on SD 96ea544 + NSD 899f787.
