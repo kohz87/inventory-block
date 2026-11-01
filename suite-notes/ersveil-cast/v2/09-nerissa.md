@@ -35,3 +35,7 @@
     Sheathless).
   * Cast fun: joins Gorm and Torka's drinking/eating contests (and cheats); loves flustering Rika and teasing Lothar, who
     apologises to her for things she did.
+- Portrait (USER, ChatGPT): portraits/nerissa-original.png. Look details to match: finned, frilled ears; small sharp
+  teeth; faint scale-sheen on her skin; long pale sea-green hair with shells and glass drops; the sheath worn like a
+  sheer scarf at her throat; a dark gold-trimmed privateer coat, loose laced shirt, red sash, a basket-hilted cutlass;
+  bead bracelets; a ship's deck and rigging behind.
