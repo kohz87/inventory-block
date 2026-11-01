@@ -2538,3 +2538,11 @@ USER: "approved, draw 3 and 4". Same page (v2): https://claude.ai/artifact/AEcQn
 - 4: NSD module: everyday groups stay (Scanning, Roster & continuity, Portrait generation, Data & maintenance); Source of
   truth, Calendar & birthdays, Scanner rules, What's sent, Advanced move into one closed "Expert" group.
 Test ST had stopped; restarted on 8155 (pid file bc270/live/st.pid). Script copy vm-results/u1/after2.mjs.
+
+## 1 Nov — Cleanup 3–4 approved; build started in parallel (5 agents)
+USER: "Nsd preset should be stored in a preset category fold. The rest are fine, proceed in parallel."
+Briefs suite-notes/ui-briefs/: UI-COMMON, UA1 (SB hero/Home/tabs + RPG-off tabs + hero vitals bugs, stage29/ui-a1),
+UA2 (SB one "This reply" card + empty HUD bug, stage29/ui-a2), UC (SB presets + `presets` feature-key contract,
+stage29/ui-c), UB (SD scene dups, status summary, `story-director.threads`, Director overlap, stage29/ui-b),
+UD (NSD Meter presets fold + Expert fold, scan-every-reply feature, phone dossier, stage29/ui-d).
+No version bumps by agents; lead releases (SB 2.12.0 first, then SD/NSD with requires bumps).
