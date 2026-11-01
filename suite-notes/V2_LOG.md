@@ -2589,3 +2589,12 @@ No version bumps by agents; lead releases (SB 2.12.0 first, then SD/NSD with req
   Bluewatch Village", heading "Where things stand". "N edits of yours" removed from the closed line (one assertion in
   edit/reply-card.test.js changed on purpose). HUD switch (Features + drawer row) shown only when a screen declares a
   'hud' mount (withHiddenFeatures; stored value untouched). Older SD: heading "Status", no summary part (graceful).
+- 1 Nov: UA1 done — SB `stage29/ui-a1` 3c4bddf, green. Hero corner time/place/weather/"Here:" with pencils (scene.place,
+  scene.weather, scene.present), wraps on phone; Home drops Where card under the hero; Home 3 per row ≥760px, Save
+  points slim last row; Game view opaque in Glass/Solid/Follow; bar Home/Inventory/Quests/World/Map (+Party, +Fight
+  while fighting), rest under More on desktop too; Tabs & Packs "In the bar / Under More" (inBar/underMore); role
+  blocks never get tabs; duplicate tab names numbered; hero bars from lean-rpg/view/hero-data.js (+XP). Lead looked at
+  ua1/shots on-home d/p: matches the mockup. Phone pill keeps 4 + More (World/Map under More with RPG on): accepted.
+- 1 Nov: integration SB `stage29/ui-merge` 36f31d8 = main 121e49a + ui-a1 + ui-a2 (b1770db) + ui-c, merges clean;
+  check 0, full test 4186 pass / 0 fail / 15 skip. Pushed. Reviews started (rv-ui1: SB + browser of all three, port
+  8171; rv-ui2: SD + NSD, port 8172). Brief suite-notes/ui-briefs/REVIEW.md.
