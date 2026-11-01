@@ -40,3 +40,4 @@
 - Portrait (USER, ChatGPT): portraits/nysseth-original.webp. Look details to match: short tousled silver hair; small
   ear rings; the throat scar; hooded dark cloak with buckled straps; wrapped forearms with a sheathed wrist knife;
   tally marks on the inner wrist; a whetstone and knife in hand; a boot knife; maps pinned on the wall behind.
+- Barney tie (USER, 1 Nov): the halfling debt-collector who delivered her and Ysmeth to the Ledger was Barney; elves remember faces — she may know him on sight.

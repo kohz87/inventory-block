@@ -38,3 +38,4 @@
   chain of office with a medallion; spectacles hanging on a cord; a silver goblet raised; a grape-embossed flask; a
   rune-marked war-hammer at his belt; an armillary sphere behind (the embassy).
 - Nerissa (USER, 1 Nov): joins his drinking/eating contests with Torka, and cheats.
+- Barney tie (USER, 1 Nov): Barney arranged and paid Liese's escape route; old friends and eternal rivals at cards and drink.

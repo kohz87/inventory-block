@@ -47,3 +47,4 @@
 - Linked (from Nysseth, USER): Durvald also keeps a second, "proper" dwarven family; Ysmeth has half-siblings she does not know of.
 - If the player romances both Ysmeth and Nysseth: rivals, with jealousy (USER).
 - USER (1 Nov): keep Soul Class III.
+- Barney tie (USER, 1 Nov): the halfling debt-collector who delivered her and her mother to the Grey Ledger for Durvald was Barney (she does not know).
