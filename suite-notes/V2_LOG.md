@@ -2887,3 +2887,10 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
 - 1 Nov: Cast rebuild with USER, person 1 drafted: Sister Temiwa "Last Candle" (fox beastfolk, Church of the Flame,
   29, saintess candidate cast out to Bluewatch; knows the Church/Veil shared root; weary, sarcastic, a little sadistic;
   hidden agenda → companion; 5 secrets). Awaiting USER edits.
+- 1 Nov: CS addendum 2: SB stage33/cast 4d4525c (sample cast start places exact: Fenna Bluewatch Village, Sera
+  Hollin's Reach; test that every sample start.place is a pack place; 4396 tests, 4380 pass, 0 fail).
+- 1 Nov: CN2 extension: NSD stage33/secrets 9cc5e4d (1562 tests, 1557 pass, 0 fail, 5 cancelled pre-existing): layers
+  + event watch in one-pass capture (cache-stable rules; per-reply watch list in context), targeted backfill and
+  Refresh; redactSent handles multi-line part text. Lean and Full use the ordinary dossier scan (Lean every 3rd reply).
+- 1 Nov: CN1 asked to build the NSD integration branch stage33/cast-nsd (merge 899f787 + stage33/secrets; re-vendor
+  SB 4d4525c; ★ Pin as Key people via sdk.command keypeople.pin; real-ST end-to-end with SD stage33/cast).
