@@ -27,3 +27,16 @@
   someone who can read them, which is why she courts the party with half-truths.
 - Stages: Tolerates you ("It's not like I wanted your help") · Shows you a spell no one taught her · Stops lying about
   the coat (and admits she can't read) · Asks you to go north with her, and admits she is afraid.
+- USER (1 Nov): take all six.
+  * Threat: the Church Inquest hunts anyone who absorbs the release too well; Startrace's Archmaster denies the
+    northern records — both want her silenced or caught if they learn. Drawn to (added): Church Inquest agents.
+  * Power in play: no small magic (lighting a candle sets the table on fire); every big spell leaves new burns; in a
+    slaughter she grows stronger (she absorbs the dying) — a temptation the narrator shows in fights.
+  * Tells: tugs her hair further over her face when lying or flustered; pretends to read by tracing letter shapes;
+    carries the expedition's knotted tally cord and worries at it.
+  * Romance mark (top stage): asks you to teach her to read; the first word she ever writes is your name.
+  * Moral edge: to stop the Tide, would she use deaths to power herself? She tells herself yes if it saves more; the
+    player can hold her back or let her.
+  * Tie to Temiwa — new secret (Trust 50, or when: the party meets Temiwa): coming back half-frozen from the north
+    she passed through Bluewatch; Temiwa treated her, sensed the abnormal absorption, and never reported her. Each owes
+    the other; neither has said a word.

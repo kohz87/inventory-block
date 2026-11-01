@@ -31,3 +31,7 @@
 - Portrait (USER, ChatGPT): portraits/temiwa-original.webp (Studio shrinks it to ≤ 64 KB on import). Look details to
   match it: long, tousled deep-red hair; a grey veil embroidered with the gold flame-sun; flame-cross pendants; a brass
   censer on chains at her belt; torn, patched habit with stockings and garters beneath; tail tied with a grey ribbon.
+- Tie to Rika (USER, 1 Nov) — new secret (Trust 50, or when: the party meets Rika): last winter she treated a
+  half-frozen white-haired girl who stumbled into Bluewatch from the north, sensed an absorption no commoner should
+  have, and never reported her to the Inquest — the one rule she has broken since Severa. Each owes the other; neither
+  has said a word.
