@@ -3012,3 +3012,5 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
 - 1 Nov: EP restored the 13 events as either-rules (SB stage34/ersveil-cast 05f2e8d; merged main d926cf6; requires
   ^2.15.1; 4405 tests, 4394 pass, 0 fail; secrets per person 5–8). PRs open: Ersveil 2.4.0
   https://github.com/kohz87/Story_block/pull/242, NSD 1.6.1 #230, Studio 0.5.1 #24. Waiting on CI.
+
+- 2026-11-01 23:38Z — Studio 0.5.1 released: PR kohz87/Story_studio#24 merged (merge commit 3036ab8, head fb3323b, CI verify green). Vendors SB d926cf6 (2.15.1 meter-or-event secret rule). NSD #230 and SB #242 CI still running.
