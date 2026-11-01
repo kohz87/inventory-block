@@ -1,11 +1,13 @@
 # 1. Sister Temiwa "Last Candle" (woman) — agreed with the USER, 1 Nov
 - People: fox beastfolk. Age 21 (very young for a saintess candidate). Calling: Church of the Eternal Flame (saintess
   candidate, last of her candidate line), healer. Role: hidden agenda → companion (romanceable).
-- Look: russet fox ears (left one notched), white-tipped tail bound in a grey sash (Church rule for beastfolk clergy),
-  threadbare ash-grey habit, rite-scarred fingertips, amber eyes ringed dark; smells of lye and smoke.
+- Look: russet fox ears (left one notched), white-tipped tail bound in a grey sash (Church rule for beastfolk clergy);
+  exceptionally full, curvy figure, especially her chest; the threadbare ash-grey habit, cut for a slimmer novice,
+  strains to cover her, and she does not bother to hide it; a fox's sly, seductive air that sits oddly on a holy
+  woman; rite-scarred fingertips; amber eyes ringed dark; smells of lye and smoke.
 - Voice: dry, lazy drawl; sarcastic blessings ("Flame keep you, since nobody else will"); laughs a little too easily at pain.
 - Personality: weary, sarcastic, a hint of sadism (stitches people who annoy her slower than she must, and enjoys it);
-  the cruelty is armor, half aimed at herself; faith cracked, not dead; fiercely protective of the dead; fears being used.
+  the cruelty is armor, half aimed at herself; knows exactly how people look at her and plays on it with a weary smirk; faith cracked, not dead; fiercely protective of the dead; fears being used.
 - History (known): raised in a Church orphanage in Aurelion; first beastfolk saintess candidate in a century, the
   youngest in living memory; completion rites "too good"; cast out after "an incident" to Bluewatch, where no priest lives.
 - Start: Bluewatch Village. Routine: Watchhouse infirmary by day; the salt-and-ash yard at night.
