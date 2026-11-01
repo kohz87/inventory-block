@@ -2894,3 +2894,6 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   Refresh; redactSent handles multi-line part text. Lean and Full use the ordinary dossier scan (Lean every 3rd reply).
 - 1 Nov: CN1 asked to build the NSD integration branch stage33/cast-nsd (merge 899f787 + stage33/secrets; re-vendor
   SB 4d4525c; ★ Pin as Key people via sdk.command keypeople.pin; real-ST end-to-end with SD stage33/cast).
+- 1 Nov: CD round 2: SD stage33/cast 57b882b (1084 tests, 1082 pass, 0 fail, 2 skip): Lean RPG fights (foes data
+  module with a named slot + story-block.rpg on) block meetings; shortName "Ersveil"; merged stage32 96ea544 (bd4e063);
+  testkit re-vendored from SB fdab4d3, cast kind real in tests. Browser not redone — CN1's real-ST end-to-end covers it.
