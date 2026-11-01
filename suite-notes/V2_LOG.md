@@ -2687,3 +2687,6 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   to the narrator); (4) Settings/wizard show the pack's formula/numbers as default.
 - USER idea (1 Nov): encounters = hand-written cast + a pack "backdrop" (roles, names, trait pool, meter preset,
   rarity per place) rolled by code, AI brings them to life, promotion to dossier. Logged for after the formula release.
+- 1 Nov: USER set luck as an edge window by LUK (3–4 −3..+3, 5–6 −2..+3, 7–8 −1..+3, 9–10 0..+3, 11–12 +1..+3,
+  13–14 +1..+4, 15–16 +2..+4, 17–18 +2..+5, 19–20 +3..+5; situation edge held inside, best case reaches the top) and
+  "use the new calculation" for foe Health (4 + class/3). Relayed to FA (luckWindow/edgeWithLuck in formula.js).
