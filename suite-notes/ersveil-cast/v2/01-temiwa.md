@@ -35,3 +35,4 @@
   half-frozen white-haired girl who stumbled into Bluewatch from the north, sensed an absorption no commoner should
   have, and never reported her to the Inquest — the one rule she has broken since Severa. Each owes the other; neither
   has said a word.
+- USER (1 Nov): Soul Class I (not overpowered).

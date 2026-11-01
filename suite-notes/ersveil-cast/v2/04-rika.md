@@ -40,3 +40,4 @@
   * Tie to Temiwa — new secret (Trust 50, or when: the party meets Temiwa): coming back half-frozen from the north
     she passed through Bluewatch; Temiwa treated her, sensed the abnormal absorption, and never reported her. Each owes
     the other; neither has said a word.
+- USER (1 Nov): Soul Class II (not IV) — her raw bursts are spiky and unreliable; class reflects control and growth, not the size of a single blast.
