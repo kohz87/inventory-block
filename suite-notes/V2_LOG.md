@@ -2504,3 +2504,9 @@ only as record). Rubric is text-first: the story is the screen.
 - Phone: same running head; a one-line Codex strip (name, LV, Hurt · Fresh · Spent) above the input opens the sheet.
 - Light and dark both designed. Type: Barlow Condensed / Barlow / Literata.
 Design canvas https://claude.ai/artifact/JvJLpquQ3NgcDgmY4XjSzR (7 boards); source copy suite-notes/redesign/v5-rubric/.
+
+## 1 Nov — Redesign closed; current UI is the baseline
+USER: "delete the old proposal pages, the new 1 too, they look unsatisfactory. Use the current design as baseline, it's
+still the best so far." Deleted artifacts v1 (CKdH3W…), v2 (6pNfhD…), v3 (B81gdC…), v4 (27w1Ps…) and v5 Rubric canvas
+(JvJLpq…); removed suite-notes/redesign/ (still in git history). The RPG mockup artifact (Gn22FR…) is not a redesign page
+and stays. From here: the shipped Story Suite UI is the baseline; UI changes are incremental, each with an approved mockup.

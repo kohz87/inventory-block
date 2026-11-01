@@ -15,7 +15,7 @@ Approved mockups: RPG https://claude.ai/artifact/Gn22FRyEzDvufqZDgdbR4R (v8); St
 https://claude.ai/artifact/AJZkpqZigE5TvZRRh4jrMK (v3); AI writing help https://claude.ai/artifact/EanYreZdULFAjKTf2reV2K.
 
 ## Waiting on the USER
-2. **UI redesign (P6)**: a direction (minimal/flat, classic RPG, MVU-style, mobile HUD, or a reference).
+2. **UI redesign (P6)**: CLOSED 1 Nov. The current shipped UI is the baseline; any UI change is incremental, with a mockup first.
 
 ## Next, in order
 | # | Work | Who | Size | Needs |
@@ -32,7 +32,7 @@ https://claude.ai/artifact/AJZkpqZigE5TvZRRh4jrMK (v3); AI writing help https://
 | ~~S2~~ | DONE 31 Oct: vendored Story Block 2.11.0 in SD#148, Studio#21, NSD#226 | — | — | — |
 | ~~S~~ | DONE 31 Oct: vendored Story Block 2.8.0 in SD (#145), Studio (#20), NSD (#225) | — | — | — |
 | P4 | P4 trim: lazy-load the pack checker, Diagnostics, UI sample | Haiku or Sonnet | ~½–1 day | Any time |
-| L | UI redesign: simplified, modern, clean, stylish (USER 31 Oct) — 2–3 proposals overnight | lead | — | USER picks a direction |
+| L | UI redesign — CLOSED 1 Nov: all proposals (v1–v5) rejected and deleted; current UI stays the baseline | lead | — | done |
 
 ## Small follow-ups (any time)
 - 2.9.0 (review 171): refuse `- party` on the player's own character; a character made on the greeting is lost if the greeting is swiped (pre-existing); Home card lingers after turning the RPG off until Home redraws; old capped reply Re-read now pays in full (CHANGELOG could say).
