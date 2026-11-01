@@ -2530,3 +2530,11 @@ Page: https://claude.ai/artifact/AEcQn5iy89gGpzxZoSy8LV. Waiting on USER approva
 Bugs found by U1 (follow-ups, not blockers: layout/empty UI, no data loss): Director card overlap; phone dossier modal
 too narrow (NSD); status strip (story-block.hud) on but empty; hero vitals hidden with RPG on; RPG-off leaves RPG
 blocks as extra tabs with duplicate names.
+
+## 1 Nov — USER approved cleanup 1–2; mockups 3–4 drawn
+USER: "approved, draw 3 and 4". Same page (v2): https://claude.ai/artifact/AEcQn5iy89gGpzxZoSy8LV
+- 3: Features top: "How much to track" radio tiles Lean (≈740 tokens) / Standard (today's defaults, ≈1,310) / Full
+  (+Choices, Inner chatter, pre-roll check; ≈1,390 + one extra call); switches below under "Fine-tune"; any change → Custom.
+- 4: NSD module: everyday groups stay (Scanning, Roster & continuity, Portrait generation, Data & maintenance); Source of
+  truth, Calendar & birthdays, Scanner rules, What's sent, Advanced move into one closed "Expert" group.
+Test ST had stopped; restarted on 8155 (pid file bc270/live/st.pid). Script copy vm-results/u1/after2.mjs.

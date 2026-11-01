@@ -33,7 +33,7 @@ https://claude.ai/artifact/AJZkpqZigE5TvZRRh4jrMK (v3); AI writing help https://
 | ~~S~~ | DONE 31 Oct: vendored Story Block 2.8.0 in SD (#145), Studio (#20), NSD (#225) | — | — | — |
 | P4 | P4 trim: lazy-load the pack checker, Diagnostics, UI sample | Haiku or Sonnet | ~½–1 day | Any time |
 | L | UI redesign — CLOSED 1 Nov: all proposals (v1–v5) rejected and deleted; current UI stays the baseline | lead | — | done |
-| L2 | Cleanup on today's UI: 1 scene header + 5 tabs, 2 one card per reply (mockup up), 3 Lean/Standard/Full, 4 NSD Expert fold | lead | — | USER approves mockup 1–2 |
+| L2 | Cleanup on today's UI: 1 scene header + 5 tabs, 2 one card per reply (both APPROVED), 3 Lean/Standard/Full, 4 NSD Expert fold (mockups up) | lead | — | USER approves 3–4, then briefs |
 
 ## Small follow-ups (any time)
 - 2.9.0 (review 171): refuse `- party` on the player's own character; a character made on the greeting is lost if the greeting is swiped (pre-existing); Home card lingers after turning the RPG off until Home redraws; old capped reply Re-read now pays in full (CHANGELOG could say).
