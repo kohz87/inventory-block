@@ -2876,3 +2876,14 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
 - 1 Nov: USER: portraits will be made in ChatGPT (we provide ChatGPT-ready prompts). Cast = 8 women, 4 men, built ONE
   BY ONE with the USER's answers; start fresh (draft = ideas only); roles decided per person; ALL companions
   romanceable (Desire meter + romance stages).
+- 1 Nov: CS addendum: SB stage33/cast fdab4d3 (redactSent in "What's sent": view + copy; real prompt untouched;
+  4395 tests, 4379 pass, 0 fail).
+- 1 Nov: CD done: SD stage33/cast 3ec474a (1077 tests, 1075 pass, 0 fail, 2 skip). Domain `cast`, steps
+  cast.sync/advance/meet before the reply (meeting visible to NSD's tick the same reply), planner `~ cast` lines,
+  [Cast] cue only on the meeting reply, screens per mockup, place match name/slug/alias, Pin chooser lists met cast
+  (`keypeople.pin`). Fuzz found + fixed a nested-object replay bug. A swipe keeps who you met (matches USER decision).
+  Agent's `rm -f ../shots/*` was denied by the safety check; it did not work around it (no action needed).
+  Sent back: detect Lean RPG fights; short pack label; merge stage32 96ea544; re-vendor testkit from SB fdab4d3.
+- 1 Nov: Cast rebuild with USER, person 1 drafted: Sister Temiwa "Last Candle" (fox beastfolk, Church of the Flame,
+  29, saintess candidate cast out to Bluewatch; knows the Church/Veil shared root; weary, sarcastic, a little sadistic;
+  hidden agenda → companion; 5 secrets). Awaiting USER edits.
