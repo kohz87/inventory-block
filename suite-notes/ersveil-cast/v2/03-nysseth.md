@@ -37,3 +37,6 @@
     family (his dwarven children) against him; the player can push her toward or away from it.
   * Romance mark (top stage): she lets you sit with your back to the door while she watches it for you.
   * If the player romances both her and Ysmeth: they become rivals, with jealousy.
+- Portrait (USER, ChatGPT): portraits/nysseth-original.webp. Look details to match: short tousled silver hair; small
+  ear rings; the throat scar; hooded dark cloak with buckled straps; wrapped forearms with a sheathed wrist knife;
+  tally marks on the inner wrist; a whetstone and knife in hand; a boot knife; maps pinned on the wall behind.
