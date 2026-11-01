@@ -36,3 +36,6 @@
     never sleeps before dawn (the night guard).
   * In play: court access, writs of passage, the finest swordsmanship in the capital, Iron Guard training.
   * Romance mark (top stage): gives you the one poem he wrote and never showed her.
+- Portrait (USER, ChatGPT): portraits/lothar-original.png. Look details to match: pale gold hair in a low tail tied
+  with a dark ribbon; grey-blue eyes; engraved silver plate; a deep violet cloak with gold embroidery and a white swan
+  brooch with a gold cord; a strapped book at his hip; hands resting on a longsword's pommel; violet imperial banners.
