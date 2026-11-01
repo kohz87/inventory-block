@@ -2802,3 +2802,11 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
 - 1 Nov: USER: secrets in a section of their own; no titles while locked. Mockup v7: dossier "Secrets · 1 open,
   2 hidden" section: open = title + text; locked = "🔒 Hidden · opens at Trust 60" or "opens with the story" (event
   wording never shown). In the build it is its own dossier tab/section ("Secrets"), not mixed into other fields.
+- 1 Nov: USER: Secrets after Background; no lock icon. Mockup v8: a "Secrets" dossier section right after
+  "Background / History" (+ a Secrets jump chip): opened = title + "Opened · Trust 20" pill + text; hidden = a blank
+  striped bar + "Opens at Trust 60" / "Opens with the story". Found: the dossier's sticky jump-chip row is see-through
+  too (content shows under it on scroll) — same follow-up as `.delta-panel`; mockup draws both opaque.
+- 1 Nov: NSD size of the living-cast part (USER "massive?"): a minor release (1.6.0), not a rewrite. Reuses the
+  hidden-notes system. Parts: (A) cast dossier from the pack at first meeting + portraits; (B) secrets: generated
+  layers in the first full scan, event unlocks, locked secrets in the injection with never-reveal wording, Secrets
+  section, masking in "What's sent". Plan two NSD agents (A, B) in parallel + review; ≈ 2× the Key people NSD work.

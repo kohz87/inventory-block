@@ -27,6 +27,13 @@ const CSS = `
 .u7-seg button::after,.u7-btn::after{content:"";position:absolute;left:0;right:0;top:50%;height:calc(44px / var(--ss-zoomed,1));transform:translateY(-50%)}
 .u7-seg{row-gap:12px}
 .u7-form .u7-check{display:flex}
+.u7-secrets h3 .u7-count{font-size:12px;font-weight:400;opacity:.7;margin-left:8px;letter-spacing:0;text-transform:none}
+.u7-srow{display:grid;gap:4px;padding:10px 0;border-top:1px solid rgba(255,255,255,.08)}
+.u7-srow p{margin:0;font-size:13.5px;line-height:1.5}
+.u7-shead{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.u7-open{font-size:11.5px;padding:1px 9px;border-radius:999px;background:rgba(160,130,255,.16);border:1px solid rgba(160,130,255,.45);color:#cdbfff}
+.u7-redact{display:block;height:12px;border-radius:6px;background:repeating-linear-gradient(90deg,rgba(255,255,255,.14) 0 10px,rgba(255,255,255,.08) 10px 14px)}
+.u7-when{font-size:12px;opacity:.7}
 .u7-form{display:grid;gap:10px;padding:12px 14px;border-radius:12px;border:1px solid rgba(160,130,255,.35);background:rgba(160,130,255,.06)}
 .u7-form label{display:grid;gap:4px;font-size:12.5px;opacity:.95}
 .u7-form input:not([type=checkbox]),.u7-form textarea{all:unset;box-sizing:border-box;width:100%;padding:7px 10px;border-radius:8px;border:1px solid rgba(255,255,255,.18);background:rgba(0,0,0,.25);font-size:13px;line-height:1.4}
@@ -34,6 +41,7 @@ const CSS = `
 .u7-two{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
 .u7-acts{display:flex;gap:8px;justify-content:flex-end}
 .delta-panel{background:rgb(28,30,42)!important}
+:has(> .delta-section-jump){background:rgb(28,30,42)!important;border-radius:10px}
 .u7-btn{all:unset;min-width:0!important;min-height:0!important;width:auto!important;height:auto!important;line-height:1.3!important;flex:0 0 auto!important;box-sizing:border-box;cursor:pointer;justify-self:start;padding:4px 12px;border-radius:999px;border:1px solid rgba(160,130,255,.6);font-size:12.5px}
 `;
 await page.addStyleTag({ content: CSS });
@@ -96,14 +104,19 @@ await page.evaluate(() => {
    <button type="button" data-ss-hit class="u7-btn">★ Pin as Key people</button>
    <div class="u7-note">Pinned, she gets the full Key people track (away, back date, return) and the narrator hears about her.</div>`;
   (cur?.parentElement ?? document.body).append(box);
-  const sec = document.createElement('section'); sec.className = 'u7-first';
-  sec.innerHTML = `<h5>Secrets · 1 open, 2 hidden</h5>
-   <div>🔓 <b>Her husband's debt</b> · opened at Trust 20<br><span class="u7-note" style="opacity:.9">He owed the smugglers; she still pays it off, one night crossing at a time.</span></div>
-   <div>🔒 Hidden · opens at Trust 60</div>
-   <div>🔒 Hidden · opens with the story</div>
-   <div class="u7-note">The narrator knows them all and keeps them; you see each one when it opens.</div>`;
-  box.after(sec);
-  sec.scrollIntoView({ block: 'end' });
+  const bg = [...document.querySelectorAll('h3')].find(n => /^Background \/ History$/.test(n.textContent.trim()))?.closest('section');
+  const bgText = bg && [...bg.querySelectorAll('*')].find(n => n.childElementCount === 0 && /No background established yet/.test(n.textContent));
+  if (bgText) bgText.textContent = 'Lost her husband to the weir in 598; has run the night ferry alone since. Knows every current between Bluewatch and Ashford.';
+  const sec = document.createElement('section'); sec.className = (bg?.className ?? 'delta-section') + ' u7-secrets';
+  sec.innerHTML = `<h3>Secrets <small class="u7-count">1 opened · 2 still hidden</small></h3>
+   <div class="u7-srow"><div class="u7-shead"><b>Her husband's debt</b><span class="u7-open">Opened · Trust 20</span></div><p>He owed the smugglers; she still pays it off, one night crossing at a time.</p></div>
+   <div class="u7-srow"><span class="u7-redact" style="width:62%"></span><span class="u7-when">Opens at Trust 60</span></div>
+   <div class="u7-srow"><span class="u7-redact" style="width:48%"></span><span class="u7-when">Opens with the story</span></div>
+   <p class="u7-note">The narrator knows them all and keeps them; each appears here when it opens.</p>`;
+  (bg ?? box).after(sec);
+  const hist = [...document.querySelectorAll('button.delta-section-jump')].find(b => b.textContent.trim() === 'History');
+  if (hist) { const c = hist.cloneNode(true); c.textContent = 'Secrets'; hist.after(c); }
+  sec.scrollIntoView({ block: 'center' });
 });
 await shot('C5-dossier-cast');
 await page.keyboard.press('Escape'); await page.waitForTimeout(700); await page.keyboard.press('Escape'); await page.waitForTimeout(700);
