@@ -2902,3 +2902,11 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   pre-existing). Real-ST end-to-end: SD met Sera → same-reply dossier with portrait, badge, block, Secrets "0 opened ·
   2 still hidden", Pin → World Key people; What's sent "Sera: 1 hidden note". Review C started (REVIEW-C.md).
 - 1 Nov: Temiwa portrait from the USER saved (suite-notes/ersveil-cast/v2/portraits/temiwa-original.webp).
+- 1 Nov: Review K re-check (SD 96ea544 + NSD 899f787): BLOCK. B1 fixed (real swipe + regenerate). B2 NOT fixed and a
+  regression: real Delta answers npc.dossier {id} for archived dossiers ({archived:true, lifeState:"unknown"}), and
+  nsdVerdicts only releases on lifeState deceased. Confirmed death → "died" works; static byte-identity passes;
+  (4)(5)(8) OK; rename unverified (load). Sent back to KA (archived → "archived", deceased → "died", realistic
+  stand-in). Review C told it is known. The reviewer's kill of leftover Playwright Chromium processes was DENIED by
+  the permission check — surfaced to the USER, not done by the lead.
+- 1 Nov: Cast person 2 drafted: Ysmeth "Collar-Wright Fourteen" (dwelf, 58/looks 25, enslaved rune-collar maker held
+  by the Grey Ledger at Shackles City / Chainmarket; cold & calculating; freedom left to the story). Awaiting USER.
