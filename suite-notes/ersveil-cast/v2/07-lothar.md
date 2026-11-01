@@ -40,3 +40,4 @@
   with a dark ribbon; grey-blue eyes; engraved silver plate; a deep violet cloak with gold embroidery and a white swan
   brooch with a gold cord; a strapped book at his hip; hands resting on a longsword's pommel; violet imperial banners.
 - Gorm tie (USER, 1 Nov): the book of poems at his belt was Gorm's gift; Gorm is the one man he can still laugh with.
+- Hush tie (USER, 1 Nov): his grandmother, as a child, broke the lamp that held Hush; the bound lamps of Crown Keep on his watch hold Hush's kin.
