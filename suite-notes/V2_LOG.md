@@ -2745,3 +2745,10 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   The mockup shows it opaque.
 - 1 Nov: FA fix-up round done: stage31/fa ed6b616 (check clean; 4358 tests, 4342 pass, 0 fail). Fixes 1–6 in; 6 limit:
   a same-named group no healthier than the old one's last state still continues the old order.
+- 1 Nov: SB 2.14.0 prepared on stage31/fa: merged main (aae2a09), version bump + CHANGELOG (42de15c). Lead run: check ok,
+  4358 tests, 4347 pass, 0 fail. PR https://github.com/kohz87/Story_block/pull/239 — waiting on CI.
+- 1 Nov: KB done (NSD stage32/key-people ea7af92): Key badge + While away + ★ rows/cards, return note (≤360 chars, once,
+  in budget), drift/stage freeze while away, auto-scan holds stable fields; 14 tests; npm test 1529 pass, 0 fail, 5
+  cancelled (pre-existing barrier tests on Node 22; reproduced on clean main). Checked end-to-end against KA bddd9be in
+  a real test ST. Lead answers: Q1 move keyAway into the saved npc slice (sent back), Q2 keep fields, Q3 auto-scan only,
+  Q4 fine.
