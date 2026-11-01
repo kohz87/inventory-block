@@ -2981,3 +2981,10 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   64 KB per portrait (NSD stores a copy per chat) but making Story Block shrink on import like Studio does (accept
   PNG/JPEG/WebP up to ~10 MB, store ≤64 KB WebP; raise the zip caps to match) — in the clean-up release. Agent EP builds
   Ersveil 2.4.0 (brief suite-notes/cast-briefs/EP.md).
+- 1 Nov: EP done: SB stage34/ersveil-cast 2093821 (Ersveil 2.4.0: twelve cast replacing Fenna/Sera; 12 WebP portraits
+  57.7–61.6 KB; pack.json 292 KB; 4404 tests, 4393 pass, 0 fail; zip import + real-ST smoke: Temiwa met by place, Rika by
+  goal, portraits shown, 0 secret-text hits in pages/prompts). cast.json copied to suite-notes/ersveil-cast/v2/.
+  Found: SB's cast validator allows ONE rule per secret ("never both"), but NSD supports "meter or when" and the USER's
+  design uses "Trust N or <event>" on many deep secrets → EP kept the meter and dropped 13 events; split two-fact ones.
+  Also moved some sheet facts into new secrets to keep public fields clean (Nysseth's field "Knife-grinder, Chain
+  cell-runner"; Rika "Hunted"/"Moral edge"; Lothar "Complicit"; Torka "final choice"; Ysmeth "Half-siblings"; tie secrets).
