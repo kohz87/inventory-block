@@ -2855,3 +2855,10 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   recorded after NSD's tick) → sent to CD with the director.cast field shapes; normalizeSecrets/secretsFromLines drop
   `when`-only notes → sent to CN2; "★ Pin as Key people" button in the dossier → CD to expose the pin command, then a
   small CN1 follow-up.
+- 1 Nov: CS done: SB stage33/cast 8d648ba (4391 tests, 4375 pass, 0 fail, 15 skip; two load-sensitive capture timing
+  tests failed in earlier loaded runs, pass alone — watch in CI). `cast` kind (CAST_LIMITS), portraits in ST user files
+  (`/user/files/storysuite-portrait-<pack>-<hash8>.<ext>`; index in settings; verify at boot; removed with the pack;
+  Data Maid caveat), zip import (stored/deflate, CRC, refusals), compact pill class `ss-tap-pill` (phone 30px drawn,
+  44px tap; desktop unchanged). Ersveil pack 2.3.0 with Fenna + Sera. Lead answers: Ersveil requires the cast release
+  version (set at release); Data Maid caveat goes in the CHANGELOG; zip layout confirmed to ST (sent with limits and the
+  head to vendor).
