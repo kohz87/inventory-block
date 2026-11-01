@@ -39,3 +39,6 @@
   * Romance mark (top stage): she makes it rain softly in your cupped hands, just for you — to spiritfolk, giving part
     of yourself.
   * Cast fun: Nerissa's racy shanties make her blush into drizzle; sea and rain, almost sisters.
+- Portrait (USER, ChatGPT): portraits/hush-original.png. Look details to match: long lavender-silver hair dissolving
+  into falling water; a soft, warm smile; a translucent hooded grey rain-cloak over a grey coat-dress; a leather belt and
+  satchel; a brass lamplighter's pole and a plain oil lantern; a full moon over a rainy harbor city with lamp posts.
