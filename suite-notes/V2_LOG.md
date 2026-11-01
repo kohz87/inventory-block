@@ -2659,3 +2659,12 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   RPG off clean; dialogs opaque. Sent UE two small fixes (template replace asks first; "to the purse" + formatted
   money). Follow-ups logged: non-stacking qty N → N stacks vs "4 things" count; 60-point pill wraps the name; BOM
   for non-browser callers; "valuables" kind typo dropped silently; companion import funds the purse (honest in Review).
+- 1 Nov: USER "go with b, mock up approved, proceed": quick start (one opening action vs foes beaten by 10+ in turn
+  order) in; formula mockup approved. Correction made by the lead: magic is (INT + DEX/2)/2 (the mockup's "INT×2" came
+  from the older triple-stat idea; USER's final formula has no doubling).
+- 1 Nov: SB 2.13.0 (char export/import) PR #238 (head 8242ae4: version, CHANGELOG; 4242 pass / 0 fail / 10 skip),
+  CI running, subscribed.
+- 1 Nov: Lead wrote the shared contract `src/v2/lean-rpg/formula.js` + tests on `stage31/formula-base` (c072d16:
+  pair, statPart, luckOf, edgeWithLuck, blocksFor, foeHealthBlocks, foeBonus, initiativeBonus, turnOrder, quickStart,
+  companionStats with spill so no point is unspent). Briefs suite-notes/rpg-briefs/F-COMMON, FA (roll engine,
+  planner types, settings, creation, simulation), FB (bars, foe Health, Fight tab views). Both agents started.
