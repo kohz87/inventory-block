@@ -2703,3 +2703,4 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   person's agenda ends with their death, or the reader unpins).
 - 1 Nov: USER: Key people limit adjustable ("some might find 2000 acceptable"): a Story Director setting for how many (default 10) and a token budget for their off-screen lines (default ~300, up to 2000); over budget → nearest return / latest change first, the rest kept but not told that reply.
 - 1 Nov: USER order: finish the formula release, Key people, encounters (cast + backdrop); THEN write the lore's heroines and heroes (Ersveil cast).
+- 1 Nov: USER: Key people token budget has no upper cap — the reader sets their own (default ~300; any whole number ≥ 0). The overall tail budget still applies to everything.
