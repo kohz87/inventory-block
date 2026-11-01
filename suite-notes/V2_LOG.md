@@ -2793,3 +2793,9 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   scan checks only present NPCs' event-locked secrets, unlock recorded on the reply (swipe undoes, Re-read keeps),
   dossier "unlocks when …", editor + pack format; Lean = up to 2 replies late. Recommend both as the NSD part of the
   living cast build. Mockup v6 (layered secrets in the dossier).
+- 1 Nov: USER: locked secrets should be injected for the model; the lock only hides them from the reader. Today NSD
+  sends a secret's text only once unlocked and present. Change (living cast NSD part): send locked secrets while the
+  NPC is present, worded "hidden: never state or reveal; let it shape how they act"; unlocked → "known to the player
+  now; may come out". Counted in NSD's injection budget (over budget: nearest-to-unlock first). Drop the "rewrite a
+  locked generated secret if contradicted" rule — every secret is fixed once written. "What's sent each reply" masks
+  locked secret text ("1 hidden note"); ST's raw prompt still shows it (reader's own prompt).
