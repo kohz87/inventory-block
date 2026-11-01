@@ -36,3 +36,5 @@
   have, and never reported her to the Inquest — the one rule she has broken since Severa. Each owes the other; neither
   has said a word.
 - USER (1 Nov): Soul Class I (not overpowered).
+- Harrak tie (USER, 1 Nov): the half-frozen girl was carried to Bluewatch's gate by an orc in Watch colours who left
+  before dawn; Temiwa never told anyone that either.

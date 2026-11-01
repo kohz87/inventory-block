@@ -24,3 +24,18 @@
   hears the truth.
 - Stages: Tests you (sends you up the tower in a blizzard) · Teaches you (axe and winter craft) · Tells you his old
   name · Asks you to carry his name home (sing it at Battle Cry City if he falls).
+- USER (1 Nov): take all seven.
+  * The song: the clan song of the Gate of Battle Cry (his own deeds); the clans cut his name out; he sings it whole,
+    the last one who does; his daughter knows the version without his name.
+  * Flaw: a death wish — takes risks a mentor should not, drags the party into last stands; the player can give him a
+    reason to live (his daughter, or them).
+  * Threats: Highmark provinces still pay orc bounties (an orc captain is a fat prize); the dead war-brother's kin want
+    blood-price. Drawn to (added): bounty hunters; the war-brother's kin.
+  * Tells: never sits with his back to the north; counts the beacons along the ridge every dusk; hums the song while
+    sharpening the axe.
+  * Romance mark (top stage): teaches you the song with his name in it.
+  * Cast tie — new secret (Trust 50, or when: the party meets Rika or hears of Somner's expedition): in CY 610 his
+    beacon line watched Somner's Startrace expedition go north with chained prisoners and let it pass under orders; the
+    next winter he found one survivor half-dead in the snow, a girl, and carried her south toward Bluewatch, singing to
+    keep her awake. He never learned her name.
+  * Command: a small squad of young wardens who would follow him off a cliff.

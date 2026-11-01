@@ -45,3 +45,5 @@
   tied tail; one yellow-green eye glaring through the strands, blushing, biting her coat collar; patched, oversized
   brown coat; red sash; scarred forearms; fingerless gloves; the red knotted tally cord in hand; a strapped book at
   her hip (she cannot read it); a small vial; harbour docks behind.
+- Harrak tie (USER, 1 Nov): of the walk out of the north she remembers only a huge shape carrying her through the snow
+  and a deep voice singing; she does not know it was Harrak (added to her Temiwa secret's text).
