@@ -40,3 +40,4 @@
   sheer scarf at her throat; a dark gold-trimmed privateer coat, loose laced shirt, red sash, a basket-hilted cutlass;
   bead bracelets; a ship's deck and rigging behind.
 - Hush (USER, 1 Nov): her racy shanties make Hush blush into drizzle; sea and rain, almost sisters.
+- Asphodel tie (USER, 1 Nov): smuggled a fairy out of Vargate on the Gannet; knows what Asphodel is.
