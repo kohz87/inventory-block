@@ -2693,3 +2693,8 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
 - 1 Nov: USER "Yes, proceed": LUK windows softened (9–10 −1..+3, 11–12 0..+3), relayed to FA. Party max stays 3 RPG
   characters per chat (2 blocks each + Combat rules + Foes = 8). Key people (pin a dossier: off-screen agenda kept even
   in Lean, "Away: …" in World → People, optional XP catch-up on return) added to TODO for after the formula release.
+- 1 Nov: FA follow-ups done — stage31/fa b1df710, 4353 pass. luckWindow/edgeWithLuck (USER table), foe Health
+  4 + class/3, skill cost 1 block by code (line.cost, hurts, "without" when empty), pack defaults shown. Duel sim at
+  Standard (same class): focused 81/73/78/66/62 % at I/III/V/VII/IX; spread 75/65/53/40/25 %. Review F started.
+- USER (1 Nov), Key people design: Story Director owns the pin (cap 5), agenda/dates/return, works in Lean; NSD only
+  pulls from SD and evolves the dossier (away timeline) when both are installed; NSD alone has no Key people.
