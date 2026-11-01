@@ -2971,3 +2971,5 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   NSD 1.6.0 (53dd5f7; testkit SB d6c63c6; 1589/1584/0/5 cancelled; compat passes) https://github.com/kohz87/npc_state_delta/pull/229;
   Studio 0.5.0 (ac3339e; vendored SB d6c63c6; 835/835) https://github.com/kohz87/Story_studio/pull/23. Waiting on CI.
 - 1 Nov: Hush settled with the USER (ethereal, girl-next-door face, regular figure; tied to Lothar).
+- 1 Nov: RELEASED Story Director 2.8.0 (PR #152, CI green, merged 1ae570c) and NPC State Delta 1.6.0 (PR #229, CI green,
+  merged ed0ebc8). Studio 0.5.0 PR #23 CI running.
