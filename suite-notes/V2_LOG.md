@@ -2632,3 +2632,11 @@ Seen while drawing: the New character dialog over the Game view is see-through (
 - 1 Nov: USER approved the export/import mockup with one change: import = only stats, unspent points, Soul Class,
   skills, inventory, money (name, You/companion, who, XP not carried). Mockup redrawn (v2). Brief UE
   (suite-notes/ui-briefs/UE.md), branch stage30/char-export from SB f361c92; includes the opaque New character window.
+- 1 Nov: UE done — SB `stage30/char-export` ae4bf30 (from f361c92), 4230 pass / 0 fail / 15 skip. Export dialog, file
+  `storySuiteCharacter: 1` (soul, points, stats, skills with rank, items with kind/rarity, money in base units), import
+  fills only stats/points/Soul Class/skills (ranks locked), Create adds blocks + inventory.add per thing + wallet.set on
+  one reply; opaque RPG dialogs; `inventory.add` takes optional kind/rarity for new items. Lead looked at ue/shots B5.
+  Sent back: (1) old Skills blocks without a stat were exported as STR — never guess: omit, reader picks on import;
+  (2) "carried by <name>" when the things actually go to the party bag → honest wording. Money decided at export only.
+USER asked whether stats do anything outside rolls: answered (rolls only; stages, no HP/damage/crit math); offered two
+small passives (VIT 14+ extra Health stage, LUK 14+ Decisive at margin 7) — no decision yet.
