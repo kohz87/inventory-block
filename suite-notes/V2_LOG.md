@@ -2714,3 +2714,9 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   auto-removal from NSD profiles, World section, settings, `director.keyPeople` query) and KB (NSD stage32/key-people:
   badge, While-away timeline, Key tag on cards, return summary, custom/stable fields held while away — the lead's
   offered add-on, included with "proceed").
+- 1 Nov: Encounters mockup (USER: "do the mock up for encounter, since there's no dependency"):
+  https://claude.ai/artifact/YGVFmopbjpgqWyghrZsQi3 (vm-results/u6/mock.mjs). Cast encounter + backdrop encounter in
+  This reply (d20 roll, swipe rerolls, Re-read keeps), World → Around here (chance, who lives here, cast met n of 12,
+  unmet hidden), NSD first-meeting dossier from the pack entry, SD settings (Off/Rare/Normal/Often, cast/backdrop
+  toggles; never in a fight). Pack format: cast entry (about/look/voice/history/meters/stages/fields/where/once) and
+  backdrop (place, chance by time of day, weighted roles with stance, name lists, traits). SD owns; NSD reads one way.
