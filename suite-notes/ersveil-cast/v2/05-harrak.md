@@ -39,3 +39,6 @@
     next winter he found one survivor half-dead in the snow, a girl, and carried her south toward Bluewatch, singing to
     keep her awake. He never learned her name.
   * Command: a small squad of young wardens who would follow him off a cliff.
+- Portrait (USER, ChatGPT): portraits/harrak-original.png. Look details to match: long grey hair with two thin braids;
+  a white beard; pointed ears; one tusk; a heavy dark cloak with a white fur collar; wrapped, scarred forearms; a
+  carved beacon-horn at his belt; a long-hafted axe he leans on; a stone fort with Watch banners behind.
