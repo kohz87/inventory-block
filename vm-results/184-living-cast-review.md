@@ -89,3 +89,29 @@ dossier backfill call, middle delete and Re-read in real ST (SD's own fuzz cover
 phone dossier screenshots, NSD "More" menu export contents, a met person with an existing same-name dossier (follow-up 6).
 
 Shots: scratchpad/rv-c/shots. Probe scripts: scratchpad/rv-c/probes.
+
+## Re-check (1 Nov): SB 5b18da6, SD cb344b5, NSD b074aeb (Studio unchanged, 66a7025)
+
+Verdict: OK. Both blockers are fixed and every follow-up asked for held. Fresh data copy (st-data-rc2), fresh control files (ctl-rc2), mock on 5190,
+test ST on 8188; both stopped by PID at the end. Nothing deleted outside my new folders; the first (refused) cleanup was not retried.
+
+B1 fixed (real ST, Tansy from the Studio zip with 1 open + 3 locked notes, and a scan-made NPC with 3 generated notes). The Edit form shows no locked
+title, text or `when` wording anywhere in the page (all false); locked notes are "Hidden note 1 · opens at Trust 35", "Hidden note 2 · opens with the story",
+"Hidden note 3 · opens at Trust 60" with only the open/shut control; the textarea holds only opened notes and reader-written ones; its help says so. Saving
+unchanged keeps the hidden notes (open set unchanged, still "1 opened · 3 still hidden"); a reader note added in the box ("trust 45: [My own] ...") appears
+as "Opens at Trust 45", is editable, and survives a second save. Blank bars come from fixed widths (BAR_WIDTHS by position), not from the text.
+B2 fixed: the [Cast] cue (about 862 chars) now carries "Why now" and the closing sentence for a goal meeting ("Why now: Someone is asking about Master
+Somner. Their own goal brings them to Wessel. Bring them in naturally; do not treat them as known to Wessel yet.") and a place meeting (Tansy: "Why now:
+They are at Bluewatch Village, the place of this scene. Bring them in naturally ..."); the long Look/Voice/Manner are cut instead.
+Follow-ups: (1) Siebert and Ruvai, met by goal, have `where` and `met.where` = Bluewatch Village. (2) Import message: "2 portraits saved; 10 portraits not picked;
+the people show without a picture until you add them." (counts, no names). (3) `git diff --check` clean: SB vs main, SD vs main and stage32, NSD vs main and
+stage32. (4) SD Settings -> The cast "New faces at most" is now three compact pills (109x30, 109x30, 116x30 on the phone), no tap-area overlap. (5) The update
+note no longer counts the version bump ("12 new people now live in the world ... People you have met keep their dossiers"). (6) Fenna, already in the scene with
+a dossier, is met "in the story" on the first reply (card "Paths crossed: Fenna · met in the story"), one "Fenna" dossier, no duplicate. (7) "doing" cuts at
+word boundaries ("... watching…", "... then…"). (8) The arrival card is in view at once: desktop (Sera, card 742-779 of 900) and phone (Ruvai, 662-708 of 844).
+Also re-held: no unmet name or secret text in 26 narrator prompts (+ planner/scanner prompts), meetings still blocked by the Lean RPG foe and resumed when
+cleared, swipe keeps who you met and reload state equal, planner moves and a +1d day change work.
+Counts: SB check ok, 4397 tests, 4385 pass, 1 fail, 10 skipped; the one failure ("a 150-line reply after five such replies stays near the plain-capture
+baseline", tests/v2/break/b1r2-capture.test.js) is load-sensitive and passes alone (1 of 1). SD check ok, 1095 tests, 1093 pass, 0 fail, 2 skipped. NSD check ok,
+1589 tests, 1584 pass, 0 fail, 5 cancelled (the pre-existing barrier tests); compatibility-check and runtime-smoke by hand both pass.
+Still unverified (as before): swipe-undo of an event unlock in real ST, `npc.open` held, middle delete/Re-read in real ST, Studio beyond its tests.

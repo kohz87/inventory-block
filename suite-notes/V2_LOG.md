@@ -2958,3 +2958,11 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   companion; Broken Chain sea route optional). Awaiting USER.
 - 1 Nov: ST re-vendor: Studio stage33/cast 351d2ee (SB 5b18da6; 835 tests, 835 pass, 0 fail). All four cast heads now
   final pending the Review C re-check: SB 5b18da6, SD cb344b5, NSD b074aeb, Studio 351d2ee.
+- 1 Nov: Review C re-check: OK (B1 and B2 fixed; follow-ups 1–8 verified in real ST; SB 4397/4385/1 load-sensitive
+  capture test that passes alone; SD 1095/1093/0; NSD 1589/1584/0/5 cancelled; compat + smoke pass). Copy updated in
+  vm-results/184-living-cast-review.md.
+- 1 Nov: LIVING CAST RELEASE started. SB 2.15.0 (6ee452c; Ersveil requires ^2.15; pin updated; 4397 tests, 4386 pass,
+  0 fail) PR https://github.com/kohz87/Story_block/pull/240. After it merges: SD 2.8.0 + NSD 1.6.0 (re-vendor testkit
+  from SB main) and Studio 0.5.0 (sync-sb from SB main).
+- 1 Nov: Cast person 10 drafted: "Hush" (Moonrain-on-the-Roofs; spiritfolk lamplighter of Vargate; mentor; frees bound
+  lamps; fading as she carries freed spirits). Awaiting USER.
