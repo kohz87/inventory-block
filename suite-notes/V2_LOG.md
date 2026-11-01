@@ -2956,3 +2956,5 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   npm run check passes on SB/SD/NSD.
 - 1 Nov: Cast person 9 drafted: Nerissa "of the Gannet" (Sea Folk privateer pilot, Abysswatch; teasing & flirty;
   companion; Broken Chain sea route optional). Awaiting USER.
+- 1 Nov: ST re-vendor: Studio stage33/cast 351d2ee (SB 5b18da6; 835 tests, 835 pass, 0 fail). All four cast heads now
+  final pending the Review C re-check: SB 5b18da6, SD cb344b5, NSD b074aeb, Studio 351d2ee.
