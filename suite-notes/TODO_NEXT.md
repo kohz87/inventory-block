@@ -87,5 +87,5 @@ https://claude.ai/artifact/AJZkpqZigE5TvZRRh4jrMK (v3); AI writing help https://
   tile text names SD's "world-building threads"; "Start" block in the first message (USER asked; offer mockup).
 - Encounters (USER idea, 1 Nov): pack cast list + backdrop (roles/names/traits/meter preset/rarity per place), code-rolled
   encounter table (swipe rerolls, Re-read keeps), AI fleshes out, promotion to NSD dossier. Mockup after the formula release.
-- Key people (USER, 1 Nov; SD owns, cap 10, auto-removed when archived or dead; NSD pulls + evolves dossier when both; NSD alone none): pin a person as key → its off-screen agenda survives Lean (threads off); World → People shows
+- Key people (USER, 1 Nov; SD owns, cap 10 by default (adjustable) + adjustable token budget (default ~300, up to 2000), auto-removed when archived or dead; NSD pulls + evolves dossier when both; NSD alone none): pin a person as key → its off-screen agenda survives Lean (threads off); World → People shows
   "Away: <name> — <doing>, back <date>"; RPG sheet waits (Left); optional small XP catch-up on return. Mockup after formula release.
