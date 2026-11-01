@@ -2640,3 +2640,17 @@ Seen while drawing: the New character dialog over the Game view is see-through (
   (2) "carried by <name>" when the things actually go to the party bag → honest wording. Money decided at export only.
 USER asked whether stats do anything outside rolls: answered (rolls only; stages, no HP/damage/crit math); offered two
 small passives (VIT 14+ extra Health stage, LUK 14+ Decisive at margin 7) — no decision yet.
+
+## 1 Nov — RPG "Standard" stat formula: agreed rules + mockup
+USER decisions (1 Nov), in order: STR main attack; AGI out of attack, AGI = turn order; defence = higher of AGI/VIT +
+lower/2 (dodge/block); DEX = accuracy (second stat /2); VIT/AGI/INT add Health/Stamina/Mana blocks; CHA social; LUK
+edge (shrinks bad, raises cap); skills put their own stat in the main slot (no extra term); INT twice in magic; stats
+start at 5, 10 creation points (3–10), 4 points per Soul Class; Standard default, Classic selectable; no migration/lock
+needed (nobody uses it yet); turn order once per fight (fast PC can kill before foes act); foe Health 4 + class/2
+blocks (hit 1, Decisive 2); exploration checks (fitting stat + DEX/2)/2; companions on the new scale; packs may set
+formula/numbers; Combat rules text explains the roll types; skill costs 1 block; edge-case defaults 1–15 agreed
+(ties, beaten-before-turn, late arrivals, order persists, groups act once, area = one roll vs each defence, magic
+resisted by INT/VIT, support vs DC, rounding once, LUK cap ±6, stat drop clamps, new block full except while Down).
+Foe numbers start at d20 + 3 + 3 × class (to be tuned by simulation in the build).
+Mockup on the real app (vm-results/u4/mock.mjs): https://claude.ai/artifact/6DEJCMNpUZtUacvZftK2kT. Waiting on USER.
+Pending in parallel: review of UE (character export/import) on stage30/char-export 8a8b177.
