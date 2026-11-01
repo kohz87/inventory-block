@@ -60,6 +60,9 @@ await shot('C2-goal-brings-them');
 // C3: time skip, the cast moves on off-screen
 await openLastCard({ summary: 'Three days pass · the cast moved on', body: `<div class="u7-card quiet"><span class="u7-ico">⟳</span><div><b>While time passed</b><span class="u7-tag">3 days</span></div><span class="u7-meta">9 cast members moved on off-screen (one short line each, only where something changed). You have not met them, so who and where stays hidden. Fenna, met: <i>took the ferry upriver to Ashford for the guild</i>.</span></div>` });
 await shot('C3-time-passes');
+// C7: the pack was updated (Story Studio) and re-imported: new cast join the world, hidden
+await openLastCard({ summary: 'Ersveil pack updated · 2 new people in the world', body: `<div class="u7-card quiet"><span class="u7-ico">⬆</span><div><b>Ersveil pack updated</b><span class="u7-tag">1.1.0 → 1.2.0</span></div><span class="u7-meta">2 new people now live in the world from today (Gw 12), hidden until you meet them. 1 unmet person's entry changed (kept where they are). People you have met keep their dossiers as they are.</span></div>` });
+await shot('C7-pack-updated');
 // C4: World → Around here
 await gameview(page, 'World');
 await page.evaluate(() => {
@@ -68,35 +71,13 @@ await page.evaluate(() => {
   s.innerHTML = `<h4 class="ss-label wv-label sd-h">Around here <small>Bluewatch docks · evening</small></h4>
    <div class="u7-row"><span>Cast whose paths may cross yours here</span><b>2, not yet met</b></div>
    <div class="u7-row"><span>Cast you have met</span><span>Fenna, last heard: upriver at Ashford</span></div>
-   <div class="u7-row"><span>Met from the Ersveil cast</span><b>3 of 12</b></div>
+   <div class="u7-row"><span>Met from the Ersveil cast</span><b>3 of 14</b></div>
    <p class="u7-note">Unmet cast stays hidden. Anyone else you meet is made up by the story as today; if they matter, NPC State Delta keeps a dossier. No meetings during a fight.</p>`;
   here.after(s);
 });
 if (ph) await page.evaluate(() => document.querySelector('.u7-sec')?.scrollIntoView({ block: 'start' }));
 await shot('C4-world-around');
-await page.evaluate(() => {
-  const sec = document.querySelector('.u7-sec');
-  const f = document.createElement('section'); f.className = 'sd-kind ss-glass u7-sec u7-add'; f.style.gridColumn = '1 / -1';
-  f.innerHTML = `<h4 class="ss-label wv-label sd-h">The cast <small>3 of 12 met · + 1 added in this chat</small></h4>
-   <div class="u7-form">
-    <b>Add someone to the cast</b>
-    <div class="u7-two"><label>Name<input value="Maren Vey"></label><label>Who they are<input value="Disgraced guild scribe, thirty"></label></div>
-    <div class="u7-two"><label>Starts at<input value="Ashford archive"></label><label>Their routine<input value="copies ledgers by lamplight"></label></div>
-    <label>Their goal<input value="prove the guild forged the weir permits"></label>
-    <div class="u7-two"><label>Look<input value="Ink-stained cuffs, cropped black hair, spectacles"></label><label>Voice (optional)<input value="Precise, quick, nervous laugh"></label></div>
-    <label>Drawn to (optional: what brings them to you)<textarea>the forged permits; anyone asking about the weir</textarea></label>
-    <div class="u7-two"><label>Portrait (optional)<span class="u7-pick"><button type="button" data-ss-hit class="u7-btn">Choose image…</button> <small class="u7-note">shown from the first meeting</small></span></label>
-    <label>Secret (optional)<input value="She forged the first permit herself"></label></div>
-    <label class="u7-check" style="opacity:.9">Unlocks at <span class="u7-seg" style="display:inline-flex;margin-left:6px"><button type="button" data-ss-hit aria-pressed="true">Trust</button></span><input value="60" style="width:56px;margin-left:6px"></label>
-    <p class="u7-note">Lives off-screen like the pack's cast, in this chat only. You meet them by place or goal; tick the box to hide where they are from you too until you meet them.</p>
-    <label class="u7-check"><input type="checkbox" checked> Hide where they are until I meet them</label>
-    <div class="u7-acts"><button type="button" data-ss-hit class="u7-btn">Cancel</button><button type="button" data-ss-hit class="u7-btn" style="background:#6d5ce6;color:#fff">Add to the cast</button></div>
-   </div>`;
-  sec.after(f);
-  f.scrollIntoView({ block: 'start' });
-});
-await shot('C7-add-to-cast');
-await page.evaluate(() => document.querySelector('.u7-add')?.remove());
+
 // C5: dossier: starts from the pack, last heard, pin as Key people
 await page.locator('.npc-state-delta-present-card').first().click(); await page.waitForTimeout(1800);
 await page.evaluate(() => {

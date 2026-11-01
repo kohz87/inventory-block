@@ -2777,3 +2777,10 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   as image files beside the pack (pack.json limit 512 KB, all packs 2 MB — too small for 12–16 portraits inline).
   Add form: required name, who, look, starts at, goal; optional routine, voice, drawn to, portrait, secret + unlock;
   "Hide where they are until I meet them". Mockup v4 at the same link.
+- 1 Nov: USER: no in-game Add (it would expose the secrets); cast comes from packs written in Story Studio. Lead
+  design: on a newer pack import, new entries join the world from that story day, hidden until met (first reply notes
+  "pack updated: n new people", no names); an unmet person whose entry changed takes the new words but keeps their
+  off-screen state; met people keep their dossiers (the pack never overwrites a dossier); removed entries: unmet leave,
+  met stay. Secrets: per person (max 8), authored, never rewritten by the story; unlock by meter value then stay
+  unlocked; possible addition (needs NSD work): unlock on a story event. Mockup v5 at the same link (Add screen
+  replaced by "pack updated").
