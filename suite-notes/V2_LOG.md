@@ -2709,3 +2709,8 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   doing + back date / here; ★ Key tag on cards; Unpin), NSD dossier Key badge + "While away" timeline read from SD,
   This reply lines for a return and an auto-removal (death), SD settings: how many (10) + narrator budget (300, no upper
   limit, overall budget note). Waiting on USER.
+- 1 Nov: USER "Mock up is green, proceed" → Key people build started in parallel with the formula review: KA (Story
+  Director stage32/key-people: state, `away` kind under a new always-on "Key people" feature, tail within budget,
+  auto-removal from NSD profiles, World section, settings, `director.keyPeople` query) and KB (NSD stage32/key-people:
+  badge, While-away timeline, Key tag on cards, return summary, custom/stable fields held while away — the lead's
+  offered add-on, included with "proceed").
