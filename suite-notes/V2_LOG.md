@@ -2810,3 +2810,8 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   hidden-notes system. Parts: (A) cast dossier from the pack at first meeting + portraits; (B) secrets: generated
   layers in the first full scan, event unlocks, locked secrets in the injection with never-reveal wording, Secrets
   section, masking in "What's sent". Plan two NSD agents (A, B) in parallel + review; ≈ 2× the Key people NSD work.
+- 1 Nov: USER "Mock up is green proceed" (living cast v8). Build started stacked on Key people (not yet released):
+  CS (SB stage33/cast: `cast` content kind, pack portraits, compact pills), CD (SD stage33/cast from stage32),
+  CN1 (NSD stage33/cast-dossier from stage32: dossier at first meeting + opaque panel/jump bar), CN2 (NSD
+  stage33/secrets from stage32: event unlocks, generated layered secrets, locked secrets injected, Secrets section,
+  masking). Briefs suite-notes/cast-briefs/. Story Studio cast editor needs its own mockup later.
