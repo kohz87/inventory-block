@@ -2897,3 +2897,8 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
 - 1 Nov: CD round 2: SD stage33/cast 57b882b (1084 tests, 1082 pass, 0 fail, 2 skip): Lean RPG fights (foes data
   module with a named slot + story-block.rpg on) block meetings; shortName "Ersveil"; merged stage32 96ea544 (bd4e063);
   testkit re-vendored from SB fdab4d3, cast kind real in tests. Browser not redone — CN1's real-ST end-to-end covers it.
+- 1 Nov: CN1 integration: NSD stage33/cast-nsd c8fca1a (merges 899f787 + stage33/secrets; testkit SB 4d4525c; ★ Pin
+  via keypeople.pin as a reader action, shown only when SD offers it; 1585 tests, 1580 pass, 0 fail, 5 cancelled
+  pre-existing). Real-ST end-to-end: SD met Sera → same-reply dossier with portrait, badge, block, Secrets "0 opened ·
+  2 still hidden", Pin → World Key people; What's sent "Sera: 1 hidden note". Review C started (REVIEW-C.md).
+- 1 Nov: Temiwa portrait from the USER saved (suite-notes/ersveil-cast/v2/portraits/temiwa-original.webp).
