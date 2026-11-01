@@ -2617,3 +2617,4 @@ No version bumps by agents; lead releases (SB 2.12.0 first, then SD/NSD with req
   CHANGELOG; 993 pass/0 fail/2 skip). NSD 1.4.0 PR #227 (stage29/ui-d d94e1ae: requires >=2.12.0, vendored testkit,
   version markers incl. runtime-modules.json + DEVELOPMENT.md; 1515 pass/0 fail/5 cancelled pre-existing; compat +
   smoke pass). Waiting on CI.
+- 1 Nov: **Story Director 2.6.0 released** — PR #150, merge 1cfe4ec (head 20e682e), CI verify green. NSD #227 CI still running.
