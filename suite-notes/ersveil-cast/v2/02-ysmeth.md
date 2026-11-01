@@ -44,3 +44,4 @@
   hair falling behind; a brown leather-and-brass rune-collar with a ring at the throat; wrapped wrists; scarred
   forearms; layered leather straps and buckles over a loose shirt; a tool pouch and keys at her belt; a rune-carved
   forge hammer.
+- Linked (from Nysseth, USER): Durvald also keeps a second, "proper" dwarven family; Ysmeth has half-siblings she does not know of.
