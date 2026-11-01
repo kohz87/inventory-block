@@ -2824,3 +2824,10 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   Copy vm-results/183-key-people-review.md. Sent back: KA ← B2 + (5) .wv-facts !important regression, (3) death reads
   "died", (4) dangling " ·", (8) wording, (2) static only while someone pinned (byte-identical otherwise), (7) match by
   dossier id; (1) removal line on previous reply stays a follow-up. KB ← B1 + (6) manual Scan now must not hold.
+- 1 Nov: USER "the studio needs to be updated as well?" Yes. Studio main 0.4.0 vendors Story Block 2.11.3 and edits
+  only items/creatures/places/events/routes/races/talents/presets (no rpg, no cast). Plan Studio 0.5.0: sync vendored
+  SB; new "Cast" part (prepared dossier, portrait upload auto-shrunk to 64 KB, starting place from the pack's places,
+  routine, goal, drawn to, meters/stages/fields, may die before met, up to 8 secrets each opening at a meter value or
+  on a story event, a player-view preview); export one .zip (pack.json + portraits/). CS told to import that .zip too
+  (DecompressionStream; refuses encrypted/zip64/zip-slip/unknown files/>4 MB). Later: pack formula in Pack settings;
+  AI help for a cast entry. Mockup https://claude.ai/artifact/ (see next line) vm-results/u8/mock.mjs.
