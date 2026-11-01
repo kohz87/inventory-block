@@ -40,3 +40,7 @@
     Holds' treaties and may start a war — the player helps, tempers or stops her.
   * Father: Durvald Seamrune, dwarven rune-master, member of the River Council (rich on the collar trade); sold wife and
     daughter to buy his seat; still wears her mother's ring. Drawn to (added): the River Council; Durvald Seamrune.
+- Portrait (USER, ChatGPT): portraits/ysmeth-original.webp. Look details to match: the crown braid with long loose
+  hair falling behind; a brown leather-and-brass rune-collar with a ring at the throat; wrapped wrists; scarred
+  forearms; layered leather straps and buckles over a loose shirt; a tool pouch and keys at her belt; a rune-carved
+  forge hammer.
