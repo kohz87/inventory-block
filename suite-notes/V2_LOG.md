@@ -2994,3 +2994,9 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
 - 1 Nov: SP agent started (SB stage35/secret-either + NSD check). Studio 0.5.1 mockup (secret card: optional "…or also
   on a story event", player sees "Opens at Trust 90 or with the story"): https://claude.ai/artifact/TGQzLJmR2HCabTrvpema4t
   (vm-results/u9/mock.mjs). Waiting on USER approval before building it.
+- 1 Nov: USER: clean up completed mockup pages and stop watching; "the studio is fine" (approves the u9 either-rule
+  field). Stopped all 10 artifact watches. Deleted the completed Story Suite mockup pages (USER confirmed each):
+  Standard Stat Formula, Studio cast editor, The living cast, Encounters, Key People, Character Export, Lean RPG Mockup,
+  Story Suite Cleanup, Studio AI Writing, Studio Timeline Mockup, Secret either rule. Their scripts stay in vm-results/
+  (u1–u9) so any page can be regenerated. Not touched: pages from other projects (Score, Hermes, Atlas, Agent Looks…)
+  and two uncertain ones (Combat card mockup, NPC Dossier Redesign). ST resumed for Studio 0.5.1 (either-rule field).
