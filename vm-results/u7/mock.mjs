@@ -42,7 +42,7 @@ const openLastCard = async html => {
   await page.waitForTimeout(400);
 };
 // C1: paths cross at the same place
-await openLastCard({ summary: 'Paths crossed: Fenna · 7:40 pm, Bluewatch docks', body: `<div class="u7-card"><span class="u7-ico">✦</span><div><b>Paths crossed: Fenna</b><span class="u7-tag">Ersveil cast · first meeting</span></div><span class="u7-meta">Why: she works the night ferry at Bluewatch docks, and you are at the docks in the evening. Same place, so a good chance (d20 6, 1–8 meets this scene). The narrator is told to bring her in. A swipe rolls again; Re-read keeps it.</span></div>` });
+await openLastCard({ summary: 'Paths crossed: Fenna · 7:40 pm, Bluewatch docks', body: `<div class="u7-card"><span class="u7-ico">✦</span><div><b>Paths crossed: Fenna</b><span class="u7-tag">Ersveil cast · first meeting</span></div><span class="u7-meta">Why: she works the night ferry at Bluewatch docks, and you are at the docks in the evening: your first time here while she is. No roll. The narrator is told to bring her in; a swipe rewrites the scene, not who you meet.</span></div>` });
 await shot('C1-same-place');
 // C2: their goal brings them to you
 await openLastCard({ summary: 'Paths crossed: Sera · Gw 14, Bluewatch inn', body: `<div class="u7-card"><span class="u7-ico">✦</span><div><b>Paths crossed: Sera</b><span class="u7-tag">Ersveil cast · first meeting</span></div><span class="u7-meta">Why: her hunt for her brother's killer led her to the man you fought at the weir. She has come to Bluewatch looking for whoever beat him. Her goal pulls her to you, so she arrives; no roll.</span></div>` });
@@ -89,10 +89,10 @@ await page.evaluate(() => {
   const c = [...document.querySelectorAll('details.ss-module-card')].find(d => /Story Director/i.test(d.querySelector('summary')?.textContent));
   const fold = [...c.querySelectorAll('details')].find(d => /NPC initiative/i.test(d.querySelector('summary')?.textContent ?? ''));
   const e = (fold ?? c.querySelector('details')).cloneNode(false); e.open = true;
-  e.innerHTML = `<summary class="ss-section-head"><span class="ss-label ss-section-title">The cast</span><small class="ss-section-hint">On · Normal · Ersveil pack</small></summary>
+  e.innerHTML = `<summary class="ss-section-head"><span class="ss-label ss-section-title">The cast</span><small class="ss-section-hint">On · 1 new face a day · Ersveil pack</small></summary>
   <div class="u7-fields">
    <label class="u7-check"><input type="checkbox" checked> The pack's cast lives off-screen</label>
-   <div class="u7-field"><b>How often paths cross</b><div class="u7-seg"><button type="button" aria-pressed="false">Rare</button><button type="button" aria-pressed="true">Normal</button><button type="button" aria-pressed="false">Often</button></div><small>Scales the chance when you share a place. Someone whose goal leads to you still arrives. Never during a fight.</small></div>
+   <div class="u7-field"><b>New faces at most</b><div class="u7-seg"><button type="button" aria-pressed="true">1 a day</button><button type="button" aria-pressed="false">2 a day</button><button type="button" aria-pressed="false">1 a week</button></div><small>You meet someone the first time you are at their place while they are there, or when their goal leads them to you. This keeps it to a few at a time; the rest wait. Never during a fight.</small></div>
    <small class="u7-note">They move on only when the day changes or time skips: one short planner line each, only where something changed. Unmet cast is never in the narrator's text. Needs a pack with a cast (Ersveil).</small>
   </div>`;
   (fold ?? c.querySelector('details')).before(e);

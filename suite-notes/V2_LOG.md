@@ -2752,3 +2752,8 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   cancelled (pre-existing barrier tests on Node 22; reproduced on clean main). Checked end-to-end against KA bddd9be in
   a real test ST. Lead answers: Q1 move keyAway into the saved npc slice (sent back), Q2 keep fields, Q3 auto-scan only,
   Q4 fine.
+- 1 Nov: USER "do we still need to roll for it?" → No dice for the cast. First meeting = first time the party is at
+  their place while their routine has them there, or their goal (`drawnTo`) brings them. After that they are part of the
+  world (planner may bring them in when sharing a place). Pacing: "new faces at most" (default 1 a day; 2 a day /
+  1 a week), others wait. A swipe rewrites the scene, not who you meet. Setting: on/off + new faces cap (replaces
+  Rare/Normal/Often). Mockup v2 published at the same link.
