@@ -2727,3 +2727,11 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   logged as "attacks"; (4) wizard Skills note Classic wording; (5) planner sheet text on blocks/formula mismatch;
   (6) same-named foe group within 12 messages continues the old order. Rulings to USER: (a) support "at a cost" heals 1
   block; (b) quick start only vs the targeted foe; (c) 2.13.0 chats with no choice play Standard on Classic blocks (cap 5).
+- 1 Nov: USER rulings default (no answer in 5 min → lead's recommendation): (a) keep "at a cost" heal = 1 block; (b) quick
+  start only vs the targeted foe; (c) accept 2.13.0 no-choice chats playing Standard on Classic blocks.
+- 1 Nov: Encounters redesign (USER): no dice encounters for named people and NO backdrops. The pack holds cast entries
+  only, each with a starting point (place, goal, routine) that lives off-screen: SD advances unmet cast in one batch on a
+  day change / time skip (one short line each, only where it matters; hidden until met; never in the narrator tail).
+  A meeting follows place + agenda (same place → good chance; agenda pulls toward the party → arrives; small roll only
+  for "this scene?"). Once met, the reader can pin them as Key people (reuses the `away` track). Nameless locals stay
+  fully generative (narrator invents; NSD dossier catches anyone who matters). Mockup to be redrawn (u7).
