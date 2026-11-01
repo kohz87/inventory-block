@@ -2923,3 +2923,8 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   CD ← merge dd6168b + B2 + goal meeting `where` + EOF blank lines + pills + pack-update compare + same-name present
   person + word-boundary cut; CS ← import message counts only + late card check vs main.
 - 1 Nov: Torka portrait from the USER saved.
+- 1 Nov: RELEASED Key people: Story Director 2.7.0 (PR #151, CI verify green, merged 8adf680) and NPC State Delta 1.5.0
+  (PR #228, CI verify green, merged bba3ee3). Merge commits.
+- 1 Nov: Cast person 7 drafted: Sir Lothar of Swanmere (human, 27, Iron Guard knight sworn to Wendhild; gentle noble;
+  hidden agenda; the Emperor died last winter and a Veil-held pattern wears his face; Wendhild ordered it; Lothar seeks a
+  completer outside the Church, then means to confess and die as the traitor). Awaiting USER.

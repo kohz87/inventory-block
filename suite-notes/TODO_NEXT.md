@@ -95,3 +95,5 @@ https://claude.ai/artifact/AJZkpqZigE5TvZRRh4jrMK (v3); AI writing help https://
 
 - 1 Nov: Standard formula released (SB 2.14.0, 0b23c3f). Next: Key people release (KA SD + KB NSD), then the living cast (mockup v2 awaiting USER), then Ersveil cast writing, then backlog release.
 - Follow-up (backlog release): NSD dossier sticky jump-chip row is see-through (content shows under it) — opaque with the panel fix.
+
+- 1 Nov: Key people released (SD 2.7.0, NSD 1.5.0). Next: living cast fixes (Review C B1/B2) → re-check → release (SB 2.15.0, SD 2.8.0, NSD 1.6.0, Studio 0.5.0); Ersveil cast 7/12 with USER; then clean-up release.
