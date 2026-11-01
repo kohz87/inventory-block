@@ -2583,3 +2583,9 @@ No version bumps by agents; lead releases (SB 2.12.0 first, then SD/NSD with req
   Sent UA2 the SD summary/title contract.
 - 1 Nov: UB follow-up — `story-director.arc` presets lean:false; SD `stage29/ui-b` f9a1969, green (992 pass, 0 fail).
   Review check: earlier report said 994 tests, now 992 pass — confirm no test went missing.
+- 1 Nov: UA2 follow-up — SB `stage29/ui-a2` b1770db (871c5e3 function form superseded), green (4125 pass, 0 fail).
+  SB holds no SD words/ids: section heading = card screen's own title; closed-line part = card screen's own
+  `summary` template (validateScreen: string ≤500), read in that reply's scope. With SD f9a1969: "… · 1:30 pm,
+  Bluewatch Village", heading "Where things stand". "N edits of yours" removed from the closed line (one assertion in
+  edit/reply-card.test.js changed on purpose). HUD switch (Features + drawer row) shown only when a screen declares a
+  'hud' mount (withHiddenFeatures; stored value untouched). Older SD: heading "Status", no summary part (graceful).
