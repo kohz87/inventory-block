@@ -2991,3 +2991,6 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
 - 1 Nov: USER "Proceed" with the patch-first plan: SB 2.15.1 (cast secret may carry meter+at AND when, "whichever comes
   first"), NSD check/fix (1.6.1 if needed), Studio 0.5.1 (secret card: "…or also on a story event" field; mockup first,
   per the rule), then EP restores the 13 dropped events in Ersveil 2.4.0 before its PR. Brief SP.md.
+- 1 Nov: SP agent started (SB stage35/secret-either + NSD check). Studio 0.5.1 mockup (secret card: optional "…or also
+  on a story event", player sees "Opens at Trust 90 or with the story"): https://claude.ai/artifact/TGQzLJmR2HCabTrvpema4t
+  (vm-results/u9/mock.mjs). Waiting on USER approval before building it.
