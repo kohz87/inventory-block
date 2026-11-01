@@ -3006,3 +3006,6 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   Next: NSD 1.6.1 after SB merges (re-vendor), Studio 0.5.1 (ST working), then EP restores the 13 events (requires ^2.15.1).
 - 1 Nov: ST done: Studio stage35/secret-either 6d39170 (either-rule field per mockup; vendored SB 128d203; 841 tests,
   841 pass). EP told to merge SB stage35, restore the 13 events as either-rules, requires ^2.15.1. SB PR #241 CI pending.
+- 1 Nov: RELEASED Story Block 2.15.1 (PR #241, CI green, merged d926cf6). NSD 1.6.1 (d9351d5; testkit SB d926cf6;
+  1592/1587/0/5 cancelled; compat + smoke) PR https://github.com/kohz87/npc_state_delta/pull/230; Studio 0.5.1 (fb3323b;
+  vendored SB d926cf6; 841/841) PR opened. EP merging main and restoring the 13 events.

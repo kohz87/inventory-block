@@ -105,7 +105,8 @@
         "title": "The girl from the north",
         "text": "Last winter an orc in Watch colours left a half-frozen white-haired girl at the gate and was gone by dawn. Temiwa sensed an absorption no commoner should have and never reported her, the one rule broken since Severa; she told no one of the orc either. Each owes the other; neither has said a word.",
         "meter": "trust",
-        "at": 50
+        "at": 50,
+        "when": "the party meets Rika"
       },
       {
         "title": "The Order of the Last Rite",
@@ -128,7 +129,8 @@
         "title": "Three children",
         "text": "At 19 she hid three Veil children in the candidates' cloister. Mother Inquisitor Severa made her kill them with her own hands and complete them, the price of her candidacy. She was cast out anyway when the archive came to light.",
         "meter": "trust",
-        "at": 90
+        "at": 90,
+        "when": "Severa or an Inquest agent comes to Bluewatch"
       }
     ],
     "canDieUnmet": false
@@ -519,7 +521,8 @@
         "title": "The girl who passed Bluewatch",
         "text": "Coming back half-frozen from the north she reached Bluewatch, where Temiwa treated her, sensed the abnormal absorption and never reported her; each owes the other, neither has said a word. She remembers only a huge shape carrying her through snow and a deep voice singing; it was Harrak.",
         "meter": "trust",
-        "at": 50
+        "at": 50,
+        "when": "the party meets Temiwa"
       },
       {
         "title": "Forty condemned",
@@ -541,7 +544,8 @@
         "title": "Stopping the Tide",
         "text": "She means to atone by stopping the Tide: the tap is still open and growing (Somner may still be there). She came to Auvoth for Veyr's sealing records to close it herself, and needs a crew and a reader, which is why she courts the party with half-truths.",
         "meter": "trust",
-        "at": 90
+        "at": 90,
+        "when": "the party heads for the Hollow Aurora Zone"
       },
       {
         "title": "Moral edge",
@@ -663,7 +667,8 @@
         "title": "The girl in the snow",
         "text": "In CY 610 his beacon line watched Somner's Startrace expedition go north with chained prisoners and let it pass under orders. The next winter he found one survivor half-dead in the snow, a girl, and carried her south toward Bluewatch, singing to keep her awake. He never learned her name.",
         "meter": "trust",
-        "at": 50
+        "at": 50,
+        "when": "the party meets Rika or hears of Somner's expedition"
       },
       {
         "title": "His war-brother",
@@ -680,7 +685,8 @@
         "title": "Dying",
         "text": "He is dying, with a winter or two left. He means to die holding the wall so his name returns to the clan songs and his daughter hears the truth.",
         "meter": "trust",
-        "at": 90
+        "at": 90,
+        "when": "the Turning or a great Frostbound raid comes"
       }
     ],
     "canDieUnmet": false
@@ -806,7 +812,8 @@
         "title": "The blood-price",
         "text": "The war-brother's kin offered her the blood-price contract on \"the traitor Harrak\" and she accepted. She has never known her father's name (the clan erased it): the man she is sworn to kill is her father.",
         "meter": "trust",
-        "at": 90
+        "at": 90,
+        "when": "she learns Harrak's real story"
       },
       {
         "title": "The final choice",
@@ -946,7 +953,8 @@
         "title": "The confession",
         "text": "He seeks someone outside the Church to complete the dead Emperor quietly before the Inquest or Corvin finds out; that is why he courts the party. When it is done he means to confess all of it himself and die as the traitor, so Wendhild stays clean.",
         "meter": "trust",
-        "at": 90
+        "at": 90,
+        "when": "Corvin moves against the throne"
       },
       {
         "title": "Complicit",
@@ -1081,7 +1089,8 @@
         "title": "Osterhal's order",
         "text": "Osterhal's sealed order: if war comes, burn the papers and leave at once, alone (Liese's papers won't pass the border). He won't leave her, and plans to stay and be arrested as a spy.",
         "meter": "trust",
-        "at": 90
+        "at": 90,
+        "when": "Corvin marches or war is declared"
       }
     ],
     "canDieUnmet": false
@@ -1211,7 +1220,8 @@
         "title": "Never going home",
         "text": "Atlantean law forbids marriage with land peoples; loving a Sheathless means she can never go home, and she has decided.",
         "meter": "trust",
-        "at": 90
+        "at": 90,
+        "when": "she admits her feelings"
       }
     ],
     "canDieUnmet": false
@@ -1341,7 +1351,8 @@
         "title": "Her kin in Crown Keep",
         "text": "The great bound lamps lighting Crown Keep hold spirits of her own kin from Oren. She means to free them one day, even if it darkens the imperial palace.",
         "meter": "trust",
-        "at": 90
+        "at": 90,
+        "when": "the party reaches Crown Keep"
       }
     ],
     "canDieUnmet": false
@@ -1464,7 +1475,8 @@
         "title": "Three betrayed",
         "text": "She bought her freedom by betraying three other captive fairies to the collector's buyers. She has tracked them ever since, to free them before she dares go home; the Court remembers every one taken, and every one who gave them up.",
         "meter": "trust",
-        "at": 90
+        "at": 90,
+        "when": "the party reaches the Fairy Court"
       }
     ],
     "canDieUnmet": false
@@ -1575,7 +1587,8 @@
         "title": "The debt-collector",
         "text": "Forty years ago he was the River Council's best debt-collector and ruined families for men like Durvald, and he delivered Nysseth and young Ysmeth to the Grey Ledger for him. Everything since has been penance, and he does not think he has paid enough.",
         "meter": "trust",
-        "at": 90
+        "at": 90,
+        "when": "the party confronts the River Council or Durvald"
       }
     ],
     "canDieUnmet": false
