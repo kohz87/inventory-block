@@ -97,3 +97,4 @@ https://claude.ai/artifact/AJZkpqZigE5TvZRRh4jrMK (v3); AI writing help https://
 - Follow-up (backlog release): NSD dossier sticky jump-chip row is see-through (content shows under it) — opaque with the panel fix.
 
 - 1 Nov: Key people released (SD 2.7.0, NSD 1.5.0). Next: living cast fixes (Review C B1/B2) → re-check → release (SB 2.15.0, SD 2.8.0, NSD 1.6.0, Studio 0.5.0); Ersveil cast 7/12 with USER; then clean-up release.
+- Follow-up (clean-up release): SB "This reply" card drawn after ST's scroll-to-new-message → sits below the fold until the next reply; scroll again after drawing (then drop SD cast/follow.js).

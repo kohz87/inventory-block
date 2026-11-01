@@ -2945,3 +2945,8 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
 - 1 Nov: CN2: NSD stage33/cast-nsd b074aeb (marker inverted: `from: 'pack'|'scan'` marks others' notes; unmarked =
   reader's own, so pre-1.6 notes stay visible; merged main 1.5.0; 1589 tests, 1584 pass, 0 fail, 5 cancelled; compat +
   smoke pass). Waiting on CD's late-card fix, then a focused Review C re-check.
+- 1 Nov: CD late card: SD stage33/cast cb344b5 (testkit SB 5b18da6; 1095 tests, 1093 pass, 0 fail, 2 skip). Root cause
+  is SB/ST order (ST scrolls to the new message, SB draws the card just after, so the card sits below the fold for any
+  reply). SD workaround src/v2/cast/follow.js re-scrolls only for replies carrying a cast note when the reader was at
+  the bottom. Follow-up (clean-up release): fix in SB — scroll again after the card is drawn; then SD's follow.js can go.
+- 1 Nov: Review C re-check started (SB 5b18da6, SD cb344b5, NSD b074aeb); ST asked to re-vendor SB 5b18da6.
