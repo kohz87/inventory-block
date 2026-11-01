@@ -2572,3 +2572,12 @@ No version bumps by agents; lead releases (SB 2.12.0 first, then SD/NSD with req
   status summary from director.time). Sent back: headings = each card's own title, summary = each card's own slot
   (UB told to set "Where things stand" + "1:30 pm, Bluewatch Village" in SD); drop "N edits of yours" from the closed
   line (mockup); HUD switch shown only when a screen declares a 'hud' mount (lead's call, stored value kept).
+- 1 Nov: UB done — SD `stage29/ui-b` a1e43af (from 4b188c3), check + full test green (994). Scene lines hidden in the
+  Game view only (CSS var on the screen mount; Story panel keeps them). Status card: title "Where things stand",
+  `summary: '{{ q.status.summary }}'` ("1:30 pm, Bluewatch Village"). `story-director.threads` (lean:false): 9 kinds,
+  Pacing/World/Under [World] as context parts, tails/recap/Chronicle/News/Factions/Behind/Director World card hidden;
+  state byte-equal, rebuild == live, chronicle.lasting works (Ersveil). Fixed prompt 1310 → 886 tokens with threads
+  off. Default-on output byte-identical (fixture prompt-threads-on.json from base). presets lean:false on initiative
+  and trip; lead asked + arc planning (threads made by code but never shown in Lean). Director "overlap": not
+  geometric — chat bleed-through of the translucent Game view (UA1's opaque item fixes it); grid hardened anyway.
+  Sent UA2 the SD summary/title contract.
