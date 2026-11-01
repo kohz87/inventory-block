@@ -2784,3 +2784,12 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   met stay. Secrets: per person (max 8), authored, never rewritten by the story; unlock by meter value then stay
   unlocked; possible addition (needs NSD work): unlock on a story event. Mockup v5 at the same link (Add screen
   replaced by "pack updated").
+- 1 Nov: USER: secrets for normal generated NPCs too (layered); story-event unlock "good to have", how much work?
+  Facts: today NSD secrets are reader-written only (editor "Hidden notes"; scans never write them). Lead design:
+  the first full dossier scan writes 2–3 layered secrets (title, text, unlock: rising meter values or a story event),
+  consistent with the background; only dossier NPCs; reader sees titles + rules, may edit; ~150–250 output tokens once
+  per NPC. A later scan may rewrite a generated secret only while locked and only if the story contradicted it;
+  unlocked and pack secrets never change. Event unlock: NSD-only, moderate (≈ KB-sized round + review): `when` rule,
+  scan checks only present NPCs' event-locked secrets, unlock recorded on the reply (swipe undoes, Re-read keeps),
+  dossier "unlocks when …", editor + pack format; Lean = up to 2 replies late. Recommend both as the NSD part of the
+  living cast build. Mockup v6 (layered secrets in the dossier).

@@ -92,7 +92,10 @@ await page.evaluate(() => {
   const box = document.createElement('section'); box.className = 'u7-first';
   box.innerHTML = `<h5>From the Ersveil cast · first met Gw 12 at the docks</h5>
    <div>Made at the first meeting from the pack's prepared dossier: portrait, look, voice, personality, history, story stages and starting meters. No scan needed.</div>
+   <div><b>Secrets</b> <span class="u7-note">(titles only until they open)</span></div>
+   <div>🔓 <b>Her husband's debt</b> · opened at Trust 20</div>
    <div>🔒 <b>The weir night</b> · unlocks at Trust 60</div>
+   <div>🔒 <b>Who paid her</b> · unlocks when the party finds the weir ledger</div>
    <div><b>Her own path:</b> keep the night ferry running; find out who opened the weir. <b>Last heard:</b> took the ferry upriver to Ashford for the guild (Gw 15).</div>
    <button type="button" data-ss-hit class="u7-btn">★ Pin as Key people</button>
    <div class="u7-note">Pinned, she gets the full Key people track (away, back date, return) and the narrator hears about her.</div>`;
