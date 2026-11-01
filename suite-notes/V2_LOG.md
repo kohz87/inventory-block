@@ -2581,3 +2581,5 @@ No version bumps by agents; lead releases (SB 2.12.0 first, then SD/NSD with req
   and trip; lead asked + arc planning (threads made by code but never shown in Lean). Director "overlap": not
   geometric — chat bleed-through of the translucent Game view (UA1's opaque item fixes it); grid hardened anyway.
   Sent UA2 the SD summary/title contract.
+- 1 Nov: UB follow-up — `story-director.arc` presets lean:false; SD `stage29/ui-b` f9a1969, green (992 pass, 0 fail).
+  Review check: earlier report said 994 tests, now 992 pass — confirm no test went missing.
