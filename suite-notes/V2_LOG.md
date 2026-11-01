@@ -2698,3 +2698,6 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   Standard (same class): focused 81/73/78/66/62 % at I/III/V/VII/IX; spread 75/65/53/40/25 %. Review F started.
 - USER (1 Nov), Key people design: Story Director owns the pin (cap 5), agenda/dates/return, works in Lean; NSD only
   pulls from SD and evolves the dossier (away timeline) when both are installed; NSD alone has no Key people.
+- 1 Nov: USER: keep the spread-build curve ("generalists handle it through skills; player ingenuity"). Key people: cap 10;
+  removed automatically when the dossier is archived or the person is dead (NSD status read by SD; SD-only: when the
+  person's agenda ends with their death, or the reader unpins).
