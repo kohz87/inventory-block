@@ -2966,3 +2966,8 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   from SB main) and Studio 0.5.0 (sync-sb from SB main).
 - 1 Nov: Cast person 10 drafted: "Hush" (Moonrain-on-the-Roofs; spiritfolk lamplighter of Vargate; mentor; frees bound
   lamps; fading as she carries freed spirits). Awaiting USER.
+- 1 Nov: RELEASED Story Block 2.15.0 (PR #240, CI verify green, merged d6c63c6).
+- 1 Nov: Living cast PRs: SD 2.8.0 (c8b2036; testkit SB d6c63c6; 1095/1093/0/2) https://github.com/kohz87/Story_director/pull/152;
+  NSD 1.6.0 (53dd5f7; testkit SB d6c63c6; 1589/1584/0/5 cancelled; compat passes) https://github.com/kohz87/npc_state_delta/pull/229;
+  Studio 0.5.0 (ac3339e; vendored SB d6c63c6; 835/835) https://github.com/kohz87/Story_studio/pull/23. Waiting on CI.
+- 1 Nov: Hush settled with the USER (ethereal, girl-next-door face, regular figure; tied to Lothar).
