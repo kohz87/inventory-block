@@ -2553,3 +2553,15 @@ No version bumps by agents; lead releases (SB 2.12.0 first, then SD/NSD with req
   Standard ≈4,394, Full ≈4,477 (pack text included; Lean's big cut arrives with UB's threads switch). Unavailable
   features (pre-roll without a check module) are neither set nor compared. Lead looked at shots uc/shots f1–f6: OK.
   Notes for review: one feature event per changed switch (not batched); "Fine-tune" label shows with one module.
+- 1 Nov: UD done — NSD `stage29/ui-d` 3d93827 (from 13daee6). check green; npm test 1515 pass / 0 fail / 5 cancelled
+  in storysuite-participant-selection (same 5 on clean 13daee6 → pre-existing, follow-up); compatibility-check +
+  runtime-smoke pass by hand. Folds: Scanning, Roster & continuity, Meter presets (new, closed; hidden standalone until
+  filled), Portrait generation, Data & maintenance, Expert (closed: Source of truth, Calendar & birthdays, Scanner rules,
+  What's sent, Advanced; note picked by new adapter `calendarLink()`). Feature `npc-state-delta.scan-every-reply`
+  (off → auto scan every 3 replies or "Scan every" if larger; pure `autoScanDue()`); lean:false on it, stages, presets.
+  Phone dossier: cause = Story Suite's CSS zoom 0.8 made 100vw 312px; sizes divided by `--ss-zoomed`. Pins updated on
+  purpose: features list, cadence expr, group order, 100vh/100dvh. Lead looked at ud/shots: OK.
+  Release note: on SB 2.11.3 the `presets` key shows "made for a newer Story Block" in Versions → NSD release must
+  require SB ≥2.12.0 (ships after SB). Follow-ups: phone dossier header translucent (pre-existing); 5 cancelled tests.
+  UD's test ST (pid 3299, port 8165) still running: its stop was refused by the permission check; lead did not run it
+  on the agent's behalf; asked USER.
