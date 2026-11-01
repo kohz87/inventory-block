@@ -2758,3 +2758,15 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   1 a week), others wait. A swipe rewrites the scene, not who you meet. Setting: on/off + new faces cap (replaces
   Rare/Normal/Often). Mockup v2 published at the same link.
 - 1 Nov: RELEASED Story Block 2.14.0 (Standard stat formula): PR #239 CI verify green, merged 0b23c3f (merge commit).
+- 1 Nov: KA done (SD stage32/key-people 47c6a0d): keypeople domain, feature `story-director.key-people` (on, Lean
+  keeps), away kinds, tail within budget, `keypeople.sync` removal, World section, settings, `director.keyPeople`.
+  1026 pass, 0 fail, 2 skip. Deviations: removal reads `npc.known` + lifeState (NSD api unreachable on SB2 host);
+  host 44px phone minimum makes pills big; chip position; dangling " ·"; removal line on previous reply's card.
+- 1 Nov: KB follow-up done (NSD 2aea5c3): keyAway in the saved npc slice, `npc.keyAway` query; 1535 tests, 1530 pass,
+  0 fail, 5 cancelled (pre-existing Node 22 barrier). Review K started (suite-notes/rpg-briefs/REVIEW-K.md).
+- 1 Nov: USER on the cast mockup: phone buttons oversized; dossier only after meeting (yes); add cast during play (lead:
+  World → The cast → Add, chat-only; not lorebook); unmet death (lead: off by default, setting + pack `canDieUnmet`);
+  counts ("Met n of 12" always; "may cross here" only when near). Mockup v3: compact 30px pills with an invisible 44px
+  tap area (`data-ss-hit` + ::after) instead of the host's 44 x 44 minimum; Add-to-cast screen; death setting.
+  Cause of big buttons: Story Block src/v2/view/size.css forces min 44 x 44 (÷ zoom → 55px drawn) on every phone button.
+  Follow-up: an SB compact-pill rule (drawn ~30px, tap 44px tall) for segmented choices and small actions.
