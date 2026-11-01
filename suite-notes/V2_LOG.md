@@ -3016,3 +3016,7 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
 - 2026-11-01 23:38Z — Studio 0.5.1 released: PR kohz87/Story_studio#24 merged (merge commit 3036ab8, head fb3323b, CI verify green). Vendors SB d926cf6 (2.15.1 meter-or-event secret rule). NSD #230 and SB #242 CI still running.
 - 2026-11-01 23:39Z — NSD 1.6.1 released: PR kohz87/npc_state_delta#230 merged (merge commit f642101, head d9351d5, CI verify green). SB #242 (Ersveil 2.4.0) CI still running.
 - 2026-11-01 23:40Z — Ersveil pack 2.4.0 released: PR kohz87/Story_block#242 merged (merge commit 79df89f, head 05f2e8d, CI verify green). Twelve cast live (8 women, 4 men), portraits, 13 meter-or-event secrets. Meter-or-event patch set complete: SB 2.15.1, NSD 1.6.1, Studio 0.5.1, Ersveil 2.4.0. Next: clean-up release (TODO_NEXT).
+- 1 Nov 23:50Z: USER "Proceed, delete both mockup pages". Combat card mockup + NPC Dossier Redesign were already gone
+  (no artifact at either link). Clean-up release started: briefs suite-notes/cleanup-briefs/ (X-COMMON, XA SB portrait
+  shrink + zip caps + card scroll + NSD preset ids export; XB SD removal-line fix + drop follow.js after XA; XC NSD 404s +
+  opacity check; XM part-B mockups: date/time pencil, Studio pack formula).
