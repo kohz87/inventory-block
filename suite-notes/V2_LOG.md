@@ -2668,3 +2668,4 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   pair, statPart, luckOf, edgeWithLuck, blocksFor, foeHealthBlocks, foeBonus, initiativeBonus, turnOrder, quickStart,
   companionStats with spill so no point is unspent). Briefs suite-notes/rpg-briefs/F-COMMON, FA (roll engine,
   planner types, settings, creation, simulation), FB (bars, foe Health, Fight tab views). Both agents started.
+- 1 Nov: **Story Block 2.13.0 released** — PR #238, merge 0a68271 (head 8242ae4), CI verify green. (Formula base stage31/formula-base sits on 8242ae4, so FA/FB build on top of 2.13.0.)
