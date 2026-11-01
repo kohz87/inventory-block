@@ -2844,3 +2844,7 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   stage33/cast: Cast part, portraits auto-shrink, secrets, .zip export/open, vendored SB from SB stage33/cast) and EW
   (write 12 Ersveil cast entries + CAST.md + portrait briefs; writing only). Portrait art: asked the USER (their art or
   generated). Clean-up release held until the cast builds land (same files).
+- 1 Nov: EW done: 12 Ersveil cast entries (6 women, 6 men; 8 companions, 3 rivals, 1 mentor), 51 secrets (3–5 each,
+  12 `when`), all start places exact; validator OK; 53 KB. Copied to suite-notes/ersveil-cast/ (CAST.md, cast.json,
+  validate_cast.py). Lore gaps filled are listed in CAST.md for the USER. Notes sent to CS and CN1: stages use the pack
+  meterPreset stage shape; meters name NSD built-in presets (pack has no meterPresets). Waiting on USER review.
