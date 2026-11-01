@@ -41,3 +41,7 @@
     she passed through Bluewatch; Temiwa treated her, sensed the abnormal absorption, and never reported her. Each owes
     the other; neither has said a word.
 - USER (1 Nov): Soul Class II (not IV) — her raw bursts are spiky and unreliable; class reflects control and growth, not the size of a single blast.
+- Portrait (USER, ChatGPT): portraits/rika-original.png. Look details to match: very long, wild white hair with a loose
+  tied tail; one yellow-green eye glaring through the strands, blushing, biting her coat collar; patched, oversized
+  brown coat; red sash; scarred forearms; fingerless gloves; the red knotted tally cord in hand; a strapped book at
+  her hip (she cannot read it); a small vial; harbour docks behind.
