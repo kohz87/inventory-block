@@ -28,3 +28,6 @@
   whom) · Mine (Affection 75, Desire 50; possessive, dangerous to anyone close to you; "she'd rather complete you
   herself than let anyone else bury you"). Secret 6 (Affection 60): a lock of your hair and a scrap of your bloodied
   bandage in her reliquary beside the page. Tension rises when you are with other companions.
+- Portrait (USER, ChatGPT): portraits/temiwa-original.webp (Studio shrinks it to ≤ 64 KB on import). Look details to
+  match it: long, tousled deep-red hair; a grey veil embroidered with the gold flame-sun; flame-cross pendants; a brass
+  censer on chains at her belt; torn, patched habit with stockings and garters beneath; tail tied with a grey ribbon.
