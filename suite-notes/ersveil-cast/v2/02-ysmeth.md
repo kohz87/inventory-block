@@ -27,3 +27,16 @@
 - Stages: Measures you (tells you one true thing) · Fixes your gear without being asked · Shows you her unlocked
   collar · Chooses you (takes the collar off in front of you). Romance: Desire meter on.
 - Open: father's name/hold; whether her mother is one of the 12.
+- USER final (1 Nov): take suggestions 1, 3, 4, 5, 6; keep Durvald, as a RIVER COUNCIL member; mother = cast person 3;
+  she does not need to appear early (her own story with her mother in Shackles City).
+  * Moral edge: she made the collars that bind thousands; did she build the fault in to free them, or only so her
+    father's ruin would be complete? She does not know herself.
+  * In play: opens, fixes or builds anything (locks, traps, rune-work, gear); fields Soul Class III, Craft
+    "Rune-collar master"; fights with a forge hammer — people misjudge her slender frame until she swings it.
+  * Tells: hums dwarven forge-songs only when she thinks she is alone; touches her collar when she lies; counts under
+    her breath when nervous.
+  * Romance mark (top stage): braids a strand of your hair into her crown braid (a dwarven vow).
+  * Vengeance stakes: speaking the word against all of her father's collars at once frees thousands but breaks the
+    Holds' treaties and may start a war — the player helps, tempers or stops her.
+  * Father: Durvald Seamrune, dwarven rune-master, member of the River Council (rich on the collar trade); sold wife and
+    daughter to buy his seat; still wears her mother's ring. Drawn to (added): the River Council; Durvald Seamrune.
