@@ -1,0 +1,283 @@
+<title>Story Suite Game Layouts</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600&family=Chakra+Petch:wght@500;600;700&display=swap">
+<style>
+/* Layout: a presentation page with three genuinely different game layouts (Hero sheet, Journey, Quest board). Each draws its desktop and phone from the same blocks; tokens cover light and dark. */
+:root {
+  --bg: #eef0f5; --fg: #141620; --muted: #5d6275; --faint: #9095a8; --line: #d9dce6; --card: #ffffff; --card2: #f6f7fb; --sunk: #e7e9f1;
+  --acc: #6c4cf5; --acc-fg: #ffffff; --gold: #c58a12; --gold-bg: #fdf3dc; --hp: #e5484d; --mp: #3e7bfa; --sp: #2fb36d; --xp: #8e6bff; --warn: #d9730d;
+  --r-common: #8a8fa3; --r-uncommon: #2fa36b; --r-rare: #3478f6; --r-epic: #9b5cf6;
+  --shadow: 0 1px 2px rgba(20,22,40,.05), 0 14px 40px rgba(20,22,40,.10);
+  --f-ui: "Geist", system-ui, -apple-system, "Segoe UI", sans-serif; --f-game: "Chakra Petch", "Geist", system-ui, sans-serif; --f-mono: "Geist Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #090a10; --fg: #eceef6; --muted: #9aa0b6; --faint: #646a80; --line: #22253a; --card: #11131d; --card2: #161926; --sunk: #0d0f17; --acc: #8f74ff; --gold: #f2b84b; --gold-bg: #2a200b; --hp: #ff5f63; --mp: #5b93ff; --sp: #39c97f; --xp: #a58bff; --warn: #ffa24d; --shadow: 0 1px 2px rgba(0,0,0,.5), 0 18px 50px rgba(0,0,0,.55); color-scheme: dark } }
+:root[data-theme="dark"] { --bg: #090a10; --fg: #eceef6; --muted: #9aa0b6; --faint: #646a80; --line: #22253a; --card: #11131d; --card2: #161926; --sunk: #0d0f17; --acc: #8f74ff; --gold: #f2b84b; --gold-bg: #2a200b; --hp: #ff5f63; --mp: #5b93ff; --sp: #39c97f; --xp: #a58bff; --warn: #ffa24d; --shadow: 0 1px 2px rgba(0,0,0,.5), 0 18px 50px rgba(0,0,0,.55); color-scheme: dark }
+body { background: var(--bg); color: var(--fg); font: 14px/1.5 var(--f-ui); -webkit-font-smoothing: antialiased; }
+main { max-width: 1280px; margin: 0 auto; padding-block: 32px 72px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: grid; gap: 24px; }
+h1 { margin: 0; font-size: clamp(26px, 3.4vw, 34px); letter-spacing: -0.02em; font-weight: 800; text-wrap: balance; }
+p { margin: 0; max-width: 72ch; }
+.lead { color: var(--muted); font-size: 15px; }
+.eyebrow { font: 600 11.5px/1 var(--f-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--acc); }
+.controls { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center; }
+.seg { display: inline-flex; padding: 3px; gap: 2px; border-radius: 10px; background: var(--card); border: 1px solid var(--line); }
+.seg button { all: unset; cursor: pointer; padding: 7px 14px; border-radius: 7px; font-size: 13px; color: var(--muted); }
+.seg button[aria-pressed="true"] { background: var(--fg); color: var(--bg); font-weight: 600; }
+.seg button:focus-visible { outline: 2px solid var(--acc); outline-offset: 2px; }
+.desc { display: grid; gap: 4px; } .desc b { font-size: 16px; } .desc span { color: var(--muted); }
+.scroll { overflow-x: auto; padding: 4px; margin: -4px; }
+figure { margin: 0; display: grid; gap: 8px; min-width: 0; }
+figcaption { font-size: 12.5px; color: var(--muted); }
+.phonerow { display: grid; grid-template-columns: 350px minmax(0, 1fr); gap: 28px; align-items: start; }
+@media (max-width: 760px) { .phonerow { grid-template-columns: minmax(0, 1fr); } }
+.notes { display: grid; gap: 12px; } .notes div { display: grid; gap: 2px; } .notes b { font-size: 14px; } .notes span { color: var(--muted); font-size: 13.5px; }
+.tabular { font-variant-numeric: tabular-nums; }
+[data-variant] { display: none; } [data-variant].show { display: grid; gap: 28px; }
+
+/* ===== frames and shared game atoms ===== */
+.desk { width: 1200px; max-width: none; height: 720px; border: 1px solid var(--line); border-radius: 18px; overflow: hidden; background: var(--bg); box-shadow: var(--shadow); display: grid; grid-template-columns: 72px minmax(0,1fr); }
+.phone { width: 350px; max-width: 100%; height: 740px; border: 1px solid var(--line); border-radius: 38px; overflow: hidden; background: var(--bg); box-shadow: var(--shadow); display: grid; grid-template-rows: 1fr auto; }
+.phone .scrollp { overflow: auto; padding: 12px; display: flex; flex-direction: column; gap: 12px; }
+.phone .scrollp > * { flex: none; }
+.ico { width: 18px; height: 18px; flex: none; }
+.rail { background: var(--card); border-right: 1px solid var(--line); display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 14px 0; }
+.rail .logo { width: 38px; height: 38px; border-radius: 12px; background: var(--acc); color: var(--acc-fg); display: grid; place-items: center; font: 700 15px var(--f-game); margin-bottom: 10px; }
+.rail button { all: unset; cursor: pointer; width: 52px; display: grid; justify-items: center; gap: 3px; padding: 8px 0; border-radius: 12px; color: var(--faint); font: 600 10px var(--f-ui); }
+.rail button[aria-current="page"] { color: var(--acc); background: color-mix(in srgb, var(--acc) 14%, transparent); }
+.rail .grow { flex: 1; }
+.tabs { display: grid; grid-template-columns: repeat(5, 1fr); padding: 8px 8px 18px; background: var(--card); border-top: 1px solid var(--line); }
+.tabs button { all: unset; cursor: pointer; display: grid; justify-items: center; gap: 3px; padding: 6px 0; border-radius: 12px; color: var(--faint); font: 600 10px var(--f-ui); }
+.tabs button[aria-current="page"] { color: var(--acc); background: color-mix(in srgb, var(--acc) 14%, transparent); }
+.resbar { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.res { display: inline-flex; align-items: center; gap: 7px; height: 32px; padding: 0 12px 0 6px; border-radius: 999px; background: var(--card); border: 1px solid var(--line); font: 600 13px var(--f-ui); }
+.res .dot { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; color: #fff; }
+.res .dot .ico { width: 13px; height: 13px; }
+.res small { color: var(--muted); font-weight: 500; }
+.lvl { display: inline-grid; place-items: center; min-width: 30px; height: 30px; padding: 0 6px; border-radius: 9px; background: var(--gold-bg); color: var(--gold); font: 700 13px var(--f-game); border: 1.5px solid color-mix(in srgb, var(--gold) 55%, transparent); }
+.gname { font: 700 26px/1.05 var(--f-game); letter-spacing: .01em; }
+.bar { height: 8px; border-radius: 99px; background: var(--sunk); overflow: hidden; }
+.bar i { display: block; height: 100%; border-radius: 99px; }
+.seg-bar { display: grid; grid-template-columns: repeat(5, 1fr); gap: 3px; }
+.seg-bar i { height: 8px; border-radius: 3px; background: var(--sunk); }
+.kicker { font: 700 11px var(--f-game); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.panel { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 14px; display: grid; gap: 10px; align-content: start; min-width: 0; }
+.quest { display: grid; grid-template-columns: 38px minmax(0,1fr) auto; gap: 10px; align-items: center; padding: 10px; border-radius: 12px; background: var(--card2); border: 1px solid var(--line); }
+.quest .qi { width: 38px; height: 38px; border-radius: 10px; display: grid; place-items: center; color: #fff; }
+.quest b { font-weight: 700; font-size: 13.5px; display: block; }
+.quest span { color: var(--muted); font-size: 12px; }
+.badge { font: 700 11px var(--f-game); padding: 3px 8px; border-radius: 6px; letter-spacing: .04em; white-space: nowrap; }
+.badge.warn { color: var(--warn); background: color-mix(in srgb, var(--warn) 14%, transparent); }
+.badge.info { color: var(--mp); background: color-mix(in srgb, var(--mp) 14%, transparent); }
+.slots { display: grid; grid-template-columns: repeat(auto-fill, minmax(58px, 1fr)); gap: 8px; }
+.slot { aspect-ratio: 1; max-width: 100%; border-radius: 12px; background: var(--card2); border: 2px solid var(--r-common); display: grid; place-items: center; position: relative; color: var(--fg); }
+.slot .ico { width: 22px; height: 22px; }
+.slot em { position: absolute; right: 4px; bottom: 2px; font: 700 11px var(--f-game); font-style: normal; }
+.slot.empty { border-style: dashed; border-color: var(--line); color: var(--faint); }
+.slot.uncommon { border-color: var(--r-uncommon); } .slot.rare { border-color: var(--r-rare); } .slot.epic { border-color: var(--r-epic); }
+.member { display: grid; grid-template-columns: 40px minmax(0,1fr); gap: 10px; align-items: center; }
+.member .face { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; font: 700 16px var(--f-game); color: #fff; position: relative; }
+.member .face .lv { position: absolute; right: -5px; bottom: -5px; font: 700 10px var(--f-game); background: var(--gold); color: #1a1405; border-radius: 6px; padding: 0 4px; }
+.member b { font-weight: 700; font-size: 13px; }
+.member .bars { display: grid; gap: 3px; margin-top: 3px; }
+.member .bars .bar { height: 5px; }
+.log { display: grid; gap: 6px; font-size: 12.5px; }
+.log div { display: grid; grid-template-columns: auto minmax(0,1fr) auto; gap: 8px; align-items: baseline; }
+.log .d { font: 700 12px var(--f-game); }
+.log .d.minus { color: var(--hp); } .log .d.plus { color: var(--sp); }
+.log span:last-child { color: var(--faint); font-size: 11.5px; }
+.ring { width: 64px; height: 64px; position: relative; display: grid; place-items: center; }
+.ring svg { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); }
+.ring b { font: 700 12px var(--f-game); position: relative; text-align: center; line-height: 1.1; }
+.ring b small { display: block; font: 600 9px var(--f-ui); color: var(--muted); }
+
+.skills { display: grid; grid-template-columns: repeat(5, minmax(0,1fr)); gap: 6px; }
+.sk { display: grid; justify-items: center; gap: 3px; text-align: center; min-width: 0; }
+.sk .sq { width: 46px; height: 46px; border-radius: 12px; display: grid; place-items: center; color: var(--c); background: color-mix(in srgb, var(--c) 14%, var(--card2)); border: 1.5px solid color-mix(in srgb, var(--c) 50%, transparent); }
+.sk b { font: 700 10.5px/1.15 var(--f-game); }
+.sk small { font: 600 8.5px var(--f-mono); color: var(--faint); }
+.v1 .phone .portrait { aspect-ratio: 16 / 9; }
+/* ===== V1: Hero sheet ===== */
+.v1 .main { display: grid; grid-template-columns: 330px minmax(0,1fr); gap: 16px; padding: 16px; overflow: auto; }
+.v1 .hero { background: linear-gradient(160deg, color-mix(in srgb, var(--acc) 30%, var(--card)) 0%, var(--card) 55%); border: 1px solid var(--line); border-radius: 20px; padding: 16px; display: grid; gap: 14px; align-content: start; }
+.v1 .portrait { aspect-ratio: 16 / 10; max-width: 100%; border-radius: 16px; background: radial-gradient(circle at 50% 35%, color-mix(in srgb, var(--acc) 55%, #fff) 0%, var(--acc) 45%, color-mix(in srgb, var(--acc) 60%, #000) 100%); display: grid; place-items: end start; padding: 12px; position: relative; overflow: hidden; }
+.v1 .portrait::after { content: "W"; position: absolute; inset: 0; display: grid; place-items: center; font: 700 110px var(--f-game); color: rgba(255,255,255,.18); }
+.v1 .portrait .lvl { position: relative; z-index: 1; }
+.v1 .rings { display: grid; grid-template-columns: repeat(3, 1fr); justify-items: center; }
+.v1 .xp { display: grid; gap: 4px; font-size: 11.5px; color: var(--muted); }
+.v1 .stats { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; text-align: center; }
+.v1 .stats div { background: var(--card2); border: 1px solid var(--line); border-radius: 8px; padding: 5px 0; }
+.v1 .stats b { display: block; font: 700 15px var(--f-game); } .v1 .stats small { font: 600 9px var(--f-mono); color: var(--faint); }
+.v1 .right { display: grid; gap: 14px; align-content: start; }
+.v1 .two { display: grid; grid-template-columns: 1.2fr 1fr; gap: 14px; }
+
+/* ===== V2: Journey ===== */
+.v2 .main { position: relative; overflow: hidden; }
+.v2 .world { position: absolute; inset: 0; background: radial-gradient(circle at 1px 1px, color-mix(in srgb, var(--fg) 10%, transparent) 1px, transparent 0) 0 0 / 24px 24px, linear-gradient(160deg, color-mix(in srgb, var(--sp) 10%, var(--bg)), color-mix(in srgb, var(--mp) 12%, var(--bg))); }
+.v2 .world svg { width: 100%; height: 100%; display: block; }
+.v2 .hud { position: absolute; z-index: 1; }
+.v2 .hud.tl { top: 14px; left: 14px; width: 300px; }
+.v2 .hud.tr { top: 14px; right: 14px; }
+.v2 .hud.r { top: 66px; right: 14px; width: 300px; }
+.v2 .hud.b { left: 14px; right: 14px; bottom: 14px; }
+.v2 .glass { background: color-mix(in srgb, var(--card) 86%, transparent); backdrop-filter: blur(10px); border: 1px solid var(--line); border-radius: 16px; padding: 12px 14px; display: grid; gap: 8px; }
+.v2 .me { display: grid; grid-template-columns: 46px minmax(0,1fr); gap: 10px; align-items: center; }
+.v2 .me .face { width: 46px; height: 46px; border-radius: 14px; background: var(--acc); color: #fff; display: grid; place-items: center; font: 700 20px var(--f-game); position: relative; }
+.v2 .me .face .lv { position: absolute; right: -6px; bottom: -6px; font: 700 10px var(--f-game); background: var(--gold); color: #1a1405; border-radius: 6px; padding: 0 4px; }
+.v2 .vit { display: grid; grid-template-columns: 54px minmax(0,1fr); gap: 4px 8px; align-items: center; font-size: 11px; color: var(--muted); }
+.v2 .timeline { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 10px; }
+.v2 .stop { display: grid; gap: 2px; font-size: 12px; }
+.v2 .stop b { font: 700 13px var(--f-game); }
+.v2 .stop span { color: var(--muted); }
+.v2 .stop.on b { color: var(--acc); }
+.v2 .phone .mapcard { height: 240px; border-radius: 18px; overflow: hidden; position: relative; border: 1px solid var(--line); }
+
+/* ===== V3: Quest board ===== */
+.v3 .main { overflow: auto; padding: 16px; display: grid; gap: 16px; align-content: start; }
+.v3 .topbar { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.v3 .topbar .who { display: flex; align-items: center; gap: 10px; margin-right: auto; }
+.v3 .shelf { display: grid; gap: 8px; }
+.v3 .shelf .cards { display: grid; grid-auto-flow: column; grid-auto-columns: 210px; gap: 12px; overflow-x: auto; padding-bottom: 4px; }
+.v3 .tcard { border-radius: 16px; padding: 12px; display: grid; gap: 8px; align-content: start; min-height: 0; background: var(--card); border: 1px solid var(--line); position: relative; overflow: hidden; }
+.v3 .tcard.char { background: linear-gradient(180deg, color-mix(in srgb, var(--c) 34%, var(--card)) 0 54px, var(--card) 54px); }
+.v3 .tcard .face { width: 52px; height: 52px; border-radius: 14px; display: grid; place-items: center; color: #fff; font: 700 22px var(--f-game); background: var(--c); border: 3px solid var(--card); position: relative; }
+.v3 .tcard .face .lv { position: absolute; right: -8px; bottom: -6px; font: 700 10px var(--f-game); background: var(--gold); color: #1a1405; border-radius: 6px; padding: 0 4px; }
+.v3 .tcard b { font: 700 15px var(--f-game); }
+.v3 .tcard .s { color: var(--muted); font-size: 12px; }
+.v3 .tcard.quest2 { border: 1.5px solid color-mix(in srgb, var(--c) 60%, var(--line)); }
+.v3 .tcard.quest2 .qtop { display: flex; justify-content: space-between; align-items: center; }
+.v3 .tcard.quest2 .qi { width: 34px; height: 34px; border-radius: 10px; background: var(--c); color: #fff; display: grid; place-items: center; }
+.v3 .tcard .reward { display: flex; gap: 6px; flex-wrap: wrap; }
+.v3 .tcard .reward span { font: 600 11.5px var(--f-ui); padding: 2px 8px; border-radius: 999px; background: var(--gold-bg); color: var(--gold); }
+@media (prefers-reduced-motion: no-preference) { .bar i { transition: width .4s ease; } }
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></symbol>
+  <symbol id="i-party" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5"/><circle cx="17" cy="9" r="2.6"/><path d="M16.5 14.6c2.6.2 4.3 1.9 5 5.4"/></symbol>
+  <symbol id="i-bag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14l-1 12H6z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></symbol>
+  <symbol id="i-journal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z"/><path d="M9 8h6M9 12h6"/></symbol>
+  <symbol id="i-map" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 6 6-2 6 2 6-2v14l-6 2-6-2-6 2z"/><path d="M9 4v14M15 6v14"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></symbol>
+  <symbol id="i-coin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M12 8v8M9.5 10h4a1.5 1.5 0 0 1 0 3h-3a1.5 1.5 0 0 0 0 3h4"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2"/></symbol>
+  <symbol id="i-cloud" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18h10a4 4 0 0 0 0-8 6 6 0 0 0-11.5 1.5A3.5 3.5 0 0 0 7 18z"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></symbol>
+  <symbol id="i-sword" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 3H21v6.5L10 20.5 3.5 14z"/><path d="M5 19l-2 2M8 16l-3 3"/></symbol>
+  <symbol id="i-road" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 20 9 4M19 20 15 4M12 6v2M12 11v2M12 16v2"/></symbol>
+  <symbol id="i-scroll" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h11v15a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-2h11v2a3 3 0 0 0 3 3"/><path d="M8 3a3 3 0 0 0-3 3v10"/></symbol>
+  <symbol id="i-horse" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 20v-5l-2-2 3-6 5-2 3 2 4 1-1 3-3-1-1 3v7"/><path d="M10 20v-4"/></symbol>
+  <symbol id="i-torch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 11h4l-1 10h-2z"/><path d="M12 3c2 2 3 3.5 3 5a3 3 0 0 1-6 0c0-1.5 1-3 3-5z"/></symbol>
+  <symbol id="i-rope" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="12" rx="8" ry="5"/><ellipse cx="12" cy="12" rx="4" ry="2.5"/></symbol>
+  <symbol id="i-bed" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18V8M3 14h18v4M7 11h4"/></symbol>
+  <symbol id="i-slip" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l3 3v15H6z"/><circle cx="12" cy="15" r="2.5"/><path d="M9 8h6"/></symbol>
+</svg>
+
+<main>
+  <header style="display:grid;gap:12px">
+    <span class="eyebrow">Redesign · proposal 4 · 1 Nov</span>
+    <h1>Three game layouts</h1>
+    <p class="lead">Not three colours this time: three different ways to lay out a game screen. Each one draws its desktop and phone from the same blocks. Switch layouts and the theme; all three use the same Ersveil content.</p>
+  </header>
+  <div class="controls">
+    <div class="seg" role="group" aria-label="Layout">
+      <button type="button" data-v="v1" aria-pressed="true">1 · Hero sheet</button>
+      <button type="button" data-v="v2" aria-pressed="false">2 · Journey</button>
+      <button type="button" data-v="v3" aria-pressed="false">3 · Quest board</button>
+    </div>
+    <div class="seg" role="group" aria-label="Theme">
+      <button type="button" data-theme-btn="light" aria-pressed="false">Light</button>
+      <button type="button" data-theme-btn="dark" aria-pressed="false">Dark</button>
+      <button type="button" data-theme-btn="" aria-pressed="true">System</button>
+    </div>
+  </div>
+
+  <!-- ================= V1 ================= -->
+  <section data-variant="v1" class="v1 show">
+    <div class="desc"><b>1 · Hero sheet</b><span>Like an RPG character screen: your character is the centrepiece (portrait, level badge, Health/Mana/Stamina rings, XP, stats), with the quest tracker, party and an item grid beside it.</span></div>
+    <figure><div class="scroll"><div class="desk" id="v1d"></div></div><figcaption>Desktop</figcaption></figure>
+    <div class="phonerow"><figure><div class="phone" id="v1p"></div><figcaption>Phone: the same hero card on top, then the same quest, party and item blocks.</figcaption></figure>
+      <div class="notes"><div><b>Feels like</b><span>A character menu in an action RPG.</span></div><div><b>Strong at</b><span>Fights, levelling, gear and the party: the numbers you care about are big.</span></div><div><b>Weaker at</b><span>Travel and the world: those live one tab away.</span></div></div></div>
+  </section>
+
+  <!-- ================= V2 ================= -->
+  <section data-variant="v2" class="v2">
+    <div class="desc"><b>2 · Journey</b><span>The world is the screen: the map fills the page, with your status, resources and a quest tracker floating over it like a game HUD, and the road ahead as a timeline along the bottom.</span></div>
+    <figure><div class="scroll"><div class="desk" id="v2d"></div></div><figcaption>Desktop</figcaption></figure>
+    <div class="phonerow"><figure><div class="phone" id="v2p"></div><figcaption>Phone: the same HUD blocks, with the map as a card on top and the tracker and timeline under it.</figcaption></figure>
+      <div class="notes"><div><b>Feels like</b><span>An open-world game's field view with a quest tracker.</span></div><div><b>Strong at</b><span>Travel, what's moving, deadlines on the road; the timeline from Ersveil's real routes.</span></div><div><b>Weaker at</b><span>Detailed stats: the character is a compact card.</span></div></div></div>
+  </section>
+
+  <!-- ================= V3 ================= -->
+  <section data-variant="v3" class="v3">
+    <div class="desc"><b>3 · Quest board</b><span>Like a mobile RPG lobby: a resource bar on top (coin, time, weather, place), then shelves of cards: your party as character cards, quests as notice cards with rewards and deadlines, and the bag as item slots.</span></div>
+    <figure><div class="scroll"><div class="desk" id="v3d"></div></div><figcaption>Desktop</figcaption></figure>
+    <div class="phonerow"><figure><div class="phone" id="v3p"></div><figcaption>Phone: the same resource bar and the same shelves; each shelf scrolls sideways.</figcaption></figure>
+      <div class="notes"><div><b>Feels like</b><span>A gacha or mobile RPG home screen.</span></div><div><b>Strong at</b><span>Seeing everything at once as collectible cards; very touch-friendly.</span></div><div><b>Weaker at</b><span>Long text: descriptions open on tap.</span></div></div></div>
+  </section>
+</main>
+
+<script>
+(() => {
+  const ic = (id, cls = 'ico') => `<svg class="${cls}"><use href="#i-${id}"/></svg>`;
+  const bar = (p, c) => `<div class="bar"><i style="width:${p}%;background:var(--${c})"></i></div>`;
+  const ring = (p, c, lab, val) => `<div class="ring"><svg viewBox="0 0 36 36"><circle cx="18" cy="18" r="15" fill="none" stroke="var(--sunk)" stroke-width="4"/><circle cx="18" cy="18" r="15" fill="none" stroke="var(--${c})" stroke-width="4" stroke-linecap="round" stroke-dasharray="${(p*0.942).toFixed(1)} 100"/></svg><b>${val}<small>${lab}</small></b></div>`;
+  const NAV = [['home','Home'],['party','Party'],['bag','Bag'],['journal','Journal'],['map','Map']];
+  const rail = () => `<nav class="rail"><div class="logo">SS</div>${NAV.map(([k,l],i)=>`<button type="button"${i===0?' aria-current="page"':''}>${ic(k)}${l}</button>`).join('')}<div class="grow"></div><button type="button">${ic('gear')}Settings</button></nav>`;
+  const tabs = () => `<nav class="tabs">${NAV.map(([k,l],i)=>`<button type="button"${i===0?' aria-current="page"':''}>${ic(k)}${l}</button>`).join('')}</nav>`;
+  const res = () => `<div class="resbar"><span class="res"><span class="dot" style="background:var(--gold)">${ic('coin')}</span><span class="tabular">3s 8c</span></span><span class="res"><span class="dot" style="background:var(--mp)">${ic('sun')}</span><span class="tabular">Gw 12 · 8:30</span></span><span class="res"><span class="dot" style="background:var(--faint)">${ic('cloud')}</span>Drizzle</span><span class="res"><span class="dot" style="background:var(--sp)">${ic('pin')}</span>Bluewatch</span></div>`;
+  const quests = () => `<div class="panel"><span class="kicker">Tracker</span>
+    <div class="quest"><span class="qi" style="background:var(--hp)">${ic('sword')}</span><div><b>Weir-drake warrants</b><span>0 / 3 drakes · 5 silver a pair of ears</span></div><span class="badge warn">1 DAY</span></div>
+    <div class="quest"><span class="qi" style="background:var(--acc)">${ic('road')}</span><div><b>To Wolfmere Outpost</b><span>Leg 1/2 · 8 of 100 km</span></div><span class="badge info">GW 19</span></div>
+    <div class="quest"><span class="qi" style="background:var(--mp)">${ic('scroll')}</span><div><b>Guild courier</b><span>News of the Seal tremor</span></div><span class="badge info">GW 13</span></div></div>`;
+  const member = (l, n, s, c, lv, hp, sp) => `<div class="member"><span class="face" style="background:${c}">${l}<span class="lv">${lv}</span></span><div><b>${n}</b> <span style="color:var(--muted);font-size:12px">${s}</span><div class="bars">${bar(hp,'hp')}${bar(sp,'sp')}</div></div></div>`;
+  const party = () => `<div class="panel"><span class="kicker">Party · 3</span>${member('W','Wessel','you','var(--acc)','2',60,25)}${member('R','Ren','companion','#2f9e8f','1',100,100)}${member('M','Mara','companion','#c2557a','1',100,100)}</div>`;
+  const slots = (n) => { const items = [['bed','common',''],['rope','common',''],['torch','common','2'],['slip','uncommon',''],['horse','rare',''],['horse','common','']]; let out = items.map(([i,r,q])=>`<div class="slot ${r}">${ic(i)}${q?`<em>${q}</em>`:''}</div>`).join(''); for (let k = items.length; k < n; k++) out += `<div class="slot empty">+</div>`; return `<div class="panel"><span class="kicker">Bag · 6 / 24</span><div class="slots">${out}</div></div>`; };
+  const log = () => `<div class="panel"><span class="kicker">This reply</span><div class="log"><div><span class="d minus">−1</span><span>silver to Nelje</span><span>9:10</span></div><div><span class="d plus">+1</span><span>Guild Registration Slip</span><span>9:10</span></div><div><span class="d">◆</span><span>Nelje is here</span><span>9:10</span></div></div></div>`;
+  const SK = [['Iaijutsu','AGI','sp','sword'],['Shadow cut','AGI','mp','sword'],['Shadow step','AGI','sp','road'],['Obscure','DEX','mp','cloud'],['Weakness','INT','sp','scroll']];
+  const skills = () => `<div class="skills">${SK.map(([n,st,c,i])=>`<div class="sk" style="--c:var(--${c})"><span class="sq">${ic(i)}</span><b>${n}</b><small>${st} · ${c==='sp'?'SP':'MP'}</small></div>`).join('')}</div>`;
+  const stats = () => `<div class="stats">${[['14','STR'],['12','VIT'],['15','AGI'],['13','DEX'],['12','INT'],['8','LUK'],['8','CHA']].map(([v,k])=>`<div><b>${v}</b><small>${k}</small></div>`).join('')}</div>`;
+
+  // V1 hero sheet
+  const v1hero = () => `<div class="hero"><div class="portrait"><span class="lvl">LV 2</span></div>
+    <div><div class="gname">Wessel</div><span style="color:var(--muted);font-size:12.5px">F-rank, Adventurer Guild · tired, cold · oilskin coat</span></div>
+    <div class="rings">${ring(60,'hp','Health','Hurt')}${ring(100,'mp','Mana','Fresh')}${ring(25,'sp','Stamina','Spent')}</div>
+    <div class="xp"><div style="display:flex;justify-content:space-between"><span>XP</span><span class="tabular">40 / 100 · 3 points</span></div>${bar(40,'xp')}</div>${stats()}<span class="kicker">Skills</span>${skills()}</div>`;
+  document.getElementById('v1d').innerHTML = rail() + `<div class="main">${v1hero()}<div class="right">${res()}<div class="two">${quests()}${party()}</div><div class="two">${slots(14)}${log()}</div></div></div>`;
+  document.getElementById('v1p').innerHTML = `<div class="scrollp">${res()}${v1hero()}${quests()}${party()}${slots(8)}${log()}</div>` + tabs();
+
+  // V2 journey
+  const mapsvg = (w, h) => { const P = { b:[.6,.4], a:[.42,.22], h:[.45,.6], o:[.27,.8] }; const X = k => (w*P[k][0]).toFixed(0), Y = k => (h*P[k][1]).toFixed(0);
+    return `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="xMidYMid slice"><path d="M${X('b')} ${Y('b')} L${X('a')} ${Y('a')} L${X('o')} ${Y('o')}" stroke="color-mix(in srgb, var(--fg) 25%, transparent)" stroke-width="2" fill="none" stroke-dasharray="5 6"/><path d="M${X('b')} ${Y('b')} L${X('h')} ${Y('h')} L${X('o')} ${Y('o')}" stroke="var(--acc)" stroke-width="5" fill="none" stroke-linecap="round"/><g font-family="Chakra Petch, sans-serif" font-weight="700" font-size="14" fill="var(--fg)"><circle cx="${X('b')}" cy="${Y('b')}" r="8" fill="var(--card)" stroke="var(--fg)" stroke-width="3"/><text x="${+X('b')+14}" y="${+Y('b')+5}">Bluewatch</text><circle cx="${X('a')}" cy="${Y('a')}" r="6" fill="var(--card)" stroke="var(--muted)" stroke-width="2"/><text x="${+X('a')+12}" y="${+Y('a')+5}" fill="var(--muted)">Auvoth</text><circle cx="${X('h')}" cy="${Y('h')}" r="7" fill="var(--card)" stroke="var(--fg)" stroke-width="3"/><text x="${+X('h')+14}" y="${+Y('h')+5}">Hollin's Reach</text><circle cx="${X('o')}" cy="${Y('o')}" r="8" fill="var(--gold)" stroke="var(--fg)" stroke-width="3"/><text x="${+X('o')+14}" y="${+Y('o')+5}">Wolfmere Outpost</text><circle cx="${(w*.585).toFixed(0)}" cy="${(h*.415).toFixed(0)}" r="11" fill="var(--acc)" stroke="#fff" stroke-width="3"/><rect x="${(w*.51-6).toFixed(0)}" y="${(h*.31-6).toFixed(0)}" width="12" height="12" transform="rotate(45 ${(w*.51).toFixed(0)} ${(h*.31).toFixed(0)})" fill="var(--warn)"/></g></svg>`; };
+  const me = () => `<div class="glass"><div class="me"><span class="face">W<span class="lv">2</span></span><div><div class="gname" style="font-size:20px">Wessel</div><span style="color:var(--muted);font-size:12px">F-rank · tired, cold</span></div></div>
+    <div class="vit"><span>Health</span>${bar(60,'hp')}<span>Mana</span>${bar(100,'mp')}<span>Stamina</span>${bar(25,'sp')}<span>XP</span>${bar(40,'xp')}</div></div>`;
+  const tracker = () => `<div class="glass"><span class="kicker">Tracker</span>
+    <div class="quest"><span class="qi" style="background:var(--hp)">${ic('sword')}</span><div><b>Weir-drake warrants</b><span>0 / 3 drakes</span></div><span class="badge warn">1 DAY</span></div>
+    <div class="quest"><span class="qi" style="background:var(--mp)">${ic('scroll')}</span><div><b>Guild courier</b><span>Seal tremor news</span></div><span class="badge info">GW 13</span></div>
+    <div style="display:flex;gap:-8px;align-items:center;gap:6px"><span class="kicker">Party</span><span class="lvl" style="min-width:26px;height:26px">W</span><span class="lvl" style="min-width:26px;height:26px;color:#2f9e8f;background:transparent">R</span><span class="lvl" style="min-width:26px;height:26px;color:#c2557a;background:transparent">M</span><span style="margin-left:auto;font-size:12px;color:var(--muted)">${ic('horse')} 25 km/day</span></div></div>`;
+  const timeline = () => `<div class="glass"><div style="display:flex;justify-content:space-between;align-items:center"><span class="kicker">The road · riding, 25 km a day</span><span class="badge info">ARRIVE GW 19</span></div>
+    <div class="timeline"><div class="stop on"><b>Bluewatch</b><span>Set out Gw 12</span>${bar(8,'acc')}</div><div class="stop"><b>Hollin's Reach</b><span>100 km · Gw 16</span>${bar(0,'acc')}</div><div class="stop"><b>Wolfmere Outpost</b><span>60 km · Gw 19</span>${bar(0,'acc')}</div><div class="stop"><b>On the way</b><span>Courier from Auvoth · Gw 13</span></div></div></div>`;
+  document.getElementById('v2d').innerHTML = rail() + `<div class="main"><div class="world">${mapsvg(1128, 720)}</div><div class="hud tl">${me()}</div><div class="hud tr">${res()}</div><div class="hud r">${tracker()}</div><div class="hud b">${timeline()}</div></div>`;
+  document.getElementById('v2p').innerHTML = `<div class="scrollp">${res()}<div class="mapcard"><div class="world" style="position:absolute;inset:0;background:radial-gradient(circle at 1px 1px, color-mix(in srgb, var(--fg) 10%, transparent) 1px, transparent 0) 0 0 / 20px 20px, linear-gradient(160deg, color-mix(in srgb, var(--sp) 10%, var(--bg)), color-mix(in srgb, var(--mp) 12%, var(--bg)))">${mapsvg(350, 240)}</div></div>${me()}${tracker()}${timeline()}</div>` + tabs();
+
+  // V3 quest board
+  const charCard = (l, n, s, c, lv, hp, sp) => `<div class="tcard char" style="--c:${c}"><span class="face">${l}<span class="lv">${lv}</span></span><b>${n}</b><span class="s">${s}</span><div style="display:grid;gap:4px">${bar(hp,'hp')}${bar(sp,'sp')}</div></div>`;
+  const questCard = (icn, c, n, s, badge, cls, rewards) => `<div class="tcard quest2" style="--c:${c}"><div class="qtop"><span class="qi">${ic(icn)}</span><span class="badge ${cls}">${badge}</span></div><b>${n}</b><span class="s">${s}</span><div class="reward">${rewards.map(r=>`<span>${r}</span>`).join('')}</div></div>`;
+  const v3top = () => `<div class="topbar"><div class="who"><span class="lvl" style="width:46px;height:46px;font-size:13px;line-height:1">LV<br>2</span><div><div class="gname" style="font-size:22px">Wessel</div><span style="color:var(--muted);font-size:12px">F-rank, Adventurer Guild</span></div></div>${res()}</div>`;
+  const shelves = () => `<div class="shelf"><span class="kicker">Party</span><div class="cards">${charCard('W','Wessel','You · tired, cold','var(--acc)','2',60,25)}${charCard('R','Ren','Spear · watchful','#2f9e8f','1',100,100)}${charCard('M','Mara','Spark · ward · lore','#c2557a','1',100,100)}<div class="tcard" style="display:grid;place-items:center;color:var(--faint);border-style:dashed">+ Recruit</div></div></div>
+    <div class="shelf"><span class="kicker">Quests</span><div class="cards">${questCard('sword','var(--hp)','Weir-drake warrants','Three drakes under the third weir-crib','1 DAY','warn',['5s / pair','axe-head credit'])}${questCard('road','var(--acc)','Road to Wolfmere','Leg 1 of 2 · 8 of 100 km','GW 19','info',['2 legs','25 km/day'])}${questCard('scroll','var(--mp)','Guild courier','News of the Seal tremor, from Auvoth','GW 13','info',['news'])}</div></div>`;
+  document.getElementById('v3d').innerHTML = rail() + `<div class="main">${v3top()}${shelves()}<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;align-items:start">${slots(10)}<div class="panel"><span class="kicker">Skills</span>${skills()}</div>${log()}</div></div>`;
+  document.getElementById('v3p').innerHTML = `<div class="scrollp v3">${v3top()}${shelves()}<div class="panel"><span class="kicker">Skills</span>${skills()}</div>${slots(8)}${log()}</div>` + tabs();
+
+  // switches
+  document.querySelectorAll('[data-v]').forEach(b => b.addEventListener('click', () => {
+    document.querySelectorAll('[data-v]').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+    document.querySelectorAll('[data-variant]').forEach(s => s.classList.toggle('show', s.dataset.variant === b.dataset.v));
+  }));
+  const root = document.documentElement;
+  document.querySelectorAll('[data-theme-btn]').forEach(b => b.addEventListener('click', () => {
+    const v = b.dataset.themeBtn; if (v) root.setAttribute('data-theme', v); else root.removeAttribute('data-theme');
+    document.querySelectorAll('[data-theme-btn]').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+  }));
+})();
+</script>

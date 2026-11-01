@@ -2482,3 +2482,12 @@ MERGED testkit RB #118, SD #115, NSD #205.
 - 1 Nov: USER disliked all three looks. Answers: the layout was the problem, not the look; direction "elegant minimal app" (Apple/Linear/Arc); both light and dark designed; layout: app window with sidebar nav (left sidebar, main page, details inspector on the right). Lead drawing proposal v2.
 - 1 Nov: redesign proposal v2 published: https://claude.ai/artifact/6pNfhDDWajKpG24R5EAyxT (copy suite-notes/redesign/proposal-v2-app-window.html). Interactive app window (sidebar Home/Party/Bag/Journal/Map/Director + Settings; page as quiet lists; details panel follows the picked row), light and dark, one-line reply card, phone with tab bar and slide-up sheet. Waiting on the USER.
 - 1 Nov: USER on v2: desktop and phone felt like different sets; too clean (information cut away); wants bolder, a few variations, desktop/phone must feel the same. Proposal v3 published: https://claude.ai/artifact/B81gdCTshm38ypHgh7fMPr (copy suite-notes/redesign/proposal-v3-looks.html): one shared component set renders desktop and phone; looks Ink (black/cobalt), Tide (teal gradient, serif names), Ember (graphite/coral, chunky display); hero band with name/rank/place/time/weather/purse/vitals; Home adds Now (road+progress, contract+deadline, news), You, Mounts, Party bars, This reply; phone details open inline under the tapped row. Waiting on the USER.
+
+## 1 Nov — Redesign proposal 4: three game layouts
+User on v3: "the ui are the same, just color… feels more like business dashboard than game dashboard". Proposal 4 gives three
+structurally different game screens, each with desktop and phone built from the same blocks, light and dark:
+1. Hero sheet: character screen (portrait, LV badge, Health/Mana/Stamina rings, XP, stats, skills hotbar) + tracker, party, bag slots, this-reply log.
+2. Journey: full-page map with floating HUD panels (status, resources, tracker) and the road timeline along the bottom.
+3. Quest board: mobile-RPG lobby; resource bar, shelves of party cards and quest notice cards (rewards, deadlines), skills, bag, log.
+Artifact https://claude.ai/artifact/27w1PsvXQMvRP75wZnwh78; copy suite-notes/redesign/proposal-v4-game-layouts.html.
+Rendered both sizes × both themes × three layouts: no JS errors, no phone overflow. Waiting on the user's pick.
