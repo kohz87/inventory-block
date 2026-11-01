@@ -2677,3 +2677,13 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   Lead relayed to FA: merge stage31/fb into stage31/fa; stageWord → spreadWord; wire templatesFor everywhere; barFields
   for new characters; FB's Standard Combat rules text; one growth line (luck −1 → "next at LUK 8"); order on every
   rolled reply of a fight.
+- 1 Nov: FA done — SB `stage31/fa` 22ea6d8 (= e2597bb engine + aaef922 settings/wizard/sim/pack + merge of stage31/fb),
+  4346 tests 0 fail. Classic hashes/prompts pinned identical. Standard presets foeBase 2/4/6, foeClassWeight 3
+  (STANDARD_PRESETS in rules.js). Sim: focused same-class success 61% at I (= Classic Wessel case), 72–79% mid, 72% IX;
+  spread 43–52%. Duel win rate for VIT-neglecting focused builds falls to 44% at VII.
+  Lead follow-ups sent: (1) luck re-baselined for start 5 (−1 at 3–4, 0 at 5–8, +1 9–12, +2 13–16, +3 17–20) — the
+  13/16/19 steps assumed a 10 baseline, so every fresh character had luck −1; (2) sim foe Health 4 + class/3 vs class/2,
+  pick by ≥60% focused / ≥45% spread duel wins; (3) skill costs 1 Stamina/Mana block by code in rpg.resolve (was left
+  to the narrator); (4) Settings/wizard show the pack's formula/numbers as default.
+- USER idea (1 Nov): encounters = hand-written cast + a pack "backdrop" (roles, names, trait pool, meter preset,
+  rarity per place) rolled by code, AI brings them to life, promotion to dossier. Logged for after the formula release.

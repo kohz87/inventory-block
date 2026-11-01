@@ -85,3 +85,5 @@ https://claude.ai/artifact/AJZkpqZigE5TvZRRh4jrMK (v3); AI writing help https://
 - Follow-ups from the UI cleanup (1 Nov): SB still names SD ids in DEFAULT_HIDDEN/SUITE_NAV/icons/strings (ownership pass);
   NSD 5 cancelled tests in storysuite-participant-selection (check on Node 24); phone dossier header translucent; Lean
   tile text names SD's "world-building threads"; "Start" block in the first message (USER asked; offer mockup).
+- Encounters (USER idea, 1 Nov): pack cast list + backdrop (roles/names/traits/meter preset/rarity per place), code-rolled
+  encounter table (swipe rerolls, Re-read keeps), AI fleshes out, promotion to NSD dossier. Mockup after the formula release.
