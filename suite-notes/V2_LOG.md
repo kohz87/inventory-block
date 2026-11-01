@@ -2938,3 +2938,7 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
 - 1 Nov: CS addendum 3: SB stage33/cast 5b18da6 (import message counts only — no cast ids/file names; 4397 tests, 4381
   pass, 0 fail). Late card is not SB (SB's card draws at once on main and branch) → sent to CD (cast note on the arrival
   reply), with the SB head to re-vendor.
+- 1 Nov: CD Review C round: SD stage33/cast ea0a208 (merged dd6168b = 2.7.0; 1092 tests, 1090 pass, 0 fail, 2 skip):
+  B2 cue order (Why now + closing sentence reserved, fields share the rest), goal meeting `where` = party place, EOF
+  lines, segmented pills, content fingerprint for pack updates, same-name present person met "in the story" (no cue,
+  no pace), word-boundary cuts. Pending in the same agent: late cast card + re-vendor testkit from SB 5b18da6.
