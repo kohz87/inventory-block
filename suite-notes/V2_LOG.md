@@ -2654,3 +2654,8 @@ resisted by INT/VIT, support vs DC, rounding once, LUK cap ±6, stat drop clamps
 Foe numbers start at d20 + 3 + 3 × class (to be tuned by simulation in the build).
 Mockup on the real app (vm-results/u4/mock.mjs): https://claude.ai/artifact/6DEJCMNpUZtUacvZftK2kT. Waiting on USER.
 Pending in parallel: review of UE (character export/import) on stage30/char-export 8a8b177.
+- 1 Nov: Review 181 (UE char export/import, 8a8b177): OK, no blockers; 4235 pass. Hostile files (64 node cases, 13
+  through the button) refused in one sentence; Create one reply, swipe/cut/reload exact; partial failure named;
+  RPG off clean; dialogs opaque. Sent UE two small fixes (template replace asks first; "to the purse" + formatted
+  money). Follow-ups logged: non-stacking qty N → N stacks vs "4 things" count; 60-point pill wraps the name; BOM
+  for non-browser callers; "valuables" kind typo dropped silently; companion import funds the purse (honest in Review).
