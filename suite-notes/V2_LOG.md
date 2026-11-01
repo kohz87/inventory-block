@@ -2988,3 +2988,6 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   design uses "Trust N or <event>" on many deep secrets → EP kept the meter and dropped 13 events; split two-fact ones.
   Also moved some sheet facts into new secrets to keep public fields clean (Nysseth's field "Knife-grinder, Chain
   cell-runner"; Rika "Hunted"/"Moral edge"; Lothar "Complicit"; Torka "final choice"; Ysmeth "Half-siblings"; tie secrets).
+- 1 Nov: USER "Proceed" with the patch-first plan: SB 2.15.1 (cast secret may carry meter+at AND when, "whichever comes
+  first"), NSD check/fix (1.6.1 if needed), Studio 0.5.1 (secret card: "…or also on a story event" field; mockup first,
+  per the rule), then EP restores the 13 dropped events in Ersveil 2.4.0 before its PR. Brief SP.md.
