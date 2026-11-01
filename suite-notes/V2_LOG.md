@@ -2935,3 +2935,6 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   and to merge main (1.5.0).
 - 1 Nov: Sir Lothar settled with the USER (romance (a) love triangle with Wendhild's scrutiny; lovers in all but deed —
   he holds steadfast, which is part of why she wants the crown; not pregnant).
+- 1 Nov: CS addendum 3: SB stage33/cast 5b18da6 (import message counts only — no cast ids/file names; 4397 tests, 4381
+  pass, 0 fail). Late card is not SB (SB's card draws at once on main and branch) → sent to CD (cast note on the arrival
+  reply), with the SB head to re-vendor.
