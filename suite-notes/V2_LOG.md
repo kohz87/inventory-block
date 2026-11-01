@@ -2868,3 +2868,11 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   never-reveal wording as optional lines nearest-first; Secrets section (no titles/emoji while hidden); editor
   Hidden/Opened; `hooks.redactSent`. Trial merge with CN1 resolves trivially. Sent: CS ← call redactSent in "What's
   sent" (view + copy; never the real prompt); CN2 ← extend layers + event watch to one-pass capture and backfill.
+- 1 Nov: ST done: Studio stage33/cast 66a7025 (vendored SB 8d648ba = 2.14.0 + cast; 835 tests, 835 pass). Cast part,
+  portraits (≤64 KB WebP, 600 px, IndexedDB, undo/redo), .zip export/open via SB readPackZip, checks, both themes.
+  Deviations accepted: stage cards with "Reached when" rules; Key field; placeholder Add; built-in presets hard-coded
+  (follow-up: SB to export them); dist budget 5 → 5.5 MB (OK). Start place = place name → CD told to match
+  name/slug/alias; CS told to fix the sample's start places.
+- 1 Nov: USER: portraits will be made in ChatGPT (we provide ChatGPT-ready prompts). Cast = 8 women, 4 men, built ONE
+  BY ONE with the USER's answers; start fresh (draft = ideas only); roles decided per person; ALL companions
+  romanceable (Desire meter + romance stages).
