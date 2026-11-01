@@ -2976,3 +2976,8 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
 - 1 Nov: RELEASED Story Studio 0.5.0 (PR #23, CI green, merged 157586e). LIVING CAST FULLY RELEASED: SB 2.15.0, SD 2.8.0,
   NSD 1.6.0, Studio 0.5.0. Next: finish the Ersveil cast (10/12) with the USER and put it into the pack; then the
   clean-up release.
+- 1 Nov: All 12 cast built with the USER; portraits for all 12 saved. USER: replace Fenna/Sera with the twelve; Torka is
+  20; proceed. USER asked about raising the size limit (not everyone uses WebP): lead recommends NOT raising the stored
+  64 KB per portrait (NSD stores a copy per chat) but making Story Block shrink on import like Studio does (accept
+  PNG/JPEG/WebP up to ~10 MB, store ≤64 KB WebP; raise the zip caps to match) — in the clean-up release. Agent EP builds
+  Ersveil 2.4.0 (brief suite-notes/cast-briefs/EP.md).

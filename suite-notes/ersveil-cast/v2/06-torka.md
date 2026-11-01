@@ -1,5 +1,5 @@
 # 6. Torka "Bloodsong" (woman) — Harrak's daughter — with the USER, 1 Nov
-- People: orc, ~20. Calling: roaming berserker. Role: rival → companion; romanceable. Fields: Soul Class II, "Berserker".
+- People: orc, 20 (USER). Calling: roaming berserker. Role: rival → companion; romanceable. Fields: Soul Class II, "Berserker".
 - Look: tall, curvy and firm, hard-muscled; young green skin; small tusks; a fresh scar through one eyebrow; black hair
   in braids threaded with bone beads; red war-paint smeared, not drawn; furs, straps, wrapped fists; a huge iron maul.
 - Voice: loud, blunt; shouts when embarrassed; laughs at the wrong moments.
