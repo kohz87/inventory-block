@@ -2690,3 +2690,6 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
 - 1 Nov: USER set luck as an edge window by LUK (3–4 −3..+3, 5–6 −2..+3, 7–8 −1..+3, 9–10 0..+3, 11–12 +1..+3,
   13–14 +1..+4, 15–16 +2..+4, 17–18 +2..+5, 19–20 +3..+5; situation edge held inside, best case reaches the top) and
   "use the new calculation" for foe Health (4 + class/3). Relayed to FA (luckWindow/edgeWithLuck in formula.js).
+- 1 Nov: USER "Yes, proceed": LUK windows softened (9–10 −1..+3, 11–12 0..+3), relayed to FA. Party max stays 3 RPG
+  characters per chat (2 blocks each + Combat rules + Foes = 8). Key people (pin a dossier: off-screen agenda kept even
+  in Lean, "Away: …" in World → People, optional XP catch-up on return) added to TODO for after the formula release.
