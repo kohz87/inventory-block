@@ -2848,3 +2848,10 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   12 `when`), all start places exact; validator OK; 53 KB. Copied to suite-notes/ersveil-cast/ (CAST.md, cast.json,
   validate_cast.py). Lore gaps filled are listed in CAST.md for the USER. Notes sent to CS and CN1: stages use the pack
   meterPreset stage shape; meters name NSD built-in presets (pack has no meterPresets). Waiting on USER review.
+- 1 Nov: CN1 done: NSD stage33/cast-dossier 5a5afdd (1554 tests, 1549 pass, 0 fail, 5 cancelled pre-existing).
+  npc.tick reads director.cast → slice `cast` record; castSync makes the dossier from the entry at once (fields map,
+  pack words kept verbatim until changed, portrait stored, stages from the pack shape, own ladder), badge + "From the
+  Ersveil cast" block, opaque panel + jump bar; query npc.castMade. Open: timing vs CD's cast.meet (one reply late if
+  recorded after NSD's tick) → sent to CD with the director.cast field shapes; normalizeSecrets/secretsFromLines drop
+  `when`-only notes → sent to CN2; "★ Pin as Key people" button in the dossier → CD to expose the pin command, then a
+  small CN1 follow-up.
