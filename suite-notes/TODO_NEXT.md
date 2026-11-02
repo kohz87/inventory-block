@@ -117,3 +117,6 @@ https://claude.ai/artifact/AJZkpqZigE5TvZRRh4jrMK (v3); AI writing help https://
   Studio docs/STUDIO.md 5b numbers; Studio Timeline screenshot.
 - Code: delete NSD story-block-tabs.js v1 tab registration; SB sdk could expose scroll helpers (SD keeps a local copy);
   director.time text zero-padded; Key people removal line waits for a reply with change lines.
+- NSD: a cast dossier made while its portrait was missing (pack imported without the pictures) never picks the portrait
+  up later (castSync takes it only at creation); fill it when packs.portrait starts answering. Also: ship an
+  examples/packs/ersveil.zip so one file imports the pack with its portraits.
