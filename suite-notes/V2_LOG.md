@@ -3049,3 +3049,7 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   bottom, SD's NEAR); never moves a scrolled-up reader; real ST desktop/phone. (3) CAST_BUILT_IN_PRESETS
   [companion, rival, mentor] exported, pinned vs NSD. 4435 run, 4418 pass, 0 fail, 16 skip. Studio vendor sync must
   carry portrait-fit.js. XA's `rm -rf` was denied; not retried (surface to USER). XB told to drop follow.js on XA's branch.
+- 2 Nov: USER "Increase the store limit for image and update a sharper resolution version". Lead: stored portrait
+  150 KB, 1200 px long side (800×1200). XA (same branch) ← limits + re-encode the 12 Ersveil portraits from the USER's
+  originals at ≤150 KB + NSD size check (per-chat dataUrl copy, checkpoints). YS ← Studio portrait.js reads
+  PORTRAIT_LIMITS.side/bytes (re-vendor at release). Ersveil pack version/requires bump at release (lead).
