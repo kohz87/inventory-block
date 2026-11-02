@@ -3235,3 +3235,9 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
 - 2 Nov: SB docs PR #246 (Make it your own) CI green, merged e0d5b97. ALL DONE for this round: releases SB 2.16.0/2.16.1,
   SD 2.9.0/2.9.1, NSD 1.7.0/1.7.1, Studio 0.6.0, Ersveil 2.4.1; READMEs + AI-READMEs + screenshots in all four repos.
 - 2 Nov: USER: do both (Ersveil .zip + NSD portrait backfill). Briefs cleanup-briefs/ZP.md (ZP1 SB stage38/ersveil-zip, ZP2 NSD stage38/portrait-backfill). Releases: SB 2.16.2 (content), NSD 1.7.2.
+- 2 Nov: ZP1 done: SB stage38/ersveil-zip b106b32 (examples/packs/ersveil.zip 2.0 MB, stored entries, deterministic
+  build script + --check, 4 tests; README/ERSVEIL/AI-README point at the zip; real ST: "12 portraits saved", Temiwa's
+  portrait shows). ZP2 done: NSD stage38/portrait-backfill 08eff20 (castSync fills an empty cast-dossier portrait once
+  packs.portrait answers; respects reader-set/generated/removed (new castFrom.portraitRemoved mark); checkpoint
+  `cast-portrait`; Node 24 1640/1640) — real-ST check skipped: DISK FULL. Lead freed 14 GB of finished scratch work
+  (bt, rv-x, rv-y (REVIEW.md copied to vm-results/), rv-c, rv-ui1/2, go-rb, ot-rb, rv-k). ZP2 asked to run real ST now.
