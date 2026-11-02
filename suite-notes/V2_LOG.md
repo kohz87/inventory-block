@@ -3075,3 +3075,6 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   portraitAssets). Checkpoints hold no images. Lead recommendation to USER: NSD stores each cast portrait once as its
   own user file and keeps only the path in the state (state file stays small, uploaded once). Stale NSD comment
   "64 KB at most" above castPortraitRecord.
+- 2 Nov: USER "Go ahead" (NSD stores cast portraits as own files). XC ← content-addressed user file per portrait, path-only
+  record, no portraitAssets copy, old dataUrl chats untouched, export inlines, file survives pack removal (branch
+  stage36/cleanup-nsd).
