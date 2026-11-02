@@ -3216,3 +3216,6 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   mock on 8206 (pid file held a dead setsid wrapper) → lead stopped it by its listening PID (10057), not by pattern.
   RM-SD and RM-NSD started (NSD told not to use dossier-library.png). Follow-up: World cards leave Factions alone on a row.
 - 2 Nov: SB docs PR #245 CI green, merged a3c16ad.
+- 2 Nov: RM-SD done: SD docs/readme-2026-11 8938e40 (README 125 lines, AI-README 310, 5 images, 2 old removed;
+  1131/1129/0/2). Sent back: CLAUDE.md + docs/dev/tracker-and-time.md link to removed README sections → repoint.
+  Follow-up: SD docs/ARCHITECTURE.md describes the old v1 module contract.
