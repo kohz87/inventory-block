@@ -3083,3 +3083,6 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   4427 tests, 4411 pass, 0 fail, 15 skip, 1 todo. Real ST with SD d8225fc: edit, refusal, Re-read, swipe/back exact.
   Sent back: phone pill to the far right (mockup). YB ← `edit: true` on director.clock receipt (tile missing).
   ETA given to USER: ~3 h to PR + merge.
+- 2 Nov: USER "The edit pill is oversized" → YA: ~22–24 px drawn, 12 px text/icon, quiet border, 44 px invisible tap on
+  phone, far right. YB ec18b9e: director.clock receipt `edit: true` (tile shows; real ST). YB ← Status card Time row
+  display uses heroDate (prompt text unchanged). Tile keeps SB's generic look (no "Your edit" sub-line).
