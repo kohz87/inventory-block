@@ -3039,3 +3039,6 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   condition; hidden rank → Character group), one "Edit" pill, one editor (Story/Character), card "Clock set to … · Weather:
   clear". Mockup page v2 published (same link). Questions to USER: Reader's choice (keep), rewind (allow), invalid field
   (save nothing, keep open, name the field), Studio numbers (choice only). "Here" stays a comma text field (lead).
+- 2 Nov: USER "Mockup approved, go with your recommendations" (keep Reader's choice; rewind allowed; invalid field saves
+  nothing; Studio choice only). Briefs Y-CONTRACT/YA (SB hero Edit, stage36/hero-edit)/YB (SD director.clock + time parts,
+  stage36/clock-set)/YS (Studio formula card, stage36/pack-formula). Months come from SD's `director.calendar`.
