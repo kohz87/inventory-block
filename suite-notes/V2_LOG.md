@@ -3030,3 +3030,8 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   hero; one "Edit" (pencil + label) top-right opens one editor (Story: date, time, place, weather, here; Character:
   wearing, condition), "Changes apply from this reply on.", Save/Cancel, only changed fields written. Money/mount card
   pencils stay. XM redrawing (shots2/); mockup page to be updated. Other 4 questions still pending (recs stand).
+- 2 Nov: XC done: NSD stage36/cleanup-nsd ff7b0a2 (from f642101). 404s: vault put/getIndex and the chat's first sidecar
+  save (guardedWriteOnce, a second path) ask /api/files/verify first (dataFileExists); server can't say → read as before;
+  stored bytes/timing unchanged. Real ST: fresh chat + save point → 0 NSD 404s. Panel + jump bar verified opaque (pixel
+  check, desktop/phone), no change. 1594 tests, 1589 pass, 0 fail, 5 cancelled (pre-existing Node 22); check, compat,
+  smoke pass. Lead read the diff: OK; the extra verify on an existing checkpoint put is accepted (rare, cheap).
