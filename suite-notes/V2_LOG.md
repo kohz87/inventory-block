@@ -3265,3 +3265,4 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   after reading the real <Changes> (applied); the warnings are about duplicate lines in the v1 comment. Sent to BD.
 - 2 Nov: USER confirms the quests applied (the <Changes> block was read; warnings were duplicates in the v1 comment).
 - 2 Nov: USER's next reply had ONLY a v1 envelope → nothing applied, many warnings, raw [battle] line. BD told to write the fix now (stage40/legacy-envelope): strip legacy envelopes from prompts/display, read a v1 envelope when no <Changes> (+1 Problems line), no warnings for duplicates, hide [battle] without a record, Re-read fixes old replies. Release SB 2.16.4.
+- 2 Nov: USER: battle log appeared only after edit+return (first render missed it) → BD scope. USER: card's first message has no v1 block; SB v2 never writes STORY_BLOCKS_V1 → likely an old SB v1 copy still installed; BD adds a detection Problems line. Asked USER to check Extensions.
