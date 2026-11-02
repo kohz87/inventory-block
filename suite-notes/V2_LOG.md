@@ -3160,3 +3160,4 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   npc-state-delta-world-people) = portrait, name, stage chip, description clamp 1/2 lines, row opens the dossier;
   Look/Next/fields/notes kept in the dossier and the Dossiers screen. 5 tests; Node 24: 1613/1613; validate + compat +
   smoke pass; real ST shots $S/wn-run/shots/. Holding NSD 1.7.1 / SD 2.9.1 until BT (wedge) reports, to ship together.
+- 2 Nov: USER: no separate post-merge test run; use Hush for the README dossier shots (retake NSD dossier/dossier-secrets/phone-dossier/present-card with Hush, with the World shots after 1.7.1/2.9.1).
