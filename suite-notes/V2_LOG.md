@@ -3268,3 +3268,9 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
 - 2 Nov: USER: battle log appeared only after edit+return (first render missed it) → BD scope. USER: card's first message has no v1 block; SB v2 never writes STORY_BLOCKS_V1 → likely an old SB v1 copy still installed; BD adds a detection Problems line. Asked USER to check Extensions.
 - 2 Nov: ROOT CAUSE CONFIRMED by USER: an old extension (SB v1 era) was enabled alongside; USER disabled it. BD keeps full scope (legacy strip/read, Re-read recovery, duplicates, [battle] render, v1 detection).
 - 2 Nov: USER asked about the look (Wearing/Condition) → BY brief (stage40/you-first): tail note while empty, gone once set. Ships with BD in SB 2.16.4.
+- 2 Nov: BY done: SB stage40/you-first 0ab1288 (scene tail note "Your look is not set yet: on this reply write ~ you
+  wearing: … | condition: … for {{user}}, from the persona and what they carry." while Wearing/Condition empty; static
+  bytes identical; 4477/4466/0; real ST: note → filled → gone). off-2.11.0 fixture prompt hashes regenerated (tail text
+  changed on purpose). USER shared a safety-net result: invented place name "Bluewatch Guild Branch", vague `~ time
+  midday`; model (flash) skips Marrit's coins and acts ahead. Offered: safety-net known-place list + date, refuse bad
+  lines; fill missing dm kind when only one fits — awaiting USER.
