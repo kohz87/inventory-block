@@ -100,4 +100,4 @@ https://claude.ai/artifact/AJZkpqZigE5TvZRRh4jrMK (v3); AI writing help https://
 - Follow-up (clean-up release): SB "This reply" card drawn after ST's scroll-to-new-message → sits below the fold until the next reply; scroll again after drawing (then drop SD cast/follow.js).
 
 - 1 Nov: Living cast released (SB 2.15.0, SD 2.8.0, NSD 1.6.0, Studio 0.5.0). Next: Ersveil cast 11–12 with USER → assemble cast.json (trim to limits) + portraits → Ersveil pack update PR; then clean-up release (date/time pencil, SB card-scroll, pack formula in Studio, NSD 404 check, other follow-ups).
-- Clean-up release: Story Block shrinks portraits on import (PNG/JPEG/WebP up to ~10 MB in, ≤64 KB WebP stored; raise zip caps to match) — USER concern 1 Nov.
+- (done 2 Nov, SB 2.16.0) Portraits shrink on import; 150 KB / 1200 px; NSD keeps them as files (1.7.0).

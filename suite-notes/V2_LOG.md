@@ -3126,3 +3126,6 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
 - 2 Nov: YS release fixes c8bf499 (15 pins → 150 KB/1200 px and closure baseline 2.16.0/154 files; fixtures enlarged;
   no code change; 855/855; dist 5,178,976). Studio 0.6.0 → PR kohz87/Story_studio#25. Follow-up: Studio's shrink could
   reuse SB portrait-fit.js. ZC (post-release check + README shots) started on SB 768c41a / SD d972c4f / NSD 64af0ac.
+- 2 Nov: RELEASED Story Studio 0.6.0: PR #25 CI green, merged 6312736 (merge commit). CLEAN-UP RELEASE COMPLETE:
+  SB 2.16.0 (768c41a) + Ersveil 2.4.1, SD 2.9.0 (d972c4f), NSD 1.7.0 (64af0ac), Studio 0.6.0 (6312736). ZC told to add
+  Studio shots.
