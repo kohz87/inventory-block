@@ -3123,3 +3123,6 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   768c41a, 0.6.0): 15 test pins fail (64 KB/600 px, closure baseline) → YS fixing.
 - 2 Nov: RELEASED Story Director 2.9.0: PR #153 CI green, merged d972c4f (merge commit).
 - 2 Nov: RELEASED NPC State Delta 1.7.0: PR #231 CI green, merged 64af0ac (merge commit). Studio 0.6.0 waiting on YS test-pin fixes.
+- 2 Nov: YS release fixes c8bf499 (15 pins → 150 KB/1200 px and closure baseline 2.16.0/154 files; fixtures enlarged;
+  no code change; 855/855; dist 5,178,976). Studio 0.6.0 → PR kohz87/Story_studio#25. Follow-up: Studio's shrink could
+  reuse SB portrait-fit.js. ZC (post-release check + README shots) started on SB 768c41a / SD d972c4f / NSD 64af0ac.
