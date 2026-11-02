@@ -3053,3 +3053,7 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   150 KB, 1200 px long side (800×1200). XA (same branch) ← limits + re-encode the 12 Ersveil portraits from the USER's
   originals at ≤150 KB + NSD size check (per-chat dataUrl copy, checkpoints). YS ← Studio portrait.js reads
   PORTRAIT_LIMITS.side/bytes (re-vendor at release). Ersveil pack version/requires bump at release (lead).
+- 2 Nov: YS done: Studio stage36/pack-formula 7af9255: "Stat formula" card (Reader's choice/Standard/Classic), writes
+  `content.rpg.formula` on the OBJECT form (authored packs; the list form is only the validator's output — lead confirms,
+  brief was wrong), setRpgFormula via applyEdit (Undo/Redo/Check/export), numbers/skillSets kept, empty rpg dropped.
+  854/854; dist 5.12 MB. YS resumed with the portrait-limit extra.
