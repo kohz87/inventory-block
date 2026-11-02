@@ -3110,3 +3110,9 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
 - 2 Nov: USER: include screenshots in the READMEs, taken from the post-release test run. Plan: shots of the released
   mains in the test ST (Ersveil chat, mock model text, no error toasts, no API/settings panels), desktop + a phone shot
   where useful; saved as optimized PNG/WebP under docs/images/ in each repo (each ≤ ~300 KB); Studio shots from Studio.
+- 2 Nov: REVIEW X: OK, no blockers (copy $S/rv-x/REVIEW.md). Follow-ups: phone "at the bottom" reaches 357 px; Escape in
+  the hero editor closes the Game view (pre-existing); no busy line while portraits shrink + parallel import; phone
+  memory on big zips/64 MP decode; corrupt header sentence; Studio vs SB keep-rule for small large-pixel images;
+  director.time padding; base: card below fold on chat open, scroll anchoring, Studio duplicate `card` key warning.
+- 2 Nov: RELEASE: SB 2.16.0 + Ersveil 2.4.1 → PR kohz87/Story_block#243 (stage36/release c515320; 4457/4445/0/11).
+  SD 2.9.0 and NSD 1.7.0 bumped locally (rel36/), re-vendor testkit after the SB merge; Studio 0.6.0 after the SB merge.
