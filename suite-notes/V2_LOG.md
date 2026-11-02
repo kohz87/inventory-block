@@ -3140,3 +3140,4 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   ellipsis + tooltip (SD world/screen.js .wv-label); Key people pin list scrolls inside the card. Note: XM suggested
   scrollIntoView for the pin list — not allowed (use view/scroll.js helpers). Cards already auto-height; the cut-off was
   the scroll area. Questions to USER: about vs role (keep about), drop "· morning" first (yes), dossier keeps details (yes).
+- 2 Nov: USER approved the World Now mockup with the recommendations. Briefs W-COMMON/WN (NSD)/WD (SD), branches stage37/world-now; patch releases NSD 1.7.1, SD 2.9.1.
