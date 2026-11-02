@@ -3319,3 +3319,4 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
 - 2 Nov: PRs opened: SB #249 (stage40/release b4d5bde, 2.16.4), SD #156 (stage42/release 0bc79b0, 2.9.2). Subscribed.
   (GitHub 500s on one push and one PR create; retried.)
 - 2 Nov 16:14Z: RELEASED Story Director 2.9.2 (huge-year hang fix + clock-time example): PR #156 CI green, merged a290af9.
+- 2 Nov 16:17Z: RELEASED Story Block 2.16.4 (legacy envelope, battle first render, look note, coin/wallet clarity, safety net where+when, 3 chat-switch race fixes): PR #249 CI green, merged 31e00cf. All 2.16.4 work done; morning summary due 23:30Z.
