@@ -3169,3 +3169,7 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   (hydrate waits for the state, never mints on an unloaded state); SB stage37/recover-heal (recover aborts a
   native-mutation on NOT_FOUND + one plain line, heals already-wedged chats). Releases: SB 2.16.1, SD 2.9.1, NSD 1.7.1
   (+World Now). Focused review before release.
+- 2 Nov: BT fixes done: NSD stage37/hydrate-fix 040f775 (Node 24 1612/1612), SB stage37/recover-heal 84bb6b6
+  (4460/4445/0/14). Real ST: variants b/bn/c clean after fix (same lineage, no new index); ZC's wedged chat heals on open
+  (one line, aborted entry, replies continue); normal 5-reply play unchanged. Lead: NSD stage37/release ea0c780 =
+  world-now + hydrate-fix. Review Y started (cleanup-briefs/REVIEW-Y.md), incl. healed-chat swipe back past the lost point.
