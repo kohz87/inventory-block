@@ -3275,3 +3275,4 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   midday`; model (flash) skips Marrit's coins and acts ahead. Offered: safety-net known-place list + date, refuse bad
   lines; fill missing dm kind when only one fits — awaiting USER.
 - 2 Nov: USER: 'Add them all to next build'. BZ brief (stage40/prompt-clarity): wallet 'before this reply', starting-purse [Happened] wording (model thinking showed it skipped Marrit's pay to avoid double counting), coin emphasis, clock-time rule, safety-net known places + date + refusal, dm missing-kind fill. SB 2.16.4 = BD + BY + BZ.
+- 2 Nov ~13:45Z: USER to bed: 'anything that requires input use your suggestion until tomorrow 7:30am SGT' (= 2 Nov 23:30Z). Lead proceeds: finish BD + BZ, integrate SB 2.16.4 (BD+BY+BZ), focused review, release; SD follow-up if BZ finds SD-owned time text.
