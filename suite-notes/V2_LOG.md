@@ -3264,3 +3264,4 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   from prompts, so the model imitates it. The STORY_SUITE_V2 comment in the "full output" is likely SB's own storage
   after reading the real <Changes> (applied); the warnings are about duplicate lines in the v1 comment. Sent to BD.
 - 2 Nov: USER confirms the quests applied (the <Changes> block was read; warnings were duplicates in the v1 comment).
+- 2 Nov: USER's next reply had ONLY a v1 envelope → nothing applied, many warnings, raw [battle] line. BD told to write the fix now (stage40/legacy-envelope): strip legacy envelopes from prompts/display, read a v1 envelope when no <Changes> (+1 Problems line), no warnings for duplicates, hide [battle] without a record, Re-read fixes old replies. Release SB 2.16.4.
