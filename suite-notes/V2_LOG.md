@@ -3068,3 +3068,10 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
 - 2 Nov: YB fix d8225fc: card line/tooltip use the hero's format ("6:00 pm", heroDate == SB formatStoryTime, tested
   3 calendars × 24 h). 1115 tests, 1113 pass, 0 fail, 2 skip. Follow-up (pre-existing): director.time text + Status card
   Time row still padded "06:40 am".
+- 2 Nov: XA portrait follow-up 3acf146: PORTRAIT_LIMITS 150 KB / 1200 px; 12 Ersveil portraits re-encoded from the
+  originals in Chromium (800×1200 mostly; gorm 1200×900, temiwa 960×1200; 146–153 KB; q 0.77–0.89); validator OK;
+  4435 run, 4418 pass, 0 fail. NSD f642101 keeps them untrimmed (its caps 256 KB image / 400k chars). COST: NSD per-chat
+  state file grows ~229 KB per met cast (≈3 MB with all 12; was ≈1.3 MB at 64 KB), in memory 2 copies (npcs +
+  portraitAssets). Checkpoints hold no images. Lead recommendation to USER: NSD stores each cast portrait once as its
+  own user file and keeps only the path in the state (state file stays small, uploaded once). Stale NSD comment
+  "64 KB at most" above castPortraitRecord.
