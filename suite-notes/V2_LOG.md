@@ -3086,3 +3086,8 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
 - 2 Nov: USER "The edit pill is oversized" → YA: ~22–24 px drawn, 12 px text/icon, quiet border, 44 px invisible tap on
   phone, far right. YB ec18b9e: director.clock receipt `edit: true` (tile shows; real ST). YB ← Status card Time row
   display uses heroDate (prompt text unchanged). Tile keeps SB's generic look (no "Your edit" sub-line).
+- 2 Nov: XB done: SD stage36/cleanup-sd f5da90c (482af65 removal line: keypeople.sync marks `owed`, new afterCapture
+  step `keypeople.tell` writes the line on the new reply; card guard by goneRev; fuzz green. f5da90c: cast/follow.js
+  removed, no-scroll test; real ST with SB 3acf146 card in view desktop + phone). 1101 tests, 1099 pass, 0 fail, 2 skip.
+  Accepted: a reply with no change lines defers the line to the next reply with lines (follow-up); stale hidden note
+  pruned after 6 replies.
