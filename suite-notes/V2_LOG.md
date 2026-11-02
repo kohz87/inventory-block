@@ -3201,3 +3201,4 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
 - 2 Nov: RELEASED Story Block 2.16.1: PR #244 CI green, merged 01b4c58. NSD 1.7.1 → PR kohz87/npc_state_delta#232
   (stage37/release-b b07a2a8 — new name because origin stage37/release held an older integration; no force-push;
   Node 24 1632/1632; compat + smoke). SD 2.9.1 → PR kohz87/Story_director#154 (stage37/release 6c0d854; 1131/1129/0/2).
+- 2 Nov: RELEASED Story Director 2.9.1: PR #154 CI green, merged cc0d8b2 (merge commit).
