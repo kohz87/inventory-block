@@ -3249,3 +3249,4 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   Follow-up: phone stage chip clipped on Torka's row ("Picks a fight with you").
 - 2 Nov: RELEASED NPC State Delta 1.7.2 (cast portrait backfill): PR #234 CI green, merged 81b6a21. Both USER asks done (Ersveil zip in SB 2.16.2 + backfill).
 - 2 Nov: USER: stop ZP2's leftover ST → pid 1632 was already gone (no listener on 8209, no process); nothing to stop. Studio opens .zip packs (studio.js readPackZip) — confirmed to USER.
+- 2 Nov: USER bug: New character → 'Could not make the character: There is no state to change yet.' (commands.js transact: head null). BC investigation + fix (cleanup-briefs/BC.md).
