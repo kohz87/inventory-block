@@ -3307,3 +3307,7 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   "~ time <date, clock time such as 9:30 am>" (fixtures updated, 1 test). 1134/1132/0. → SD 2.9.2.
 - 2 Nov: SB stage40/release = main + BD + BY + BH1 + BZ (conflicts: tail test keeps look + wallet notes; off-2.11.0
   prompt hashes regenerated with non-prompt fingerprint asserted equal). Pre-BZ run 4497/4486/0.
+- 2 Nov: SB stage40/release d6abe37 full suite 4516/4505/0, check + diff-check clean; pushed. SD stage42/release c1639bc
+  pushed. REVIEW-Z launched (diff read + real-ST smoke, fresh data folder built without deletes). Version bumps
+  prepared locally (not pushed until review): SB 6899d6c 2.16.4 + CHANGELOG, 01e50ff docs; SD 01e22b9 2.9.2 + CHANGELOG,
+  0bc79b0 docs (1134/1132/0).
