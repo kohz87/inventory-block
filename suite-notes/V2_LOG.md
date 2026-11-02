@@ -3247,3 +3247,4 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   import → next reply fills both (file portraits), same chat; reload/swipe/Re-read keep them. ZP2's first ST (pid 1632,
   port 8209) still running — awaiting USER. NSD 1.7.2 → PR (stage38/release 426a159; Node 24 1640/1640).
   Follow-up: phone stage chip clipped on Torka's row ("Picks a fight with you").
+- 2 Nov: RELEASED NPC State Delta 1.7.2 (cast portrait backfill): PR #234 CI green, merged 81b6a21. Both USER asks done (Ersveil zip in SB 2.16.2 + backfill).
