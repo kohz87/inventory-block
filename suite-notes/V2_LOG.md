@@ -3211,3 +3211,7 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
 - 2 Nov: RM-SB done: SB docs/readme-2026-11 687b5f9 (README 105 lines, AI-README 338, 6 new images, 5 v1 images removed
   + their links in docs/v1/README.md; 4460/4443/0). PR kohz87/Story_block#245. Follow-ups: stale docs/v2/STATUS.md,
   docs/STORY_SUITE.md, docs/v2/ERSVEIL.md (says 2.4.0).
+- 2 Nov: ZS done ($S/zs/shots; Hush met in Vargate on the released mains SB 01b4c58 / SD cc0d8b2 / NSD 803473a): SD world,
+  phone-world; NSD dossier, dossier-secrets, phone-dossier, present-card. Lead viewed dossier + world: good. ZS left its
+  mock on 8206 (pid file held a dead setsid wrapper) → lead stopped it by its listening PID (10057), not by pattern.
+  RM-SD and RM-NSD started (NSD told not to use dossier-library.png). Follow-up: World cards leave Factions alone on a row.
