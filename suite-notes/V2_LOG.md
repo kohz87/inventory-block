@@ -3276,3 +3276,6 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   lines; fill missing dm kind when only one fits — awaiting USER.
 - 2 Nov: USER: 'Add them all to next build'. BZ brief (stage40/prompt-clarity): wallet 'before this reply', starting-purse [Happened] wording (model thinking showed it skipped Marrit's pay to avoid double counting), coin emphasis, clock-time rule, safety-net known places + date + refusal, dm missing-kind fill. SB 2.16.4 = BD + BY + BZ.
 - 2 Nov ~13:45Z: USER to bed: 'anything that requires input use your suggestion until tomorrow 7:30am SGT' (= 2 Nov 23:30Z). Lead proceeds: finish BD + BZ, integrate SB 2.16.4 (BD+BY+BZ), focused review, release; SD follow-up if BZ finds SD-owned time text.
+- 2 Nov 14:50Z: USER: 'Find possible loops or bugs and fix them too'. BH brief (cleanup-briefs/BH.md): BH1 = Story_block,
+  BH2 = SD + NSD + Studio, branch stage41/bug-hunt per repo; prove each with a test before fixing; idle soak in real ST.
+  Proven SB fixes join 2.16.4 if ready; others ship as patch releases.
