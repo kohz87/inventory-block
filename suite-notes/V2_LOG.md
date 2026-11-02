@@ -3187,3 +3187,8 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   and (b) /cut settle and reply; bn clean; 3-reply play clean. (c) /branch-create still wedges — ALSO on healthy chats
   and on the released mains (NSD branch gets empty state, no family) → older separate bug. BT ← confirm (b) idle; test
   SB Save point → Return here on a healthy chat (mains); fix NSD branch inheritance now if that wedges.
+- 2 Nov: BT checks: (b) /cut settles idle. Save point → Return here does NOT wedge, but the branch often comes up with
+  EMPTY Delta dossiers (2 of 3 runs on the mains; pre-existing): publish() retries across the chat switch and hydrates
+  the new branch before maybeInheritKnownBranch copies the parent state, then mints a new lineage. Lead: ordinary-use
+  data loss → fix now on NSD stage37/branch-inherit (publish stops on chat change; hydrate never mints for a branch
+  without its file). Likely also fixes raw /branch-create (c).
