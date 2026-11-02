@@ -3279,3 +3279,8 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
 - 2 Nov 14:50Z: USER: 'Find possible loops or bugs and fix them too'. BH brief (cleanup-briefs/BH.md): BH1 = Story_block,
   BH2 = SD + NSD + Studio, branch stage41/bug-hunt per repo; prove each with a test before fixing; idle soak in real ST.
   Proven SB fixes join 2.16.4 if ready; others ship as patch releases.
+- 2 Nov 14:55Z: BD done: SB stage40/legacy-envelope 04752a1 (4488 tests, 0 fail). v1 envelopes stripped from every prompt
+  path + display; read when the reply has no <Changes> (+1 Problems line, Re-read recovers); no duplicate warnings;
+  [battle] first render fixed (NSD's updateMessageBlock wiped the panel → MutationObserver redraw); v1-copy detection
+  line. Real ST 8212 proofs. Open: v1 loaded after v2 replaces globalThis.StoryBlock (line covers it); model copying
+  SB's own hidden comment still reads; side calls see raw [battle] (harmless). New observer sent to BH1 as a loop suspect.
