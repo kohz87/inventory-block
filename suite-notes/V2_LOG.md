@@ -3318,3 +3318,4 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   times (+3 tests; BZ's noon assertion moved on purpose). 4519/4508/0.
 - 2 Nov: PRs opened: SB #249 (stage40/release b4d5bde, 2.16.4), SD #156 (stage42/release 0bc79b0, 2.9.2). Subscribed.
   (GitHub 500s on one push and one PR create; retried.)
+- 2 Nov 16:14Z: RELEASED Story Director 2.9.2 (huge-year hang fix + clock-time example): PR #156 CI green, merged a290af9.
