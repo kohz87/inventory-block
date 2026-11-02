@@ -3122,3 +3122,4 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   5 cancelled; compat + smoke pass; hydration test version regex fixed). Studio stage36/release 310f6a2 (vendor SB
   768c41a, 0.6.0): 15 test pins fail (64 KB/600 px, closure baseline) → YS fixing.
 - 2 Nov: RELEASED Story Director 2.9.0: PR #153 CI green, merged d972c4f (merge commit).
+- 2 Nov: RELEASED NPC State Delta 1.7.0: PR #231 CI green, merged 64af0ac (merge commit). Studio 0.6.0 waiting on YS test-pin fixes.
