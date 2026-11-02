@@ -3226,3 +3226,4 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   AI-README "Customizing the UI".
 - 2 Nov: RM-NSD done: NSD docs/readme-2026-11 fffab18 (README 139 lines, AI-README 300, 4 Hush images, 3 v1 images
   removed, new tests/readme-docs.test.js; Node 24 1635/1635). PR kohz87/npc_state_delta#233.
+- 2 Nov: NSD docs PR #233 CI green, merged 19c1ea9. All four READMEs + AI-READMEs on main. Remaining: SB docs/customize-ui (RM-SB).
