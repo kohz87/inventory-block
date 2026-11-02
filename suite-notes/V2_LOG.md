@@ -3251,3 +3251,9 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
 - 2 Nov: USER: stop ZP2's leftover ST → pid 1632 was already gone (no listener on 8209, no process); nothing to stop. Studio opens .zip packs (studio.js readPackZip) — confirmed to USER.
 - 2 Nov: USER bug: New character → 'Could not make the character: There is no state to change yet.' (commands.js transact: head null). BC investigation + fix (cleanup-briefs/BC.md).
 - 2 Nov: USER: BC case = new chat, character with a first message, not a group chat. Sent to BC.
+- 2 Nov: BC done: SB stage39/no-state 3b4df46. Root cause: first state is written on CHAT_CHANGED, which ST fires after
+  showing the greeting and after every earlier listener (SB's is ~14th) — a slow listener (another extension) keeps the
+  greeting stateless; /sendas into an empty chat never seeds. Fix: turn.seed() on any reader command/preview when a
+  carrier exists and head is null; no message → the wizard's plain sentence. SB 2.16.3 → PR (stage39/release ae3afbf;
+  4471/4460/0). Follow-ups: closing a chat writes a record into ST's welcome greeting in memory (pre-existing);
+  sdk.query('dataModules.setup') throws with no state.
