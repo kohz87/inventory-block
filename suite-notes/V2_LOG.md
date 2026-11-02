@@ -3078,3 +3078,8 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
 - 2 Nov: USER "Go ahead" (NSD stores cast portraits as own files). XC ← content-addressed user file per portrait, path-only
   record, no portraitAssets copy, old dataUrl chats untouched, export inlines, file survives pack removal (branch
   stage36/cleanup-nsd).
+- 2 Nov: YA done: SB stage36/hero-edit 04f4a9c: hero pencils removed, one Edit pill, one editor (Story/Character),
+  hero-edit.js plan (clock first; first refusal stops the rest), ss.editable fields gains choice/time/groups/plan.
+  4427 tests, 4411 pass, 0 fail, 15 skip, 1 todo. Real ST with SD d8225fc: edit, refusal, Re-read, swipe/back exact.
+  Sent back: phone pill to the far right (mockup). YB ← `edit: true` on director.clock receipt (tile missing).
+  ETA given to USER: ~3 h to PR + merge.
