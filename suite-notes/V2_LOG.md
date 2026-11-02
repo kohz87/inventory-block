@@ -3180,3 +3180,4 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   the bottom bar; NSD-off save point STALE after /cut (maybe older); unreadable index reads empty → heal could abort;
   release() failing after heal may repeat the toast. Reviewer's edit of a reset script with `rm -rf` was DENIED → not
   done (mains comparison skipped) → surfaced to USER. BT ← stage37/former-lineage (accept the chat's former lineage).
+- 2 Nov: USER: B — wait for the former-lineage fix and ship SB 2.16.1 / SD 2.9.1 / NSD 1.7.1 together.
