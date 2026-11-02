@@ -3219,3 +3219,8 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
 - 2 Nov: RM-SD done: SD docs/readme-2026-11 8938e40 (README 125 lines, AI-README 310, 5 images, 2 old removed;
   1131/1129/0/2). Sent back: CLAUDE.md + docs/dev/tracker-and-time.md link to removed README sections → repoint.
   Follow-up: SD docs/ARCHITECTURE.md describes the old v1 module contract.
+- 2 Nov: SD docs PR #155 CI green, merged 0c11523. USER: "no mention anywhere how to change and customize own UI".
+  Lead check: README has only Look + Tabs lines; nothing on ST Custom CSS with --ss-/--ss-w- variables, pack layouts /
+  screen templates (LAYOUTS/TEMPLATES/WIDGETS docs) or Studio's screen builder. RM-SB ← branch docs/customize-ui:
+  README "Make it your own" (settings → CSS variables, tested in real ST → own screens via packs/Studio → modules) +
+  AI-README "Customizing the UI".
