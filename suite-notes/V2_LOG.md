@@ -3129,3 +3129,9 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
 - 2 Nov: RELEASED Story Studio 0.6.0: PR #25 CI green, merged 6312736 (merge commit). CLEAN-UP RELEASE COMPLETE:
   SB 2.16.0 (768c41a) + Ersveil 2.4.1, SD 2.9.0 (d972c4f), NSD 1.7.0 (64af0ac), Studio 0.6.0 (6312736). ZC told to add
   Studio shots.
+- 2 Nov: USER (World → Now screenshots): People here (NSD present list in World) shows dossier details — the "Look" line,
+  "Next: <stage> — trust 25/45", a custom field ("Why Bluewatch"), and six "Hidden note · opens at …" rows; USER: secrets
+  and details belong in the dossier only. Also overflow: "Around here <long place>" header runs into the Key people card;
+  Key people pin list. Lead proposal: People here = portrait, name, standing, one-line about (clamped); tap opens the
+  dossier; Look/Next/fields/hidden notes removed from World; section headers wrap/ellipsis; Key people card grows.
+  Mockup first (rule). ZC told to skip World shots until fixed.
