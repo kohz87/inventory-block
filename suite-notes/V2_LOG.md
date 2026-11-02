@@ -3258,3 +3258,4 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   4471/4460/0). Follow-ups: closing a chat writes a record into ST's welcome greeting in memory (pre-existing);
   sdk.query('dataModules.setup') throws with no state.
 - 2 Nov: RELEASED Story Block 2.16.3 (no-state wizard fix): PR #248 CI green, merged ceeb2a1.
+- 2 Nov: USER: reply's change lines not applied — model wrote <!-- STORY_BLOCKS_V1 --> and a copy of SB's own <!-- STORY_SUITE_V2 <Changes>…<Changes-story> --> storage instead of <Changes>. BD investigation (cleanup-briefs/BD.md, reply at $S/bd/reply.txt).
