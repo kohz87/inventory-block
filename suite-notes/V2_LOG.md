@@ -3296,3 +3296,14 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   the new chat's index (era guard). No loop/wedge found. BD's battle-log observer fuzzed 4000 DOM shapes in Chromium:
   converges ≤3 passes, no loop. Idle soak: 0 timers/events/mutations/fetches over 60 s, 0 net listeners after 10×
   switch etc. Lead diff read: OK (forget() clears busy; orphan push outside the iteration snapshot). Joins SB 2.16.4.
+- 2 Nov 15:55Z: BZ done: SB stage40/prompt-clarity 9cf3fa0 (4490/4473/0): Wallet "(before this reply: write a coin line
+  for any money paid or received in it)"; starting purse/kit [Happened] "(Starting purse, set before the story began:
+  not money paid or received in the story.)" + reader-correction note; coin clause "even a few coins"; safety net gets
+  date/time + current place + ≤20 known places, refuses look-alike invented places and clock-less time lines (Problems
+  REFUSED lines); dm line without kind: filled when only one kind fits. DENIED: BZ's st-data build command (rm -rf on
+  the copy's extensions) — not performed by lead; real-ST check moves to the release review with a fresh copy built
+  without deletes. Time grammar is SD's → lead made SD change.
+- 2 Nov: SD stage42/release = main + stage41/bug-hunt (huge-year hang) + c1639bc time grammar
+  "~ time <date, clock time such as 9:30 am>" (fixtures updated, 1 test). 1134/1132/0. → SD 2.9.2.
+- 2 Nov: SB stage40/release = main + BD + BY + BH1 + BZ (conflicts: tail test keeps look + wallet notes; off-2.11.0
+  prompt hashes regenerated with non-prompt fingerprint asserted equal). Pre-BZ run 4497/4486/0.
