@@ -3107,3 +3107,6 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   released mains together + full suites; (2) per repo (SB, SD, NSD, Studio) README refreshed to the current version and
   features; (3) per repo `AI-README.md`: compact plain facts for an AI (what it does, how the four fit, features and
   settings, commands/queries, pack format pointers, limits, file map), linked from README; docs-only PRs, no version bump.
+- 2 Nov: USER: include screenshots in the READMEs, taken from the post-release test run. Plan: shots of the released
+  mains in the test ST (Ersveil chat, mock model text, no error toasts, no API/settings panels), desktop + a phone shot
+  where useful; saved as optimized PNG/WebP under docs/images/ in each repo (each ≤ ~300 KB); Studio shots from Studio.
