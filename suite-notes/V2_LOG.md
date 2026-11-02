@@ -3161,3 +3161,11 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   Look/Next/fields/notes kept in the dossier and the Dossiers screen. 5 tests; Node 24: 1613/1613; validate + compat +
   smoke pass; real ST shots $S/wn-run/shots/. Holding NSD 1.7.1 / SD 2.9.1 until BT (wedge) reports, to ship together.
 - 2 Nov: USER: no separate post-merge test run; use Hush for the README dossier shots (retake NSD dossier/dossier-secrets/phone-dossier/present-card with Hush, with the World shots after 1.7.1/2.9.1).
+- 2 Nov: BT ROOT CAUSE (pre-existing; same on SB 2.15.1/SD 2.8.0/NSD 1.6.1): closing/reloading the page inside an NSD
+  native-mutation window (prepared journal → activate, ~0.1–0.5 s, 2–3× per reply with a key person pinned) wedges the
+  chat forever: on reload recover() calls NSD status/activate before NSD loads its sidecar; participant hydrate() mints a
+  new lineage and overwrites the timeline block; activate → NOT_FOUND forever; barrier never drops; no reader way out
+  (only a new chat). A quick send alone does NOT wedge (5 runs). Fixes ordered (BT builds): NSD stage37/hydrate-fix
+  (hydrate waits for the state, never mints on an unloaded state); SB stage37/recover-heal (recover aborts a
+  native-mutation on NOT_FOUND + one plain line, heals already-wedged chats). Releases: SB 2.16.1, SD 2.9.1, NSD 1.7.1
+  (+World Now). Focused review before release.
