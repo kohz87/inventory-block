@@ -3192,3 +3192,9 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   the new branch before maybeInheritKnownBranch copies the parent state, then mints a new lineage. Lead: ordinary-use
   data loss → fix now on NSD stage37/branch-inherit (publish stops on chat change; hydrate never mints for a branch
   without its file). Likely also fixes raw /branch-create (c).
+- 2 Nov: BT branch-inherit done: NSD stage37/branch-inherit 38111f3 (publish stops on chat switch; hydrate never mints
+  for a branch waiting for inheritance; branch provenance hint installed per branch — the real cause; unsaved tracking
+  counts as empty). Node 24 1627/1627. Real ST: Return here 5/5 inherited; raw /branch-create settles (healthy + healed);
+  bn and 3-reply play clean. Lead read the index.js diff. NSD stage37/release d12dcf3 = world-now + branch-inherit.
+  RELEASE: SB 2.16.1 → PR kohz87/Story_block#244 (e968b06; 4460/4449/0/10). SD 2.9.1, NSD 1.7.1 bumped locally;
+  testkit re-vendor after the SB merge.
