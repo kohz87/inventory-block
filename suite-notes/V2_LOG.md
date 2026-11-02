@@ -3148,3 +3148,11 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   Key people pin list max-height + inner scroll, reveal via a local copy of revealIn (parity test vs vendored SB);
   1131 tests, 1129 pass, 0 fail, 2 skip; real ST 1440/390 no overlap. Follow-ups: SB sdk could expose scroll helpers;
   phone bottom bar covers Key people closing note when the pin list is open.
+- 2 Nov: ZC done (shots $S/zc/shots/INDEX.md; SB 6, SD 4 (+world/phone-world to retake), NSD 5, Studio 5). Step 1 (check +
+  tests on the 3 fresh mains) DENIED by auto-mode classifier → not run; surfaced to USER (the same trees were tested
+  before merge: SB 4457/4445/0, SD 1121/1119/0, NSD 1608/1603/0/5c). Studio main check + tests pass.
+  POSSIBLE WEDGE: quick send (~6 s) during NSD backfill (+ browser close) → reply aborted, timeline pending /
+  RESTORE_PENDING survives reloads; recover() refuses. → BT investigation (cleanup-briefs/BT.md).
+  Follow-ups: Quests tab unstyled (plain text); Dossiers library stray bullets; map label cut by the You marker; Studio
+  phone "Pack" label offset; trip from a sub-place refused "No known route" (needs the town).
+  ZC: some women's portraits are suggestive; used Harrak for NSD shots — ask USER which portraits may appear in READMEs.
