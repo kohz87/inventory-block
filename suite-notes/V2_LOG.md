@@ -3116,3 +3116,8 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   director.time padding; base: card below fold on chat open, scroll anchoring, Studio duplicate `card` key warning.
 - 2 Nov: RELEASE: SB 2.16.0 + Ersveil 2.4.1 → PR kohz87/Story_block#243 (stage36/release c515320; 4457/4445/0/11).
   SD 2.9.0 and NSD 1.7.0 bumped locally (rel36/), re-vendor testkit after the SB merge; Studio 0.6.0 after the SB merge.
+- 2 Nov: RELEASED Story Block 2.16.0 + Ersveil 2.4.1: PR #243 CI green, merged 768c41a (merge commit).
+  SD 2.9.0 → PR kohz87/Story_director#153 (stage36/release 974d06e, testkit SB 768c41a; 1121/1119/0/2).
+  NSD 1.7.0 → PR kohz87/npc_state_delta#231 (stage36/release e9a7e92, testkit SB 768c41a; 1608, 1603 pass, 0 fail,
+  5 cancelled; compat + smoke pass; hydration test version regex fixed). Studio stage36/release 310f6a2 (vendor SB
+  768c41a, 0.6.0): 15 test pins fail (64 KB/600 px, closure baseline) → YS fixing.
