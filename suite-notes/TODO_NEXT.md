@@ -122,3 +122,7 @@ https://claude.ai/artifact/AJZkpqZigE5TvZRRh4jrMK (v3); AI writing help https://
   barrier is up; NSD extractExplicitKeyRelationshipEdges quadratic on 20k+ char no-space text; NSD vault.read null on
   unparseable body → index rewritten; Studio Open pack replaces unsaved work without confirm (needs mockup); Studio
   saveHeld fire-and-forget ordering; SD reveal.set evicts by insert order.
+- BH1 unproved suspects (2 Nov): sdk.command await settle() window lets a chat switch apply a click to the new chat;
+  store.js unsaved map keeps old-chat objects when a rescue is given up (memory); "a change of another chat was not
+  saved" warning seen under 40 ms chat switching in polluted test chats (cause unknown); rewind/savepoints running
+  flag stays if ST's branch call never settles; a user message with a literal [battle] line is hidden.

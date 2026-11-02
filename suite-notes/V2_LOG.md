@@ -3290,3 +3290,9 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   full+compat+smoke pass). Idle soak real ST: 60 s idle = 0 timeouts/rAF/mutations/fetches; 10× switch etc no loop.
   SD 2.9.2 waits for BZ (may add SD time text). Studio browser tests could not launch Chromium in BH2's run (not
   installed by it; to check at Studio's next release).
+- 2 Nov 15:25Z: BH1 done: SB stage41/bug-hunt 225cb81 (base ceeb2a1; 4474/4457/0). Three stale-chat races proved+fixed:
+  saver rescueOrphans lost a third chat's pending change when an earlier chat reopened (data loss); refreshLore reused
+  an in-flight read across a chat switch (wrong markets); Re-read answer after a chat switch stored refused lines under
+  the new chat's index (era guard). No loop/wedge found. BD's battle-log observer fuzzed 4000 DOM shapes in Chromium:
+  converges ≤3 passes, no loop. Idle soak: 0 timers/events/mutations/fetches over 60 s, 0 net listeners after 10×
+  switch etc. Lead diff read: OK (forget() clears busy; orphan push outside the iteration snapshot). Joins SB 2.16.4.
