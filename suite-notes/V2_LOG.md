@@ -3181,3 +3181,9 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   release() failing after heal may repeat the toast. Reviewer's edit of a reset script with `rm -rf` was DENIED → not
   done (mains comparison skipped) → surfaced to USER. BT ← stage37/former-lineage (accept the chat's former lineage).
 - 2 Nov: USER: B — wait for the former-lineage fix and ship SB 2.16.1 / SD 2.9.1 / NSD 1.7.1 together.
+- 2 Nov: BT former-lineage done: NSD stage37/former-lineage 2c76dc4 (1b4dbb4 accept the chat's former line —
+  timeline.former / kept vault index + same branchFamilyId; 2c76dc4 install check compares the normalized state —
+  old checkpoints with turn:null milestones were STALE forever). Node 24 1619/1619. Real ST: healed chat (a) swipe back
+  and (b) /cut settle and reply; bn clean; 3-reply play clean. (c) /branch-create still wedges — ALSO on healthy chats
+  and on the released mains (NSD branch gets empty state, no family) → older separate bug. BT ← confirm (b) idle; test
+  SB Save point → Return here on a healthy chat (mains); fix NSD branch inheritance now if that wedges.
