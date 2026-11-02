@@ -3274,3 +3274,4 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   changed on purpose). USER shared a safety-net result: invented place name "Bluewatch Guild Branch", vague `~ time
   midday`; model (flash) skips Marrit's coins and acts ahead. Offered: safety-net known-place list + date, refuse bad
   lines; fill missing dm kind when only one fits — awaiting USER.
+- 2 Nov: USER: 'Add them all to next build'. BZ brief (stage40/prompt-clarity): wallet 'before this reply', starting-purse [Happened] wording (model thinking showed it skipped Marrit's pay to avoid double counting), coin emphasis, clock-time rule, safety-net known places + date + refusal, dm missing-kind fill. SB 2.16.4 = BD + BY + BZ.
