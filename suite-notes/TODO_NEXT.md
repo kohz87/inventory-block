@@ -117,3 +117,8 @@ https://claude.ai/artifact/AJZkpqZigE5TvZRRh4jrMK (v3); AI writing help https://
   Studio docs/STUDIO.md 5b numbers; Studio Timeline screenshot.
 - Code: delete NSD story-block-tabs.js v1 tab registration; SB sdk could expose scroll helpers (SD keeps a local copy);
   director.time text zero-padded; Key people removal line waits for a reply with change lines.
+- BH2 unproved suspects (2 Nov): NSD inlineEntriesForRender ignores Enabled (cards may render while NSD disabled);
+  NSD storage-durability retry every 30 s uncapped even when disabled; NSD deferUntilSettled polls 250 ms while the
+  barrier is up; NSD extractExplicitKeyRelationshipEdges quadratic on 20k+ char no-space text; NSD vault.read null on
+  unparseable body → index rewritten; Studio Open pack replaces unsaved work without confirm (needs mockup); Studio
+  saveHeld fire-and-forget ordering; SD reveal.set evicts by insert order.

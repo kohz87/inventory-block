@@ -3284,3 +3284,9 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   [battle] first render fixed (NSD's updateMessageBlock wiped the panel → MutationObserver redraw); v1-copy detection
   line. Real ST 8212 proofs. Open: v1 loaded after v2 replaces globalThis.StoryBlock (line covers it); model copying
   SB's own hidden comment still reads; side calls see raw [battle] (harmless). New observer sent to BH1 as a loop suspect.
+- 2 Nov 15:20Z: BH2 done. SD stage41/bug-hunt 0ec21d6: HANG proved — a model-written date with a huge year (≥1e17,
+  e.g. arc/trip/thread dates) parsed, then fromAbs looped forever (year-- no-op past safe ints). Fix: parse refuses
+  |year|>1e9; fromAbs throws RangeError past MAX_SAFE_INTEGER. 1133/1131/0. NSD + Studio: no proven finding (NSD
+  full+compat+smoke pass). Idle soak real ST: 60 s idle = 0 timeouts/rAF/mutations/fetches; 10× switch etc no loop.
+  SD 2.9.2 waits for BZ (may add SD time text). Studio browser tests could not launch Chromium in BH2's run (not
+  installed by it; to check at Studio's next release).
