@@ -69,7 +69,7 @@ https://claude.ai/artifact/AJZkpqZigE5TvZRRh4jrMK (v3); AI writing help https://
 - Story Block keeps a pack enabled when a module capability it needs goes missing after install; consider skipping such
   events with one Problems line.
 - A merge-on-rename can drop "from the story" after an earlier reply is re-read (pre-existing; 151 note).
-- Story Director clock editing (a pencil on the date and time).
+- Story Director clock editing: building (stage36/clock-set + SB stage36/hero-edit). Follow-up: Status card Time row padded "06:40 am".
 - `b1r2-capture.test.js` 10 s backstop trips under heavy load (passes alone); watch it in CI.
 
 ## Rules to keep in mind

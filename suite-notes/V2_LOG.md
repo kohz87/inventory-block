@@ -3065,3 +3065,6 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   + cast follow a rewind (tests); fuzz. 1114 tests, 1112 pass, 0 fail, 2 skip. Lead: closed threads stay closed; fix
   "06:00 pm" → hero format "6:00 pm" (sent back). YB created an empty stray `/x.mjs` (unquoted $TMPDIR); its rm was
   denied → NOT deleted by lead; surfaced to USER. YA told the SD branch is ready.
+- 2 Nov: YB fix d8225fc: card line/tooltip use the hero's format ("6:00 pm", heroDate == SB formatStoryTime, tested
+  3 calendars × 24 h). 1115 tests, 1113 pass, 0 fail, 2 skip. Follow-up (pre-existing): director.time text + Status card
+  Time row still padded "06:40 am".
