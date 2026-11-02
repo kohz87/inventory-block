@@ -3173,3 +3173,10 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   (4460/4445/0/14). Real ST: variants b/bn/c clean after fix (same lineage, no new index); ZC's wedged chat heals on open
   (one line, aborted entry, replies continue); normal 5-reply play unchanged. Lead: NSD stage37/release ea0c780 =
   world-now + hydrate-fix. Review Y started (cleanup-briefs/REVIEW-Y.md), incl. healed-chat swipe back past the lost point.
+- 2 Nov: REVIEW Y: BLOCK (1): a chat wedged BEFORE the fix heals, but editing back past the lost point (/del+swipe,
+  /cut, branch/save point earlier) wedges it again (NSD verified() CONFLICT: old lineage). Not a regression vs mains
+  (those chats are wedged anyway). Everything else OK: SB 4460/4449/0, SD 1131/1129/0, NSD (Node 24) 1617/1617; heal
+  never aborts a slow/unloaded participant; chat switch safe; World Now matches mockup. Follow-ups: phone Pin list under
+  the bottom bar; NSD-off save point STALE after /cut (maybe older); unreadable index reads empty → heal could abort;
+  release() failing after heal may repeat the toast. Reviewer's edit of a reset script with `rm -rf` was DENIED → not
+  done (mains comparison skipped) → surfaced to USER. BT ← stage37/former-lineage (accept the chat's former lineage).
