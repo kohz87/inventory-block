@@ -3227,3 +3227,8 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
 - 2 Nov: RM-NSD done: NSD docs/readme-2026-11 fffab18 (README 139 lines, AI-README 300, 4 Hush images, 3 v1 images
   removed, new tests/readme-docs.test.js; Node 24 1635/1635). PR kohz87/npc_state_delta#233.
 - 2 Nov: NSD docs PR #233 CI green, merged 19c1ea9. All four READMEs + AI-READMEs on main. Remaining: SB docs/customize-ui (RM-SB).
+- 2 Nov: RM-SB customize-ui done: SB docs/customize-ui 4afe3f3 (README "Make it your own", AI-README "Customizing the UI",
+  2 images; tested in real ST). Findings → follow-ups: overriding the look needs a long root selector list (`:root`
+  loses; tokens declared per root) — consider SB reading user overrides from :root/one class; accent needs 3 variables;
+  pack-level `theme` is validated but drawn by nothing; layout checker does not look inside layouts. RM-SB found its ST
+  node process "by its unique config path" (method unverified; rule: PID only, never pgrep -f) — noted.
