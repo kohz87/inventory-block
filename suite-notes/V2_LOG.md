@@ -3257,3 +3257,4 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   carrier exists and head is null; no message → the wizard's plain sentence. SB 2.16.3 → PR (stage39/release ae3afbf;
   4471/4460/0). Follow-ups: closing a chat writes a record into ST's welcome greeting in memory (pre-existing);
   sdk.query('dataModules.setup') throws with no state.
+- 2 Nov: RELEASED Story Block 2.16.3 (no-state wizard fix): PR #248 CI green, merged ceeb2a1.
