@@ -3057,3 +3057,6 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   `content.rpg.formula` on the OBJECT form (authored packs; the list form is only the validator's output — lead confirms,
   brief was wrong), setRpgFormula via applyEdit (Undo/Redo/Check/export), numbers/skillSets kept, empty rpg dropped.
   854/854; dist 5.12 MB. YS resumed with the portrait-limit extra.
+- 2 Nov: YS extra done: Studio stage36/pack-formula 5c3fbd5 (portrait.js reads PORTRAIT_LIMITS side/bytes; 855/855).
+  Release note: after re-vendoring SB, update Studio tests pinning "64 KB"/600 px (cast-browser.test.js:117,
+  cast-data, cast-screen, maxBytes 64*1024).
