@@ -3232,3 +3232,5 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   loses; tokens declared per root) — consider SB reading user overrides from :root/one class; accent needs 3 variables;
   pack-level `theme` is validated but drawn by nothing; layout checker does not look inside layouts. RM-SB found its ST
   node process "by its unique config path" (method unverified; rule: PID only, never pgrep -f) — noted.
+- 2 Nov: SB docs PR #246 (Make it your own) CI green, merged e0d5b97. ALL DONE for this round: releases SB 2.16.0/2.16.1,
+  SD 2.9.0/2.9.1, NSD 1.7.0/1.7.1, Studio 0.6.0, Ersveil 2.4.1; READMEs + AI-READMEs + screenshots in all four repos.

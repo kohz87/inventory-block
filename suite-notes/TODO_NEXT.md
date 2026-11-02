@@ -101,3 +101,19 @@ https://claude.ai/artifact/AJZkpqZigE5TvZRRh4jrMK (v3); AI writing help https://
 
 - 1 Nov: Living cast released (SB 2.15.0, SD 2.8.0, NSD 1.6.0, Studio 0.5.0). Next: Ersveil cast 11–12 with USER → assemble cast.json (trim to limits) + portraits → Ersveil pack update PR; then clean-up release (date/time pencil, SB card-scroll, pack formula in Studio, NSD 404 check, other follow-ups).
 - (done 2 Nov, SB 2.16.0) Portraits shrink on import; 150 KB / 1200 px; NSD keeps them as files (1.7.0).
+
+## Follow-ups after 2 Nov (clean-up + fix releases + docs)
+- Customizing: SB should accept user overrides from one place (e.g. :root or a single class) instead of the long root
+  list; one accent variable should drive accent-soft/-text; pack-level `theme` is validated but drawn by nothing;
+  authoring-kit check does not look inside layouts.
+- Review X: phone "at the bottom" reaches 357 px; Escape in the hero editor closes the Game view; no busy line while
+  portraits shrink (+ parallel import); phone memory on big zips / 64 MP decode; corrupt header sentence; Studio vs SB
+  keep-rule for small large-pixel images (Studio could reuse SB portrait-fit.js).
+- Review Y: phone Pin list under the bottom bar; NSD-off save point STALE after /cut; unreadable NSD index reads empty;
+  release() failing after a heal may repeat the toast.
+- ZC: Quests tab plain text; Dossiers library stray bullets; map label cut by the You marker; Studio phone "Pack" label
+  offset; a trip from a sub-place refused (needs the town); World cards leave Factions alone on a row.
+- Docs: SB docs/v2/STATUS.md, docs/STORY_SUITE.md, docs/v2/ERSVEIL.md (2.4.0); SD docs/ARCHITECTURE.md (v1 contract);
+  Studio docs/STUDIO.md 5b numbers; Studio Timeline screenshot.
+- Code: delete NSD story-block-tabs.js v1 tab registration; SB sdk could expose scroll helpers (SD keeps a local copy);
+  director.time text zero-padded; Key people removal line waits for a reply with change lines.
