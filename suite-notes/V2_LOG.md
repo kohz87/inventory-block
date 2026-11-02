@@ -3102,3 +3102,8 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   checkpoints/rollback/export(inline)/import(writes)/missing file handled; no image or path in prompts. Real ST 3 cast:
   sidecar 763 KB → 170 KB, memory 1.36 MB → 170 KB, per person ~200 KB → ~305 B; pack removal keeps portraits.
   1608 tests, 1603 pass, 0 fail, 5 cancelled (pre-existing). Review X brief written (cleanup-briefs/REVIEW-X.md).
+- 2 Nov: USER "once everything is done, run a check and update the readme and a readme for AI to read so they can
+  digest it easily". Plan (after the clean-up release merges): (1) post-release check = real-ST smoke of the four
+  released mains together + full suites; (2) per repo (SB, SD, NSD, Studio) README refreshed to the current version and
+  features; (3) per repo `AI-README.md`: compact plain facts for an AI (what it does, how the four fit, features and
+  settings, commands/queries, pack format pointers, limits, file map), linked from README; docs-only PRs, no version bump.
