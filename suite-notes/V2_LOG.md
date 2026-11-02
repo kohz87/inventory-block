@@ -3042,3 +3042,10 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
 - 2 Nov: USER "Mockup approved, go with your recommendations" (keep Reader's choice; rewind allowed; invalid field saves
   nothing; Studio choice only). Briefs Y-CONTRACT/YA (SB hero Edit, stage36/hero-edit)/YB (SD director.clock + time parts,
   stage36/clock-set)/YS (Studio formula card, stage36/pack-formula). Months come from SD's `director.calendar`.
+- 2 Nov: XA done: SB stage36/cleanup-sb f53a428. (1) portraits >64 KB (PNG/JPEG/WebP ≤10 MB) shrunk in the browser to
+  WebP ≤600 px ≤64 KB (Studio's ladder; ≤64 KB stored byte-for-byte); refusals name the file; >64 MP header refused;
+  zip caps 322 MB / entry 10 MB / ratio 100, pack.json 512 KB; docs + LIMITS regenerated. Real ST: 5.6 MB PNG → 61 KB WebP.
+  (2) card kept in view: card.js + scroll.js keepAtBottom (only when the reader was within half a screen ≤400 px of the
+  bottom, SD's NEAR); never moves a scrolled-up reader; real ST desktop/phone. (3) CAST_BUILT_IN_PRESETS
+  [companion, rival, mentor] exported, pinned vs NSD. 4435 run, 4418 pass, 0 fail, 16 skip. Studio vendor sync must
+  carry portrait-fit.js. XA's `rm -rf` was denied; not retried (surface to USER). XB told to drop follow.js on XA's branch.
