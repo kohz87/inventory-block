@@ -3135,3 +3135,8 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   Key people pin list. Lead proposal: People here = portrait, name, standing, one-line about (clamped); tap opens the
   dossier; Look/Next/fields/hidden notes removed from World; section headers wrap/ellipsis; Key people card grows.
   Mockup first (rule). ZC told to skip World shots until fixed.
+- 2 Nov: XM u11 done (vm-results/u11): World → Now mockup https://claude.ai/artifact/DrUffpTSf8vwt7Vde7MozM. People here
+  (NSD storysuite-v2.js renderCast world branch) = portrait, name, standing, 1-line about (2 on phone); Around here place
+  ellipsis + tooltip (SD world/screen.js .wv-label); Key people pin list scrolls inside the card. Note: XM suggested
+  scrollIntoView for the pin list — not allowed (use view/scroll.js helpers). Cards already auto-height; the cut-off was
+  the scroll area. Questions to USER: about vs role (keep about), drop "· morning" first (yes), dossier keeps details (yes).
