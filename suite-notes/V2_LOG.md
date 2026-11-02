@@ -3263,3 +3263,4 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   Finding: the character card greeting ends with an empty `<!-- STORY_BLOCKS_V1 -->`; SB does not strip v1 envelopes
   from prompts, so the model imitates it. The STORY_SUITE_V2 comment in the "full output" is likely SB's own storage
   after reading the real <Changes> (applied); the warnings are about duplicate lines in the v1 comment. Sent to BD.
+- 2 Nov: USER confirms the quests applied (the <Changes> block was read; warnings were duplicates in the v1 comment).
