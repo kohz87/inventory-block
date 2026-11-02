@@ -3060,3 +3060,8 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
 - 2 Nov: YS extra done: Studio stage36/pack-formula 5c3fbd5 (portrait.js reads PORTRAIT_LIMITS side/bytes; 855/855).
   Release note: after re-vendoring SB, update Studio tests pinning "64 KB"/600 px (cast-browser.test.js:117,
   cast-data, cast-screen, maxBytes 64*1024).
+- 2 Nov: YB done: SD stage36/clock-set 64f2575: director.clock (ui cause; calendar-checked refusals; set on the head reply;
+  rewind allowed; summary "Clock set to …"; narrate false), director.time.parts, chronicle/days CLOCK_TYPES fix; deadlines
+  + cast follow a rewind (tests); fuzz. 1114 tests, 1112 pass, 0 fail, 2 skip. Lead: closed threads stay closed; fix
+  "06:00 pm" → hero format "6:00 pm" (sent back). YB created an empty stray `/x.mjs` (unquoted $TMPDIR); its rm was
+  denied → NOT deleted by lead; surfaced to USER. YA told the SD branch is ready.
