@@ -3224,3 +3224,5 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   screen templates (LAYOUTS/TEMPLATES/WIDGETS docs) or Studio's screen builder. RM-SB ← branch docs/customize-ui:
   README "Make it your own" (settings → CSS variables, tested in real ST → own screens via packs/Studio → modules) +
   AI-README "Customizing the UI".
+- 2 Nov: RM-NSD done: NSD docs/readme-2026-11 fffab18 (README 139 lines, AI-README 300, 4 Hush images, 3 v1 images
+  removed, new tests/readme-docs.test.js; Node 24 1635/1635). PR kohz87/npc_state_delta#233.
