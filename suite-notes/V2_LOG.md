@@ -3097,3 +3097,8 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   host.test command list + fuzz-delete keyEdits resolved: both sides kept); check ok, 1121 tests, 1119 pass, 0 fail,
   2 skip. SB stage36/release 73f98cd = cleanup-sb 3acf146 + hero-edit bc87e44 (clean); check ok, 4457 tests, 4445 pass,
   0 fail, 11 skip, 1 todo. Waiting on XC (NSD portrait files) before Review X.
+- 2 Nov: XC portrait files done: NSD stage36/cleanup-nsd 0dee1e8: content-addressed `npc-state-delta-portrait-<sha40>.<ext>`
+  written once (verify first), path-only record, no portraitAssets copy; old dataUrl chats never migrated (byte-identical);
+  checkpoints/rollback/export(inline)/import(writes)/missing file handled; no image or path in prompts. Real ST 3 cast:
+  sidecar 763 KB → 170 KB, memory 1.36 MB → 170 KB, per person ~200 KB → ~305 B; pack removal keeps portraits.
+  1608 tests, 1603 pass, 0 fail, 5 cancelled (pre-existing). Review X brief written (cleanup-briefs/REVIEW-X.md).
