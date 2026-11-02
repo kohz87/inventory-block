@@ -3204,3 +3204,6 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
 - 2 Nov: RELEASED Story Director 2.9.1: PR #154 CI green, merged cc0d8b2 (merge commit).
 - 2 Nov: RELEASED NPC State Delta 1.7.1: PR #232 CI green, merged 803473a (merge commit). FIX RELEASES COMPLETE:
   SB 2.16.1 (01b4c58), SD 2.9.1 (cc0d8b2), NSD 1.7.1 (803473a). Next: ZS shots retake (Hush, World), then RM READMEs.
+- 2 Nov: RM-ST done: Studio docs/readme-2026-11 2b5d13f (README 109 lines, AI-README 228, 4 images; tests green).
+  Canonical shared section: cleanup-briefs/FIT-TOGETHER.md (all four READMEs use it verbatim; Studio may add its own
+  checker sentence). Follow-ups: Studio Timeline screenshot; docs/STUDIO.md 5b old numbers.
