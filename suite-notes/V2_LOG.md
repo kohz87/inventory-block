@@ -3242,3 +3242,4 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   `cast-portrait`; Node 24 1640/1640) — real-ST check skipped: DISK FULL. Lead freed 14 GB of finished scratch work
   (bt, rv-x, rv-y (REVIEW.md copied to vm-results/), rv-c, rv-ui1/2, go-rb, ot-rb, rv-k). ZP2 asked to run real ST now.
 - 2 Nov: ZP2 real-ST restart command (kill own ST pid 1632 + wipe its data copy + restart) DENIED (Interfere With Workloads) → not run; surfaced to USER; ZP2 told to use a fresh folder + port 8210 instead. SB 2.16.2 bumped on stage38/release (4464/4453/0).
+- 2 Nov: RELEASED Story Block 2.16.2 (Ersveil zip): PR #247 CI green, merged 71244cd. NSD 1.7.2 waits on ZP2's real-ST check.
