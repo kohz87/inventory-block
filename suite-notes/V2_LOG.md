@@ -3091,3 +3091,9 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   removed, no-scroll test; real ST with SB 3acf146 card in view desktop + phone). 1101 tests, 1099 pass, 0 fail, 2 skip.
   Accepted: a reply with no change lines defers the line to the next reply with lines (follow-up); stale hidden note
   pruned after 6 replies.
+- 2 Nov: YB ca3f109 (Status card Time row = hero format via director.status `when`; prompt text unchanged; 1115/1113/0/2).
+  YA bc87e44 (Edit pill 24 px drawn, 12 px text/icon, faint edge, far right on phone, 44 px invisible tap; 4427/4411/0).
+  Lead integration branches: SD stage36/release fc378fe = cleanup-sd f5da90c + clock-set ca3f109 (conflicts in
+  host.test command list + fuzz-delete keyEdits resolved: both sides kept); check ok, 1121 tests, 1119 pass, 0 fail,
+  2 skip. SB stage36/release 73f98cd = cleanup-sb 3acf146 + hero-edit bc87e44 (clean); check ok, 4457 tests, 4445 pass,
+  0 fail, 11 skip, 1 todo. Waiting on XC (NSD portrait files) before Review X.
