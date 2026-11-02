@@ -3259,3 +3259,7 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   sdk.query('dataModules.setup') throws with no state.
 - 2 Nov: RELEASED Story Block 2.16.3 (no-state wizard fix): PR #248 CI green, merged ceeb2a1.
 - 2 Nov: USER: reply's change lines not applied — model wrote <!-- STORY_BLOCKS_V1 --> and a copy of SB's own <!-- STORY_SUITE_V2 <Changes>…<Changes-story> --> storage instead of <Changes>. BD investigation (cleanup-briefs/BD.md, reply at $S/bd/reply.txt).
+- 2 Nov: USER sent the request payload (Gemini flash, chat completion; auth header was already redacted — not stored).
+  Finding: the character card greeting ends with an empty `<!-- STORY_BLOCKS_V1 -->`; SB does not strip v1 envelopes
+  from prompts, so the model imitates it. The STORY_SUITE_V2 comment in the "full output" is likely SB's own storage
+  after reading the real <Changes> (applied); the warnings are about duplicate lines in the v1 comment. Sent to BD.
