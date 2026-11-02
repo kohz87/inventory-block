@@ -3035,3 +3035,7 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   stored bytes/timing unchanged. Real ST: fresh chat + save point → 0 NSD 404s. Panel + jump bar verified opaque (pixel
   check, desktop/phone), no change. 1594 tests, 1589 pass, 0 fail, 5 cancelled (pre-existing Node 22); check, compat,
   smoke pass. Lead read the diff: OK; the extra verify on an existing checkpoint put is accepted (rare, cheap).
+- 2 Nov: XM redraw done (shots2/, vm-results/u10/mock2.mjs + NOTES.md): no hero pencils (place, weather, here, wearing,
+  condition; hidden rank → Character group), one "Edit" pill, one editor (Story/Character), card "Clock set to … · Weather:
+  clear". Mockup page v2 published (same link). Questions to USER: Reader's choice (keep), rewind (allow), invalid field
+  (save nothing, keep open, name the field), Studio numbers (choice only). "Here" stays a comma text field (lead).

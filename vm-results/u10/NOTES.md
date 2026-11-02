@@ -83,3 +83,54 @@ Where it would go in the code (Story Studio)
 2. Time editor: the clock's day may go backwards (a rewind) when the reader sets it; allowed, or only forward like the story's own `! time` lines?
 3. Pencil on World > Now's time (top right) and Home's Where card (shown only without the hero) as well, or the hero only?
 4. Studio: should Pack settings also expose the formula's `numbers` (nine of them) later, or only the choice?
+
+---
+
+# Redraw of item 1 (coordinator, 2 Nov): one "Edit" button, no pencils in the hero
+
+Supersedes the single time pencil (`T1-*`, `mock.mjs`) above. Script: `mock2.mjs d|p`; shots in `shots2/` (`-d` desktop 1440x900, `-p` phone 390x844),
+real ST on 8194 (bases 79df89f / 1ae570c / f642101), DOM/CSS patched only.
+
+| Picture | File |
+|---|---|
+| before: today's hero (pencils on place, weather, Here, wearing, condition) | `before-d.png`, `before-p.png` |
+| after, closed: lines plain, ONE "Edit" button (desktop: hero's top-right corner; phone: beside the name) | `after-closed-d.png`, `after-closed-p.png` |
+| after, open: the editor as opened (current values) | `after-open-d.png`, `after-open-p.png` |
+| after, open with edits typed (Day 14, Time 6:00 PM, Weather "clear") | `after-open-edited-d.png`, `after-open-edited-p.png` |
+| after, saved: the hero, plain, with the new lines | `after-saved-hero-d.png`, `after-saved-hero-p.png` |
+| after, saved: the reply card with the clock change and one other change | `after-saved-d.png`, `after-saved-p.png` |
+
+Exact texts
+- Button: pencil icon + "Edit"; tooltip and aria-label "Edit the story and your character". aria-expanded while the editor is open.
+- Editor (group label "Edit the story and your character"), two fieldsets:
+  - "Story": "Year (CY)", "Month" (select of the story's months), "Day" (1..30), "Time"; "Place"; "Weather"; "Here" (people present, comma-separated).
+  - "Character": "Wearing", "Condition" (and "Rank", under the pack's own word, only where the game gives one: it is the hero's third pencil today).
+  - Help line, once: "Changes apply from this reply on."  Buttons: "Save" (primary), "Cancel".
+- While the editor is open the hero's lines (time/place/weather/Here, wearing/condition) are hidden and the editor takes their place; Cancel or Save brings them back.
+- Reply card after Save: header "Clock set to Goldwane 14, 6:00 pm · Weather: clear"; tiles "Clock set to Goldwane 14, 6:00 pm" (tooltip: the full date with era and year)
+  and "Weather: clear" (tooltip: "(was heavy rain, rising river)"), each with sub "Your edit"; "Where things stand" shows the new Time and Weather.
+  A field left as it was writes nothing and gets no tile. Not drawn: an inline error line (e.g. "Goldwane has 30 days.") and Save off while nothing changed.
+- Look: the app's own `ss-input`, `ss-select`, `ss-button`, `ss-button-primary`; only the layout is new (two groups, a small round "Edit" pill). Details of the drawing:
+  the Edit pill is `data-ss-hit` (the app's own opt-out of the 44px phone minimum, with a 44px tap area drawn around it, as the u7 mockups did); on desktop the
+  vitals bars are pushed down 30px so the pill does not sit on the Health row.
+
+What it replaces (all removed from the hero, nothing else changes)
+1. Place pencil ("Edit place", `scene.place`), 2. Weather pencil ("Edit weather", `scene.weather`), 3. Here pencil ("Edit people present", `scene.present`):
+   Story Block `src/v2/view/widgets/hero.js`, `cornerPencil(...)` calls ~l.302-304 and the `where` prop (the corner's pencils; Game view header `src/v2/view/game-header.js` ~l.177-191 builds it).
+4. Wearing, 5. Condition (and Rank) pencils ("Edit what you wear", "Edit your condition"): same file, the `ss-hero-you-pencil` / `editable.render(entry.pencil, props, api)`
+   block ~l.196-222 (`you.command`, `valueKey` wearing / condition / rank).
+6. The new date/time editor (the single time pencil of the first drawing is dropped).
+The same pencils elsewhere are untouched: Purse, Burr (mount) and the other Home cards keep theirs (the request names the hero only).
+
+Where it goes in the code
+- Button + the one editor: `hero.js` (the `ss.hero` widget). With `where` set (the Game view header) it draws the "Edit" button in the top-right of `.ss-hero` (phone: in `.ss-hero-who`
+  beside the name) and the editor in `.ss-hero-text`; without `where` (other uses of `ss.hero`) it stays read-only, as today. The editor can reuse `editable.js`
+  `kind: 'fields'` (one input per entry) extended with `type: 'choice'` (options; the month and the place list) and `type: 'time'`, grouped under two headings; strings in `src/v2/strings.js`.
+- Save: one pass over the fields that changed, each through its existing command (`scene.place`, `scene.weather`, `scene.present`, the wearing / condition command in `you.command`)
+  plus the new clock command from Story Director (`src/v2/tracker/` next to `director.seed`; `calendar.toAbs`, `ctx.absolute('director', '/time/minutes')`). Only changed fields send a command;
+  a failing one keeps the editor open with its error and the others are not lost. The calendar (months, era, month length) comes from the Director's `director.calendar` query via the header's props.
+- Card lines: the commands' own summaries through the changes card (`src/v2/screens/changes-card.js`, the "edits of yours" lines); the status card (Story Director `src/v2/screens/status-card.js`) follows by itself.
+
+Open questions (new)
+1. One Save with several commands: if one is refused (e.g. a bad date), keep the editor open and save the rest, or save nothing? (Drawn as: nothing saved until the whole form is valid.)
+2. Should "Here" stay a comma-separated text field, or keep its current chip editor inside the form?
