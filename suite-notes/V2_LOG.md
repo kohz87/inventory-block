@@ -3215,3 +3215,4 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   phone-world; NSD dossier, dossier-secrets, phone-dossier, present-card. Lead viewed dossier + world: good. ZS left its
   mock on 8206 (pid file held a dead setsid wrapper) → lead stopped it by its listening PID (10057), not by pattern.
   RM-SD and RM-NSD started (NSD told not to use dossier-library.png). Follow-up: World cards leave Factions alone on a row.
+- 2 Nov: SB docs PR #245 CI green, merged a3c16ad.
