@@ -3026,3 +3026,7 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   USER with recommendations: keep Reader's choice; allow rewind; hero only; choice only (no numbers). XM reported one
   denied `rm -rf $E/*` (its own extension copy) that it then re-ran in a `"${E:?}"/*` form → surfaced to USER.
   USER asked whether WebP loses quality: answered (stored 400×600 ≤ 64 KB; originals kept; 150 KB / 800×1200 offered, not recommended).
+- 2 Nov: USER: header pencils too many/cluttered → "go with one edit button". Design: no per-item pencils in the Game view
+  hero; one "Edit" (pencil + label) top-right opens one editor (Story: date, time, place, weather, here; Character:
+  wearing, condition), "Changes apply from this reply on.", Save/Cancel, only changed fields written. Money/mount card
+  pencils stay. XM redrawing (shots2/); mockup page to be updated. Other 4 questions still pending (recs stand).
