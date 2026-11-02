@@ -3207,3 +3207,4 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
 - 2 Nov: RM-ST done: Studio docs/readme-2026-11 2b5d13f (README 109 lines, AI-README 228, 4 images; tests green).
   Canonical shared section: cleanup-briefs/FIT-TOGETHER.md (all four READMEs use it verbatim; Studio may add its own
   checker sentence). Follow-ups: Studio Timeline screenshot; docs/STUDIO.md 5b old numbers.
+- 2 Nov: Studio docs PR #26 (README + AI-README + 4 images) CI green, merged 99c742d.
