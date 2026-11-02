@@ -126,3 +126,7 @@ https://claude.ai/artifact/AJZkpqZigE5TvZRRh4jrMK (v3); AI writing help https://
   store.js unsaved map keeps old-chat objects when a rescue is given up (memory); "a change of another chat was not
   saved" warning seen under 40 ms chat switching in polluted test chats (cause unknown); rewind/savepoints running
   flag stays if ST's branch call never settles; a user message with a literal [battle] line is hidden.
+- REVIEW-Z follow-ups (2 Nov): LEGACY_FORMAT / safety-net REFUSED lines show only in Problems/Inspector, not on the
+  reply card (card said "No changes"); empty own <Changes></Changes> + v1 envelope drops envelope lines silently; v1
+  envelope inside a code fence leaves an empty fence; RPG off: [battle] raw on fresh page load (pre-existing); safety
+  net refuses "! time -1h"; Studio + NSD READMEs list SB 2.16.1 / SD 2.9.1 (NSD readme-docs test pins them).

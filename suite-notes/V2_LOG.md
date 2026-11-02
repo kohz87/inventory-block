@@ -3311,3 +3311,10 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   pushed. REVIEW-Z launched (diff read + real-ST smoke, fresh data folder built without deletes). Version bumps
   prepared locally (not pushed until review): SB 6899d6c 2.16.4 + CHANGELOG, 01e50ff docs; SD 01e22b9 2.9.2 + CHANGELOG,
   0bc79b0 docs (1134/1132/0).
+- 2 Nov 16:10Z: REVIEW-Z done: no blockers; real ST 7/7 scenarios pass (v1 greeting never sent; v1-only reply applied
+  once + Re-read/reload/swipe equal; battle panel first render; look note; starting purse 40+25−5=60 no double count;
+  safety-net refusals; idle 0 / no listener growth). Follow-ups fixed by lead in b4d5bde (SB): false refusal of real
+  places sharing one word (Silver Lake/Silver Mine, Kestrel Road, Silver Mine Road) and noon/midnight/9.30 am now clock
+  times (+3 tests; BZ's noon assertion moved on purpose). 4519/4508/0.
+- 2 Nov: PRs opened: SB #249 (stage40/release b4d5bde, 2.16.4), SD #156 (stage42/release 0bc79b0, 2.9.2). Subscribed.
+  (GitHub 500s on one push and one PR create; retried.)
