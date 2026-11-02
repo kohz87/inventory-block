@@ -3141,3 +3141,10 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   scrollIntoView for the pin list — not allowed (use view/scroll.js helpers). Cards already auto-height; the cut-off was
   the scroll area. Questions to USER: about vs role (keep about), drop "· morning" first (yes), dossier keeps details (yes).
 - 2 Nov: USER approved the World Now mockup with the recommendations. Briefs W-COMMON/WN (NSD)/WD (SD), branches stage37/world-now; patch releases NSD 1.7.1, SD 2.9.1.
+- 2 Nov: USER showed an old README picture (NSD docs/images/present-npcs*.png = SB v1 sidebar, 18 Oct). Answer: v1 sidebar
+  is not loaded since SB 2.0; 11 old README images (SB 6, SD 2, NSD 3) to be replaced in the README refresh. Follow-up:
+  delete NSD story-block-tabs.js v1 tab registration (dead with SB v2).
+- 2 Nov: WD done: SD stage37/world-now de0db2b: Around here place span with ellipsis + tooltip, day wraps off first;
+  Key people pin list max-height + inner scroll, reveal via a local copy of revealIn (parity test vs vendored SB);
+  1131 tests, 1129 pass, 0 fail, 2 skip; real ST 1440/390 no overlap. Follow-ups: SB sdk could expose scroll helpers;
+  phone bottom bar covers Key people closing note when the pin list is open.
