@@ -3445,3 +3445,4 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   completed release gets an Opus reviewer agent before merge (standing rule from now). Launched GR-INV (sonnet,
   stage52/gear-inventory): gear feature toggle, rarity bonuses (0..4), slots, generated-item numbers via item.define,
   carry capacity answering items.carry (encumbrance), wear API, inventory.gear query; no roll files, no UI.
+- 3 Nov: Launched GRM gear mockup agent (sonnet; own ST copy $S/grm, ports 8290/8390; Inventory rows with rarity/bonus/condition, encumbered line, battle-log gear, Party Equipped row, Studio item form Slot/Rarity/Bonus/Carry).
