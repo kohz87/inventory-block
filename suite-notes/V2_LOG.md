@@ -3490,3 +3490,4 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   read statBonus (cap 30), answer story.legendaryEarned, battle-log gear + wear on decisive hits, gear UI per the
   approved mockup.
 - 3 Nov: USER: 'put it to main when available, run parallel when possible be it for review or coding'. Launched LV-INT (sonnet, stage53/levels-int: merge C,B,E,F,G,UI, remove UI shims, seams for LV-A) and two Opus reviewers (REVIEW-LV: rv-lv-1 = LV-B+LV-C; rv-lv-2 = LV-E+LV-F+LV-UI+LV-G). LV-A still building. Gear part 2 waits for the levels merge + gear mockup approval.
+- 3 Nov: Launched GR-P2a (sonnet, stage54/gear-grammar from stage52/gear-inventory): narrator grammar for kind/rarity/stats/equipped/wear/repair only with gear on (≤300 chars, static part). Rolls part of gear waits for the levels merge; gear screens wait for mockup approval.
