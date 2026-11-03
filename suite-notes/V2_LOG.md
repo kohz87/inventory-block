@@ -3320,3 +3320,7 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   (GitHub 500s on one push and one PR create; retried.)
 - 2 Nov 16:14Z: RELEASED Story Director 2.9.2 (huge-year hang fix + clock-time example): PR #156 CI green, merged a290af9.
 - 2 Nov 16:17Z: RELEASED Story Block 2.16.4 (legacy envelope, battle first render, look note, coin/wallet clarity, safety net where+when, 3 chat-switch race fixes): PR #249 CI green, merged 31e00cf. All 2.16.4 work done; morning summary due 23:30Z.
+- 3 Nov: USER: Marrit's pay written as "+ coin 3 silver 6 copper | from: Marrit" was refused (two numbers) → coins
+  lost. USER approved fix: coin line sums numbers each followed by a known coin ("," / "and" allowed); bare numbers
+  and unknown coins still refused. Lead fix on SB stage43/mixed-coin aea8553 (own parser; a first draft recursed
+  parseAmount↔parseMixedAmount — caught by tests). 4521/4510/0. SB 2.16.5 → PR #250, subscribed.
