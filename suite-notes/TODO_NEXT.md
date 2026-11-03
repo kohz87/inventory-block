@@ -9,7 +9,7 @@ Contract: suite-notes/cleanup-briefs/SDK-CONTRACT.md (awaiting USER answers to i
 1. Public API `StoryBlock.api` v1 (read-only `get(path)`, `paths()`, events `story:changed` / `story:reply` /
    `story:rebuilt` / `story:chat`; hidden values never returned; frozen with version rules) — ~2–3 h.
 2. `{{sb::path}}` / `{{sb::path|fallback}}` SillyTavern macro for prompts, regex scripts and status bars — ~1–2 h.
-3. (Separate contract) blocks defined in a character card's worldbook — ~4–6 h, riskiest; mockup if any UI.
+3. (Separate contract) blocks from the card — DRAFT in cleanup-briefs/SDK-CARD-CONTRACT.md, awaiting the USER. Found: cards can already carry a pack (`[storysuite:pack]` lorebook entry + "Import from lorebook"); recommend a one-click offer on chat open (mockup first) + docs + Studio export, ~2–3 h.
 4. Tutorial docs/v2/BUILD-A-CARD.md + one example card — ~2–3 h.
 Plus reviews, real-ST checks, release ~2–3 h. Order: 1+2 in parallel, then 4, then 3 as its own release.
 
