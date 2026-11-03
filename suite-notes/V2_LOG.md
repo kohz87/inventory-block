@@ -3427,3 +3427,10 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
 - 3 Nov: USER: "hand the mockup to another agent" → brief LVM, agent LVM running (own ST copy $S/lvm, ports
   8280/8380). USER asked if the RPG is getting too heavy: measured story prompt ~17k chars without a character vs
   ~21.6–22.6k with the RPG (+~1.2k tokens) plus one planner call (~2k chars) per reply.
+- 3 Nov 08:20Z: Real ST (u12, stopped) on 2.16.10: learn-1 Shadow Cut → learn-2 (Iaijutsu kept); practice-1
+  "Practiced Shadow Cut" → practice-2; narrator "Practiced Iaijutsu +15" in a reply that rolled Iaijutsu not used,
+  rpg.practice "Astra's Iaijutsu +3". Chatter not exercised (feature off in the test copy).
+  RELEASED Story Block 2.16.10: PR #255 CI green, merged cea0b4b.
+- 3 Nov: USER asked whether RPG data is too heavy: measured greeting record 97 KB (block definitions, once), fight
+  reply ~22 KB (rpg.resolve receipt 7.7 KB stores the full cue text; spans 10.8 KB), quiet reply ~2.5 KB; lean-rpg
+  564 KB of 3.9 MB SB source, loaded even when off. USER: keep the RPG inside SB (toggle on/off) — agreed.
