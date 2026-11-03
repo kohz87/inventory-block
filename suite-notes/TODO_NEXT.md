@@ -148,3 +148,5 @@ https://claude.ai/artifact/AJZkpqZigE5TvZRRh4jrMK (v3); AI writing help https://
   stable id from the block), so companions own and wear their own gear, the Party Inventory card shows theirs, and
   signature gear is granted and bound on join. Until then, in a setup with no roster all worn gear counts for the reader
   and NPC signature gear stays with the NPC (the narrator's Gear line only).
+- Prompt-diet release plan: SB 2.19.0 = LEAN1-SB (+ kind `heads`) + LEAN2-RPG + lean-lore (Ersveil 2.6.1), on top of 2.18.1
+  (roster). Then SD (stage59/lean-sd: set STORY_BLOCK_WITH_HEADS to 2.19.0) and NSD (stage59/lean-nsd).
