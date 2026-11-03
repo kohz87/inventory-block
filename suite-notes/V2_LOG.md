@@ -3440,3 +3440,4 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   parallel from main cea0b4b: LV-A character (sonnet), LV-B foes (sonnet), LV-C ranks + XP (sonnet), LV-E slim records
   (sonnet), LV-F lazy load (sonnet), LV-G Ersveil 2.5.0 data (haiku). UI agent after the LVM mockup is approved.
   Assumption to confirm with USER: +1 stat point every 3 levels.
+- 3 Nov: USER: plan A confirmed (level ÷5 in rolls, stats stay 1–20, +1 point / 3 levels). Gear release (after levels): one toggle for encumbrance + wear, built with the inventory/item system; rarity tiers common/uncommon/rare/epic/legendary.
