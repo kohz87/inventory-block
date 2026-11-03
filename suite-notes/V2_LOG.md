@@ -3405,3 +3405,4 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   → opening decisive hit did NOT stop, round 1 all Down → "every foe is Down: the fight is won", card
   "1 exchange rolled · Astra +6 XP" (count 6 ×1 ×2 = 12, Soul II vs Class I → 50%), rpg.fight receipt "Fight won:
   Astra +6 XP". Follow-up: rpg.rolls query returned no stop field (query shape), not a defect.
+- 3 Nov 07:10Z: RELEASED Story Block 2.16.9 (fights run to won/lost/heavy/cap 8; XP for a won fight with class scaling 50/25/12/0 lower, +50%/class higher): PR #254 CI green, merged fa94af6.
