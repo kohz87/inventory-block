@@ -49,3 +49,10 @@ pinned changes on purpose, counts, open questions. Short.
   "<field>", label: "<word>" }` (Ersveil: `{ module: "guild-membership", field: "letter", label: "Guild" }`). Party
   members then show "Lv 14 · Guild F" (the field's current value; "Lv 14" alone when the block is not pinned/empty).
   `levelLabel(level, ranks, { playerRank })` handles both; validated in packs/validate.js (owned by LV-C).
+
+## Addendum 2 (USER 3 Nov): mockup approved (https://claude.ai/artifact/JvTspAVmk45sneUMhAR7M2 v2) + numbers
+- Stat points +1 every 3 levels; foe Health 4 + floor(level/30) blocks; foe turn-order roll d20 + floor(level/5)
+  (+ the same AGI/2 term where foes have none: 0), the party's d20 + floor(level/5) + AGI/2.
+- **XP rate** setting `rpgXpRate` (Settings → RPG, "Levels and practice" card): 50–300 %, step 25, default 100. Every
+  XP gain to a character (code's fight XP and the narrator's XP lines) is multiplied, floored, at least 1 when the gain
+  was ≥ 1. Recorded per reply (like `practice`) so a later change never moves past replies. Owned by LV-C.
