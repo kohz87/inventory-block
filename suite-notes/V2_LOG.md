@@ -3391,3 +3391,4 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   8)/budget/careful; decisive no longer stops; past rolls replay with their recorded rule. XP on a won fight by code
   (Σ count×class×2, 5..60) once per fight, narrator XP lines in that reply refused with a Problems line; Combat rules
   XP guide updated for new chats. Agent XS running. → SB 2.16.9.
+- 3 Nov: USER: XP when foes are lower rank → per member, per group: count×class×2, divided by (Soul Class − foe class + 1) when the foe is lower; same/higher = full; total held to 1..60 per member. Sent to XS.
