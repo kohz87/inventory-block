@@ -3364,3 +3364,4 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   690139e = meet-shown + testkit re-vendored from SB 3bce136, 2.9.3 (1143/1141/0) → PR #157. All three subscribed.
 - 3 Nov 04:0xZ: RELEASED NPC State Delta 1.7.3 (narrator ~ npc line through impact tiers; scan/narrator double count fixed): PR #235 CI green, merged 1cc63f6.
 - 3 Nov 04:03Z: RELEASED Story Director 2.9.3 (meeting withdrawn when the reply never shows the person): PR #157 CI green, merged 97fc9dc.
+- 3 Nov 04:04Z: RELEASED Story Block 2.16.6 (rule lines say what changed; afterCapture always-hooks): PR #251 CI green, merged 75e6332. All three on main; combined real-ST check next.
