@@ -3400,3 +3400,8 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   line; Combat rules XP guide updated for new chats. Pinned changes listed in its report (roundCap 5→8 hashes,
   command lists, B16 replay). GAP sent back: a fight opened by the pre-call and won in the same reply was not paid.
   Follow-up: narrator `clear-N` of a beaten slot in the same reply → not paid (cue asks not to clear).
+- 3 Nov: XS gap closed (aedfcd5: groups that arrived in the reply count; pre-call open or narrator set-slot). SB
+  stage49/release 5f742a3 = fight-flow + 2.16.9 (4564/4553/0) → PR #254. Real ST (u12, stopped): empty Foes, ambush
+  → opening decisive hit did NOT stop, round 1 all Down → "every foe is Down: the fight is won", card
+  "1 exchange rolled · Astra +6 XP" (count 6 ×1 ×2 = 12, Soul II vs Class I → 50%), rpg.fight receipt "Fight won:
+  Astra +6 XP". Follow-up: rpg.rolls query returned no stop field (query shape), not a defect.
