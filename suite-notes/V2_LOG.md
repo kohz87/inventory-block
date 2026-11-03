@@ -3452,3 +3452,4 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
 - 3 Nov: LV-G done (local 68f54ec, told to push as-is; 4–6 Ersveil tests fail until LV-C + host 2.17.0). Stray files made by LV-G at filesystem root (/lvg-edit.py, /lvg-test.log, /lvg-base worktree): its rm was DENIED; lead did not delete — surfaced to USER. Machine load ~30 with 9 agents; full suites slow.
 - 3 Nov: USER asked to delete the LV-G stray files; lead's rm was DENIED by the built-in safety check (root-level removal) — not retried. USER: leave them (cloud container, reclaimed later). Continue the release.
 - 3 Nov: USER approved the levels mockup v2 and the three numbers (+1 pt/3 levels, foe Health 4+floor(lv/30), foe turn order d20+lv÷5). USER: add an XP multiplier → rpgXpRate 50–300% default 100 (LV-C). Launching LV-UI.
+- 3 Nov: LV-UI brief written and agent launched (sonnet, stage51/lv-ui): approved screens + XP rate row, shims against the contract where needed.
