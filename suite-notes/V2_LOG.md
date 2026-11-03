@@ -3384,3 +3384,4 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   Note: the u12 copy stored the old feature key 'story-block.lean-rpg' (test data only; current key 'story-block.rpg').
 - 3 Nov 04:50Z: RELEASED Story Block 2.16.7 (fight opens and rolls in the same reply): PR #252 CI green, merged e5b918c.
 - 3 Nov: USER: battle panel header flush/no divider. Cause: .rpg-battle button reset (0,1,1) outranked .rpg-bl-head/.rpg-act-line (0,1,0). Lead fix stage48/battle-head + 2.16.8 bump dc302b5 (4543/4532/0; real-ST shot fixed) → PR #253. USER: 'combat gives no xp?' — XP is narrator-written (Combat rules guidance), only after a fight; the shown fight was unfinished.
+- 3 Nov 06:15Z: RELEASED Story Block 2.16.8 (battle log header padding/divider): PR #253 CI green, merged 83e70c9. Pending USER: XP on fight won (code-awarded) + decisive block not stopping the reply.
