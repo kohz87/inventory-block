@@ -3376,3 +3376,10 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   (stage47/open-fight): pre-call may list `foe X | new | count | class`, code checks name against the reader's message /
   scene, clamps count/class, fills the slot as a beforeGenerate step, then rolls; no doubling with the narrator's own
   slot line; fallback narrator line "set the foes and stop at the first clash". Agent FS running. → SB 2.16.7.
+- 3 Nov: FS done: SB stage47/open-fight 78a05c7 (pre-call `foe X | new | count | class`, open.js vetting, slot filled
+  via the Foes block's set-slot in the beforeGenerate step, same-name narrator slot updates not doubles,
+  OPEN_FIGHT_LINE fallback; 15 tests; Classic pre-call head fingerprint changed on purpose). 2.16.7 bump
+  stage47/release ff138ff (4542/4531/0). Real ST (u12, port 8240, stopped): empty Foes + "ambush the six mud-scale
+  crawlers" → battle log drawn on that reply, "Mud-Scale Crawlers ×6" once, no raw [battle], "1 exchange rolled".
+  Note: the u12 copy stored the old feature key 'story-block.lean-rpg' (test data only; current key 'story-block.rpg').
+- 3 Nov 04:50Z: RELEASED Story Block 2.16.7 (fight opens and rolls in the same reply): PR #252 CI green, merged e5b918c.
