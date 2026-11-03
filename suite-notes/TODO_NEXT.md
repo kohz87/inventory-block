@@ -130,3 +130,6 @@ https://claude.ai/artifact/AJZkpqZigE5TvZRRh4jrMK (v3); AI writing help https://
   reply card (card said "No changes"); empty own <Changes></Changes> + v1 envelope drops envelope lines silently; v1
   envelope inside a code fence leaves an empty fence; RPG off: [battle] raw on fresh page load (pre-existing); safety
   net refuses "! time -1h"; Studio + NSD READMEs list SB 2.16.1 / SD 2.9.1 (NSD readme-docs test pins them).
+- Gear part 2b (after levels on main; branch from 2.17.0 + stage52/54/55): stat bonuses in rolls (effective stats
+  capped at 30), wear on decisive hits (gear.wear), battle-log gear lines, story.legendaryEarned, and `wear: ruin` → Broken
+  in one step (today one ruin = 100→60). Merge stage54/gear-grammar 906c7e6, stage55/gear-ui, Studio stage55/gear-items.
