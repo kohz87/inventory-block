@@ -3342,3 +3342,4 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   rule lines (stage44/rule-lines), RT2 NSD narrator line through tiers, impact word, missing = ordinary
   (stage44/npc-tiers), RT3 SD meeting counts only if the reply shows the person (stage44/meet-shown). 3 agents running.
   Releases planned: SB 2.16.6, NSD 1.7.3, SD 2.9.3 after review + real-ST check.
+- 3 Nov: USER: agents skip their own real-ST checks (tests only); lead runs one combined real-ST check before release; USER will test the same branches in their own ST in tandem (lead posts install branches once pushed).
