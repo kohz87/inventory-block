@@ -3411,3 +3411,7 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   (rank/practice stay with the slot); planner names defense skills "only when plausible", practice is narrator-only.
   USER: chatter adjustable up to 10 (3–5 optimal); apply fixes 2 and 3. Brief SK (stage50/skills-chatter) → agent SK.
   → SB 2.16.10. USER question: Ersveil with levels 1–99 and ranks F..SSS — answered (feasibility).
+- 3 Nov: USER: practice per skill use = setting 1–5, default 3 (sent to SK). USER design direction: universal Level
+  1–99 instead of Soul Class I–IX (levels universal; ranks = a pack's names for level bands, e.g. Ersveil F 1–9 …
+  SSS 80–99); level in the roll (level ÷ 5), foes get a random level in their band, XP by level gap (−10%/level to
+  0%, +10%/level to 200%). Asked for scope estimate.
