@@ -11,7 +11,7 @@
 | Story Block 2.19.0 — prompt diet + Ersveil 2.6.1 (lore trimmed) | [kohz87/Story_block#259](https://github.com/kohz87/Story_block/pull/259) | 3eb517b |
 | Story Director 2.10.0 — prompt diet | [kohz87/Story_director#158](https://github.com/kohz87/Story_director/pull/158) | 012c354 |
 | **Story Block 2.20.0 — SDK** (public API v1, `{{sb::…}}` macro, Build-a-card guide + status-bar example) | [kohz87/Story_block#260](https://github.com/kohz87/Story_block/pull/260) | 2ee6318 |
-NSD_LINE
+| **NPC State Delta 1.8.0 — lighter dossiers** (scan only when needed, every reply read once, prose portraits) | [kohz87/npc_state_delta#237](https://github.com/kohz87/npc_state_delta/pull/237) | 120b8a1 |
 
 Every release had an Opus review; all blockers were fixed and re-checked before merge.
 
@@ -42,4 +42,5 @@ Every release had an Opus review; all blockers were fixed and re-checked before 
 - XP rate on Re-read (F2); stale "Points per Soul Class" row; commands during the RPG load window; template blocks get cap 99.
 - SB strings.js duplicate key `card`; Studio: tracked node_modules symlink, AI-README version line, no `bonus` field.
 - Roster guard check by another module; NSD meters through the public API (`npc.<name>.<meter>`).
+- NSD 1.8.1: Clear then a swipe on a short chat re-reads old replies (nothing applied twice); portrait wording edge cases ("elf-hound"); a manual scan or Refresh can skip waiting replies.
 - Sync the SB testkit (now returns `api`) into the module repos' vendored copies.

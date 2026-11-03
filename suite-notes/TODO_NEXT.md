@@ -1,8 +1,8 @@
 # To-do list (updated 3 Nov ~17:00 UTC)
 
 State: Story Block main 2ee6318 (**2.20.0, SDK**: public API v1, {{sb::}} macro, Build-a-card; Ersveil 2.6.1);
-Story Director 012c354 (2.10.0); NPC State Delta b6b6f8d (1.7.4); Story Studio 7b79c3c (0.7.0).
-In flight: NSD 1.8.0 PR #237 (stage63/nsd-prose 1123f9f, reviewed clean); CARD-UI mockup.
+Story Director 012c354 (2.10.0); NPC State Delta 120b8a1 (1.8.0); Story Studio 7b79c3c (0.7.0).
+In flight: CARD-UI mockup awaiting USER approval (https://claude.ai/artifact/3T4tuABXMuJVYrQNsHknXE).
 NSD 1.8.1 follow-ups: Clear keeps scanCount ≥1 (Clear then swipe on a short chat re-reads); portrait species "elf-hound"/"troll bridge"; manual scan/Refresh/capture move the marker past waiting replies (L2a).
 
 ## Next after the prompt diet: Story Block as a platform (USER 3 Nov, DRAFT contract)
