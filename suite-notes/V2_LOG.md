@@ -3415,3 +3415,8 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   1–99 instead of Soul Class I–IX (levels universal; ranks = a pack's names for level bands, e.g. Ersveil F 1–9 …
   SSS 80–99); level in the roll (level ÷ 5), foes get a random level in their band, XP by level gap (−10%/level to
   0%, +10%/level to 200%). Asked for scope estimate.
+- 3 Nov: USER levels decisions: 100 XP per level (players must move around); level cap adjustable per story/pack
+  (default 99); drop Soul Class (USER will restart; old chats' stored blocks untouched). Findings for USER: encumbrance
+  code exists but is dormant (nothing answers `items.carry`; its −2 AGI/DEX is not added to RPG rolls); wear/condition
+  works (`wear: scuff|tear|ruin`, 0–100) but never affects rolls and nothing wears gear in fights; Studio Items are
+  stored and shown but item stats never touch rolls. Proposed: items → rolls as phase 2 after levels.
