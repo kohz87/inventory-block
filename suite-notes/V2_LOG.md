@@ -3572,3 +3572,4 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
 - 3 Nov — ROSTER review fixes: roster 5f61281 (fallback behind a held/null/[] owner; inventory.release on Character removal; party.pc null when ambiguous; recorded asks; cap 85000; plain ids; docs). Lead built stage61/roster-release 6eeff3e (2.18.1 version + CHANGELOG), opened kohz87/Story_block PR #258, full suite running.
 - 3 Nov — RELEASED Story Block 2.18.1 (party roster): PR #258 merged (17a3ce8); local suite 4830/0; CI green.
 - 3 Nov — Lead built stage62/diet-release 82faaa3: lean-int + main 2.18.1 (AI-README conflict resolved), 2.19.0 in every version spot, CHANGELOG 2.19.0, Ersveil 2.6.1. Running the full suite and Opus rv-diet (REVIEW-DIET.md).
+- 3 Nov — 2.19.0 candidate 82faaa3 full suite: 4872 tests, 4855 pass, 0 fail, 16 skipped. Waiting on rv-diet.
