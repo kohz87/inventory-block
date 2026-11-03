@@ -3467,3 +3467,4 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   Party→Inventory card; Inventory tab: slimmer Add item, CARRY as its own category section, "Equipped · <name>" chip
   on rows, EQUIPMENT category for equippable items (separate from GOODS), load colours normal <80%, yellow 80–99%
   ("Heavy load"), red ≥100% (Encumbered).
+- 3 Nov: LV-C done stage51/lv-ranks-xp 19e0ada: levels.js (levelLabel with ranks/playerRank, rankOf…), rpg.rank query, pack rpg.ranks/levelCap/playerRank validation (checkLevelRanks), fight XP by level gap (lv:1, rate), rpgXpRate default 100 (no schema entry yet — UI agent's row), narrator XP lines scaled; 9+ tests; 4 timing failures under load pass alone. Merge notes: LV-A must add level to xpFrom; fight.js falls back to class-as-level until read.js has level; Re-read of a narrator XP line uses the current rate (review).
