@@ -3370,3 +3370,9 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   `~ npc Sanna | trust: +5 | tension: +5` → 1/1 ✓; `trust: +9 | impact: major` → +5 ✓; no-Changes reply → "No
   changes", nothing met ✓. Not exercised live: a cast meeting withdrawal (the scripted run picked no cast member; the
   path is covered by SD's host-level tests). No console errors.
+- 3 Nov: USER: battle log missing + "only does a turn" on the East Weir reply. Cause: the dice pre-call runs before the
+  reply and may only target filled foes; the fight began inside the reply (narrator's own set-slot) → no plan, no dice,
+  no battle log; narrator decided the ambush itself. USER: "yes, go ahead and put it to main". Brief FS
+  (stage47/open-fight): pre-call may list `foe X | new | count | class`, code checks name against the reader's message /
+  scene, clamps count/class, fills the slot as a beforeGenerate step, then rolls; no doubling with the narrator's own
+  slot line; fallback narrator line "set the foes and stop at the first clash". Agent FS running. → SB 2.16.7.
