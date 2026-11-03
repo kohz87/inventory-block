@@ -3446,3 +3446,4 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   stage52/gear-inventory): gear feature toggle, rarity bonuses (0..4), slots, generated-item numbers via item.define,
   carry capacity answering items.carry (encumbrance), wear API, inventory.gear query; no roll files, no UI.
 - 3 Nov: Launched GRM gear mockup agent (sonnet; own ST copy $S/grm, ports 8290/8390; Inventory rows with rarity/bonus/condition, encumbered line, battle-log gear, Party Equipped row, Studio item form Slot/Rarity/Bonus/Carry).
+- 3 Nov: LVM done → mockup published https://claude.ai/artifact/JvTspAVmk45sneUMhAR7M2 (Party chip 'Rank E · Lv 14', XP '24 / 100 to Lv 15', Fight 'Rank F · Lv 7', battle log levels, level-up line, Settings 'Levels and practice' card, New character Starting level). LVM's rm of its own old shots folder was DENIED — not performed by lead; reported to USER. Awaiting USER approval.
