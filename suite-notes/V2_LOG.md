@@ -3354,3 +3354,7 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   afterCapture only when the reply has change lines → sent back to RT3: SB opt-in "always" hooks (stage44/after-always)
   + SD cast hook opts in. Follow-ups: Re-read can't drop a dossier NSD already made (would delete stored state);
   withdraw matched by meeting.at index → Re-read after a middle delete may miss.
+- 3 Nov: USER can't switch branches → release to main directly. RT2 done: NSD stage44/npc-tiers fb2e0b3 (1648/1648/0):
+  `~ npc` line through impact tiers (missing = ordinary), per-meter applyRelationshipDelta with the reader's caps,
+  `progress` field for sub-point steps on deep values, double count (scan npc.adjust + narrator line) PROVED and fixed.
+  Pinned: storysuite-v2-meters trust 18→16. NSD 1.7.3 bump on stage45/release ea284db → PR #235, subscribed.
