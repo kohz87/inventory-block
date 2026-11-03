@@ -3324,3 +3324,4 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   lost. USER approved fix: coin line sums numbers each followed by a known coin ("," / "and" allowed); bare numbers
   and unknown coins still refused. Lead fix on SB stage43/mixed-coin aea8553 (own parser; a first draft recursed
   parseAmount↔parseMixedAmount — caught by tests). 4521/4510/0. SB 2.16.5 → PR #250, subscribed.
+- 3 Nov 00:41Z: RELEASED Story Block 2.16.5 (mixed known coins in one coin line add up): PR #250 CI green, merged 0268f7d.
