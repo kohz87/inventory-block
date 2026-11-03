@@ -30,7 +30,13 @@ Every release had an Opus review; all blockers were fixed and re-checked before 
 5. Try the SDK: docs/v2/BUILD-A-CARD.md, and examples/cards/status-bar (regex status bar using `{{sb::…}}`). The regex example was format-checked, not run in a real ST yet.
 
 ## Waiting on you
-- **SDK part 3 — a card that brings its own blocks:** draft in suite-notes/cleanup-briefs/SDK-CARD-CONTRACT.md. Finding: cards can already carry a pack in a `[storysuite:pack]` lorebook entry (Packs → "Import from lorebook"), it's just manual and undocumented. Recommendation: a one-click "This card brings a pack — Install / Not now" offer on chat open (mockup first), a docs section, and a Studio "export as lorebook entry". ~2–3 h. Three short questions at the end of the file.
+- **Card pack offer mockup (SDK part 3, option A):** https://claude.ai/artifact/3T4tuABXMuJVYrQNsHknXE — real screens, desktop and phone. Approve it, or say what to change. My recommendations are at the top:
+  - **Install turns the block on.** Install also enables the block in this chat; today it takes two more clicks in Settings.
+  - **Where the offer shows.** The notice sits at the top of the Story panel, with a one-time dot on the Story button because the panel starts closed on a phone.
+  - **Several packs.** One notice per pack, at most three.
+  - **Diagnostics.** "Not now" and refusals each write one line there.
+  - **Packs row.** "no content" becomes "1 data module".
+  - **Studio export.** Copy gives the pack JSON plus three steps; Download gives a one-entry lorebook file ST can import.
 
 ## Open follow-ups (not blockers, in TODO_NEXT.md)
 - XP rate on Re-read (F2); stale "Points per Soul Class" row; commands during the RPG load window; template blocks get cap 99.
