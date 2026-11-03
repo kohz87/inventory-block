@@ -3476,3 +3476,4 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   rarity budget 0/1/2/3/4 stat points, code picks stat by kind/name when none named, effective stat may pass 20 (cap 30),
   no separate attack/defense terms. Sent to GR-INV and GRM.
 - 3 Nov: LV-UI done stage51/lv-ui 5cae529 (4602/0 full green): Party/Fight/battle log/changes/settings 'Levels and practice' (Level cap, Practice, XP rate)/New character Starting level/Skills/Export. Shims to reconcile at merge: its own levels.js (LV-C has the real one), packLevels shape, settings shim names; readers fall back soul/class; wizard draft key stays 'soul'. Open: Custom difficulty field names still class/Soul (rules.js).
+- 3 Nov: USER: repairs in the narrative must restore condition → GR-INV: item line 'repair: mend|restore' (mend = one step, restore = Good) via the existing inventory.repair path; broken→repaired regains stats, prompt words update.
