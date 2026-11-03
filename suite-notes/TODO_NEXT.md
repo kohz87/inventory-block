@@ -141,3 +141,6 @@ https://claude.ai/artifact/AJZkpqZigE5TvZRRh4jrMK (v3); AI writing help https://
 - 2.17.0 review follow-ups: refuse commands while onChatChanged awaits the RPG load (≤4 s, store still on the old chat);
   rebuild when the RPG code arrives after the 4 s cap; blocks made from Settings → Blocks → template get cap 99 (use
   levelCapFor).
+- Gear follow-ups: P8 bound pieces of a member renamed while present are not stowed on leave (store the block id on the
+  bound stack); F1 the roll guard doesn't check who `own` should be (pc/roster change before a roll); pack event case for
+  B1 tested by harness caller only.
