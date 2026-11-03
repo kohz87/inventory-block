@@ -3481,3 +3481,11 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
 - 3 Nov: USER: Party→Inventory card shows only slots (no carried list); CARRY bar aligned with the grid; crafted/generated items: narrator may name any stats (≤2, held to rarity budget), legendary only with a quest completion or a win vs a group ≥10 levels above (else epic), optional pack per-place loot.maxRarity. Sent to GRM and GR-INV.
 - 3 Nov: USER approved the crafted-items rules (already sent to GR-INV).
 - 3 Nov: GRM round 5 published (v5 same link): Party→Inventory card = 8 slots only; CARRY bar full content width aligned with rows. Awaiting USER approval of the gear mockup.
+- 3 Nov: GR-INV done stage52/gear-inventory 2251cf3 (4616/0 green): story-block.gear (Settings → RPG card, hidden from
+  Features), gear.js, stat bonuses on all slots (rarity budget, ≤2 stats, broken none), item lines kind/slot/rarity/
+  quality/stat/equipped, legendary held to epic unless story.legendaryEarned (seam only), place loot.maxRarity,
+  inventory.gear / inventory.statBonus, gear.wear, item.equip, equippedBy, carry 10+2×STR + bags + mounts/carts
+  (mount 'carry' field), condition words in the tail, value × condition, repair mend/restore. Gear off → prompts/
+  receipts identical. Part 2 (after levels merge) must: grammar lines for the new item words (gear on only), rolls
+  read statBonus (cap 30), answer story.legendaryEarned, battle-log gear + wear on decisive hits, gear UI per the
+  approved mockup.
