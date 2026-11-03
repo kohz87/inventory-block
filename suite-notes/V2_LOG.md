@@ -3336,3 +3336,9 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   party's "Bluewatch Village / Guild Office"; routine "infirmary by day" holds at 6:40 am) and cues the narrator; the
   model ignored the cue, but the meeting stays recorded. Proposed: count a cued meeting only if the reply shows the
   person (name/alias or a present line), else withdraw it silently and let them come later — awaiting USER.
+- 3 Nov: USER: NSD "used to have the steps" — confirmed: NSD's scanner still uses impact tiers (ordinary 1 / meaningful
+  2 / major 5 / extreme 10 + resistance); the v2 narrator `~ npc` line (captureLine) bypasses them, only the 15
+  per-reply cap applies. USER: "yes, do all three" (= mockup WAzNw6 approved). Brief cleanup-briefs/RT.md: RT1 SB
+  rule lines (stage44/rule-lines), RT2 NSD narrator line through tiers, impact word, missing = ordinary
+  (stage44/npc-tiers), RT3 SD meeting counts only if the reply shows the person (stage44/meet-shown). 3 agents running.
+  Releases planned: SB 2.16.6, NSD 1.7.3, SD 2.9.3 after review + real-ST check.
