@@ -1,8 +1,10 @@
-# To-do list (updated 31 Oct ~14:25 UTC)
+# To-do list (updated 3 Nov ~12:30 UTC)
 
-State: everything in flight is released. Story Block main f182f2c (**2.8.0, the RPG**; Ersveil 2.1.0); Story Director
-main 908bfa6 (2.3.0, the Timeline's lasting changes); Story Studio main 061ca41 (**0.4.0, Write timeline events with an
-AI**). No branches or PRs open.
+State: Story Block main c53fad6 (**2.17.0, levels**; Ersveil 2.5.0). Story Director main 97fc9dc (2.9.3); NPC State
+Delta main 1cc63f6 (1.7.3); Story Studio main 99c742d (0.6.0).
+In flight — gear release (SB 2.18.0 + Ersveil 2.6.0 + NSD 1.7.4 + Studio): SB stage57/gear-int (b21aad5 + lead fix
+pending), NSD stage56/cast-gear-line c427c1f, Studio stage55/gear-items 5f519bb. Approved gear mockup
+https://claude.ai/artifact/DE52d6FCt7Zijwn1R1wKqc (v6).
 
 ## Released 31 Oct
 | Work | PR | Reviews |
