@@ -3343,3 +3343,7 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   (stage44/npc-tiers), RT3 SD meeting counts only if the reply shows the person (stage44/meet-shown). 3 agents running.
   Releases planned: SB 2.16.6, NSD 1.7.3, SD 2.9.3 after review + real-ST check.
 - 3 Nov: USER: agents skip their own real-ST checks (tests only); lead runs one combined real-ST check before release; USER will test the same branches in their own ST in tandem (lead posts install branches once pushed).
+- 3 Nov: RT1 done: SB stage44/rule-lines 458ab70 (4524/4507/0). Rule lines read module state (this reply vs the one
+  before; defaults at chat start), no new receipt data; "Guild standing: probation"; no-op rules hidden; id stays in
+  Inspector. Pinned change on purpose: reply-card.test 'Rule: threshold' → [] without states. Its ST/mock stopped
+  (verified). Follow-ups: character-scope block lines don't name the character; swipe/Re-read not separately tested.
