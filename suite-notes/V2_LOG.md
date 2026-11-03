@@ -3347,3 +3347,10 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   before; defaults at chat start), no new receipt data; "Guild standing: probation"; no-op rules hidden; id stays in
   Inspector. Pinned change on purpose: reply-card.test 'Rule: threshold' → [] without states. Its ST/mock stopped
   (verified). Follow-ups: character-scope block lines don't name the character; swipe/Re-read not separately tested.
+- 3 Nov: RT3 done: SD stage44/meet-shown 677d0bf (1142/1140/0): cast.withdraw step from an afterCapture hook — a
+  place/goal meeting is withdrawn when the shown text doesn't name the person (name/alias whole word; title alone no)
+  and no `+ present` names them; note removed, pace not used, goal arrival returns (met.was). NSD unchanged (dossier is
+  made at npc.tick on `turn`, after afterCapture). Pinned: host.test command list + cast.withdraw. GAP: SB runs
+  afterCapture only when the reply has change lines → sent back to RT3: SB opt-in "always" hooks (stage44/after-always)
+  + SD cast hook opts in. Follow-ups: Re-read can't drop a dossier NSD already made (would delete stored state);
+  withdraw matched by meeting.at index → Re-read after a middle delete may miss.
