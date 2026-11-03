@@ -3394,3 +3394,9 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
 - 3 Nov: USER: XP when foes are lower rank → per member, per group: count×class×2, divided by (Soul Class − foe class + 1) when the foe is lower; same/higher = full; total held to 1..60 per member. Sent to XS.
 - 3 Nov: USER: add bonus for stronger foes → ×(1 + 0.5 × class difference) per group when the foe is higher; sent to XS.
 - 3 Nov: USER: anti-farming — lower-class foes give 50% / 25% / 12% / 0% (1/2/3/4+ classes lower); total 0 → no XP, no line; >0 held to 1..60. Sent to XS.
+- 3 Nov: XS done: SB stage49/fight-flow eb3be3c (4561/4544/0): flow:2 rolls run to won/lost/heavy/cap(8)/budget/
+  careful; old rolls replay with EARLIER_RULES; Classic virtual stage count for stopping; rpg.fight afterCapture step
+  pays XP (50/25/12/0 lower, +50%/class higher, 1..60, 0 → no line), narrator XP in the won reply restored + Problems
+  line; Combat rules XP guide updated for new chats. Pinned changes listed in its report (roundCap 5→8 hashes,
+  command lists, B16 replay). GAP sent back: a fight opened by the pre-call and won in the same reply was not paid.
+  Follow-up: narrator `clear-N` of a beaten slot in the same reply → not paid (cue asks not to clear).
