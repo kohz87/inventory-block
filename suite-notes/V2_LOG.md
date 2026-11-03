@@ -3362,3 +3362,4 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   unchanged), SD stage44/meet-shown 7848d94 (cast hook always; older cast tests' reply text names the met people).
   SB stage46/release 3bce136 = main + rule-lines + after-always, 2.16.6 (4527/4516/0) → PR #251. SD stage46/release
   690139e = meet-shown + testkit re-vendored from SB 3bce136, 2.9.3 (1143/1141/0) → PR #157. All three subscribed.
+- 3 Nov 04:0xZ: RELEASED NPC State Delta 1.7.3 (narrator ~ npc line through impact tiers; scan/narrator double count fixed): PR #235 CI green, merged 1cc63f6.
