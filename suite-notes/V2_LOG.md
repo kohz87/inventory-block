@@ -3434,3 +3434,9 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
 - 3 Nov: USER asked whether RPG data is too heavy: measured greeting record 97 KB (block definitions, once), fight
   reply ~22 KB (rpg.resolve receipt 7.7 KB stores the full cue text; spans 10.8 KB), quiet reply ~2.5 KB; lean-rpg
   564 KB of 3.9 MB SB source, loaded even when off. USER: keep the RPG inside SB (toggle on/off) — agreed.
+- 3 Nov: USER: fold slim records + lazy load into the levels release; "maximize deployment using sonnet and haiku".
+  Wrote cleanup-briefs/LV-CONTRACT.md (shared names: level/xp/cap, rpgLevelCap, levelBonus = floor(level/5), foe
+  level{n}, Health 4+floor(level/30), rpg.ranks, levelLabel, XP by gap, roll mark lv:1) and LV-AGENTS.md. Launched 6 in
+  parallel from main cea0b4b: LV-A character (sonnet), LV-B foes (sonnet), LV-C ranks + XP (sonnet), LV-E slim records
+  (sonnet), LV-F lazy load (sonnet), LV-G Ersveil 2.5.0 data (haiku). UI agent after the LVM mockup is approved.
+  Assumption to confirm with USER: +1 stat point every 3 levels.
