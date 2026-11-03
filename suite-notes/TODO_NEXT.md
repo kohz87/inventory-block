@@ -136,3 +136,6 @@ https://claude.ai/artifact/AJZkpqZigE5TvZRRh4jrMK (v3); AI writing help https://
 - Levels follow-ups (3 Nov): F2 narrator XP line on Re-read should use its recorded xpRate; Custom "Points per Soul Class"
   row (pointsPerSoul) is stale under levels — reword or remove; B6 witness still carries the raw class for old blocks
   (read side maps 10n−5).
+- 2.17.0 review follow-ups: refuse commands while onChatChanged awaits the RPG load (≤4 s, store still on the old chat);
+  rebuild when the RPG code arrives after the 4 s cap; blocks made from Settings → Blocks → template get cap 99 (use
+  levelCapFor).
