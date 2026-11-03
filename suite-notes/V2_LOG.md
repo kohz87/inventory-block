@@ -3358,3 +3358,7 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   `~ npc` line through impact tiers (missing = ordinary), per-meter applyRelationshipDelta with the reader's caps,
   `progress` field for sub-point steps on deep values, double count (scan npc.adjust + narrator line) PROVED and fixed.
   Pinned: storysuite-v2-meters trust 18→16. NSD 1.7.3 bump on stage45/release ea284db → PR #235, subscribed.
+- 3 Nov: RT3 follow-up done: SB stage44/after-always 0ccd35b (hook fn.always runs on no-lines replies; others
+  unchanged), SD stage44/meet-shown 7848d94 (cast hook always; older cast tests' reply text names the met people).
+  SB stage46/release 3bce136 = main + rule-lines + after-always, 2.16.6 (4527/4516/0) → PR #251. SD stage46/release
+  690139e = meet-shown + testkit re-vendored from SB 3bce136, 2.9.3 (1143/1141/0) → PR #157. All three subscribed.
