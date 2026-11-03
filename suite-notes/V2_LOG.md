@@ -3393,3 +3393,4 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   XP guide updated for new chats. Agent XS running. → SB 2.16.9.
 - 3 Nov: USER: XP when foes are lower rank → per member, per group: count×class×2, divided by (Soul Class − foe class + 1) when the foe is lower; same/higher = full; total held to 1..60 per member. Sent to XS.
 - 3 Nov: USER: add bonus for stronger foes → ×(1 + 0.5 × class difference) per group when the foe is higher; sent to XS.
+- 3 Nov: USER: anti-farming — lower-class foes give 50% / 25% / 12% / 0% (1/2/3/4+ classes lower); total 0 → no XP, no line; >0 held to 1..60. Sent to XS.
