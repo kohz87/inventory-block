@@ -1,9 +1,8 @@
-# To-do list (updated 3 Nov ~12:30 UTC)
+# To-do list (updated 3 Nov ~17:00 UTC)
 
-State: Story Block main 233b131 (**2.18.0, gear**; Ersveil 2.6.0); Story Director 97fc9dc (2.9.3); NPC State Delta
-b6b6f8d (1.7.4); Story Studio 7b79c3c (0.7.0).
-In flight: SB 2.18.1 party roster (stage61/roster); prompt diet → SB 2.19.0 (stage59/lean-sb, lean-rpg, lean-lore) then
-SD (stage59/lean-sd, needs 2.19.0 heads) and NSD (stage59/lean-nsd).
+State: Story Block main 2ee6318 (**2.20.0, SDK**: public API v1, {{sb::}} macro, Build-a-card; Ersveil 2.6.1);
+Story Director 012c354 (2.10.0); NPC State Delta b6b6f8d (1.7.4); Story Studio 7b79c3c (0.7.0).
+In flight: NSD 1.8.0 (stage63/nsd-prose 2fd7763, Opus final check rv-nsd4).
 
 ## Next after the prompt diet: Story Block as a platform (USER 3 Nov, DRAFT contract)
 Contract: suite-notes/cleanup-briefs/SDK-CONTRACT.md (awaiting USER answers to its 3 open questions).
