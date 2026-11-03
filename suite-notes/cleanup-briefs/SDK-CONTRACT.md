@@ -1,6 +1,6 @@
 # SDK-CONTRACT — Story Block as a platform, part 1: public API + events + `{{sb::…}}` macro (DRAFT, 3 Nov)
 
-Status: DRAFT for the USER. Not started. Comes after the prompt diet (SB 2.19.0). Target: one minor release.
+Status: APPROVED by the lead on the USER's standing instruction (3 Nov night: "proceed with the sdk task … handle everything on your recommendation"). Open questions decided: (1) names `StoryBlock.api` and `{{sb::…}}` kept; (2) v1 read-only; (3) NSD meters through the API later (an NSD change), not in this release. Comes after the prompt diet (SB 2.19.0). Target: one minor release.
 Why: MagVarUpdate (MVU) gives card authors a small documented layer (variables in a worldbook, `_.set` lines, three
 events, `getvar` for status bars). Story Block has more underneath (replay-exact per-message state, data modules,
 `StoryBlock.sdk`, a module registry) but no small, stable, documented surface a card author or a third-party script can
