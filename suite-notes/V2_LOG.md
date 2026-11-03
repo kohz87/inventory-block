@@ -3420,3 +3420,10 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   code exists but is dormant (nothing answers `items.carry`; its −2 AGI/DEX is not added to RPG rolls); wear/condition
   works (`wear: scuff|tear|ruin`, 0–100) but never affects rolls and nothing wears gear in fights; Studio Items are
   stored and shown but item stats never touch rolls. Proposed: items → rolls as phase 2 after levels.
+- 3 Nov: SK done: SB stage50/skills-chatter c88c207 (skillRoute redirect for learn/practice; rpg.practice step with
+  Practice per skill use 1–5 default 3, cap 20/reply; planner names defense skills; chatterMax 1–10 default 3). Bump
+  2.16.10 stage50/release a185c3b (4587/4576/0) → PR #255, subscribed. Follow-up: no "Changed this reply" line for
+  code-given practice (receipt + Skills tab show it).
+- 3 Nov: USER: "hand the mockup to another agent" → brief LVM, agent LVM running (own ST copy $S/lvm, ports
+  8280/8380). USER asked if the RPG is getting too heavy: measured story prompt ~17k chars without a character vs
+  ~21.6–22.6k with the RPG (+~1.2k tokens) plus one planner call (~2k chars) per reply.
