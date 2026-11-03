@@ -3365,3 +3365,8 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
 - 3 Nov 04:0xZ: RELEASED NPC State Delta 1.7.3 (narrator ~ npc line through impact tiers; scan/narrator double count fixed): PR #235 CI green, merged 1cc63f6.
 - 3 Nov 04:03Z: RELEASED Story Director 2.9.3 (meeting withdrawn when the reply never shows the person): PR #157 CI green, merged 97fc9dc.
 - 3 Nov 04:04Z: RELEASED Story Block 2.16.6 (rule lines say what changed; afterCapture always-hooks): PR #251 CI green, merged 75e6332. All three on main; combined real-ST check next.
+- 3 Nov 04:06Z: Combined real-ST check on released mains (SB 75e6332 2.16.6, SD 97fc9dc 2.9.3, NSD 1cc63f6 1.7.3; own
+  copy u12, port 8240, stopped): card "−1 silver · Sanna arrived · Guild standing: probation" (dues-f-e hidden) ✓;
+  `~ npc Sanna | trust: +5 | tension: +5` → 1/1 ✓; `trust: +9 | impact: major` → +5 ✓; no-Changes reply → "No
+  changes", nothing met ✓. Not exercised live: a cast meeting withdrawal (the scripted run picked no cast member; the
+  path is covered by SD's host-level tests). No console errors.
