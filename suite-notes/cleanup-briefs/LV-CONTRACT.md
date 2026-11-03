@@ -42,3 +42,10 @@ Claude-Session: https://claude.ai/code/session_01Qp9gtHxXEZNRVLhbUujNYu
 Stay inside your files where you can; where you must touch a shared file (templates.js, resolve.js, names.js), keep the
 edit small and say so in the report — the lead merges the branches. Report: branch + head, what changed, tests added,
 pinned changes on purpose, counts, open questions. Short.
+
+## Addendum (USER 3 Nov): player rank vs foe rank
+- Foes (and any character with no player-rank source) show the level band: "Rank F · Lv 7".
+- A pack may name a data-module field as the party's rank: `rpg.playerRank: { module: "<block slug>", field:
+  "<field>", label: "<word>" }` (Ersveil: `{ module: "guild-membership", field: "letter", label: "Guild" }`). Party
+  members then show "Lv 14 · Guild F" (the field's current value; "Lv 14" alone when the block is not pinned/empty).
+  `levelLabel(level, ranks, { playerRank })` handles both; validated in packs/validate.js (owned by LV-C).
