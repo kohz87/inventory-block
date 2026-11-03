@@ -144,3 +144,7 @@ https://claude.ai/artifact/AJZkpqZigE5TvZRRh4jrMK (v3); AI writing help https://
 - Gear follow-ups: P8 bound pieces of a member renamed while present are not stowed on leave (store the block id on the
   bound stack); F1 the roll guard doesn't check who `own` should be (pc/roster change before a roll); pack event case for
   B1 tested by harness caller only.
+- **2.18.1 (USER 3 Nov): party roster.** The RPG answers `party.actors` from its Character blocks (one actor per Character,
+  stable id from the block), so companions own and wear their own gear, the Party Inventory card shows theirs, and
+  signature gear is granted and bound on join. Until then, in a setup with no roster all worn gear counts for the reader
+  and NPC signature gear stays with the NPC (the narrator's Gear line only).
