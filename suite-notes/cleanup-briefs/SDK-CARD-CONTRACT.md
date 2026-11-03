@@ -1,6 +1,6 @@
 # SDK-CARD-CONTRACT — Story Block as a platform, part 3: a card that brings its own blocks (DRAFT, 3 Nov night)
 
-Status: DRAFT for the USER. Not started. Needs a mockup approved before any UI work (the notice in step A1).
+Status: USER approved option A (4 Nov). Mockup first (CARD-UI). Needs a mockup approved before any UI work (the notice in step A1).
 
 ## What already exists (found while drafting)
 A card can already carry a whole pack: a lorebook entry whose Title/Memo has `[storysuite:pack]`, holding pack.json
