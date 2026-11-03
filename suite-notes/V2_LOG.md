@@ -3325,3 +3325,14 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   and unknown coins still refused. Lead fix on SB stage43/mixed-coin aea8553 (own parser; a first draft recursed
   parseAmount↔parseMixedAmount — caught by tests). 4521/4510/0. SB 2.16.5 → PR #250, subscribed.
 - 3 Nov 00:41Z: RELEASED Story Block 2.16.5 (mixed known coins in one coin line add up): PR #250 CI green, merged 0268f7d.
+- 3 Nov: USER asked about "Rule: dues-f-e · Rule: probation" on the card: data-module rules listed by internal id, even
+  when they changed nothing. Mockup u12 (real ST 8240 own copy, SB 2.16.5/SD 2.9.2/NSD 1.7.2, stopped): hide no-op
+  rules, show "Guild standing: probation" → artifact WAzNw6CvTj2NYNy12mgAmW, awaiting USER approval.
+- 3 Nov: USER: NSD meters jump +5/+10. Cause: the narrator picks the step; `~ npc Name | trust: +N` gives no scale;
+  NSD only clamps to the per-reply cap (default 15) on a −100..100 range. Proposed: scale guidance in the grammar
+  and/or a lower default cap — awaiting USER.
+- 3 Nov: USER: "Paths crossed: Sister Temiwa" with no encounter in the narration, yet her dossier exists. Cause: SD's
+  living cast commits the meeting BEFORE the reply (chooseMeetings: Temiwa's start Bluewatch Village matches the
+  party's "Bluewatch Village / Guild Office"; routine "infirmary by day" holds at 6:40 am) and cues the narrator; the
+  model ignored the cue, but the meeting stays recorded. Proposed: count a cued meeting only if the reply shows the
+  person (name/alias or a present line), else withdraw it silently and let them come later — awaiting USER.
