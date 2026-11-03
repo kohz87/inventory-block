@@ -3441,3 +3441,7 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
   (sonnet), LV-F lazy load (sonnet), LV-G Ersveil 2.5.0 data (haiku). UI agent after the LVM mockup is approved.
   Assumption to confirm with USER: +1 stat point every 3 levels.
 - 3 Nov: USER: plan A confirmed (level ÷5 in rolls, stats stay 1–20, +1 point / 3 levels). Gear release (after levels): one toggle for encumbrance + wear, built with the inventory/item system; rarity tiers common/uncommon/rare/epic/legendary.
+- 3 Nov: USER: advisor topic dropped; "when the tasks are completed, it should be reviewed by an opus anyway" → every
+  completed release gets an Opus reviewer agent before merge (standing rule from now). Launched GR-INV (sonnet,
+  stage52/gear-inventory): gear feature toggle, rarity bonuses (0..4), slots, generated-item numbers via item.define,
+  carry capacity answering items.carry (encumbrance), wear API, inventory.gear query; no roll files, no UI.
