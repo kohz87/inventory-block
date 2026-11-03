@@ -133,3 +133,6 @@ https://claude.ai/artifact/AJZkpqZigE5TvZRRh4jrMK (v3); AI writing help https://
 - Gear part 2b (after levels on main; branch from 2.17.0 + stage52/54/55): stat bonuses in rolls (effective stats
   capped at 30), wear on decisive hits (gear.wear), battle-log gear lines, story.legendaryEarned, and `wear: ruin` → Broken
   in one step (today one ruin = 100→60). Merge stage54/gear-grammar 906c7e6, stage55/gear-ui, Studio stage55/gear-items.
+- Levels follow-ups (3 Nov): F2 narrator XP line on Re-read should use its recorded xpRate; Custom "Points per Soul Class"
+  row (pointsPerSoul) is stale under levels — reword or remove; B6 witness still carries the raw class for old blocks
+  (read side maps 10n−5).
