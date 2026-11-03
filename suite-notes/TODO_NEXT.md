@@ -5,6 +5,15 @@ b6b6f8d (1.7.4); Story Studio 7b79c3c (0.7.0).
 In flight: SB 2.18.1 party roster (stage61/roster); prompt diet → SB 2.19.0 (stage59/lean-sb, lean-rpg, lean-lore) then
 SD (stage59/lean-sd, needs 2.19.0 heads) and NSD (stage59/lean-nsd).
 
+## Next after the prompt diet: Story Block as a platform (USER 3 Nov, DRAFT contract)
+Contract: suite-notes/cleanup-briefs/SDK-CONTRACT.md (awaiting USER answers to its 3 open questions).
+1. Public API `StoryBlock.api` v1 (read-only `get(path)`, `paths()`, events `story:changed` / `story:reply` /
+   `story:rebuilt` / `story:chat`; hidden values never returned; frozen with version rules) — ~2–3 h.
+2. `{{sb::path}}` / `{{sb::path|fallback}}` SillyTavern macro for prompts, regex scripts and status bars — ~1–2 h.
+3. (Separate contract) blocks defined in a character card's worldbook — ~4–6 h, riskiest; mockup if any UI.
+4. Tutorial docs/v2/BUILD-A-CARD.md + one example card — ~2–3 h.
+Plus reviews, real-ST checks, release ~2–3 h. Order: 1+2 in parallel, then 4, then 3 as its own release.
+
 ## Released 31 Oct
 | Work | PR | Reviews |
 |---|---|---|
