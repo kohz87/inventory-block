@@ -1,10 +1,9 @@
 # To-do list (updated 3 Nov ~12:30 UTC)
 
-State: Story Block main c53fad6 (**2.17.0, levels**; Ersveil 2.5.0). Story Director main 97fc9dc (2.9.3); NPC State
-Delta main 1cc63f6 (1.7.3); Story Studio main 99c742d (0.6.0).
-In flight — gear release (SB 2.18.0 + Ersveil 2.6.0 + NSD 1.7.4 + Studio): SB stage57/gear-int (b21aad5 + lead fix
-pending), NSD stage56/cast-gear-line c427c1f, Studio stage55/gear-items 5f519bb. Approved gear mockup
-https://claude.ai/artifact/DE52d6FCt7Zijwn1R1wKqc (v6).
+State: Story Block main 233b131 (**2.18.0, gear**; Ersveil 2.6.0); Story Director 97fc9dc (2.9.3); NPC State Delta
+b6b6f8d (1.7.4); Story Studio 7b79c3c (0.7.0).
+In flight: SB 2.18.1 party roster (stage61/roster); prompt diet → SB 2.19.0 (stage59/lean-sb, lean-rpg, lean-lore) then
+SD (stage59/lean-sd, needs 2.19.0 heads) and NSD (stage59/lean-nsd).
 
 ## Released 31 Oct
 | Work | PR | Reviews |
