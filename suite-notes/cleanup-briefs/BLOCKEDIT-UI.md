@@ -1,4 +1,4 @@
-# BLOCKEDIT-UI — mockup: custom blocks in the new layouts, from the block editor (USER 4 Nov)
+# BLOCKEDIT-UI — mockup (USER APPROVED 4 Nov with lead answers, https://claude.ai/artifact/6niZ3NLbACPKCbqc2yJoi4): custom blocks in the new layouts, from the block editor (USER 4 Nov)
 
 Context: BLOCKS-UI (USER-approved, https://claude.ai/artifact/EefsnTBrbvSeW5wL3QALFJ; the files are in $S/blocksui) gives quest cards, numbers with bars and a field card. A player's own blocks get "numbers with bars" and "card of fields" from their shape. Quest cards need field roles. This mockup draws the block editor side.
 
