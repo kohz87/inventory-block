@@ -1,4 +1,4 @@
-# MISSED-UI — mockup: "Missed something?" on the latest reply (USER approved the idea, 4 Nov)
+# MISSED-UI — DROPPED by the USER 4 Nov (no button; rely on the narrator's own change lines) — mockup: "Missed something?" on the latest reply (USER approved the idea, 4 Nov)
 
 **Idea (anti-abuse recovery when the narrator described a change but wrote no line for it):**
 - A "Missed something?" action on the latest reply's card (the "This reply" / changes card under the reply).
