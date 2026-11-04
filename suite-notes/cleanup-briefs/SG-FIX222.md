@@ -17,6 +17,6 @@ Fix, one test each:
 - F7 Kit Edit Goods→Equipment saves the shown rarity.
 - F8 empty chat (no greeting): the kit reads closed and Add says one plain sentence why.
 - F9 add the new add/edit words to the fuzz generator (CLAUDE.md rule 3).
-- F3 and F4 WAIT for the lead's go (USER decision pending): do not build them until told.
+- F3 (USER approved 4 Nov) after the kit, "+ Add item" is Common with no bonus whatever its name. F4 (USER approved) charfile `starting: true` gear as written only while the kit is open; later Common, no bonus, Diagnostics line.
 Full suite at the end, npm run check, git diff --check, prompt bytes unchanged gear off/on. Real ST (8680/8681): B1
 repro closed; shots of Add/Edit at 1440 and 390. Report: head sha, items, tests with counts.
