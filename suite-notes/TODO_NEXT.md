@@ -1,8 +1,22 @@
-# To-do list (updated 3 Nov ~17:00 UTC)
+# To-do list (updated 4 Nov ~10:15 UTC) — moving to the USER's PC: read LOCAL-START.md
 
 State: Story Block main 60e6f23 (**2.22.1**: raw/quiet prompt guard; 2.22.0: skill slots+cast skills, list blocks+editor, layouts, starting kit, public paths; Ersveil 2.7.0; 2.21.2: then:/else:/guard: on the act line, Re-read keeps reader block setup; 2.21.1 then: skills, spent notes; 2.21.0 card offer, practice rule, ambush, fight fixes);
 Story Director 012c354 (2.10.0); NPC State Delta aaac2bb (1.10.2); Story Studio b3a9d23 (0.9.0).
-In flight (4 Nov): 2.22.0 integration — G22 branches merge main (2.21.0), trimmed-depth Opus reviews, then SB 2.22.0 + Ersveil 2.7.0, Studio 0.9.0, NSD 1.10.0.
+Open (4 Nov evening), in order:
+1. PRESENT BUG (USER): "- present Osken / + present Nelje" did not change People here (SB) nor NSD. Not reproduced on
+   current versions; likely cause: a `~ place` to a different place written AFTER the present lines in the same reply
+   clears presence (pre-existing). Waiting for the USER to confirm the line order. Proposed fix: within one reply apply
+   place before present lines, whatever their order; one test. Harness: cloud scratchpad present-bug/.
+2. USER question pending: feature freeze (stability + speed only), smaller one-piece releases, a long real-world test
+   chat in CI; and a drafted "cut-off for very old replies" (one-time migrate instead of keeping every old rule) for the
+   USER to decide.
+3. NSD request count: stage69/perf-checks 8829f7d (12→9 GETs/reply, single-flight + per-turn reuse; +452 lines) is
+   built and pushed but ON HOLD (small gain; ship only if the USER still feels lag on 1.10.2).
+4. Follow-ups: NSD inline-cards retry chain + cast-rendered→rerender coalescing; relationship-map still inlines portrait
+   data URLs; portraits out of NSD's main state file (biggest remaining weight); Studio form for `entries` fields;
+   blocks review items 5–10 (shared-tab pencil column, quest-card pencil, mergeTabs css/theme, authoring-kit docs, tab
+   name collisions); "Migrate all" notice (mockup first); free-slot cue on the Skills card (mockup first); NSD README
+   four-product line still says SB 2.16.1 (pinned by readme-docs test); Help corner tab idea.
 Review depth (USER 4 Nov): full Opus depth + re-reviews for saves, replay, scanning, fights, XP/practice; display-only work (layouts, wording, Studio screens) gets one review plus a scoped check of its fix; tiny follow-ups (a string, a CSS width) ride along with the next review.
 Next after SB 2.21.0 (USER approved 4 Nov): extra skill slots — +1 at Lv 20, 40, 60 (max 8). Touches SKILL_SLOTS (names.js), learn-N/practice-N families ([1-5] in part.js:764, templates.js), charfile export/import, creation, the "N of M slots" pill (M by level), tail cost; a level drop never deletes a skill (extra slots kept, just no new learns). Mockup if the empty new slot needs UI.
 Also next (USER approved 4 Nov): cast signature skills — optional `skills` on a pack cast entry (name, about, stat, uses, rank) filled into the member's slots when they join (free slots stay for the narrator); Ersveil 2–4 skills each, rank by level; Studio Cast form Skills section (mockup CASTSKILL-UI).
