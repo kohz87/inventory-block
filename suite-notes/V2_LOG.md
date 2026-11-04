@@ -3640,3 +3640,4 @@ Pending in parallel: review of UE (character export/import) on stage30/char-expo
 - 4 Nov — USER: "yes, add the extra slots after 2.21.0" — +1 skill slot at Lv 20/40/60 (max 8); queued in TODO_NEXT.
 - 4 Nov — USER: queue cast signature skills + draw the mockup. TODO updated; brief CASTSKILL-UI; mockup agent launched (Studio file:// + ST copy 8380/8480).
 - 4 Nov — USER: hand-added equipment stats only in the first message (avoid abuse). Lead proposal sent to the STARTGEAR mockup: starting kit (rarity/bonus) until the first player message; later Kind/Slot/Equip only, Common, no bonus.
+- 4 Nov — USER: "agreed, go with that" (starting kit until first message; later Kind/Slot/Equip only, Common, no bonus).
