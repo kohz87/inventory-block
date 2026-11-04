@@ -1,26 +1,17 @@
-# To-do list (updated 4 Nov ~10:15 UTC) — moving to the USER's PC: read LOCAL-START.md
+# To-do list (updated 4 Nov ~15:30 UTC, local PC) — read LOCAL-START.md; agents: scratch/briefs/COMMON.md on the PC
 
-State: Story Block main 60e6f23 (**2.22.1**: raw/quiet prompt guard; 2.22.0: skill slots+cast skills, list blocks+editor, layouts, starting kit, public paths; Ersveil 2.7.0; 2.21.2: then:/else:/guard: on the act line, Re-read keeps reader block setup; 2.21.1 then: skills, spent notes; 2.21.0 card offer, practice rule, ambush, fight fixes);
-Story Director 012c354 (2.10.0); NPC State Delta aaac2bb (1.10.2); Story Studio b3a9d23 (0.9.0).
-Open (4 Nov evening), in order:
-1. PRESENT BUG (USER): "- present Osken / + present Nelje" did not change People here (SB) nor NSD. Not reproduced on
-   current versions; likely cause: a `~ place` to a different place written AFTER the present lines in the same reply
-   clears presence (pre-existing). Waiting for the USER to confirm the line order. Proposed fix: within one reply apply
-   place before present lines, whatever their order; one test. Harness: cloud scratchpad present-bug/.
-2. USER question pending: feature freeze (stability + speed only), smaller one-piece releases, a long real-world test
-   chat in CI; and a drafted "cut-off for very old replies" (one-time migrate instead of keeping every old rule) for the
-   USER to decide.
-3. NSD request count: stage69/perf-checks 8829f7d (12→9 GETs/reply, single-flight + per-turn reuse; +452 lines) is
-   built and pushed but ON HOLD (small gain; ship only if the USER still feels lag on 1.10.2).
-4. Follow-ups: NSD inline-cards retry chain + cast-rendered→rerender coalescing; relationship-map still inlines portrait
-   data URLs; portraits out of NSD's main state file (biggest remaining weight); Studio form for `entries` fields;
-   blocks review items 5–10 (shared-tab pencil column, quest-card pencil, mergeTabs css/theme, authoring-kit docs, tab
-   name collisions); "Migrate all" notice (mockup first); free-slot cue on the Skills card (mockup first); NSD README
-   four-product line still says SB 2.16.1 (pinned by readme-docs test); Help corner tab idea.
+State: Story Block main 876900d (**2.22.3**: query cache, dossier freezes 5–6 s → <0.1 s; 2.22.2: safety net never moves the scene the block set; 2.22.1 raw/quiet prompt guard; 2.22.0 skill slots, list blocks, layouts, starting kit);
+Story Director 607448d (**2.10.1**: quest cards); NPC State Delta aaac2bb (1.10.2); Story Studio b3a9d23 (0.9.0).
+Open (4 Nov late), in order:
+1. SB 2.22.4 building (stage71/equip-name): Kind = Equipment from "+ Add item" stored as goods (also after delete + re-add), compound-name slots, Party Export overflow (fix A). Then full review (touches inventory defs), release, re-sync vendored testkit in SD, NSD and Studio (Studio still 2.22.0).
+2. USER question pending: feature freeze (stability + speed only), smaller one-piece releases, a long real-world test chat in CI, and the "cut-off for very old replies".
+3. Close (lead's recommendation): NSD stage69/perf-checks 8829f7d and stage70/dossier-click 3ff844e — GETs are ~5 ms; the freeze was Story Block replay (fixed in 2.22.3). Only if anything still feels slow: NSD cheap dossierViewToken (index.js:8701) and story clock once per injection (index.js:3200).
+4. SD: a quest closed by a slightly different name stays active (USER's "Storehouse No. 2 Cellar-Rats" closed as "…Cellar-Rat Cull"): fuzzy match on close (ask USER).
+5. Follow-ups: late "~ time" dropped when the next reply only advances; module single-value kinds not in SCENE_KINDS; chainHash tail cache trusts MESSAGE_EDITED; NSD inline-cards retry chain; relationship-map portrait data URLs; portraits out of NSD's state file; Studio `entries` form; blocks review items 5–10; "Migrate all" notice and Skills free-slot cue (mockups first); NSD README suite line; Help corner tab idea.
 Review depth (USER 4 Nov): full Opus depth + re-reviews for saves, replay, scanning, fights, XP/practice; display-only work (layouts, wording, Studio screens) gets one review plus a scoped check of its fix; tiny follow-ups (a string, a CSS width) ride along with the next review.
 Idea (USER 4 Nov, next time): a "Help corner" tab in the suite that shows docs/FAQ.md in-app. Keep FAQ.md growing meanwhile.
 
-## Next after the prompt diet: Story Block as a platform (USER 3 Nov, DRAFT contract)
+## DONE — Story Block as a platform (API + {{sb::}} macro in 2.20.0, card offer in 2.21.0); kept for reference
 Contract: suite-notes/cleanup-briefs/SDK-CONTRACT.md (awaiting USER answers to its 3 open questions).
 1. Public API `StoryBlock.api` v1 (read-only `get(path)`, `paths()`, events `story:changed` / `story:reply` /
    `story:rebuilt` / `story:chat`; hidden values never returned; frozen with version rules) — ~2–3 h.
