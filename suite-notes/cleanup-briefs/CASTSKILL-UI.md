@@ -1,4 +1,4 @@
-# CASTSKILL-UI — mockup: signature skills for a pack's cast (USER approved the idea 4 Nov)
+# CASTSKILL-UI — mockup (USER APPROVED 4 Nov with lead answers, https://claude.ai/artifact/419szch9A3JouKFwFvMuJn): signature skills for a pack's cast (USER approved the idea 4 Nov)
 
 **Idea:** a pack's cast entry may list fixed signature skills, the way it lists signature gear. Each skill has name, what it does, stat, uses (stamina/mana) and rank. When the member joins the party, those skills fill the member's skill slots exactly as written; free slots stay for the narrator. Ersveil gets 2–4 per cast member, ranked by level (Lv 8 mostly Novice … Lv 56 mostly Expert/Master).
 
