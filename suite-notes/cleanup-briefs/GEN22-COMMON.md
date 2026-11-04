@@ -33,3 +33,6 @@ The matching briefs are in this folder: STARTGEAR-UI.md (with its addendum), BLO
 **Before every push:** the full suite, `npm run check` and `git diff --check origin/main HEAD` must be clean.
 **Real-ST checks** on your own ports (given in your brief), with data built by copying into a new empty folder.
 **Report briefly:** the head, what was built, the tests, pinned changes, byte changes for prompts, and anything not done.
+
+## Addendum (USER question 4 Nov): cast skills in running chats
+Seeding happens only on the join event. Members who already joined keep their skills untouched after a pack update. A rejoin after the update fills only free slots with names they do not already hold. Not-yet-joined members get their signature skills on joining. Replay follows the join receipt (what was seeded), not the current pack.
