@@ -1,4 +1,4 @@
-# BLOCKS-UI — mockup: better layouts for custom blocks and pack data-module tabs (USER 4 Nov)
+# BLOCKS-UI — mockup (USER APPROVED 4 Nov with lead additions, https://claude.ai/artifact/EefsnTBrbvSeW5wL3QALFJ): better layouts for custom blocks and pack data-module tabs (USER 4 Nov)
 
 **USER (screenshots, phone width):**
 - "the custom block quest layout is horrible": a custom block, "Goals and quest history". Each quest is title, description, a big empty gap, its step, another gap, and "active" as bare text.
