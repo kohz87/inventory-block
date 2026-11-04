@@ -1,7 +1,7 @@
 # To-do list (updated 3 Nov ~17:00 UTC)
 
 State: Story Block main 99bd53d (**2.22.0**: skill slots+cast skills, list blocks+editor, layouts, starting kit, public paths; Ersveil 2.7.0; 2.21.2: then:/else:/guard: on the act line, Re-read keeps reader block setup; 2.21.1 then: skills, spent notes; 2.21.0 card offer, practice rule, ambush, fight fixes);
-Story Director 012c354 (2.10.0); NPC State Delta 7e7964a (1.10.1); Story Studio b3a9d23 (0.9.0).
+Story Director 012c354 (2.10.0); NPC State Delta aaac2bb (1.10.2); Story Studio b3a9d23 (0.9.0).
 In flight (4 Nov): 2.22.0 integration — G22 branches merge main (2.21.0), trimmed-depth Opus reviews, then SB 2.22.0 + Ersveil 2.7.0, Studio 0.9.0, NSD 1.10.0.
 Review depth (USER 4 Nov): full Opus depth + re-reviews for saves, replay, scanning, fights, XP/practice; display-only work (layouts, wording, Studio screens) gets one review plus a scoped check of its fix; tiny follow-ups (a string, a CSS width) ride along with the next review.
 Next after SB 2.21.0 (USER approved 4 Nov): extra skill slots — +1 at Lv 20, 40, 60 (max 8). Touches SKILL_SLOTS (names.js), learn-N/practice-N families ([1-5] in part.js:764, templates.js), charfile export/import, creation, the "N of M slots" pill (M by level), tail cost; a level drop never deletes a skill (extra slots kept, just no new learns). Mockup if the empty new slot needs UI.
