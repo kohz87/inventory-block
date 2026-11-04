@@ -34,3 +34,6 @@ named only when asked; arrow text/placement). Full suite at the end; npm run che
 prompt bytes identical. Real ST (port 8660/8661, own data copy, mock model): a 3-round fight "Shadow Cut then
 Iaijutsu" shows Shadow Cut in round 1, Iaijutsu after; screenshot of the battle log at 390 px.
 Report: head sha, what changed, byte deltas, tests with counts, oldroll results, screenshot path.
+4. (added 4 Nov, USER re-run) **Spent note says which pool:** the narrator wrote "nothing left … to feed a
+   shadow-step" (Shadow Step uses Stamina, Fresh). cue.js standardLine, fix-3 rolls only: "(no skill: Shadow Cut's Mana
+   is spent, Stamina is not; a plain weapon attack — name no skill)". Byte delta per fallback line; one test.
