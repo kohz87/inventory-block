@@ -3,6 +3,7 @@
 State: Story Block main 2ee6318 (**2.20.0, SDK**: public API v1, {{sb::}} macro, Build-a-card; Ersveil 2.6.1);
 Story Director 012c354 (2.10.0); NPC State Delta 1840358 (1.9.0); Story Studio ec65db3 (0.8.0).
 In flight (4 Nov): card build, USER-approved mockup v3 + lead recommendations — SB 2.21.0 (stage65/card-offer, CARD-SB), Studio 0.8.0 (stage65/character-card, CARD-STU); then real-ST end-to-end with a Studio-built Ersveil card, Opus reviews, releases.
+Next after SB 2.21.0 (USER approved 4 Nov): extra skill slots — +1 at Lv 20, 40, 60 (max 8). Touches SKILL_SLOTS (names.js), learn-N/practice-N families ([1-5] in part.js:764, templates.js), charfile export/import, creation, the "N of M slots" pill (M by level), tail cost; a level drop never deletes a skill (extra slots kept, just no new learns). Mockup if the empty new slot needs UI.
 NSD follow-up: manual scan/Refresh/capture move the marker past waiting replies (L2a) — not done in 1.9.0 (would break read-once).
 
 ## Next after the prompt diet: Story Block as a platform (USER 3 Nov, DRAFT contract)
