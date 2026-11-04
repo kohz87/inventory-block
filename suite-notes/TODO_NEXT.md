@@ -1,13 +1,15 @@
-# To-do list (updated 4 Nov ~15:30 UTC, local PC) — read LOCAL-START.md; agents: scratch/briefs/COMMON.md on the PC
+# To-do list (updated 5 Nov ~02:00 local, after the overnight run) — read LOCAL-START.md; agents: scratch/briefs/COMMON.md on the PC
 
-State: Story Block main 876900d (**2.22.3**: query cache, dossier freezes 5–6 s → <0.1 s; 2.22.2: safety net never moves the scene the block set; 2.22.1 raw/quiet prompt guard; 2.22.0 skill slots, list blocks, layouts, starting kit);
-Story Director 607448d (**2.10.1**: quest cards); NPC State Delta aaac2bb (1.10.2); Story Studio b3a9d23 (0.9.0).
-Open (4 Nov late), in order:
-1. SB 2.22.4 building (stage71/equip-name): Kind = Equipment from "+ Add item" stored as goods (also after delete + re-add), compound-name slots, Party Export overflow (fix A). Then full review (touches inventory defs), release, re-sync vendored testkit in SD, NSD and Studio (Studio still 2.22.0).
-2. USER question pending: feature freeze (stability + speed only), smaller one-piece releases, a long real-world test chat in CI, and the "cut-off for very old replies".
-3. Close (lead's recommendation): NSD stage69/perf-checks 8829f7d and stage70/dossier-click 3ff844e — GETs are ~5 ms; the freeze was Story Block replay (fixed in 2.22.3). Only if anything still feels slow: NSD cheap dossierViewToken (index.js:8701) and story clock once per injection (index.js:3200).
-4. SD: a quest closed by a slightly different name stays active (USER's "Storehouse No. 2 Cellar-Rats" closed as "…Cellar-Rat Cull"): fuzzy match on close (ask USER).
-5. Follow-ups: late "~ time" dropped when the next reply only advances; module single-value kinds not in SCENE_KINDS; chainHash tail cache trusts MESSAGE_EDITED; NSD inline-cards retry chain; relationship-map portrait data URLs; portraits out of NSD's state file; Studio `entries` form; blocks review items 5–10; "Migrate all" notice and Skills free-slot cue (mockups first); NSD README suite line; Help corner tab idea.
+State: DEVELOPMENT FROZEN (USER 4 Nov): stability, speed and cleanup only.
+Story Block main df48f99 (**2.22.5**: Settings freeze fix; 2.22.4 equipment add + Party buttons; 2.22.3 query cache; 2.22.2 safety-net scene fix; + file splits);
+Story Director 6adc730 (**2.10.2**: quest near-match; 2.10.1 quest cards; + splits; vendored SB c35f662); NPC State Delta 8d6a5a2 (1.10.2 + core splits); Studio f599928 (0.9.0, vendored SB c35f662).
+Open, in order:
+1. Vendored SB re-sync to df48f99 (SD, NSD, Studio) — in progress overnight.
+2. USER: NSD scanner profile returns 502 (backend/profile, not code) — dossier scans fail after the first reply until fixed.
+3. USER decisions: SD quest matching (a) stronger rule for short generic names, (b) refuse a lone hook near-match on a `- quest` line; whether to version-release the cleanup (no version bump made for moves); optional renames (core-birthday.js holds more than birthdays).
+4. Deferred cleanup needing the USER's OK (state-holder rewrites, not pure moves): SB B4–B8 (store 2,688 / inventory 2,168 / turn 1,579 / coordinator 1,567 / data-modules part 1,287), NSD index.js (8,743) and src/storysuite-v2.js (2,226), SD atlas widget D4 (861).
+5. Follow-ups: state-fuzz "saves per burst" flakes under heavy load (passes alone); late `~ time` dropped when the next reply only advances; module single-value kinds not in SCENE_KINDS; chainHash tail trusts MESSAGE_EDITED; hypothetical() throw/nesting test; hash memo LRU; ~0.3 s left on Settings (previewFit, Tabs & Packs); import path still makes goods-with-a-slot for `kind: goods` character files; docs/ARCHITECTURE/DESIGN mention routes.js/widget.js as single files.
+6. Closed (not merged, branches kept): NSD stage69/perf-checks and stage70/dossier-click (GETs were ~5 ms; the freeze was SB replay, fixed in 2.22.3).
 Review depth (USER 4 Nov): full Opus depth + re-reviews for saves, replay, scanning, fights, XP/practice; display-only work (layouts, wording, Studio screens) gets one review plus a scoped check of its fix; tiny follow-ups (a string, a CSS width) ride along with the next review.
 Idea (USER 4 Nov, next time): a "Help corner" tab in the suite that shows docs/FAQ.md in-app. Keep FAQ.md growing meanwhile.
 
