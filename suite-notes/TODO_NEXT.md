@@ -2,9 +2,9 @@
 
 State: DEVELOPMENT FROZEN (USER 4 Nov): stability, speed and cleanup only.
 Story Block main df48f99 (**2.22.5**: Settings freeze fix; 2.22.4 equipment add + Party buttons; 2.22.3 query cache; 2.22.2 safety-net scene fix; + file splits);
-Story Director 6adc730 (**2.10.2**: quest near-match; 2.10.1 quest cards; + splits; vendored SB c35f662); NPC State Delta 8d6a5a2 (1.10.2 + core splits); Studio f599928 (0.9.0, vendored SB c35f662).
+Story Director 4b3578e (**2.10.2**: quest near-match; 2.10.1 quest cards; + splits; vendored SB c35f662); NPC State Delta a09963a (1.10.2 + core splits); Studio fd72447 (0.9.0); all vendored SB df48f99.
 Open, in order:
-1. Vendored SB re-sync to df48f99 (SD, NSD, Studio) — in progress overnight.
+1. DONE: vendored SB re-synced to df48f99 (SD #164 4b3578e, NSD #248 a09963a, Studio #31 fd72447).
 2. USER: NSD scanner profile returns 502 (backend/profile, not code) — dossier scans fail after the first reply until fixed.
 3. USER decisions: SD quest matching (a) stronger rule for short generic names, (b) refuse a lone hook near-match on a `- quest` line; whether to version-release the cleanup (no version bump made for moves); optional renames (core-birthday.js holds more than birthdays).
 4. Deferred cleanup needing the USER's OK (state-holder rewrites, not pure moves): SB B4–B8 (store 2,688 / inventory 2,168 / turn 1,579 / coordinator 1,567 / data-modules part 1,287), NSD index.js (8,743) and src/storysuite-v2.js (2,226), SD atlas widget D4 (861).
