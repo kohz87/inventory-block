@@ -32,3 +32,6 @@ The source is the investigation of the USER's rats reply: repro $S/xpbug/tools/r
 **Real-ST check** (8330/8430) on a copy of $S/xpbug/st-data (USER data: never commit, quote nothing): rerun the rats turn and a second rats fight. Shoot the battle log at 1440 and 390.
 
 Then run the full suite, `npm run check` and `git diff --check origin/main HEAD`, push, and report the head, tests, pinned changes and byte changes.
+
+## Addendum (USER 4 Nov): stale foes shown
+When a new fight opens, clear the Down groups left from earlier replies in the same step, so the Foes block, the battle log Status and the prompts show only this fight's foes. A group that went Down in this reply stays until the next fight opens, so its XP is still paid. Tests: gnashers then rats shows only rats; Re-read and swipe of the gnasher reply still show its own fight.
