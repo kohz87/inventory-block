@@ -18,11 +18,7 @@ Open (4 Nov evening), in order:
    name collisions); "Migrate all" notice (mockup first); free-slot cue on the Skills card (mockup first); NSD README
    four-product line still says SB 2.16.1 (pinned by readme-docs test); Help corner tab idea.
 Review depth (USER 4 Nov): full Opus depth + re-reviews for saves, replay, scanning, fights, XP/practice; display-only work (layouts, wording, Studio screens) gets one review plus a scoped check of its fix; tiny follow-ups (a string, a CSS width) ride along with the next review.
-Next after SB 2.21.0 (USER approved 4 Nov): extra skill slots — +1 at Lv 20, 40, 60 (max 8). Touches SKILL_SLOTS (names.js), learn-N/practice-N families ([1-5] in part.js:764, templates.js), charfile export/import, creation, the "N of M slots" pill (M by level), tail cost; a level drop never deletes a skill (extra slots kept, just no new learns). Mockup if the empty new slot needs UI.
-Also next (USER approved 4 Nov): cast signature skills — optional `skills` on a pack cast entry (name, about, stat, uses, rank) filled into the member's slots when they join (free slots stay for the narrator); Ersveil 2–4 skills each, rank by level; Studio Cast form Skills section (mockup CASTSKILL-UI).
-Also next (USER approved 4 Nov), Story Block 2.22.0 set: STARTGEAR (hand-added equipment, starting kit), BLOCKS-UI (quest cards, bars, field card, Reputation tab via screen `tab`/`tabTitle`, Ersveil 2.7.0), BLOCKEDIT-UI (starters, Layout, roles, tones, Show in tab, live preview, new "List of entries" field type), extra skill slots, cast signature skills (+ Studio Cast Skills section, Studio 0.9.0).
 Idea (USER 4 Nov, next time): a "Help corner" tab in the suite that shows docs/FAQ.md in-app. Keep FAQ.md growing meanwhile.
-NSD follow-up: manual scan/Refresh/capture move the marker past waiting replies (L2a) — not done in 1.9.0 (would break read-once).
 
 ## Next after the prompt diet: Story Block as a platform (USER 3 Nov, DRAFT contract)
 Contract: suite-notes/cleanup-briefs/SDK-CONTRACT.md (awaiting USER answers to its 3 open questions).
@@ -177,5 +173,5 @@ https://claude.ai/artifact/AJZkpqZigE5TvZRRh4jrMK (v3); AI writing help https://
   and NPC signature gear stays with the NPC (the narrator's Gear line only).
 - Prompt-diet release plan: SB 2.19.0 = LEAN1-SB (+ kind `heads`) + LEAN2-RPG + lean-lore (Ersveil 2.6.1), on top of 2.18.1
   (roster). Then SD (stage59/lean-sd: set STORY_BLOCK_WITH_HEADS to 2.19.0) and NSD (stage59/lean-nsd).
-- SB src/v2/strings.js has a duplicate key `card` (esbuild warns in Studio's build; the later one wins) — fix in 2.19.0.
+- (done 2.22.0) SB strings.js duplicate key `card` split into `card` / `cardKind`.
   Studio: node_modules tracked as a symlink (untrack); AI-README "Suite today: Story Block 2.16.1"; Items form `bonus`.
