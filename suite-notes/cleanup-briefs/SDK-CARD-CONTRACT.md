@@ -81,7 +81,7 @@ Decided: a pack needing a capability from a missing extension (e.g. Ersveil `chr
   - Every name must be a portrait the pack's cast names; anything else is skipped with a Diagnostics line.
   - Install hands them to the same portraits store a zip import uses.
 - `[storysuite:settings]` — `{ "v": 1, "settings": { "<owner>.<key>": value } }`.
-  - Allow-list v1: `story-block.rpg` (bool), `story-block.gear` (bool), `story-block.rpgXpRate` (int 50–300), `npc-state-delta.portraitPromptFormat` (that extension's own values), `npc-state-delta.scanEvery` (int, its own range).
+  - Allow-list v1: `story-block.rpg` (bool), `story-block.gear` (bool), `story-block.rpgXpRate` (int 50–300 in steps of 25, the game's rule), `npc-state-delta.portraitPromptFormat` (that extension's own values), `npc-state-delta.scanEvery` (int, its own range).
   - Unknown keys and values that fail validation are skipped, each with a Diagnostics line.
 
 **SDK** (Story Block, added to the internal `StoryBlock.sdk`, not the frozen public `api`):
