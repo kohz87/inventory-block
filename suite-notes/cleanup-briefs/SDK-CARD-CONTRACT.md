@@ -36,3 +36,26 @@ show "from the card" rows (more UI). A1 gets the same player experience with one
 1. Option A as above (one-click offer, remembered "Not now")? Or do you want B's zero-click loading?
 2. Where should the notice sit — Story Block panel top (recommended), or an ST toast?
 3. Studio export (A3) in the same round, or later?
+
+## Addendum B (USER 4 Nov): one card = the whole world
+The USER asked for everything to ride inside the character card, and approved updating the mockup. Scope added to option A:
+- **Carried by the card:**
+  - lore (the card's own lorebook);
+  - pack(s) (a disabled `[storysuite:pack]` entry);
+  - portraits (a disabled `[storysuite:portraits]` entry: the pack's portraits shrunk to about 40 KB each, base64 webp, keyed by file name; checked against the pack's cast and the portrait store's limits);
+  - a status bar (the card's own scoped regex scripts, a native SillyTavern feature);
+  - recommended settings (a disabled `[storysuite:settings]` entry).
+- **Recommended settings** come from a fixed allow-list only: story-block.rpg, story-block.gear, the RPG XP rate, NSD portrait prompt format, NSD Scan every. The list grows only with a release.
+  - Only the settings that differ from the player's current ones are shown.
+  - They are applied only with the player's click: a checkbox in the offer, ticked by default.
+  - NSD reads its own recommendations through the Story Block sdk; Story Block never writes another extension's settings.
+- **Install:**
+  - installs the pack;
+  - turns its data modules on in this chat (the earlier recommendation);
+  - stores the portraits;
+  - applies the ticked settings;
+  - the notice then says what happened.
+  - "Not now" is remembered per card and pack version.
+- **The extensions themselves cannot ride in a card:** SillyTavern does not let a card install or run code. A card can say which extensions it needs, and the notice says so when one is missing.
+- **Studio:** "Build a card…" replaces "Export as lorebook entry". It takes a base character (PNG/JSON, or a new one), writes the pack, lore, portraits, recommended settings and an optional status bar into it, shows the size, and downloads a card PNG.
+- Estimate: about 2–3 h on top of option A.
