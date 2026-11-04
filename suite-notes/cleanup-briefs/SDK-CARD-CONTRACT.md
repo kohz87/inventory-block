@@ -69,3 +69,49 @@ The USER asked for the first message and every SillyTavern card setting to be in
   - the "Put in the card" checklist: pack, lore, portraits, status bar and recommended settings, each with its size, plus a total;
   - **Download card** (PNG/JSON).
 - Drafts are saved with the pack, so they survive a reload. Studio-only, about 2 h more.
+
+## Addendum D (USER approved the mockup v3 on 4 Nov, with the lead's recommendations): the build contract
+The mockup at https://claude.ai/artifact/3T4tuABXMuJVYrQNsHknXE (v3) is the approved UI; its "Lead's recommendations" box is binding.
+Decided: a pack needing a capability from a missing extension (e.g. Ersveil `chronicle-lasting` → Story Director) shows "Needs Story Director for world events", and Install is disabled until it is installed. A missing NSD only drops its settings, and Install works. A picked card's own lorebook entries stay on a separate "Card's own lore" line.
+
+**Card lorebook entries** (all disabled; the tag is in the Title/Memo (`comment`); content is JSON, plain or in a ```json fence):
+- `[storysuite:pack]` — pack.json, as today.
+- `[storysuite:portraits]` — `{ "v": 1, "pack": "<pack id>", "version": "<pack version>", "files": { "<file name as named by the pack's cast portrait>": "data:image/webp;base64,…" } }`.
+  - Limits: at most 24 files, each at most 200 KB decoded, 3 MB in total. Type webp, png or jpeg.
+  - Every name must be a portrait the pack's cast names; anything else is skipped with a Diagnostics line.
+  - Install hands them to the same portraits store a zip import uses.
+- `[storysuite:settings]` — `{ "v": 1, "settings": { "<owner>.<key>": value } }`.
+  - Allow-list v1: `story-block.rpg` (bool), `story-block.gear` (bool), `story-block.rpgXpRate` (int 50–300), `npc-state-delta.portraitPromptFormat` (that extension's own values), `npc-state-delta.scanEvery` (int, its own range).
+  - Unknown keys and values that fail validation are skipped, each with a Diagnostics line.
+
+**SDK** (Story Block, added to the internal `StoryBlock.sdk`, not the frozen public `api`):
+`sdk.registerCardSettings({ owner, label, keys: { <key>: { label, valueText(v) → string, valid(v) → bool } }, read(key) → value, apply(values) → Promise<{ applied: [key] }> })` → `unregister()`.
+- Story Block registers its own owner `story-block` the same way.
+- The offer lists only keys whose `read` differs from the card's value, as "<key label> <valueText>" (e.g. "RPG on · Gear on · NSD portraits Natural").
+- `apply` must persist the setting exactly as the extension's own Save does.
+- An owner that is not registered means that extension is missing. Its keys are dropped, and the muted line names it with a known reason: `npc-state-delta` → "Needs NPC State Delta for portraits and dossiers".
+- A pack's missing capability is named through a small table: `chronicle-lasting` → "Needs Story Director for world events". Unknown capabilities use the checker's own message.
+
+**Offer behaviour (Story Block):**
+- **When it shows:** on chat open (single-character chats only), read the card's lorebook with the existing reader. Offer a pack that is not installed, or a newer version than the installed one.
+- **Where it shows:** one notice per pack, at most three, at the top of the Story panel, plus `.ss-screenbar-alert` on the Story button until it is answered.
+- **"Not now":** remembered per card + pack id + version, in Story Block's settings.
+- **Install:**
+  - the existing install, with the portraits;
+  - enable the pack's data modules in THIS chat at once, so the tab shows without a reload;
+  - apply the ticked settings;
+  - the notice then says exactly what was done.
+- **Update** keeps the chat's existing module choice.
+- **Diagnostics:** each "Not now", refusal, skipped key or skipped portrait writes one line.
+- **Packs row:** "N data modules" instead of "no content".
+
+**Studio:** the Character card page as in mockup section 7.
+- **Card image:** a PNG, JPEG or WebP picked by the author becomes the card's PNG image.
+- **Portraits:** shrunk to about 40 KB webp each, in the browser.
+- **Fields:** Character's Note and talkativeness go in `data.extensions.depth_prompt` and `data.extensions.talkativeness`.
+- **Status bar:** written as `data.extensions.regex_scripts`, from Story Block's examples/cards/status-bar.
+- **Lore:** the pack's lore becomes enabled `character_book` entries. The three storysuite entries are disabled `character_book` entries.
+- **Pick a card…** reads V2/V3 JSON and PNG (`chara` / `ccv3` tEXt).
+- **Drafts** are saved with the pack.
+
+**Versions:** Story Block 2.21.0; NPC State Delta 1.9.0 (with the 1.8.1 follow-ups); Story Studio 0.8.0.
