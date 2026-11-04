@@ -59,3 +59,13 @@ The USER asked for everything to ride inside the character card, and approved up
 - **The extensions themselves cannot ride in a card:** SillyTavern does not let a card install or run code. A card can say which extensions it needs, and the notice says so when one is missing.
 - **Studio:** "Build a card…" replaces "Export as lorebook entry". It takes a base character (PNG/JSON, or a new one), writes the pack, lore, portraits, recommended settings and an optional status bar into it, shows the size, and downloads a card PNG.
 - Estimate: about 2–3 h on top of option A.
+
+## Addendum C (USER 4 Nov): the whole character card in Studio
+The USER asked for the first message and every SillyTavern card setting to be in the same place, and approved redrawing the mockup.
+- "Build a card…" opens Studio's Narrator card page, renamed **Character card**, instead of a separate dialog.
+- **The page holds:**
+  - every standard card field: name, description, personality, scenario, first message, alternate greetings, example messages, creator notes, system prompt, post-history instructions, tags, creator, character version, avatar image, Character's Note (depth prompt + depth) and talkativeness;
+  - **Pick a card…**, which loads an existing PNG/JSON card into every field;
+  - the "Put in the card" checklist: pack, lore, portraits, status bar and recommended settings, each with its size, plus a total;
+  - **Download card** (PNG/JSON).
+- Drafts are saved with the pack, so they survive a reload. Studio-only, about 2 h more.
