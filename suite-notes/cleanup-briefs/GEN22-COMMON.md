@@ -25,7 +25,7 @@ The matching briefs are in this folder: STARTGEAR-UI.md (with its addendum), BLO
   - Absent keys mean today's plain rows.
 - **Screen tab merge (BLOCKS):** a pack screen and a block may carry `tab: "<id>"` and `tabTitle`. Screens with the same `tab` are drawn as sections of one tab, in order. A block's `show.into` uses the same mechanism.
 - **Cast skills (CASTSKILL; Story Block side and Studio side):**
-  - `cast[].skills: [{ name (1–40), about (1–120), stat (STR|VIT|AGI|DEX|INT|LUK|CHA, the Story Block seven — corrected 4 Nov), uses: "stamina"|"mana" (default stamina), rank: "novice"|"adept"|"expert"|"master" (default novice) }]`, 1–5 entries (8 once extra slots land).
+  - `cast[].skills: [{ name (1–40), about (1–120), stat (stored lowercase: str|vit|agi|dex|int|luk|cha, the Story Block seven; shown in capitals — corrected 4 Nov), uses: "stamina"|"mana" (default stamina), rank: "novice"|"adept"|"expert"|"master" (default novice) }]`, 1–5 entries (8 once extra slots land).
   - Names unique per person; unknown keys refused.
   - When the member joins, the skills fill free slots as written and are marked signature: practisable, never renamed or replaced by the story (that learn line is refused with a Problems line); the reader's pencil stays (name and description only).
   - Leave and rejoin keep rank and practice.
