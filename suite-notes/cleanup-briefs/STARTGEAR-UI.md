@@ -33,3 +33,6 @@ Note what is drawn and what is real. List the open questions, e.g.:
 - should rarity above rare need a confirm?
 - can a consumable carry a use (heal)?
 Report briefly: the file path, real vs drawn, measurements, and anything not shot.
+
+## Addendum (USER 4 Nov): starting kit only
+To avoid abuse, the full setup (Rarity, Bonus) is allowed only while the chat is at its first message (greeting only, no player reply yet). After that, "+ Add item" still offers Kind, Slot and Equip on, but Rarity is fixed to Common with no Bonus, and Edit shows Rarity and Bonus read-only on hand-added items. Story-given items are unchanged. Rewinding to the first message re-opens the starting kit (a restart).
