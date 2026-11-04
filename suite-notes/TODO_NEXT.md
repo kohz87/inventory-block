@@ -1,6 +1,6 @@
 # To-do list (updated 3 Nov ~17:00 UTC)
 
-State: Story Block main 553e1c3 (**2.21.2**: then:/else:/guard: on the act line, Re-read keeps reader block setup; 2.21.1 then: skills, spent notes; 2.21.0 card offer, practice rule, ambush, fight fixes);
+State: Story Block main 99bd53d (**2.22.0**: skill slots+cast skills, list blocks+editor, layouts, starting kit, public paths; Ersveil 2.7.0; 2.21.2: then:/else:/guard: on the act line, Re-read keeps reader block setup; 2.21.1 then: skills, spent notes; 2.21.0 card offer, practice rule, ambush, fight fixes);
 Story Director 012c354 (2.10.0); NPC State Delta 1840358 (1.9.0); Story Studio ec65db3 (0.8.0).
 In flight (4 Nov): 2.22.0 integration — G22 branches merge main (2.21.0), trimmed-depth Opus reviews, then SB 2.22.0 + Ersveil 2.7.0, Studio 0.9.0, NSD 1.10.0.
 Review depth (USER 4 Nov): full Opus depth + re-reviews for saves, replay, scanning, fights, XP/practice; display-only work (layouts, wording, Studio screens) gets one review plus a scoped check of its fix; tiny follow-ups (a string, a CSS width) ride along with the next review.
