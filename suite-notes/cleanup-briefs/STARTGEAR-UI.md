@@ -1,4 +1,4 @@
-# STARTGEAR-UI — mockup: add and set up your own equipment by hand (USER asked 4 Nov)
+# STARTGEAR-UI — mockup (USER APPROVED 4 Nov with the lead's answers, https://claude.ai/artifact/446mCVxe8Fnq1ZJbqYSTxj): add and set up your own equipment by hand (USER asked 4 Nov)
 
 **USER problem:** "I cannot add equipment for beginning of game, unless I use the studio?"
 - Today "+ Add item" (src/v2/screens/inventory-add.js) takes only a name, count and note.
