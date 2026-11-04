@@ -1,8 +1,8 @@
 # To-do list (updated 3 Nov ~17:00 UTC)
 
-State: Story Block main 2ee6318 (**2.20.0, SDK**: public API v1, {{sb::}} macro, Build-a-card; Ersveil 2.6.1);
+State: Story Block main a2d57b1 (**2.21.0**: card offer, practice rule, ambush checks, fight fixes; earlier 2.20.0 SDK);
 Story Director 012c354 (2.10.0); NPC State Delta 1840358 (1.9.0); Story Studio ec65db3 (0.8.0).
-In flight (4 Nov): card build, USER-approved mockup v3 + lead recommendations — SB 2.21.0 (stage65/card-offer, CARD-SB), Studio 0.8.0 (stage65/character-card, CARD-STU); then real-ST end-to-end with a Studio-built Ersveil card, Opus reviews, releases.
+In flight (4 Nov): 2.22.0 integration — G22 branches merge main (2.21.0), trimmed-depth Opus reviews, then SB 2.22.0 + Ersveil 2.7.0, Studio 0.9.0, NSD 1.10.0.
 Review depth (USER 4 Nov): full Opus depth + re-reviews for saves, replay, scanning, fights, XP/practice; display-only work (layouts, wording, Studio screens) gets one review plus a scoped check of its fix; tiny follow-ups (a string, a CSS width) ride along with the next review.
 Next after SB 2.21.0 (USER approved 4 Nov): extra skill slots — +1 at Lv 20, 40, 60 (max 8). Touches SKILL_SLOTS (names.js), learn-N/practice-N families ([1-5] in part.js:764, templates.js), charfile export/import, creation, the "N of M slots" pill (M by level), tail cost; a level drop never deletes a skill (extra slots kept, just no new learns). Mockup if the empty new slot needs UI.
 Also next (USER approved 4 Nov): cast signature skills — optional `skills` on a pack cast entry (name, about, stat, uses, rank) filled into the member's slots when they join (free slots stay for the narrator); Ersveil 2–4 skills each, rank by level; Studio Cast form Skills section (mockup CASTSKILL-UI).
