@@ -1,15 +1,16 @@
 # To-do list (updated 5 Nov evening, end of the daytime run) — read LOCAL-START.md; agents: scratch/briefs/COMMON.md on the PC
 
 State: DEVELOPMENT FROZEN (USER 4 Nov): stability, speed and cleanup only, plus USER-approved exceptions. No version bumps for today's work (all under CHANGELOG "Unreleased").
-Mains: Story Block 25505a6 (+ #299 cast start 0, #300 cast wears) (2.22.5 + Unreleased: splits, v1 removed, floating panel, no-rolls note, freeze fix, fewer saves, restore A, keep lines, present after place);
-Story Director e3c1980 (2.10.2 + Unreleased: quest matching, cast fixes, sought arrivals, undated offers lapse, v1 removed); NPC State Delta 597db55 (+ #260 cast wears) (1.10.2 + Unreleased: index.js split, settings debounce, restore A);
-Studio b264d44 (0.9.0 + #33 Usually wears box); vendored SB 83579215 everywhere (one merge behind: #298, a capture-order fix with no API change).
+Mains: Story Block 2abfd0e (+ #299 cast start 0, #300 cast wears, #301 cast behaviour) (2.22.5 + Unreleased: splits, v1 removed, floating panel, no-rolls note, freeze fix, fewer saves, restore A, keep lines, present after place);
+Story Director e3c1980 (2.10.2 + Unreleased: quest matching, cast fixes, sought arrivals, undated offers lapse, v1 removed); NPC State Delta 4d25fe7 (+ #260 cast wears, #261 cast behaviour) (1.10.2 + Unreleased: index.js split, settings debounce, restore A);
+Studio main (0.9.0 + #33 Usually wears, #34 How they behave); vendored SB 83579215 everywhere (one merge behind: #298, a capture-order fix with no API change).
 Open, in order:
 1. USER: decide when to release (version bumps) the Unreleased work in all three repos.
 2. Follow-ups needing the USER's go-ahead (details below, "Follow-ups 5 Nov"): incremental replay memo (14, the real freeze cure) + low-load measurement; restore group B (12; mockup for the button); remakeAsEquipment refusal test + state-fuzz instrumentation (9); chat file rewritten ~3× per reply (1); 4 model calls per reply (2); second-tier splits (7).
 3. Small follow-ups from today's reviews: undated offers count only `~` touches and the reader's first mention, not prose mentions by the story (v2 has no markSeen); a hook with a giver/reward counts as an offer (old meaning) so undated ones lapse too; on a Re-read of an old-order reply present lines get new seeds (unused); NSD prepare's vault work after the load wait is outside the 8 s bound.
 4. USER: portrait negative prompt keeps an old template — check SillyTavern Image Generation's Common and Character-specific negative prompts (appended to NSD's); if not, which screen/preset/text. Re-sync vendored SB to 25505a65 in SD and NSD (tests only).
-5. USER: NSD scanner profile 502 (backend/profile, not code) if still seen.
+5. Studio cast form (pre-existing, found in #34 review): any edit re-renders the form and drops focus, so typing on into the next field can lose the first characters — fix soon (bug, allowed in the freeze).
+6. USER: NSD scanner profile 502 (backend/profile, not code) if still seen.
 Review depth (USER 4 Nov): full depth + re-reviews for saves, replay, scanning, fights, XP/practice; display-only work one review + a scoped check; 5 Nov: slimmer proofs (no duplicate pre/post runs).
 After the freeze (USER 5 Nov): NSD portrait "Style reference" — pick none / this NPC's current portrait / another NPC's portrait / an uploaded image in both portrait windows; NSD puts it in a temporary chat variable for a ComfyUI custom placeholder (`nsd_style_ref` → `{{getvar::nsd_style_ref}}`, a base64 image-load node in the workflow) and clears it after; fake-ComfyUI capture test; setup note. ~2.5–3 h incl. mockup and review. Today, no code: a fixed style image via a Load Image node in ComfyUI's input/, or `%char_avatar%` (card art).
 Idea (USER 4 Nov, next time): a "Help corner" tab in the suite that shows docs/FAQ.md in-app. Keep FAQ.md growing meanwhile.
