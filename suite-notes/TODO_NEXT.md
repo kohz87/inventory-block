@@ -1,17 +1,63 @@
-# To-do list (updated 5 Nov ~02:00 local, after the overnight run) — read LOCAL-START.md; agents: scratch/briefs/COMMON.md on the PC
+# To-do list (updated 5 Nov evening, end of the daytime run) — read LOCAL-START.md; agents: scratch/briefs/COMMON.md on the PC
 
-State: DEVELOPMENT FROZEN (USER 4 Nov): stability, speed and cleanup only.
-Story Block main df48f99 (**2.22.5**: Settings freeze fix; 2.22.4 equipment add + Party buttons; 2.22.3 query cache; 2.22.2 safety-net scene fix; + file splits);
-Story Director 4b3578e (**2.10.2**: quest near-match; 2.10.1 quest cards; + splits; vendored SB c35f662); NPC State Delta a09963a (1.10.2 + core splits); Studio fd72447 (0.9.0); all vendored SB df48f99.
+State: DEVELOPMENT FROZEN (USER 4 Nov): stability, speed and cleanup only, plus USER-approved exceptions. No version bumps for today's work (all under CHANGELOG "Unreleased").
+Mains: Story Block da5c5ff (2.22.5 + Unreleased: splits, v1 removed, floating panel, no-rolls note, freeze fix, fewer saves, restore A, keep lines, present after place);
+Story Director e3c1980 (2.10.2 + Unreleased: quest matching, cast fixes, sought arrivals, undated offers lapse, v1 removed); NPC State Delta 23e91b8 (1.10.2 + Unreleased: index.js split, settings debounce, restore A);
+Studio e9f3e66 (0.9.0); vendored SB 83579215 everywhere (one merge behind: #298, a capture-order fix with no API change).
 Open, in order:
-1. DONE: vendored SB re-synced to df48f99 (SD #164 4b3578e, NSD #248 a09963a, Studio #31 fd72447).
-2. USER: NSD scanner profile returns 502 (backend/profile, not code) — dossier scans fail after the first reply until fixed.
-3. USER decisions: SD quest matching (a) stronger rule for short generic names, (b) refuse a lone hook near-match on a `- quest` line; whether to version-release the cleanup (no version bump made for moves); optional renames (core-birthday.js holds more than birthdays).
-4. Deferred cleanup needing the USER's OK (state-holder rewrites, not pure moves): SB B4–B8 (store 2,688 / inventory 2,168 / turn 1,579 / coordinator 1,567 / data-modules part 1,287), NSD index.js (8,743) and src/storysuite-v2.js (2,226), SD atlas widget D4 (861).
-5. Follow-ups: state-fuzz "saves per burst" flakes under heavy load (passes alone); late `~ time` dropped when the next reply only advances; module single-value kinds not in SCENE_KINDS; chainHash tail trusts MESSAGE_EDITED; hypothetical() throw/nesting test; hash memo LRU; ~0.3 s left on Settings (previewFit, Tabs & Packs); import path still makes goods-with-a-slot for `kind: goods` character files; docs/ARCHITECTURE/DESIGN mention routes.js/widget.js as single files.
-6. Closed (not merged, branches kept): NSD stage69/perf-checks and stage70/dossier-click (GETs were ~5 ms; the freeze was SB replay, fixed in 2.22.3).
-Review depth (USER 4 Nov): full Opus depth + re-reviews for saves, replay, scanning, fights, XP/practice; display-only work (layouts, wording, Studio screens) gets one review plus a scoped check of its fix; tiny follow-ups (a string, a CSS width) ride along with the next review.
+1. USER: decide when to release (version bumps) the Unreleased work in all three repos.
+2. Follow-ups needing the USER's go-ahead (details below, "Follow-ups 5 Nov"): incremental replay memo (14, the real freeze cure) + low-load measurement; restore group B (12; mockup for the button); remakeAsEquipment refusal test + state-fuzz instrumentation (9); chat file rewritten ~3× per reply (1); 4 model calls per reply (2); second-tier splits (7).
+3. Small follow-ups from today's reviews: undated offers count only `~` touches and the reader's first mention, not prose mentions by the story (v2 has no markSeen); a hook with a giver/reward counts as an offer (old meaning) so undated ones lapse too; on a Re-read of an old-order reply present lines get new seeds (unused); NSD prepare's vault work after the load wait is outside the 8 s bound.
+4. USER: NSD scanner profile 502 (backend/profile, not code) if still seen.
+Review depth (USER 4 Nov): full depth + re-reviews for saves, replay, scanning, fights, XP/practice; display-only work one review + a scoped check; 5 Nov: slimmer proofs (no duplicate pre/post runs).
 Idea (USER 4 Nov, next time): a "Help corner" tab in the suite that shows docs/FAQ.md in-app. Keep FAQ.md growing meanwhile.
+
+## Follow-ups 5 Nov (numbers referenced above; 3, 4, 10, 11, 13, 15 done or covered today: restore group A #291/#259, saves #294/#257, cleanup + branch chats deleted through SillyTavern)
+
+USER-approved to investigate after the freeze fix (5 Nov: "yes, add them to the list"):
+1. Chat file rewritten whole ~3× per reply (`POST /api/chats/save`, ~0.94–0.99 MB at 26–29 messages; Story Block's own chat-file.js / ST saves).
+   Not the freeze (async) but wasted work that grows with the chat. Evidence: scratch/logs/FREEZE-PROFILE-REPORT.md "Network".
+2. Each reply makes 4 `chat-completions/generate` calls, not 1: ~4 KB request before the reply (likely the RPG roll planner), the reply, and two
+   ~8–10 KB requests just after it (likely Story Director's cast planner on "Same as chat", plus one more — trace which extension).
+
+Found today, open:
+3. Branches cut before the last NSD-bearing message stay `timeline.status() === 'pending'` (RESTORE_PENDING) forever; sends there are silently
+   aborted after ~40 s. Seen on the USER's troubleshooting copy (NSD checkpoint file `npc-state-delta-checkpoint-nk_*.json` missing → 404) and on
+   some main-chat cuts. At minimum: no silent loss — a time-out with a clear message. Ask the USER whether it happens in their own ST.
+4. NPC State Delta participant callback times out after 10 000 ms for the timeline snapshot (`make` → SNAPSHOT_UNAVAILABLE), seen in C3 and C4
+   real-ST runs on main and clone, with st.lock held.
+5. Story Block `tests/v2/qa/state-fuzz.test.js` seed 36: one failure in one full run under load (live state vs rebuild: an inventory item's owner
+   'party' vs 'story/iron-key'); not reproduced 5×; also possible on main. A live-vs-rebuild difference is never "just flaky": find the cause.
+6. Sought arrivals: gate/planner cost — measure how often the extra cast-planner call is made in real play after round 2.
+7. Second tier of the cleanup plan, not scheduled: Story Block `data-modules/part.js` (1,287), `ui-host.js` (1,071); NPC State Delta `branch.js`
+   (1,621, plan says do not touch), `dossier-ui.js`, `social.js`.
+8. Old debug script `inventory-block/harness/smoke/st-dice-dbg.mjs` imports the removed Story Block `src/handshake.js`.
+
+Added after the diagnoses (5 Nov afternoon):
+9. state-fuzz seed 36 (DIAG-STATEFUZZ-REPORT.md): not reproduced in ~330 loaded runs; suspect — a REFUSED `remakeAsEquipment`
+   (inventory edit path, ex inventory.js:431) mutates `inv.defs[...]` / `def` in place before ctx.fail. Add a deterministic test (refusal leaves
+   state deep-equal, head == at(n) == rebuild); fix if it fails. Keep the test-only dump instrumentation
+   (scratch/logs/DIAG-STATEFUZZ-instrumentation.diff) so a recurrence explains itself.
+10. Restore/branch fixes (DIAG-RESTORE-REPORT.md): group A (bug fixes, no UI): transient participant failures retried on a timer then a
+    Problem; timeline.status()/head() give the reason; NSD prepare waits for load; participant timeout vs NSD's 20 s idle wait aligned (STALE,
+    "retry shortly"); NSD generationReady no double 20 s wait; no auto-scan on a swipe-back without new text. Group B (bigger, mockup for the
+    button): nearest verifiable earlier checkpoint when one is missing; "Start this branch's dossiers from the chat"; checkpoint file clean-up
+    (~0.6 MB per native change, never deleted). Awaiting USER decision.
+11. Per-reply waste (DIAG-CALLS-REPORT.md): USER settings — NSD narration capture catch-up 1 → 8; helper profile preset without high
+    reasoning; ST Vector Storage (~4.5 s before the first token). Third party: Megumin-Suite-Beta saves the chat twice per reply; its
+    settings 907 KB. Code (queued): SB-SAVE-MERGE (running), NSD-SETTINGS-DEBOUNCE (after N7).
+12. USER decision 5 Nov: KEEP exact restore of NPC State Delta dossiers at a branch point (option 1; checkpoints stay). Group A now
+    (SB-RESTORE-A running, NSD-RESTORE-A after N7); group B after the cleanup: nearest verifiable earlier checkpoint as a fallback, a confirmed
+    "Start this branch's dossiers from the chat" way out (mockup first), checkpoint file clean-up (~0.6 MB per native change, never deleted).
+13. Cleanup at the end: agents' branch chats on both test servers, MemoryBooks lorebooks created for branch chats ("Astra_Memories Branch NNN"
+    in worlds/), ST backups of branch chats; stop test server B (PID in scratch/logs/st2-server.pid) and remove /tmp/st2.
+14. Freeze, the real cure (SB-FREEZE-FIX-REPORT.md "Step 2 finding"): the 2.22.3 prefix-witness memo is one generation for the whole chat and any
+    write (epoch++, a new message, archive growth) drops every answer, so after each reply every module's timeline read replays from its
+    checkpoint. Make it incremental: key each answer by its prefix 0..index (chainHash) + the env parts that can change it; prove replay == live.
+    Also: measure a reply's longest task under LOW load (the freeze fix's reply number was taken with the machine at load 9–48).
+15. Replica hygiene: agents deleted branch chats with rm, leaving NSD `dataFiles` pointers in settings.json; a reused branch number then hydrates
+    a stale/missing sidecar. End-of-day cleanup must delete branch chats through SillyTavern's own delete (so NSD's lifecycle clears pointers),
+    or restore server A's settings.json pointers for deleted chats. (Normal play deletes through ST: not affected.)
 
 ## DONE — Story Block as a platform (API + {{sb::}} macro in 2.20.0, card offer in 2.21.0); kept for reference
 Contract: suite-notes/cleanup-briefs/SDK-CONTRACT.md (awaiting USER answers to its 3 open questions).
