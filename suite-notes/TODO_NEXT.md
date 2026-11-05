@@ -11,6 +11,7 @@ Open, in order:
 4. USER: portrait negative prompt keeps an old template — check SillyTavern Image Generation's Common and Character-specific negative prompts (appended to NSD's); if not, which screen/preset/text. Re-sync vendored SB to 25505a65 in SD and NSD (tests only).
 5. USER: NSD scanner profile 502 (backend/profile, not code) if still seen.
 Review depth (USER 4 Nov): full depth + re-reviews for saves, replay, scanning, fights, XP/practice; display-only work one review + a scoped check; 5 Nov: slimmer proofs (no duplicate pre/post runs).
+After the freeze (USER 5 Nov): NSD portrait "Style reference" — pick none / this NPC's current portrait / another NPC's portrait / an uploaded image in both portrait windows; NSD puts it in a temporary chat variable for a ComfyUI custom placeholder (`nsd_style_ref` → `{{getvar::nsd_style_ref}}`, a base64 image-load node in the workflow) and clears it after; fake-ComfyUI capture test; setup note. ~2.5–3 h incl. mockup and review. Today, no code: a fixed style image via a Load Image node in ComfyUI's input/, or `%char_avatar%` (card art).
 Idea (USER 4 Nov, next time): a "Help corner" tab in the suite that shows docs/FAQ.md in-app. Keep FAQ.md growing meanwhile.
 
 ## Follow-ups 5 Nov (numbers referenced above; 3, 4, 10, 11, 13, 15 done or covered today: restore group A #291/#259, saves #294/#257, cleanup + branch chats deleted through SillyTavern)
