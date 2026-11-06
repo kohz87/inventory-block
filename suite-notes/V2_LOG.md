@@ -1,6 +1,7 @@
 # v2 build log (coordinator)
 
 ## Merged into v2
+- Story_block #303 deterministic fight board (Lean RPG, Standard; pause screen, held reply until Send with this fight; 3-part review + cleanup; 4959 tests) — 6 Nov
 - Story_block #53 SB-state (store, persistence) · #54 SB-commands (ops, rng, check, bus)
 - CI: tests/v2/** now run in SB, RB, SD (direct commits to v2)
 
