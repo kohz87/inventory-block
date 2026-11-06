@@ -4,13 +4,20 @@ State: DEVELOPMENT FROZEN (USER 4 Nov): stability, speed and cleanup only, plus 
 Mains: Story Block 2abfd0e (+ #299 cast start 0, #300 cast wears, #301 cast behaviour) (2.22.5 + Unreleased: splits, v1 removed, floating panel, no-rolls note, freeze fix, fewer saves, restore A, keep lines, present after place);
 Story Director e3c1980 (2.10.2 + Unreleased: quest matching, cast fixes, sought arrivals, undated offers lapse, v1 removed); NPC State Delta 4d25fe7 (+ #260 cast wears, #261 cast behaviour) (1.10.2 + Unreleased: index.js split, settings debounce, restore A);
 Studio main (0.9.0 + #33 Usually wears, #34 How they behave); vendored SB 83579215 everywhere (one merge behind: #298, a capture-order fix with no API change).
-OVERNIGHT 6→7 Nov (merged on green CI + holding review): Story_block #304 (foe members + standard.js split + phone layout), #305 (no silent
-send loss on a pending branch; fuzz + Re-read diagnostics; codemap); Story_director #171 (codemap + 8 file splits); Story_studio #35 (cast form
-keeps focus; codemap). In progress: NSD branch cleanup/nsd (snapshot time-out fix + codemap + splits; participant.js split NOT a pure move →
-close review); Story_block phase-2 splits (15 groups, branch per group split/sb-N; 12/13/14 clean → cleanup/sb-splits; 1/10 broke tests and
-11 conflicts with #305 → terra correcting); Studio's 7 splits not started. BLOCKERS for the USER: (1) NanoGPT DeepSeek balance ~$0.2 (top up;
-remaining splits run one at a time until it runs out); (2) Codex A next reset 06:10 SGT, B retired. Open: NSD must keep every checkpoint file a
-branch refers to (Story Block only reports a missing one). Present/Re-read + fuzz 36: wait for the next case (diagnostics in place).
+OVERNIGHT 6→7 Nov — merged on green CI + holding review: Story_block #304 (foe members, standard.js split, phone layout), #305 (no silent
+send loss on a pending branch + review fixes; fuzz + Re-read diagnostics; codemap), #306 (14 files over 450 lines split, reviewed), #307
+(review tidy-ups); Story_director #171 (8 splits + codemap), #172 (re-sync SB 31dcc326); npc_state_delta #264 (snapshot bounded by the host
+deadline + review fixes; codemap), #265 (re-sync SB 31dcc326); Story_studio #35 (cast form keeps focus + hardening; codemap).
+FOR THE USER (morning): (1) top up NanoGPT (DeepSeek balance ran out ~02:30) for the remaining splits: Story_block 19 files over 450
+(ui-host 1090, commands 942, persist 897, battle-log 799, render 791, check 756, fields 714, evidence 699, ops 676, sdk 655, editable 613,
+store/write 613, lean-rpg/view/settings 515, domains/index 496, inventory/commands 485, store 482, mounts/card 481, coordinator-prepare 468,
+scene 466; old partial worktrees scratch/files/sb-split-2..9,15 are from an older main), NSD 4 (npc-meters 925, participant 827, cast-ui 740,
+queries 511; redo on new main), Studio 7; (2) Studio re-sync branch resync/sb-31dcc326 pushed WITHOUT a PR: the single-file page is 6,508,107
+bytes, over its 6.5 MB test budget (spec 5b §11.1 ~4.6 MB): raise the budget or shrink the page?; (3) Studio AGENTS.md says no model names in
+commit messages but the suite convention keeps the Co-Authored-By trailer: update AGENTS.md to state the exception?; (4) approve dropping
+cross-fight resume for foe members. Follow-ups: NSD keep every checkpoint file a branch refers to; NSD NITs (checkpoint re-check after putIndex;
+bound writeTimeline/inheritBranch); Studio NITs (cast.js `taken` flag; stacked one-shot listeners); present/Re-read + fuzz 36 wait for the next
+case (diagnostics in place); re-sync vendored SB again after the next Story Block merge (#307 not yet vendored).
 Open, in order:
 ON HOLD (USER 5 Nov evening): quota low — no new work until the reset; what is left is for troubleshooting only. Next when resumed: (a) Studio cast-form focus bug, (b) re-sync vendored SB in SD/NSD to afbf20f7, then (c) incremental replay memo + low-load measure, (d) seed-36 refusal test, (e) chat-file rewrites; decide on 4-model-calls trace, restore B, second-tier splits; then the release decision.
 1. USER: decide when to release (version bumps) the Unreleased work in all three repos.
