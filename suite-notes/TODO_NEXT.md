@@ -89,6 +89,20 @@ Plus reviews, real-ST checks, release ~2–3 h. Order: 1+2 in parallel, then 4, 
 Approved mockups: RPG https://claude.ai/artifact/Gn22FRyEzDvufqZDgdbR4R (v8); Studio Timeline
 https://claude.ai/artifact/AJZkpqZigE5TvZRRh4jrMK (v3); AI writing help https://claude.ai/artifact/EanYreZdULFAjKTf2reV2K.
 
+## Post-release batch 7 Nov — MERGED to main, not yet released (no version bump yet)
+- Freeze cure: Story_block #313 (prefix memo; replay fuzz 320 runs byte-identical to main, prompts identical; seed 137 unchanged).
+- Wasted work: NSD #268 (backfills on the reply, 1 per reply; one model call per NPC per reply).
+- Battle log stop line + Receipt: Story_block #312 (mockup approved). Small items: Story_block #310 (A12 carry, `^`), Studio #39, SD #174.
+- Splits: NSD #269 + #270 (all root runtime files <= 450 lines; 1.11.0 changelog line corrected), Story_block #311 (matrix runner).
+- Group B clean-up: Story_block #314 (`timeline.referenced`) + NSD #271 (Settings -> Storage: Clean up, Find older files via Data Maid on press).
+- Owner settings to change (real SillyTavern): NSD narration capture catch-up back to 8; optionally a low-reasoning helper profile.
+
+## HELD (owner 7 Nov) — needs one spec: a dedicated history replay in NSD
+- Fallback to the nearest earlier saved point (branches batch/b-p1, batch/b-p24 kept) and "Start this branch's dossiers from the chat"
+  (batch/b-p3 kept). terra blocked both: NSD's normal scanner reads one window, does not wait before new play, and can send old
+  relationship changes to the current head. Spec once: own replay, all-or-nothing, never writes the head; then build + review.
+- Next: release SB / NSD / Studio / SD with the batch (changelogs: Story Block has no entries yet for #310-#314), re-sync vendored SB.
+
 ## Waiting on the USER
 2. **UI redesign (P6)**: CLOSED 1 Nov. The current shipped UI is the baseline; any UI change is incremental, with a mockup first.
 
