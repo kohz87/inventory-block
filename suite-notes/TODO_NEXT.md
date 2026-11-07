@@ -89,6 +89,19 @@ Plus reviews, real-ST checks, release ~2–3 h. Order: 1+2 in parallel, then 4, 
 Approved mockups: RPG https://claude.ai/artifact/Gn22FRyEzDvufqZDgdbR4R (v8); Studio Timeline
 https://claude.ai/artifact/AJZkpqZigE5TvZRRh4jrMK (v3); AI writing help https://claude.ai/artifact/EanYreZdULFAjKTf2reV2K.
 
+## Released 7 Nov evening (release 3, no tags): SB 2.25.0 #321, SD 2.11.2 #176, NSD 1.13.0 #274, Studio 0.10.2 #42
+- History replay (owner-held fallback now LIVE): SB #319 (fallback to nearest earlier saved point, restored/progress/skip callbacks,
+  sdk.query asOf, catch-up banner + "Start this branch's dossiers from the chat"), NSD #273 (history-replay engine + controller,
+  view/sink on the live reply path, catch-up holds sending with Skip, rebuild from empty). Spec scratch/batch/HR/SPEC-DRAFT.md.
+- Board-only combat: SB #320 (Auto + cap slider rpgAutoCap 1-8/until end, offer line, two-choice attack hold, narrator foe grammar,
+  cross-fight resume, FIGHT_TAKEN_BACK Problem; roll planner and Classic rules REMOVED; combat replay corpus pins old chats).
+  Studio #42 dropped the Formula card. Spec scratch/batch/COMBAT/SPEC-DRAFT.md, mockup artifact F2WBQkPNU31VbijbK3Vohd.
+- Fixes: seed 137 Problems drift #317, P4 lazy checker/Diagnostics/UI sample #318, cap hint #316, Studio Tab test #41.
+- STILL OPEN: intermittent state-fuzz live-vs-rebuild failure (likely LONG seed 36): recurred once in a review run (seed not captured);
+  a 15-round hunt with FUZZ_DUMP_DIR=scratch/batch/COMBAT/fuzz-dumps found none so far. Run state-fuzz with FUZZ_DUMP_DIR set to capture.
+  present/Re-read issue: waiting for a recurrence. state-fuzz.test.js times out as a file under heavy load (passes alone): give it time or split.
+- Owner setting (real ST): NSD narration capture catch-up back to 8.
+
 ## Post-release batch 7 Nov — MERGED to main, not yet released (no version bump yet)
 - Freeze cure: Story_block #313 (prefix memo; replay fuzz 320 runs byte-identical to main, prompts identical; seed 137 unchanged).
 - Wasted work: NSD #268 (backfills on the reply, 1 per reply; one model call per NPC per reply).
@@ -97,7 +110,7 @@ https://claude.ai/artifact/AJZkpqZigE5TvZRRh4jrMK (v3); AI writing help https://
 - Group B clean-up: Story_block #314 (`timeline.referenced`) + NSD #271 (Settings -> Storage: Clean up, Find older files via Data Maid on press).
 - Owner settings to change (real SillyTavern): NSD narration capture catch-up back to 8; optionally a low-reasoning helper profile.
 
-## HELD (owner 7 Nov) — needs one spec: a dedicated history replay in NSD
+## DONE 7 Nov (was HELD): history replay built and released (see release 3 above)
 - Fallback to the nearest earlier saved point (branches batch/b-p1, batch/b-p24 kept) and "Start this branch's dossiers from the chat"
   (batch/b-p3 kept). terra blocked both: NSD's normal scanner reads one window, does not wait before new play, and can send old
   relationship changes to the current head. Spec once: own replay, all-or-nothing, never writes the head; then build + review.

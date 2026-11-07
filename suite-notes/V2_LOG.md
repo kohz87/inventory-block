@@ -1,6 +1,7 @@
 # v2 build log (coordinator)
 
 ## Merged into v2
+- 7 Nov evening: release 3 = SB 2.25.0 #321 (history replay #319, board-only combat #320, #316-#318), NSD 1.13.0 #274 (#273), SD 2.11.2 #176, Studio 0.10.2 #42 (#41)
 - 7 Nov afternoon (post-release batch): Story_block #310 #311 #312 #313 #314, NSD #268 #269 #270 #271, Studio #39, SD #174; fallback + rebuild held for a history-replay spec
 - 7 Nov night: Story_block #304 foe members/standard split/phone layout, #305 pending-branch fix + diagnostics + codemap, #306 14-file split, #307 tidy-ups; Story_director #171 splits + codemap, #172 re-sync; NSD #264 snapshot bound + codemap, #265 re-sync; Story_studio #35 cast focus + codemap
 - Story_block #303 deterministic fight board (Lean RPG, Standard; pause screen, held reply until Send with this fight; 3-part review + cleanup; 4959 tests) — 6 Nov
