@@ -89,6 +89,20 @@ Plus reviews, real-ST checks, release ~2–3 h. Order: 1+2 in parallel, then 4, 
 Approved mockups: RPG https://claude.ai/artifact/Gn22FRyEzDvufqZDgdbR4R (v8); Studio Timeline
 https://claude.ai/artifact/AJZkpqZigE5TvZRRh4jrMK (v3); AI writing help https://claude.ai/artifact/EanYreZdULFAjKTf2reV2K.
 
+## Overnight 7-8 Nov (owner asleep; decisions per "no reply in 2 min -> proceed"; see scratch/batch/DECISIONS.md)
+- SillyTavern soak test built: scratch/soak/ (fake-narrator.mjs, soak.mjs, run.sh, SPEC.md). Replica only (port 8000); settings backed up and
+  restored by hash; own throwaway character; Playwright driver; live-vs-rebuild check by page reload; dumps per mismatch.
+- FOUND + FIXED + RELEASED: NSD reload rollback (race: reconcile ran before the chat loaded, saw an empty chat, restored the journal root and
+  SAVED it -> dossiers lost). NSD #275 (two review rounds) + 1.13.1 #276. 6 of 7 first-trial mismatches were this bug.
+- Long soak on NSD 1.13.1: Phase R (real endpoint) 51 ops / 11 checks / 0 mismatches; Phase F (fake) 261 ops / 63 checks / 0 mismatches,
+  9 board fights. Settings restored (sha 2b0e15c6...), soak data deleted, fake narrator only model in F.
+- 'present' mismatch (round 3) = soak artifact (snapshot during a scan commit). Owner's present/Re-read report not reproduced yet.
+- SOAK FOLLOW-UPS (driver): drain NSD scan before each snapshot and retry instead of dump; Phase R settings check should list changed keys
+  and abort only on connection keys (it stopped R at the end: ST/extensions legitimately save settings during play); after a reply timeout
+  wait for generation to stop before the next op (real model replies took ~95 s); 21 sends produced no generation and 3 edits errored
+  (investigate holds); add a Re-read-focused reload check for the present report.
+- NSD follow-up (low): a reload within ~3 s of a scan can lose that scan's last update (page-hide flush may not be awaited).
+
 ## Released 7 Nov evening (release 3, no tags): SB 2.25.0 #321, SD 2.11.2 #176, NSD 1.13.0 #274, Studio 0.10.2 #42
 - History replay (owner-held fallback now LIVE): SB #319 (fallback to nearest earlier saved point, restored/progress/skip callbacks,
   sdk.query asOf, catch-up banner + "Start this branch's dossiers from the chat"), NSD #273 (history-replay engine + controller,
