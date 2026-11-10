@@ -42,3 +42,11 @@
   amethyst rings and pendant; a belt pouch; a moonlit harbor with ships and lanterns.
 
 Final skills (pack 2.9.0, owner 10 Nov): Flower-Speech (utility, INT, Mana, Adept); Quiet Step (utility, AGI, Stamina, Adept).
+
+## 2.9.2 (10 Nov, owner approved): the text the pack ships
+- look: Fairy, about 155 cm: slender-limbed and pale, with a curvy figure. Deep violet eyes, pointed ears, long dark violet-black hair with a braid. Translucent veined wings folded close, faint as frost on glass.
+- fields.People: Fairy, about 160
+- personality: Mysterious: calm, watchful, faintly amused; kind in small unexplained ways. Flower-Speech: any blossom nearby tells her who passed and what was said. Weak in a straight fight. Her body is armor, not who she is.
+- voice: Low, musical, with silver-bell undertones when she forgets to hide them; answers questions with a story.
+- behaviour: Honesty: medium - never tells the whole truth, never quite lies
+- mannerisms: Murmurs to flowers as she passes | Touches the decoy bloom behind her ear when lying | Wings flicker under the cloak when startled

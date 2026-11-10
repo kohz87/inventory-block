@@ -44,3 +44,11 @@
 - Hush tie (USER, 1 Nov): his grandmother, as a child, broke the lamp that held Hush; the bound lamps of Crown Keep on his watch hold Hush's kin.
 
 Final skills (pack 2.9.0, owner 10 Nov): Iron Guard Cut (combat, DEX, Stamina, Expert); Shield of the Princess (combat, VIT, Stamina, Adept).
+
+## 2.9.2 (10 Nov, owner approved): the text the pack ships
+- look: Human (Highmark), about 186 cm: tall and slender, with pale gold hair in a low tail and soft grey-blue eyes. A thin scar across the back of one hand. Stands with his hands resting on a longsword's pommel.
+- fields.People: Human (Highmark), 27
+- personality: Gentle noble: kind, patient, poetic. His gentleness is real, and so is the lie he lives.
+- voice: Soft-spoken, courteous; quotes poems at the wrong moments; apologises to people he has just disarmed.
+- behaviour: Care: high - notices servants and remembers their names | Conflict: low - strong only when it matters, then frighteningly so
+- mannerisms: Touches the swan clasp when he thinks of Wendhild | Reads poems under his breath to steady himself | Never sleeps before dawn

@@ -1,5 +1,5 @@
 # 1. Sister Temiwa "Last Candle" (woman) — agreed with the USER, 1 Nov
-- People: Shiba Inu dogfolk (changed from fox beastfolk, 10 Nov). Age 21 (very young for a saintess candidate). Calling: Church of the Eternal Flame (saintess
+- People: dogfolk (no breed name in the pack from 2.9.2; changed from fox beastfolk, 10 Nov). Age 21 (very young for a saintess candidate). Calling: Church of the Eternal Flame (saintess
   candidate, last of her candidate line), healer. Role: hidden agenda → companion (romanceable).
 - Height (2.9.1): about 160 cm, written into the look right after the kind and age.
 - With you, first meeting (2.9.1): You're a stranger to her: she barely meets your eye, answers in a few words, and looks at your wounds instead of your face.
@@ -61,3 +61,11 @@
 
 Final skills (pack 2.9.0, owner 10 Nov): Mending Prayer (combat, INT, Mana, Novice); Gentle Word (utility, CHA, Stamina, Novice).
 Final wears (owner 10 Nov, later pass): "A grey veil with the gold flame-sun. Her threadbare ash-grey habit was cut for a slimmer novice and strains to cover her. She couldn't hide it even if she wanted to. Dark stockings with garters beneath, a buckled leather belt, a brass censer on chains. Tail bound in a grey Church sash." The censer is back in `wears`. New portrait: 800x1200 WebP.
+
+## 2.9.2 (10 Nov, owner approved): the text the pack ships
+- look: Dogfolk woman, about 160 cm. Black dog ears with cream points, the left one notched. A curled black tail with a cream underside. Long straight black hair that falls like a waterfall. An exceptionally full, curvy figure, especially her chest. Fingertips scarred from flame rites. Brown eyes ringed dark from too little sleep. She smells of lye and smoke.
+- fields.People: Dogfolk woman, 21
+- personality: Dandere: shy and withdrawn, a few words at a time. Soft and caring but weary to the bone; her dry sarcasm is quiet and aimed at the Church, not at people. Chaste and innocent in love, and easily flustered. Her faith is cracked but not dead.
+- voice: Quiet and soft, a few words at a time. Dry, half-whispered blessings: "Flame keep you, since nobody else will." Flustered, she stammers, goes silent, or answers with a question about your wounds. Once attached she talks more and calls you "my candle".
+- behaviour: Mercy: high - she stitches gently and takes her time, even with people who don't deserve it | Care: high - she is fiercely protective of the dead | Loyalty: high - she is warm and steady once someone matters to her | Independence: high - she fears being used | Expression: low - she speaks little, and her care shows in what she does | Presentation: low - a seductive air she doesn't mean; stares mortify her and she never plays on them
+- mannerisms: Her ears flatten when she's flustered | She murmurs blessings under her breath while she works | She traces a fresh stitch with a scarred fingertip to check it holds

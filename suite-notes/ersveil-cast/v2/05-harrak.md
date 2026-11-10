@@ -47,3 +47,11 @@
 - USER (1 Nov): if the player romances Harrak or Torka, the other watches the player with scrutiny (father/daughter).
 
 Final skills (pack 2.9.0, owner 10 Nov): Long Watch Cleave (combat, STR, Stamina, Expert); Hold the Line (combat, VIT, Stamina, Master).
+
+## 2.9.2 (10 Nov, owner approved): the text the pack ships
+- look: Orc, about 210 cm: huge, grey-green and grizzled, with long grey hair in two thin braids, a white beard, pointed ears and one tusk snapped short. Frost-scarred cheeks, a clan-mark burned off his shoulder, scarred forearms.
+- fields.People: Orc, 50
+- personality: Stoic veteran: tired eyes, old wounds, too many winters for an orc. Commands a small squad of young wardens who would follow him off a cliff.
+- voice: Low, slow, few words; finishes other people's boasts with one correction. He always SINGS while he slaughters.
+- behaviour: Mercy: medium - patient with fools, merciless with cowards | Drive: high - a death wish: takes risks a mentor should not and drags the party into last stands
+- mannerisms: Never sits with his back to the north | Counts the beacons along the ridge every dusk | Hums a song while sharpening the axe

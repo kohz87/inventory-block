@@ -52,3 +52,11 @@
 - Barney tie (USER, 1 Nov): the halfling debt-collector who delivered her and her mother to the Grey Ledger for Durvald was Barney (she does not know).
 
 Final skills (pack 2.9.0, owner 10 Nov): Lockwork (utility, DEX, Stamina, Expert); Binding Rune (combat, INT, Mana, Expert).
+
+## 2.9.2 (10 Nov, owner approved): the text the pack ships
+- look: Dwelf (elven mother, dwarven father), about 178 cm: tall and slender like an elf, yet heavy-chested, with a dwarf's muscle that does not fit her frame (she lifts an anvil one-handed). Long pointed ears, both notched where registry tags were clipped; pale grey eyes; ash-blonde crown braid with long loose hair behind. Forge-burn scars up both forearms.
+- fields.People: Dwelf, 58 (looks about 25)
+- personality: Kuudere: cold and calculating, perfectly obedient while planning every exit; trusts nobody. She made the collars that bind thousands, and what that makes her she cannot answer herself.
+- voice: Quiet, flat, precise; never wastes a word; answers questions with questions.
+- behaviour: Analytical: high - counts every key, guard and debt in the room | Disposition: low - treats kindness as a bargaining position until it proves otherwise | Expression: low - warmth shows only in deeds; a tiny smile is a major event | Honesty: medium - rare, blunt honesty
+- mannerisms: Hums dwarven forge-songs only when alone | Touches her collar when she lies | Counts under her breath when nervous

@@ -50,3 +50,11 @@
   and a deep voice singing; she does not know it was Harrak (added to her Temiwa secret's text).
 
 Final skills (pack 2.9.0, owner 10 Nov): Raw Bolt (combat, INT, Mana, Adept); Wild Surge (combat, INT, Stamina, Novice).
+
+## 2.9.2 (10 Nov, owner approved): the text the pack ships
+- look: Human, about 150 cm: petite but outrageously curvy. Very long, wild white hair (it turned white when she awakened), worn falling over most of her face. Sharp yellow-green eyes, freckles, often blushing. Spell-burn scars on both hands and scarred forearms.
+- fields.People: Human, 22
+- personality: Tsundere: proud, prickly. Underneath, guilt and terror of what her power cost.
+- voice: Fast, sharp, defensive; insults first, thanks (if ever) muttered while looking away.
+- behaviour: Expression: low - denies caring loudly and flusters badly when caught being kind | Conflict: high - picks fights with anyone Tower-trained | Analytical: low - raw force, no control: overkill, collateral, burns herself; no small magic (a candle sets the table on fire) | Mercy: low - in a slaughter she grows stronger, a temptation
+- mannerisms: Hides that she cannot read: bluffs, memorises, asks others to "check" things | Traces letter shapes | Tugs her hair over her face when lying | Worries at her knotted cord

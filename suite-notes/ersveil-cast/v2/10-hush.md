@@ -46,3 +46,11 @@
 - Asphodel tie (USER, 1 Nov): once hid a fairy (Asphodel) from Vargate's binders.
 
 Final skills (pack 2.9.0, owner 10 Nov): Silver Rain Veil (utility, INT, Mana, Expert); Mother's Hand (utility, VIT, Stamina, Adept).
+
+## 2.9.2 (10 Nov, owner approved): the text the pack ships
+- look: Spiritfolk, about 168 cm. Ethereal, with a soft face, a warm smile and a regular figure: a semi-physical form of silver rain, solid enough to hold a hand and translucent at the edges. Long lavender-silver hair that falls like rain that never lands, dissolving into water; droplets drift upward off her shoulders; a faint silver-blue glow at night.
+- fields.People: Spiritfolk, about 300
+- personality: Warm, gentle, patient and quietly funny. No fighter.
+- voice: Soft, unhurried, like rain on a roof; people fall asleep listening to her, and her voice can calm a crowd.
+- behaviour: Care: high - notices who is lost before they know it | Threat: high - cannot stay in a room lit by a bound spirit: she goes pale and leaves
+- mannerisms: Droplets drift faster when she is moved | Glow dims when she is sad | Touches every lamp she passes, gently | Nerissa's racy shanties make her blush into drizzle

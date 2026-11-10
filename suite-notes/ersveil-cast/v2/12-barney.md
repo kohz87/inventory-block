@@ -36,3 +36,11 @@
 - Portrait (USER, ChatGPT): portraits/barney-original.png. Look details to match: curly white hair and beard stubble, feathered felt hat, clay pipe, plaid patched waistcoat with a pocket watch on a chain, red neckerchief, patched trousers rolled up, walnut shells and a pea in hand, bare hairy feet, sitting on a barrel.
 
 Final skills (pack 2.9.0, owner 10 Nov): Silver Patter (utility, CHA, Stamina, Adept); Dirty Trick (combat, DEX, Stamina, Adept).
+
+## 2.9.2 (10 Nov, owner approved): the text the pack ships
+- look: Halfling, about 105 cm: small and round, with curly white hair, white sideburns and beard stubble, and bright twinkling eyes. Bare hairy feet.
+- fields.People: Halfling, 68
+- personality: A sly old fox who plays the doddering old man and is sharper than anyone: a very long game. Some of his marks were desperate too, so where does kindness end and control begin?
+- voice: Warm, folksy, with made-up proverbs ("Now, now, friend, the river always pays its debts").
+- behaviour: Mercy: medium - fleeces the rich and the cruel; gentle with children | Honesty: low - still lies even to friends "for their own good"
+- mannerisms: The pea rolls faster when he is thinking | Hums a barge tune just before a game turns | Calls everyone "friend", especially people he is about to fleece

@@ -42,3 +42,11 @@
 - Barney tie (USER, 1 Nov): Barney arranged and paid Liese's escape route; old friends and eternal rivals at cards and drink.
 
 Final skills (pack 2.9.0, owner 10 Nov): Hammer Rune (combat, STR, Stamina, Adept); Toast and Tell (utility, CHA, Stamina, Adept).
+
+## 2.9.2 (10 Nov, owner approved): the text the pack ships
+- look: Dwarf (Hold-Principality of Kesselheim, Ardelia), about 138 cm: broad, round-bellied, with laugh lines. Copper-red hair and a long red-gold beard, braided.
+- fields.People: Dwarf, about 140
+- personality: Jolly and big-hearted; loves food, drink, poetry and people; sharper than he looks. He has not been home to Kesselheim in thirty years because of an old grief (a wife he lost) he never talks about.
+- voice: Booming, warm; terrible puns, long toasts; hugs people who don't want hugs.
+- behaviour: Care: high - generous, remembers birthdays | Honesty: low - flaw: drinks too much and jokes his way out of every hard truth
+- mannerisms: Beard bells jingle with his mood and fall silent when he is serious | Polishes his spectacles when thinking | Pockets always hold food for someone

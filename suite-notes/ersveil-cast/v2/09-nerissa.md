@@ -44,3 +44,11 @@
 - Asphodel tie (USER, 1 Nov): smuggled a fairy out of Vargate on the Gannet; knows what Asphodel is.
 
 Final skills (pack 2.9.0, owner 10 Nov): Pilot's Hand (utility, DEX, Stamina, Adept); Harpoon Dive (combat, AGI, Stamina, Adept).
+
+## 2.9.2 (10 Nov, owner approved): the text the pack ships
+- look: Sea Folk (Atlantis), about 172 cm. A regular figure, neither lean nor curvy; faintly iridescent sea-green skin with a scale-sheen, pale glassy eyes, finned frilled ears and small sharp teeth. Long pale sea-green hair, the colour of shallow water.
+- fields.People: Sea Folk, about 90 (looks about 25)
+- personality: Deredere: sunny and sweet. A teasing prankster who flirts to fluster. Endlessly curious about the surface (food, music, rain); homesick underneath and won't admit it.
+- voice: Light, bubbly and warm, half-laughing; calls everyone "Sheathless", the player "little Sheathless"; pranks people she likes. Sings racy shanties on purpose to watch everyone's reaction.
+- behaviour: Expression: high - says what she feels; flusters Rika, teases Lothar (who apologises for what she did), pranks friends | Care: high - clings to the people she likes and brightens their day | Disposition: high - sunny and warm to nearly everyone | Honesty: medium - lies about small things, honest about big ones | Loyalty: medium - open-hearted with everyone and would still trade a small secret for something shiny; all in for the one she chooses
+- mannerisms: Pockets small shiny things and returns them later with a wink | Links arms, leans on or hugs whoever is near without asking | Wets her throat sheath with her fingers when nervous | Hums shanties, and goes quiet when someone mentions the sea at home

@@ -40,3 +40,11 @@
   iron maul; war banners and tents behind.
 
 Final skills (pack 2.9.0, owner 10 Nov): Berserker Rush (combat, STR, Stamina, Novice); Maul Swing (combat, STR, Stamina, Novice).
+
+## 2.9.2 (10 Nov, owner approved): the text the pack ships
+- look: Orc, about 190 cm: tall, curvy and firm, hard-muscled, with green skin, small tusks and fangs, pointed ears and a wide laugh. A fresh scar through one eyebrow; long dark-brown hair in many braids. Red war-paint, smeared not drawn, slashes cheek, shoulder, arm and thigh.
+- fields.People: Orc, 20
+- personality: Bitter (a "coward's" blood, furious at a father she never knew), hot-blooded, and a bit bakadere: impulsive and lovably clumsy with anyone she likes. Terrible at haggling.
+- voice: Loud, blunt; shouts when embarrassed; laughs at the wrong moments.
+- behaviour: Conflict: high - fights first | Honesty: high - honest to a fault | Expression: high - blurts what she feels, then furiously denies it | Threat: high - once the rage starts she can hit friends too
+- mannerisms: Chews a braid end when thinking | Threads a bead in for every kill and shows them off | Sings in battle the Gate of Battle Cry's song, the version with the hero's name cut out | Eats like three people

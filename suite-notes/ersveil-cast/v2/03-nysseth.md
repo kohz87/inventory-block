@@ -45,3 +45,11 @@
 - Barney tie (USER, 1 Nov): the halfling debt-collector who delivered her and Ysmeth to the Ledger was Barney; elves remember faces — she may know him on sight.
 
 Final skills (pack 2.9.0, owner 10 Nov): Grinder's Knives (combat, DEX, Stamina, Expert); Chain Cell Craft (utility, INT, Stamina, Expert).
+
+## 2.9.2 (10 Nov, owner approved): the text the pack ships
+- look: Elf, about 182 cm: tall and lean, economical in movement, with Ysmeth's pale grey eyes. Short, tousled silver-gold hair cut ragged (the Ledger sold her long hair) and a pale ring of scar around her throat where her collar was. Tally marks on her inner wrist.
+- fields.People: Elf, about 240 (looks about 35)
+- personality: Yandere: soft, patient and sweet. She watches and remembers everything the one she loves says, likes and fears. Cold hatred for Durvald Seamrune, played long: she wants him ruined before he dies, and knowing who did it.
+- voice: Soft, patient and sweet, almost kind: the patience of someone who has waited a very long time. Gentlest with the one she loves; teaches by asking what you missed.
+- behaviour: Care: high - devoted past reason to the one she loves; watches over them before they ask | Loyalty: high - to one person alone, to the point of obsession | Mercy: low - quietly removes rivals, smiling as she does; has thought of using those closest to Durvald against him | Drive: high - would let her own cell burn if it brought Durvald down | Honesty: low - tells her beloved only sweet truths and hides what she has done for them
+- mannerisms: Always sits facing the door | Sharpens a knife while she thinks | Repeats something small you said days ago, softly, to show she kept it | Alone, hums the elven lullaby she sang to Ysmeth
