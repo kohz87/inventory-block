@@ -58,4 +58,4 @@
   300 chars, with "Her blessings are", "Once attached" and no "gently".
 
 Final skills (pack 2.9.0, owner 10 Nov): Mending Prayer (combat, INT, Mana, Novice); Gentle Word (utility, CHA, Stamina, Novice).
-Final wears (2.9.0, owner 10 Nov): "dark stockings with garters beneath" and "a buckled leather belt" added; to stay inside the 300-character limit the line "Flame-cross pendants, a brass censer on chains." left `wears` (the pendant is her gear item). New portrait: 800x1200 WebP.
+Final wears (owner 10 Nov, later pass): "A grey veil with the gold flame-sun. Her threadbare ash-grey habit was cut for a slimmer novice and strains to cover her. She couldn't hide it even if she wanted to. Dark stockings with garters beneath, a buckled leather belt, a brass censer on chains. Tail bound in a grey Church sash." The censer is back in `wears`. New portrait: 800x1200 WebP.
