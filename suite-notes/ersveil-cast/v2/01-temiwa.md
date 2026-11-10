@@ -1,6 +1,8 @@
 # 1. Sister Temiwa "Last Candle" (woman) — agreed with the USER, 1 Nov
 - People: Shiba Inu dogfolk (changed from fox beastfolk, 10 Nov). Age 21 (very young for a saintess candidate). Calling: Church of the Eternal Flame (saintess
   candidate, last of her candidate line), healer. Role: hidden agenda → companion (romanceable).
+- Height (2.9.1): about 160 cm, written into the look right after the kind and age.
+- With you, first meeting (2.9.1): You're a stranger to her: she barely meets your eye, answers in a few words, and looks at your wounds instead of your face.
 - Look: russet fox ears (left one notched), white-tipped tail bound in a grey sash (Church rule for beastfolk clergy);
   exceptionally full, curvy figure, especially her chest; the threadbare ash-grey habit, cut for a slimmer novice,
   strains to cover her, and she does not bother to hide it; a fox's sly, seductive air that sits oddly on a holy

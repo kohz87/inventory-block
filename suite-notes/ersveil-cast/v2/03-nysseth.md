@@ -1,6 +1,8 @@
 # 3. Nysseth (woman) — Ysmeth's mother — with the USER, 1 Nov
 - People: elf, about 240, looks around 35. Calling: former Hand of Oblivion executor; freed by the Broken Chain; runs
   a Chain cell in Shackles City. Role: mentor; romanceable (Desire meter on).
+- Height (2.9.1): about 182 cm, written into the look right after the kind and age.
+- With you, first meeting (2.9.1): Soft-spoken and patient with a stranger, and quietly watchful: she remembers everything you say. The player can also push her toward or away from using those closest to Durvald against him. Final stage milestone starts: "she has chosen you: she watches over you and quietly deals with anyone who comes between you; ".
 - Look: tall and lean, economical movement; Ysmeth's pale grey eyes; silver-gold hair cut short and ragged (the
   Ledger sold her long hair); a pale ring of scar around her throat where her collar was; dark close-fitting layers
   with knives where you would never look; tally marks inside her wrist.
@@ -35,7 +37,7 @@
     Drawn to (added): the Hand of Oblivion.
   * Moral edge: she would let her own cell burn if it brought Durvald down, and has thought of using his second
     family (his dwarven children) against him; the player can push her toward or away from it.
-  * Romance mark (top stage): she lets you sit with your back to the door while she watches it for you.
+  * Romance mark (top stage): she watches the door so you can sit with your back to it.
   * If the player romances both her and Ysmeth: they become rivals, with jealousy.
 - Portrait (USER, ChatGPT): portraits/nysseth-original.webp. Look details to match: short tousled silver hair; small
   ear rings; the throat scar; hooded dark cloak with buckled straps; wrapped forearms with a sheathed wrist knife;

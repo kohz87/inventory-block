@@ -2,6 +2,7 @@
 - People: human (River Confederacy barge-girl), 22. Calling: self-taught mage; power ridiculously strong but
   unrefined. Cannot read (never schooled). Role: hidden agenda; can become a companion (romanceable). Fields: Soul
   Class IV, "Self-taught (no spell grammar)".
+- Height (2.9.1): about 150 cm, written into the look right after the kind and age.
 - Look: petite but outrageously curvy figure; hair turned pure white when she awakened, worn long, falling over most of her face (she hides behind it);
   sharp green eyes; freckles; spell-burn scars on both hands hidden in fingerless gloves; a Startrace master's
   travelling coat far too big for her, the Tower insignia torn off.

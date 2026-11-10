@@ -1,6 +1,7 @@
 # 9. Nerissa "of the Gannet" (woman) — with the USER, 1 Nov
 - People: Sea Folk (Atlantis), ~90 (looks ~25). Calling: privateer/smuggler, pilot of the Gannet (Stormmere privateer
   under Captain Nell). Role: companion from day one; romanceable. Fields: Soul Class II, "Atlantean pilot".
+- Height (2.9.1): about 172 cm, written into the look right after the kind and age.
 - Look: a regular figure, neither lean nor curvy (USER); faintly iridescent sea-green skin; long hair the colour of
   shallow water threaded with shells and sea-glass; pale glassy eyes; the transparent breathing sheath folded at her
   throat like a veil on land; open privateer's coat, sash, cutlass; barefoot when she can be.

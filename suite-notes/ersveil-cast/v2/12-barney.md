@@ -1,6 +1,7 @@
 # 12. Barnaby "Old Barney" Thimblewick (man) — with the USER, 1 Nov
 - People: halfling, 68. Calling: barge gambler and con man, Thousand Sails. Role: hidden agenda (a secret kindness);
   NOT romanceable (USER) — the cast's grandfather figure. Fields: Soul Class II, "Card-sharp of the Barges".
+- Height (2.9.1): about 105 cm, written into the look right after the kind and age.
 - Look: small, round; fluffy white sideburns; bright twinkling eyes; battered felt hat; patched waistcoat with far too
   many pockets; clay pipe; three walnut shells and a dried pea always rolling between his fingers; bare, hairy feet.
 - Voice: warm, folksy, made-up proverbs ("Now, now, friend, the river always pays its debts").

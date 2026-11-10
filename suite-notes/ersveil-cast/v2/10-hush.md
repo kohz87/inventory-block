@@ -1,6 +1,7 @@
 # 10. "Hush" — Moonrain-on-the-Roofs (woman) — with the USER, 1 Nov
 - People: spiritfolk, formed ~300 years ago from moonlit rain. Calling: Vargate's night lamplighter and guide of the
   lost. Role: mentor; romanceable. Fields: Soul Class III, "Lamplighter of Vargate".
+- Height (2.9.1): about 168 cm, written into the look right after the kind and age.
 - Look (USER): ethereal, but with a girl-next-door face and a regular figure; a semi-physical form of silver rain,
   solid enough to hold a hand, translucent at the edges; hair that falls like rain that never lands; droplets drifting
   upward off her shoulders; a faint silver-blue glow at night; a hooded grey coat that always looks damp; a long brass

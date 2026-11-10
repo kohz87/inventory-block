@@ -1,6 +1,7 @@
 # 11. Asphodel — Asphodel-under-Moon (woman) — with the USER, 1 Nov
 - People: fairy, ~160. Calling: secret-trader; escaped a collector; hides in plain sight. Role: companion (strange but
   loyal); romanceable. Fields: Soul Class III, "Flower-Speaker".
+- Height (2.9.1): about 155 cm, written into the look right after the kind and age.
 - Look: human-sized by her own magic — slender-limbed and pale with an unearthly stillness, and a deliberately curvy
   figure she shaped on purpose as a distraction (USER); deep violet eyes; translucent wings folded close under a long
   dark cloak, faint as frost on glass; long dark hair with a single pale asphodel behind one ear (never her real
