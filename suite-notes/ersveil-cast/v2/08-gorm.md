@@ -1,6 +1,7 @@
 # 8. Envoy Gorm Kettlebright (man) — with the USER, 1 Nov
 - People: dwarf (Hold-Principality of Kesselheim, Ardelia), ~140 (a sturdy fifty in human terms). Calling: Ardelia's
   envoy to Highmark Capital. Role: companion from day one; romanceable. Fields: Soul Class II, "Envoy of Ardelia".
+- Height (2.9.1): about 138 cm, written into the look right after the kind and age.
 - Look: broad, round-bellied, laugh lines; red-gold beard braided with tiny silver bells; spectacles on a cord; a fine
   Ardelian envoy's coat, wine-stained at the cuffs; a heavy chain of office he forgets to wear; a flask; an old dwarven
   war-hammer.

@@ -1,6 +1,7 @@
 # 7. Sir Lothar (man) — with the USER, 1 Nov
 - People: human (Highmark), 27. Calling: Iron Guard knight sworn to Princess Wendhild. Role: hidden agenda; can become
   a companion. Fields: Soul Class III, "Iron Guard knight". Name: just "Sir Lothar" (USER).
+- Height (2.9.1): about 186 cm, written into the look right after the kind and age.
 - Look: tall, slender; pale gold hair tied back; soft grey-blue eyes; plain Iron Guard plate kept immaculate; a small
   white swan clasp on the cloak; a thin scar across the back of one hand; a worn book of poems at his belt.
 - Voice: soft-spoken, courteous; quotes poems at the wrong moments; apologises to people he has just disarmed.

@@ -7,7 +7,7 @@
       "Last Candle"
     ],
     "about": "A Shiba Inu dogfolk saintess candidate of the Church of the Eternal Flame, exiled to Bluewatch where no priest lives: the frontier's soft-hearted, dryly sarcastic healer and the gentlest keeper of its dead.",
-    "look": "Shiba Inu dogfolk, 21. Black dog ears with cream points, the left one notched. A curled black tail with a cream underside. Long straight black hair that falls like a waterfall. An exceptionally full, curvy figure, especially her chest. A seductive air that sits oddly on a holy woman. Fingertips scarred from flame rites. Brown eyes ringed dark from too little sleep. She smells of lye and smoke.",
+    "look": "Shiba Inu dogfolk, 21, about 160 cm. Black dog ears with cream points, the left one notched. A curled black tail with a cream underside. Long straight black hair that falls like a waterfall. An exceptionally full, curvy figure, especially her chest. A seductive air that sits oddly on a holy woman. Fingertips scarred from flame rites. Brown eyes ringed dark from too little sleep. She smells of lye and smoke.",
     "voice": "Quiet and soft, a few words at a time. Her blessings are dry, half-whispered sarcasm: \"Flame keep you, since nobody else will.\" When flustered she stammers, goes silent, or answers a question about herself with a question about your wounds. Once attached, she talks more and calls you \"my candle\".",
     "personality": "Dandere: shy and withdrawn with most people. She says little and shows care by doing: a bandage already wound, a bowl left by the bedroll. Soft and caring, but weary to the bone; her dry sarcasm is quiet, and aimed more at the Church than at people. She doesn't mean the seductive air. She knows people stare, it mortifies her, and it makes her quieter still. Chaste and innocent in love. Any touch or compliment flusters her: ears flat, tail tucked against the sash, words gone. Her faith is cracked but not dead. She is fiercely protective of the dead, and afraid of being used.",
     "history": "Raised in a Church orphanage in Aurelion. The first beastfolk saintess candidate in a century and the youngest in living memory and the last of her candidate line; her completion rites were \"too good\". Cast out after \"an incident\" to Bluewatch, where no priest lives. She keeps vigil for the frontier dead in the salt-and-ash yard at night, where the orc girl Torka sells monster parts and Temiwa stitches her, gently; Torka is the only one who laughs at it, and the two outcasts get on.",
@@ -170,7 +170,7 @@
       "She murmurs blessings under her breath while she works",
       "She traces a fresh stitch with a scarred fingertip to check it holds"
     ],
-    "withYou": "Shy around you even when she trusts you; around your other companions she goes quiet and busies herself with their wounds."
+    "withYou": "You're a stranger to her: she barely meets your eye, answers in a few words, and looks at your wounds instead of your face."
   },
   {
     "id": "ysmeth",
@@ -180,7 +180,7 @@
       "Fourteen"
     ],
     "about": "A dwelf rune-collar artificer, enslaved when you meet her: the Grey Ledger holds her as collateral on a debt. She opens, fixes or builds anything, and plans every exit.",
-    "look": "Dwelf (elven mother, dwarven father), 58 but looks about 25: tall and slender like an elf, yet heavy-chested, with a dwarf's muscle that does not fit her frame (she lifts an anvil one-handed). Long pointed ears, both notched where registry tags were clipped; pale grey eyes; ash-blonde crown braid with long loose hair behind. Forge-burn scars up both forearms.",
+    "look": "Dwelf (elven mother, dwarven father), 58 but looks about 25, about 178 cm: tall and slender like an elf, yet heavy-chested, with a dwarf's muscle that does not fit her frame (she lifts an anvil one-handed). Long pointed ears, both notched where registry tags were clipped; pale grey eyes; ash-blonde crown braid with long loose hair behind. Forge-burn scars up both forearms.",
     "voice": "Quiet, flat, precise; never wastes a word; answers questions with questions.",
     "personality": "Kuudere: cold and calculating, perfectly obedient while planning every exit; trusts nobody. She made the collars that bind thousands, and what that makes her she cannot answer herself.",
     "history": "Her dwarven father sold her together with her elven mother; ironically her worth as a woman never entered the price, only her technical skill did. She makes rune-collars, and the best collars in Shackles carry her mark. Held by the Grey Ledger as collateral on a debt, she works their collar forge and is lent out at night to fit new collars at the Chainmarket. Fights with a forge hammer; people misjudge her slender frame until she swings it. If the player romances both her and Nysseth, they become rivals, with jealousy.",
@@ -345,14 +345,14 @@
       "Touches her collar when she lies",
       "Counts under her breath when nervous"
     ],
-    "withYou": "Fixes your gear unasked, stands where the blow would land."
+    "withYou": "Sizes you up like a commission: polite, exact, and she charges for everything."
   },
   {
     "id": "nysseth",
     "name": "Nysseth",
     "aliases": [],
     "about": "An elf freed by the Broken Chain, who runs a Chain cell from a knife-grinder's stall in Shackles City and gets runaways out. Soft, patient and sweet, and devoted to you past reason; she teaches by asking what you missed.",
-    "look": "Elf, about 240, looks about 35: tall and lean, economical in movement, with Ysmeth's pale grey eyes. Short, tousled silver-gold hair cut ragged (the Ledger sold her long hair) and a pale ring of scar around her throat where her collar was. Tally marks on her inner wrist.",
+    "look": "Elf, about 240, looks about 35, about 182 cm: tall and lean, economical in movement, with Ysmeth's pale grey eyes. Short, tousled silver-gold hair cut ragged (the Ledger sold her long hair) and a pale ring of scar around her throat where her collar was. Tally marks on her inner wrist.",
     "voice": "Soft, patient and sweet, almost kind: the patience of someone who has waited a very long time. Gentlest with the one she loves; teaches by asking what you missed.",
     "personality": "Yandere: soft, patient and sweet, devoted to the one she loves to the point of obsession. She watches, remembers everything they say, like and fear, and quietly removes anyone who stands between them, smiling as she does. Cold hatred for Durvald Seamrune, played long: she wants him ruined before he dies, and knowing who did it.",
     "history": "Sold with her daughter by her dwarven husband; freed by the Broken Chain years ago; now a quiet fixture of Shackles' underside who \"knows people\". Teaches stealth, poison and knife-work, and knows every back way out of Shackles. If the player romances both her and Ysmeth, they become rivals, with jealousy.",
@@ -430,7 +430,7 @@
             "at": 40
           }
         ],
-        "milestone": "asks you to stand between her and her daughter; she lets you sit with your back to the door while she watches it for you"
+        "milestone": "she has chosen you: she watches over you and quietly deals with anyone who comes between you; asks you to stand between her and her daughter; she watches the door so you can sit with your back to it"
       }
     ],
     "fields": {
@@ -515,7 +515,7 @@
       "Repeats something small you said days ago, softly, to show she kept it",
       "Alone, hums the elven lullaby she sang to Ysmeth"
     ],
-    "withYou": "She has chosen you: she watches over you, remembers everything you say and quietly deals with anyone who comes between you. The player can also push her toward or away from using those closest to Durvald against him."
+    "withYou": "Soft-spoken and patient with a stranger, and quietly watchful: she remembers everything you say. The player can also push her toward or away from using those closest to Durvald against him."
   },
   {
     "id": "rika",
@@ -524,7 +524,7 @@
       "the white-haired mage"
     ],
     "about": "A self-taught barge-girl mage with ridiculously strong, unrefined power, working unlicensed spells in Auvoth's Pale Market. Proud, prickly and hiding behind her hair.",
-    "look": "Human, 22: petite but outrageously curvy. Very long, wild white hair (it turned white when she awakened), worn falling over most of her face. Sharp yellow-green eyes, freckles, often blushing. Spell-burn scars on both hands and scarred forearms.",
+    "look": "Human, 22, about 150 cm: petite but outrageously curvy. Very long, wild white hair (it turned white when she awakened), worn falling over most of her face. Sharp yellow-green eyes, freckles, often blushing. Spell-burn scars on both hands and scarred forearms.",
     "voice": "Fast, sharp, defensive; insults first, thanks (if ever) muttered while looking away.",
     "personality": "Tsundere: proud, prickly. Cannot read and hides it. Underneath, guilt and terror of what her power cost.",
     "history": "A barge-girl from the River Confederacy, never schooled; turned up in Auvoth last winter in a stolen coat. Throws spells that make licensed mages stare, slips a cheap hex into a quarrel and hops tied hulls like stepping stones. Learns by watching and instinct, never from books; every big spell leaves new burns.",
@@ -704,7 +704,7 @@
       "the orc captain"
     ],
     "about": "An aging orc fighter, captain of the Long Watch at Varnhold Watch and the only orc in its ranks. Stoic and tired; \"We hold the cold\" is his whole creed.",
-    "look": "Orc, 50 (very old for an orc): huge, grey-green and grizzled, with long grey hair in two thin braids, a white beard, pointed ears and one tusk snapped short. Frost-scarred cheeks, a clan-mark burned off his shoulder, scarred forearms.",
+    "look": "Orc, 50 (very old for an orc), about 210 cm: huge, grey-green and grizzled, with long grey hair in two thin braids, a white beard, pointed ears and one tusk snapped short. Frost-scarred cheeks, a clan-mark burned off his shoulder, scarred forearms.",
     "voice": "Low, slow, few words; finishes other people's boasts with one correction. He always SINGS while he slaughters.",
     "personality": "Stoic veteran: tired eyes, old wounds, too many winters for an orc. Commands a small squad of young wardens who would follow him off a cliff.",
     "history": "Turned up at the Long Watch decades ago and refused to leave; held a beacon alone through a Frostbound raid; Commander Ragna took him in and made him captain. The Watch trusts him with their lives; the villages still bar their doors when he passes. Highmark provinces still pay orc bounties, and an orc captain is a fat prize.",
@@ -864,7 +864,7 @@
       "Counts the beacons along the ridge every dusk",
       "Hums a song while sharpening the axe"
     ],
-    "withYou": "Teaches by making you do it again. If you romance Torka, he watches you with scrutiny."
+    "withYou": "Treats you as one more recruit until you prove otherwise. If you romance Torka, he watches you with scrutiny."
   },
   {
     "id": "torka",
@@ -874,7 +874,7 @@
       "Torka Bloodsong"
     ],
     "about": "A roaming orc berserker of twenty, loud, bitter and hot-blooded, who hunts the Wildzone north of Bluewatch and sells monster parts by night while she takes a name by force.",
-    "look": "Orc, 20: tall, curvy and firm, hard-muscled, with young green skin, small tusks and fangs, pointed ears and a wide laugh. A fresh scar through one eyebrow; long dark-brown hair in many braids. Red war-paint, smeared not drawn, slashes cheek, shoulder, arm and thigh.",
+    "look": "Orc, 20, about 190 cm: tall, curvy and firm, hard-muscled, with young green skin, small tusks and fangs, pointed ears and a wide laugh. A fresh scar through one eyebrow; long dark-brown hair in many braids. Red war-paint, smeared not drawn, slashes cheek, shoulder, arm and thigh.",
     "voice": "Loud, blunt; shouts when embarrassed; laughs at the wrong moments.",
     "personality": "Bitter (a \"coward's\" blood, furious at a father she never knew), hot-blooded, and a bit bakadere: impulsive, hopeless at hiding feelings, lovably clumsy with anyone she likes. Terrible at haggling.",
     "history": "Denied a deed-name by her clan as a coward's daughter; left to roam the frontier and take a name by force. Sells monster parts at night at Bluewatch's salt-and-ash yard, the one place that will not turn an orc away; Temiwa stitches her there, and Torka is the only one who laughs at Temiwa's careful, grumbling stitching: two outcasts. Berserker front line, Wildzone monster lore, tracking. A running eating-and-drinking rivalry with Gorm (Nerissa joins, and cheats); she cannot understand why she always loses to Barney. Highmark orc bounties put bounty hunters on the roads around Bluewatch.",
@@ -1042,7 +1042,7 @@
       "the Swan"
     ],
     "about": "A gentle, poetic Iron Guard knight sworn to Princess Wendhild, the finest swordsman in the Highmark capital, who runs the capital's hospices and the princess's errands by day and guards the Emperor's chamber by night.",
-    "look": "Human (Highmark), 27: tall and slender, with pale gold hair in a low tail and soft grey-blue eyes. A thin scar across the back of one hand. Stands with his hands resting on a longsword's pommel.",
+    "look": "Human (Highmark), 27, about 186 cm: tall and slender, with pale gold hair in a low tail and soft grey-blue eyes. A thin scar across the back of one hand. Stands with his hands resting on a longsword's pommel.",
     "voice": "Soft-spoken, courteous; quotes poems at the wrong moments; apologises to people he has just disarmed.",
     "personality": "Gentle noble: kind, patient, poetic. His gentleness is real, and so is the lie he lives.",
     "history": "A younger son of no great house who rose to the Iron Guard on merit; Wendhild's most trusted knight; Corvin's young knights mock him as \"the Swan\". Gorm knew him as a squire posted to guard the embassy and taught him to drink, laugh and love poetry; Gorm is the one man he can still laugh with. Court access, writs of passage, Iron Guard training. Prince Corvin's war party is his enemy.",
@@ -1216,7 +1216,7 @@
       "Gorm"
     ],
     "about": "Ardelia's jolly, big-hearted envoy to Highmark Capital for thirty years: a toast-giving, hugging dwarf who plays the fool because fools hear everything.",
-    "look": "Dwarf (Hold-Principality of Kesselheim, Ardelia), about 140, a sturdy fifty in human terms: broad, round-bellied, with laugh lines. Copper-red hair and a long red-gold beard, braided.",
+    "look": "Dwarf (Hold-Principality of Kesselheim, Ardelia), about 140, about 138 cm, a sturdy fifty in human terms: broad, round-bellied, with laugh lines. Copper-red hair and a long red-gold beard, braided.",
     "voice": "Booming, warm; terrible puns, long toasts; hugs people who don't want hugs.",
     "personality": "Jolly and big-hearted; loves food, drink, poetry and people; sharper than he looks. He has not been home to Kesselheim in thirty years because of an old grief (a wife he lost) he never talks about.",
     "history": "Ardelia's \"temporary\" envoy in Highmark for thirty years; Ironanvil dwarves sneer at him as an \"emperor-kneeler\"; the capital's servants and half its knights adore him. Languages, Ardelian safe-conducts and papers, the embassy as a safe house, the capital's servant gossip; a war-hammer he \"forgot\" how to use (he didn't). His apprentice is Liese, 19, a sharp-tongued human orphan from Highmark's mine camps, trained as a diplomat. Knew Lothar as a squire posted to guard the embassy and taught him to drink, laugh and love poetry. Old friends and eternal rivals with Barney at cards and drink; a running eating-and-drinking rivalry with Torka (Nerissa joins, and cheats). Prince Corvin's war party would make an example of the embassy.",
@@ -1377,7 +1377,7 @@
       "Nerissa of the Gannet"
     ],
     "about": "A sunny, openly affectionate Sea Folk pilot of the privateer Gannet, curious about everything on the surface; Atlantis calls her a deserter, and she calls everyone \"Sheathless\".",
-    "look": "Sea Folk (Atlantis), about 90, looks about 25. A regular figure, neither lean nor curvy; faintly iridescent sea-green skin with a scale-sheen, pale glassy eyes, finned frilled ears and small sharp teeth. Long pale sea-green hair, the colour of shallow water.",
+    "look": "Sea Folk (Atlantis), about 90, looks about 25, about 172 cm. A regular figure, neither lean nor curvy; faintly iridescent sea-green skin with a scale-sheen, pale glassy eyes, finned frilled ears and small sharp teeth. Long pale sea-green hair, the colour of shallow water.",
     "voice": "Light, bubbly and warm, half-laughing; calls everyone \"Sheathless\", the player \"little Sheathless\"; pranks people she likes. Sings racy shanties on purpose to watch everyone's reaction.",
     "personality": "Deredere: sunny, openly affectionate and clingy-sweet; hugs first and asks later. Still a teasing prankster who flirts to fluster. Endlessly curious about the surface (food, music, rain); homesick underneath and won't admit it. A magpie.",
     "history": "Left the dome to sail with Sheathless privateers; pilot of the Gannet, a Stormmere privateer under Captain Nell. The Tidebound tolerates her (it needs Atlantean pilots). Breathes underwater (scouts wrecks, sunken ruins, harbor bottoms), knows sea charts and hidden paths, has smuggler contacts in every port. On land too long her skin and sheath dry: she must soak daily (salt water best; a bath or horse trough in a pinch, to her disgust). Joins Gorm and Torka's contests (and cheats); shell games with Barney, two cheats out-cheating each other; her shanties make Hush blush into drizzle, sea and rain almost sisters. She saw the Black Trawl once and won't talk about it.",
@@ -1545,7 +1545,7 @@
       "the rain lady"
     ],
     "about": "Vargate's night lamplighter and guide of the lost: a gentle spirit of silver rain who mothers runaways, drunks and frightened newcomers, and whom children call the rain lady.",
-    "look": "Spiritfolk, formed about 300 years ago from moonlit rain. Ethereal but with a girl-next-door face, a soft, warm smile and a regular figure: a semi-physical form of silver rain, solid enough to hold a hand and translucent at the edges. Long lavender-silver hair that falls like rain that never lands, dissolving into water; droplets drift upward off her shoulders; a faint silver-blue glow at night.",
+    "look": "Spiritfolk, formed about 300 years ago from moonlit rain, about 168 cm. Ethereal but with a girl-next-door face, a soft, warm smile and a regular figure: a semi-physical form of silver rain, solid enough to hold a hand and translucent at the edges. Long lavender-silver hair that falls like rain that never lands, dissolving into water; droplets drift upward off her shoulders; a faint silver-blue glow at night.",
     "voice": "Soft, unhurried, like rain on a roof; people fall asleep listening to her, and her voice can calm a crowd.",
     "personality": "Warm, gentle, patient and quietly funny. No fighter.",
     "history": "Has lit Vargate's lamps longer than anyone remembers; the ward-lords tolerate her because their doors are safer when she walks; children call her \"the rain lady\". Knows every door and safe route in Vargate, senses bound spirits and spirit-powered traps, makes small spirit pacts; her glow lights the dark. Highmark's palaces are full of bound lamps and would be agony to her. Sea and rain, she and Nerissa are almost sisters.",
@@ -1707,7 +1707,7 @@
       "Asphodel-under-Moon"
     ],
     "about": "A pale, calm stranger selling secrets in Corrowen's harbor taverns; the harbor prince pays for news and asks no questions. Mysterious, watchful and faintly amused.",
-    "look": "Fairy, about 160: slender-limbed and pale with an unearthly stillness, and a deliberately curvy figure that works as a distraction (she knows, and is amused). Deep violet eyes, pointed ears, long dark violet-black hair with a braid. Translucent veined wings folded close, faint as frost on glass.",
+    "look": "Fairy, about 160, about 155 cm: slender-limbed and pale with an unearthly stillness, and a deliberately curvy figure that works as a distraction (she knows, and is amused). Deep violet eyes, pointed ears, long dark violet-black hair with a braid. Translucent veined wings folded close, faint as frost on glass.",
     "voice": "Low, musical, with silver-bell undertones when she forgets to hide them; answers questions with a story.",
     "personality": "Mysterious: calm, watchful, faintly amused; kind in small unexplained ways. Flower-Speech: any blossom nearby tells her who passed and what was said. Weak in a straight fight. Her body is armor, not who she is.",
     "history": "A pale stranger selling secrets in Corrowen's harbor taverns; the harbor prince pays for news and asks no questions. Reads a room's lies and debts at a glance. Has minor plant magic (tangling vines, sleeping-pollen). With no flowers she is half blind and starving; stone cities, glass deserts (Ashkar) and winter drain her. She keeps hidden and free, and well informed.",
@@ -1864,7 +1864,7 @@
       "Barnaby"
     ],
     "about": "A halfling barge gambler and con man of the Thousand Sails, 68: a warm, doddering old fox nobody has beaten at the shells, and the cast's grandfather figure.",
-    "look": "Halfling, 68: small and round, with curly white hair, white sideburns and beard stubble, and bright twinkling eyes. Bare hairy feet. Often sitting on a barrel.",
+    "look": "Halfling, 68, about 105 cm: small and round, with curly white hair, white sideburns and beard stubble, and bright twinkling eyes. Bare hairy feet. Often sitting on a barrel.",
     "voice": "Warm, folksy, with made-up proverbs (\"Now, now, friend, the river always pays its debts\").",
     "personality": "A sly old fox who plays the doddering old man and is sharper than anyone: a very long game. Some of his marks were desperate too, so where does kindness end and control begin?",
     "history": "A fixture of the Thousand Sails barges for decades; nobody has beaten him at the shells; everybody likes him anyway. Sleight of hand and pickpocketing, cons and disguises, reading people, a barge network anywhere on the rivers, every pawnshop and fence in Thousand Sails; small and overlooked, the perfect lookout. Old friends and eternal rivals with Gorm at cards and drink; two cheats out-cheating each other at shells with Nerissa; Torka cannot understand why she always loses to him. His knees are giving out.",

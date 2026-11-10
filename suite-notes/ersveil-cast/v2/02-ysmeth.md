@@ -1,6 +1,8 @@
 # 2. Ysmeth, registered "Collar-Wright Fourteen" (woman) — with the USER, 1 Nov
 - People: dwelf (elven mother, dwarven father; the first of her kind in the lore), 58, looks about 25. Calling:
   enslaved rune-collar artificer. Role: enslaved when met; freedom left to the story; can become a companion (romanceable).
+- Height (2.9.1): about 178 cm, written into the look right after the kind and age.
+- With you, first meeting (2.9.1): Sizes you up like a commission: polite, exact, and she charges for everything.
 - Look: the best and worst of both peoples — tall and slender like an elf, yet heavy-chested and with a dwarf's
   muscle strength that does not fit her frame (lifts an anvil one-handed); long pointed ears, both notched where
   registry tags were clipped; pale grey eyes; ash-blonde hair in a crown braid; forge-burn scars up both forearms;

@@ -2,6 +2,8 @@
 - People: orc, 50 (very old for an orc). Calling: fighter; CAPTAIN of the Long Watch at Varnhold Watch, the only orc in
   its ranks. Role: mentor; romanceable (Desire meter on). Fields: Soul Class V (fitting for a hero), "Captain of the
   Long Watch".
+- Height (2.9.1): about 210 cm, written into the look right after the kind and age.
+- With you, first meeting (2.9.1): Treats you as one more recruit until you prove otherwise. If you romance Torka, he watches you with scrutiny.
 - Look: huge, grey-green, grizzled; one tusk snapped short; frost-scarred cheeks; a clan-mark burned off his shoulder
   (the banishment); heavy winter cloak; beacon-horn at his hip; a great axe he leans on like a walking stick.
 - Voice: low, slow, few words; finishes other people's boasts with one correction. Trademark war-cry: he always SINGS
