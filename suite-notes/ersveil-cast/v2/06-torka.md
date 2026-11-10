@@ -37,3 +37,5 @@
   with bone beads; pointed ears; fangs, a wide laugh; red war-paint slashes on cheek, shoulder, arm and thigh; a fur
   mantle; a laced cloth top and fur-trimmed belted skirt; wrapped arms and fists; a fang charm at the belt; a spiked
   iron maul; war banners and tents behind.
+
+Final skills (pack 2.9.0, owner 10 Nov): Berserker Rush (combat, STR, Stamina, Novice); Maul Swing (combat, STR, Stamina, Novice).

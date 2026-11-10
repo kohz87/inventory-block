@@ -47,3 +47,5 @@
   her hip (she cannot read it); a small vial; harbour docks behind.
 - Harrak tie (USER, 1 Nov): of the walk out of the north she remembers only a huge shape carrying her through the snow
   and a deep voice singing; she does not know it was Harrak (added to her Temiwa secret's text).
+
+Final skills (pack 2.9.0, owner 10 Nov): Raw Bolt (combat, INT, Mana, Adept); Wild Surge (combat, INT, Stamina, Novice).

@@ -41,3 +41,5 @@
   brooch with a gold cord; a strapped book at his hip; hands resting on a longsword's pommel; violet imperial banners.
 - Gorm tie (USER, 1 Nov): the book of poems at his belt was Gorm's gift; Gorm is the one man he can still laugh with.
 - Hush tie (USER, 1 Nov): his grandmother, as a child, broke the lamp that held Hush; the bound lamps of Crown Keep on his watch hold Hush's kin.
+
+Final skills (pack 2.9.0, owner 10 Nov): Iron Guard Cut (combat, DEX, Stamina, Expert); Shield of the Princess (combat, VIT, Stamina, Adept).

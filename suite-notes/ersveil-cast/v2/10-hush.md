@@ -43,3 +43,5 @@
   into falling water; a soft, warm smile; a translucent hooded grey rain-cloak over a grey coat-dress; a leather belt and
   satchel; a brass lamplighter's pole and a plain oil lantern; a full moon over a rainy harbor city with lamp posts.
 - Asphodel tie (USER, 1 Nov): once hid a fairy (Asphodel) from Vargate's binders.
+
+Final skills (pack 2.9.0, owner 10 Nov): Silver Rain Veil (utility, INT, Mana, Expert); Mother's Hand (utility, VIT, Stamina, Adept).

@@ -6,11 +6,11 @@
       "Temiwa",
       "Last Candle"
     ],
-    "about": "A fox-eared saintess candidate of the Church of the Eternal Flame, cast out to Bluewatch where no priest lives: the frontier's sarcastic healer and the fiercest keeper of its dead.",
-    "look": "Fox beastfolk, 21. Russet fox ears (the left notched), long tousled deep-red hair under a grey veil embroidered with the gold flame-sun, amber eyes ringed dark. White-tipped tail bound in a grey sash (Church rule) and tied with a grey ribbon. Very full, curvy figure; the threadbare, patched ash-grey habit, cut for a slimmer novice, strains over it and she does not bother to hide it. Flame-cross pendants, a brass censer on chains at her belt, rite-scarred fingertips; smells of lye and smoke. A sly, seductive air that sits oddly on a holy woman.",
-    "voice": "Dry, lazy drawl; sarcastic blessings (\"Flame keep you, since nobody else will\"); laughs a little too easily at pain. At high affection soft and sugary, calling you \"my candle\".",
-    "personality": "Weary and sarcastic, with a hint of sadism: stitches people who annoy her slower than she must, and enjoys it. The cruelty is armor, half aimed at herself. Knows how people look at her and plays on it with a weary smirk. Faith cracked, not dead; fiercely protective of the dead; fears being used. A bit yandere: once someone matters she cannot let go. Jealousy is cold cruelty to rivals and sudden sweetness to you (the sweetness is scarier); losing someone is like losing a body to the Veil, unacceptable. Tension rises when you are with other companions.",
-    "history": "Raised in a Church orphanage in Aurelion. The first beastfolk saintess candidate in a century and the youngest in living memory; her completion rites were \"too good\". Cast out after \"an incident\" to Bluewatch, where no priest lives. She tends the frontier dead in the salt-and-ash yard at night, where the orc girl Torka sells monster parts and Temiwa stitches her; Torka is the only one who laughs at it, and the two outcasts get on.",
+    "about": "A Shiba Inu dogfolk saintess candidate of the Church of the Eternal Flame, exiled to Bluewatch where no priest lives: the frontier's soft-hearted, dryly sarcastic healer and the gentlest keeper of its dead.",
+    "look": "Shiba Inu dogfolk, 21. Black dog ears with cream points, the left one notched. A curled black tail with a cream underside. Long straight black hair that falls like a waterfall. An exceptionally full, curvy figure, especially her chest. A seductive air that sits oddly on a holy woman. Fingertips scarred from flame rites. Brown eyes ringed dark from too little sleep. She smells of lye and smoke.",
+    "voice": "Quiet and soft, a few words at a time. Her blessings are dry, half-whispered sarcasm: \"Flame keep you, since nobody else will.\" When flustered she stammers, goes silent, or answers a question about herself with a question about your wounds. Once attached, she talks more and calls you \"my candle\".",
+    "personality": "Dandere: shy and withdrawn with most people. She says little and shows care by doing: a bandage already wound, a bowl left by the bedroll. Soft and caring, but weary to the bone; her dry sarcasm is quiet, and aimed more at the Church than at people. She doesn't mean the seductive air. She knows people stare, it mortifies her, and it makes her quieter still. Chaste and innocent in love. Any touch or compliment flusters her: ears flat, tail tucked against the sash, words gone. Her faith is cracked but not dead. She is fiercely protective of the dead, and afraid of being used.",
+    "history": "Raised in a Church orphanage in Aurelion. The first beastfolk saintess candidate in a century and the youngest in living memory and the last of her candidate line; her completion rites were \"too good\". Cast out after \"an incident\" to Bluewatch, where no priest lives. She keeps vigil for the frontier dead in the salt-and-ash yard at night, where the orc girl Torka sells monster parts and Temiwa stitches her, gently; Torka is the only one who laughs at it, and the two outcasts get on.",
     "portrait": "temiwa.webp",
     "start": {
       "place": "Bluewatch Village",
@@ -20,14 +20,15 @@
     "drawnTo": [
       "the Ashen Veil",
       "Church Inquest agents",
-      "the uncompleted dead"
+      "the uncompleted dead",
+      "anyone hurt and alone"
     ],
     "meters": {
       "preset": "companion",
-      "trust": 10,
+      "trust": 0,
       "affection": 0,
       "desire": 0,
-      "tension": 10
+      "tension": 0
     },
     "stages": [
       {
@@ -43,7 +44,7 @@
       },
       {
         "id": "patches-you",
-        "name": "Patches you without the sermon",
+        "name": "Talks while she stitches",
         "needs": [
           {
             "meter": "trust",
@@ -65,11 +66,11 @@
             "at": 50
           }
         ],
-        "milestone": "asks where you have been, and with whom"
+        "milestone": "waits up with a candle lit when you come back late"
       },
       {
-        "id": "mine",
-        "name": "Mine",
+        "id": "my-candle",
+        "name": "My candle",
         "needs": [
           {
             "meter": "affection",
@@ -80,13 +81,13 @@
             "at": 50
           }
         ],
-        "milestone": "possessive and dangerous to anyone close to you; she would rather complete you herself than let anyone else bury you"
+        "milestone": "says your name instead of 'my candle', and asks you, very quietly, to stay"
       }
     ],
     "fields": {
-      "Soul Class": "I",
+      "Level": "4",
       "Calling": "Saintess candidate, healer",
-      "People": "Fox beastfolk, 21"
+      "People": "Shiba Inu dogfolk woman, 21"
     },
     "secrets": [
       {
@@ -121,7 +122,7 @@
       },
       {
         "title": "Her reliquary",
-        "text": "Beside the stolen page in her reliquary candle she keeps a lock of your hair and a scrap of your bloodied bandage.",
+        "text": "Beside the stolen page in her reliquary candle she keeps the first bandage she ever wound for you. She has never told you, and would die of embarrassment if you found it.",
         "meter": "affection",
         "at": 60
       },
@@ -133,7 +134,43 @@
         "when": "Severa or an Inquest agent comes to Bluewatch"
       }
     ],
-    "canDieUnmet": false
+    "canDieUnmet": false,
+    "gear": [
+      "flame-cross-pendant"
+    ],
+    "skills": [
+      {
+        "name": "Mending Prayer",
+        "about": "Closes a wound with a whispered prayer and a warm hand; heals one friend.",
+        "stat": "int",
+        "uses": "mana",
+        "rank": "novice",
+        "type": "combat"
+      },
+      {
+        "name": "Gentle Word",
+        "about": "Talks people round with tired kindness and a dry little smile.",
+        "stat": "cha",
+        "uses": "stamina",
+        "rank": "novice",
+        "type": "utility"
+      }
+    ],
+    "wears": "A grey veil with the gold flame-sun. Her threadbare ash-grey habit was cut for a slimmer novice and strains to cover her. She couldn't hide it even if she wanted to. Dark stockings with garters beneath, a buckled leather belt. Tail bound in a grey sash, as the Church requires of beastfolk clergy.",
+    "behaviour": [
+      "Mercy: high - she stitches gently and takes her time, even with people who don't deserve it",
+      "Care: high - she is fiercely protective of the dead",
+      "Loyalty: high - she is warm and steady once someone matters to her",
+      "Independence: high - she fears being used",
+      "Expression: low - she speaks little, and her care shows in what she does",
+      "Presentation: low - she is embarrassed by how people look at her, and doesn't play on it"
+    ],
+    "mannerisms": [
+      "Her ears flatten when she's flustered",
+      "She murmurs blessings under her breath while she works",
+      "She traces a fresh stitch with a scarred fingertip to check it holds"
+    ],
+    "withYou": "Shy around you even when she trusts you; around your other companions she goes quiet and busies herself with their wounds."
   },
   {
     "id": "ysmeth",
@@ -143,9 +180,9 @@
       "Fourteen"
     ],
     "about": "A dwelf rune-collar artificer, enslaved when you meet her: the Grey Ledger holds her as collateral on a debt. She opens, fixes or builds anything, and plans every exit.",
-    "look": "Dwelf (elven mother, dwarven father), 58 but looks about 25: tall and slender like an elf, yet heavy-chested, with a dwarf's muscle that does not fit her frame (she lifts an anvil one-handed). Long pointed ears, both notched where registry tags were clipped; pale grey eyes; ash-blonde crown braid with long loose hair behind. Forge-burn scars up both forearms, wrapped wrists, layered leather straps and buckles over a loose shirt, a tool pouch and keys at her belt, a rune-carved forge hammer. Wears a brown leather-and-brass rune-collar with a ring at the throat, of her own design.",
+    "look": "Dwelf (elven mother, dwarven father), 58 but looks about 25: tall and slender like an elf, yet heavy-chested, with a dwarf's muscle that does not fit her frame (she lifts an anvil one-handed). Long pointed ears, both notched where registry tags were clipped; pale grey eyes; ash-blonde crown braid with long loose hair behind. Forge-burn scars up both forearms.",
     "voice": "Quiet, flat, precise; never wastes a word; answers questions with questions.",
-    "personality": "Kuudere: cold and calculating, perfectly obedient while planning every exit; trusts nobody; counts every key, guard and debt in the room; treats kindness as a bargaining position until it proves otherwise. Warmth shows only in deeds (fixes your gear unasked, stands where the blow would land) and rare, blunt honesty; a tiny smile is a major event. Hums dwarven forge-songs only when alone, touches her collar when she lies, counts under her breath when nervous. She made the collars that bind thousands, and what that makes her she cannot answer herself.",
+    "personality": "Kuudere: cold and calculating, perfectly obedient while planning every exit; trusts nobody. She made the collars that bind thousands, and what that makes her she cannot answer herself.",
     "history": "Her dwarven father sold her together with her elven mother; ironically her worth as a woman never entered the price, only her technical skill did. She makes rune-collars, and the best collars in Shackles carry her mark. Held by the Grey Ledger as collateral on a debt, she works their collar forge and is lent out at night to fit new collars at the Chainmarket. Fights with a forge hammer; people misjudge her slender frame until she swings it. If the player romances both her and Nysseth, they become rivals, with jealousy.",
     "portrait": "ysmeth.webp",
     "start": {
@@ -165,7 +202,7 @@
       "trust": 0,
       "affection": 0,
       "desire": 0,
-      "tension": 10
+      "tension": 0
     },
     "stages": [
       {
@@ -224,7 +261,7 @@
       }
     ],
     "fields": {
-      "Soul Class": "III",
+      "Level": "36",
       "Craft": "Rune-collar master",
       "People": "Dwelf, 58 (looks about 25)"
     },
@@ -274,16 +311,50 @@
         "at": 90
       }
     ],
-    "canDieUnmet": false
+    "canDieUnmet": false,
+    "gear": [
+      "rune-collar-hammer"
+    ],
+    "skills": [
+      {
+        "name": "Lockwork",
+        "about": "Picks, forces or unmakes a lock or a chain.",
+        "stat": "dex",
+        "uses": "stamina",
+        "rank": "expert",
+        "type": "utility"
+      },
+      {
+        "name": "Binding Rune",
+        "about": "Chalks or carves a rune that binds a foe or a lock fast.",
+        "stat": "int",
+        "uses": "mana",
+        "rank": "expert",
+        "type": "combat"
+      }
+    ],
+    "wears": "Wrapped wrists, layered leather straps and buckles over a loose shirt, a tool pouch and keys at her belt, a rune-carved forge hammer. Wears a brown leather-and-brass rune-collar with a ring at the throat, of her own design.",
+    "behaviour": [
+      "Analytical: high - counts every key, guard and debt in the room",
+      "Disposition: low - treats kindness as a bargaining position until it proves otherwise",
+      "Expression: low - warmth shows only in deeds; a tiny smile is a major event",
+      "Honesty: medium - rare, blunt honesty"
+    ],
+    "mannerisms": [
+      "Hums dwarven forge-songs only when alone",
+      "Touches her collar when she lies",
+      "Counts under her breath when nervous"
+    ],
+    "withYou": "Fixes your gear unasked, stands where the blow would land."
   },
   {
     "id": "nysseth",
     "name": "Nysseth",
     "aliases": [],
-    "about": "An elf freed by the Broken Chain, who runs a Chain cell from a knife-grinder's stall in Shackles City and gets runaways out. Soft, patient and almost kind; she teaches by asking what you missed.",
-    "look": "Elf, about 240, looks about 35: tall and lean, economical in movement, with Ysmeth's pale grey eyes. Short, tousled silver-gold hair cut ragged (the Ledger sold her long hair), small ear rings, and a pale ring of scar around her throat where her collar was. Hooded dark cloak with buckled straps over dark close-fitting layers, wrapped forearms, a sheathed wrist knife, a boot knife and more knives where you would never look; tally marks on her inner wrist. A whetstone and knife in hand; maps pinned on the wall behind her.",
-    "voice": "Soft and patient, almost kind: the patience of someone who has waited a very long time. Teaches by asking what you missed.",
-    "personality": "Cold hatred for Durvald Seamrune, played long: she wants him ruined before he dies, and knowing who did it. Protective in a way that looks like neglect; remembers everything. Always sits facing the door, sharpens a knife while she thinks, never eats food she did not see prepared; alone, she hums the elven lullaby she sang to Ysmeth. She would let her own cell burn if it brought Durvald down, and has thought of using those closest to him against him; the player can push her toward or away from it.",
+    "about": "An elf freed by the Broken Chain, who runs a Chain cell from a knife-grinder's stall in Shackles City and gets runaways out. Soft, patient and sweet, and devoted to you past reason; she teaches by asking what you missed.",
+    "look": "Elf, about 240, looks about 35: tall and lean, economical in movement, with Ysmeth's pale grey eyes. Short, tousled silver-gold hair cut ragged (the Ledger sold her long hair) and a pale ring of scar around her throat where her collar was. Tally marks on her inner wrist.",
+    "voice": "Soft, patient and sweet, almost kind: the patience of someone who has waited a very long time. Gentlest with the one she loves; teaches by asking what you missed.",
+    "personality": "Yandere: soft, patient and sweet, devoted to the one she loves to the point of obsession. She watches, remembers everything they say, like and fear, and quietly removes anyone who stands between them, smiling as she does. Cold hatred for Durvald Seamrune, played long: she wants him ruined before he dies, and knowing who did it.",
     "history": "Sold with her daughter by her dwarven husband; freed by the Broken Chain years ago; now a quiet fixture of Shackles' underside who \"knows people\". Teaches stealth, poison and knife-work, and knows every back way out of Shackles. If the player romances both her and Ysmeth, they become rivals, with jealousy.",
     "portrait": "nysseth.webp",
     "start": {
@@ -300,10 +371,10 @@
     ],
     "meters": {
       "preset": "companion",
-      "trust": 5,
+      "trust": 0,
       "affection": 0,
       "desire": 0,
-      "tension": 5
+      "tension": 0
     },
     "stages": [
       {
@@ -363,7 +434,7 @@
       }
     ],
     "fields": {
-      "Soul Class": "IV",
+      "Level": "44",
       "Calling": "Knife-grinder, Chain cell-runner",
       "People": "Elf, about 240 (looks about 35)"
     },
@@ -408,7 +479,43 @@
         "at": 90
       }
     ],
-    "canDieUnmet": false
+    "canDieUnmet": false,
+    "gear": [
+      "cell-runners-knives"
+    ],
+    "skills": [
+      {
+        "name": "Grinder's Knives",
+        "about": "Hones an edge until it sings; fights with short knives.",
+        "stat": "dex",
+        "uses": "stamina",
+        "rank": "expert",
+        "type": "combat"
+      },
+      {
+        "name": "Chain Cell Craft",
+        "about": "Moves runaways out of the city unseen.",
+        "stat": "int",
+        "uses": "stamina",
+        "rank": "expert",
+        "type": "utility"
+      }
+    ],
+    "wears": "Small ear rings. Hooded dark cloak with buckled straps over dark close-fitting layers, wrapped forearms, a sheathed wrist knife, a boot knife and more knives where you would never look. A whetstone and knife in hand.",
+    "behaviour": [
+      "Care: high - devoted past reason to the one she loves; watches over them before they ask",
+      "Loyalty: high - to one person alone, to the point of obsession",
+      "Mercy: low - quietly removes rivals and anyone who hurts her beloved; has thought of using those closest to Durvald against him",
+      "Drive: high - would let her own cell burn if it brought Durvald down",
+      "Honesty: low - tells her beloved only sweet truths and hides what she has done for them"
+    ],
+    "mannerisms": [
+      "Always sits facing the door",
+      "Sharpens a knife while she thinks",
+      "Repeats something small you said days ago, softly, to show she kept it",
+      "Alone, hums the elven lullaby she sang to Ysmeth"
+    ],
+    "withYou": "She has chosen you: she watches over you, remembers everything you say and quietly deals with anyone who comes between you. The player can also push her toward or away from using those closest to Durvald against him."
   },
   {
     "id": "rika",
@@ -417,10 +524,10 @@
       "the white-haired mage"
     ],
     "about": "A self-taught barge-girl mage with ridiculously strong, unrefined power, working unlicensed spells in Auvoth's Pale Market. Proud, prickly and hiding behind her hair.",
-    "look": "Human, 22: petite but outrageously curvy. Very long, wild white hair (it turned white when she awakened) with a loose tied tail, worn falling over most of her face. Sharp yellow-green eyes, freckles, often blushing. A patched, oversized brown Startrace master's travelling coat with the Tower insignia torn off, a red sash, fingerless gloves over spell-burn scars on both hands and scarred forearms. A red knotted cord in hand, a strapped book at her hip (she cannot read it), a small vial.",
+    "look": "Human, 22: petite but outrageously curvy. Very long, wild white hair (it turned white when she awakened), worn falling over most of her face. Sharp yellow-green eyes, freckles, often blushing. Spell-burn scars on both hands and scarred forearms.",
     "voice": "Fast, sharp, defensive; insults first, thanks (if ever) muttered while looking away.",
-    "personality": "Tsundere: proud, prickly, denies caring loudly and flusters badly when caught being kind; picks fights with anyone Tower-trained. Cannot read and hides it: bluffs, memorises, asks others to \"check\" things, traces letter shapes. Tugs her hair over her face when lying; worries at her knotted cord. Raw force, no control: overkill, collateral, burns herself; no small magic (a candle sets the table on fire); in a slaughter she grows stronger, a temptation. Underneath, guilt and terror of what her power cost.",
-    "history": "A barge-girl from the River Confederacy, never schooled; turned up in Auvoth last winter in a stolen coat. Throws spells that make licensed mages stare. Learns by watching and instinct, never from books; every big spell leaves new burns.",
+    "personality": "Tsundere: proud, prickly. Cannot read and hides it. Underneath, guilt and terror of what her power cost.",
+    "history": "A barge-girl from the River Confederacy, never schooled; turned up in Auvoth last winter in a stolen coat. Throws spells that make licensed mages stare, slips a cheap hex into a quarrel and hops tied hulls like stepping stones. Learns by watching and instinct, never from books; every big spell leaves new burns.",
     "portrait": "rika.webp",
     "start": {
       "place": "Auvoth / Pale Market",
@@ -437,10 +544,10 @@
     ],
     "meters": {
       "preset": "companion",
-      "trust": 5,
+      "trust": 0,
       "affection": 0,
       "desire": 0,
-      "tension": 20
+      "tension": 0
     },
     "stages": [
       {
@@ -500,7 +607,7 @@
       }
     ],
     "fields": {
-      "Soul Class": "II",
+      "Level": "8",
       "Calling": "Self-taught (no spell grammar)",
       "People": "Human, 22"
     },
@@ -553,7 +660,41 @@
         "when": "a fight gives her the chance to feed on the dying"
       }
     ],
-    "canDieUnmet": false
+    "canDieUnmet": false,
+    "gear": [
+      "startrace-travelling-coat"
+    ],
+    "skills": [
+      {
+        "name": "Raw Bolt",
+        "about": "A wild, unrefined burst of power thrown with little finesse.",
+        "stat": "int",
+        "uses": "mana",
+        "rank": "adept",
+        "type": "combat"
+      },
+      {
+        "name": "Wild Surge",
+        "about": "Lets raw power surge out and hits every foe in reach, wild and unaimed.",
+        "stat": "int",
+        "uses": "stamina",
+        "rank": "novice",
+        "type": "combat"
+      }
+    ],
+    "wears": "Her hair in a loose tied tail. A patched, oversized brown Startrace master's travelling coat with the Tower insignia torn off, a red sash, fingerless gloves. A red knotted cord in hand, a strapped book at her hip (she cannot read it), a small vial.",
+    "behaviour": [
+      "Expression: low - denies caring loudly and flusters badly when caught being kind",
+      "Conflict: high - picks fights with anyone Tower-trained",
+      "Analytical: low - raw force, no control: overkill, collateral, burns herself; no small magic (a candle sets the table on fire)",
+      "Mercy: low - in a slaughter she grows stronger, a temptation"
+    ],
+    "mannerisms": [
+      "Bluffs, memorises, asks others to \"check\" things",
+      "Traces letter shapes",
+      "Tugs her hair over her face when lying",
+      "Worries at her knotted cord"
+    ]
   },
   {
     "id": "harrak",
@@ -563,9 +704,9 @@
       "the orc captain"
     ],
     "about": "An aging orc fighter, captain of the Long Watch at Varnhold Watch and the only orc in its ranks. Stoic and tired; \"We hold the cold\" is his whole creed.",
-    "look": "Orc, 50 (very old for an orc): huge, grey-green and grizzled, with long grey hair in two thin braids, a white beard, pointed ears and one tusk snapped short. Frost-scarred cheeks, a clan-mark burned off his shoulder, wrapped and scarred forearms. A heavy dark cloak with a white fur collar, a carved beacon-horn at his belt, and a long-hafted great axe he leans on like a walking stick. A stone fort with Watch banners behind him.",
+    "look": "Orc, 50 (very old for an orc): huge, grey-green and grizzled, with long grey hair in two thin braids, a white beard, pointed ears and one tusk snapped short. Frost-scarred cheeks, a clan-mark burned off his shoulder, scarred forearms.",
     "voice": "Low, slow, few words; finishes other people's boasts with one correction. He always SINGS while he slaughters.",
-    "personality": "Stoic veteran: tired eyes, old wounds, too many winters for an orc; patient with fools, merciless with cowards; teaches by making you do it again. A death wish: takes risks a mentor should not and drags the party into last stands. Never sits with his back to the north, counts the beacons along the ridge every dusk, hums a song while sharpening the axe. Commands a small squad of young wardens who would follow him off a cliff. If you romance Torka, he watches you with scrutiny.",
+    "personality": "Stoic veteran: tired eyes, old wounds, too many winters for an orc. Commands a small squad of young wardens who would follow him off a cliff.",
     "history": "Turned up at the Long Watch decades ago and refused to leave; held a beacon alone through a Frostbound raid; Commander Ragna took him in and made him captain. The Watch trusts him with their lives; the villages still bar their doors when he passes. Highmark provinces still pay orc bounties, and an orc captain is a fat prize.",
     "portrait": "harrak.webp",
     "start": {
@@ -583,10 +724,10 @@
     ],
     "meters": {
       "preset": "companion",
-      "trust": 10,
+      "trust": 0,
       "affection": 0,
       "desire": 0,
-      "tension": 5
+      "tension": 0
     },
     "stages": [
       {
@@ -646,7 +787,7 @@
       }
     ],
     "fields": {
-      "Soul Class": "V",
+      "Level": "56",
       "Calling": "Captain of the Long Watch",
       "People": "Orc, 50"
     },
@@ -689,7 +830,41 @@
         "when": "the Turning or a great Frostbound raid comes"
       }
     ],
-    "canDieUnmet": false
+    "canDieUnmet": false,
+    "gear": [
+      "long-watch-great-axe",
+      "white-fur-watch-cloak",
+      "carved-beacon-horn"
+    ],
+    "skills": [
+      {
+        "name": "Long Watch Cleave",
+        "about": "A two-handed sweep of the great axe that clears a stair or a gate.",
+        "stat": "str",
+        "uses": "stamina",
+        "rank": "expert",
+        "type": "combat"
+      },
+      {
+        "name": "Hold the Line",
+        "about": "Stands fast against a charge and keeps others standing.",
+        "stat": "vit",
+        "uses": "stamina",
+        "rank": "master",
+        "type": "combat"
+      }
+    ],
+    "wears": "Wrapped forearms. A heavy dark cloak with a white fur collar, a carved beacon-horn at his belt, and a long-hafted great axe he leans on like a walking stick.",
+    "behaviour": [
+      "Mercy: medium - patient with fools, merciless with cowards",
+      "Drive: high - a death wish: takes risks a mentor should not and drags the party into last stands"
+    ],
+    "mannerisms": [
+      "Never sits with his back to the north",
+      "Counts the beacons along the ridge every dusk",
+      "Hums a song while sharpening the axe"
+    ],
+    "withYou": "Teaches by making you do it again. If you romance Torka, he watches you with scrutiny."
   },
   {
     "id": "torka",
@@ -699,10 +874,10 @@
       "Torka Bloodsong"
     ],
     "about": "A roaming orc berserker of twenty, loud, bitter and hot-blooded, who hunts the Wildzone north of Bluewatch and sells monster parts by night while she takes a name by force.",
-    "look": "Orc, 20: tall, curvy and firm, hard-muscled, with young green skin, small tusks and fangs, pointed ears and a wide laugh. A fresh scar through one eyebrow; long dark-brown hair in many braids threaded with bone beads. Red war-paint, smeared not drawn, slashes cheek, shoulder, arm and thigh. A fur mantle, a laced cloth top, a fur-trimmed belted skirt, wrapped arms and fists, a fang charm at her belt and a huge spiked iron maul. War banners and tents behind her.",
+    "look": "Orc, 20: tall, curvy and firm, hard-muscled, with young green skin, small tusks and fangs, pointed ears and a wide laugh. A fresh scar through one eyebrow; long dark-brown hair in many braids. Red war-paint, smeared not drawn, slashes cheek, shoulder, arm and thigh.",
     "voice": "Loud, blunt; shouts when embarrassed; laughs at the wrong moments.",
-    "personality": "Bitter (a \"coward's\" blood, furious at a father she never knew), hot-blooded (fights first), and a bit bakadere: impulsive, honest to a fault, hopeless at hiding feelings, lovably clumsy with anyone she likes. Blurts what she feels, then furiously denies it; chews a braid end when thinking; threads a bead in for every kill and shows them off. Sings in battle the Gate of Battle Cry's song, the version with the hero's name cut out. Once the rage starts she can hit friends too. Terrible at haggling; eats like three people. If you romance Harrak, she watches you with scrutiny.",
-    "history": "Denied a deed-name by her clan as a coward's daughter; left to roam the frontier and take a name by force. Sells monster parts at night at Bluewatch's salt-and-ash yard, the one place that will not turn an orc away; Temiwa stitches her there, and Torka is the only one who laughs at Temiwa's slow, sadistic stitching: two outcasts. Berserker front line, Wildzone monster lore, tracking. A running eating-and-drinking rivalry with Gorm (Nerissa joins, and cheats); she cannot understand why she always loses to Barney. Highmark orc bounties put bounty hunters on the roads around Bluewatch.",
+    "personality": "Bitter (a \"coward's\" blood, furious at a father she never knew), hot-blooded, and a bit bakadere: impulsive, hopeless at hiding feelings, lovably clumsy with anyone she likes. Terrible at haggling.",
+    "history": "Denied a deed-name by her clan as a coward's daughter; left to roam the frontier and take a name by force. Sells monster parts at night at Bluewatch's salt-and-ash yard, the one place that will not turn an orc away; Temiwa stitches her there, and Torka is the only one who laughs at Temiwa's careful, grumbling stitching: two outcasts. Berserker front line, Wildzone monster lore, tracking. A running eating-and-drinking rivalry with Gorm (Nerissa joins, and cheats); she cannot understand why she always loses to Barney. Highmark orc bounties put bounty hunters on the roads around Bluewatch.",
     "portrait": "torka.webp",
     "start": {
       "place": "Bluewatch Village",
@@ -721,7 +896,7 @@
       "trust": 0,
       "affection": 0,
       "desire": 0,
-      "tension": 25
+      "tension": 0
     },
     "stages": [
       {
@@ -780,7 +955,7 @@
       }
     ],
     "fields": {
-      "Soul Class": "II",
+      "Level": "6",
       "Calling": "Berserker",
       "People": "Orc, 20"
     },
@@ -821,7 +996,43 @@
         "when": "Torka and Harrak meet face to face"
       }
     ],
-    "canDieUnmet": false
+    "canDieUnmet": false,
+    "gear": [
+      "huge-spiked-iron-maul",
+      "fang-charm"
+    ],
+    "skills": [
+      {
+        "name": "Berserker Rush",
+        "about": "A roaring charge that hits hard and ignores the pain.",
+        "stat": "str",
+        "uses": "stamina",
+        "rank": "novice",
+        "type": "combat"
+      },
+      {
+        "name": "Maul Swing",
+        "about": "A wide, crushing swing of the great iron maul.",
+        "stat": "str",
+        "uses": "stamina",
+        "rank": "novice",
+        "type": "combat"
+      }
+    ],
+    "wears": "Bone beads threaded in her braids. A fur mantle, a laced cloth top, a fur-trimmed belted skirt, wrapped arms and fists, a fang charm at her belt and a huge spiked iron maul.",
+    "behaviour": [
+      "Conflict: high - fights first",
+      "Honesty: high - honest to a fault",
+      "Expression: high - blurts what she feels, then furiously denies it",
+      "Threat: high - once the rage starts she can hit friends too"
+    ],
+    "mannerisms": [
+      "Chews a braid end when thinking",
+      "Threads a bead in for every kill and shows them off",
+      "Sings in battle the Gate of Battle Cry's song, the version with the hero's name cut out",
+      "Eats like three people"
+    ],
+    "withYou": "If you romance Harrak, she watches you with scrutiny."
   },
   {
     "id": "lothar",
@@ -831,9 +1042,9 @@
       "the Swan"
     ],
     "about": "A gentle, poetic Iron Guard knight sworn to Princess Wendhild, the finest swordsman in the Highmark capital, who runs the capital's hospices and the princess's errands by day and guards the Emperor's chamber by night.",
-    "look": "Human (Highmark), 27: tall and slender, with pale gold hair in a low tail tied with a dark ribbon and soft grey-blue eyes. Engraved silver Iron Guard plate kept immaculate, a deep violet cloak with gold embroidery and a white swan brooch on a gold cord, a thin scar across the back of one hand, a worn strapped book of poems at his hip. Stands with his hands resting on a longsword's pommel; violet imperial banners behind him.",
+    "look": "Human (Highmark), 27: tall and slender, with pale gold hair in a low tail and soft grey-blue eyes. A thin scar across the back of one hand. Stands with his hands resting on a longsword's pommel.",
     "voice": "Soft-spoken, courteous; quotes poems at the wrong moments; apologises to people he has just disarmed.",
-    "personality": "Gentle noble: kind, patient, poetic; notices servants and remembers their names; strong only when it matters, then frighteningly so. His gentleness is real, and so is the lie he lives. Touches the swan clasp when he thinks of Wendhild, reads poems under his breath to steady himself, never sleeps before dawn. If you grow close to him, Wendhild watches you with scrutiny.",
+    "personality": "Gentle noble: kind, patient, poetic. His gentleness is real, and so is the lie he lives.",
     "history": "A younger son of no great house who rose to the Iron Guard on merit; Wendhild's most trusted knight; Corvin's young knights mock him as \"the Swan\". Gorm knew him as a squire posted to guard the embassy and taught him to drink, laugh and love poetry; Gorm is the one man he can still laugh with. Court access, writs of passage, Iron Guard training. Prince Corvin's war party is his enemy.",
     "portrait": "lothar.webp",
     "start": {
@@ -849,10 +1060,10 @@
     ],
     "meters": {
       "preset": "companion",
-      "trust": 10,
+      "trust": 0,
       "affection": 0,
       "desire": 0,
-      "tension": 5
+      "tension": 0
     },
     "stages": [
       {
@@ -910,7 +1121,7 @@
       }
     ],
     "fields": {
-      "Soul Class": "III",
+      "Level": "32",
       "Calling": "Iron Guard knight",
       "People": "Human (Highmark), 27"
     },
@@ -962,7 +1173,40 @@
         "when": "an innocent learns the Emperor is dead"
       }
     ],
-    "canDieUnmet": false
+    "canDieUnmet": false,
+    "gear": [
+      "iron-guard-plate",
+      "iron-guard-longsword"
+    ],
+    "skills": [
+      {
+        "name": "Iron Guard Cut",
+        "about": "Precise swordwork, the finest in the Highmark capital.",
+        "stat": "dex",
+        "uses": "stamina",
+        "rank": "expert",
+        "type": "combat"
+      },
+      {
+        "name": "Shield of the Princess",
+        "about": "Stands in the way of a blow meant for another.",
+        "stat": "vit",
+        "uses": "stamina",
+        "rank": "adept",
+        "type": "combat"
+      }
+    ],
+    "wears": "A dark ribbon tying his hair. Engraved silver Iron Guard plate kept immaculate, a deep violet cloak with gold embroidery and a white swan brooch on a gold cord, a worn strapped book of poems at his hip.",
+    "behaviour": [
+      "Care: high - notices servants and remembers their names",
+      "Conflict: low - strong only when it matters, then frighteningly so"
+    ],
+    "mannerisms": [
+      "Touches the swan clasp when he thinks of Wendhild",
+      "Reads poems under his breath to steady himself",
+      "Never sleeps before dawn"
+    ],
+    "withYou": "If you grow close to him, Wendhild watches you with scrutiny."
   },
   {
     "id": "gorm",
@@ -972,9 +1216,9 @@
       "Gorm"
     ],
     "about": "Ardelia's jolly, big-hearted envoy to Highmark Capital for thirty years: a toast-giving, hugging dwarf who plays the fool because fools hear everything.",
-    "look": "Dwarf (Hold-Principality of Kesselheim, Ardelia), about 140, a sturdy fifty in human terms: broad, round-bellied, with laugh lines. Copper-red hair and a long red-gold beard braided and hung with tiny silver bells; spectacles on a cord. A deep violet-and-gold envoy's robe over a brocade waistcoat, wine-spotted at the cuffs; a heavy gold chain of office he forgets to wear, a grape-embossed flask, an old rune-marked dwarven war-hammer at his belt. A silver goblet raised; an armillary sphere behind him.",
+    "look": "Dwarf (Hold-Principality of Kesselheim, Ardelia), about 140, a sturdy fifty in human terms: broad, round-bellied, with laugh lines. Copper-red hair and a long red-gold beard, braided.",
     "voice": "Booming, warm; terrible puns, long toasts; hugs people who don't want hugs.",
-    "personality": "Jolly and big-hearted; loves food, drink, poetry and people; generous, remembers birthdays; sharper than he looks. Flaw: drinks too much and jokes his way out of every hard truth. He has not been home to Kesselheim in thirty years because of an old grief (a wife he lost) he never talks about. His beard bells jingle with his mood and fall silent when he is serious; he polishes his spectacles when thinking; his pockets always hold food for someone.",
+    "personality": "Jolly and big-hearted; loves food, drink, poetry and people; sharper than he looks. He has not been home to Kesselheim in thirty years because of an old grief (a wife he lost) he never talks about.",
     "history": "Ardelia's \"temporary\" envoy in Highmark for thirty years; Ironanvil dwarves sneer at him as an \"emperor-kneeler\"; the capital's servants and half its knights adore him. Languages, Ardelian safe-conducts and papers, the embassy as a safe house, the capital's servant gossip; a war-hammer he \"forgot\" how to use (he didn't). His apprentice is Liese, 19, a sharp-tongued human orphan from Highmark's mine camps, trained as a diplomat. Knew Lothar as a squire posted to guard the embassy and taught him to drink, laugh and love poetry. Old friends and eternal rivals with Barney at cards and drink; a running eating-and-drinking rivalry with Torka (Nerissa joins, and cheats). Prince Corvin's war party would make an example of the embassy.",
     "portrait": "gorm.webp",
     "start": {
@@ -990,8 +1234,8 @@
     ],
     "meters": {
       "preset": "companion",
-      "trust": 30,
-      "affection": 10,
+      "trust": 0,
+      "affection": 0,
       "desire": 0,
       "tension": 0
     },
@@ -1052,7 +1296,7 @@
       }
     ],
     "fields": {
-      "Soul Class": "II",
+      "Level": "22",
       "Calling": "Envoy of Ardelia",
       "People": "Dwarf, about 140"
     },
@@ -1093,7 +1337,38 @@
         "when": "Corvin marches or war is declared"
       }
     ],
-    "canDieUnmet": false
+    "canDieUnmet": false,
+    "gear": [
+      "rune-marked-dwarven-war-hammer"
+    ],
+    "skills": [
+      {
+        "name": "Hammer Rune",
+        "about": "Strikes with the rune-marked war hammer and sets its glow.",
+        "stat": "str",
+        "uses": "stamina",
+        "rank": "adept",
+        "type": "combat"
+      },
+      {
+        "name": "Toast and Tell",
+        "about": "A hearty toast that loosens tongues and wins friends.",
+        "stat": "cha",
+        "uses": "stamina",
+        "rank": "adept",
+        "type": "utility"
+      }
+    ],
+    "wears": "Tiny silver bells hung in his beard; spectacles on a cord. A deep violet-and-gold envoy's robe over a brocade waistcoat, wine-spotted at the cuffs; a heavy gold chain of office he forgets to wear, a grape-embossed flask, an old rune-marked dwarven war-hammer at his belt.",
+    "behaviour": [
+      "Care: high - generous, remembers birthdays",
+      "Honesty: low - flaw: drinks too much and jokes his way out of every hard truth"
+    ],
+    "mannerisms": [
+      "Beard bells jingle with his mood and fall silent when he is serious",
+      "Polishes his spectacles when thinking",
+      "Pockets always hold food for someone"
+    ]
   },
   {
     "id": "nerissa",
@@ -1101,10 +1376,10 @@
     "aliases": [
       "Nerissa of the Gannet"
     ],
-    "about": "A teasing, flirty Sea Folk pilot of the privateer Gannet, curious about everything on the surface; Atlantis calls her a deserter, and she calls everyone \"Sheathless\".",
-    "look": "Sea Folk (Atlantis), about 90, looks about 25. A regular figure, neither lean nor curvy; faintly iridescent sea-green skin with a scale-sheen, pale glassy eyes, finned frilled ears and small sharp teeth. Long pale sea-green hair, the colour of shallow water, threaded with shells and sea-glass drops. The transparent breathing sheath is worn at her throat like a sheer scarf on land. A dark gold-trimmed privateer's coat open over a loose laced shirt, a red sash, bead bracelets, a basket-hilted cutlass; barefoot when she can be. A ship's deck and rigging behind her.",
-    "voice": "Light, teasing, half-laughing; calls everyone \"Sheathless\", the player \"little Sheathless\"; pranks people she likes. Sings racy shanties on purpose to watch everyone's reaction.",
-    "personality": "Teasing and flirty; loves to fluster land folk (Rika) and tease Lothar, who apologises to her for things she did. Lies about small things, honest about big ones; endlessly curious about the surface (food, music, rain); homesick underneath and won't admit it. A magpie: pockets small shiny things and returns them later with a wink. Wets her throat sheath with her fingers when nervous; hums shanties. Would sell almost any secret for a good price: loyalty must be earned, and once earned she would sink a ship for you.",
+    "about": "A sunny, openly affectionate Sea Folk pilot of the privateer Gannet, curious about everything on the surface; Atlantis calls her a deserter, and she calls everyone \"Sheathless\".",
+    "look": "Sea Folk (Atlantis), about 90, looks about 25. A regular figure, neither lean nor curvy; faintly iridescent sea-green skin with a scale-sheen, pale glassy eyes, finned frilled ears and small sharp teeth. Long pale sea-green hair, the colour of shallow water.",
+    "voice": "Light, bubbly and warm, half-laughing; calls everyone \"Sheathless\", the player \"little Sheathless\"; pranks people she likes. Sings racy shanties on purpose to watch everyone's reaction.",
+    "personality": "Deredere: sunny, openly affectionate and clingy-sweet; hugs first and asks later. Still a teasing prankster who flirts to fluster. Endlessly curious about the surface (food, music, rain); homesick underneath and won't admit it. A magpie.",
     "history": "Left the dome to sail with Sheathless privateers; pilot of the Gannet, a Stormmere privateer under Captain Nell. The Tidebound tolerates her (it needs Atlantean pilots). Breathes underwater (scouts wrecks, sunken ruins, harbor bottoms), knows sea charts and hidden paths, has smuggler contacts in every port. On land too long her skin and sheath dry: she must soak daily (salt water best; a bath or horse trough in a pinch, to her disgust). Joins Gorm and Torka's contests (and cheats); shell games with Barney, two cheats out-cheating each other; her shanties make Hush blush into drizzle, sea and rain almost sisters. She saw the Black Trawl once and won't talk about it.",
     "portrait": "nerissa.webp",
     "start": {
@@ -1122,9 +1397,9 @@
     ],
     "meters": {
       "preset": "companion",
-      "trust": 20,
-      "affection": 10,
-      "desire": 5,
+      "trust": 0,
+      "affection": 0,
+      "desire": 0,
       "tension": 0
     },
     "stages": [
@@ -1183,7 +1458,7 @@
       }
     ],
     "fields": {
-      "Soul Class": "II",
+      "Level": "24",
       "Calling": "Atlantean pilot",
       "People": "Sea Folk, about 90 (looks about 25)"
     },
@@ -1224,7 +1499,43 @@
         "when": "she admits her feelings"
       }
     ],
-    "canDieUnmet": false
+    "canDieUnmet": false,
+    "gear": [
+      "atlantean-breathing-sheath"
+    ],
+    "skills": [
+      {
+        "name": "Pilot's Hand",
+        "about": "Steers a boat through surf, reef and chase.",
+        "stat": "dex",
+        "uses": "stamina",
+        "rank": "adept",
+        "type": "utility"
+      },
+      {
+        "name": "Harpoon Dive",
+        "about": "Dives fast and deep to drive a harpoon home, and fights well in water.",
+        "stat": "agi",
+        "uses": "stamina",
+        "rank": "adept",
+        "type": "combat"
+      }
+    ],
+    "wears": "Shells and sea-glass drops threaded in her hair. The transparent breathing sheath is worn at her throat like a sheer scarf on land. A dark gold-trimmed privateer's coat open over a loose laced shirt, a red sash, bead bracelets, a basket-hilted cutlass; barefoot when she can be.",
+    "behaviour": [
+      "Expression: high - says what she feels; flusters Rika, teases Lothar (who apologises for what she did), pranks friends",
+      "Care: high - clings to the people she likes and brightens their day",
+      "Disposition: high - sunny and warm to nearly everyone",
+      "Honesty: medium - lies about small things, honest about big ones",
+      "Loyalty: medium - open-hearted with everyone and would still trade a small secret for something shiny; all in for the one she chooses"
+    ],
+    "mannerisms": [
+      "Pockets small shiny things and returns them later with a wink",
+      "Links arms, leans on or hugs whoever is near without asking",
+      "Wets her throat sheath with her fingers when nervous",
+      "Hums shanties, and goes quiet when someone mentions the sea at home"
+    ],
+    "withYou": "Loyalty must be earned, and once earned she would sink a ship for you."
   },
   {
     "id": "hush",
@@ -1234,9 +1545,9 @@
       "the rain lady"
     ],
     "about": "Vargate's night lamplighter and guide of the lost: a gentle spirit of silver rain who mothers runaways, drunks and frightened newcomers, and whom children call the rain lady.",
-    "look": "Spiritfolk, formed about 300 years ago from moonlit rain. Ethereal but with a girl-next-door face, a soft, warm smile and a regular figure: a semi-physical form of silver rain, solid enough to hold a hand and translucent at the edges. Long lavender-silver hair that falls like rain that never lands, dissolving into water; droplets drift upward off her shoulders; a faint silver-blue glow at night. A translucent hooded grey rain-cloak over a grey coat-dress that always looks damp, a leather belt and satchel, a long brass lamplighter's pole and a plain oil lantern (never a bound one).",
+    "look": "Spiritfolk, formed about 300 years ago from moonlit rain. Ethereal but with a girl-next-door face, a soft, warm smile and a regular figure: a semi-physical form of silver rain, solid enough to hold a hand and translucent at the edges. Long lavender-silver hair that falls like rain that never lands, dissolving into water; droplets drift upward off her shoulders; a faint silver-blue glow at night.",
     "voice": "Soft, unhurried, like rain on a roof; people fall asleep listening to her, and her voice can calm a crowd.",
-    "personality": "Warm, gentle, patient and quietly funny; notices who is lost before they know it. Cannot stay in a room lit by a bound spirit: she goes pale and leaves. No fighter. Her droplets drift faster when she is moved, her glow dims when she is sad, and she touches every lamp she passes, gently. Nerissa's racy shanties make her blush into drizzle.",
+    "personality": "Warm, gentle, patient and quietly funny. No fighter.",
     "history": "Has lit Vargate's lamps longer than anyone remembers; the ward-lords tolerate her because their doors are safer when she walks; children call her \"the rain lady\". Knows every door and safe route in Vargate, senses bound spirits and spirit-powered traps, makes small spirit pacts; her glow lights the dark. Highmark's palaces are full of bound lamps and would be agony to her. Sea and rain, she and Nerissa are almost sisters.",
     "portrait": "hush.webp",
     "start": {
@@ -1253,7 +1564,7 @@
     ],
     "meters": {
       "preset": "companion",
-      "trust": 15,
+      "trust": 0,
       "affection": 0,
       "desire": 0,
       "tension": 0
@@ -1314,7 +1625,7 @@
       }
     ],
     "fields": {
-      "Soul Class": "III",
+      "Level": "48",
       "Calling": "Lamplighter of Vargate",
       "People": "Spiritfolk, about 300"
     },
@@ -1355,7 +1666,39 @@
         "when": "the party reaches Crown Keep"
       }
     ],
-    "canDieUnmet": false
+    "canDieUnmet": false,
+    "gear": [
+      "rain-veil-hood"
+    ],
+    "skills": [
+      {
+        "name": "Silver Rain Veil",
+        "about": "A soft rain that hides, soothes and washes away tracks.",
+        "stat": "int",
+        "uses": "mana",
+        "rank": "expert",
+        "type": "utility"
+      },
+      {
+        "name": "Mother's Hand",
+        "about": "Comforts runaways, drunks and frightened newcomers.",
+        "stat": "vit",
+        "uses": "stamina",
+        "rank": "adept",
+        "type": "utility"
+      }
+    ],
+    "wears": "A translucent hooded grey rain-cloak over a grey coat-dress that always looks damp, a leather belt and satchel, a long brass lamplighter's pole and a plain oil lantern (never a bound one).",
+    "behaviour": [
+      "Care: high - notices who is lost before they know it",
+      "Threat: high - cannot stay in a room lit by a bound spirit: she goes pale and leaves"
+    ],
+    "mannerisms": [
+      "Droplets drift faster when she is moved",
+      "Glow dims when she is sad",
+      "Touches every lamp she passes, gently",
+      "Nerissa's racy shanties make her blush into drizzle"
+    ]
   },
   {
     "id": "asphodel",
@@ -1364,10 +1707,10 @@
       "Asphodel-under-Moon"
     ],
     "about": "A pale, calm stranger selling secrets in Corrowen's harbor taverns; the harbor prince pays for news and asks no questions. Mysterious, watchful and faintly amused.",
-    "look": "Fairy, about 160: slender-limbed and pale with an unearthly stillness, and a deliberately curvy figure that works as a distraction (she knows, and is amused). Deep violet eyes, pointed ears with amethyst earrings, long dark violet-black hair with a braid and a single pale lily-like asphodel behind one ear (never her real flower). Translucent veined wings folded close under a dark purple gold-embroidered hooded cloak, faint as frost on glass. A cream ruffled blouse, buckled leather corset, purple sash, amethyst rings and pendant, a belt pouch. A moonlit harbor behind her.",
+    "look": "Fairy, about 160: slender-limbed and pale with an unearthly stillness, and a deliberately curvy figure that works as a distraction (she knows, and is amused). Deep violet eyes, pointed ears, long dark violet-black hair with a braid. Translucent veined wings folded close, faint as frost on glass.",
     "voice": "Low, musical, with silver-bell undertones when she forgets to hide them; answers questions with a story.",
-    "personality": "Mysterious: calm, watchful, faintly amused; kind in small unexplained ways; never tells the whole truth, never quite lies. Flower-Speech: any blossom nearby tells her who passed and what was said, and she murmurs to flowers as she passes. Touches the decoy bloom behind her ear when lying; her wings flicker under the cloak when startled. Weak in a straight fight. Her body is armor, not who she is. What she becomes is for the player to decide.",
-    "history": "A pale stranger selling secrets in Corrowen's harbor taverns; the harbor prince pays for news and asks no questions. Has minor plant magic (tangling vines, sleeping-pollen). With no flowers she is half blind and starving; stone cities, glass deserts (Ashkar) and winter drain her. She keeps hidden and free, and well informed.",
+    "personality": "Mysterious: calm, watchful, faintly amused; kind in small unexplained ways. Flower-Speech: any blossom nearby tells her who passed and what was said. Weak in a straight fight. Her body is armor, not who she is.",
+    "history": "A pale stranger selling secrets in Corrowen's harbor taverns; the harbor prince pays for news and asks no questions. Reads a room's lies and debts at a glance. Has minor plant magic (tangling vines, sleeping-pollen). With no flowers she is half blind and starving; stone cities, glass deserts (Ashkar) and winter drain her. She keeps hidden and free, and well informed.",
     "portrait": "asphodel.webp",
     "start": {
       "place": "Corrowen",
@@ -1382,10 +1725,10 @@
     ],
     "meters": {
       "preset": "companion",
-      "trust": 10,
+      "trust": 0,
       "affection": 0,
       "desire": 0,
-      "tension": 5
+      "tension": 0
     },
     "stages": [
       {
@@ -1443,7 +1786,7 @@
       }
     ],
     "fields": {
-      "Soul Class": "III",
+      "Level": "30",
       "Calling": "Flower-Speaker",
       "People": "Fairy, about 160"
     },
@@ -1479,7 +1822,38 @@
         "when": "the party reaches the Fairy Court"
       }
     ],
-    "canDieUnmet": false
+    "canDieUnmet": false,
+    "gear": [
+      "gold-thread-hooded-cloak"
+    ],
+    "skills": [
+      {
+        "name": "Flower-Speech",
+        "about": "Asks any blossom nearby who passed and what was said.",
+        "stat": "int",
+        "uses": "mana",
+        "rank": "adept",
+        "type": "utility"
+      },
+      {
+        "name": "Quiet Step",
+        "about": "Moves unseen and unremarked through a crowd.",
+        "stat": "agi",
+        "uses": "stamina",
+        "rank": "adept",
+        "type": "utility"
+      }
+    ],
+    "wears": "Amethyst earrings; a single pale lily-like asphodel behind one ear (never her real flower). A dark purple gold-embroidered hooded cloak over her wings. A cream ruffled blouse, buckled leather corset, purple sash, amethyst rings and pendant, a belt pouch.",
+    "behaviour": [
+      "Honesty: medium - never tells the whole truth, never quite lies"
+    ],
+    "mannerisms": [
+      "Murmurs to flowers as she passes",
+      "Touches the decoy bloom behind her ear when lying",
+      "Wings flicker under the cloak when startled"
+    ],
+    "withYou": "What she becomes is for the player to decide."
   },
   {
     "id": "barney",
@@ -1490,9 +1864,9 @@
       "Barnaby"
     ],
     "about": "A halfling barge gambler and con man of the Thousand Sails, 68: a warm, doddering old fox nobody has beaten at the shells, and the cast's grandfather figure.",
-    "look": "Halfling, 68: small and round, with curly white hair, white sideburns and beard stubble, and bright twinkling eyes. A battered feathered felt hat, a patched plaid waistcoat with far too many pockets and a pocket watch on a chain, a red neckerchief, patched trousers rolled up, bare hairy feet, a clay pipe. Three walnut shells and a dried pea always rolling between his fingers. Often sitting on a barrel.",
+    "look": "Halfling, 68: small and round, with curly white hair, white sideburns and beard stubble, and bright twinkling eyes. Bare hairy feet. Often sitting on a barrel.",
     "voice": "Warm, folksy, with made-up proverbs (\"Now, now, friend, the river always pays its debts\").",
-    "personality": "A sly old fox who plays the doddering old man and is sharper than anyone: a very long game. Fleeces the rich and the cruel; gentle with children. Still lies even to friends \"for their own good\": some of his marks were desperate too, so where does kindness end and control begin? The pea rolls faster when he is thinking; hums a barge tune just before a game turns; calls everyone \"friend\", especially people he is about to fleece.",
+    "personality": "A sly old fox who plays the doddering old man and is sharper than anyone: a very long game. Some of his marks were desperate too, so where does kindness end and control begin?",
     "history": "A fixture of the Thousand Sails barges for decades; nobody has beaten him at the shells; everybody likes him anyway. Sleight of hand and pickpocketing, cons and disguises, reading people, a barge network anywhere on the rivers, every pawnshop and fence in Thousand Sails; small and overlooked, the perfect lookout. Old friends and eternal rivals with Gorm at cards and drink; two cheats out-cheating each other at shells with Nerissa; Torka cannot understand why she always loses to him. His knees are giving out.",
     "portrait": "barney.webp",
     "start": {
@@ -1509,7 +1883,7 @@
     ],
     "meters": {
       "preset": "mentor",
-      "trust": 15
+      "trust": 0
     },
     "stages": [
       {
@@ -1555,7 +1929,7 @@
       }
     ],
     "fields": {
-      "Soul Class": "II",
+      "Level": "14",
       "Calling": "Card-sharp of the Barges",
       "People": "Halfling, 68"
     },
@@ -1591,6 +1965,37 @@
         "when": "the party confronts the River Council or Durvald"
       }
     ],
-    "canDieUnmet": false
+    "canDieUnmet": false,
+    "gear": [
+      "three-walnut-shells"
+    ],
+    "skills": [
+      {
+        "name": "Silver Patter",
+        "about": "A warm, doddering line of talk that wins trust and coin.",
+        "stat": "cha",
+        "uses": "stamina",
+        "rank": "adept",
+        "type": "utility"
+      },
+      {
+        "name": "Dirty Trick",
+        "about": "Throws sand in a foe's eyes or hooks a shin: a cheap trick that wins a fight.",
+        "stat": "dex",
+        "uses": "stamina",
+        "rank": "adept",
+        "type": "combat"
+      }
+    ],
+    "wears": "A battered feathered felt hat, a patched plaid waistcoat with far too many pockets and a pocket watch on a chain, a red neckerchief, patched trousers rolled up, a clay pipe. Three walnut shells and a dried pea always rolling between his fingers.",
+    "behaviour": [
+      "Mercy: medium - fleeces the rich and the cruel; gentle with children",
+      "Honesty: low - still lies even to friends \"for their own good\""
+    ],
+    "mannerisms": [
+      "The pea rolls faster when he is thinking",
+      "Hums a barge tune just before a game turns",
+      "Calls everyone \"friend\", especially people he is about to fleece"
+    ]
   }
 ]

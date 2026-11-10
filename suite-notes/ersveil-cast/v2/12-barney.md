@@ -33,3 +33,5 @@
 - Stages: Cheats you at the shells · Lets you win, and you notice · Takes you to Hulkrow at night · Adopts you as kin —
   gives you his three walnut shells and tells you he has left you the fever-house in his will (all he owns).
 - Portrait (USER, ChatGPT): portraits/barney-original.png. Look details to match: curly white hair and beard stubble, feathered felt hat, clay pipe, plaid patched waistcoat with a pocket watch on a chain, red neckerchief, patched trousers rolled up, walnut shells and a pea in hand, bare hairy feet, sitting on a barrel.
+
+Final skills (pack 2.9.0, owner 10 Nov): Silver Patter (utility, CHA, Stamina, Adept); Dirty Trick (combat, DEX, Stamina, Adept).

@@ -39,3 +39,5 @@
   braid; pointed ears with amethyst earrings; a pale lily-like asphodel behind one ear; violet eyes; translucent veined
   wings under a dark purple gold-embroidered hooded cloak; a cream ruffled blouse, buckled leather corset, purple sash;
   amethyst rings and pendant; a belt pouch; a moonlit harbor with ships and lanterns.
+
+Final skills (pack 2.9.0, owner 10 Nov): Flower-Speech (utility, INT, Mana, Adept); Quiet Step (utility, AGI, Stamina, Adept).

@@ -53,6 +53,9 @@
   Loyalty, Independence high; Expression, Presentation low. Stages: Tolerates you / Talks while she stitches / Burns a candle for you ("waits up with a candle
   lit when you come back late") / My candle (id my-candle; "says your name instead of 'my candle', and asks you, very quietly, to stay"). Reliquary secret
   (Affection 60): the first bandage she ever wound for you, kept beside the stolen page. Skills: Mending Prayer (combat heal, INT, Mana, Novice) and Gentle Word
-  (utility, CHA, Stamina, Novice). The pack text (examples/packs/ersveil 2.8.0) is the source; the sections above are the history of the old draft.
+  (utility, CHA, Stamina, Novice). The pack text (examples/packs/ersveil 2.9.0) is the source; the sections above are the history of the old draft.
   Pack limits forced two trims: fields.People holds "Shiba Inu dogfolk woman, 21" (60 chars) and the candidate-line words moved to history; the voice is
   300 chars, with "Her blessings are", "Once attached" and no "gently".
+
+Final skills (pack 2.9.0, owner 10 Nov): Mending Prayer (combat, INT, Mana, Novice); Gentle Word (utility, CHA, Stamina, Novice).
+Final wears (2.9.0, owner 10 Nov): "dark stockings with garters beneath" and "a buckled leather belt" added; to stay inside the 300-character limit the line "Flame-cross pendants, a brass censer on chains." left `wears` (the pendant is her gear item). New portrait: 800x1200 WebP.

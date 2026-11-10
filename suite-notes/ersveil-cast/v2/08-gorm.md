@@ -39,3 +39,5 @@
   rune-marked war-hammer at his belt; an armillary sphere behind (the embassy).
 - Nerissa (USER, 1 Nov): joins his drinking/eating contests with Torka, and cheats.
 - Barney tie (USER, 1 Nov): Barney arranged and paid Liese's escape route; old friends and eternal rivals at cards and drink.
+
+Final skills (pack 2.9.0, owner 10 Nov): Hammer Rune (combat, STR, Stamina, Adept); Toast and Tell (utility, CHA, Stamina, Adept).

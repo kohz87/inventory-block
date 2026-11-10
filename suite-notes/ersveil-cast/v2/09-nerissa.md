@@ -41,3 +41,5 @@
   bead bracelets; a ship's deck and rigging behind.
 - Hush (USER, 1 Nov): her racy shanties make Hush blush into drizzle; sea and rain, almost sisters.
 - Asphodel tie (USER, 1 Nov): smuggled a fairy out of Vargate on the Gannet; knows what Asphodel is.
+
+Final skills (pack 2.9.0, owner 10 Nov): Pilot's Hand (utility, DEX, Stamina, Adept); Harpoon Dive (combat, AGI, Stamina, Adept).

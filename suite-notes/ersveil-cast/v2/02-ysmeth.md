@@ -48,3 +48,5 @@
 - If the player romances both Ysmeth and Nysseth: rivals, with jealousy (USER).
 - USER (1 Nov): keep Soul Class III.
 - Barney tie (USER, 1 Nov): the halfling debt-collector who delivered her and her mother to the Grey Ledger for Durvald was Barney (she does not know).
+
+Final skills (pack 2.9.0, owner 10 Nov): Lockwork (utility, DEX, Stamina, Expert); Binding Rune (combat, INT, Mana, Expert).
