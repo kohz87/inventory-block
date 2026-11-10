@@ -1,0 +1,17 @@
+REVIEW 157 (READ-ONLY toward GitHub): RPG round 3 only. kohz87/Story_block `stage16/lean-rpg` range c9ba353..9228472
+(merge of `stage16/rpg-r3` 9d19206). Review 155 covers c9ba353 itself; this covers what round 3 added. Fresh clone.
+Brief: suite-notes/rpg-briefs/R3.md (R3-1 the rename to "RPG" incl. stored ids; R3-2 Settings → RPG page; R3-3 the
+foe health pencil). Approved mockup v8 section 6: https://claude.ai/artifact/Gn22FRyEzDvufqZDgdbR4R.
+Look hardest at:
+1. The REPLAY RULE: the dice numbers chosen at planning travel in the `rpg.resolve` payload and are recorded (inputs,
+   guard hash, result.rules); Re-read, rebuild, reload and replan after a middle delete re-roll with the RECORDED
+   numbers, never current settings; a swipe uses the settings of that moment; old records without numbers stand on
+   Standard; tampered numbers are refused. Settings values are clamped (`normalizeRules`).
+2. The Combat rules edit via `dm.redefine` (hash/generation change, pins, undo by delete, the 1200 cap, hostile text).
+3. The planner note: appended after the fixed head, length cap, feature off ⇒ never read or sent; prompt injection
+   into the planner format.
+4. The rename: no "Lean RPG" left in reader-facing text; stored ids `story-block.rpg`, `rpgRolls`, `content.rpg`,
+   `rpgPlan` used consistently (old ids never shipped).
+5. The settings window `extraSections` change and the foe health pencil (`dm.set` on `hurtN`, `edit:false` respected).
+A BLOCKER is a real path with a repro. Run npm run check; full suite with counts; git diff --check.
+Verdict line: HOLDS or BLOCK n.

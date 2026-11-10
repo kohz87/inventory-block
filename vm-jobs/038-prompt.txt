@@ -1,0 +1,10 @@
+Re-check Story Block PR #195 (this checkout, branch track-e/e6a-timeline), track E6a timeline and restore. Your re-check at 0e01674 left 2 gaps (A stale announcements, B foreign barrier / rejected-flush identity); round 4 (head dcb371f) applies one principle: all in-memory timeline state belongs to one chat (announcements also to their receipt), is dropped on chat change, and is validated before use; every flush path checks identity. Diff: `git diff 0e01674..HEAD`; tests/v2/timeline-principles.test.js (42 tests); docs/v2/TIMELINE.md rule 2. Read-only; don't run the whole suite; reproduce with single tests or small scripts. Keep it short.
+
+A. Re-run: fail the final make flush, then open chat B / delete the receipt's carrier; the next successful flush must announce nothing stale. HOLDS / NOT FIXED.
+B. Re-run: fail a native journal flush in chat A, open clean chat B → B's make must not be RESTORE_PENDING; a chat switch during a rejected flush → STALE, no barrier, no timeline written to the open chat; chat A's own recover still re-raises its barrier when reopened. HOLDS / NOT FIXED.
+C. Any other in-memory timeline state (queues, caches, pending operations, participant handles) not yet chat-owned?
+Then anything newly broken.
+
+For every finding, add a tag: [normal play] (swipe, delete, Re-read, Continue, reload, crash, settings change, chat switch, failed save) or [damaged file] (needs a hand-edited or corrupted chat file). Tags are for tracking; keep blocking judgments as before.
+
+Output: verdict (MERGE / MERGE AFTER FIXES / NOT READY), items A–C, new BLOCKING items (what, why, file:line, the fix, tag), non-blocking headlines. No model names in your output.

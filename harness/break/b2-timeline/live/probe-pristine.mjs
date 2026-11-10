@@ -1,0 +1,24 @@
+import { launch, openPage, openNarrator, chatId, pageHead, fileChat, headOf, sleep, J } from './lib.mjs';
+const browser = await launch();
+const page = await openPage(browser, {});
+const st = async (label, id) => { const f = fileChat(id); const h = headOf(f); console.log(label, 'file pc', !!h?.domains?.party?.pc, 'record on greeting', !!f?.[0]?.extra?.storySuite, '| live pc', !!(await pageHead(page))?.domains?.party?.pc); };
+await openNarrator(page);
+const id = await chatId(page);
+await page.evaluate(() => StoryBlock.sdk.command('party.create', { name: 'Ren', preset: 'fighter' }));
+await sleep(1500);
+await st('created', id);
+await openNarrator(page);              // another new chat
+await page.evaluate(async c => { await SillyTavern.getContext().openCharacterChat(c); }, id);
+await sleep(2500);
+await st('reopened from the chat list', id);
+await page.evaluate(async () => { await SillyTavern.getContext().reloadCurrentChat(); });
+await sleep(2500);
+await st('reloadCurrentChat', id);
+await page.reload({ waitUntil: 'domcontentloaded' });
+await page.waitForFunction(() => window.StoryBlock?.apiVersion === 2 && SillyTavern.getContext().characters.length > 0, null, { timeout: 90000 });
+await sleep(1000);
+await page.evaluate(async c => { const ctx = SillyTavern.getContext(); await ctx.selectCharacterById(String(ctx.characters.findIndex(x => x.name === 'The Narrator'))); await new Promise(r => setTimeout(r, 1500)); await ctx.openCharacterChat(c); }, id);
+await sleep(2500);
+await st('page reload', id);
+console.log('tainted', await page.evaluate(() => SillyTavern.getContext().chatMetadata?.tainted));
+await browser.close();

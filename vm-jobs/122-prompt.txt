@@ -1,0 +1,9 @@
+Quick review (READ-ONLY: no commits, pushes, PRs or comments) of the new authoring kit: a folder of prompts, instructions, references and a checker that authors run in their own coding agent or chat to draft Story Block packs. No AI page, no network, no keys.
+Repos in this folder: Story_block (branch authoring-kit, head d36c090, from main a482fd0) and Story_studio (branch authoring-kit, head 39b2ac1, from main 2549e00).
+Focus (keep it quick; this is not a full audit):
+1. Story_block authoring-kit/check.mjs: it must run Story Block's own validatePack with every suite capability and give no false OK. Try a few broken packs (bad slug, bad ref, budget over, numeric-only branch, missing capability, a data module with DM_BOUNDS) and the --through N stand-ins: can a half-written pack pass --through where the finished pack is wrong in the steps already written? Exit codes 0/1/2. No network, no deps.
+2. The run instructions: README.md, AGENTS.md (+ CLAUDE.md/GEMINI.md pointers), prompts/rules-pack/00–09 and data-module/01–03. Are the numbers and rules they state true for Story Block a482fd0 (compare with src/v2/packs and reference/LIMITS.md from scripts/limits.mjs)? Is anything that would mislead an agent into packs the checker refuses? scripts/join.mjs behaviour on fenced/duplicate input.
+3. Story_studio: scripts/sync-kit.mjs copies only committed kit files (never work/), refuses a dirty kit, stamps VERSION; tests/authoring-kit.test.js catches drift; the page hint is plain text with no request; dist-scan still no exemptions; `npm test` passes from a lone clone.
+4. No model names; no secrets; no user lore or personal names in either repo's kit.
+Run `npm ci --ignore-scripts && npm test` in both (Studio browser tests need Chromium; if missing, say so and skip them).
+Output: HOLDS or BLOCK N; each blocker with file:line, a repro and the exact fix; non-blocking notes listed separately and short.

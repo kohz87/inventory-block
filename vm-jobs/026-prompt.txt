@@ -1,0 +1,19 @@
+Re-check Story Block PR #194 (this checkout, branch track-e/e5-evidence), track E5 proof and evidence. You reviewed it at d042c7f (MERGE AFTER FIXES, 4 blocking). Since then: the round 2 fixes (6afebef), then merges of main and of E1 at f1d9eb5 (head 4f5b434). E5's own change is `git diff origin/track-e/e1-replay...HEAD` (E1 is re-checked separately in job 025). Read-only. Don't run the whole suite (CI covers the head); run single tests or small scripts only to reproduce a finding. Keep it short.
+
+Your 4 blocking items, each HOLDS or NOT FIXED (reproduction, file:line, fix):
+1. Forged proofs: a no-metadata block writing /meta/proofs is refused (REPLAY_PREREQUISITE "writes proof pins"); recordEntries lists a proof only for a block replay could apply, with whole own metadata holding exactly the proof its ops pin. Try your n:0-span repro, a hand-edited record, and a stripped-metadata block that still has a guarded receipt (now refused as damaged).
+2. Replanned steps see the new proofs: a walk map registered during replaceStory/reconcile, laid over stored bytes by store.proofs(), reaching every replan and guard query inside walkSuffix. Try your DC 10 → 20 repro and a suffix reconcile.
+3. Deep chains: iterative parent walk with cycle detection; {ids:[last]} on a 10,000 chain.
+4. Circular payloads INVALID ("contains itself"); over 64 levels deep INVALID.
+And the small ones: newline sentence split, holes in query ids rejected, a cached id index invalidated on every write.
+
+The E1 merge. Check the writer's conflict resolutions hold both sides:
+- bodyDigest now E1's whole-span hash for guarded blocks (E5's evidenceDigest kept only in the replan-equal check);
+- replayGuarded ends with step(state, pinOps(...), {replayed:true, strict:true});
+- the classifier is E1's isGuardedBlock, and non-guarded blocks go to replayLegacy, which refuses proof pins;
+- prefix hashes stamped and checked through one blocksBefore.
+Can any combination of E1's fallback classification and E5's proof checks let a proof through from a block that didn't apply, or drop a proof from one that did?
+
+Performance: the live build of 10k proofs is now about 10 s (from 86 s), with a remaining O(pins) copy of the flat meta.proofs map per root. Is that acceptable for long chats (RB will make a few proofs per fight turn), or should it block?
+
+Output: verdict (MERGE / MERGE AFTER FIXES / NOT READY), the items each HOLDS/NOT FIXED, the merge question, the perf answer, then new BLOCKING items, then non-blocking headlines. No model names in your output.

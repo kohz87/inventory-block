@@ -1,0 +1,9 @@
+Re-check Story Block PR #191 (this checkout, branch track-e/e1-replay), track E1 replay core. Your re-check at 95955ca left 2 blockers on the Re-read kept-block stamping path (payload hash replaced; corrupted claims regenerated). Round 7 (head f33167f; `git diff 95955ca..HEAD`): a Re-read moves a kept block's position (boundaries[0].cursor, prefixHash) and nothing else; a kept block that isn't intact (intactReason) stays exactly as stored, inactive. Also: the read-field proxy test now records nested reads, includes the last record and exercises rebuild, head, at(i), reconcile, a middle Re-read and truncate; the registry validates replayQueries; REPLAY.md states that a declared replayQuery is a purity promise. Read-only; don't run the whole suite; reproduce with single tests, small scripts or scripts/fuzz-replay.mjs (new editReread step). Keep it short.
+
+1. Re-run both repros (strict saved===current guard + edited reply + unchanged Re-read with later checkpoints; claims corrupted to []). HOLDS / NOT FIXED.
+2. Any other field a Re-read, reconcile, truncate or rewind still rewrites on a kept or replanned block besides position?
+3. Anything newly broken; legacy modules unchanged.
+
+STOPPING RULE (lead): tag every blocking finding with BOTH (a) [normal play] or [damaged file], and (b) [silent wrong state] (normal play ends with wrong story/module state and no Problem, refusal or failure shown) or [fails safe] (refusal, STALE/FAILED, Problem, inactive block, lost notice, damaged file, performance). The lead merges when no [silent wrong state] remains; [fails safe] items become integration follow-ups.
+
+Output: verdict (MERGE / MERGE AFTER FIXES / NOT READY), items 1–3, BLOCKING items (what, why, file:line, the fix, both tags), non-blocking headlines. No model names in your output.

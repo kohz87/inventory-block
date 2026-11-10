@@ -1,0 +1,20 @@
+import { open, S } from './demo-common.mjs';
+import fs from 'node:fs';
+const h = await open({ width: 1440, height: 1000 });
+const { page, ev } = h;
+const r4 = fs.readFileSync(`${S}/demo/r4.txt`, 'utf8');
+const withDirector = lines => r4.replace(/<Director>[\s\S]*?<\/Director>/, `<Director>\n${lines}\n</Director>`);
+await h.openNarrator('The Narrator - 2026-10-18@09h00m00s000ms');
+await h.turn(withDirector('+ quest Sheep-killer — kill the wolf | giver: Garrow | reward: 2 silver'), 'I take the job.');
+await page.waitForTimeout(2000);
+const note = await ev(async () => {
+  const ctx = SillyTavern.getContext();
+  ctx.chat.push({ name: ctx.name1, is_user: true, is_system: false, send_date: new Date().toISOString(), mes: 'I give up on the Sheep-killer bounty. The wolf can have the sheep.', extra: {} });
+  await window.storyDirectorInterceptor(ctx.chat, 8000, () => {}, 'normal');
+  const value = ctx.extensionPrompts?.story_director?.value ?? '';
+  ctx.chat.pop();
+  return value;
+});
+console.log('note quest check:', note.split('\n').find(l => l.startsWith('Quest check')) ?? 'none');
+console.log('errors:', h.errors.join('\n') || 'none');
+await h.browser.close();

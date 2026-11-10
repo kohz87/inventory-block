@@ -1,0 +1,28 @@
+import { open, S } from './demo-common.mjs';
+import fs from 'node:fs';
+const h = await open({ width: 1440, height: 1000 });
+const { page, ev } = h;
+const toasts = [];
+await page.exposeFunction('__toast', t => toasts.push(t));
+await ev(() => { for (const k of ['warning', 'success', 'info']) { const o = window.toastr[k]; window.toastr[k] = function (m, ...rest) { window.__toast(`${k}: ${String(m).replace(/<[^>]+>/g, ' ')}`); return o.call(this, m, ...rest); }; } });
+const r4 = fs.readFileSync(`${S}/demo/r4.txt`, 'utf8').replace(/<XP>[\s\S]*?<\/XP>\n?/, '');
+const sheetHp = () => ev(() => { const chat = SillyTavern.getContext().chat; for (let i = chat.length - 1; i >= 0; i--) { const m = chat[i].mes.match(/HP: \d+\/\d+ \| MP: \d+\/\d+/); if (m) return `#${i} ${m[0]}`; } return 'none'; });
+await h.openNarrator('The Narrator - 2026-10-18@09h00m00s000ms');
+await h.dock();
+// Hurt first, by a story wound.
+await h.turn(r4.replace(/<Director>/, '<Wounds>\nRen — severe: a gash from the wolf\n</Wounds>\n<Director>'), 'I fight on.');
+await page.waitForTimeout(2500);
+console.log('hurt:', await sheetHp());
+toasts.length = 0;
+const rested = r4.replace(/<Director>/, "<Rest>\nshort: rested in Mother Karr's garret after cleaning blade and dressing wounds\n</Rest>\n<Director>");
+await h.turn(rested, 'I rest.');
+await page.waitForTimeout(3000);
+console.log('after rest:', await sheetHp());
+console.log('toast:', toasts.filter(t => /Rested|Recover/.test(t)).join(' || ') || 'none');
+await h.tab('ext:rpg-party'); await page.waitForTimeout(800);
+console.log('Recover? shown:', /Recover\?/.test(await h.pane()));
+await ev(async (t) => { const ctx = SillyTavern.getContext(); const i = ctx.chat.length - 1; const m = ctx.chat[i]; const plain = t.replace(/<Rest>[\s\S]*?<\/Rest>\n/, ''); m.swipes.push(plain); m.swipe_id = m.swipes.length - 1; m.mes = plain; m.extra = {}; await ctx.eventSource.emit(ctx.eventTypes.MESSAGE_SWIPED, i); await ctx.saveChat(); await ctx.reloadCurrentChat(); await ctx.eventSource.emit(ctx.eventTypes.MESSAGE_RECEIVED, i); await ctx.eventSource.emit(ctx.eventTypes.CHARACTER_MESSAGE_RENDERED, i); }, rested);
+await page.waitForTimeout(2500);
+console.log('after swipe:', await sheetHp());
+console.log('errors:', h.errors.join('\n') || 'none');
+await h.browser.close();

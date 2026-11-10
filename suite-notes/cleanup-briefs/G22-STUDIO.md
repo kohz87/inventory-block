@@ -1,0 +1,11 @@
+# G22-STUDIO — Studio 0.9.0: Cast Signature skills section (read GEN22-COMMON.md first)
+- Story_studio, base origin/main ec65db3 (0.8.0), branch `stage66/cast-skills`. Browser tests use STUDIO_CHROMIUM_PATH=/opt/pw-browsers/chromium-1243/chrome-linux64/chrome.
+- Build the Studio part of the CASTSKILL mockup exactly as approved:
+  - a "Signature skills · n of 5" section on the Cast form, after "Before they are met" and before Secrets;
+  - rows with Name, What it does, Stat, Uses and Rank; Add and Remove; a hint line;
+  - checker messages (duplicate name, too many, limits) matching Story Block's rules per the GEN22 contract;
+  - the "N skills" tag in the Cast list;
+  - phone rows as cards.
+- Export writes `cast[].skills`; import reads them; drafts keep them.
+- Leave the version bump to the lead (CHANGELOG "Unreleased").
+- Tests (unit + browser) and shots at 1440 and 390.

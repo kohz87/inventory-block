@@ -1,0 +1,14 @@
+You are reviewing a design document, not code: ~/story_suite/inventory-block/suite-notes/RB_PHASE0.md, the phase 0 contract for rebuilding RPG Battle (RB) inside the Story Suite. The user's decisions it is built from are in ~/story_suite/inventory-block/suite-notes/V2_LOG.md (the sections "RB REBUILD", "RB rebuild, round 2..5", "Death", "Death, round 2/3", "RB rebuild, how it is built"). The current code of the four modules is in this folder: Story_block (SB, the hub), rpg_battle (RB), Story_director (SD), npc_state_delta (NSD), all on branch v2. Read-only: change nothing.
+
+Check, and cite file:line for every claim about the code:
+1. Faithfulness: does the draft contradict or drop any user decision in V2_LOG? List each mismatch with the log line.
+2. Ownership: is every area owned by exactly one module, and does the draft's split match what SB's registry and SDK can enforce today (src/v2/registry.js KNOWN_KEYS, sdk.js, the domains rule "keyed by name, never reset", duplicate names refused)? Anything the contract needs that SB cannot do yet?
+3. The interface: do the queries the draft says SD offers exist in SD today (names, shapes)? Which are new work? Same for SB's inventory/purse/savepoint queries and commands, and RB's kept combat/items/trade/return names.
+4. State shapes: can every rule in section 5 be decided by code from the shapes in section 4 alone (promotion 5/5 checks, pathway steps 40-90, training caps per reply and per story day, death and return to a save point, quest expiry on SD's clock)? Name every missing field.
+5. Replay and swipes: SB records ops per reply and replays them. Does any proposed command (class.choose, path.choose, death.resolve, the automatic save at danger points) break replay, swipe or rollback semantics? How should each be recorded?
+6. Pack schema v2: can the validator rules in section 6 be checked statically? Is anything ambiguous (branch counts, the generated power-up, the 8 slots vs today's 6, 2H and dual wield)? Is there a cheaper shape?
+7. The CI matrix: is the combination list right given "RB requires SD; SB, SD and NSD each work with SB alone"? How should it reuse scripts/sync-testkit.mjs?
+8. The open questions in section 9: give a recommendation for each, with the reason from the code.
+9. What is missing from phase 0 that the four parallel tracks (A moving code, B rules core, C RB UI against fixtures, D Studio) will need to start without waiting on each other?
+
+Output: a verdict line (READY / READY WITH CHANGES / NOT READY), then BLOCKING items (each: what, why, file:line, the fix as a concrete edit to the draft), then NON-BLOCKING items, then answers to 8 and 9. Be concrete and short. No model names in your output.

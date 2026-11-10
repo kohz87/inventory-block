@@ -1,0 +1,21 @@
+# G22-SKILLS — extra skill slots + cast signature skills, Story Block side (read GEN22-COMMON.md first)
+- Story_block, branch `stage66/skills`, real ST on ports 8430/8530.
+- **Extra slots:** +1 at Lv 20, 40 and 60, up to 8.
+  - SKILL_SLOTS becomes a function of level.
+  - The learn-N/practice-N families go to 1..8.
+  - The charfile export/import allows up to 8.
+  - Creation still starts at 5.
+  - A level drop never deletes a skill (the extra slots are kept; just no new learns).
+  - Tail cost per extra skill: report bytes.
+  - 2.21.0 removes the "N of 5 slots" pill. Do not re-add it. If the Skills card needs a cue for a free slot, draw nothing new; report what you would propose.
+- **Cast signature skills** per the GEN22 contract:
+  - the pack checker (`cast[].skills`);
+  - filling the slots on join (with the roster from Character blocks, 2.18.1);
+  - the signature mark (the lock chip and legend from the CASTSKILL mockup);
+  - story renames or replacements refused with a Problems line;
+  - the pencil allowed;
+  - leave and rejoin keep rank and practice;
+  - the join receipt tiles.
+- **Ersveil 2.7.0 data:** 2–4 skills for each of the 12 cast members, ranked by level (Temiwa Lv 8 mostly Novice … Harrak Lv 56 mostly Expert/Master), fitting each person's description, using the Story Block seven stats (VIT where CON is meant). Coordinate the file with G22-BLOCKS by editing only `content.cast[].skills` in pack.json.
+- Note the conflicts expected with 2.21.0 (skills.js, part.js) in your report.
+- Tests and real-ST shots (Harrak joins with his skills).

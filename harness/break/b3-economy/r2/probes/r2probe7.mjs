@@ -1,0 +1,15 @@
+import { started, rebuilt } from './helpers/suite.js';
+const torches = st => { const inv = st.domains.inventory; return Object.values(inv.stacks).filter(s => inv.defs[s.def].name === 'Torch').map(s => `${s.id}:${s.qty}`).join(','); };
+const a = await started({ seed: 9 });
+await a.send('A', a.reply('A.', ['+ item Torch | qty: 2']));
+const mark = a.ctx.chat.length;
+await a.send('B', a.reply('B.', ['+ item Torch | qty: 3']));
+await a.send('C', a.reply('C.', ['- item Torch | qty: 2']));
+console.log('live before delete', torches(a.head()));
+for (const m of a.ctx.chat.slice(mark)) if (!m.is_user) console.log(JSON.stringify(m.extra.storySuite.ops ?? m.extra.storySuite).slice(0, 400));
+await a.st.deleteMessage(mark + 1); await a.st.deleteMessage(mark);
+console.log('live after delete', torches(a.head()));
+const cold = await rebuilt(a);
+console.log('cold', torches(cold));
+console.log('problems', JSON.stringify(a.store.problems?.() ?? null).slice(0, 300));
+a.close();

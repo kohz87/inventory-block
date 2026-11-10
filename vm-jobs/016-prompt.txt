@@ -1,0 +1,13 @@
+You are reviewing a design document, not code: inventory-block/suite-notes/RB_PHASE0.md (draft v2) and its appendix inventory-block/suite-notes/RB_PHASE0_APIS.md, the phase 0 contract for rebuilding RPG Battle (RB) inside the Story Suite. It is the foundation the suite's modules will be split along, so be exacting. An earlier review of draft v1 is summarised in inventory-block/suite-notes/RB_PHASE0_REVIEW.md. The user's decisions are in inventory-block/suite-notes/V2_LOG.md (lines marked USER; where two lines disagree, the later one wins). The code of the four modules is in this folder on branch v2: Story_block (SB, the hub), rpg_battle (RB), Story_director (SD), npc_state_delta (NSD). Read-only: change nothing.
+
+Check, citing file:line for every claim about the code:
+1. Each of the 9 blocking items in RB_PHASE0_REVIEW.md: fixed, partly fixed (what is left), or not fixed.
+2. Faithfulness: does v2 contradict, drop or quietly change any user decision? Is every non-decided choice marked as a proposal and listed in "For the user"?
+3. Every API the draft and the appendix call "existing": does it exist with that name and shape (file:line)? Every "new" one: is it fully specified (payload, result, errors, who may call it)?
+4. Can code decide every rule in the rules section from the state shapes alone? Name every missing or ambiguous field.
+5. The replay recording table: does every command, use, save, death and expiry survive a swipe, a re-read, a deleted reply and a rollback as SB replays ops today? Any double-apply or lost state?
+6. The pack schema v2: does it fit SB's pack envelope and registered kinds as the validator works today? Is it statically checkable? Is the confirmed branch graph (step 2 branches from the form chosen at step 1; 24 written + 12 generated choices per advanced class; a character always has exactly 3 skills, a class change swaps them) expressed exactly?
+7. Module independence: with this contract, can SB alone, SB+SD, SB+NSD and SB+SD+NSD run with no RB code, and does RB refuse cleanly without SD? Any hidden coupling?
+8. Can the four tracks (A moving code, B rules core, C RB UI on fixtures, D Studio) start in parallel from this document alone, without asking each other anything? What would each one have to ask?
+
+Output: a verdict line (READY / READY WITH CHANGES / NOT READY), then BLOCKING items (each: what, why, file:line, the fix as a concrete edit to the draft), then NON-BLOCKING items, then answers to 7 and 8. Be concrete and short. No model names in your output.

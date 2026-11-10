@@ -1,0 +1,26 @@
+import { open, S } from './demo-common.mjs';
+import fs from 'node:fs';
+const h = await open({ width: 1440, height: 1000 });
+const { page, ev } = h;
+const r3 = fs.readFileSync(`${S}/demo/r3.txt`, 'utf8');
+await h.openNarrator('The Narrator - 2026-10-18@09h00m00s000ms');
+await h.dock();
+await h.tab('ext:rpg-party'); await page.waitForTimeout(800);
+const pane = await h.pane();
+console.log('card:', (pane.match(/HP[^A-Z]*MP[^A-Z]*(SP[^A-Z]*)?/) ?? ['?'])[0].slice(0, 80));
+console.log('skill meta:', (pane.match(/(physical|magic) · [A-Z]{3} · \d+ (SP|MP)[^A-Z]*/g) ?? []).slice(0, 3).join(' | '));
+await h.turn(r3, 'We take the river path east to the weir.');
+await page.waitForTimeout(3000);
+await h.tab('ext:rpg-battle'); await page.waitForTimeout(800);
+await h.click('^Fight'); await page.waitForTimeout(3000);
+await h.click('^Start'); await page.waitForTimeout(1500);
+console.log('fight card:', ((await h.pane()).match(/SP\s*\d+\s*\/\s*\d+/) ?? ['no SP bar'])[0]);
+console.log('skill menu opened:', await h.click('^Skill')); await page.waitForTimeout(500);
+console.log('skill menu:', ((await h.pane()).match(/\d+ SP[^·]*·[^A-Z]*/g) ?? ['none']).slice(0, 2).join(' | '));
+for (let i = 0; i < 30; i++) { if (!(await h.click('^Auto'))) break; await page.waitForTimeout(800); }
+console.log('log SP lines:', ((await h.pane()).match(/[^.]*SP\)[^.]*\./g) ?? []).slice(0, 2).join(' | ') || 'none');
+console.log('done:', await h.click('^Done')); await page.waitForTimeout(2500);
+console.log('party block SP:', await ev(() => { const chat = SillyTavern.getContext().chat; for (let i = chat.length - 1; i >= 0; i--) { const m = chat[i].mes.match(/HP: \d+\/\d+ \| MP: \d+\/\d+( \| SP: \d+\/\d+)?/); if (m) return `#${i} ${m[0]}`; } return 'none'; }));
+console.log('state:', await ev(() => { const chat = SillyTavern.getContext().chat; for (let i = chat.length - 1; i >= 0; i--) { const m = chat[i].mes.match(/State: [^\n]*/); if (m) return m[0]; } return 'none'; }));
+console.log('errors:', h.errors.join('\n') || 'none');
+await h.browser.close();

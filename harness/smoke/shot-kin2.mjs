@@ -1,0 +1,24 @@
+import { open, S } from './demo-common.mjs';
+const O = `${S}/shots/final`;
+const h = await open({ width: 1440, height: 1000 });
+const { page, ev } = h;
+await h.openNarrator('The Narrator - 2026-10-18@01h44m00s947ms'); await h.dock();
+console.log(await ev(async () => {
+  const ctx = SillyTavern.getContext();
+  const st = ctx.chatMetadata.rpgBattle;
+  st.bestiary = (st.bestiary ?? []).filter(e => !String(e.name).includes(':'));
+  await ctx.saveMetadata?.();
+  return JSON.stringify(st.bestiary.map(e => `${e.name} L${e.level} kin:${e.kin ?? '-'} fam:${e.family ?? '-'}`));
+}));
+await page.reload({ waitUntil: 'domcontentloaded' });
+await page.waitForFunction(() => window.StoryBlock?.apiVersion === 1 && typeof window.rpgBattleInterceptor === 'function', null, { timeout: 60000 });
+await page.waitForTimeout(3500);
+await h.openNarrator('The Narrator - 2026-10-18@01h44m00s947ms'); await h.dock();
+await h.tab('ext:rpg-party');
+await ev(() => { const pane = [...document.querySelectorAll('.story-block-pane')].find(n => n.style.display !== 'none'); const fold = [...pane.querySelectorAll('details')].find(d => /BESTIARY/i.test(d.querySelector('summary')?.textContent ?? '')); fold.open = true; fold.scrollIntoView({ block: 'start' }); });
+await page.waitForTimeout(600);
+const b = await ev(() => { const pane = [...document.querySelectorAll('.story-block-pane')].find(n => n.style.display !== 'none'); const fold = [...pane.querySelectorAll('details')].find(d => /BESTIARY/i.test(d.querySelector('summary')?.textContent ?? '')); const r = fold.getBoundingClientRect(); return { x: r.x, y: r.y, w: r.width, h: r.height, text: fold.innerText.replace(/\s+/g, ' ').slice(0, 500) }; });
+console.log(b.text);
+await page.screenshot({ path: `${O}/rpg-battle-bestiary.png`, clip: { x: b.x - 10, y: Math.max(0, b.y - 10), width: b.w + 20, height: Math.min(b.h + 20, 980 - Math.max(0, b.y - 10)) } });
+console.log('errors:', h.errors.join('\n') || 'none');
+await h.browser.close();

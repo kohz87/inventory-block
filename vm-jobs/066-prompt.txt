@@ -1,0 +1,11 @@
+Review RPG Battle track B part B6 (this checkout, branch track-b/death-return vs origin/main; `git log origin/main..HEAD`). Spec: ~/story_suite/inventory-block/suite-notes/RB_PHASE0.md (§8 death and return in full; §3/§4/§6; §10 B; fixtures C11 death, C12 complete return; §11: companion death is permanent on the active timeline, PC return restores its saved living state), RB_TRACK_B_DESIGN.md B6, WRITER_RULES.md, RB docs/dev/progress.md. Parts: death identities, payments and closed records (686a80c); wipe guards, injury recovery, legacy behaviour (ab84152); return recovery and crash/replay acceptance (ccce0b0); main merge + re-vendor + real-module guard audit (4263a9a, 245b05f, cfd38a5). Read-only; don't run the whole suite; reproduce with single tests or small scripts. Keep it short.
+
+1. Death: a death is recorded once, pays once, closes its records; deleting, swiping or Re-reading the reply that caused it retracts it (and its payments) exactly; a companion's death is permanent on the active timeline; nothing double-counts across reload and rebuild.
+2. Wipe and return: wipe guards, injury recovery, and PC return restoring the saved living state; crash/replay mid-return; "native mismatches refuse continuation" — is that refusal visible and safe?
+3. The replay rule: every guard query is declared in replayQueries, read from state, story.evidence, or recorded with the block; module.js unions death/return lists once those parts are registered; the real-module test really runs death and return through reload + rebuild with no Problems.
+4. Legacy chats and chats without death/return stay byte-identical to main.
+Then anything newly broken.
+
+STOPPING RULE: Track B is held to the full standard: every [normal play] finding blocks; tag each with BOTH (a) [normal play] or [damaged file], and (b) [silent wrong state] or [fails safe].
+
+Output: verdict, items 1–4, BLOCKING items (what, why, file:line, the fix, both tags), non-blocking headlines. No model names in your output.

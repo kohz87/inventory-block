@@ -1,0 +1,10 @@
+import { chromium } from '/opt/node22/lib/node_modules/playwright/index.mjs';
+import fs from 'node:fs';
+const [src, out, x, y, w, hgt] = process.argv.slice(2);
+const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium' });
+const page = await browser.newPage({ viewport: { width: 1600, height: 1200 } });
+const b64 = fs.readFileSync(src).toString('base64');
+await page.setContent(`<body style="margin:0;background:#000"><img src="data:image/png;base64,${b64}"></body>`);
+await page.waitForTimeout(300);
+await page.screenshot({ path: out, clip: { x: +x, y: +y, width: +w, height: +hgt } });
+await browser.close();

@@ -1,0 +1,11 @@
+import { chromium } from '/opt/node22/lib/node_modules/playwright/index.mjs';
+const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium', args: ['--no-proxy-server'] });
+const page = await browser.newPage();
+const logs = [];
+page.on('console', m => { if (/error|NPC State|failed/i.test(m.text())) logs.push(m.text().slice(0, 300)); });
+page.on('pageerror', e => logs.push('pageerror ' + e.message));
+await page.goto(process.env.ST_URL, { waitUntil: 'domcontentloaded' });
+await page.waitForTimeout(20000);
+console.log(await page.evaluate(() => JSON.stringify({ chars: window.SillyTavern?.getContext?.()?.characters?.length, sb: window.StoryBlock?.apiVersion, nsd: Boolean(window.NPCStateDelta), sd: Boolean(window.StoryDirector), rb: typeof window.rpgBattleInterceptor })));
+console.log(logs.slice(0, 12).join('\n'));
+await browser.close();

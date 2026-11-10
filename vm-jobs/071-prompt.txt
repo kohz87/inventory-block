@@ -1,0 +1,15 @@
+Re-check RPG Battle PR #146 (B6: death, wipe and return; this checkout, branch track-b/death-return, head 98dfc16; `git diff cfd38a5..HEAD`). FRESH review: the fixes were written from a review at cfd38a5 that found:
+F1 [normal play] the death guard replaced combat.end and hashed minute+hp+conditions → deleting an earlier time/hp reply unsettled a won fight (XP 5→0) → e081cb4: plain combat.end unless the settlement writes a death/injury; then downed ids (+minute only when written), never hp/conditions; own failure text.
+F2 unset clock ignored manual/initial saves → 3fadbd5: latest manual save, else initial.
+F3 [silent wrong state] a clock-less injury never expired → d8f980f: anchored at the first fold that sees a clock (or a rest/XP write), stored in the party record.
+F4 native mismatch dead end after deleting the lethal reply → 7dc7a30: player-facing remedy text; full fix deferred to E6b native checkpoint selection (GAPS.md, must close before release).
+F5 module.js mergeHook kept only the last afterCapture → b4f359d (lead-owned): afterCapture commands concatenated in part order, canGenerate all-must-allow, replayGuard dispatched by kind; 4d33096 (lead-owned) createModule({ parts }); 98dfc16 death tests register through module.js.
+Spec: ~/story_suite/inventory-block/suite-notes/RB_PHASE0.md §8, RB_TRACK_B_DESIGN.md B6, src/v2/death/GAPS.md. Read-only; single tests or small scripts. Keep it short.
+
+1. F1–F5: HOLDS / NOT FIXED with repros. For F3: is the anchor deterministic on replay (no query-at-replay, same anchor after reload/rebuild/Re-read/delete of the reply that set the clock)?
+2. The mergeHook change: does concatenating afterCapture commands or the new replayGuard dispatch change behaviour for any existing part (progress, training, fight, quests on track A)? Any hook two parts both define that still keeps only the last answer and matters?
+3. Anything the fixes broke: death once/pays once/retracts exactly, companion permanence, legacy byte-identical, the replay rule.
+4. `tests/v2/qa/currency.test.js` ("1 crowns"): the fixer says it fails on main too — is it a failure or a todo, and does it make CI red?
+
+Full standard: every [normal play] finding blocks; tag each with BOTH (a) [normal play]/[damaged file] and (b) [silent wrong state]/[fails safe].
+Output: verdict, items 1–4, BLOCKING items (what, why, file:line, the fix, both tags), non-blocking headlines. No model names in your output.

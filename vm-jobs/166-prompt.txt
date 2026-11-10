@@ -1,0 +1,17 @@
+REVIEW RE-CHECK 166 (READ-ONLY toward GitHub, except committing your result file): Story Block 2.8.0 RPG,
+kohz87/Story_block `stage16/lean-rpg` at 8f6321e (one commit on f1855b0) vs main c438975. Fresh session, fresh clone.
+Read vm-results/164.md (BLOCK 3) in kohz87/inventory-block claude/hopeful-babbage-tipaw8. Confirm each is closed or
+decided, with tests (round5b.test.js "review 164 a", "b", "c"; run the tests on the head only, do not remove fixes to
+see them fail), then a regression-only pass over f1855b0..8f6321e (resolve.js statOf and the witness, cue.js fitCue
+and the `plain` measure, tests, docs).
+The lead's decisions: B1/B2 — the RPG was never released (main has no RPG), so rolls saved by earlier unreleased heads
+need no migration. Going forward: the replay witness holds sheet numbers only (no `statHidden`), and the cue's rounds
+are fitted on the wording as if nothing were hidden, so whether a stat is hidden never changes the dice, the witness or
+how many rounds are told. A changed refusal wording after a sheet change may ask for a Re-read (that is a sheet change).
+B3 — a hidden skill stat missing from the sheet is refused as "has no stat on the sheet for this skill".
+Known and recorded (not blockers): as in 160's, 163's and 164's follow-ups, plus: a rules outcome (a total, a bonus,
+a refusal such as "is Down") may reflect a hidden value; the reader's battle log may show hidden values.
+A BLOCKER is a real path with a repro. Run on Node 24: npm run check; full suite (counts); git diff --check;
+scripts/fuzz-replay.mjs (100 seeds). Verdict line: HOLDS or BLOCK n. Write vm-results/166.md and commit it to
+inventory-block claude/hopeful-babbage-tipaw8. Use model gpt-6.1-terra with model_reasoning_effort=max; if its
+filter stops the run, a Claude reviewer may run it as with 160.

@@ -1,0 +1,24 @@
+import { appendFileSync } from 'node:fs';
+import { launch, ev, SC, send, toasts, q, clickButton } from './lib.mjs';
+import { connect, openChat } from './create.mjs';
+const text = process.argv[2]; const shot = process.argv[3];
+const { browser, page, errors, cons } = await launch();
+await connect(page); await openChat(page);
+const before = await ev(page, () => document.querySelectorAll('#chat .mes').length);
+await send(page, text, 3500);
+const out = await ev(page, () => {
+    const sdk = StoryBlock.sdk; const all = sdk.receipts();
+    const mes = document.querySelectorAll('#chat .mes').length;
+    return { mes, receipts: all.slice(-12).map(x => [x.index, x.receipt.id ?? x.receipt.receiptId ?? null, x.receipt.type, x.receipt.module, (x.receipt.summary ?? '').slice(0, 160), x.receipt.problem ?? x.receipt.problems ?? null]) };
+});
+console.log('mes', before, '->', out.mes);
+for (const r of out.receipts) console.log(JSON.stringify(r));
+console.log('wallet', JSON.stringify(await q(page, 'inventory.wallet')), 'clock', JSON.stringify(await q(page, 'director.time')), 'here', JSON.stringify((await q(page, 'atlas.here'))?.name));
+console.log('toasts', JSON.stringify(await toasts(page)));
+console.log('buttons', JSON.stringify(await page.locator('#chat .mes').last().getByRole('button').allInnerTexts()));
+console.log('card', JSON.stringify(await ev(page, () => document.querySelector('#chat .mes.last_mes')?.innerText?.slice(0, 1200))));
+if (shot) await page.screenshot({ path: `${SC}/${shot}.png` });
+const ce = cons.filter(c => !/Settings not ready/.test(c));
+console.log(JSON.stringify({ errors, cons: ce }));
+appendFileSync(SC + '/errors.log', JSON.stringify({ text, errors, cons: ce }) + '\n');
+await browser.close();

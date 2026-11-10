@@ -1,0 +1,5 @@
+# 124: Sol FINAL cross-repo review: open trainer templates (SB cb5a897, RB 72909e9, SD 04f7ac8, Studio e5ae3dd) (read-only) — READY — LEAD GO-AHEAD (first free account)
+"Read-only" = nothing to GitHub; the workspace-write sandbox is for npm ci / tests in /tmp/ot124 only.
+1. `rm -rf /tmp/ot124 && mkdir /tmp/ot124 && cd /tmp/ot124 && git clone -q -b stage7/open-trainers https://github.com/kohz87/Story_block.git && git clone -q -b stage7/open-trainers https://github.com/kohz87/rpg_battle.git && git clone -q -b stage7/open-trainers https://github.com/kohz87/Story_director.git && git clone -q -b studio/open-trainers https://github.com/kohz87/Story_studio.git && git clone -q https://github.com/kohz87/npc_state_delta.git`
+2. In /tmp/ot124: `CODEX_HOME=<account> codex exec --skip-git-repo-check --sandbox workspace-write -m gpt-6.1-sol -c model_reasoning_effort="high" "$(cat ~/story_suite/inventory-block/vm-jobs/124-prompt.txt)" > ~/story_suite/vm-results/124-codex.md 2>&1`
+3. Report as VM JOB 124 (write vm-results/124.md). 4. Delete /tmp/ot124.

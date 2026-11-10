@@ -1,0 +1,16 @@
+REVIEW RE-CHECK 164 (READ-ONLY toward GitHub, except committing your result file): Story Block 2.8.0 RPG,
+kohz87/Story_block `stage16/lean-rpg` at f1855b0 (one commit on 9f57e18) vs main c438975. Fresh session, fresh clone.
+Read vm-results/163.md (BLOCK 2: a hidden skill stat named in a check's cue; a hidden skill resource named in the
+empty-resource refusal) in kohz87/inventory-block claude/hopeful-babbage-tipaw8. Confirm both are closed with tests
+that fail without the fix (round5b.test.js "review 163 a", "b" and "c"), then a regression-only pass over
+9f57e18..f1855b0 (resolve.js skillFor/side, cue.js lineText, tests, docs).
+The rule now: a stat the rules use is not named in the cue when it is a skill's hidden stat or a stat the character's
+block hides (the line reads "Wessel — Silent Trick, normal" or "Wessel — check, normal"); a hidden resource is left
+out of the refusal ("cannot use Silent Trick now"); the best-stat note does not name a hidden stat. The rules still use
+the real values. The battle log view is for the reader and may show them.
+Known and recorded (not blockers): as in 160's and 163's follow-ups, plus: a rules outcome (a total, a bonus, a refusal
+such as "is Down") may reflect a hidden value.
+A BLOCKER is a real path with a repro. Run on Node 24: npm run check; full suite (counts); git diff --check;
+scripts/fuzz-replay.mjs (100 seeds). Verdict line: HOLDS or BLOCK n. Write vm-results/164.md and commit it to
+inventory-block claude/hopeful-babbage-tipaw8. Use model gpt-6.1-terra with model_reasoning_effort=max; if its
+filter stops the run, a Claude reviewer may run it as with 160.

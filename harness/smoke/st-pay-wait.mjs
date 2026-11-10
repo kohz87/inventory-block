@@ -1,0 +1,48 @@
+import { open, S } from './demo-common.mjs';
+import fs from 'node:fs';
+const Q = `${S}/mock/q`;
+const h = await open({ width: 1440, height: 1000 });
+const { page, ev } = h;
+await ev(async () => {
+  const $ = window.jQuery;
+  $('#main_api').val('openai').trigger('change'); await new Promise(r => setTimeout(r, 500));
+  $('#chat_completion_source').val('custom').trigger('change'); await new Promise(r => setTimeout(r, 500));
+  $('#custom_api_url_text').val((window.__MOCK_URL || 'http://127.0.0.1:5099/v1')).trigger('input');
+  $('#custom_model_id').val('mock-model').trigger('input');
+  $('#stream_toggle').prop('checked', false).trigger('change');
+  $('#api_button_openai').trigger('click');
+  $('#oai_max_context_unlocked').prop('checked', true).trigger('input').trigger('change'); await new Promise(r => setTimeout(r, 300));
+  $('#openai_max_context').val(120000).trigger('input'); $('#openai_max_context_counter').val(120000).trigger('input');
+});
+await page.waitForTimeout(4000);
+const r4 = fs.readFileSync(`${S}/demo/r4.txt`, 'utf8').replace(/<XP>[\s\S]*?<\/XP>\n?/, '');
+const at = (time, lines) => r4.replace('1203, March 3, 09:50 am', time).replace(/<Director>[\s\S]*?<\/Director>/, `<Director>\n${lines}\n</Director>`);
+const director = () => ev(() => (SillyTavern.getContext().chat.at(-1).mes.match(/<Director>[\s\S]*?<\/Director>/) ?? ['none'])[0].replace(/\n/g, ' / '));
+const quests = async label => {
+  await h.tab('ext:story-director-quests'); await page.waitForTimeout(800);
+  console.log(label, '·', await h.pane());
+};
+const send = async (text, reply, n) => {
+  fs.writeFileSync(`${Q}/1.txt`, reply);
+  await page.fill('#send_textarea', text);
+  await page.click('#send_but');
+  await page.waitForFunction(k => SillyTavern.getContext().chat.length >= k && /Director/.test(SillyTavern.getContext().chat.at(-1).mes), n, { timeout: 60000 });
+  await page.waitForTimeout(1500);
+};
+await h.openNarrator('The Narrator - 2026-10-18@09h00m00s000ms');
+await h.dock();
+await h.turn(at('CY 611, Goldwane 12, 07:00 am', "+ quest Lone Grey Wolf — Hunt the wolf pack preying on Gerrick's sheepfold | type: bounty | giver: Verna | goal: Slay the pack | reward: 1 gold | difficulty: ordinary"), "I'll take the wolf bounty.");
+await page.waitForTimeout(1500);
+await h.turn(at('CY 611, Goldwane 12, 06:00 pm', '~ Lone Grey Wolf — step: turn in voucher at bailiff hatch on Friday noon | due: Goldwane 14, 12:00 pm'), 'I take the voucher.');
+await page.waitForTimeout(1500);
+await h.turn(at('CY 611, Goldwane 14, 01:00 pm', '~ Guild Post Closure — step: examiner boat underway'), 'I walk to the gatehouse, it takes all day and night.');
+await page.waitForTimeout(1500);
+const LOG = `${S}/mock/log2`;
+for (const f of fs.readdirSync(LOG)) fs.unlinkSync(`${LOG}/${f}`);
+const n = await ev(() => SillyTavern.getContext().chat.length);
+await send('I knock at the bailiff hatch.', at('CY 611, Goldwane 14, 01:10 pm', '- Lone Grey Wolf — failed: deadline passed'), n + 2);
+const req = fs.readdirSync(LOG).filter(f => f.startsWith('req')).sort().map(f => JSON.parse(fs.readFileSync(`${LOG}/${f}`, 'utf8')).messages.map(m => typeof m.content === 'string' ? m.content : '').join('\n')).find(t => /Lone Grey Wolf/.test(t)) ?? '';
+console.log('note lines:', req.split('\n').filter(l => /Lone Grey Wolf/.test(l) && /Due now|While away|pay waiting|deadline/.test(l)).join('\n  '));
+await quests('quests after:');
+console.log('errors:', h.errors.join('\n') || 'none');
+await h.browser.close();

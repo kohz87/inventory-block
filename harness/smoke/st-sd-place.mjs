@@ -1,0 +1,25 @@
+import { open, S } from './demo-common.mjs';
+import fs from 'node:fs';
+const h = await open({ width: 1440, height: 1000 });
+const { page, ev } = h;
+const r4 = fs.readFileSync(`${S}/demo/r4.txt`, 'utf8').replace(/<XP>[\s\S]*?<\/XP>\n?/, '');
+const at = (time, lines, loc = null) => {
+  let t = r4.replace('1203, March 3, 09:50 am', time).replace(/<Director>[\s\S]*?<\/Director>/, `<Director>\n${lines}\n</Director>`);
+  if (loc) t = t.replace('Harrowford outskirts | The Old Weir', loc).replace(/\*\*👥 NPCs Present:\*\*[\s\S]*?---/, '**👥 NPCs Present:**\n*(none)*\n\n---');
+  return t;
+};
+const cards = () => ev(() => [...document.querySelectorAll('.is-offered .story-director-record')].map(n => `${n.querySelector('.story-director-record-key')?.textContent} [${n.querySelector('.is-giver')?.textContent ?? '-'}]`).join(' | '));
+const show = async label => { await h.tab('ext:story-director-quests'); await page.waitForTimeout(800); await ev(() => { const d = document.querySelector('.story-director-fold.is-offered'); if (d) d.open = true; }); console.log(label, await cards()); };
+await h.openNarrator('The Narrator - 2026-10-18@13h00m00s000ms');
+await h.dock();
+await h.turn(at('1203, March 3, 10:00 am', "+ hook Weir Eels — Clear the eels fouling the weir | giver: Lyra | reward: 3 silver\n+ hook Kael's Proof — Bring Kael proof of the wolf | giver: Captain Kael | reward: 4 silver | place: the watch post"), 'Anything else here?');
+await page.waitForTimeout(2500);
+await show('at the weir:');
+await h.turn(at('1203, March 3, 02:00 pm', '', 'Elmbridge | Ferry Landing'), 'I take the ferry to Elmbridge.');
+await page.waitForTimeout(2500);
+await show('in Elmbridge:');
+await ev(() => [...document.querySelectorAll('.is-offered .story-director-record')].find(x => /Kael/.test(x.textContent))?.querySelector('.story-director-offer-take')?.click());
+await page.waitForTimeout(400);
+console.log('ask:', await ev(() => document.querySelector('.story-director-offer-ask')?.textContent ?? 'none'));
+console.log('errors:', h.errors.join('\n') || 'none');
+await h.browser.close();

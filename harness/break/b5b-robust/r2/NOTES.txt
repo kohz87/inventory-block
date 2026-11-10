@@ -1,0 +1,11 @@
+b5b-robust r2 notes
+Clones: /home/user/_break/b5b-robust-r2/ — Story_block 2f17c2c, rpg_battle 2f52c80, Story_director 1303ac9, npc_state_delta 06cfc70.
+Probe scripts in repro/ run from /home/user/_break/b5b-robust-r2/work/ (relative ../Story_block paths); pw-*.mjs take the Story_block path.
+Tests: tests/Story_block/*.test.js -> Story_block/tests/v2/break/; tests/npc_state_delta/*.test.js -> npc_state_delta/tests/v2/break/.
+All 17 r2 tests fail (13 SB, 4 NSD). The 27 in-repo b5b tests from round 1 pass.
+
+Round-1 tests re-run as I wrote them (r1orig): 25/27 pass. The two failures are oracle errors in my r1 four-module test, not bugs:
+ - B-10 static check matched the static header's own <Changes> example lines (only [Happened] lines matter; none now).
+ - B-11 tail check matched a genuine pack-event [Happened] line; the Director header is flattened now.
+
+No live instance was used; I needed none.

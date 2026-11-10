@@ -1,0 +1,18 @@
+import { suiteHost, withParty, seedCrypto } from './suite-host.mjs';
+import { Session } from 'node:inspector/promises';
+console.warn = () => {};
+seedCrypto(5);
+const host = await suiteHost();
+await withParty(host);
+await host.send('hi', 'Hello.');
+let k = 0;
+for (let r = 0; r < 6; r++) await host.send('go', host.reply('Story.', Array.from({ length: 50 }, () => { k++; return `+ quest Q${k} — a job | giver: G | goal: Kill 3 rats | reward: 5 gold`; })));
+const s = new Session(); s.connect(); await s.post('Profiler.enable'); await s.post('Profiler.start');
+const t0 = performance.now();
+await host.send('next', 'Quiet.');
+console.log('plain', performance.now() - t0);
+const { profile } = await s.post('Profiler.stop');
+const byId = new Map(profile.nodes.map(n => [n.id, n])); const parent = new Map(); for (const n of profile.nodes) for (const c of n.children || []) parent.set(c, n.id);
+const tot = new Map();
+profile.samples.forEach((sid, i) => { const seen = new Set(); let id = sid; while (id) { const n = byId.get(id); const key = n.callFrame.functionName + ' ' + n.callFrame.url.split('/').slice(-2).join('/') + ':' + n.callFrame.lineNumber; if (!seen.has(key)) { tot.set(key, (tot.get(key) || 0) + (profile.timeDeltas[i] || 0)); seen.add(key); } id = parent.get(id); } });
+[...tot].sort((a, b) => b[1] - a[1]).slice(0, 30).forEach(([k, t]) => console.log((t / 1000).toFixed(0) + 'ms', k));

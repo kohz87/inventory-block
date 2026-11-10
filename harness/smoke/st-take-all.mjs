@@ -1,0 +1,17 @@
+import { open, S } from './demo-common.mjs';
+import fs from 'node:fs';
+const h = await open({ width: 1440, height: 1000 });
+const { page, ev } = h;
+const r4 = fs.readFileSync(`${S}/demo/r4.txt`, 'utf8').replace(/<XP>[\s\S]*?<\/XP>\n?/, '');
+const at = (time, lines) => r4.replace('1203, March 3, 09:50 am', time).replace(/<Director>[\s\S]*?<\/Director>/, `<Director>\n${lines}\n</Director>`);
+const quests = async label => { await h.tab('ext:story-director-quests'); await page.waitForTimeout(800); console.log(label, '·', (await h.pane()).slice(0, 500)); };
+await h.openNarrator('The Narrator - 2026-10-18@09h00m00s000ms');
+await h.dock();
+await h.turn(at('CY 611, Goldwane 14, 08:00 am', '+ hook Wicker Bed Hogs — Drive the wild hogs off the wicker beds | giver: Reeve Hollis | reward: 6 silver\n+ hook Second Granary Rats — Clear the second granary | giver: Factor Dunn | reward: 5 silver\n+ hook Tithe Ledger — Find the lost tithe ledger | giver: Brother Aldo | reward: 3 silver'), 'I read the notice board.');
+await page.waitForTimeout(2000);
+await quests('offers:');
+await h.turn(at('CY 611, Goldwane 14, 10:00 am', '~ Wicker Bed Hogs — accepted | type: bounty | step: at the wicker beds\n~ Second Granary Rats — accepted | type: bounty\n~ Tithe Ledger — accepted | type: bounty'), "I nodded and took down all three contracts and head south to the wicker beds with a rented handcart, it wasn't hard to spot when the hogs are still digging there.");
+await page.waitForTimeout(3000);
+await quests('after taking all three:');
+console.log('errors:', h.errors.join('\n') || 'none');
+await h.browser.close();

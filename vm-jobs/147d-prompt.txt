@@ -1,0 +1,10 @@
+SMALL BUILD JOB 147d (you WRITE code): apply suite-notes/SPEC_BLOCKS.md §6 (lead decisions after 147c) on Story Block stage14/edit-blocks at 164d3fd. Read vm-results/147.md first.
+Repo: /tmp/go147/Story_block-final4 (clean, at 164d3fd) or a fresh clone; continue on the branch; no force-push, PRs, merges or tags, and nothing to main; plain commit messages with no trailers and no AI or model names; commit locally if push can't reach GitHub (the coordinator pushes).
+Do:
+- §6.1: restore the existing per-chat limits. Blocks ≤ 8 per chat; packs + blocks ≤ 16 pins. Drop the 147c universal-eight rule and its tests (they test a rule that is now withdrawn). The existing 16-pin tests stay unchanged.
+- §6.2: one set-<field> kind per field (numbers included; no change-<field>). Fields + buttons ≤ 16, with the editor's live "N of 16 used" line and a plain refusal. Update the block tests and docs for the change.
+- §6.3: Timer functions add only to number fields (the editor offers only those).
+- Docs: DATA_MODULES, GUIDE, CHANGELOG.
+Never change other existing tests.
+Final checks on Node 24 at the head: npm run check; full suite (individual counts); git diff --check; strict matrix (SD adcb8ab, NSD 1741400; 0 FAIL); 60-seed replay and data-module fuzz.
+Report: vm-results/147d.md (head, commits, counts), committed to inventory-block claude/hopeful-babbage-tipaw8.

@@ -1,0 +1,9 @@
+Final check of NSD PR #219 (nsd/, branch track-b/nsd-participant, head 34e67af: the Story Block timeline participant and npc.identity) against the now-merged Story Block host (sb/, main: E1, E5, E6a, ctx-seams). The PR was written against E6a's declared interfaces before E6a merged; a scratch copy of nsd has the testkit re-vendored from sb main. Read nsd's PR docs, sb/docs/v2/TIMELINE.md (participants, the commit-time probe current({checkpoint, hash, schema}) → {ok, current}, head().source), ~/story_suite/inventory-block/suite-notes/RB_PHASE0.md §8 participants. NSD PROMPTS must stay byte-identical. Read-only; single tests or small scripts. Keep it short.
+
+1. Against the real merged host (the re-vendored copy): does NSD's participant register, prepare, commit, restore and confirm exactly as E6a now calls it (signatures, return shapes, the probe, head().source)? List every mismatch with file:line.
+2. Silent wrong state: after a restore, delete/swipe/Re-read around it, reload — can NSD's state disagree with the selected head without a Problem? The per-chat intent counter and route (a) fix: still correct on the real host?
+3. Byte-identical: NSD chats that never use the timeline and NSD prompts unchanged vs NSD main.
+4. Does the re-vendored copy's full test run pass? (Run npm run test:dot ONCE in the scratch copy at the end; report counts and failures.)
+
+Tag every blocking finding with BOTH (a) [normal play] or [damaged file], and (b) [silent wrong state] or [fails safe]; every [normal play] finding blocks.
+Output: verdict, items 1–4, BLOCKING items (what, why, file:line, the fix, both tags), non-blocking headlines. No model names in your output.

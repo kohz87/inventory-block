@@ -1,0 +1,13 @@
+# G22-BLOCKEDIT — block editor + "List of entries" type (read GEN22-COMMON.md first)
+- Story_block, branch `stage66/blockedit`, real ST on ports 8420/8520.
+- Build the BLOCKEDIT mockup exactly as approved, with the lead's answers:
+  - starters (Quest log using an `entries` field, Reputation by place, Membership card);
+  - Layout (preselected from the shape, with its reason; on a shape change it falls back with one line and never blocks Save);
+  - card roles over the entries sub-fields;
+  - status tones;
+  - Show in tab (`show.into`);
+  - a live preview under Layout and roles, sticky on desktop.
+- The new field type `entries`, exactly per the GEN22 contract: schema, check.js, block-builder (blockDraft/buildBlock carry the new keys), block-templates, the editable hash, renameField rewriting roles, the story-line grammar (add/set/drop) and its validation, and the prompt grammar (keep it short; report bytes).
+- Render: for your own tests use plain rows or a minimal renderer stub; G22-BLOCKS draws the cards.
+- Old blocks must load and behave exactly as before.
+- Tests and real-ST shots.

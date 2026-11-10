@@ -1,0 +1,33 @@
+import { open, S } from './demo-common.mjs';
+import fs from 'node:fs';
+const h = await open({ width: 1440, height: 1000 });
+const { page, ev } = h;
+const r4 = fs.readFileSync(`${S}/demo/r4.txt`, 'utf8').replace(/<XP>[\s\S]*?<\/XP>\n?/, '');
+const at = (time, lines) => r4.replace('1203, March 3, 09:50 am', time).replace(/<Director>[\s\S]*?<\/Director>/, `<Director>\n${lines}\n</Director>`);
+await h.openNarrator('The Narrator - 2026-10-18@09h00m00s000ms');
+await h.dock();
+const quests = async label => {
+  await h.tab('ext:story-director-quests'); await page.waitForTimeout(800);
+  console.log(label, '\n ', (await ev(() => [...document.querySelectorAll('.story-director-record')].filter(n => n.offsetParent || true).map(n => `[${n.className.replace(/story-director-record ?/g, '')}] ${n.innerText.replace(/\s+/g, ' ').slice(0, 90)}`))).join('\n  '));
+};
+await h.turn(at('CY 611, Goldwane 12, 07:00 am', '+ hook Barrow-Viper Clearing — Clear the viper pit by the old barrow | giver: Verna | reward: 2 silver\n+ hook Wolfhound Hunt — Burl\'s hunt rides out at dawn | giver: Burl | reward: 1 gold | due: Goldwane 12, 06:00 pm\n+ hook Rat Culling — rats in the granary | giver: Danique | reward: 4 copper | due: Goldwane 12, 06:00 pm'), 'I ask Verna and Burl about work.');
+await page.waitForTimeout(2000);
+await quests('offered:');
+console.log('tabs:', await ev(() => [...document.querySelectorAll('.story-block-sidebar-tab')].map(t => t.dataset.tabId).join(', ')));
+console.log('doc has Offered:', await ev(() => document.body.textContent.includes('Offered')));
+await h.turn(at('CY 611, Goldwane 12, 09:00 am', '~ Barrow-Viper Clearing — now: at the pit mouth'), "I'll be at the wolfhound kennels for Burl's hunt. First I head out to the barrow and start killing the vipers.");
+await page.waitForTimeout(2000);
+await h.turn(at('CY 611, Goldwane 12, 07:00 pm', '! Barrow-Viper Clearing — cleared pit, 10 skins turned in to Verna\n~ Quests: North Levee Vipers — step: completed, voucher paid\n+ hook Viper Bile Market — Tanner Karr or Greta may pay for remaining 7 pelts and 8 fangs'), 'I hand the skins to Verna.');
+await page.waitForTimeout(4000);
+await quests('after done:');
+console.log('offered text:', await ev(() => { const t = [...document.querySelectorAll('details')].map(d => d.textContent).join(' '); const i = t.indexOf('Offered'); return i < 0 ? 'no Offered' : t.slice(i, i + 300).replace(/\s+/g, ' '); }));
+// A later reply past the hunt's date: an offer spoken of keeps a grace; the other lapses.
+await h.turn(at('CY 611, Goldwane 13, 08:00 am', '~ Viper Bile Market — now: Karr haggles'), 'I sleep and wake.');
+await page.waitForTimeout(4000);
+await quests('later:');
+console.log('offered later:', await ev(() => { const t = [...document.querySelectorAll('details')].map(d => d.textContent).join(' '); const i = t.indexOf('Offered'); return i < 0 ? 'no Offered' : t.slice(i, i + 300).replace(/\s+/g, ' '); }));
+console.log('next reply director:', await ev(() => (SillyTavern.getContext().chat.at(-1).mes.match(/<Director>[\s\S]*?<\/Director>/) ?? ['none'])[0].replace(/\n/g, ' / ')));
+console.log('wolfhound in reply:', await ev(() => (SillyTavern.getContext().chat.at(-1).mes.match(/<Director>[\s\S]*?<\/Director>/) ?? ['none'])[0].replace(/\n/g, ' / ')));
+console.log('toasts:', await ev(() => [...document.querySelectorAll('#toast-container .toast')].map(n => n.textContent).join(' || ') || 'none'));
+console.log('errors:', h.errors.join('\n') || 'none');
+await h.browser.close();

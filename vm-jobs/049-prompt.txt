@@ -1,0 +1,10 @@
+Re-check Story Block PR #195 (this checkout, branch track-e/e6a-timeline), track E6a. Your re-check at 7884e27 left one blocker [normal play][silent wrong state]: activating an earlier prepared restore bypassed a pending native event. Round 8 (head 4bf7e33): at most one outstanding change per chat (activate → RESTORE_PENDING while another is outstanding); barrier release and readiness ask the journal first, everywhere (complete() answers participants-pending otherwise); head().source patch applied (54f924b); a commit-time participant probe current({checkpoint, hash, schema}) → {ok, current}, any false/throw/promise → STALE. Read-only; don't run the whole suite. Keep it short.
+
+1. Re-run your interleaving (prepare R, native event pending, activate R). HOLDS / NOT FIXED.
+2. The probe: called inside the synchronous commit section only? Any path where a participant's state can change after the probe and before the commit lands? Does a participant without the probe behave as before?
+3. head() now exposes the Source (incl. evidence) to every module — any leak that matters?
+Then anything newly broken.
+
+STOPPING RULE: tag every blocking finding with BOTH (a) [normal play] or [damaged file], and (b) [silent wrong state] or [fails safe]. The lead merges when no [normal play][silent wrong state] remains.
+
+Output: verdict, items 1–3, BLOCKING items (what, why, file:line, the fix, both tags), non-blocking headlines. No model names in your output.

@@ -1,0 +1,16 @@
+import { chromium } from '/opt/node22/lib/node_modules/playwright/index.mjs';
+const [w, h] = [Number(process.argv[2]), Number(process.argv[3])];
+const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium', args: ['--no-proxy-server'] });
+const page = await browser.newPage({ viewport: { width: w, height: h }, isMobile: true, hasTouch: true });
+await page.goto('http://127.0.0.1:8123/', { waitUntil: 'domcontentloaded' });
+await page.waitForFunction(() => window.SillyTavern?.getContext?.()?.characters?.length > 0, null, { timeout: 60000 });
+await page.evaluate(async () => { const ctx = SillyTavern.getContext(); await ctx.selectCharacterById(String(ctx.characters.findIndex(c => c.name === 'Seraphina'))); });
+await page.waitForFunction(() => SillyTavern.getContext().chat?.length > 0, null, { timeout: 20000 });
+await page.waitForTimeout(1500);
+console.log(await page.evaluate(() => { const se = document.scrollingElement; const cs = getComputedStyle(se), bs = getComputedStyle(document.body);
+  const before = [se.scrollWidth, se.clientWidth, se.scrollHeight, se.clientHeight];
+  const side = document.querySelector('#story_block_sidebar'); side.style.display = 'none';
+  const after = [se.scrollWidth, se.clientWidth, se.scrollHeight, se.clientHeight]; side.style.display = '';
+  se.scrollTo(30, 30); const moved = [se.scrollLeft, se.scrollTop]; se.scrollTo(0, 0);
+  return JSON.stringify({ before, withoutSidebar: after, htmlOverflow: cs.overflow, bodyOverflow: bs.overflow, bodyPos: bs.position, moved, transform: cs.transform }); }));
+await browser.close();

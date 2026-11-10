@@ -1,0 +1,48 @@
+import { open } from './demo-common.mjs';
+const OUT = '/tmp/claude-0/-home-user-inventory-block/3572f065-fdf3-5cf4-88eb-a15358a57ebe/scratchpad/uiux/nsd-after';
+const h = await open({ width: 1440, height: 1000 });
+const { page, ev } = h;
+await h.openNarrator('The Narrator - 2026-10-18@09h00m00s000ms');
+await page.waitForTimeout(1500);
+await ev(() => { window.prompt = () => 'Elke'; });
+await ev(() => globalThis.NPCStateDelta.addNpc());
+await page.waitForTimeout(1200);
+const id = await ev(() => globalThis.NPCStateDelta.getState().npcs.find(x => x.name === 'Elke').id);
+await ev(i => globalThis.NPCStateDelta.openEditor(i), id);
+await page.waitForTimeout(1200);
+await page.fill('#npc_state_delta_edit_trust', '3');
+await page.fill('#npc_state_delta_edit_tension', '2');
+await page.fill('#npc_state_delta_edit_affection', '-2');
+await ev(() => [...document.querySelectorAll('.popup button, .popup .menu_button')].find(b => /Save dossier/.test(b.textContent))?.click());
+await page.waitForTimeout(1500);
+const change = await ev(i => JSON.stringify(globalThis.NPCStateDelta.getNpc(i)?.lastRelationshipChange ?? null), id);
+console.log('last change:', change);
+await ev(n => globalThis.NPCStateDelta.openDossier(n), 'Elke');
+await page.waitForTimeout(1500);
+const steps = await ev(() => [...document.querySelectorAll('.delta-rel-step')].map(n => `${n.textContent} (${n.className.replace('delta-rel-step ', '')}) — ${n.title}`));
+console.log('steps:', JSON.stringify(steps));
+const card = await page.$('.delta-player-card');
+if (card) { await card.scrollIntoViewIfNeeded(); await card.screenshot({ path: `${OUT}/nsd-meters.png` }); }
+await page.screenshot({ path: `${OUT}/nsd-dossier-desktop.png` });
+await page.keyboard.press('Escape'); await page.waitForTimeout(500);
+// Settings: the Extensions panel, NSD's drawer, the Advanced fold.
+await ev(() => document.querySelector('#extensions-settings-button .drawer-toggle')?.click());
+await page.waitForTimeout(1200);
+await ev(() => { const d = document.querySelector('#npc_state_delta_settings .inline-drawer-toggle, .npc-state-delta-extension .inline-drawer-toggle'); d?.click(); });
+await page.waitForTimeout(800);
+await ev(() => { const g = document.querySelector('[data-delta-settings-group="advanced"]'); if (g) { g.open = true; g.scrollIntoView({ block: 'start' }); } });
+await page.waitForTimeout(800);
+const adv = await ev(() => [...document.querySelectorAll('[data-delta-settings-group="advanced"] b')].map(b => b.textContent.trim()).join(' | '));
+console.log('advanced fold:', adv);
+const fold = await page.$('[data-delta-settings-group="advanced"]');
+if (fold) await fold.screenshot({ path: `${OUT}/nsd-settings-advanced.png` });
+await ev(() => document.querySelector('#extensions-settings-button .drawer-toggle')?.click());
+await page.waitForTimeout(600);
+// Tabs: the Story Block sidebar.
+await h.dock();
+await page.waitForTimeout(800);
+const tabs = await ev(() => [...document.querySelectorAll('#story_block_sidebar [role="tab"], #story_block_sidebar .story-block-tab')].map(t => t.textContent.replace(/\s+/g, ' ').trim()).join(' | '));
+console.log('tabs:', tabs);
+await page.screenshot({ path: `${OUT}/nsd-tabs-desktop.png` });
+console.log('errors:', h.errors.join('\n') || 'none');
+await h.browser.close();

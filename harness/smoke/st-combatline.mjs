@@ -1,0 +1,11 @@
+import { open, S } from './demo-common.mjs';
+const h = await open({ width: 1440, height: 1000 });
+const { page, ev } = h;
+await h.openNarrator('The Narrator - 2026-10-18@09h00m00s000ms');
+await h.dock();
+await h.tab('ext:rpg-party'); await page.waitForTimeout(800);
+console.log('line:', await ev(() => [...document.querySelectorAll('.rpg-battle-combat')].map(n => [...n.children].map(c => c.textContent).join(' · ')).join(' || ')));
+console.log('titles:', await ev(() => [...document.querySelectorAll('.rpg-battle-combat-part')].slice(0, 7).map(c => c.title).join('\n')));
+await page.locator('#story_block_sidebar').screenshot({ path: `${S}/shots/combat-line.png` });
+console.log('errors:', h.errors.join('\n') || 'none');
+await h.browser.close();

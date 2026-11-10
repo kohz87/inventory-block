@@ -1,0 +1,4 @@
+RE-CHECK (the one allowed) of the fixes for your Studio 5a review 116 (vm-results/116.md): kohz87/Story_studio studio/part-5a head 73aeefd (fixes since de7f7c7: unknown keys kept on type/op change; line outcomes matched by Source + occurrence; every what-if rebuilds the trace from current host state/receipts). Read-only; single tests or small scripts. Keep it short.
+1. Do the three 116 blockers hold fixed (your repros), plus one variation each (nested unknown key in a map field's value schema; three identical lines with a Continue between; delete then Re-read then reload)?
+2. Any NEW blocking issue in Studio's terms (export not byte-faithful, simulator disagreeing with Story Block, XSS/network, non-deterministic build)? Run the full suite incl. browser tests from a lone clone with a writable temp profile, and build twice.
+Output: verdict, items 1–2, BLOCKING items (what, file:line, the fix), non-blocking headlines. No model names in your output.

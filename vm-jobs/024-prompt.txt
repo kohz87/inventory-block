@@ -1,0 +1,14 @@
+Review Story Block PR #194 (this checkout, branch track-e/e5-evidence): track E package E5, proof and evidence (ctx.proof and story.evidence). The branch sits on top of E1 (PR #191) at bfafe29; review only E5's own change: `git diff bfafe29..HEAD`. E1 is being fixed separately (its open issues are known: checkpoint guards, v:1 preservation, lineage tombstones, intermediate heads); don't re-report those unless E5 makes them worse. Read-only: change nothing.
+
+Spec: docs/v2/contract/RB_CONTRACT.md — the ctx.proof and story.evidence parts (§3–4 seams, §6 where evidence ids and receipts are named, the E5 row of §10 E); docs/v2/contract/RB_TRACK_B_DESIGN.md wherever B3/B6 use proofs (what RB will build on this). The PR's own design is docs/v2/EVIDENCE.md. Module checkouts are in /tmp/rev194-mods/ (sync with `node scripts/sync-testkit.mjs /tmp/rev194-mods/<module>` to run their suites).
+
+An earlier independent review found 8 issues (F1–F8), fixed at d042c7f: acceptance words must equal a whole sentence (≥2 words) of the reader's own message for this reply, and SD still judges meaning; nearest preceding non-system message must be the reader's; afterCapture steps see planned proofs in a Re-read; proof ids from the reply's evidence id + key (stable across an unchanged Re-read); pin = SHA-256 over id/kind/owner/payload hash/parent pins, and body digest/prefix hash include proof metadata; sparse arrays rejected; story.evidence({ids}) lazy; receipt keeps ids/kind/hash only. Check those fixes hold, and look for what that review missed.
+
+Check, citing file:line:
+1. Faithfulness to the contract: proof shape, owner/kind checks, parent pins, who may create/read which proofs, retention through trim, reload, snapshots and Re-read/replan; story.evidence projection matches live state after every operation.
+2. Forgery and spoofing: can a module, narration, a hand-edited record or another module's block create, alter or re-parent a proof it doesn't own, or make a refusal count as acceptance? Can a proof outlive the reply that made it (delete, swipe, rollback) or come back after it should have gone?
+3. Determinism: ids, pins and digests stable across reload, Re-read with no change, and machine; change exactly when the payload or parents change. Old stores and modules that never call ctx.proof hash and replay exactly as before.
+4. The sdk.js change (pendingProofs on runQuery/makeView) — it is outside E5's file list; is it sound and minimal, and does it leak pending proofs to anything other than afterCapture steps?
+5. Performance on long chats (10k proofs): build, rebuild, story.evidence all vs by ids. Measure if you can.
+
+Output: a verdict line (MERGE / MERGE AFTER FIXES / NOT READY), then BLOCKING items (what, why, file:line, the fix), then NON-BLOCKING items. Concrete and short. No model names in your output.

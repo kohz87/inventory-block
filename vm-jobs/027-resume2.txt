@@ -1,0 +1,26 @@
+RESUME 2 — you write this yourself (no agy). A read-only review of track-a (RB 0a4f8ee, SD 2ba4acd) found SD close to done and RB not ready. Do the steps below in order; commit and push each when green ("Track A: <what>", no trailer lines, no process notes in titles). Lead-owned files (module.js, registration) only in separate "lead-owned: <what>" commits.
+
+0. FIRST re-vendor both testkits (RB tests/vendor/story-block — leave tests/v2/qa/vendor alone; SD) from Story Block origin/track-e/e5-evidence (head 3467c97 or later; it contains E1, which enforces pure replay guards). Today 17 RB and 11 SD fixtures fail on that host. Everything below must be green on it.
+
+1. SD (small):
+   - lead-owned: `replayQueries: ['director.thread']` in SD module.js (E1: a guard may ask only its own module's declared queries; story.evidence is always allowed).
+   - tests/v2/tracker/forged-quest-runtime.test.js imports ../../../../rpg_battle unconditionally → guard with existsSync and skip, like tests/v2/break/helpers.js:40-46 (CI checks out one repo).
+   - Narrow the acceptance negation (thread-writes.js:71): refuse only a refusal of the offer itself. Tests: "Yes, I'll help, no problem" accepts; "I can't wait to take the mill job" accepts; "I would not hesitate to take it" accepts; "I'm not sure I can take the mill job" does NOT accept; "No, I won't take it" refuses.
+   - Remove the dead questBoard export (screens/index.js:28, screens/queries.js:267) and stale comments (domain.js:9,199).
+   - threads.intent is not in the contract: keep it, document it in SD docs as a contract addition (the lead logs it).
+
+2. RB guard rewrite (B-1): settlement.js:119-153 and seams.js questInputs ask director.thread, director.threads, director.time, atlas.canonical, inventory.items, rules.party, threads.hash — E1 refuses cross-owner queries (an owner may declare only its own). Rewrite the guard to read `state.domains.*` directly (as track B's progress/guard.js does) or through ONE RB-owned, state-only query you declare. Lead-owned commit: RB module.js forwards `replayQueries` (it drops it today, :350). Drop query('threads.hash') from assess. Check guard.epoch against the state's epoch (as B's progress/guard.js:70). Fixture: quest.take, an SD neutral accept and a settlement each STORE on the enforcing host.
+
+3. Closed guard inputs (B-2): hash and record only the closed prerequisite set — thread semantic, acceptance proof id+bytes, per-objective evidence, consumed [{stack,qty}], payout, follow-up offers, the clock minute only when a deadline/cooldown uses it; place and giver only when the template has them. NOT clock.text (depends on calendar settings), NOT the whole party, NOT the item list. Fixtures: deleting an unrelated earlier reply keeps the payout; deleting the reply that granted the consumed item retracts it.
+
+4. Quest prompt (B-4, LEAD DECISION): port SD main's old quest context verbatim (SD main src/v2/quests/index.js:984-1061: the static "Quest pacing"/goal-wording/`met:` guidance, the "Ready to turn in …" tail line, the "Quest goal the story judges" line, budget 250) into the RB quest part's `context`, reading RB's own queries. Same wording as before, only names adapted. Tests for the static text and the tail.
+
+5. Story credit (B-5, LEAD DECISION: port, don't defer): attribute this reply's story coin before payout, as SD's old quest.repeatedCoin did, so a reply with "- quest Mill job — done" plus "+ coin 30" for a 30-coin quest pays 30 total. Implement quest.owedCredits / repeatedCoin / autoTurnIns properly (queries.js:69 stubs). Fixture asserting 30.
+
+6. CI (B-3): RB tests/v2/quests/helpers/host.js:4 imports ../../../../../Story_director unconditionally → skip-guard or stand-ins; replace quests/helpers/b5.js's `git archive 3f27e56` with a copy-free approach (import B's buildGuard when present, else skip with a note). Prove both suites pass in single-repo copies.
+
+7. Smaller: a Continue fixture around a settlement; C07 deadline 7199 active / 7200 expired before turn-in; quest.finish caller check (commands.js:64-71; only UI, SD capture or RB); replace the dynamic import of progress/index.js (settlement.js:9) with a static import once B's progress/ is importable (else leave a TODO); trim docs/dev/track-a*.md narration and fix counts.
+
+NOT in this resume (needs track B on main): B3 objective validators (kill/visit/story), requirements, giver/turn-in place via atlas.canonical, reward carry, the expiry sweep, the SB matrix scripts. Note them as left.
+
+Same test rule, push rules and finish summary as the original prompt.

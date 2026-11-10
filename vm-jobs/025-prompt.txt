@@ -1,0 +1,16 @@
+Second re-check of Story Block PR #191 (this checkout, branch track-e/e1-replay), track E1 replay core. Your re-check at 3509636 left 6 blocking items (A–F below); the writer reports them fixed at cd2255c (f1d9eb5 only drops a blank line). See `git diff 3509636..HEAD`, tests/v2/replay-review3.test.js and docs/v2/REPLAY.md. Read-only. Don't run the whole suite (CI passed on the head); run single tests or small scripts only to reproduce a finding. Keep it short.
+
+For each, HOLDS or NOT FIXED (reproduction, file:line, fix):
+A. Fallback classifier: isGuardedBlock inspects every receipt a merged block stands for; a guarded one with its span gone makes the block inactive with REPLAY_PREREQUISITE (and takes the unguarded command merged into it with it, intended). Same in replaceStory's kept-block loop.
+B. Unchanged replanned steps store their new span when the boundaries differ; boundaryProblems() empty after the Re-read, also after a reload.
+C. extra.storySuiteAside is an append-only list of {kind, record}; an old single aside is wrapped as {kind:'earlier'}.
+D. The id baseline is built on every rebuild() and in ensureInitial, keyed by chat id; a chat switch drops it.
+E. MESSAGE_SWIPE_DELETED of the shown swipe only rebuilds; the following MESSAGE_SWIPED reconciles and publishes once. Stated gap: identical deleted/next swipe text falls back to two publishes (never stale). Acceptable?
+F. walkSuffix seeds revs from the incoming state; revs strictly increasing and unique, head rev = last.
+
+The writer limited the B guarantee to steps planned again and left three things unchanged. For each, say whether it blocks E1 or can wait (and for what):
+1. A guarded block with no replan keeps a stale prefixHash after an earlier delete; boundaryProblems() lists it. Does any replay/chain decision read that prefixHash (would later guarded blocks go inactive or be trusted wrongly), or is it only diagnostic?
+2. replansFrom() knows only steps the last replay read, so a step before a still-valid checkpoint isn't reconciled and its boundary can stay stale until the checkpoint breaks.
+3. An atomic reconcile can still throw when a later change no longer applies, and then writes nothing (existing behaviour). Is the chat then in a consistent, visible state (Problem shown, no half-write)?
+
+Then anything newly broken. Output: verdict (MERGE / MERGE AFTER FIXES / NOT READY), A–F, the three limits, new BLOCKING items, then non-blocking headlines. No model names in your output.

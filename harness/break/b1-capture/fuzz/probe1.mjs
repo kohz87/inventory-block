@@ -1,0 +1,10 @@
+import { suiteHost, withParty } from './suite-host.mjs';
+const host = await suiteHost();
+console.log('chat', host.ctx.chat.length, host.ctx.chat.map(m=>m.is_user?'U':'A').join(''));
+for (const c of host.registry.contexts()) console.log(c.moduleId, JSON.stringify(c.kinds.map(k=>k.grammar), null, 1));
+console.log(await withParty(host));
+const r = await host.send('hi', host.reply('Story.', ['+ item Rope', '+ coin 5 | owner: party', '~ place Bluewatch | kind: settlement']));
+console.log(JSON.stringify(host.turn.problems(), null, 1).slice(0, 2000));
+console.log(Object.keys(host.head().domains));
+console.log(host.statics().at(-1).length, host.tails().at(-1));
+host.close();

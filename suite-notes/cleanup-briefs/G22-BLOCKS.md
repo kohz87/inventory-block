@@ -1,0 +1,13 @@
+# G22-BLOCKS — block and data-module layouts + Reputation tab (read GEN22-COMMON.md first)
+- Story_block, branch `stage66/blocks`, real ST on ports 8410/8510.
+- Build the BLOCKS mockup exactly as approved, with the lead's additions:
+  - quest cards (title plus status chip; description clamped to 2 lines with More; step with icon; Finished collapsed);
+  - a map of numbers with a header, value, bar and "Not known yet (n)", sorted by value with the highest first;
+  - meters with no max must show their values;
+  - one pencil column per screen;
+  - the record-of-fields card.
+- The screen `tab`/`tabTitle` merge, per the GEN22 contract: pack-format limits (SCREEN_FIELDS), the checker, ui-host syncScreens and tab order.
+- The card layout must also render a block's `entries` field through `roles`, per the contract (BLOCKEDIT builds the editor and the type in parallel; agree via the contract only; write fixture blocks in that shape for your tests).
+- Ersveil 2.7.0 data: Standing, Fame, Guild and Court favour as sections of one "Reputation" tab (Court favour gets a screen). Pack `requires.storyBlock` becomes ^2.22.0; leave the version bump to the lead but prepare the pack data.
+- Prompt bytes unchanged (display only), except where the tab merge affects nothing in prompts: verify and report.
+- Tests and real-ST shots at 1440 and 390.

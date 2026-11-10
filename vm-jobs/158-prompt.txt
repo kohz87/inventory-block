@@ -1,0 +1,18 @@
+REVIEW RE-CHECK 158 (READ-ONLY toward GitHub, except committing your result file): Story Block 2.8.0 RPG, kohz87/Story_block
+`stage16/lean-rpg` at 4ce3111 vs main c438975. Fresh session, fresh clone.
+Read vm-results/155.md (BLOCK 16, reviewed c9ba353) and vm-results/157.md (BLOCK 1, round 3 range) and the lead's
+decisions in suite-notes/rpg-briefs/R4.md (incl. the additions from 157) and SPEC_RPG.md §0 (the 31 Oct B10
+amendment: core loaded but inert when off; views lazy). All in kohz87/inventory-block claude/hopeful-babbage-tipaw8.
+First confirm each blocker is closed with a test that fails without its fix: 155 B1–B9, B11–B16 (B10 by the spec
+amendment plus its feature-off test), and 157 B1 (redefine no longer leaks retained pins; prune proven replay-safe).
+Then a regression pass over 9228472..4ce3111, and over round 3 (c9ba353..9228472) which 155 did not cover — the 157
+reviewer found it otherwise sound. Pay attention to the design changes: a no-op `dm.settle` step on every reply with
+accepted lines while a block has reply-end functions (B7); story actions leave room for settles (B8); the pinned
+`[Rolls]` cue and `fitCue` (B4); per-hook timeouts in turn.js (B3); positional dice with `dice: 2` and old payloads
+re-read unchanged (B16); the new `afterReceive` hook (B11); pin pruning in `changeBlock` (157 B1).
+Known and recorded (not blockers): a reply with no accepted lines does not settle the death latch; block prompts are
+stored on one line; "1 buttons" in the chooser (pre-existing); remove-then-define still leaks a pin each cycle.
+A BLOCKER is a real path a reader, story or pack can hit, with a repro. Run on Node 24: npm run check; full suite
+(individual counts); git diff --check; scripts/fuzz-replay.mjs (300 seeds) and the data-module fuzz (200 seeds).
+Verdict line: HOLDS or BLOCK n. Write vm-results/158.md and commit it to inventory-block claude/hopeful-babbage-tipaw8.
+Use model gpt-6.1-terra with model_reasoning_effort=max.

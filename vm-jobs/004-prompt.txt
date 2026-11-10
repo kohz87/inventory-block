@@ -1,0 +1,16 @@
+You are reviewing a pull request in this checkout (npc_state_delta, a SillyTavern extension that works with Story Block). The PR branch is checked out. Compare it with origin/v2 (`git diff origin/v2...HEAD`). Do NOT modify any file. Report only.
+
+Read CLAUDE.md first. Rule C10 says prompt text must stay byte-identical, and a UI change must not touch any prompt. The design system lives in Story Block: --ss-* tokens, blocks such as ss.hero, ss.listcard and ss.meter, and the ss-button states. Module CSS must use those tokens, with no new hard-coded colours.
+
+Check, and verify each one in the code:
+1. C10: no prompt text changed. Grep the diff for any prompt or instruction strings.
+2. Behaviour: the Cast page API (available/render/onChange), the `npc-state-delta/cast` id, commands, ids and data attributes, and what each card shows. Story Director embeds the present cards inside World → Here, so the embedding contract must still hold.
+3. Present cards: the user asked for a compact row with a small portrait, name AND relationship stage on the first line, one or two short lines, and thin meter bars at full width at 360–412. The writer kept role and mood on the line and moved the stage into the meters block. Say whether that matches the request.
+4. Specificity: Story Block's .ss-* rules are 0,1,0. Any module state marker in :where() or at one class on an element that also has .ss-* classes will lose.
+5. Contrast: text colours on glass. The writer measured dossier row names at 3.0–3.8:1 in the light scheme of the game view. Find which colour or token those names use, and whether it's a module colour choice (fixable here) or Story Block's glass.
+6. Phone: overflow at 360–412px, long unbroken names and dossier text, no scrollIntoView and no bare .focus().
+7. Security: no innerHTML, outerHTML, insertAdjacentHTML or eval; story text set as text.
+8. Tests: behaviour or CSS text only? Any weakened or deleted test? The vendored Story Block testkit should match Story Block v2's current state.
+9. Docs and CHANGELOG match the diff.
+
+Output: a verdict (merge as is / merge after fixes / needs rework), then numbered findings, most severe first. Each finding needs file:line, what's wrong, a concrete failure scenario, the smallest fix, and BLOCKING or NIT. Only report what you verified; mark the rest "unsure". End with a short code-quality paragraph.

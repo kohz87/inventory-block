@@ -1,0 +1,10 @@
+BUILD JOB 146 (you WRITE code): Story Block 2.7.0, LAYER 1 = small fixes + inline editing. Spec: suite-notes/SPEC_BLOCKS.md sections 0, 1 and 2 (read all of it once; build only layer 1). Approved mockup: vm-jobs/146-mockup/ (index.html, shots/, NOTES.md).
+Repo: fresh clone of kohz87/Story_block in a new folder (e.g. /tmp/go146), from main d5fdb46 (2.6.1). Create branch stage14/edit-blocks and push it. No force-push, no PRs, no merges, no tags, never push to main.
+Rules:
+- Follow the repo's AGENTS.md / CONTRIBUTING if present, and the code style around each change (comment density, naming, idiom).
+- Commit messages: plain English, NO Co-Authored-By or any other trailer, and no AI or model names anywhere in commits, code, docs or tests.
+- Commit in logical steps (P1 fixes; editable widget; inventory; purse; scene; dm.set + text labels; reply card; docs) and push after each step so work survives a credit stop.
+- Do not touch NPC State Delta or Story Director. Do not change any NSD prompt.
+- If something in the spec cannot be done as written (an existing invariant, a test you would have to weaken), stop that part, keep the rest, and explain in the report. Never skip, delete or loosen an existing test to get green.
+Final checks on Node 24 at the head: npm run check; full suite (counts); git diff --check; strict matrix with fresh clones of Story_director and npc_state_delta main (0 FAIL); 60-seed replay fuzz and data-module fuzz; capture benchmark vs main (median both).
+Report: write vm-results/146.md with the head, commits, what was built per spec row, anything not built and why, test counts, matrix, fuzz, benchmark, and questions. Commit it to inventory-block branch claude/hopeful-babbage-tipaw8 (pull --no-rebase first).

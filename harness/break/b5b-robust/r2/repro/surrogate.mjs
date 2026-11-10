@@ -1,0 +1,11 @@
+import { createHost } from '../Story_block/testkit/index.js';
+const lone = s => /[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?<![\uD800-\uDBFF])[\uDC00-\uDFFF]/.test(s);
+const host = await createHost();
+console.log('stored', JSON.stringify(host.settings.set('story-block', 'currency', 'a' + '💰'.repeat(12))));
+host.ctx.name1 = 'B'.repeat(78) + '🐉🐉';
+await host.send('hi', 'We find coin.\n\n<Changes>\n+ coin 5 | from: a purse\n</Changes>');
+await host.send('next', 'Quiet.');
+const r = host.st.requests.at(-1);
+for (const m of r.chat) if (lone(m.content)) console.log('LONE SURROGATE in', m.role, JSON.stringify(m.content.match(/.{0,20}[\uD800-\uDFFF].{0,5}/u)?.[0] ?? m.content.slice(0, 80)));
+console.log(JSON.stringify(r.chat.filter(m => m.role === 'system').slice(1).map(m => m.content).join('\n').split('\n').filter(l => /Wallet/.test(l))));
+host.close();

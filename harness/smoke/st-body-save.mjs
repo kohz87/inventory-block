@@ -1,0 +1,18 @@
+import { chromium } from '/opt/node22/lib/node_modules/playwright/index.mjs';
+const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium', args: ['--no-proxy-server'] });
+const page = await browser.newPage({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+page.on('pageerror', e => console.log('pageerror', e.message));
+await page.goto('http://127.0.0.1:8123/', { waitUntil: 'domcontentloaded' });
+await page.waitForFunction(() => window.SillyTavern?.getContext?.()?.characters?.length > 0 && window.StoryBlock?.apiVersion === 1, null, { timeout: 60000 });
+await page.evaluate(async () => { const ctx = SillyTavern.getContext(); await ctx.selectCharacterById(String(ctx.characters.findIndex(c => c.name === 'Seraphina'))); });
+await page.waitForFunction(() => SillyTavern.getContext().chat?.length > 0, null, { timeout: 20000 });
+await page.waitForTimeout(1500);
+await page.locator('#story_block_handle').click(); await page.waitForTimeout(500);
+await page.locator('button.story-block-sidebar-tab[data-tab-id="block:world-state"]').click(); await page.waitForTimeout(400);
+await page.evaluate(() => document.querySelector('#story_block_sidebar .story-block-edit, #story_block_sidebar [class*="edit"]')?.click());
+await page.waitForTimeout(800);
+await page.fill('.story-block-body-editor-input[data-field="location"]', 'Shorn | North Gate | [50.0, 95.0]');
+console.log('text line:', await page.evaluate(() => document.querySelector('.story-block-body-editor-textarea').value.split('\n')[0]));
+await page.click('.popup-button-ok'); await page.waitForTimeout(1200);
+console.log('saved block location:', await page.evaluate(() => /Loc:\*\* Shorn \| North Gate/.test(window.StoryBlock.getBlock('World_State')?.text ?? '')));
+await browser.close();

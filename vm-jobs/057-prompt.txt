@@ -1,0 +1,11 @@
+Review Story Studio PR #4 (this checkout, branch studio-2 vs origin/main): part 2, the pack editor. The spec is ~/story_suite/inventory-block/suite-notes/STUDIO_PART2_BRIEF.md (read it in full); the look is suite-notes/studio-mocks/*.dc.html. Engine: src/model.js, src/edits.js, src/history.js (part 1, behaviour unchanged; the UI edits only through edits.js); Story Block is vendored in vendor/story-block/ (never edited by hand). Read-only; don't run the whole suite; reproduce with single tests, small scripts, or Playwright against dist/story-studio.html from file://. Keep it short.
+
+1. Correctness against the brief: open (BOM ok) → edit → export is byte-identical to exportPack(model) with the golden hashes; rename updates every reference; cascade remove + undo restores exactly; Problems "Go to" lands on the record and field; export locked while invalid; draft autosave survives reload and a private window works without storage; schema forms refuse invalid input with a code; reference pickers only offer existing IDs; skill paths: generated forms read-only, budget bar flags budget-closure.
+2. Safety: no innerHTML/insertAdjacentHTML/outerHTML with pack data anywhere (grep src/ and the built file); no eval/new Function; no network (fetch, XHR, WebSocket, http(s) URLs outside licence/credits text and SVG xmlns); a hostile pack (`<b>x</b>` in names/slugs, `__proto__`/`constructor` keys, huge text) injects nothing and throws nothing; Phosphor MIT notice present in the built file.
+3. Build and CI: npm run build is deterministic and dist/story-studio.html is in sync; CI runs the browser test from file://; no runtime dependencies; nothing breaks or scrolls sideways at 1024px in either theme.
+4. Part 1 follow-ups: Story Block constants used instead of copies (list any still copied); namespace rules for renames agree with add; tests import tests/fixtures/smallRulesPack.js.
+Then anything else broken.
+
+Tag every blocking finding with BOTH (a) [normal use] or [damaged file], and (b) [silent wrong output] or [fails safe]. Studio is not track E: everything [normal use] blocks, plus any safety finding.
+
+Output: verdict, items 1–4, BLOCKING items (what, why, file:line, the fix, both tags), non-blocking headlines. No model names in your output.

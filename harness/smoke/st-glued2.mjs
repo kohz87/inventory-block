@@ -1,0 +1,12 @@
+import { open } from './demo-common.mjs';
+import fs from 'node:fs';
+const h = await open({ width: 1440, height: 1000 });
+const { page, ev } = h;
+await h.openNarrator('The Narrator - 2026-10-18@09h00m00s000ms');
+await h.dock();
+await h.turn(fs.readFileSync(process.argv[2], 'utf8'), 'I pay the fee.');
+await page.waitForTimeout(2500);
+const saved = await ev(() => SillyTavern.getContext().chat.at(-1).mes);
+const i = saved.indexOf('to be?');
+console.log('around the join:', JSON.stringify(saved.slice(i, i + 30)));
+await h.browser.close();

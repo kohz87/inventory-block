@@ -1,0 +1,11 @@
+import { storeMod } from './lib/host.mjs';
+import fs from 'node:fs';
+const d = JSON.parse(fs.readFileSync('dump-rewind.json'));
+const old = Object.values(d.old)[0];
+const s = storeMod.createStore({ chat: () => old, save: async () => {} });
+s.head();
+console.log('problems in old chat', s.problems());
+console.log('old len', old.length, 'branch len', d.chat.length, 'i', d.i);
+const before = s.at(d.i - 1) ?? null;
+console.log('problems list before carrier', JSON.stringify(s.at(d.i - 2)?.domains?.director?.problems));
+for (let k = 0; k < old.length; k++) console.log(k, old[k].is_user ? 'U' : 'C', old[k].swipe_id, old[k].swipes?.length, (old[k].extra?.storySuite?.receipts ?? []).map(r => r.type + '@' + r.rev).join(','), old[k].extra?.storySuite?.swipe);

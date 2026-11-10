@@ -1,0 +1,18 @@
+import { chromium } from '/opt/node22/lib/node_modules/playwright/index.mjs';
+const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium', args: ['--no-proxy-server'] });
+const page = await browser.newPage({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, deviceScaleFactor: 1 });
+await page.goto('http://127.0.0.1:8123/', { waitUntil: 'domcontentloaded' });
+await page.waitForFunction(() => window.SillyTavern?.getContext?.()?.characters?.length > 0 && window.StoryBlock?.apiVersion === 1, null, { timeout: 60000 });
+await page.evaluate(async () => { const ctx = SillyTavern.getContext(); await ctx.selectCharacterById(String(ctx.characters.findIndex(c => c.name === 'Seraphina'))); });
+await page.waitForFunction(() => SillyTavern.getContext().chat?.length > 0, null, { timeout: 20000 });
+await page.waitForTimeout(1200);
+await page.locator('#story_block_handle').tap(); await page.waitForTimeout(500);
+await page.evaluate(() => document.querySelector('.story-block-sidebar-tab[data-tab-id="ext:story-director"]')?.click()); await page.waitForTimeout(400);
+await page.locator('.story-block-sidebar-grip').tap(); await page.waitForTimeout(500);
+await page.screenshot({ path: 'shots/director-phone-tab.png' });
+await page.keyboard.press('Escape'); await page.waitForTimeout(400);
+await page.locator('#extensions-settings-button .drawer-icon').first().tap(); await page.waitForTimeout(800);
+await page.evaluate(() => { const d = document.querySelector('#story_director_settings .inline-drawer-toggle'); d?.click(); document.querySelector('#story_director_settings')?.scrollIntoView({ block: 'start' }); });
+await page.waitForTimeout(600);
+await page.screenshot({ path: 'shots/director-phone-settings.png' });
+await browser.close();

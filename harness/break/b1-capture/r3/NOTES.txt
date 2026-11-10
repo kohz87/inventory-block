@@ -1,0 +1,32 @@
+b1-capture round 3 (confirmation) notes
+
+Heads (fresh clones /home/user/_break/b1-capture-r3/, branch v2): Story_block c93d9b6, rpg_battle 924b9a3,
+Story_director 5b44f3b, npc_state_delta 676d30f.
+
+Repo break suites (tests/v2/break/*.test.js incl. fuzz-delete): SB 116/116, RB 67/67, SD 57/57 pass.
+My r2 tests as moved: SB b1r2-capture.test.js identical to mine; RB reads checks via the checks.log query
+(log is now keyed by id) plus a comment; SD comments only. B-b1r2-4 timing test moved to
+b1r2-capture-volume.test.js unchanged. No assertion weakened.
+
+Harness: ../fuzz (suite-host.mjs default root now the r3 clones).
+  node fuzz.mjs 1000 150 30            -> 4500 replies: 7 signatures, all "STATE RULE atlas route hours/days
+                                          must be a whole number" (route of 9007199254740993 h refused by the
+                                          validator; clean refusal, internal wording; seen since r1).
+  FUZZ_DELETE=1 node fuzz.mjs 2000 150 30 -> 4500 replies + random middle deletes: no exception, no
+                                          head state failing a validator, no bookkeeping paths
+                                          (perReply, director.turn, director.problems, checks.prepared/last/log,
+                                          combat.offers, scene.present all gone). 86 replay-skip signatures, all
+                                          content (classified in the final reply).
+  Output: fuzz/out/r3-plain.txt, r3-delete.txt, findings-1000-150-30.json, findings-2000-150-30.json.
+Directed: probe-r2.mjs (all r2 items), probe-del2..6.mjs (delete chains), probe-worth.mjs (worth budget).
+
+Observations, not filed:
+- A later `+ item Rope | qty: 2` into a stack only the deleted reply made is dropped with the stack
+  (content by the agreed rule: the stack/def is the deleted reply's); a later `+ item Torch` into a stack
+  that predates the deleted reply rebases correctly.
+- When a later change set touches a stack only the deleted reply made, the counter rebase sometimes builds a
+  stub stack and the skip reason reads "Item stack … is filed under the wrong ID … refers to an item
+  definition that does not exist (undefined) … owner … note … origin" instead of "does not exist":
+  cosmetic wording in store.problems().
+- Story goods worth budget at level 1 is 100 gold: a single Superior Healing Potion (125) or a "rare"
+  Mithril Dagger (175) is refused whole at level 1 (by design; worth noting for pack loot).

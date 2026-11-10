@@ -1,0 +1,12 @@
+import { open, S } from './demo-common.mjs';
+const h = await open({ width: 1440, height: 1000 });
+const { page, ev } = h;
+await h.openNarrator('The Narrator - 2026-10-18@12h00m00s000ms');
+await ev(() => globalThis.StorySuite?.api?.('story-block')?.openSuite?.('story-block'));
+await page.waitForTimeout(1200);
+await ev(() => { const f = document.querySelector('#story_suite_overlay details[data-fold="blocks"]'); if (f) { f.open = true; f.scrollIntoView(); } });
+await page.waitForTimeout(800);
+console.log('meta line heights:', await ev(() => [...document.querySelectorAll('#story_suite_overlay .story-block-row-meta')].slice(0, 4).map(m => `${m.getBoundingClientRect().height.toFixed(0)}px:${m.scrollWidth > m.clientWidth ? 'cut' : 'fits'}`).join(', ')));
+await page.screenshot({ path: `${S}/uiux/sb-after/desk-settings.png` });
+console.log('errors:', h.errors.join('\n') || 'none');
+await h.browser.close();

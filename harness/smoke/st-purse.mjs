@@ -1,0 +1,16 @@
+import { open, S } from './demo-common.mjs';
+import fs from 'node:fs';
+const h = await open({ width: 1200, height: 900 });
+const { page, ev } = h;
+const r4 = fs.readFileSync(`${S}/demo/r4.txt`, 'utf8').replace(/<XP>[\s\S]*?<\/XP>\n?/, '');
+const inv = fs.readFileSync(`${S}/smoke/inv-user.txt`, 'utf8').trim().replace('1 Gold, 17 Silver, 2 Copper', '1 Gold, 35 Silver, 14 Copper');
+await h.openNarrator('The Narrator - 2026-10-18@09h00m00s000ms');
+await h.dock();
+await h.turn(r4.replace(/<Inventory>[\s\S]*?<\/Inventory>/, inv), 'I head to the tanner.');
+await page.waitForTimeout(2000);
+const rules = await ev(async () => { const ctx = SillyTavern.getContext(); ctx.chat.push({ name: ctx.name1, is_user: true, is_system: false, mes: 'I buy the jerkin and greaves.', extra: {} }); await window.rpgBattleInterceptor(ctx.chat, 8000, () => {}, 'normal'); const v = ctx.extensionPrompts?.rpg_battle_rules?.value ?? ''; ctx.chat.pop(); return v; });
+console.log('rules tail:', rules.slice(-260));
+console.log('inv tag:', await ev(() => { const k = Object.keys(SillyTavern.getContext().extensionSettings).find(k => /rpg/i.test(k)); return k + ' ' + SillyTavern.getContext().extensionSettings[k]?.inventoryTag + ' / ' + (StoryBlock.getBlock('Inventory')?.text ?? 'none').slice(0, 80); }));
+console.log('purse line:', (rules.match(/Purse:[^.]*\.[^)]*\)\./) ?? ['none'])[0]);
+console.log('errors:', h.errors.join('\n') || 'none');
+await h.browser.close();

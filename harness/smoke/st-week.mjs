@@ -1,0 +1,28 @@
+import { open, S } from './demo-common.mjs';
+import fs from 'node:fs';
+const h = await open({ width: 1440, height: 1000 });
+const { page, ev } = h;
+const r4 = fs.readFileSync(`${S}/demo/r4.txt`, 'utf8');
+const at = (time, lines) => r4.replace('1203, March 3, 09:50 am', time).replace(/<Director>[\s\S]*?<\/Director>/, `<Director>\n${lines}\n</Director>`);
+await h.openNarrator('The Narrator - 2026-10-18@09h00m00s000ms');
+await h.dock();
+const note = () => ev(async () => { const ctx = SillyTavern.getContext(); ctx.chat.push({ name: ctx.name1, is_user: true, is_system: false, mes: 'Go on.', extra: {} }); await window.storyDirectorInterceptor(ctx.chat, 8000, () => {}, 'normal'); const v = ctx.extensionPrompts?.story_director?.value ?? ''; ctx.chat.pop(); return v; });
+await h.turn(at('CY 611, Goldwane 12, 12:18 pm', '+ hook Marsh-trolls — hunt them | giver: Verna'), 'I look at the board.');
+await page.waitForTimeout(2000);
+console.log('no week:', (await note()).split('\n')[0]);
+console.log('week field:', await ev(() => Boolean(document.querySelector('#story_director_week')) && Boolean(document.querySelector('#story_director_today'))));
+console.log('today disabled before:', await ev(() => document.querySelector('#story_director_today').disabled));
+await ev(() => { const w = document.querySelector('#story_director_week'); w.value = 'Moonday, Tideday, Thornday, Ashday, Restday'; w.dispatchEvent(new Event('input', { bubbles: true })); });
+await page.waitForTimeout(300);
+console.log('today options:', await ev(() => [...document.querySelector('#story_director_today').options].map(o => o.value).join(', ')), '· disabled:', await ev(() => document.querySelector('#story_director_today').disabled));
+await ev(() => { const t = document.querySelector('#story_director_today'); t.value = 'Ashday'; t.dispatchEvent(new Event('change', { bubbles: true })); });
+await page.waitForTimeout(500);
+console.log('with week:', (await note()).split('\n')[0]);
+await h.turn(at('CY 611, Goldwane 14, 09:00 am', '~ Marsh-trolls — tracks seen'), 'Two days later.');
+await page.waitForTimeout(2000);
+console.log('two days on:', (await note()).split('\n')[0]);
+// Put the calendar back for later checks.
+await ev(() => { const w = document.querySelector('#story_director_week'); w.value = ''; w.dispatchEvent(new Event('input', { bubbles: true })); });
+await page.waitForTimeout(500);
+console.log('errors:', h.errors.join('\n') || 'none');
+await h.browser.close();

@@ -1,0 +1,15 @@
+RELEASE REVIEW 171 (Claude reviewer; READ-ONLY toward GitHub except committing the result file): Story Block 2.9.0,
+kohz87/Story_block `stage21/release-2.9.0` at 7fe84c5 vs main 0756f03 (2.8.1). Three approved pieces, merged:
+(1) stage20/settings-fixes: the Money "What the story may pay" card and every per-reply cap removed (old capped chats must
+replay as written), slider input styles made !important; (2) stage20/blocks-settings: Game view Blocks tab removed,
+Settings → Blocks page, new Show as "Hidden"; (3) the RPG's new chat (Home card, persona description in the wizard,
+first Send held), companions who join (+ party / - party, Ask/Automatically/Off, dm.join guard, Left).
+The approved designs: suite-notes/rpg-briefs/mockup-v10.html (sections 7, 7b, 8, 9) and the briefs R6.md, BK.md in
+kohz87/inventory-block claude/hopeful-babbage-tipaw8. Agents' reports: suite-notes/V2_LOG.md (31 Oct entries).
+Focus: replay/save safety (old chats, swipes, Re-read, delete, reload with party lines and joined companions; old capped
+chats), RPG-off byte-identical prompts, the held Send never losing text, Settings → Blocks not losing blocks or changing
+where old chats show them, and the merge of the three branches (tests/v2/domains/module.test.js was resolved by hand).
+BLOCKER BAR (USER, 31 Oct): only an ordinary-use path that loses/corrupts saved data, crashes or wedges the screen, gives
+wrong rules results, or leaks a hidden value in normal play. Everything else under "Follow-ups". Repro for each blocker.
+Run: npm run check; full suite (counts); git diff --check; scripts/fuzz-replay.mjs (40 seeds × 120).
+Verdict line first: HOLDS or BLOCK n. Write vm-results/171.md; commit only that file to claude/hopeful-babbage-tipaw8.

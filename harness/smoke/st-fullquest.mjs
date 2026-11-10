@@ -1,0 +1,16 @@
+import { open, S } from './demo-common.mjs';
+import fs from 'node:fs';
+const h = await open({ width: 1440, height: 1000 });
+const { page, ev } = h;
+const mes = fs.readFileSync(`${S}/repro/full.txt`, 'utf8');
+await h.openNarrator('The Narrator - 2026-10-18@09h00m00s000ms');
+await h.dock();
+await h.turn(mes, 'I take the sheepfold contract and rent a cart.');
+await page.waitForTimeout(3000);
+console.log('director block read:', JSON.stringify(await ev(() => window.StoryBlock?.blockInText?.(SillyTavern.getContext().chat.at(-1).mes, 'Director')?.text ?? null)));
+await h.tab('ext:story-director-quests'); await page.waitForTimeout(800);
+console.log('quests:', await ev(() => [...document.querySelectorAll('.story-director-quests .story-director-record-key')].map(n => n.textContent).join(', ')));
+await h.tab('ext:story-director'); await page.waitForTimeout(800);
+console.log('director tab problems:', await ev(() => [...document.querySelectorAll('.story-director-tab .story-director-finding, .story-director-problem, .is-problems li, .is-notes li')].map(n => n.textContent.replace(/\s+/g, ' ')).join(' || ')));
+console.log('errors:', h.errors.join('\n') || 'none');
+await h.browser.close();

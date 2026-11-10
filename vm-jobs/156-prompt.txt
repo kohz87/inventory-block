@@ -1,0 +1,21 @@
+REVIEW RE-CHECK 156 (READ-ONLY toward GitHub, except committing your result file): the Timeline fix round after
+review 154. Fresh session, fresh clones.
+- kohz87/Story_director `stage16/chronicle-lasting` at feaf595 (fixes on top of 632835c; main 46ee03e)
+- kohz87/Story_studio `stage16/timeline` at b0ca322 (fixes on top of 3b128bf; main 0df2d52)
+Read vm-results/154.md (the review, BLOCK 2, with repros under the reviewer's notes) and
+suite-notes/timeline-briefs/FIX1.md (the lead's decisions) in kohz87/inventory-block claude/hopeful-babbage-tipaw8,
+plus suite-notes/SPEC_TIMELINE.md.
+First confirm both blockers are closed with tests:
+- B1: a delayed child after an "Any time" or place-only parent (and with a calendar-start pack where the clock is
+  seeded after the event hook) fires exactly N story minutes after the parent's real firing. SD: `chronicle.lasting`
+  fails NOT_YET while the clock is null and the event retries; Studio: `time() != null` guard on a delayed-from parent.
+- B2: a pack whose events call `chronicle.lasting` lists `requires.capabilities: ["chronicle-lasting"]` (Studio keeps
+  it in sync on every edit); SD declares the capability; with SD absent, Story Block refuses the install and says why;
+  Studio's text no longer promises the news without SD.
+Then a regression-only pass over the changes since 632835c / 3b128bf (follow-ups 1–5 and the fuzz generators were
+also done). The lead has already recorded as a follow-up: a pack installed with SD stays enabled in Story Block if SD
+is removed later (pre-existing SB behaviour) — not a blocker.
+A BLOCKER is a real path a writer, reader or story can hit, with a repro. Run on Node 24 in each repo: npm run check;
+full suite (counts); git diff --check; Studio browser tests with the preinstalled browser (never `playwright install`).
+Verdict line: HOLDS or BLOCK n. Write vm-results/156.md and commit it to inventory-block claude/hopeful-babbage-tipaw8.
+Use model gpt-6.1-terra with model_reasoning_effort=max.

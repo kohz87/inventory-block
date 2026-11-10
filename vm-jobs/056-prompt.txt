@@ -1,0 +1,10 @@
+Re-check Story Block PR #197 (this checkout, branch track-e/ctx-seams), round 5 (head 2fbe8d0; `git diff 60d5677..HEAD`; the PR body; docs/v2/REPLAY.md, docs/v2/EVIDENCE.md). This is a FRESH review: round 5 was written from job 054's findings, so check it independently. Job 054 at 60d5677 found two [normal play][silent wrong state] blockers: (1) a guarded line written by main (seeded id, no occurrence) got a new id on an unchanged Re-read, and with an identical line added by Continue both renumbered (evidence.js:556 excluded old spans from reuse); (2) kept system replans read a stale cursor.op (commands.js:275, turn.js:337). Round 5: 7284204 old guarded spans keep stored ids and bytes, join identity reuse, take any occurrence through the shared allocator, and retire when a key's count changes; 2fbe8d0 one rerun helper passes the current op count to every replan, preferred over the stored offset; EVIDENCE.md stored-bytes statement corrected. Read-only; don't run the whole suite; reproduce with single tests or small scripts. Keep it short.
+
+1. Re-run both 054 repros (also after a rebuild, and with two kept steps). HOLDS / NOT FIXED.
+2. Mixed old and new guarded spans: can any path (unchanged Re-read, Continue, swipe back, delete an earlier reply, reload, checkpoint rebuild, the fixed-point retry) renumber an untouched block, give two blocks one occurrence, or rebind a retired id? Is there still exactly one allocation site and one cursor-offset helper (grep every rerun/replan call site)?
+3. Your earlier holds: no-guarded chats byte-identical to main; delete-first-duplicate retires with a Problem; test 15; cursor {sid, swipeKey, block, op, rev} equal across capture, afterCapture, Re-read and replan.
+Then anything newly broken.
+
+STOPPING RULE: tag every blocking finding with BOTH (a) [normal play] or [damaged file], and (b) [silent wrong state] or [fails safe]. The lead merges when no [normal play][silent wrong state] remains.
+
+Output: verdict, items 1–3, BLOCKING items (what, why, file:line, the fix, both tags), non-blocking headlines. No model names in your output.

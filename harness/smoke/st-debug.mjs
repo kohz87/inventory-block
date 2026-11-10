@@ -1,0 +1,11 @@
+import { chromium } from '/opt/node22/lib/node_modules/playwright/index.mjs';
+const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium', args: ['--no-proxy-server'] });
+const page = await browser.newPage({ viewport: { width: 1280, height: 800 } });
+const logs = []; page.on('console', m => logs.push(m.type() + ': ' + m.text().slice(0, 160))); page.on('pageerror', e => logs.push('pageerror: ' + e.message));
+page.on('response', r => { if (r.status() >= 400) logs.push('status ' + r.status() + ' ' + r.url()); }); page.on('requestfailed', r => logs.push('failed: ' + r.url().slice(0, 120) + ' ' + r.failure()?.errorText));
+await page.goto('http://127.0.0.1:8123/', { waitUntil: 'domcontentloaded' });
+await page.waitForTimeout(8000);
+console.log(await page.evaluate(() => ({ st: Boolean(window.SillyTavern?.getContext), chars: window.SillyTavern?.getContext?.()?.characters?.length, title: document.title, url: location.href })));
+await page.screenshot({ path: '/tmp/claude-0/-home-user-inventory-block/3572f065-fdf3-5cf4-88eb-a15358a57ebe/scratchpad/shots/st-debug.png' });
+console.log(logs.filter(l => !/^(log|debug|info): /.test(l)).slice(0, 25).join('\n'));
+await browser.close();

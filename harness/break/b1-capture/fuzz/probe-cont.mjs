@@ -1,0 +1,12 @@
+import { suiteHost, withParty, seedCrypto } from './suite-host.mjs';
+console.warn = () => {};
+seedCrypto(5);
+const host = await suiteHost();
+await withParty(host);
+await host.send('hi', 'Hello.');
+await host.send('go', host.reply('You find rope.', ['+ item Rope']));
+await host.cont(' Then you find a torch.\n\n<Changes>\n+ item Torch\n</Changes>');
+const items = host.q('inventory.items').map(i => i.name);
+console.log('items', items);
+console.log('mes', JSON.stringify(host.ctx.chat.at(-1).mes));
+console.log('problems', host.turn.problems());

@@ -1,0 +1,38 @@
+b1-capture round 2 notes (F103 re-break)
+
+Heads (fresh clones in /home/user/_break/b1-capture-r2/, branch v2):
+  Story_block     2f17c2cee7b6899340ebda39d3abf5ebfae50fc6
+  rpg_battle      2f52c8011c5dee789b2087f0a643ee07a7446298
+  Story_director  1303ac9f6d9b6affa3744a96ecbe041661f8b800
+  npc_state_delta 06cfc70c5ca299843524542fa3d57df8ced2a9ef
+
+Round-1 tests as moved into the repos (tests/v2/break/b1-capture-*.test.js): SB 11/11, RB 5/5, SD 6/6 pass.
+RB adapted two assertions (sword name; F80 counts checks in the log) - reasonable, not weakened.
+
+Fuzz (harness ../fuzz, BREAK_ROOT=/home/user/_break/b1-capture-r2):
+  node fuzz.mjs 300 200 30   -> 6000 replies: no exception, no rebuild/replay mismatch, no static change,
+                                no COIN MINTED; one new signature: capture.market FAILED for "constructor".
+  FUZZ_DELETE=1 node fuzz.mjs 600 60 25 -> adds random middle deletes: 146 replay-skip signatures
+     (director/problems 635, checks/prepared 398, inventory/perReply 394, director/threads 126,
+      director/turn 121, ...) and head states failing validators (atlas route to missing place,
+      party leave offer for a gone companion, inventory stack with missing def). Findings 11-14 come
+      from here; many of the rest are timeline (b2) territory: positional list appends
+      (add /x/N where N = old length) on director.problems, checks.prepared, combat.offers,
+      scene.present, checks.log all fail after an earlier entry is deleted.
+  Directed probes: fuzz/probe-r2.mjs (sellMint questMint unclosed staleTally labels happenedLong
+  capTiming continueBypass reread rereadHead threadDrop growth npcEdges market tildeQty),
+  probe-del*.mjs (delete chains), probe-prof-r2.mjs (profiles).
+
+Held up in r2: maxChangeLines (150, one Problem), capture now linear in lines; [Happened] collapse
+(long-text lines clipped, tail 82 tokens for 7 max-length narrated lines); continuation() (3 Continues
+share one carrier's coin budget; added blocks read and hidden); null-prototype labels (constructor /
+prototype / __proto__ labels accepted by every module; SD drops reserved labels); qty:3; nested
+blocks; --!>; NSD ~ npc meters (clamped, +1e309/NaN/0x10/½ refused, 80-NPC cap with a clean refusal,
+change cap); SD maxJump, bad clock, thread name cap and 16-per-reply cap.
+
+Not filed (low, noted): SB now strips zero-width/bidi and NFC-normalizes, but SD tracker, atlas and
+chronicle still keep "Ro​pe" and "‮Rope" as their own names; a spoofed
+"<!-- STORY_SUITE_V2 <Changes>..." before a bare block is read in text order live, but hideBlock puts
+it first, so Re-read runs the lines in a different order; collapsed [Happened] lines are marked told
+and their numbers never reach a reply; an unclosed/cut block that is hidden loses its partial line from
+the message text for good.

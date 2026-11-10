@@ -1,0 +1,17 @@
+import { open } from './demo-common.mjs';
+const OUT = '/tmp/claude-0/-home-user-inventory-block/3572f065-fdf3-5cf4-88eb-a15358a57ebe/scratchpad/uiux/nsd-after';
+const h = await open({ width: 1440, height: 1000 });
+const { page, ev } = h;
+await h.openNarrator('The Narrator - 2026-10-18@09h00m00s000ms');
+await page.waitForTimeout(1500);
+await h.dock();
+const tabs = () => ev(() => [...document.querySelectorAll('#story_block_sidebar [role="tab"]')].map(t => (t.getAttribute('aria-label') || t.title || t.textContent).replace(/\s+/g, ' ').trim()).join(' | '));
+console.log('on:', await tabs());
+const flip = on => ev(v => { const box = document.querySelector('#npc_state_delta_enabled'); if (box && box.checked !== v) { box.checked = v; box.dispatchEvent(new Event('change', { bubbles: true })); } }, on);
+await flip(false); await page.waitForTimeout(800);
+console.log('off:', await tabs());
+await page.screenshot({ path: `${OUT}/nsd-tabs-off.png` });
+await flip(true); await page.waitForTimeout(800);
+console.log('on again:', await tabs());
+console.log('errors:', h.errors.join('\n') || 'none');
+await h.browser.close();

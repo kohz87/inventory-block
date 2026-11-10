@@ -1,0 +1,16 @@
+Review this pull request read-only. Do not edit, commit or push anything.
+
+Repository: Story Block (a SillyTavern extension). PR #172 merges ui-7-phosphor into v2. It adds:
+- the extension's own icons: 48 Phosphor icons inlined as SVG path data in src/v2/view/icons/set.js, built in src/v2/view/icons/index.js; ids 'ph-name' and 'ph-name:fill';
+- the hooks in widgets/dom.js iconNode, mounts/common.js icon, mounts/screen.js, mounts/tab.js, host-ui.js and settings/tabs-list.js (iconFor precedence);
+- a level badge and a "class · title" line in the hero widget (src/v2/view/widgets/hero.js, glass.css).
+
+Check, and report with file:line:
+1. Unsafe DOM: any HTML parsing (innerHTML, insertAdjacentHTML, DOMParser, outerHTML) on the icon or hero paths; any way pack- or model-supplied text reaches an attribute or the path data.
+2. Fallback regressions: a Font Awesome name, an image URL or a glyph that renders differently from before; any call site that passes a className string where an options object is now expected, or the reverse.
+3. iconFor: wrong precedence; a module's own icon being overridden on a screen that isn't the suite's; case and whitespace handling.
+4. The hero: the badge and its screen-reader text when the level is missing, non-numeric, or a 70+ character string; the class · title line at 360 px; a compact hero; the badge overlapping content at the portrait's grid cell; the colours with too little contrast in light or dark, Glass, Solid or Follow SillyTavern (it uses --ss-accent-soft over --ss-sheet-floor or --ss-glass-strong, with --ss-text).
+5. CSS: rules not scoped like their neighbours, or heavier than two classes.
+6. Licence: whether ICONS-CREDITS.md meets the MIT terms.
+7. Tests that were weakened rather than updated (widgets-security allowlist, ui-sample pill count, hero tests).
+End with a verdict: "merge", "merge after fixes" or "do not merge", with the BLOCKING items first.

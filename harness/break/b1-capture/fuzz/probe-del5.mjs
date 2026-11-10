@@ -1,0 +1,17 @@
+import { suiteHost, withParty, seedCrypto } from './suite-host.mjs';
+console.warn = () => {};
+seedCrypto(3);
+const host = await suiteHost();
+await withParty(host);
+const R = (t, l) => host.reply(t, l);
+await host.send('hi', R('Hello.', ['~ time June 3, 1200, 08:00 am']));
+await host.send('a', R('A.', ['+ hook Alpha — x', '? check stealth — sneak | dc: normal | roll: 1 | result: success']));
+const a = host.store.headIndex();
+await host.send('b', R('B.', ['+ hook Bravo — y', '+ quest Rats — cellar | giver: Fenna | goal: Kill 3 rats | reward: 5 gold', '? check athletics — climb | dc: normal | roll: 1 | result: success']));
+const b = host.store.headIndex();
+console.log('B ops paths:', host.store.opsAt(b).map(o => `${o.op} ${o.path}`).join('\n  '));
+console.log('checks domain shape', JSON.stringify(host.head().domains.checks).slice(0, 400));
+await host.st.deleteMessage(a);
+await host.st.deleteMessage(a - 1);
+console.log('after: threads', Object.values(host.head().domains.director.threads).map(t => t.key), 'log', host.q('checks.log').map(c => c.skill));
+console.log(JSON.stringify(host.store.problems(), null, 1).slice(0, 1500));

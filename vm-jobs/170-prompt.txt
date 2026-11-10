@@ -1,0 +1,17 @@
+RE-CHECK 170 (READ-ONLY toward GitHub, except committing your result file): Ersveil 2.2.0 (Story Block 2.8.1),
+kohz87/Story_block `stage19/ersveil-2.2.0` at 4147451 (one commit on b3e4ed0) vs main f182f2c. Fresh session, fresh clone.
+Read vm-results/169.md (BLOCK 4) in kohz87/inventory-block claude/hopeful-babbage-tipaw8. Confirm B1–B4 are closed.
+The lead's fixes: Court favour defaults Wendhild 40 / Corvin 35 / Hasse 25 as approved, plus four result fields
+(least, wc, wh, ch) its own rules keep (visible, edit:false, written by no kind) so a condition reads one field;
+Marrowbridge and the crown decided once via ONGOING chronicle entries ("Highmark's war: X against Y", "Reign of X") that
+siblings check, with time windows (battle [Haywane 20 CY 613, Rainmoot 1 CY 614), crown [Rainmoot 1 CY 614, Frostfall 21
+CY 615)); "Auvoth under the Tide" and "The Tide held at the Last Wall" ongoing; scenes without `after` so they fire in the
+same reply as their world event; keep only on open entries. A reusable real-host reproducer (Story Block + Story
+Director main 04e7a44) is suite-notes/pack-drafting/ersveil-2.2.0-realhost169.mjs (SB_DIR, SD_DIR env); run it.
+Then a regression-only pass over b3e4ed0..4147451 (pack.json events and module, ersveil-timeline.test.js, docs).
+BLOCKER BAR (USER, 31 Oct): only an ordinary-play path that loses/corrupts saved data, crashes or wedges, gives wrong
+rules results, spoils the hidden timeline, or makes an event never fire / fire twice / fire out of order on the normal
+path. Everything else goes in "Follow-ups". Repro for each blocker. Do not remove fixes to see tests fail.
+Run on Node 24: npm run check; full suite (counts); git diff --check; node authoring-kit/check.mjs on the pack.
+Verdict line: HOLDS or BLOCK n. Write vm-results/170.md and commit it to inventory-block claude/hopeful-babbage-tipaw8.
+Use model gpt-6.1-terra with model_reasoning_effort=max; if its filter stops the run, a Claude reviewer may run it.

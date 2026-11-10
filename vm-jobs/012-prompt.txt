@@ -1,0 +1,17 @@
+Review read-only. Do not edit, commit or push anything.
+
+Repository: Story Block (a SillyTavern extension). PR #176 merges fix-8a-dialogs into v2. It fixes release blockers from an earlier review:
+1. A dialog (such as character creation) opened in one chat could submit into another chat. Dialogs and the More sheet now close on a chat change, and a stale submit sends nothing.
+2. Typing into a wizard field rebuilt it and lost focus. Focus, caret and scroll are now kept.
+3. The game view wasn't in modal keyboard handling. There is now one modal stack (src/v2/view/modal-stack or wherever it lives) for the game view, dialogs, ss.dialog, the More sheet and the settings window: only the top layer takes Escape and holds Tab; focus returns on close; the SillyTavern Enter double-click is handled.
+4. Widget cleanup on dialog or pane removal.
+It also adds: the desktop and tablet game view as a centred window (Settings' frame) over a scrim, with scroll lock; the phone is unchanged.
+
+Check, and report with file:line, a reproduction and a fix:
+- The modal stack: a layer that can be orphaned (removed from the DOM without being popped), a double pop, focus returning to a detached element, Escape handled twice, Tab escaping, nested dialogs over the game view, the settings window over the game view, the Story panel's More sheet.
+- Chat change: every path (chat switch, new chat, branch, delete, swipe) closes what it should and nothing else. A stale-submit check that could reject a legitimate submit, such as after a swipe in the same chat.
+- Scroll lock: restored on every close path (including the chat change and destroy); never left locked; no layout shift.
+- The window: the scrim click versus a drag that ends on the scrim; touch on tablets; the breakpoints 759/760, 1023/1024; the content scrolling inside; safe areas.
+- Leaks: listeners, observers or timers on open and close, repeated 100 times.
+- Tests weakened rather than updated (test fakes for event dispatch changed; two settings-window tests changed).
+End with a verdict: "merge", "merge after fixes" or "do not merge", with the BLOCKING items first.

@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Story Studio: skill paths</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#7aa7ff}a:hover{color:#a9c6ff}
+</style>
+</helmet>
+<div style="width: 1280px; height: 820px; box-sizing: border-box; background: {{t.bg}}; color: {{t.text}}; font-family: {{f.body}}; display: flex; flex-direction: column; position: relative; overflow: hidden">
+  <div style="position: absolute; inset: 0; background: {{t.backdrop}}; pointer-events: none"></div>
+
+  <header style="position: relative; display: flex; align-items: center; gap: 12px; padding: 14px 20px; border-bottom: 1px solid {{t.border}}; background: {{t.nav}}; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px)">
+    <div style="font-family: {{f.display}}; font-size: 20px; font-weight: 800">Story Studio</div>
+    <div style="width: 1px; height: 24px; background: {{t.border}}"></div>
+    <nav aria-label="Breadcrumb" style="display: flex; gap: 8px; align-items: center; font-size: 14px; color: {{t.muted}}">
+      <a href="#">Classes</a><span aria-hidden="true">›</span><a href="#">Paladin</a><span aria-hidden="true">›</span><span style="color: {{t.text}}; font-weight: 700">Oath Strike</span>
+    </nav>
+    <div style="flex: 1"></div>
+    <div role="group" aria-label="Skill" style="display: flex; gap: 6px">
+      <sc-for list="{{ skillTabs }}" as="sk" hint-placeholder-count="3">
+        <button type="button" onClick="{{ sk.pick }}" aria-pressed="{{ sk.on }}" style="min-height: 38px; padding: 0 14px; border-radius: 999px; border: 1px solid {{ sk.ring }}; background: {{ sk.bg }}; color: {{t.text}}; font: inherit; font-size: 14px; font-weight: 700; cursor: pointer">{{ sk.name }}</button>
+      </sc-for>
+    </div>
+  </header>
+
+  <div style="position: relative; flex: 1; display: grid; grid-template-columns: minmax(0, 1fr) 360px; min-height: 0">
+    <section aria-label="Skill paths" style="padding: 16px 20px; display: flex; flex-direction: column; gap: 10px; min-height: 0">
+      <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap">
+        <div style="font-family: {{f.display}}; font-size: 22px; font-weight: 800">{{ skill }} · paths</div>
+        <span style="font-size: 13px; color: {{t.muted}}">12 forms: 8 you write, 4 Story Block makes</span>
+        <div style="flex: 1"></div>
+        <span style="display: flex; gap: 14px; font-size: 13px; color: {{t.muted}}">
+          <span style="display: flex; gap: 6px; align-items: center"><span style="width: 18px; height: 12px; border-radius: 4px; border: 1.5px solid {{accent}}; background: {{t.accentSoft}}"></span>Written</span>
+          <span style="display: flex; gap: 6px; align-items: center"><span style="width: 18px; height: 12px; border-radius: 4px; border: 1.5px dashed {{t.muted}}"></span>Generated (read-only)</span>
+        </span>
+      </div>
+      <div style="position: relative; flex: 1; border-radius: 18px; border: 1px solid {{t.border}}; background: {{t.mapBg}}; overflow: hidden">
+        <svg width="840" height="640" viewBox="0 0 840 640" aria-hidden="true" style="position: absolute; left: 0; top: 0">
+          <sc-for list="{{ links }}" as="l" hint-placeholder-count="12">
+            <path d="{{ l.d }}" fill="none" stroke="{{ l.color }}" stroke-width="{{ l.w }}" stroke-dasharray="{{ l.dash }}"></path>
+          </sc-for>
+        </svg>
+        <div style="position: absolute; left: 24px; top: 18px; display: grid; grid-template-columns: 150px 210px 240px; column-gap: 92px; font-family: {{f.display}}; font-size: 12px; font-weight: 700; letter-spacing: 1.2px; color: {{t.muted}}">
+          <div>BASE</div><div>STEP 1</div><div>STEP 2</div>
+        </div>
+        <sc-for list="{{ nodes }}" as="n" hint-placeholder-count="13">
+          <button type="button" onClick="{{ n.pick }}" aria-pressed="{{ n.on }}" aria-label="{{ n.aria }}" style="position: absolute; left: {{ n.x }}; top: {{ n.y }}; width: {{ n.w }}; height: 40px; box-sizing: border-box; border-radius: 12px; border: 1.5px {{ n.style }} {{ n.ring }}; background: {{ n.bg }}; color: {{ n.color }}; font: inherit; font-size: 13px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 6px; padding: 0 10px; text-align: left">
+            <sc-if test="{{ n.gen }}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 11V8a5 5 0 0110 0v3M5 11h14v10H5z"></path></svg></sc-if>
+            <span style="flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ n.label }}</span>
+            <sc-if test="{{ n.warn }}"><span aria-label="Over budget" style="width: 8px; height: 8px; border-radius: 50%; background: {{t.warn}}"></span></sc-if>
+          </button>
+        </sc-for>
+      </div>
+    </section>
+
+    <aside aria-label="Selected form" style="border-left: 1px solid {{t.border}}; padding: 16px; display: flex; flex-direction: column; gap: 12px; background: {{t.card}}; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); min-height: 0; overflow: hidden">
+      <div style="display: flex; align-items: center; gap: 8px">
+        <div style="font-family: {{f.display}}; font-size: 20px; font-weight: 800; flex: 1">{{ sel.label }}</div>
+        <span style="padding: 3px 10px; border-radius: 999px; background: {{ sel.chipBg }}; font-size: 12px; font-weight: 700">{{ sel.kind }}</span>
+      </div>
+      <div style="font-family: ui-monospace, monospace; font-size: 13px; color: {{t.muted}}">{{ sel.id }} · from {{ sel.from }}</div>
+      <sc-if test="{{ sel.gen }}">
+        <div style="border-radius: 12px; border: 1px dashed {{t.border}}; padding: 10px 12px; font-size: 13px; line-height: 1.5; color: {{t.muted}}">Story Block makes this form from its parent. Edit the parent to change it; it can't be renamed or removed.</div>
+      </sc-if>
+      <sc-if test="{{ sel.edit }}">
+        <div style="display: flex; flex-direction: column; gap: 10px">
+          <div style="display: flex; flex-direction: column; gap: 4px">
+            <label for="formname" style="font-size: 12px; font-weight: 700; letter-spacing: 1px; color: {{t.muted}}">NAME</label>
+            <input id="formname" value="{{ sel.label }}" style="min-height: 40px; border-radius: 10px; border: 1px solid {{t.border}}; background: {{t.field}}; color: {{t.text}}; font: inherit; font-size: 15px; padding: 0 10px">
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px">
+            <div style="display: flex; flex-direction: column; gap: 4px">
+              <label for="formcost" style="font-size: 12px; font-weight: 700; letter-spacing: 1px; color: {{t.muted}}">COST</label>
+              <input id="formcost" value="{{ sel.cost }}" inputmode="numeric" style="min-height: 40px; border-radius: 10px; border: 1px solid {{t.border}}; background: {{t.field}}; color: {{t.text}}; font: inherit; font-size: 15px; padding: 0 10px">
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 4px">
+              <label for="formpower" style="font-size: 12px; font-weight: 700; letter-spacing: 1px; color: {{t.muted}}">POWER</label>
+              <input id="formpower" value="{{ sel.power }}" inputmode="numeric" style="min-height: 40px; border-radius: 10px; border: 1px solid {{t.border}}; background: {{t.field}}; color: {{t.text}}; font: inherit; font-size: 15px; padding: 0 10px">
+            </div>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 4px">
+            <label for="formeffect" style="font-size: 12px; font-weight: 700; letter-spacing: 1px; color: {{t.muted}}">EFFECT</label>
+            <select id="formeffect" style="min-height: 40px; border-radius: 10px; border: 1px solid {{t.border}}; background: {{t.field}}; color: {{t.text}}; font: inherit; font-size: 15px; padding: 0 8px"><option>{{ sel.effect }}</option></select>
+          </div>
+        </div>
+      </sc-if>
+      <div style="display: flex; flex-direction: column; gap: 6px">
+        <div style="display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; letter-spacing: 1px; color: {{t.muted}}"><span>POWER BUDGET · {{ sel.step }}</span><span style="color: {{ sel.budgetColor }}">{{ sel.score }} / {{ sel.budget }}</span></div>
+        <div style="height: 10px; border-radius: 999px; background: {{t.track}}; overflow: hidden"><div style="width: {{ sel.pct }}; height: 100%; border-radius: 999px; background: {{ sel.budgetColor }}"></div></div>
+        <sc-if test="{{ sel.over }}">
+          <div role="status" style="border-radius: 12px; background: {{t.warnSoft}}; border: 1px solid {{t.warn}}; padding: 10px 12px; font-size: 13px; line-height: 1.45"><span style="font-family: ui-monospace, monospace">budget-closure</span>: this form is stronger than its step allows. Lower its power or cost.</div>
+        </sc-if>
+      </div>
+      <div style="margin-top: auto; font-size: 12px; color: {{t.muted}}; line-height: 1.5">Each step-1 form leads to 3 step-2 forms: 2 you write and 1 generated. A reader picks one path per skill as they level.</div>
+    </aside>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":true},"accent":{"editor":"color","default":"#7b6cf0","options":["#7b6cf0","#3b8ef0","#d99a2b","#24a865"]},"$preview":{"width":1280,"height":820}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { skill: 0, sel: 'a-b' };
+  }
+  renderVals() {
+    const accent = this.props.accent ?? '#7b6cf0';
+    const dark = this.props.dark ?? true;
+    const t = dark ? {
+      bg: '#151827', backdrop: 'radial-gradient(42% 36% at 18% 12%, rgba(124,92,236,0.45), rgba(0,0,0,0) 70%), radial-gradient(36% 32% at 88% 28%, rgba(40,160,165,0.32), rgba(0,0,0,0) 70%), radial-gradient(48% 38% at 62% 92%, rgba(214,132,62,0.24), rgba(0,0,0,0) 70%)',
+      card: 'rgba(30,33,50,0.62)', tile: 'rgba(255,255,255,0.09)', nav: 'rgba(30,33,50,0.72)', border: 'rgba(255,255,255,0.16)', mapBg: 'rgba(24,28,46,0.45)', track: 'rgba(255,255,255,0.14)',
+      text: '#f1f2f8', muted: '#b6bacb', field: 'rgba(0,0,0,0.24)', accentSoft: 'rgba(123,108,240,0.26)', warn: '#f2b54a', warnSoft: 'rgba(242,181,74,0.16)', good: '#72dea4', link: 'rgba(255,255,255,0.28)'
+    } : {
+      bg: '#e8e6f3', backdrop: 'radial-gradient(42% 36% at 18% 12%, rgba(178,156,255,0.65), rgba(0,0,0,0) 70%), radial-gradient(36% 32% at 88% 28%, rgba(132,214,214,0.55), rgba(0,0,0,0) 70%), radial-gradient(48% 38% at 62% 92%, rgba(255,205,150,0.5), rgba(0,0,0,0) 70%)',
+      card: 'rgba(255,255,255,0.62)', tile: 'rgba(255,255,255,0.75)', nav: 'rgba(255,255,255,0.74)', border: 'rgba(60,60,110,0.16)', mapBg: 'rgba(255,255,255,0.42)', track: 'rgba(35,37,58,0.10)',
+      text: '#23253a', muted: '#55586e', field: 'rgba(255,255,255,0.9)', accentSoft: 'rgba(123,108,240,0.18)', warn: '#b8730a', warnSoft: 'rgba(184,115,10,0.12)', good: '#1d7c4a', link: 'rgba(35,37,58,0.28)'
+    };
+    const f = { display: 'Nunito, system-ui, sans-serif', body: 'Nunito, system-ui, sans-serif' };
+    const skills = ['Oath Strike', 'Ward of Dawn', 'Lay On Hands'];
+    const skill = skills[this.state.skill];
+    const skillTabs = skills.map((name, i) => ({ name, on: i === this.state.skill ? 'true' : 'false', ring: i === this.state.skill ? accent : t.border, bg: i === this.state.skill ? t.accentSoft : 'transparent', pick: () => this.setState({ skill: i, sel: 'a-b' }) }));
+    const step1 = [
+      { k: 'a', label: 'Radiant Oath', gen: false, power: 34 },
+      { k: 'g', label: 'Oath Strike+', gen: true, power: 30 },
+      { k: 'b', label: 'Iron Oath', gen: false, power: 33 }
+    ];
+    const step2Names = { a: ['Sunbreaker', 'Dawn Lance'], g: ['Oath Strike II-a', 'Oath Strike II-b'], b: ['Bulwark Vow', 'Anvil Oath'] };
+    const N = []; const L = [];
+    const base = { id: 'base', label: skill, x: 24, y: 300, w: 150, gen: false, kind: 'Base skill', from: '—', power: 20, step: 'base', budget: 24 };
+    N.push(base);
+    const c = (n) => [n.x + n.w, n.y + 20];
+    const into = (n) => [n.x, n.y + 20];
+    const curve = (a, b) => 'M' + a[0] + ',' + a[1] + ' C' + (a[0] + 46) + ',' + a[1] + ' ' + (b[0] - 46) + ',' + b[1] + ' ' + b[0] + ',' + b[1];
+    step1.forEach((s, i) => {
+      const n = { id: s.k, label: s.label, x: 266, y: 96 + i * 204, w: 210, gen: s.gen, kind: s.gen ? 'Generated' : 'Written', from: 'base', power: s.power, step: 'step 1', budget: 36 };
+      N.push(n); L.push({ a: base, b: n, gen: s.gen });
+      const kids = [{ k: 'a', label: step2Names[s.k][0], gen: s.gen }, { k: 'g', label: s.label + ' (gen)', gen: true }, { k: 'b', label: step2Names[s.k][1], gen: s.gen }];
+      kids.forEach((kd, j) => {
+        const gen = kd.gen || kd.k === 'g';
+        const power = s.k === 'a' && kd.k === 'b' ? 55 : 42 + j;
+        const m = { id: s.k + '-' + kd.k, label: kd.k === 'g' ? (s.gen ? 'Oath Strike II' : s.label + ' II') : kd.label, x: 568, y: 40 + i * 204 + j * 52, w: 240, gen, kind: gen ? 'Generated' : 'Written', from: s.label, power, step: 'step 2', budget: 50 };
+        N.push(m); L.push({ a: n, b: m, gen });
+      });
+    });
+    const links = L.map((l) => ({ d: curve(c(l.a), into(l.b)), color: l.gen ? t.link : accent, w: l.gen ? 1.5 : 2, dash: l.gen ? '5 5' : '0' }));
+    let selNode = N.find((n) => n.id === this.state.sel) || N[0];
+    const nodes = N.map((n) => {
+      const on = n.id === selNode.id; const warn = n.power > n.budget;
+      return { label: n.label, x: n.x + 'px', y: n.y + 'px', w: n.w + 'px', gen: n.gen, warn, on: on ? 'true' : 'false', aria: n.label + (n.gen ? ' (generated)' : '') + (warn ? ', over budget' : ''),
+        style: n.gen ? 'dashed' : 'solid', ring: on ? accent : (warn ? t.warn : (n.gen ? t.muted : t.border)), bg: on ? t.accentSoft : (n.gen ? 'transparent' : t.tile), color: n.gen ? t.muted : t.text, pick: () => this.setState({ sel: n.id }) };
+    });
+    const over = selNode.power > selNode.budget;
+    const pct = Math.min(100, Math.round(selNode.power / selNode.budget * 100)) + '%';
+    const sel = { label: selNode.label, id: (skill.toLowerCase().replace(/[^a-z]+/g, '-')) + '-' + (selNode.id === 'base' ? 'base' : 'base-' + selNode.id), from: selNode.from, kind: selNode.kind, gen: selNode.gen, edit: !selNode.gen,
+      chipBg: selNode.gen ? t.tile : t.accentSoft, cost: Math.round(selNode.power / 4), power: selNode.power, effect: 'Damage + holy mark', step: selNode.step,
+      score: selNode.power, budget: selNode.budget, pct, over, budgetColor: over ? t.warn : t.good };
+    return { t, f, accent, skill, skillTabs, links, nodes, sel };
+  }
+}
+</script>
+</body>
+</html>

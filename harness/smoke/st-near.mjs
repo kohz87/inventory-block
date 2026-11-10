@@ -1,0 +1,17 @@
+import { open, S } from './demo-common.mjs';
+import fs from 'node:fs';
+const h = await open({ width: 1440, height: 1000 });
+const { page, ev } = h;
+const r4 = fs.readFileSync(`${S}/demo/r4.txt`, 'utf8');
+const withDirector = lines => r4.replace(/<Director>[\s\S]*?<\/Director>/, `<Director>\n${lines}\n</Director>`);
+await h.openNarrator('The Narrator - 2026-10-18@09h00m00s000ms');
+await h.dock();
+await h.turn(withDirector('+ quest Ridge Pack — Kill ridge wolves threatening the high pasture | giver: Danique | reward: 4 silver'), 'I accept the ridge pack job.');
+await page.waitForTimeout(1500);
+await h.turn(withDirector('! Pasture Wolf Contract — the pack broke the hurdles again'), 'What happened?');
+await page.waitForTimeout(2000);
+await h.tab('ext:story-director'); await page.waitForTimeout(700);
+console.log('warnings:', await ev(() => [...document.querySelectorAll('.story-block-pane')].find(n => n.style.display !== 'none')?.innerText.match(/Warnings[\s\S]{0,160}/)?.[0]?.replace(/\n/g, ' | ') ?? 'none'));
+console.log('notes:', await ev(() => [...document.querySelectorAll('.story-block-pane')].find(n => n.style.display !== 'none')?.innerText.match(/read as "[^"]+"/)?.[0] ?? 'none'));
+console.log('errors:', h.errors.join('\n') || 'none');
+await h.browser.close();

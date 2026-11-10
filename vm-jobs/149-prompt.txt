@@ -1,0 +1,16 @@
+FIX JOB 149 (you WRITE code): Story Block 2.7.0 on stage14/edit-blocks at 952e71f. Fix the lead's browser-check findings in vm-jobs/149-lead/FINDINGS.md: L1 (BLOCKER: pin hash), L2 (inventory pencils), L3 (Home pencils). Approved mockup: vm-jobs/146-mockup/ (shots 01a, 01b, 02a, 03b). Spec: suite-notes/SPEC_BLOCKS.md.
+Repo: fresh clone (or /tmp/go147/Story_block-147d if clean at 952e71f); continue on the branch. No force-push, PRs, merges or tags, and nothing to main. Plain commit messages with no trailers and no AI or model names. Commit locally if push can't reach GitHub (the coordinator pushes).
+L1:
+- Freeze the interpreter-1 hash basis to the exact 2.6.1 DM_DESCRIPTORS and DM_LIMITS (copy them from main d5fdb46 into a never-edited constant), and use it in dataModuleHash.
+- Add the fixture vm-jobs/149-lead/fixture-2.6.1-pinned-ersveil.jsonl to tests (as test data), with tests:
+  - the three modules stay pinned with their values through replay, rebuild and reload;
+  - the offer hash equals the pinned hash;
+  - Setup says Pinned;
+  - the three main hashes from FINDINGS.md are asserted.
+- Check whether any other stored identity mixes in live descriptors (dataModulesPackHash, guards' inputHash, rulesHash) and would move for 2.6.1 chats; fix and test the same way.
+L2/L3:
+- One quiet pencil per inventory row opening a combined name/count/note form.
+- Quiet pencils on purse, place, weather and present, with a visible "present" row.
+- 44 px on phones kept; the DOM tests updated to the new structure. Only tests that pin the old three-pencil structure may change.
+Final checks on Node 24 at the head: npm run check; full suite (individual counts); git diff --check; strict matrix (SD adcb8ab, NSD 1741400; 0 FAIL); 60-seed replay and data-module fuzz.
+Report: vm-results/149.md (head, commits, counts), committed to inventory-block claude/hopeful-babbage-tipaw8.

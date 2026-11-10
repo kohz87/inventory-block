@@ -1,0 +1,10 @@
+import { createRequire } from 'node:module';
+const { chromium } = createRequire(import.meta.url)(process.env.PLAYWRIGHT_PATH ?? '/opt/node22/lib/node_modules/playwright');
+const browser = await chromium.launch(); const page = await browser.newPage();
+const logs = []; page.on('console', m => { const t = m.text(); if (/checks|belongs|director/i.test(t)) logs.push(`${m.type()}: ${t}`.slice(0, 300)); });
+await page.goto('http://127.0.0.1:8150/', { waitUntil: 'domcontentloaded' });
+await page.waitForFunction(() => globalThis.SillyTavern?.getContext && document.querySelector('#send_textarea'), null, { timeout: 120000 });
+await page.waitForTimeout(6000);
+const out = await page.evaluate(() => { const sdk = StoryBlock.sdk; const r = (n, a = {}) => { try { return sdk.query(n, a); } catch (e) { return 'err ' + e.message; } };
+  return { contract: r('director.contract'), modules: (r('story.modules') ?? r('modules.list')), problems: (() => { try { return sdk.problems?.().slice(-10); } catch (e) { return 'err ' + e.message; } })() }; });
+console.log(JSON.stringify({ out, logs: logs.slice(0, 10) }, null, 1).slice(0, 3000)); await browser.close();

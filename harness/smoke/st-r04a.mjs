@@ -1,0 +1,26 @@
+import { chromium } from '/opt/node22/lib/node_modules/playwright/index.mjs';
+const S = '/tmp/claude-0/-home-user-inventory-block/3572f065-fdf3-5cf4-88eb-a15358a57ebe/scratchpad';
+const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium', args: ['--no-proxy-server'] });
+const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
+const errors = [];
+page.on('pageerror', e => errors.push('pageerror ' + e.message));
+page.on('console', m => { if (m.type() === 'error') errors.push('console ' + m.text().slice(0, 240)); });
+await page.goto('http://127.0.0.1:8123/', { waitUntil: 'domcontentloaded' });
+await page.waitForFunction(() => window.SillyTavern?.getContext?.()?.characters?.length > 0 && window.StoryBlock?.apiVersion === 1 && window.StorySuite, null, { timeout: 60000 });
+await page.waitForTimeout(5000);
+const ev = fn => page.evaluate(fn);
+console.log('providers', JSON.stringify(await ev(() => window.StorySuite.providers().map(p => `${p.id}@${p.version}${p.enabled ? '' : ' OFF'} shows=${JSON.stringify(p.shows ?? null)} tokens=${typeof p.api?.manage?.tokens}`))));
+console.log('css links', await ev(() => document.querySelectorAll('#story-suite-css').length + ' ' + document.querySelector('#story-suite-css')?.getAttribute('href')));
+await ev(async () => { const ctx = SillyTavern.getContext(); await ctx.selectCharacterById(String(ctx.characters.findIndex(c => c.name === 'Seraphina'))); });
+await page.waitForTimeout(3500);
+const mode = await ev(() => document.querySelector('#story_block_sidebar')?.dataset.mode);
+if (mode !== 'docked') { await page.locator('#story_block_handle').click().catch(() => {}); await page.waitForTimeout(600); }
+console.log('tabs', JSON.stringify(await ev(() => [...document.querySelectorAll('.story-block-sidebar-tab')].map(t => t.dataset.tabId))));
+console.log('party block', JSON.stringify((await ev(() => window.StoryBlock.getBlock('Party')?.text ?? null))?.slice(0, 400)));
+await page.locator('.story-block-sidebar-tab[data-tab-id="ext:rpg-battle-party"], .story-block-sidebar-tab[data-tab-id*="party" i]').first().click().catch(e => console.log('party tab click', e.message));
+await page.waitForTimeout(800);
+console.log('party tab', JSON.stringify(await ev(() => { const p = [...document.querySelectorAll('.story-block-pane')].find(n => n.style.display !== 'none'); return { id: p?.dataset.tabId, text: p?.innerText.replace(/\s+/g, ' ').slice(0, 600) }; })));
+await page.screenshot({ path: `${S}/shots/r04-party.png` });
+console.log('tokens', JSON.stringify(await ev(() => window.StorySuite.providers().map(p => { try { const t = p.api?.manage?.tokens?.(); return `${p.id}: in ${t?.input} out ${t?.output} parts ${t?.parts?.length}`; } catch (e) { return p.id + ' throw ' + e.message; } }))));
+console.log('errors:', errors.length ? errors.join('\n') : 'none');
+await browser.close();

@@ -1,0 +1,15 @@
+import { open, S } from './demo-common.mjs';
+import fs from 'node:fs';
+const h = await open({ width: 1440, height: 1000 });
+const { page, ev } = h;
+const r4 = fs.readFileSync(`${S}/demo/r4.txt`, 'utf8').replace(/<XP>[\s\S]*?<\/XP>\n?/, '');
+const reply = r4.replace(/<Director>[\s\S]*?<\/Director>/, `<Director>\n+ agenda Bond collector — now: Leaving Glassdock on a supply barge up the Bluewatch Branch | then: Questions the quay inspector | on: Goldwane 30, 06:40 am | leg: Glassdock → Bluewatch Village 440 km W, upstream 25/day → 18 | arrive: Goldwane 30, 06:40 am\n+ agenda Marrit — now: clearing her cargo manifest | then: drinking at the Stray Oar | on: Goldwane 12, 01:00 pm\n</Director>`);
+await h.openNarrator('The Narrator - 2026-10-18@09h00m00s000ms');
+await h.dock();
+await h.turn(reply, 'We go.');
+await page.waitForTimeout(4000);
+console.log(await ev(() => { const m = SillyTavern.getContext().chat.at(-1).mes; const ws = (m.match(/<World_State>[\s\S]*?<\/World_State>/) ?? [''])[0]; const i = ws.indexOf('Off-Screen'); return i < 0 ? 'no Off-Screen' : ws.slice(i - 6, i + 520); }));
+await h.tab('block:world-state'); await page.waitForTimeout(800);
+console.log('card:', ((await h.pane()).match(/OFF-SCREEN[\s\S]{0,300}/i) ?? ['no card section'])[0].replace(/\s+/g, ' '));
+console.log('errors:', h.errors.join('\n') || 'none');
+await h.browser.close();

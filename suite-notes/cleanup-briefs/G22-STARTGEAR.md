@@ -1,0 +1,13 @@
+# G22-STARTGEAR — hand-added equipment (read GEN22-COMMON.md first)
+- Story_block, branch `stage66/startgear`, real ST on ports 8400/8500.
+- Build the STARTGEAR mockup exactly as approved, with the lead's answers.
+- Gear on:
+  - "+ Add item" opens the grouped form (Item; Gear when Kind is Equipment: Slot, Rarity, Bonus up to 2 stats held to the rarity budget with the live "N of M points" line, Equip on);
+  - the starting kit is open while the chat has no player message yet (greeting swipes are OK); afterwards Rarity is fixed to Common, there is no Bonus, and Edit shows them read-only on hand-added items;
+  - a pack item gets the hint "Kind, slot and rarity come from the pack"; bound gear is unchanged;
+  - kind can change on hand-added items (Equipment later means Common);
+  - a second accessory goes to Accessory 2.
+- Gear off: unchanged.
+- Include the style fixes the mockup lists (equal control heights, groups stacked below 600 px, full-width edit row on a phone).
+- Commands must enforce the rules server-side, not only in the form: a refusal for a bonus over budget, and for rarity or bonus after the first message.
+- Tests for every rule, including replay (swipe, delete, rewind to the first message reopening the kit).
